@@ -263,6 +263,7 @@
 .try-now {
     font-size: 13px !important;
     margin-top: 4px;
+    border-radius: 6px !important;
 }
 
 /* SETTINGS PAGE WRAPPER */
@@ -420,6 +421,68 @@ button.is-tertiary:focus {
 .settings-global-wrap{
     margin:24px;
 }
+
+// notice style
+.storeone-toast {
+    position: fixed;
+    bottom: 80px;
+    right: 25px;
+    z-index: 99999;
+    padding: 14px 20px;
+    background: #fff;
+    border-left: 4px solid var(--color);
+    border-radius: 6px;
+
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    animation: fadeIn .3s ease;
+    font-weight: 500;
+    min-width: 260px;
+}
+
+.toast-success {
+    --color: #46b450;
+}
+
+.toast-error {
+    --color: #dc3232;
+}
+.storeone-toast.hide {
+    animation: fadeOut .3s ease forwards;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to   { opacity: 0; transform: translateY(10px); }
+}
+/* universal shared icon style */
+.toast-icon {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    margin-right: 10px;
+    animation: popIn 0.35s ease;
+}
+
+/* success icon (checkmark) */
+.success-icon {
+    background: #46b450;
+    mask: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 10-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z"/></svg>') center/cover no-repeat;
+}
+
+/* error icon (cross) */
+.error-icon {
+    background: #dc3232;
+    mask: url('data:image/svg+xml;utf8,<svg fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 8.586l4.95-4.95a1 1 0 111.415 1.414L11.414 10l4.95 4.95a1 1 0 01-1.415 1.414L10 11.414l-4.95 4.95a1 1 0 01-1.415-1.414L8.586 10l-4.95-4.95A1 1 0 014.05 3.636L10 9.586z"/></svg>') center/cover no-repeat;
+}
+
+/* cute pop animation */
+@keyframes popIn {
+    0% { transform: scale(0.4); opacity: 0; }
+    80% { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+
 /* RESPONSIVE */
 @media (max-width: 1100px) {
     .modules-grid {
