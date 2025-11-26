@@ -1,65 +1,63 @@
-import { Card, CardBody, CardHeader, Flex, FlexBlock, FlexItem, Button, ToggleControl } from '@wordpress/components';
+import {
+    Card,
+    CardHeader,
+    CardBody,
+    Flex,
+    FlexBlock,
+    FlexItem,
+    ToggleControl,
+} from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
-const ModuleSettings = ({
-    currentModule,
-    modulesState,
-    setModulesState,
-    saving,
-    saveSettings
-}) => {
-    const isEnabled = modulesState[currentModule.id];
+// dynamic module UIs
+import PreOrdersSettings from '../../modules/PreOrdersSettings';
+import SmartCartSettings from '../../modules/SmartCartSettings';
+
+const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving }) => {
+    const enabled = !!modulesState[currentModule.id];
+
+    /**
+     * Decide which module settings panel to show
+     */
+    const renderModuleContent = () => {
+        switch (currentModule.id) {
+
+            case 'pre-order':  // ✔ correct module ID
+                return <PreOrdersSettings />;
+
+            case 'cart':  // ✔ new smart cart UI
+                return <SmartCartSettings />;
+
+            default:
+                return <p>{__('More settings will appear here…', 'store-one')}</p>;
+        }
+    };
 
     return (
         <Card className="settings-card">
             <CardHeader>
                 <Flex justify="space-between" align="center">
                     <FlexBlock>
-                        <h2 className="settings-title">
-                            { currentModule.label }
-                        </h2>
-
-                        <p className="settings-desc">
-                            { currentModule.description }
-                        </p>
+                        <h2 className="settings-title">{currentModule.label}</h2>
+                        <p className="settings-desc">{currentModule.description}</p>
                     </FlexBlock>
 
                     <FlexItem>
                         <ToggleControl
                             label={
-                                isEnabled
+                                enabled
                                     ? __('Enabled', 'store-one')
                                     : __('Disabled', 'store-one')
                             }
-                            checked={isEnabled}
-                            onChange={(value) =>
-                                setModulesState((prev) => ({
-                                    ...prev,
-                                    [currentModule.id]: value,
-                                }))
-                            }
+                            checked={enabled}
+                            disabled={saving}
+                            onChange={(val) => onToggleModule(currentModule.id, val)}
                         />
                     </FlexItem>
                 </Flex>
             </CardHeader>
 
-            <CardBody>
-
-                <p>{ __('More settings will appear here…', 'store-one') }</p>
-
-                <Button
-                    isPrimary
-                    disabled={saving}
-                    onClick={saveSettings}
-                    className="save-btn"
-                >
-                    { saving
-                        ? __('Saving…', 'store-one')
-                        : __('Save Settings', 'store-one')
-                    }
-                </Button>
-
-            </CardBody>
+            <CardBody>{renderModuleContent()}</CardBody>
         </Card>
     );
 };

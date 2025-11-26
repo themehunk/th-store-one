@@ -13,8 +13,8 @@ import './admin.scss';
 
 const modulesList = [
     {
-        id: 'woo-search',
-        label: __('Woo Search', 'store-one'),
+        id: 'pre-order',
+        label: __('Pre Oreder', 'store-one'),
         description: __('Boost product discovery.', 'store-one'),
         icon: '🔍',
     },
@@ -36,12 +36,12 @@ const tabs = [
     {
         name: 'all',
         title: __('All Modules', 'store-one'),
-        modules: ['woo-search', 'cart', 'frequently-bought'],
+        modules: ['pre-order', 'cart', 'frequently-bought'],
     },
     {
         name: 'recommended',
         title: __('Recommended', 'store-one'),
-        modules: ['woo-search', 'cart'],
+        modules: ['pre-order', 'cart'],
     },
     {
         name: 'trending',
@@ -51,15 +51,15 @@ const tabs = [
 ];
 
 const AdminMain = () => {
-    const [loading, setLoading] = useState(true);
-    const [saving, setSaving] = useState(false);
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
+    const [loading, setLoading]   = useState(true);
+    const [saving, setSaving]     = useState(false);
+    const [error, setError]       = useState('');
+    const [success, setSuccess]   = useState('');
     const [currentPage, setCurrentPage] = useState('dashboard');
     const [activeModule, setActiveModule] = useState(null);
 
     const [modulesState, setModulesState] = useState({
-        'woo-search': true,
+        'pre-order': true,
         cart: true,
         'frequently-bought': true,
     });
@@ -68,82 +68,120 @@ const AdminMain = () => {
         ? modulesList.find((m) => m.id === activeModule)
         : null;
 
-    // Fetch settings
+    // Attach nonce middleware.
+    apiFetch.use(apiFetch.createNonceMiddleware(StoreOneAdmin.nonce));
+
+    /**
+     * Load modules state from REST.
+     */
     useEffect(() => {
-        if (!window.StoreOneAdmin) {
-            setError(__('Configuration missing.', 'store-one'));
-            setLoading(false);
-            return;
-        }
+        setLoading(true);
 
-        apiFetch.use(apiFetch.createNonceMiddleware(StoreOneAdmin.nonce));
-
-        apiFetch({ path: `${StoreOneAdmin.restUrl}settings` })
+        apiFetch({ path: `${StoreOneAdmin.restUrl}modules` })
             .then((res) => {
-                if (res?.settings?.modules) {
-                    const newState = {};
+                if (res?.modules) {
+                    const newState = { ...modulesState };
 
                     modulesList.forEach((mod) => {
                         newState[mod.id] =
-                            !!res.settings.modules[mod.id]?.enabled;
+                            res.modules[mod.id] !== undefined
+                                ? !!res.modules[mod.id]
+                                : true;
                     });
 
                     setModulesState(newState);
                 }
             })
-            .catch(() =>
-                setError(__('Failed to load settings.', 'store-one'))
-            )
+            .catch(() => {
+                setError(__('Failed to load settings.', 'store-one'));
+            })
             .finally(() => setLoading(false));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    // Save settings
-    const saveSettings = () => {
+    /**
+     * Save whole modulesState to REST.
+     */
+    const saveModules = (nextState) => {
         setSaving(true);
-
-        const payload = { settings: { modules: {} } };
-
-        modulesList.forEach((mod) => {
-            payload.settings.modules[mod.id] = {
-                enabled: modulesState[mod.id],
-            };
-        });
+        setError('');
+        setSuccess('');
 
         apiFetch({
-            path: `${StoreOneAdmin.restUrl}settings`,
+            path: `${StoreOneAdmin.restUrl}modules`,
             method: 'POST',
-            data: payload,
+            data: { modules: nextState },
         })
-            .then(() =>
-                setSuccess(__('Saved successfully!', 'store-one'))
-            )
-            .catch(() =>
-                setError(__('Failed to save settings.', 'store-one'))
-            )
+            .then(() => {
+                setSuccess(__('Saved successfully!', 'store-one'));
+            })
+            .catch(() => {
+                setError(__('Failed to save settings.', 'store-one'));
+            })
             .finally(() => setSaving(false));
     };
 
+    /**
+     * Toggle single module (auto-saves).
+     */
+    const handleToggleModule = (moduleId, enabled) => {
+        setModulesState((prev) => {
+            const next = {
+                ...prev,
+                [moduleId]: !!enabled,
+            };
+            saveModules(next);
+            return next;
+        });
+    };
+
+    /**
+     * Master switch (Enable all / Disable all).
+     */
+    const handleToggleAllModules = (enableAll) => {
+        setModulesState((prev) => {
+            const next = {};
+            modulesList.forEach((mod) => {
+                next[mod.id] = !!enableAll;
+            });
+            saveModules(next);
+            return next;
+        });
+    };
+
+    const [hideToast, setHideToast] = useState(false);
+
+    useEffect(() => {
+        if (success || error) {
+            setHideToast(false);
+            const timer = setTimeout(() => setHideToast(true), 2500);
+            const removeTimer = setTimeout(() => {
+                setSuccess('');
+                setError('');
+            }, 3000);
+
+            return () => {
+                clearTimeout(timer);
+                clearTimeout(removeTimer);
+            };
+        }
+    }, [success, error]);
+
     return (
         <div className="store-one-admin">
-            {/* {error && (
-                <Notice
-                    status="error"
-                    isDismissible
-                    onRemove={() => setError('')}
-                >
-                    {error}
-                </Notice>
+            {success && (
+                <div className={`storeone-toast toast-success ${hideToast ? 'hide' : ''}`}>
+                    <span className="toast-icon success-icon"></span>
+                    <span>{success}</span>
+                </div>
             )}
 
-            {success && (
-                <Notice
-                    status="success"
-                    isDismissible
-                    onRemove={() => setSuccess('')}
-                >
-                    {success}
-                </Notice>
-            )} */}
+            {error && (
+                <div className={`storeone-toast toast-error ${hideToast ? 'hide' : ''}`}>
+                    <span className="toast-icon error-icon"></span>
+                    <span>{error}</span>
+                </div>
+            )}
 
             <Header
                 currentPage={currentPage}
@@ -153,7 +191,6 @@ const AdminMain = () => {
 
             {currentPage === 'dashboard' && (
                 <>
-                    {/* MODULE GRID */}
                     {!loading && !activeModule && (
                         <ModuleGrid
                             modulesList={modulesList}
@@ -163,7 +200,6 @@ const AdminMain = () => {
                         />
                     )}
 
-                    {/* MODULE SETTINGS PAGE */}
                     {!loading && activeModule && currentModule && (
                         <div className="store-module-wrap">
                             <Button
@@ -178,9 +214,8 @@ const AdminMain = () => {
                                 <ModuleSettings
                                     currentModule={currentModule}
                                     modulesState={modulesState}
-                                    setModulesState={setModulesState}
+                                    onToggleModule={handleToggleModule}
                                     saving={saving}
-                                    saveSettings={saveSettings}
                                 />
 
                                 <PreviewPane />
@@ -188,7 +223,6 @@ const AdminMain = () => {
                         </div>
                     )}
 
-                    {/* LOADING */}
                     {loading && (
                         <div className="store-loader">
                             <Spinner />
@@ -198,12 +232,11 @@ const AdminMain = () => {
                 </>
             )}
 
-            {/* GLOBAL SETTINGS PAGE */}
             {currentPage === 'settings' && (
                 <GlobalSettings
                     modulesList={modulesList}
                     modulesState={modulesState}
-                    setModulesState={setModulesState}
+                    onToggleAllModules={handleToggleAllModules}
                 />
             )}
         </div>

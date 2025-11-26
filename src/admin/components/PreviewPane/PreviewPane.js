@@ -9,7 +9,6 @@ const PreviewPane = () => {
                     { __('Preview', 'store-one') }
                 </h3>
             </CardHeader>
-
             <CardBody>
                 <div className="preview-box">
                     <div className="preview-browser-bar">
@@ -17,7 +16,6 @@ const PreviewPane = () => {
                         <span className="dot" />
                         <span className="dot" />
                     </div>
-
                     <div className="preview-content">
                         <div className="preview-thumb" />
                         <div className="preview-line lg" />
@@ -27,7 +25,6 @@ const PreviewPane = () => {
                         <div className="preview-highlight-text">
                             { __('Ships on November 26, 2025.', 'store-one') }
                         </div>
-
                         <Button
                             isSecondary
                             className="preview-btn"
@@ -40,5 +37,4 @@ const PreviewPane = () => {
         </Card>
     );
 };
-
 export default PreviewPane;
