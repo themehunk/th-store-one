@@ -12,7 +12,7 @@ import { __ } from '@wordpress/i18n';
 // dynamic module UIs
 import PreOrdersSettings from '../../modules/PreOrdersSettings';
 import SmartCartSettings from '../../modules/SmartCartSettings';
-
+import FrequentlyBoughtSettings from '../../modules/frequentlyBoughtTogether/FrequentlyBoughtSettings';
 const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving }) => {
     const enabled = !!modulesState[currentModule.id];
 
@@ -22,11 +22,14 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving })
     const renderModuleContent = () => {
         switch (currentModule.id) {
 
-            case 'pre-order':  // ✔ correct module ID
-                return <PreOrdersSettings />;
+            // case 'pre-order':  // ✔ correct module ID
+            //     return <PreOrdersSettings />;
 
-            case 'cart':  // ✔ new smart cart UI
-                return <SmartCartSettings />;
+            // case 'cart':  // ✔ new smart cart UI
+            //     return <SmartCartSettings />;
+
+            case 'frequently-bought':  // 👈 NEW MODULE
+                return <FrequentlyBoughtSettings />;
 
             default:
                 return <p>{__('More settings will appear here…', 'store-one')}</p>;
