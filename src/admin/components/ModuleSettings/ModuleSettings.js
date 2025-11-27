@@ -42,17 +42,46 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving })
                         <p className="settings-desc">{currentModule.description}</p>
                     </FlexBlock>
 
-                    <FlexItem>
+                    <FlexItem style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "10px" }}>
                         <ToggleControl
                             label={
                                 enabled
                                     ? __('Enabled', 'store-one')
                                     : __('Disabled', 'store-one')
                             }
+                            
                             checked={enabled}
                             disabled={saving}
                             onChange={(val) => onToggleModule(currentModule.id, val)}
                         />
+                        {/* Tutorial Icon */}
+            {/* <a
+                href="https://your-tutorial-link.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="store-one-tutorial-icon"
+                title={__('View Tutorial', 'store-one')}
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: '30px',
+                    height: '30px',
+                    borderRadius: '6px',
+                    background: '#f3f3f3',
+                    cursor: 'pointer',
+                    textDecoration: 'none',
+                }}
+            >
+                <span
+                    className="dashicons dashicons-admin-links"
+                    style={{
+                        fontSize: '18px',
+                        color: '#555',
+                        marginTop: '2px',
+                    }}
+                ></span>
+            </a> */}
                     </FlexItem>
                 </Flex>
             </CardHeader>
@@ -61,5 +90,4 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving })
         </Card>
     );
 };
-
 export default ModuleSettings;

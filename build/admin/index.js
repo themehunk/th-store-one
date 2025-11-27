@@ -4018,7 +4018,14 @@ const ModuleSettings = ({
     className: "settings-title"
   }, currentModule.label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", {
     className: "settings-desc"
-  }, currentModule.description)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.FlexItem, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ToggleControl, {
+  }, currentModule.description)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.FlexItem, {
+    style: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
+      gap: "10px"
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ToggleControl, {
     label: enabled ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Enabled', 'store-one') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Disabled', 'store-one'),
     checked: enabled,
     disabled: saving,
