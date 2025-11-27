@@ -10,6 +10,8 @@ import GlobalSettings from './components/GlobalSettings/GlobalSettings';
 
 import { Notice, Spinner, Button } from '@wordpress/components';
 import './admin.scss';
+import './admin.scss';
+import './components/GlobalSettings/globalsetting.scss';
 
 const modulesList = [
     {
