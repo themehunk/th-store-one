@@ -3762,6 +3762,49 @@ function MiniColorPicker({
 
 /***/ }),
 
+/***/ "./src/admin/components/GlobalSettings/TabSwitcher.js":
+/*!************************************************************!*\
+  !*** ./src/admin/components/GlobalSettings/TabSwitcher.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ TabSwitcher)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+function TabSwitcher({
+  tabs,
+  defaultTab = 'settings'
+}) {
+  const [active, setActive] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(defaultTab);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "store-one-tab-switcher"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "store-one-tab-header"
+  }, tabs.map(tab => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    key: tab.id,
+    className: `store-one-tab-item ${active === tab.id ? 'active' : ''}`,
+    onClick: () => setActive(tab.id)
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: `dashicons ${tab.icon}`
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "store-one-tab-text"
+  }, tab.label)))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "store-one-tab-content"
+  }, tabs.find(t => t.id === active)?.content));
+}
+
+/***/ }),
+
 /***/ "./src/admin/components/GlobalSettings/globalsetting.scss":
 /*!****************************************************************!*\
   !*** ./src/admin/components/GlobalSettings/globalsetting.scss ***!
@@ -3814,13 +3857,17 @@ const Header = ({
       setCurrentPage('dashboard');
       setActiveModule(null);
     }
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Dashboard', 'store-one')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "dashicons dashicons-dashboard"
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Dashboard', 'store-one'))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
     className: `nav-btn ${currentPage === 'settings' ? 'is-active' : ''}`,
     onClick: () => {
       setCurrentPage('settings');
       setActiveModule(null);
     }
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings', 'store-one'))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "dashicons dashicons-admin-generic"
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Settings', 'store-one')))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
     href: "#",
     className: "components-button is-secondary upgrade-btn"
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Upgrade', 'store-one')));
@@ -4057,6 +4104,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var sortablejs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! sortablejs */ "./node_modules/sortablejs/modular/sortable.esm.js");
 /* harmony import */ var _components_GlobalSettings_MiniColorPicker__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/GlobalSettings/MiniColorPicker */ "./src/admin/components/GlobalSettings/MiniColorPicker.js");
+/* harmony import */ var _components_GlobalSettings_TabSwitcher__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/GlobalSettings/TabSwitcher */ "./src/admin/components/GlobalSettings/TabSwitcher.js");
+
 
 
 
@@ -4231,79 +4280,79 @@ function PreOrderRulesEditor({
     style: {
       padding: 15
     }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Offer Title', 'store-one'),
-    value: rule.offer_title,
-    onChange: v => updateField(index, 'offer_title', v)
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Campaign Status', 'store-one'),
-    value: rule.campaign_status,
-    options: [{
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Active', 'store-one'),
-      value: 'active'
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_TabSwitcher__WEBPACK_IMPORTED_MODULE_6__["default"], {
+    defaultTab: "settings",
+    tabs: [{
+      id: 'settings',
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Settings', 'store-one'),
+      icon: 'dashicons-admin-generic',
+      content: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Offer Title', 'store-one'),
+        value: rule.offer_title,
+        onChange: v => updateField(index, 'offer_title', v)
+      }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Campaign Status', 'store-one'),
+        value: rule.campaign_status,
+        options: [{
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Active', 'store-one'),
+          value: 'active'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Inactive', 'store-one'),
+          value: 'inactive'
+        }],
+        onChange: v => updateField(index, 'campaign_status', v)
+      }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Discount Amount', 'store-one'),
+        type: "number",
+        value: rule.discount_amount,
+        onChange: v => updateField(index, 'discount_amount', v)
+      }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Shipping Date', 'store-one'),
+        type: "datetime-local",
+        value: rule.shipping_date,
+        onChange: v => updateField(index, 'shipping_date', v)
+      }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Start Date', 'store-one'),
+        type: "datetime-local",
+        value: rule.pre_order_start,
+        onChange: v => updateField(index, 'pre_order_start', v)
+      }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('End Date', 'store-one'),
+        type: "datetime-local",
+        value: rule.pre_order_end,
+        onChange: v => updateField(index, 'pre_order_end', v)
+      }))
     }, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Inactive', 'store-one'),
-      value: 'inactive'
-    }],
-    onChange: v => updateField(index, 'campaign_status', v)
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Discount Amount', 'store-one'),
-    type: "number",
-    value: rule.discount_amount,
-    onChange: v => updateField(index, 'discount_amount', v)
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Shipping Date', 'store-one'),
-    type: "datetime-local",
-    value: rule.shipping_date,
-    onChange: v => updateField(index, 'shipping_date', v)
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Start Date', 'store-one'),
-    type: "datetime-local",
-    value: rule.pre_order_start,
-    onChange: v => updateField(index, 'pre_order_start', v)
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('End Date', 'store-one'),
-    type: "datetime-local",
-    value: rule.pre_order_end,
-    onChange: v => updateField(index, 'pre_order_end', v)
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "store-one-color-panel",
-    style: {
-      marginTop: 20,
-      padding: 15,
-      border: '1px solid #eee',
-      borderRadius: 10,
-      background: '#fafafa'
-    }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h4", {
-    style: {
-      marginBottom: 10
-    }
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Button Colors', 'store-one')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_MiniColorPicker__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Text Color', 'store-one'),
-    value: rule.text_color,
-    onChange: v => updateField(index, 'text_color', v)
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_MiniColorPicker__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Text Hover Color', 'store-one'),
-    value: rule.text_hover_color,
-    onChange: v => updateField(index, 'text_hover_color', v)
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_MiniColorPicker__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Background Color', 'store-one'),
-    value: rule.bg_color,
-    onChange: v => updateField(index, 'bg_color', v)
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_MiniColorPicker__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Background Hover Color', 'store-one'),
-    value: rule.bg_hover_color,
-    onChange: v => updateField(index, 'bg_hover_color', v)
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_MiniColorPicker__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Border Color', 'store-one'),
-    value: rule.border_color,
-    onChange: v => updateField(index, 'border_color', v)
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_MiniColorPicker__WEBPACK_IMPORTED_MODULE_5__["default"], {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Border Hover Color', 'store-one'),
-    value: rule.border_hover_color,
-    onChange: v => updateField(index, 'border_hover_color', v)
-  })))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      id: 'style',
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Style', 'store-one'),
+      icon: 'dashicons-art',
+      content: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_MiniColorPicker__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Text Color', 'store-one'),
+        value: rule.text_color,
+        onChange: v => updateField(index, 'text_color', v)
+      }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_MiniColorPicker__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Text Hover Color', 'store-one'),
+        value: rule.text_hover_color,
+        onChange: v => updateField(index, 'text_hover_color', v)
+      }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_MiniColorPicker__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Background Color', 'store-one'),
+        value: rule.bg_color,
+        onChange: v => updateField(index, 'bg_color', v)
+      }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_MiniColorPicker__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Background Hover Color', 'store-one'),
+        value: rule.bg_hover_color,
+        onChange: v => updateField(index, 'bg_hover_color', v)
+      }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_MiniColorPicker__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Border Color', 'store-one'),
+        value: rule.border_color,
+        onChange: v => updateField(index, 'border_color', v)
+      }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_MiniColorPicker__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Border Hover Color', 'store-one'),
+        value: rule.border_hover_color,
+        onChange: v => updateField(index, 'border_hover_color', v)
+      }))
+    }]
+  }))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "store-one-add-rule",
     onClick: addRule,
     style: {

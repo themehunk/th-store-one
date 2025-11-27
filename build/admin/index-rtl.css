@@ -29,6 +29,12 @@
   box-shadow: 0 2px 4px rgba(15, 23, 42, 0.03);
 }
 
+.store-one-header-left,
+.store-one-header-nav,
+.store-one-header-right {
+  flex: 1;
+}
+
 .store-one-header-left {
   display: flex;
   gap: 12px;
@@ -74,14 +80,18 @@
   color: #6b7280;
   padding: 6px 12px;
   cursor: pointer;
-  font-weight: 500;
+  font-weight: 400;
   border-radius: 8px;
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .nav-btn:hover {
   background: #f3f4f6;
   color: #111827;
+  font-weight: 500;
 }
 
 .nav-btn.is-active {
@@ -557,4 +567,69 @@ button.is-tertiary:focus {
 .save-button-wrap {
   display: flex;
   justify-content: end;
+}
+
+.store-one-tab-switcher {
+  margin-bottom: 20px;
+}
+
+/* TAB HEADER */
+.store-one-tab-header {
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid #e6e6e6;
+  padding-right: 2px;
+}
+
+/* EACH TAB */
+.store-one-tab-item {
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  border: 1px solid transparent;
+  transition: 0.15s ease;
+  position: relative;
+}
+
+/* Hover */
+.store-one-tab-item:hover {
+  background: #f2f2f2;
+}
+
+/* ACTIVE */
+.store-one-tab-item.active {
+  background: #ffffff;
+  color: #2271b1;
+  border: 1px solid #ddd;
+  border-bottom: 1px solid #fff;
+}
+
+/* ACTIVE indicator line */
+.store-one-tab-item.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  right: 0;
+  left: 0;
+  height: 2px;
+  background: #2271b1;
+}
+
+/* Icon */
+.store-one-tab-item .dashicons {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  opacity: 0.85;
+}
+
+/* CONTENT AREA */
+.store-one-tab-content {
+  padding: 10px 0 0;
 }

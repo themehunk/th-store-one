@@ -4,6 +4,8 @@ import { __ } from '@wordpress/i18n';
 const Header = ({ currentPage, setCurrentPage, setActiveModule }) => {
     return (
         <header className="store-one-header">
+            
+            {/* Left Logo */}
             <div className="store-one-header-left">
                 <span className="store-one-logo">S1</span>
                 <div>
@@ -16,7 +18,9 @@ const Header = ({ currentPage, setCurrentPage, setActiveModule }) => {
                 </div>
             </div>
 
+            {/* Navigation */}
             <nav className="store-one-header-nav">
+
                 <button
                     className={`nav-btn ${currentPage === 'dashboard' ? 'is-active' : ''}`}
                     onClick={() => {
@@ -24,7 +28,8 @@ const Header = ({ currentPage, setCurrentPage, setActiveModule }) => {
                         setActiveModule(null);
                     }}
                 >
-                    { __('Dashboard', 'store-one') }
+                    <span className="dashicons dashicons-dashboard"></span>
+                    <span>{ __('Dashboard', 'store-one') }</span>
                 </button>
 
                 <button
@@ -34,8 +39,10 @@ const Header = ({ currentPage, setCurrentPage, setActiveModule }) => {
                         setActiveModule(null);
                     }}
                 >
-                    { __('Settings', 'store-one') }
+                    <span className="dashicons dashicons-admin-generic"></span>
+                    <span>{ __('Settings', 'store-one') }</span>
                 </button>
+
             </nav>
 
             <a href="#" className="components-button is-secondary upgrade-btn">

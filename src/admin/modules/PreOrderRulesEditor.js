@@ -7,6 +7,7 @@ import {
 import { __, sprintf } from '@wordpress/i18n';
 import Sortable from 'sortablejs';
 import MiniColorPicker from '../components/GlobalSettings/MiniColorPicker';
+import TabSwitcher from '../components/GlobalSettings/TabSwitcher';
 
 /* ------------------------------------------
    New Rule Template
@@ -201,118 +202,118 @@ export default function PreOrderRulesEditor({ rules, onChange }) {
                         </div>
 
                         {/* Collapsible Content */}
-                        {rule.open && (
-                            <div style={{ padding: 15 }}>
+                       {rule.open && (
+    <div style={{ padding: 15 }}>
 
-                                <TextControl
-                                    label={__('Offer Title', 'store-one')}
-                                    value={rule.offer_title}
-                                    onChange={(v) => updateField(index, 'offer_title', v)}
-                                />
+        <TabSwitcher
+            defaultTab="settings"
+            tabs={[
+                {
+                    id: 'settings',
+                    label: __('Settings', 'store-one'),
+                    icon: 'dashicons-admin-generic',
+                    content: (
+                        <div>
 
-                                <SelectControl
-                                    label={__('Campaign Status', 'store-one')}
-                                    value={rule.campaign_status}
-                                    options={[
-                                        { label: __('Active', 'store-one'), value: 'active' },
-                                        { label: __('Inactive', 'store-one'), value: 'inactive' },
-                                    ]}
-                                    onChange={(v) => updateField(index, 'campaign_status', v)}
-                                />
+                            <TextControl
+                                label={__('Offer Title', 'store-one')}
+                                value={rule.offer_title}
+                                onChange={(v) => updateField(index, 'offer_title', v)}
+                            />
 
-                                <TextControl
-                                    label={__('Discount Amount', 'store-one')}
-                                    type="number"
-                                    value={rule.discount_amount}
-                                    onChange={(v) => updateField(index, 'discount_amount', v)}
-                                />
+                            <SelectControl
+                                label={__('Campaign Status', 'store-one')}
+                                value={rule.campaign_status}
+                                options={[
+                                    { label: __('Active', 'store-one'), value: 'active' },
+                                    { label: __('Inactive', 'store-one'), value: 'inactive' },
+                                ]}
+                                onChange={(v) => updateField(index, 'campaign_status', v)}
+                            />
 
-                                <TextControl
-                                    label={__('Shipping Date', 'store-one')}
-                                    type="datetime-local"
-                                    value={rule.shipping_date}
-                                    onChange={(v) => updateField(index, 'shipping_date', v)}
-                                />
+                            <TextControl
+                                label={__('Discount Amount', 'store-one')}
+                                type="number"
+                                value={rule.discount_amount}
+                                onChange={(v) => updateField(index, 'discount_amount', v)}
+                            />
 
-                                <TextControl
-                                    label={__('Start Date', 'store-one')}
-                                    type="datetime-local"
-                                    value={rule.pre_order_start}
-                                    onChange={(v) => updateField(index, 'pre_order_start', v)}
-                                />
+                            <TextControl
+                                label={__('Shipping Date', 'store-one')}
+                                type="datetime-local"
+                                value={rule.shipping_date}
+                                onChange={(v) => updateField(index, 'shipping_date', v)}
+                            />
 
-                                <TextControl
-                                    label={__('End Date', 'store-one')}
-                                    type="datetime-local"
-                                    value={rule.pre_order_end}
-                                    onChange={(v) => updateField(index, 'pre_order_end', v)}
-                                />
+                            <TextControl
+                                label={__('Start Date', 'store-one')}
+                                type="datetime-local"
+                                value={rule.pre_order_start}
+                                onChange={(v) => updateField(index, 'pre_order_start', v)}
+                            />
 
-                                {/* COLOR PICKERS */}
-                                <div
-                                    className="store-one-color-panel"
-                                    style={{
-                                        marginTop: 20,
-                                        padding: 15,
-                                        border: '1px solid #eee',
-                                        borderRadius: 10,
-                                        background: '#fafafa',
-                                    }}
-                                >
-                                    <h4 style={{ marginBottom: 10 }}>
-                                        {__('Button Colors', 'store-one')}
-                                    </h4>
+                            <TextControl
+                                label={__('End Date', 'store-one')}
+                                type="datetime-local"
+                                value={rule.pre_order_end}
+                                onChange={(v) => updateField(index, 'pre_order_end', v)}
+                            />
 
-                                    <MiniColorPicker
-                                        label={__('Text Color', 'store-one')}
-                                        value={rule.text_color}
-                                        onChange={(v) =>
-                                            updateField(index, 'text_color', v)
-                                        }
-                                    />
+                        </div>
+                    )
+                },
 
-                                    <MiniColorPicker
-                                        label={__('Text Hover Color', 'store-one')}
-                                        value={rule.text_hover_color}
-                                        onChange={(v) =>
-                                            updateField(index, 'text_hover_color', v)
-                                        }
-                                    />
+                {
+                    id: 'style',
+                    label: __('Style', 'store-one'),
+                    icon: 'dashicons-art',
+                    content: (
+                        <div>
 
-                                    <MiniColorPicker
-                                        label={__('Background Color', 'store-one')}
-                                        value={rule.bg_color}
-                                        onChange={(v) =>
-                                            updateField(index, 'bg_color', v)
-                                        }
-                                    />
+                            <MiniColorPicker
+                                label={__('Text Color', 'store-one')}
+                                value={rule.text_color}
+                                onChange={(v) => updateField(index, 'text_color', v)}
+                            />
 
-                                    <MiniColorPicker
-                                        label={__('Background Hover Color', 'store-one')}
-                                        value={rule.bg_hover_color}
-                                        onChange={(v) =>
-                                            updateField(index, 'bg_hover_color', v)
-                                        }
-                                    />
+                            <MiniColorPicker
+                                label={__('Text Hover Color', 'store-one')}
+                                value={rule.text_hover_color}
+                                onChange={(v) => updateField(index, 'text_hover_color', v)}
+                            />
 
-                                    <MiniColorPicker
-                                        label={__('Border Color', 'store-one')}
-                                        value={rule.border_color}
-                                        onChange={(v) =>
-                                            updateField(index, 'border_color', v)
-                                        }
-                                    />
+                            <MiniColorPicker
+                                label={__('Background Color', 'store-one')}
+                                value={rule.bg_color}
+                                onChange={(v) => updateField(index, 'bg_color', v)}
+                            />
 
-                                    <MiniColorPicker
-                                        label={__('Border Hover Color', 'store-one')}
-                                        value={rule.border_hover_color}
-                                        onChange={(v) =>
-                                            updateField(index, 'border_hover_color', v)
-                                        }
-                                    />
-                                </div>
-                            </div>
-                        )}
+                            <MiniColorPicker
+                                label={__('Background Hover Color', 'store-one')}
+                                value={rule.bg_hover_color}
+                                onChange={(v) => updateField(index, 'bg_hover_color', v)}
+                            />
+
+                            <MiniColorPicker
+                                label={__('Border Color', 'store-one')}
+                                value={rule.border_color}
+                                onChange={(v) => updateField(index, 'border_color', v)}
+                            />
+
+                            <MiniColorPicker
+                                label={__('Border Hover Color', 'store-one')}
+                                value={rule.border_hover_color}
+                                onChange={(v) => updateField(index, 'border_hover_color', v)}
+                            />
+
+                        </div>
+                    )
+                }
+            ]}
+        />
+
+    </div>
+)}
                     </div>
                 ))}
             </SortableWrapper>
