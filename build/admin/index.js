@@ -3627,6 +3627,63 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/admin/components/GlobalSettings/ExcludeWooCondition.js":
+/*!********************************************************************!*\
+  !*** ./src/admin/components/GlobalSettings/ExcludeWooCondition.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ ExcludeCondition)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _components_GlobalSettings_MultiWooSearchSelector__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../components/GlobalSettings/MultiWooSearchSelector */ "./src/admin/components/GlobalSettings/MultiWooSearchSelector.js");
+
+
+
+
+function ExcludeCondition({
+  label,
+  searchType,
+  enabled,
+  items,
+  onToggle,
+  onChangeItems
+}) {
+  const isSearchable = searchType !== 'on_sale';
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "s1-exclude-wrapper"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "s1-field-wrapper s1-exclude-header"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    className: "s1-field-label"
+  }, label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "s1-field-control"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ToggleControl, {
+    checked: enabled,
+    onChange: onToggle
+  }))), enabled && isSearchable && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "s1-field-wrapper s1-exclude-search"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    className: "s1-field-label"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Search', 'store-one')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "s1-field-control"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_MultiWooSearchSelector__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    searchType: searchType,
+    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Search & select…', 'store-one'),
+    value: items,
+    onChange: onChangeItems
+  }))));
+}
+
+/***/ }),
+
 /***/ "./src/admin/components/GlobalSettings/GlobalSettings.js":
 /*!***************************************************************!*\
   !*** ./src/admin/components/GlobalSettings/GlobalSettings.js ***!
@@ -3761,6 +3818,91 @@ function MiniColorPicker({
       onChange(final);
     }
   })))));
+}
+
+/***/ }),
+
+/***/ "./src/admin/components/GlobalSettings/MultiWooSearchSelector.js":
+/*!***********************************************************************!*\
+  !*** ./src/admin/components/GlobalSettings/MultiWooSearchSelector.js ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ MultiWooSearchSelector)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+
+function MultiWooSearchSelector({
+  label = "",
+  value = [],
+  onChange,
+  searchType = "product" // product | category | tag
+}) {
+  const [query, setQuery] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)("");
+  const [results, setResults] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+  const [loading, setLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+  const endpoint = {
+    product: 'wc/v3/products',
+    category: 'wc/v3/products/categories',
+    tag: 'wc/v3/products/tags'
+  }[searchType];
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (query.length < 2) {
+      setResults([]);
+      return;
+    }
+    setLoading(true);
+    _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
+      path: `${endpoint}?search=${query}`
+    }).then(items => setResults(items)).catch(() => setResults([])).finally(() => setLoading(false));
+  }, [query]);
+  const addItem = item => {
+    if (value.find(v => v.id === item.id)) return;
+    onChange([...value, item]);
+    setQuery("");
+    setResults([]);
+  };
+  const removeItem = id => {
+    onChange(value.filter(item => item.id !== id));
+  };
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "multi-search-selector s1-field-control"
+  }, label && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    className: "s1-field-label"
+  }, label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "selected-items"
+  }, value.map(item => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    key: item.id,
+    className: "selector-chip"
+  }, item.name, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "remove-chip",
+    onClick: () => removeItem(item.id)
+  }, "\xD7")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
+    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Search…', 'store-one'),
+    value: query,
+    onChange: setQuery
+  }), query.length >= 2 && results.length > 0 && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "selector-dropdown"
+  }, results.map(item => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    key: item.id,
+    className: "selector-option",
+    onClick: () => addItem(item)
+  }, item.name))));
 }
 
 /***/ }),
@@ -4642,15 +4784,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var sortablejs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! sortablejs */ "./node_modules/sortablejs/modular/sortable.esm.js");
+/* harmony import */ var _components_GlobalSettings_MultiWooSearchSelector__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/GlobalSettings/MultiWooSearchSelector */ "./src/admin/components/GlobalSettings/MultiWooSearchSelector.js");
+/* harmony import */ var _components_GlobalSettings_ExcludeWooCondition__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../components/GlobalSettings/ExcludeWooCondition */ "./src/admin/components/GlobalSettings/ExcludeWooCondition.js");
+/* harmony import */ var _components_GlobalSettings_TabSwitcher__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../components/GlobalSettings/TabSwitcher */ "./src/admin/components/GlobalSettings/TabSwitcher.js");
+
+/* ------------------------ imports ------------------------ */
 
 
 
 
 
 
-/* ------------------------------------------
-   Unified Store-One Field Wrapper
-------------------------------------------- */
+
+
+/* Field Wrapper */
 const S1Field = ({
   label,
   children
@@ -4662,25 +4809,29 @@ const S1Field = ({
   className: "s1-field-control"
 }, children));
 
-/* ------------------------------------------
-   New FBT Rule Template
-------------------------------------------- */
+/* Default Rule */
 const newFBTRule = () => ({
   status: 'active',
   offer_title: '',
   trigger_type: 'all_products',
-  product_ids: '',
-  category_ids: '',
-  tag_ids: '',
-  discount_type: 'percentage',
-  discount_amount: 0,
+  products: [],
+  categories: [],
+  tags: [],
   flexible_id: crypto.randomUUID(),
-  open: true
+  open: true,
+  // NEW: exclude system
+  exclude_products_enabled: false,
+  exclude_products: [],
+  exclude_categories_enabled: false,
+  exclude_categories: [],
+  exclude_tags_enabled: false,
+  exclude_tags: [],
+  exclude_brands_enabled: false,
+  exclude_brands: [],
+  exclude_on_sale_enabled: false
 });
 
-/* ------------------------------------------
-   Sortable Wrapper
-------------------------------------------- */
+/* Sortable */
 function SortableWrapper({
   items,
   onSortEnd,
@@ -4701,9 +4852,7 @@ function SortableWrapper({
   }, children);
 }
 
-/* ------------------------------------------
-   Main Component
-------------------------------------------- */
+/* ------------------------ Main Component ------------------------ */
 function FrequentlyBoughtRulesEditor({
   rules,
   onChange
@@ -4741,8 +4890,6 @@ function FrequentlyBoughtRulesEditor({
     updateAll(arr);
   };
   const addRule = () => updateAll([...rules, newFBTRule()]);
-
-  // First rule always open
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     if (rules.length === 0) {
       updateAll([newFBTRule()]);
@@ -4780,77 +4927,108 @@ function FrequentlyBoughtRulesEditor({
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "dashicons dashicons-no-alt s1-icon s1-icon-danger",
     onClick: () => removeRule(index)
-  })), rule.open && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "store-one-rule-body"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(S1Field, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Status', 'store-one')
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
-    value: rule.status,
-    options: [{
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Active', 'store-one'),
-      value: 'active'
+  })), rule.open && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_TabSwitcher__WEBPACK_IMPORTED_MODULE_7__["default"], {
+    defaultTab: "settings",
+    tabs: [{
+      id: 'settings',
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Settings', 'store-one'),
+      icon: 'dashicons-admin-generic',
+      content: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+        className: "store-one-rule-body"
+      }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(S1Field, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Status', 'store-one')
+      }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
+        value: rule.status,
+        options: [{
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Active', 'store-one'),
+          value: 'active'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Inactive', 'store-one'),
+          value: 'inactive'
+        }],
+        onChange: v => updateField(index, 'status', v)
+      })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(S1Field, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Offer Name', 'store-one')
+      }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+        value: rule.offer_title,
+        onChange: v => updateField(index, 'offer_title', v)
+      })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(S1Field, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Trigger Type', 'store-one')
+      }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
+        value: rule.trigger_type,
+        options: [{
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('All Products', 'store-one'),
+          value: 'all_products'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Specific Products', 'store-one'),
+          value: 'specific_products'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Specific Categories', 'store-one'),
+          value: 'specific_categories'
+        }, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Specific Tags', 'store-one'),
+          value: 'specific_tags'
+        }],
+        onChange: v => updateField(index, 'trigger_type', v)
+      })), rule.trigger_type === 'specific_products' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_MultiWooSearchSelector__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        searchType: "product",
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select Products', 'store-one'),
+        value: rule.products || [],
+        onChange: items => updateField(index, 'products', items)
+      }), rule.trigger_type === 'specific_categories' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_MultiWooSearchSelector__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        searchType: "category",
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select Categories', 'store-one'),
+        value: rule.categories || [],
+        onChange: items => updateField(index, 'categories', items)
+      }), rule.trigger_type === 'specific_tags' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_MultiWooSearchSelector__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        searchType: "tag",
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Select Tags', 'store-one'),
+        value: rule.tags || [],
+        onChange: items => updateField(index, 'tags', items)
+      }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_ExcludeWooCondition__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Exclude products', 'store-one'),
+        searchType: "product",
+        enabled: rule.exclude_products_enabled,
+        items: rule.exclude_products,
+        onToggle: v => updateField(index, 'exclude_products_enabled', v),
+        onChangeItems: items => updateField(index, 'exclude_products', items)
+      }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_ExcludeWooCondition__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Exclude categories', 'store-one'),
+        searchType: "category",
+        enabled: rule.exclude_categories_enabled,
+        items: rule.exclude_categories,
+        onToggle: v => updateField(index, 'exclude_categories_enabled', v),
+        onChangeItems: items => updateField(index, 'exclude_categories', items)
+      }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_ExcludeWooCondition__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Exclude product tags', 'store-one'),
+        searchType: "tag",
+        enabled: rule.exclude_tags_enabled,
+        items: rule.exclude_tags,
+        onToggle: v => updateField(index, 'exclude_tags_enabled', v),
+        onChangeItems: items => updateField(index, 'exclude_tags', items)
+      }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_ExcludeWooCondition__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Exclude brands', 'store-one'),
+        searchType: "brand",
+        enabled: rule.exclude_brands_enabled,
+        items: rule.exclude_brands,
+        onToggle: v => updateField(index, 'exclude_brands_enabled', v),
+        onChangeItems: items => updateField(index, 'exclude_brands', items)
+      }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_ExcludeWooCondition__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Exclude On-Sale products', 'store-one'),
+        searchType: "on_sale",
+        enabled: rule.exclude_on_sale_enabled,
+        items: [] // no search selector for this one
+        ,
+        onToggle: v => updateField(index, 'exclude_on_sale_enabled', v),
+        onChangeItems: () => {}
+      }))
     }, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Inactive', 'store-one'),
-      value: 'inactive'
-    }],
-    onChange: v => updateField(index, 'status', v)
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(S1Field, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Offer Name', 'store-one')
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-    value: rule.offer_title,
-    onChange: v => updateField(index, 'offer_title', v)
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(S1Field, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Trigger Type', 'store-one')
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
-    value: rule.trigger_type,
-    options: [{
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('All Products', 'store-one'),
-      value: 'all_products'
-    }, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Specific Products', 'store-one'),
-      value: 'specific_products'
-    }, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Specific Categories', 'store-one'),
-      value: 'specific_categories'
-    }, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Specific Tags', 'store-one'),
-      value: 'specific_tags'
-    }],
-    onChange: v => updateField(index, 'trigger_type', v)
-  })), rule.trigger_type === 'specific_products' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(S1Field, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Product IDs (comma separated)', 'store-one')
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-    value: rule.product_ids,
-    onChange: v => updateField(index, 'product_ids', v)
-  })), rule.trigger_type === 'specific_categories' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(S1Field, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Category IDs (comma separated)', 'store-one')
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-    value: rule.category_ids,
-    onChange: v => updateField(index, 'category_ids', v)
-  })), rule.trigger_type === 'specific_tags' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(S1Field, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Tag IDs (comma separated)', 'store-one')
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-    value: rule.tag_ids,
-    onChange: v => updateField(index, 'tag_ids', v)
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(S1Field, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Discount Type', 'store-one')
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
-    value: rule.discount_type,
-    options: [{
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Percentage', 'store-one'),
-      value: 'percentage'
-    }, {
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Fixed Amount', 'store-one'),
-      value: 'fixed'
-    }],
-    onChange: v => updateField(index, 'discount_type', v)
-  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(S1Field, {
-    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Discount Amount', 'store-one')
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-    type: "number",
-    value: rule.discount_amount,
-    onChange: v => updateField(index, 'discount_amount', v)
-  })))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      id: 'style',
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Style', 'store-one'),
+      icon: 'dashicons-art',
+      content: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null)
+    }]
+  })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "store-one-add-rule",
     onClick: addRule
   }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('+ Add New Rule', 'store-one')));
