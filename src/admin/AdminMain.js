@@ -15,35 +15,35 @@ import './components/GlobalSettings/globalsetting.scss';
 
 const modulesList = [
     {
-        id: 'pre-order',
-        label: __('Pre Oreder', 'store-one'),
-        description: __('Boost product discovery.', 'store-one'),
-        icon: '🔍',
-    },
-    {
-        id: 'cart',
-        label: __('Smart Cart', 'store-one'),
-        description: __('Elegant AJAX mini cart.', 'store-one'),
-        icon: '🛒',
-    },
-    {
         id: 'frequently-bought',
         label: __('Frequently Bought', 'store-one'),
         description: __('AI-powered combos.', 'store-one'),
         icon: '🤝',
     },
+    // {
+    //     id: 'pre-order',
+    //     label: __('Pre Oreder', 'store-one'),
+    //     description: __('Boost product discovery.', 'store-one'),
+    //     icon: '🔍',
+    // },
+    // {
+    //     id: 'cart',
+    //     label: __('Smart Cart', 'store-one'),
+    //     description: __('Elegant AJAX mini cart.', 'store-one'),
+    //     icon: '🛒',
+    // },
 ];
 
 const tabs = [
     {
         name: 'all',
         title: __('All Modules', 'store-one'),
-        modules: ['pre-order', 'cart', 'frequently-bought'],
+        modules: ['frequently-bought'],
     },
     {
         name: 'recommended',
         title: __('Recommended', 'store-one'),
-        modules: ['pre-order', 'cart'],
+        modules: ['frequently-bought'],
     },
     {
         name: 'trending',

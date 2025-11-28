@@ -3438,29 +3438,32 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const modulesList = [{
-  id: 'pre-order',
-  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Pre Oreder', 'store-one'),
-  description: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Boost product discovery.', 'store-one'),
-  icon: '🔍'
-}, {
-  id: 'cart',
-  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Smart Cart', 'store-one'),
-  description: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Elegant AJAX mini cart.', 'store-one'),
-  icon: '🛒'
-}, {
   id: 'frequently-bought',
   label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Frequently Bought', 'store-one'),
   description: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('AI-powered combos.', 'store-one'),
   icon: '🤝'
-}];
+}
+// {
+//     id: 'pre-order',
+//     label: __('Pre Oreder', 'store-one'),
+//     description: __('Boost product discovery.', 'store-one'),
+//     icon: '🔍',
+// },
+// {
+//     id: 'cart',
+//     label: __('Smart Cart', 'store-one'),
+//     description: __('Elegant AJAX mini cart.', 'store-one'),
+//     icon: '🛒',
+// },
+];
 const tabs = [{
   name: 'all',
   title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('All Modules', 'store-one'),
-  modules: ['pre-order', 'cart', 'frequently-bought']
+  modules: ['frequently-bought']
 }, {
   name: 'recommended',
   title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Recommended', 'store-one'),
-  modules: ['pre-order', 'cart']
+  modules: ['frequently-bought']
 }, {
   name: 'trending',
   title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Trending', 'store-one'),
@@ -3979,11 +3982,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _modules_PreOrdersSettings__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../modules/PreOrdersSettings */ "./src/admin/modules/PreOrdersSettings.js");
 /* harmony import */ var _modules_SmartCartSettings__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../modules/SmartCartSettings */ "./src/admin/modules/SmartCartSettings.js");
+/* harmony import */ var _modules_frequentlyBoughtTogether_FrequentlyBoughtSettings__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../modules/frequentlyBoughtTogether/FrequentlyBoughtSettings */ "./src/admin/modules/frequentlyBoughtTogether/FrequentlyBoughtSettings.js");
 
 
 
 
 // dynamic module UIs
+
 
 
 const ModuleSettings = ({
@@ -3999,12 +4004,15 @@ const ModuleSettings = ({
    */
   const renderModuleContent = () => {
     switch (currentModule.id) {
-      case 'pre-order':
-        // ✔ correct module ID
-        return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_modules_PreOrdersSettings__WEBPACK_IMPORTED_MODULE_3__["default"], null);
-      case 'cart':
-        // ✔ new smart cart UI
-        return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_modules_SmartCartSettings__WEBPACK_IMPORTED_MODULE_4__["default"], null);
+      // case 'pre-order':  // ✔ correct module ID
+      //     return <PreOrdersSettings />;
+
+      // case 'cart':  // ✔ new smart cart UI
+      //     return <SmartCartSettings />;
+
+      case 'frequently-bought':
+        // 👈 NEW MODULE
+        return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_modules_frequentlyBoughtTogether_FrequentlyBoughtSettings__WEBPACK_IMPORTED_MODULE_5__["default"], null);
       default:
         return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('More settings will appear here…', 'store-one'));
     }
@@ -4612,6 +4620,326 @@ const SmartCartSettings = () => {
   }, saving ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Saving…', 'store-one') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Save Settings', 'store-one')))));
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SmartCartSettings);
+
+/***/ }),
+
+/***/ "./src/admin/modules/frequentlyBoughtTogether/FrequentlyBoughtRulesEditor.js":
+/*!***********************************************************************************!*\
+  !*** ./src/admin/modules/frequentlyBoughtTogether/FrequentlyBoughtRulesEditor.js ***!
+  \***********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ FrequentlyBoughtRulesEditor)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var sortablejs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! sortablejs */ "./node_modules/sortablejs/modular/sortable.esm.js");
+
+
+
+
+
+
+/* ------------------------------------------
+   Unified Store-One Field Wrapper
+------------------------------------------- */
+const S1Field = ({
+  label,
+  children
+}) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  className: "s1-field-wrapper"
+}, label && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+  className: "s1-field-label"
+}, label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+  className: "s1-field-control"
+}, children));
+
+/* ------------------------------------------
+   New FBT Rule Template
+------------------------------------------- */
+const newFBTRule = () => ({
+  status: 'active',
+  offer_title: '',
+  trigger_type: 'all_products',
+  product_ids: '',
+  category_ids: '',
+  tag_ids: '',
+  discount_type: 'percentage',
+  discount_amount: 0,
+  flexible_id: crypto.randomUUID(),
+  open: true
+});
+
+/* ------------------------------------------
+   Sortable Wrapper
+------------------------------------------- */
+function SortableWrapper({
+  items,
+  onSortEnd,
+  children
+}) {
+  const ref = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (!ref.current) return;
+    const sortable = sortablejs__WEBPACK_IMPORTED_MODULE_4__["default"].create(ref.current, {
+      animation: 150,
+      handle: ".drag-handle",
+      onEnd: evt => onSortEnd(evt.oldIndex, evt.newIndex)
+    });
+    return () => sortable.destroy();
+  }, [items]);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    ref: ref
+  }, children);
+}
+
+/* ------------------------------------------
+   Main Component
+------------------------------------------- */
+function FrequentlyBoughtRulesEditor({
+  rules,
+  onChange
+}) {
+  const updateAll = arr => onChange([...arr]);
+  const reorder = (oldIndex, newIndex) => {
+    const arr = [...rules];
+    const moved = arr.splice(oldIndex, 1)[0];
+    arr.splice(newIndex, 0, moved);
+    updateAll(arr);
+  };
+  const toggleOpen = i => {
+    const arr = [...rules];
+    arr[i].open = !arr[i].open;
+    updateAll(arr);
+  };
+  const updateField = (i, field, val) => {
+    const arr = [...rules];
+    arr[i][field] = val;
+    updateAll(arr);
+  };
+  const removeRule = i => {
+    const arr = [...rules];
+    arr.splice(i, 1);
+    updateAll(arr);
+  };
+  const duplicateRule = i => {
+    const arr = [...rules];
+    const copy = {
+      ...arr[i],
+      flexible_id: crypto.randomUUID(),
+      open: true
+    };
+    arr.splice(i + 1, 0, copy);
+    updateAll(arr);
+  };
+  const addRule = () => updateAll([...rules, newFBTRule()]);
+
+  // First rule always open
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (rules.length === 0) {
+      updateAll([newFBTRule()]);
+    } else {
+      const arr = [...rules];
+      arr[0].open = true;
+      updateAll(arr);
+    }
+  }, []);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "store-one-rules-container",
+    style: {
+      marginTop: 30
+    }
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", {
+    className: "store-one-section-title"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Offer Bundle', 'store-one')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(SortableWrapper, {
+    items: rules,
+    onSortEnd: reorder
+  }, rules.map((rule, index) => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    key: rule.flexible_id,
+    className: "store-one-rule-item"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "store-one-rule-header"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "dashicons dashicons-menu drag-handle s1-icon"
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("strong", {
+    className: "s1-rule-title"
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.sprintf)((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Rule %d: %s', 'store-one'), index + 1, rule.offer_title || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Untitled', 'store-one'))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: `dashicons s1-icon ${rule.open ? 'dashicons-arrow-up-alt2' : 'dashicons-arrow-down-alt2'}`,
+    onClick: () => toggleOpen(index)
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "dashicons dashicons-admin-page s1-icon",
+    onClick: () => duplicateRule(index)
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "dashicons dashicons-no-alt s1-icon s1-icon-danger",
+    onClick: () => removeRule(index)
+  })), rule.open && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "store-one-rule-body"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(S1Field, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Status', 'store-one')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
+    value: rule.status,
+    options: [{
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Active', 'store-one'),
+      value: 'active'
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Inactive', 'store-one'),
+      value: 'inactive'
+    }],
+    onChange: v => updateField(index, 'status', v)
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(S1Field, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Offer Name', 'store-one')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+    value: rule.offer_title,
+    onChange: v => updateField(index, 'offer_title', v)
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(S1Field, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Trigger Type', 'store-one')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
+    value: rule.trigger_type,
+    options: [{
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('All Products', 'store-one'),
+      value: 'all_products'
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Specific Products', 'store-one'),
+      value: 'specific_products'
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Specific Categories', 'store-one'),
+      value: 'specific_categories'
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Specific Tags', 'store-one'),
+      value: 'specific_tags'
+    }],
+    onChange: v => updateField(index, 'trigger_type', v)
+  })), rule.trigger_type === 'specific_products' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(S1Field, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Product IDs (comma separated)', 'store-one')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+    value: rule.product_ids,
+    onChange: v => updateField(index, 'product_ids', v)
+  })), rule.trigger_type === 'specific_categories' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(S1Field, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Category IDs (comma separated)', 'store-one')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+    value: rule.category_ids,
+    onChange: v => updateField(index, 'category_ids', v)
+  })), rule.trigger_type === 'specific_tags' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(S1Field, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Tag IDs (comma separated)', 'store-one')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+    value: rule.tag_ids,
+    onChange: v => updateField(index, 'tag_ids', v)
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(S1Field, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Discount Type', 'store-one')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
+    value: rule.discount_type,
+    options: [{
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Percentage', 'store-one'),
+      value: 'percentage'
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Fixed Amount', 'store-one'),
+      value: 'fixed'
+    }],
+    onChange: v => updateField(index, 'discount_type', v)
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(S1Field, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Discount Amount', 'store-one')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+    type: "number",
+    value: rule.discount_amount,
+    onChange: v => updateField(index, 'discount_amount', v)
+  })))))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "store-one-add-rule",
+    onClick: addRule
+  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('+ Add New Rule', 'store-one')));
+}
+
+/***/ }),
+
+/***/ "./src/admin/modules/frequentlyBoughtTogether/FrequentlyBoughtSettings.js":
+/*!********************************************************************************!*\
+  !*** ./src/admin/modules/frequentlyBoughtTogether/FrequentlyBoughtSettings.js ***!
+  \********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ FrequentlyBoughtSettings)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _FrequentlyBoughtRulesEditor__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./FrequentlyBoughtRulesEditor */ "./src/admin/modules/frequentlyBoughtTogether/FrequentlyBoughtRulesEditor.js");
+
+// src/admin/modules/FrequentlyBoughtSettings.js
+
+
+
+
+
+
+const MODULE_ID = 'frequently-bought';
+function FrequentlyBoughtSettings() {
+  const [loading, setLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(true);
+  const [saving, setSaving] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+  const [success, setSuccess] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)('');
+  const [error, setError] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)('');
+  const [rules, setRules] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    setLoading(true);
+    _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default().use(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default().createNonceMiddleware(StoreOneAdmin.nonce));
+    _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
+      path: `${StoreOneAdmin.restUrl}module/${MODULE_ID}`,
+      method: 'GET'
+    }).then(res => {
+      const s = res?.settings || {};
+      if (Array.isArray(s.rules)) {
+        setRules(s.rules);
+      }
+    }).catch(() => setError((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Failed to load settings.', 'store-one'))).finally(() => setLoading(false));
+  }, []);
+  const handleSave = () => {
+    setSaving(true);
+    setSuccess('');
+    setError('');
+    const payload = {
+      settings: {
+        rules
+      }
+    };
+    _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
+      path: `${StoreOneAdmin.restUrl}module/${MODULE_ID}`,
+      method: 'POST',
+      data: payload
+    }).then(() => setSuccess((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Saved successfully!', 'store-one'))).catch(() => setError((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Failed to save.', 'store-one'))).finally(() => setSaving(false));
+  };
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, loading && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "store-one-loader"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Spinner, null), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Loading…', 'store-one')), !loading && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, error && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "storeone-toast toast-error"
+  }, error), success && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "storeone-toast toast-success"
+  }, success), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_FrequentlyBoughtRulesEditor__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    rules: rules,
+    onChange: setRules
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
+    isPrimary: true,
+    onClick: handleSave,
+    disabled: saving,
+    style: {
+      marginTop: 20
+    }
+  }, saving ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Saving…', 'store-one') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Save Settings', 'store-one'))));
+}
 
 /***/ }),
 
