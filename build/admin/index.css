@@ -1,6 +1,7 @@
 /*!*********************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/admin/admin.scss ***!
   \*********************************************************************************************************************************************************************************************************************************************/
+@charset "UTF-8";
 .toplevel_page_store-one #wpcontent {
   padding: 0;
 }
@@ -508,6 +509,180 @@ button.is-tertiary:focus {
     transform: scale(1);
   }
 }
+/* Wrapper */
+.s1-field-wrapper {
+  margin-bottom: 16px;
+}
+
+.s1-field-label {
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.s1-field-control input,
+.s1-field-control select {
+  border-radius: 6px !important;
+  min-height: 36px;
+}
+
+/* Rule Card */
+.store-one-rule-item {
+  border: 1px solid #dce1e9;
+  border-radius: 10px;
+  background: #fff;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+/* Header */
+.store-one-rule-header {
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.s1-rule-title {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.s1-icon {
+  cursor: pointer;
+  opacity: 0.75;
+  font-size: 16px;
+}
+
+.s1-icon:hover {
+  opacity: 1;
+}
+
+.s1-icon-danger {
+  color: #d63638;
+}
+
+/* Body */
+.store-one-rule-body {
+  padding: 16px;
+}
+
+/* Add Rule */
+.store-one-add-rule {
+  cursor: pointer;
+  font-weight: 600;
+  color: #007cba;
+  padding: 8px 0;
+}
+
+/* ----------------------------------------------
+   STORE ONE – FIELD SYSTEM (Premium Admin UI)
+----------------------------------------------- */
+/* Field Wrapper */
+.s1-field-wrapper {
+  margin-bottom: 18px;
+}
+
+.s1-field-label {
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 6px;
+  display: inline-block;
+  color: #23282d;
+}
+
+/* Unified Input + Select + Textarea Styles */
+.s1-field-control input,
+.s1-field-control select,
+.s1-field-control textarea {
+  width: 100%;
+  border: 1px solid #d0d7e2 !important;
+  background: #ffffff;
+  border-radius: 8px !important;
+  padding: 8px 12px !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+  color: #2c3338;
+  box-shadow: none !important;
+  outline: none !important;
+  transition: all 0.18s ease;
+}
+
+/* Placeholder */
+.s1-field-control input::-moz-placeholder, .s1-field-control textarea::-moz-placeholder {
+  color: #8a96a3;
+}
+.s1-field-control input::placeholder,
+.s1-field-control textarea::placeholder {
+  color: #8a96a3;
+}
+
+/* Focus Style */
+.s1-field-control input:focus,
+.s1-field-control select:focus,
+.s1-field-control textarea:focus {
+  border-color: #007cba !important;
+  box-shadow: 0 0 0 1px #007cba !important;
+}
+
+/* Hover */
+.s1-field-control input:hover,
+.s1-field-control select:hover,
+.s1-field-control textarea:hover {
+  border-color: #b6beca !important;
+}
+
+/* MATCH select style with input */
+.s1-field-control select.components-select-control__input {
+  height: 38px !important;
+  padding: 6px 12px !important;
+  font-size: 14px !important;
+  line-height: 1.4 !important;
+  border: 1px solid #d0d7e2 !important;
+  border-radius: 8px !important;
+  background-color: #fff !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg width=%2712%27 height=%2712%27 fill=%27%2399a1ac%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cpath d=%27M3.5 4.5l2.5 2.5 2.5-2.5%27/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+}
+
+.s1-field-control select.components-select-control__input:hover {
+  border-color: #b6beca !important;
+}
+
+.s1-field-control select.components-select-control__input:focus {
+  border-color: #007cba !important;
+  box-shadow: 0 0 0 1px #007cba !important;
+}
+
+/* Textarea */
+.s1-field-control textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* Number input special fix */
+.s1-field-control input[type=number]::-webkit-inner-spin-button,
+.s1-field-control input[type=number]::-webkit-outer-spin-button {
+  opacity: 0.35;
+  height: 24px;
+}
+
+/* Disabled state */
+.s1-field-control input:disabled,
+.s1-field-control select:disabled,
+.s1-field-control textarea:disabled {
+  background: #f3f4f6;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
 /* RESPONSIVE */
 @media (max-width: 1100px) {
   .modules-grid {
