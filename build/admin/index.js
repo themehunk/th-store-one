@@ -3851,35 +3851,116 @@ function MultiWooSearchSelector({
   label = "",
   value = [],
   onChange,
-  searchType = "product" // product | category | tag
+  searchType = "product",
+  // product | category | tag | user | roles
+  customOptions = [] // for roles/static lists
 }) {
   const [query, setQuery] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)("");
   const [results, setResults] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
   const [loading, setLoading] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
-  const endpoint = {
-    product: 'wc/v3/products',
-    category: 'wc/v3/products/categories',
-    tag: 'wc/v3/products/tags'
-  }[searchType];
+  const activeRequest = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useRef)(null);
+
+  /* ------------------------------------------
+     API ENDPOINT MAP
+  ------------------------------------------- */
+  const endpointMap = {
+    product: "wc/v3/products",
+    category: "wc/v3/products/categories",
+    tag: "wc/v3/products/tags",
+    // NEW: user support if you add endpoint backend
+    user: "storeone/v1/users",
+    // NEW: roles = static mode
+    roles: null
+  };
+  const endpoint = endpointMap[searchType];
+
+  /* ------------------------------------------
+     ADD item
+  ------------------------------------------- */
+  const addItem = item => {
+    if (!value.some(v => v.id === item.id)) {
+      onChange([...value, item]);
+    }
+    setQuery("");
+    setResults([]);
+  };
+
+  /* ------------------------------------------
+     REMOVE item
+  ------------------------------------------- */
+  const removeItem = id => {
+    onChange(value.filter(v => v.id !== id));
+  };
+
+  /* ------------------------------------------
+     STATIC LIST MODE (roles)
+  ------------------------------------------- */
+  if (searchType === "roles") {
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "multi-search-selector s1-field-control"
+    }, label && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+      className: "s1-field-label"
+    }, label), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "selected-items"
+    }, value.map(item => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+      key: item.id,
+      className: "selector-chip"
+    }, item.name, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+      className: "remove-chip",
+      onClick: () => removeItem(item.id)
+    }, "\xD7")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("select", {
+      className: "multiwoo-static-select",
+      onChange: e => {
+        const role = customOptions.find(r => r.value === e.target.value);
+        if (role) addItem({
+          id: role.value,
+          name: role.label
+        });
+      }
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
+      value: ""
+    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Select Role…', 'store-one')), customOptions.map(role => (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("option", {
+      key: role.value,
+      value: role.value
+    }, role.label))));
+  }
+
+  /* ------------------------------------------
+     DYNAMIC FETCH MODE
+  ------------------------------------------- */
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    let abort = false;
+    if (!endpoint) return;
     if (query.length < 2) {
       setResults([]);
       return;
     }
     setLoading(true);
+    const controller = new AbortController();
+    activeRequest.current = controller;
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_2___default()({
-      path: `${endpoint}?search=${query}`
-    }).then(items => setResults(items)).catch(() => setResults([])).finally(() => setLoading(false));
-  }, [query]);
-  const addItem = item => {
-    if (value.find(v => v.id === item.id)) return;
-    onChange([...value, item]);
-    setQuery("");
-    setResults([]);
-  };
-  const removeItem = id => {
-    onChange(value.filter(item => item.id !== id));
-  };
+      path: `${endpoint}?search=${encodeURIComponent(query)}`,
+      signal: controller.signal
+    }).then(items => {
+      if (!abort) {
+        setResults(items);
+      }
+    }).catch(() => {
+      if (!abort) setResults([]);
+    }).finally(() => {
+      if (!abort) setLoading(false);
+    });
+    return () => {
+      abort = true;
+      if (activeRequest.current) {
+        activeRequest.current.abort?.();
+      }
+    };
+  }, [query, endpoint]);
+
+  /* ------------------------------------------
+     RENDER
+  ------------------------------------------- */
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "multi-search-selector s1-field-control"
   }, label && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
@@ -3893,7 +3974,7 @@ function MultiWooSearchSelector({
     className: "remove-chip",
     onClick: () => removeItem(item.id)
   }, "\xD7")))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_3__.TextControl, {
-    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Search…', 'store-one'),
+    placeholder: loading ? (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Searching…', 'store-one') : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_4__.__)('Search…', 'store-one'),
     value: query,
     onChange: setQuery
   }), query.length >= 2 && results.length > 0 && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -3939,13 +4020,122 @@ function TabSwitcher({
     key: tab.id,
     className: `store-one-tab-item ${active === tab.id ? 'active' : ''}`,
     onClick: () => setActive(tab.id)
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+  }, tab.icon && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: `dashicons ${tab.icon}`
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "store-one-tab-text"
   }, tab.label)))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "store-one-tab-content"
   }, tabs.find(t => t.id === active)?.content));
+}
+
+/***/ }),
+
+/***/ "./src/admin/components/GlobalSettings/UserCondition.js":
+/*!**************************************************************!*\
+  !*** ./src/admin/components/GlobalSettings/UserCondition.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ UserCondition)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _MultiWooSearchSelector__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MultiWooSearchSelector */ "./src/admin/components/GlobalSettings/MultiWooSearchSelector.js");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__);
+
+
+
+
+
+/* WP roles – static list */
+const WP_ROLES = [{
+  label: 'Administrator',
+  value: 'administrator'
+}, {
+  label: 'Editor',
+  value: 'editor'
+}, {
+  label: 'Author',
+  value: 'author'
+}, {
+  label: 'Contributor',
+  value: 'contributor'
+}, {
+  label: 'Subscriber',
+  value: 'subscriber'
+}, {
+  label: 'Customer',
+  value: 'customer'
+}, {
+  label: 'Shop Manager',
+  value: 'shop_manager'
+}];
+function UserCondition({
+  rule,
+  index,
+  updateField,
+  Field // <-- IMPORTANT: Passed from parent, same wrapper you use everywhere
+}) {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "store-one-user-condition"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Field, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('User Condition', 'store-one')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.SelectControl, {
+    value: rule.user_condition,
+    options: [{
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('All Users', 'store-one'),
+      value: 'all'
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Selected Roles', 'store-one'),
+      value: 'roles'
+    }, {
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Selected Users', 'store-one'),
+      value: 'users'
+    }],
+    onChange: v => updateField(index, 'user_condition', v)
+  })), rule.user_condition === 'roles' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Field, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Allowed Roles', 'store-one')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_MultiWooSearchSelector__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    searchType: "roles",
+    customOptions: WP_ROLES,
+    value: rule.allowed_roles || [],
+    onChange: items => updateField(index, 'allowed_roles', items)
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Field, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Exclude Roles', 'store-one')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ToggleControl, {
+    checked: rule.exclude_roles_enabled,
+    onChange: v => updateField(index, 'exclude_roles_enabled', v)
+  })), rule.exclude_roles_enabled && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Field, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Excluded Roles', 'store-one')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_MultiWooSearchSelector__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    searchType: "roles",
+    customOptions: WP_ROLES,
+    value: rule.exclude_roles || [],
+    onChange: items => updateField(index, 'exclude_roles', items)
+  }))), rule.user_condition === 'users' && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Field, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Allowed Users', 'store-one')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_MultiWooSearchSelector__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    searchType: "user",
+    value: rule.allowed_users || [],
+    onChange: items => updateField(index, 'allowed_users', items)
+  })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Field, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Exclude Users', 'store-one')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.ToggleControl, {
+    checked: rule.exclude_users_enabled,
+    onChange: v => updateField(index, 'exclude_users_enabled', v)
+  })), rule.exclude_users_enabled && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(Field, {
+    label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Excluded Users', 'store-one')
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_MultiWooSearchSelector__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    searchType: "user",
+    value: rule.exclude_users || [],
+    onChange: items => updateField(index, 'exclude_users', items)
+  }))));
 }
 
 /***/ }),
@@ -4787,6 +4977,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_GlobalSettings_MultiWooSearchSelector__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../components/GlobalSettings/MultiWooSearchSelector */ "./src/admin/components/GlobalSettings/MultiWooSearchSelector.js");
 /* harmony import */ var _components_GlobalSettings_ExcludeWooCondition__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../components/GlobalSettings/ExcludeWooCondition */ "./src/admin/components/GlobalSettings/ExcludeWooCondition.js");
 /* harmony import */ var _components_GlobalSettings_TabSwitcher__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../components/GlobalSettings/TabSwitcher */ "./src/admin/components/GlobalSettings/TabSwitcher.js");
+/* harmony import */ var _components_GlobalSettings_UserCondition__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../components/GlobalSettings/UserCondition */ "./src/admin/components/GlobalSettings/UserCondition.js");
 
 /* ------------------------ imports ------------------------ */
 
@@ -4828,7 +5019,16 @@ const newFBTRule = () => ({
   exclude_tags: [],
   exclude_brands_enabled: false,
   exclude_brands: [],
-  exclude_on_sale_enabled: false
+  exclude_on_sale_enabled: false,
+  user_condition: 'all',
+  // all | roles | users
+
+  allowed_roles: [],
+  allowed_users: [],
+  exclude_users_enabled: false,
+  exclude_users: [],
+  exclude_roles_enabled: false,
+  exclude_roles: []
 });
 
 /* Sortable */
@@ -4932,7 +5132,7 @@ function FrequentlyBoughtRulesEditor({
     tabs: [{
       id: 'settings',
       label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Settings', 'store-one'),
-      icon: 'dashicons-admin-generic',
+      icon: '',
       content: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
         className: "store-one-rule-body"
       }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(S1Field, {
@@ -5023,10 +5223,24 @@ function FrequentlyBoughtRulesEditor({
         onChangeItems: () => {}
       }))
     }, {
-      id: 'style',
-      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Style', 'store-one'),
-      icon: 'dashicons-art',
-      content: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null)
+      id: 'user',
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('User', 'store-one'),
+      icon: '',
+      content: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+        className: "store-one-rule-body"
+      }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_components_GlobalSettings_UserCondition__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        rule: rule,
+        index: index,
+        updateField: updateField,
+        Field: S1Field
+      }))
+    }, {
+      id: 'single',
+      label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Single Page', 'store-one'),
+      icon: '',
+      content: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+        className: "store-one-rule-body"
+      })
     }]
   })))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "store-one-add-rule",

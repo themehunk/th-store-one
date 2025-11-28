@@ -16,7 +16,9 @@ export default function TabSwitcher({ tabs, defaultTab = 'settings' }) {
                         }`}
                         onClick={() => setActive(tab.id)}
                     >
-                        <span className={`dashicons ${tab.icon}`}></span>
+                        {tab.icon && (
+                            <span className={`dashicons ${tab.icon}`}></span>
+                        )}
                         <span className="store-one-tab-text">{tab.label}</span>
                     </div>
                 ))}

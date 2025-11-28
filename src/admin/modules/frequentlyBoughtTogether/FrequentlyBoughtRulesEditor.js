@@ -6,7 +6,7 @@ import Sortable from 'sortablejs';
 import MultiWooSearchSelector from '../../components/GlobalSettings/MultiWooSearchSelector';
 import ExcludeWooCondition from '../../components/GlobalSettings/ExcludeWooCondition';
 import TabSwitcher from '../../components/GlobalSettings/TabSwitcher';
-
+import UserCondition from '../../components/GlobalSettings/UserCondition';
 /* Field Wrapper */
 const S1Field = ({ label, children }) => (
     <div className="s1-field-wrapper">
@@ -43,6 +43,17 @@ const newFBTRule = () => ({
     exclude_brands: [],
 
     exclude_on_sale_enabled: false, 
+
+    user_condition: 'all',     // all | roles | users
+
+    allowed_roles: [],
+    allowed_users: [],
+
+    exclude_users_enabled: false,
+    exclude_users: [],
+
+    exclude_roles_enabled: false,
+    exclude_roles: [],
 });
 
 /* Sortable */
@@ -158,7 +169,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
                                     {
                                         id: 'settings',
                                         label: __('Settings', 'store-one'),
-                                        icon: 'dashicons-admin-generic',
+                                        icon: '',
                                         content: (
                                             <div className="store-one-rule-body">
 
@@ -265,19 +276,34 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
                                     items={[]}   // no search selector for this one
                                     onToggle={(v) => updateField(index, 'exclude_on_sale_enabled', v)}
                                     onChangeItems={() => {}}
-                                />
+                                    />
 
                                             </div>
                                         ),
                                     },
 
                                     {
-                                        id: 'style',
-                                        label: __('Style', 'store-one'),
-                                        icon: 'dashicons-art',
+                                        id: 'user',
+                                        label: __('User', 'store-one'),
+                                        icon: '',
                                         content: (
-                                            <div>
-                                                {/* Style content here */}
+                                            <div className="store-one-rule-body">
+                                            <UserCondition
+                                                rule={rule}
+                                                index={index}
+                                                updateField={updateField}
+                                                Field={S1Field}
+                                            />
+                                            </div>
+                                        ),
+                                    },
+                                    {
+                                        id: 'single',
+                                        label: __('Single Page', 'store-one'),
+                                        icon: '',
+                                        content: (
+                                            <div className="store-one-rule-body">
+                                            
                                             </div>
                                         ),
                                     },
