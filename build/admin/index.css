@@ -577,14 +577,15 @@ button.is-tertiary:focus {
   padding: 8px 0;
 }
 
-/* ----------------------------------------------
-   STORE ONE – FIELD SYSTEM (Premium Admin UI)
------------------------------------------------ */
+/* ------------------------------------------------
+   STORE ONE – PREMIUM FIELD SYSTEM (UPGRADED)
+------------------------------------------------- */
 /* Field Wrapper */
 .s1-field-wrapper {
   margin-bottom: 18px;
 }
 
+/* Labels */
 .s1-field-label {
   font-weight: 600;
   font-size: 13px;
@@ -593,7 +594,7 @@ button.is-tertiary:focus {
   color: #23282d;
 }
 
-/* Unified Input + Select + Textarea Styles */
+/* Core Inputs, Selects, Textareas */
 .s1-field-control input,
 .s1-field-control select,
 .s1-field-control textarea {
@@ -605,8 +606,8 @@ button.is-tertiary:focus {
   font-size: 14px !important;
   line-height: 1.4 !important;
   color: #2c3338;
-  box-shadow: none !important;
   outline: none !important;
+  box-shadow: none !important;
   transition: all 0.18s ease;
 }
 
@@ -619,7 +620,13 @@ button.is-tertiary:focus {
   color: #8a96a3;
 }
 
-/* Focus Style */
+/* Hover + Focus */
+.s1-field-control input:hover,
+.s1-field-control select:hover,
+.s1-field-control textarea:hover {
+  border-color: #b6beca !important;
+}
+
 .s1-field-control input:focus,
 .s1-field-control select:focus,
 .s1-field-control textarea:focus {
@@ -627,29 +634,19 @@ button.is-tertiary:focus {
   box-shadow: 0 0 0 1px #007cba !important;
 }
 
-/* Hover */
-.s1-field-control input:hover,
-.s1-field-control select:hover,
-.s1-field-control textarea:hover {
-  border-color: #b6beca !important;
-}
-
-/* MATCH select style with input */
+/* Select Fix */
 .s1-field-control select.components-select-control__input {
   height: 38px !important;
   padding: 6px 12px !important;
-  font-size: 14px !important;
-  line-height: 1.4 !important;
-  border: 1px solid #d0d7e2 !important;
   border-radius: 8px !important;
   background-color: #fff !important;
-  appearance: none !important;
+  border: 1px solid #d0d7e2 !important;
   -webkit-appearance: none !important;
-  -moz-appearance: none !important;
+     -moz-appearance: none !important;
+          appearance: none !important;
   background-image: url("data:image/svg+xml,%3Csvg width=%2712%27 height=%2712%27 fill=%27%2399a1ac%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cpath d=%27M3.5 4.5l2.5 2.5 2.5-2.5%27/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 12px center;
-  background-size: 12px;
 }
 
 .s1-field-control select.components-select-control__input:hover {
@@ -667,11 +664,10 @@ button.is-tertiary:focus {
   resize: vertical;
 }
 
-/* Number input special fix */
+/* Number Fix */
 .s1-field-control input[type=number]::-webkit-inner-spin-button,
 .s1-field-control input[type=number]::-webkit-outer-spin-button {
   opacity: 0.35;
-  height: 24px;
 }
 
 /* Disabled state */
@@ -681,6 +677,120 @@ button.is-tertiary:focus {
   background: #f3f4f6;
   cursor: not-allowed;
   opacity: 0.8;
+}
+
+.s1-field-control .components-select-control .components-input-control__backdrop {
+  border: 0 !important;
+  outline: 0 !important;
+}
+
+/* ------------------------------------------------
+   TOGGLE MATCHING UI
+------------------------------------------------- */
+.components-toggle-control__label {
+  font-weight: 600 !important;
+  font-size: 13px !important;
+  color: #23282d !important;
+}
+
+/* Move the toggle switch slightly right to align perfectly */
+.s1-field-control .components-form-toggle {
+  margin-top: 4px;
+}
+
+/* Make toggle feel like part of the form */
+.components-form-toggle__track {
+  border-radius: 20px !important;
+  height: 18px !important;
+  width: 34px !important;
+}
+
+.components-form-toggle__thumb {
+  height: 14px !important;
+  width: 14px !important;
+}
+
+/* On/Off color */
+.components-form-toggle.is-checked .components-form-toggle__track {
+  background: #007cba !important;
+}
+
+.components-form-toggle__track {
+  background: #fff !important;
+}
+
+/* ------------------------------------------------
+   MULTI SELECT (Woo Search) MATCH S1 INPUT
+------------------------------------------------- */
+.s1-field-control .multiwoo-container {
+  width: 100%;
+}
+
+.s1-field-control .multiwoo-selector {
+  border: 1px solid #d0d7e2;
+  background: #fff;
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: text;
+  min-height: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  transition: 0.15s ease;
+}
+
+.s1-field-control .multiwoo-selector:focus-within {
+  border-color: #007cba !important;
+  box-shadow: 0 0 0 1px #007cba !important;
+}
+
+.multiwoo-tag {
+  background: #eef4ff;
+  border: 1px solid #c7d6f5;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  color: #2c3338;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.multiwoo-tag-remove {
+  cursor: pointer;
+  color: #56677b;
+  font-size: 14px;
+}
+
+/* Search input inside */
+.multiwoo-selector input {
+  flex: 1;
+  border: none !important;
+  padding: 4px !important;
+  font-size: 14px;
+  outline: none !important;
+}
+
+/* ------------------------------------------------
+   EXCLUDE CONDITION BOX STYLE
+------------------------------------------------- */
+.s1-exclude-wrapper {
+  margin-top: 20px;
+  border-radius: 10px;
+}
+
+.s1-exclude-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.s1-exclude-search {
+  margin-top: 14px;
+}
+
+.s1-exclude-wrapper .s1-field-label {
+  margin-bottom: 0;
 }
 
 /* RESPONSIVE */
@@ -746,6 +856,7 @@ button.is-tertiary:focus {
 
 .store-one-tab-switcher {
   margin-bottom: 20px;
+  padding: 20px;
 }
 
 /* TAB HEADER */
@@ -807,6 +918,50 @@ button.is-tertiary:focus {
 /* CONTENT AREA */
 .store-one-tab-content {
   padding: 10px 0 0;
+}
+
+.multi-search-selector {
+  position: relative;
+}
+
+.selected-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.selector-chip {
+  background: #f1f1f1;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.selector-chip .remove-chip {
+  padding-left: 6px;
+  cursor: pointer;
+}
+
+.selector-dropdown {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 6px;
+  max-height: 200px;
+  overflow-y: auto;
+  position: absolute;
+  width: 100%;
+  z-index: 100;
+}
+
+.selector-option {
+  padding: 6px;
+  cursor: pointer;
+}
+
+.selector-option:hover {
+  background: #eee;
 }
 
 /*# sourceMappingURL=index.css.map*/

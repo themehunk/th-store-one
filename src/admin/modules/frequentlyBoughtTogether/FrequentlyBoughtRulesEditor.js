@@ -1,14 +1,13 @@
+/* ------------------------ imports ------------------------ */
 import { useState, useEffect, useRef } from '@wordpress/element';
-import {
-    TextControl,
-    SelectControl,
-} from '@wordpress/components';
+import { TextControl, SelectControl } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
 import Sortable from 'sortablejs';
+import MultiWooSearchSelector from '../../components/GlobalSettings/MultiWooSearchSelector';
+import ExcludeWooCondition from '../../components/GlobalSettings/ExcludeWooCondition';
+import TabSwitcher from '../../components/GlobalSettings/TabSwitcher';
 
-/* ------------------------------------------
-   Unified Store-One Field Wrapper
-------------------------------------------- */
+/* Field Wrapper */
 const S1Field = ({ label, children }) => (
     <div className="s1-field-wrapper">
         {label && <label className="s1-field-label">{label}</label>}
@@ -16,28 +15,37 @@ const S1Field = ({ label, children }) => (
     </div>
 );
 
-/* ------------------------------------------
-   New FBT Rule Template
-------------------------------------------- */
+/* Default Rule */
 const newFBTRule = () => ({
     status: 'active',
     offer_title: '',
     trigger_type: 'all_products',
 
-    product_ids: '',
-    category_ids: '',
-    tag_ids: '',
+    products: [],
+    categories: [],
+    tags: [],
 
-    discount_type: 'percentage',
-    discount_amount: 0,
 
     flexible_id: crypto.randomUUID(),
     open: true,
+
+    // NEW: exclude system
+    exclude_products_enabled: false,
+    exclude_products: [],
+
+    exclude_categories_enabled: false,
+    exclude_categories: [],
+
+    exclude_tags_enabled: false,
+    exclude_tags: [],
+
+    exclude_brands_enabled: false,
+    exclude_brands: [],
+
+    exclude_on_sale_enabled: false, 
 });
 
-/* ------------------------------------------
-   Sortable Wrapper
-------------------------------------------- */
+/* Sortable */
 function SortableWrapper({ items, onSortEnd, children }) {
     const ref = useRef(null);
 
@@ -56,9 +64,7 @@ function SortableWrapper({ items, onSortEnd, children }) {
     return <div ref={ref}>{children}</div>;
 }
 
-/* ------------------------------------------
-   Main Component
-------------------------------------------- */
+/* ------------------------ Main Component ------------------------ */
 export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
 
     const updateAll = (arr) => onChange([...arr]);
@@ -97,7 +103,6 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
 
     const addRule = () => updateAll([...rules, newFBTRule()]);
 
-    // First rule always open
     useEffect(() => {
         if (rules.length === 0) {
             updateAll([newFBTRule()]);
@@ -110,23 +115,15 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
 
     return (
         <div className="store-one-rules-container" style={{ marginTop: 30 }}>
-            
-            <h3 className="store-one-section-title">
-                {__('Offer Bundle', 'store-one')}
-            </h3>
+
+            <h3 className="store-one-section-title">{__('Offer Bundle', 'store-one')}</h3>
 
             <SortableWrapper items={rules} onSortEnd={reorder}>
-
                 {rules.map((rule, index) => (
-                    <div
-                        key={rule.flexible_id}
-                        className="store-one-rule-item"
-                    >
+                    <div key={rule.flexible_id} className="store-one-rule-item">
 
-                        {/* Header */}
+                        {/* ---------------------- Header ---------------------- */}
                         <div className="store-one-rule-header">
-
-                            {/* Drag Handle */}
                             <span className="dashicons dashicons-menu drag-handle s1-icon" />
 
                             <strong className="s1-rule-title">
@@ -137,121 +134,164 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
                                 )}
                             </strong>
 
-                            {/* Collapse */}
                             <span
-                                className={`dashicons s1-icon ${
-                                    rule.open ? 'dashicons-arrow-up-alt2' : 'dashicons-arrow-down-alt2'
-                                }`}
+                                className={`dashicons s1-icon ${rule.open ? 'dashicons-arrow-up-alt2' : 'dashicons-arrow-down-alt2'}`}
                                 onClick={() => toggleOpen(index)}
                             />
 
-                            {/* Duplicate */}
                             <span
                                 className="dashicons dashicons-admin-page s1-icon"
                                 onClick={() => duplicateRule(index)}
                             />
 
-                            {/* Delete */}
                             <span
                                 className="dashicons dashicons-no-alt s1-icon s1-icon-danger"
                                 onClick={() => removeRule(index)}
                             />
                         </div>
 
-                        {/* Body */}
+                        {/* ---------------------- Body ---------------------- */}
                         {rule.open && (
-                            <div className="store-one-rule-body">
+                            <TabSwitcher
+                                defaultTab="settings"
+                                tabs={[
+                                    {
+                                        id: 'settings',
+                                        label: __('Settings', 'store-one'),
+                                        icon: 'dashicons-admin-generic',
+                                        content: (
+                                            <div className="store-one-rule-body">
 
-                                <S1Field label={__('Status', 'store-one')}>
-                                    <SelectControl
-                                        value={rule.status}
-                                        options={[
-                                            { label: __('Active', 'store-one'), value: 'active' },
-                                            { label: __('Inactive', 'store-one'), value: 'inactive' },
-                                        ]}
-                                        onChange={(v) => updateField(index, 'status', v)}
-                                    />
-                                </S1Field>
+                                                <S1Field label={__('Status', 'store-one')}>
+                                                    <SelectControl
+                                                        value={rule.status}
+                                                        options={[
+                                                            { label: __('Active', 'store-one'), value: 'active' },
+                                                            { label: __('Inactive', 'store-one'), value: 'inactive' },
+                                                        ]}
+                                                        onChange={(v) => updateField(index, 'status', v)}
+                                                    />
+                                                </S1Field>
 
-                                <S1Field label={__('Offer Name', 'store-one')}>
-                                    <TextControl
-                                        value={rule.offer_title}
-                                        onChange={(v) => updateField(index, 'offer_title', v)}
-                                    />
-                                </S1Field>
+                                                <S1Field label={__('Offer Name', 'store-one')}>
+                                                    <TextControl
+                                                        value={rule.offer_title}
+                                                        onChange={(v) => updateField(index, 'offer_title', v)}
+                                                    />
+                                                </S1Field>
 
-                                <S1Field label={__('Trigger Type', 'store-one')}>
-                                    <SelectControl
-                                        value={rule.trigger_type}
-                                        options={[
-                                            { label: __('All Products', 'store-one'), value: 'all_products' },
-                                            { label: __('Specific Products', 'store-one'), value: 'specific_products' },
-                                            { label: __('Specific Categories', 'store-one'), value: 'specific_categories' },
-                                            { label: __('Specific Tags', 'store-one'), value: 'specific_tags' },
-                                        ]}
-                                        onChange={(v) => updateField(index, 'trigger_type', v)}
-                                    />
-                                </S1Field>
+                                                <S1Field label={__('Trigger Type', 'store-one')}>
+                                                    <SelectControl
+                                                        value={rule.trigger_type}
+                                                        options={[
+                                                            { label: __('All Products', 'store-one'), value: 'all_products' },
+                                                            { label: __('Specific Products', 'store-one'), value: 'specific_products' },
+                                                            { label: __('Specific Categories', 'store-one'), value: 'specific_categories' },
+                                                            { label: __('Specific Tags', 'store-one'), value: 'specific_tags' },
+                                                        ]}
+                                                        onChange={(v) => updateField(index, 'trigger_type', v)}
+                                                    />
+                                                </S1Field>
 
-                                {rule.trigger_type === 'specific_products' && (
-                                    <S1Field label={__('Product IDs (comma separated)', 'store-one')}>
-                                        <TextControl
-                                            value={rule.product_ids}
-                                            onChange={(v) => updateField(index, 'product_ids', v)}
-                                        />
-                                    </S1Field>
-                                )}
+                                                {rule.trigger_type === 'specific_products' && (
+                                                    <MultiWooSearchSelector
+                                                        searchType="product"
+                                                        label={__('Select Products', 'store-one')}
+                                                        value={rule.products || []}
+                                                        onChange={(items) => updateField(index, 'products', items)}
+                                                    />
+                                                )}
 
-                                {rule.trigger_type === 'specific_categories' && (
-                                    <S1Field label={__('Category IDs (comma separated)', 'store-one')}>
-                                        <TextControl
-                                            value={rule.category_ids}
-                                            onChange={(v) => updateField(index, 'category_ids', v)}
-                                        />
-                                    </S1Field>
-                                )}
+                                                {rule.trigger_type === 'specific_categories' && (
+                                                    <MultiWooSearchSelector
+                                                        searchType="category"
+                                                        label={__('Select Categories', 'store-one')}
+                                                        value={rule.categories || []}
+                                                        onChange={(items) => updateField(index, 'categories', items)}
+                                                    />
+                                                )}
 
-                                {rule.trigger_type === 'specific_tags' && (
-                                    <S1Field label={__('Tag IDs (comma separated)', 'store-one')}>
-                                        <TextControl
-                                            value={rule.tag_ids}
-                                            onChange={(v) => updateField(index, 'tag_ids', v)}
-                                        />
-                                    </S1Field>
-                                )}
+                                                {rule.trigger_type === 'specific_tags' && (
+                                                    <MultiWooSearchSelector
+                                                        searchType="tag"
+                                                        label={__('Select Tags', 'store-one')}
+                                                        value={rule.tags || []}
+                                                        onChange={(items) => updateField(index, 'tags', items)}
+                                                    />
+                                                )}
 
-                                <S1Field label={__('Discount Type', 'store-one')}>
-                                    <SelectControl
-                                        value={rule.discount_type}
-                                        options={[
-                                            { label: __('Percentage', 'store-one'), value: 'percentage' },
-                                            { label: __('Fixed Amount', 'store-one'), value: 'fixed' },
-                                        ]}
-                                        onChange={(v) => updateField(index, 'discount_type', v)}
-                                    />
-                                </S1Field>
+                                {/* ———————— EXCLUDE OPTIONS ————————— */}
 
-                                <S1Field label={__('Discount Amount', 'store-one')}>
-                                    <TextControl
-                                        type="number"
-                                        value={rule.discount_amount}
-                                        onChange={(v) => updateField(index, 'discount_amount', v)}
-                                    />
-                                </S1Field>
+                                <ExcludeWooCondition
+                                    label={__('Exclude products', 'store-one')}
+                                    searchType="product"
+                                    enabled={rule.exclude_products_enabled}
+                                    items={rule.exclude_products}
+                                    onToggle={(v) => updateField(index, 'exclude_products_enabled', v)}
+                                    onChangeItems={(items) => updateField(index, 'exclude_products', items)}
+                                />
 
-                            </div>
+                                <ExcludeWooCondition
+                                    label={__('Exclude categories', 'store-one')}
+                                    searchType="category"
+                                    enabled={rule.exclude_categories_enabled}
+                                    items={rule.exclude_categories}
+                                    onToggle={(v) => updateField(index, 'exclude_categories_enabled', v)}
+                                    onChangeItems={(items) => updateField(index, 'exclude_categories', items)}
+                                />
+
+                                <ExcludeWooCondition
+                                    label={__('Exclude product tags', 'store-one')}
+                                    searchType="tag"
+                                    enabled={rule.exclude_tags_enabled}
+                                    items={rule.exclude_tags}
+                                    onToggle={(v) => updateField(index, 'exclude_tags_enabled', v)}
+                                    onChangeItems={(items) => updateField(index, 'exclude_tags', items)}
+                                />
+
+                                <ExcludeWooCondition
+                                    label={__('Exclude brands', 'store-one')}
+                                    searchType="brand"
+                                    enabled={rule.exclude_brands_enabled}
+                                    items={rule.exclude_brands}
+                                    onToggle={(v) => updateField(index, 'exclude_brands_enabled', v)}
+                                    onChangeItems={(items) => updateField(index, 'exclude_brands', items)}
+                                />
+
+                                <ExcludeWooCondition
+                                    label={__('Exclude On-Sale products', 'store-one')}
+                                    searchType="on_sale"
+                                    enabled={rule.exclude_on_sale_enabled}
+                                    items={[]}   // no search selector for this one
+                                    onToggle={(v) => updateField(index, 'exclude_on_sale_enabled', v)}
+                                    onChangeItems={() => {}}
+                                />
+
+                                            </div>
+                                        ),
+                                    },
+
+                                    {
+                                        id: 'style',
+                                        label: __('Style', 'store-one'),
+                                        icon: 'dashicons-art',
+                                        content: (
+                                            <div>
+                                                {/* Style content here */}
+                                            </div>
+                                        ),
+                                    },
+                                ]}
+                            />
                         )}
-
                     </div>
                 ))}
-
             </SortableWrapper>
 
             {/* Add Rule */}
             <div className="store-one-add-rule" onClick={addRule}>
                 {__('+ Add New Rule', 'store-one')}
             </div>
-
         </div>
     );
 }
