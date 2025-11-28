@@ -38,6 +38,7 @@
 //tab style
 .store-one-tab-switcher {
     margin-bottom: 20px;
+    padding: 20px;
 }
 
 /* TAB HEADER */
@@ -99,4 +100,47 @@
 /* CONTENT AREA */
 .store-one-tab-content {
     padding: 10px 0 0;
+}
+.multi-search-selector {
+    position: relative;
+}
+
+.selected-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.selector-chip {
+    background: #f1f1f1;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.selector-chip .remove-chip {
+    padding-left: 6px;
+    cursor: pointer;
+}
+
+.selector-dropdown {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 6px;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    width: 100%;
+    z-index: 100;
+}
+
+.selector-option {
+    padding: 6px;
+    cursor: pointer;
+}
+
+.selector-option:hover {
+    background: #eee;
 }
