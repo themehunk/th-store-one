@@ -7,6 +7,7 @@ import MultiWooSearchSelector from '../../components/GlobalSettings/MultiWooSear
 import ExcludeWooCondition from '../../components/GlobalSettings/ExcludeWooCondition';
 import TabSwitcher from '../../components/GlobalSettings/TabSwitcher';
 import UserCondition from '../../components/GlobalSettings/UserCondition';
+import SingleProductSettings from './SingleProductSettings';
 /* Field Wrapper */
 const S1Field = ({ label, children }) => (
     <div className="s1-field-wrapper">
@@ -44,16 +45,44 @@ const newFBTRule = () => ({
 
     exclude_on_sale_enabled: false, 
 
-    user_condition: 'all',     // all | roles | users
+    user_condition: "all",
+    exclude_enabled: false,
 
     allowed_roles: [],
     allowed_users: [],
 
-    exclude_users_enabled: false,
+    exclude_roles: [],
     exclude_users: [],
 
-    exclude_roles_enabled: false,
-    exclude_roles: [],
+    exclude_users_enabled: false,
+
+    /* -----------------------
+     * SINGLE PAGE SETTINGS
+     * (from your panel)
+     * ---------------------- */
+    single_enabled: true,
+
+    placement: "after_summary",    // After Product Summary
+    priority: 10,
+
+    bundle_title: "Frequently Bought Together",
+
+    price_label: "Bundle price",
+    one_price_label: "Product price",
+    single_only_label: "",
+
+    you_save_label: "You save: {amount}",
+
+    no_variation_text: "Please select an option to see your savings.",
+    no_variation_no_discount_text: "Please select an option to see the total price.",
+
+    button_text: "Add to cart",
+
+    plus_bg_color: "#212121",
+    plus_text_color: "#ffffff",
+
+    border_color: "#f9f9f9",
+    border_radius: 0,
 });
 
 /* Sortable */
@@ -303,7 +332,10 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
                                         icon: '',
                                         content: (
                                             <div className="store-one-rule-body">
-                                            
+                                            <SingleProductSettings
+                settings={rule}
+                updateSetting={(key, val) => updateField(index, key, val)}
+            />
                                             </div>
                                         ),
                                     },
