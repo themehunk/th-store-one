@@ -2,7 +2,6 @@ import { SelectControl, ToggleControl } from '@wordpress/components';
 import MultiWooSearchSelector from './MultiWooSearchSelector';
 import { __ } from '@wordpress/i18n';
 
-/* WP roles – static list */
 const WP_ROLES = [
     { label: 'Administrator', value: 'administrator' },
     { label: 'Editor', value: 'editor' },
@@ -17,16 +16,20 @@ export default function UserCondition({
     rule,
     index,
     updateField,
-    Field,            // <-- IMPORTANT: Passed from parent, same wrapper you use everywhere
+    Field,
 }) {
+
+    // SAFE DEFAULTS (so first load never breaks)
+    const userCondition = rule.user_condition || "all";
+    const excludeEnabled = rule.exclude_enabled || false;
 
     return (
         <div className="store-one-user-condition">
 
-            {/* MAIN CONDITION SELECT */}
+            {/* MAIN SELECT */}
             <Field label={__('User Condition', 'store-one')}>
                 <SelectControl
-                    value={rule.user_condition}
+                    value={userCondition}
                     options={[
                         { label: __('All Users', 'store-one'), value: 'all' },
                         { label: __('Selected Roles', 'store-one'), value: 'roles' },
@@ -36,10 +39,51 @@ export default function UserCondition({
                 />
             </Field>
 
-            {/* ------------------------- ROLES MODE ------------------------- */}
-            {rule.user_condition === 'roles' && (
+
+            {/* ----------------------------------------------------
+               ALL USERS MODE
+               ---------------------------------------------------- */}
+            {userCondition === "all" && (
                 <>
-                    {/* Allowed Roles */}
+                    {/* toggle appears always */}
+                    <Field label={__('Exclude (Users / Roles)', 'store-one')}>
+                        <ToggleControl
+                            checked={excludeEnabled}
+                            onChange={(v) => updateField(index, 'exclude_enabled', v)}
+                        />
+                    </Field>
+
+                    {excludeEnabled && (
+                        <>
+                            {/* Exclude Roles */}
+                            <Field label={__('Exclude Roles', 'store-one')}>
+                                <MultiWooSearchSelector
+                                    searchType="roles"
+                                    customOptions={WP_ROLES}
+                                    value={rule.exclude_roles || []}
+                                    onChange={(items) => updateField(index, 'exclude_roles', items)}
+                                />
+                            </Field>
+
+                            {/* Exclude Users */}
+                            <Field label={__('Exclude Users', 'store-one')}>
+                                <MultiWooSearchSelector
+                                    searchType="user"
+                                    value={rule.exclude_users || []}
+                                    onChange={(items) => updateField(index, 'exclude_users', items)}
+                                />
+                            </Field>
+                        </>
+                    )}
+                </>
+            )}
+
+
+            {/* ----------------------------------------------------
+               SELECTED ROLES MODE
+               ---------------------------------------------------- */}
+            {userCondition === "roles" && (
+                <>
                     <Field label={__('Allowed Roles', 'store-one')}>
                         <MultiWooSearchSelector
                             searchType="roles"
@@ -49,41 +93,7 @@ export default function UserCondition({
                         />
                     </Field>
 
-                    {/* Toggle */}
-                    <Field label={__('Exclude Roles', 'store-one')}>
-                        <ToggleControl
-                            checked={rule.exclude_roles_enabled}
-                            onChange={(v) => updateField(index, 'exclude_roles_enabled', v)}
-                        />
-                    </Field>
-
-                    {/* Excluded Roles */}
-                    {rule.exclude_roles_enabled && (
-                        <Field label={__('Excluded Roles', 'store-one')}>
-                            <MultiWooSearchSelector
-                                searchType="roles"
-                                customOptions={WP_ROLES}
-                                value={rule.exclude_roles || []}
-                                onChange={(items) => updateField(index, 'exclude_roles', items)}
-                            />
-                        </Field>
-                    )}
-                </>
-            )}
-
-            {/* ------------------------- USERS MODE ------------------------- */}
-            {rule.user_condition === 'users' && (
-                <>
-                    {/* Allowed Users */}
-                    <Field label={__('Allowed Users', 'store-one')}>
-                        <MultiWooSearchSelector
-                            searchType="user"
-                            value={rule.allowed_users || []}
-                            onChange={(items) => updateField(index, 'allowed_users', items)}
-                        />
-                    </Field>
-
-                    {/* Exclude Users toggle */}
+                    {/* Only exclude USERS (not roles) */}
                     <Field label={__('Exclude Users', 'store-one')}>
                         <ToggleControl
                             checked={rule.exclude_users_enabled}
@@ -91,7 +101,6 @@ export default function UserCondition({
                         />
                     </Field>
 
-                    {/* Excluded Users */}
                     {rule.exclude_users_enabled && (
                         <Field label={__('Excluded Users', 'store-one')}>
                             <MultiWooSearchSelector
@@ -103,6 +112,24 @@ export default function UserCondition({
                     )}
                 </>
             )}
+
+
+            {/* ----------------------------------------------------
+               SELECTED USERS MODE
+               ---------------------------------------------------- */}
+            {userCondition === "users" && (
+                <>
+                    {/* Only one selector — no exclude toggle */}
+                    <Field label={__('Allowed Users', 'store-one')}>
+                        <MultiWooSearchSelector
+                            searchType="user"
+                            value={rule.allowed_users || []}
+                            onChange={(items) => updateField(index, 'allowed_users', items)}
+                        />
+                    </Field>
+                </>
+            )}
+
         </div>
     );
 }

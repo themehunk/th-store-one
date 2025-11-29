@@ -13,50 +13,36 @@ class Store_One_REST {
 
         register_rest_route(
             $this->namespace,
-            '/modules',
+            '/users',
             array(
                 'methods'  => WP_REST_Server::READABLE,
-                'callback' => array($this, 'get_modules'),
-                'permission_callback' => function() {
-                    return current_user_can('manage_options');
-                }
-            )
-        );
-
-        register_rest_route(
-            $this->namespace,
-            '/modules',
-            array(
-                'methods'  => WP_REST_Server::CREATABLE,
-                'callback' => array($this, 'update_modules'),
-                'permission_callback' => function() {
-                    return current_user_can('manage_options');
-                }
+                'callback' => array($this, 'search_users'),
+                'permission_callback' => '__return_true',
             )
         );
     }
 
-    public function get_modules() {
-        $modules = get_option('store_one_module_option', array());
+    public function search_users(WP_REST_Request $request) {
 
-        return rest_ensure_response(array(
-            'modules' => $modules,
-        ));
+    $search = sanitize_text_field($request->get_param('search'));
+
+    $args = array(
+        'search'         => "*{$search}*",
+        'search_columns' => array('user_login', 'display_name'),
+        'number'         => 20,
+    );
+
+    $users = get_users($args);
+    $data = array();
+
+    foreach ($users as $user) {
+        $data[] = array(
+            'id'   => $user->ID,
+            'name' => $user->display_name ?: $user->user_login,
+        );
     }
 
-    public function update_modules($request) {
-        $modules = $request->get_param('modules');
+    return rest_ensure_response($data);
+}
 
-        $clean = array();
-        foreach ($modules as $key => $value) {
-            $clean[$key] = !empty($value) ? true : false;
-        }
-
-        update_option('store_one_module_option', $clean, false);
-
-        return rest_ensure_response(array(
-            'modules' => $clean,
-            'updated' => true,
-        ));
-    }
 }
