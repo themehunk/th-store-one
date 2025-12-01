@@ -8,7 +8,9 @@ import {
 import { __ } from '@wordpress/i18n';
 import MiniColorPicker from '@storeone-global/MiniColorPicker';
 import UniversalRangeControl from '@storeone-global/UniversalRangeControl';
-import DeviceControl from '@storeone-global/DeviceControl';
+
+
+
 export default function SingleProductSettings({
     settings,
     updateSetting,
@@ -167,7 +169,7 @@ export default function SingleProductSettings({
                 <UniversalRangeControl
                     label="Border Radius"
                     responsive={true}
-                    units={['px', '%']}
+                    units={['px', '%','rem']}
                     value={settings.border_radius}
                     onChange={(v) => updateSetting("border_radius", v)}
                     defaultValue="10px"

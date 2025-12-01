@@ -292,9 +292,8 @@
 }
 
 .store-one-admin .settings-card {
-    border-radius: 12px !important;
-    // border: 1px solid #e5e7eb !important;
-    background: #ffffff;
+    background: transparent;
+    box-shadow: none;
 }
 .store-module-wrap{
     margin:24px;
@@ -516,7 +515,7 @@ button.is-tertiary:focus {
 
 /* Header */
 .store-one-rule-header {
-    padding: 12px 14px;
+    padding: 24px 18px;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -534,10 +533,12 @@ button.is-tertiary:focus {
 .s1-icon:hover {
     opacity: 1;
 }
-.s1-icon-danger {
-    color: #d63638;
+.s1-icon {
+    width: 22px;
+    height: 22px;
+    color: #888; /* optional */
+    cursor: pointer;
 }
-
 /* Body */
 .store-one-rule-body {
     padding: 16px;
@@ -549,6 +550,15 @@ button.is-tertiary:focus {
     font-weight: 600;
     color: #007cba;
     padding: 8px 0;
+}
+
+.settings-grid .components-card__header{
+    border-radius: 12px !important;
+    background: #ffffff;
+    padding: 24px 18px;
+}
+.s1-card-body.components-card__body{
+    padding:0;
 }
 /* ------------------------------------------------
    STORE ONE – PREMIUM FIELD SYSTEM (UPGRADED)
@@ -603,6 +613,28 @@ button.is-tertiary:focus {
     border-color: #007cba !important;
     box-shadow: 0 0 0 1px #007cba !important;
 }
+
+/* Input text color */
+.s1-field-control input,
+.s1-field-control textarea {
+    color: #ffffff !important;
+}
+
+/* Placeholder white */
+.s1-field-control input::placeholder,
+.s1-field-control textarea::placeholder {
+    color: #ffffff !important;
+}
+
+/* Background only for text-type inputs */
+.s1-field-control input[type="text"],
+.s1-field-control input[type="number"],
+.s1-field-control input[type="email"],
+.s1-field-control input[type="url"],
+.s1-field-control textarea {
+    background: #333 !important;
+}
+
 
 /* Select Fix */
 .s1-field-control select.components-select-control__input {
