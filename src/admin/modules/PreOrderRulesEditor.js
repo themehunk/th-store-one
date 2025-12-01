@@ -160,7 +160,16 @@ export default function PreOrderRulesEditor({ rules, onChange }) {
                                         : __('Untitled', 'store-one')
                                 )}
                             </strong>
-
+                           {/* Duplicate */}
+                            <span
+                                onClick={() => duplicateRule(index)}
+                                className="dashicons dashicons-admin-page"
+                                style={{
+                                    cursor: 'pointer',
+                                    fontSize: 16,
+                                    color:'#999'
+                                }}
+                            ></span>
                             {/* Expand/Collapse */}
                             <span
                                 onClick={() => toggleOpen(index)}
@@ -169,17 +178,6 @@ export default function PreOrderRulesEditor({ rules, onChange }) {
                                         ? 'dashicons-arrow-up-alt2'
                                         : 'dashicons-arrow-down-alt2'
                                 }`}
-                                style={{
-                                    cursor: 'pointer',
-                                    fontSize: 16,
-                                    color:'#999'
-                                }}
-                            ></span>
-
-                            {/* Duplicate */}
-                            <span
-                                onClick={() => duplicateRule(index)}
-                                className="dashicons dashicons-admin-page"
                                 style={{
                                     cursor: 'pointer',
                                     fontSize: 16,
@@ -198,6 +196,10 @@ export default function PreOrderRulesEditor({ rules, onChange }) {
                                     
                                 }}
                             ></span>
+
+                            
+
+                            
 
                         </div>
 

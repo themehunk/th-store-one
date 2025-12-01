@@ -8,6 +8,8 @@ import ExcludeWooCondition from '@storeone-global/ExcludeWooCondition';
 import TabSwitcher from '@storeone-global/TabSwitcher';
 import UserCondition from '@storeone-global/UserCondition';
 import SingleProductSettings from './SingleProductSettings';
+import { CopyIcon, TrashIcon, DragHandleDots2Icon ,ChevronDownIcon,
+    ChevronUpIcon } from "@radix-ui/react-icons";
 /* Field Wrapper */
 const S1Field = ({ label, children }) => (
     <div className="s1-field-wrapper">
@@ -169,7 +171,8 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
 
                         {/* ---------------------- Header ---------------------- */}
                         <div className="store-one-rule-header">
-                            <span className="dashicons dashicons-menu drag-handle s1-icon" />
+                            <DragHandleDots2Icon className="drag-handle s1-icon" />
+                            {/* <span className="dashicons dashicons-menu drag-handle s1-icon" /> */}
 
                             <strong className="s1-rule-title">
                                 {sprintf(
@@ -179,20 +182,21 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
                                 )}
                             </strong>
 
-                            <span
-                                className={`dashicons s1-icon ${rule.open ? 'dashicons-arrow-up-alt2' : 'dashicons-arrow-down-alt2'}`}
-                                onClick={() => toggleOpen(index)}
-                            />
+                            <CopyIcon className="s1-icon" onClick={() => duplicateRule(index)}/>
+                            <TrashIcon className="s1-icon s1-icon-danger"
+                                onClick={() => removeRule(index)} />
+                            {rule.open ? (
+                                <ChevronUpIcon
+                                    className="s1-icon"
+                                    onClick={() => toggleOpen(index)}
+                                />
+                            ) : (
+                                <ChevronDownIcon
+                                    className="s1-icon"
+                                    onClick={() => toggleOpen(index)}
+                                />
+                            )}
 
-                            <span
-                                className="dashicons dashicons-admin-page s1-icon"
-                                onClick={() => duplicateRule(index)}
-                            />
-
-                            <span
-                                className="dashicons dashicons-no-alt s1-icon s1-icon-danger"
-                                onClick={() => removeRule(index)}
-                            />
                         </div>
 
                         {/* ---------------------- Body ---------------------- */}
