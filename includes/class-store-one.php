@@ -41,6 +41,11 @@ class Store_One {
 		Store_One_Modules::get_instance();
 
 		require_once STORE_ONE_PLUGIN_DIR . 'includes/class-store-one-module-settings.php';
-           Store_One_Module_Settings::instance();
+          Store_One_Module_Settings::instance();
+
+		require_once STORE_ONE_PLUGIN_DIR . 'includes/class-store-one-rest.php';
+           if (class_exists('Store_One_REST')) {
+			new Store_One_REST();
+		}
 	}
 }
