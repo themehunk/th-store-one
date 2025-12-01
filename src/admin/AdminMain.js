@@ -2,16 +2,15 @@ import { useState, useEffect } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import { __ } from '@wordpress/i18n';
 
-import Header from './components/Header/Header';
-import ModuleGrid from './components/ModuleGrid/ModuleGrid';
-import ModuleSettings from './components/ModuleSettings/ModuleSettings';
-import PreviewPane from './components/PreviewPane/PreviewPane';
-import GlobalSettings from './components/GlobalSettings/GlobalSettings';
+import Header from '@storeone-header/Header';
+import ModuleGrid from '@storeone-modulegrid/ModuleGrid';
+import ModuleSettings from '@storeone-modulesettings/ModuleSettings';
+import PreviewPane from '@storeone-modulepreviewpane/PreviewPane';
+import GlobalSettings from '@storeone-global/GlobalSettings';
 
 import { Notice, Spinner, Button } from '@wordpress/components';
 import './admin.scss';
-import './admin.scss';
-import './components/GlobalSettings/globalsetting.scss';
+import '@storeone-global/globalsetting.scss';
 
 const modulesList = [
     {

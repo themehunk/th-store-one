@@ -818,6 +818,7 @@ button.is-tertiary:focus {
 /*!*******************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/admin/components/GlobalSettings/globalsetting.scss ***!
   \*******************************************************************************************************************************************************************************************************************************************************************************/
+@charset "UTF-8";
 .store-one-color-field {
   margin-bottom: 18px;
 }
@@ -962,4 +963,67 @@ button.is-tertiary:focus {
 
 .selector-option:hover {
   background: #eee;
+}
+
+.s1-range-wrapper {
+  margin-bottom: 14px;
+}
+
+.s1-range-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.s1-range-label {
+  font-size: 13px;
+  color: #1e1e1e;
+  font-weight: 500;
+}
+
+/* ALL ROW ELEMENTS IN LINE */
+.s1-range-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* SLIDER ALWAYS KEEP FULL WIDTH — MOST IMPORTANT */
+.s1-slider-area {
+  flex: 1;
+  min-width: 0;
+}
+
+.s1-slider-area .components-range-control__slider {
+  width: 100%;
+}
+
+/* VALUE INPUT */
+.s1-number-area .components-number-control__input {
+  height: 32px !important;
+  padding: 4px 8px !important;
+  border-radius: 6px !important;
+  border: 1px solid #d3d6de !important;
+  width: 70px !important;
+  font-size: 13px;
+}
+
+/* UNIT SELECT */
+.s1-unit-area .components-select-control__input {
+  padding: 4px 8px !important;
+  border-radius: 6px !important;
+  border: 1px solid #d3d6de !important;
+  width: 55px !important;
+  font-size: 13px;
+} /* REMOVE WP AUTO MARGIN INSIDE THIS CONTROL ONLY */
+.s1-universal-range-control .components-base-control__field {
+  margin: 0 !important;
+}
+
+/* Remove WP internal backdrop border */
+.s1-universal-range-control .components-input-control__backdrop {
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
 }
