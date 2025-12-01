@@ -1,6 +1,6 @@
 import { ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import MultiWooSearchSelector from '../../components/GlobalSettings/MultiWooSearchSelector';
+import MultiWooSearchSelector from '@storeone-global/MultiWooSearchSelector';
 
 export default function ExcludeCondition({
     label,

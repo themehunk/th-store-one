@@ -6,8 +6,9 @@ import {
     RangeControl,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import MiniColorPicker from '../../components/GlobalSettings/MiniColorPicker';
-import ResponsiveRangeUnitControl from '../../components/GlobalSettings/ResponsiveRangeUnitControl';
+import MiniColorPicker from '@storeone-global/MiniColorPicker';
+import UniversalRangeControl from '@storeone-global/UniversalRangeControl';
+import DeviceControl from '@storeone-global/DeviceControl';
 export default function SingleProductSettings({
     settings,
     updateSetting,
@@ -161,8 +162,16 @@ export default function SingleProductSettings({
                <label className="s1-field-label">
                     {__('Bundle border radius', 'store-one')}
                </label>
-
-               
+                
+                {/* RESPONSIVE RANGE */}
+                <UniversalRangeControl
+                    label="Border Radius"
+                    responsive={true}
+                    units={['px', '%']}
+                    value={settings.border_radius}
+                    onChange={(v) => updateSetting("border_radius", v)}
+                    defaultValue="10px"
+                />
                </div>
 
         </div>

@@ -3,10 +3,10 @@ import { useState, useEffect, useRef } from '@wordpress/element';
 import { TextControl, SelectControl } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
 import Sortable from 'sortablejs';
-import MultiWooSearchSelector from '../../components/GlobalSettings/MultiWooSearchSelector';
-import ExcludeWooCondition from '../../components/GlobalSettings/ExcludeWooCondition';
-import TabSwitcher from '../../components/GlobalSettings/TabSwitcher';
-import UserCondition from '../../components/GlobalSettings/UserCondition';
+import MultiWooSearchSelector from '@storeone-global/MultiWooSearchSelector';
+import ExcludeWooCondition from '@storeone-global/ExcludeWooCondition';
+import TabSwitcher from '@storeone-global/TabSwitcher';
+import UserCondition from '@storeone-global/UserCondition';
 import SingleProductSettings from './SingleProductSettings';
 /* Field Wrapper */
 const S1Field = ({ label, children }) => (
@@ -82,7 +82,12 @@ const newFBTRule = () => ({
     plus_text_color: "#ffffff",
 
     border_color: "#f9f9f9",
-    border_radius: 0,
+    // ⭐ responsive border radius default
+    border_radius: {
+        Desktop: "0px",
+        Tablet: "0px",
+        Mobile: "0px",
+    }
 });
 
 /* Sortable */
