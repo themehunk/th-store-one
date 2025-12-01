@@ -89,7 +89,7 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving })
                 </Flex>
             </CardHeader>
 
-            <CardBody>{renderModuleContent()}</CardBody>
+            <CardBody className="s1-card-body">{renderModuleContent()}</CardBody>
         </Card>
     );
 };
