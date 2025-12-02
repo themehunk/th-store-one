@@ -225,7 +225,6 @@ const AdminMain = () => {
                         <PreviewPane />
                     </div>
                        
-
                     </div>
                 </div>
             )}

@@ -142,23 +142,27 @@ export default function SingleProductSettings({
 
             {/* COLORS — using MiniColorPicker */}
             <MiniColorPicker
+            allowGradient={false} 
                 label={__('Plus sign background color', 'store-one')}
                 value={settings.plus_bg_color}
                 onChange={(v) => updateSetting('plus_bg_color', v)}
             />
 
             <MiniColorPicker
+            allowGradient={false} 
                 label={__('Plus sign text color', 'store-one')}
                 value={settings.plus_text_color}
                 onChange={(v) => updateSetting('plus_text_color', v)}
             />
 
             <MiniColorPicker
+                 allowGradient={true} 
                 label={__('Bundle border color', 'store-one')}
-                value={settings.border_color}
-                onChange={(v) => updateSetting('border_color', v)}
+                value={settings.background}
+                onChange={(v) => updateSetting('background', v)}
             />
 
+        
             {/* BORDER RADIUS */}
             <div className="s1-field-control">
                <label className="s1-field-label">

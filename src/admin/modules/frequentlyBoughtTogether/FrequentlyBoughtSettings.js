@@ -13,8 +13,10 @@ export default function FrequentlyBoughtSettings() {
 
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
+
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
+    const [hideToast, setHideToast] = useState(false);
 
     const [rules, setRules] = useState([]);
 
@@ -36,16 +38,30 @@ export default function FrequentlyBoughtSettings() {
             .finally(() => setLoading(false));
     }, []);
 
+    /* AUTO HIDE TOAST */
+    useEffect(() => {
+        if (success || error) {
+            setHideToast(false);
+
+            const timer = setTimeout(() => setHideToast(true), 2500);
+            const removeTimer = setTimeout(() => {
+                setSuccess('');
+                setError('');
+            }, 3000);
+
+            return () => {
+                clearTimeout(timer);
+                clearTimeout(removeTimer);
+            };
+        }
+    }, [success, error]);
+
     const handleSave = () => {
         setSaving(true);
         setSuccess('');
         setError('');
 
-        const payload = {
-            settings: {
-                rules,
-            },
-        };
+        const payload = { settings: { rules } };
 
         apiFetch({
             path: `${StoreOneAdmin.restUrl}module/${MODULE_ID}`,
@@ -67,12 +83,29 @@ export default function FrequentlyBoughtSettings() {
 
             {!loading && (
                 <>
-                    {error && <div className="storeone-toast toast-error">{error}</div>}
-                    {success && <div className="storeone-toast toast-success">{success}</div>}
+                    {/* Correct Toasts */}
+                    {error && (
+                        <div className={`s1-toast s1-toast--error ${hideToast ? 'hide' : ''}`}>
+                            <span className="s1-toast__icon"></span>
+                            <span>{error}</span>
+                        </div>
+                    )}
+
+                    {success && (
+                        <div className={`s1-toast s1-toast--success ${hideToast ? 'hide' : ''}`}>
+                            <span className="s1-toast__icon"></span>
+                            <span>{success}</span>
+                        </div>
+                    )}
 
                     <FrequentlyBoughtRulesEditor rules={rules} onChange={setRules} />
 
-                    <Button isPrimary onClick={handleSave} disabled={saving} style={{ marginTop: 20 }}>
+                    <Button
+                        isPrimary
+                        onClick={handleSave}
+                        disabled={saving}
+                        style={{ marginTop: 20 }}
+                    >
                         {saving ? __('Saving…', 'store-one') : __('Save Settings', 'store-one')}
                     </Button>
                 </>

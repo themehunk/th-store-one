@@ -12792,21 +12792,72 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
 
+/**
+ * MiniColorPicker Component
+ * ---------------------------------------------
+ * A lightweight WordPress-styled color/gradient picker.
+ *
+ * DEFAULT VALUES:
+ *  - allowGradient = false     → Only solid colors
+ *  - value = "#000" (fallback) → If no value provided
+ *
+ * HOW VALUE IS RETURNED:
+ *  - Solid color → "#ffffff" OR "rgba(0,0,0,0.5)"
+ *  - Gradient    → "linear-gradient(...)"
+ *
+ * PROPS:
+ *  label           (string)     → Field label
+ *  value           (string)     → Color or gradient
+ *  onChange        (function)   → Returns updated string value
+ *  allowGradient   (boolean)    → Enables "Gradient" tab
+ *
+ * USAGE EXAMPLES:
+ *
+ * 1️⃣ **Color Only (default)**
+ * ------------------------------------
+ * <MiniColorPicker
+ *     label="Border Color"
+ *     value={settings.border_color}      // "#ff0000"
+ *     onChange={(v) => updateSetting('border_color', v)}
+ * />
+ *
+ * 2️⃣ **Color + Gradient**
+ * ------------------------------------
+ * <MiniColorPicker
+ *     label="Background"
+ *     allowGradient={true}
+ *     value={settings.background}        // "linear-gradient(...)"
+ *     onChange={(v) => updateSetting('background', v)}
+ * />
+ */
+
 
 
 function MiniColorPicker({
   label,
   value,
-  onChange
+  onChange,
+  /** ⭐ DEFAULT: Gradient disabled */
+  allowGradient = false
 }) {
   const [open, setOpen] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+  const [tab, setTab] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)("color");
   const ref = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useRef)();
 
-  // Converts any WP colorPicker format → string
+  /**
+   * Returns true if the value is a CSS gradient string.
+   */
+  const isGradient = v => typeof v === "string" && v.includes("gradient");
+
+  /**
+   * Normalize WordPress ColorPicker format to a clean CSS string.
+   * DEFAULT COLOR = "#000"
+   */
   const normalizeColor = v => {
-    if (!v) return "rgba(0,0,0,1)";
+    if (!v) return "#000"; // ⭐ default fallback
+
     if (typeof v === "string") return v;
-    if (v.rgb) {
+    if (v?.rgb) {
       const {
         r,
         g,
@@ -12815,9 +12866,10 @@ function MiniColorPicker({
       } = v.rgb;
       return `rgba(${r}, ${g}, ${b}, ${a})`;
     }
-    if (v.color) return v.color;
     return "#000";
   };
+
+  /** The displayed safe value (color or gradient) */
   const safeValue = normalizeColor(value);
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "store-one-color-field"
@@ -12842,15 +12894,34 @@ function MiniColorPicker({
     onClose: () => setOpen(false)
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     style: {
+      width: 230,
       padding: 10
     }
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ColorPicker, {
-    color: safeValue,
+  }, allowGradient && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "s1-color-tabs"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    className: tab === "color" ? "active" : "",
+    onClick: () => setTab("color")
+  }, "Color"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    className: tab === "gradient" ? "active" : "",
+    onClick: () => setTab("gradient")
+  }, "Gradient")), (tab === "color" || !allowGradient) && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.ColorPicker, {
+    color: isGradient(safeValue) ? "#000" : safeValue,
     enableAlpha: true,
-    onChange: v => {
-      const final = normalizeColor(v);
-      onChange(final);
-    }
+    onChange: v => onChange(normalizeColor(v))
+  }), allowGradient && tab === "gradient" && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.GradientPicker, {
+    value: isGradient(safeValue) ? safeValue : undefined,
+    onChange: gradient => onChange(gradient),
+    gradients: [{
+      name: "Sunset",
+      gradient: "linear-gradient(135deg,#f6d365,#fda085)"
+    }, {
+      name: "Ocean",
+      gradient: "linear-gradient(135deg,#2BC0E4,#EAECC6)"
+    }, {
+      name: "Peach",
+      gradient: "linear-gradient(135deg,#ed4264,#ffedbc)"
+    }]
   })))));
 }
 
@@ -13851,11 +13922,9 @@ const newFBTRule = () => ({
   exclude_users_enabled: false,
   /* -----------------------
    * SINGLE PAGE SETTINGS
-   * (from your panel)
    * ---------------------- */
   single_enabled: true,
   placement: "after_summary",
-  // After Product Summary
   priority: 10,
   bundle_title: "Frequently Bought Together",
   price_label: "Bundle price",
@@ -13868,7 +13937,9 @@ const newFBTRule = () => ({
   plus_bg_color: "#212121",
   plus_text_color: "#ffffff",
   border_color: "#f9f9f9",
-  // ⭐ responsive border radius default
+  background: {
+    color: "#ffffff"
+  },
   border_radius: {
     Desktop: "0px",
     Tablet: "0px",
@@ -14131,6 +14202,7 @@ function FrequentlyBoughtSettings() {
   const [saving, setSaving] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const [success, setSuccess] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)('');
   const [error, setError] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)('');
+  const [hideToast, setHideToast] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
   const [rules, setRules] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)([]);
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
     setLoading(true);
@@ -14145,6 +14217,22 @@ function FrequentlyBoughtSettings() {
       }
     }).catch(() => setError((0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Failed to load settings.', 'store-one'))).finally(() => setLoading(false));
   }, []);
+
+  /* AUTO HIDE TOAST */
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useEffect)(() => {
+    if (success || error) {
+      setHideToast(false);
+      const timer = setTimeout(() => setHideToast(true), 2500);
+      const removeTimer = setTimeout(() => {
+        setSuccess('');
+        setError('');
+      }, 3000);
+      return () => {
+        clearTimeout(timer);
+        clearTimeout(removeTimer);
+      };
+    }
+  }, [success, error]);
   const handleSave = () => {
     setSaving(true);
     setSuccess('');
@@ -14163,10 +14251,14 @@ function FrequentlyBoughtSettings() {
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", null, loading && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "store-one-loader"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Spinner, null), " ", (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Loading…', 'store-one')), !loading && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, error && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "storeone-toast toast-error"
-  }, error), success && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: "storeone-toast toast-success"
-  }, success), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_FrequentlyBoughtRulesEditor__WEBPACK_IMPORTED_MODULE_5__["default"], {
+    className: `s1-toast s1-toast--error ${hideToast ? 'hide' : ''}`
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "s1-toast__icon"
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, error)), success && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: `s1-toast s1-toast--success ${hideToast ? 'hide' : ''}`
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
+    className: "s1-toast__icon"
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", null, success)), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_FrequentlyBoughtRulesEditor__WEBPACK_IMPORTED_MODULE_5__["default"], {
     rules: rules,
     onChange: setRules
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Button, {
@@ -14311,17 +14403,20 @@ function SingleProductSettings({
     value: settings.button_text,
     onChange: v => updateSetting('button_text', v)
   })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_storeone_global_MiniColorPicker__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    allowGradient: false,
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Plus sign background color', 'store-one'),
     value: settings.plus_bg_color,
     onChange: v => updateSetting('plus_bg_color', v)
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_storeone_global_MiniColorPicker__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    allowGradient: false,
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Plus sign text color', 'store-one'),
     value: settings.plus_text_color,
     onChange: v => updateSetting('plus_text_color', v)
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_storeone_global_MiniColorPicker__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    allowGradient: true,
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_2__.__)('Bundle border color', 'store-one'),
-    value: settings.border_color,
-    onChange: v => updateSetting('border_color', v)
+    value: settings.background,
+    onChange: v => updateSetting('background', v)
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "s1-field-control"
   }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {

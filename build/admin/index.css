@@ -1113,6 +1113,28 @@ button.is-tertiary:focus,
   font-size: 13px;
 }
 
+.s1-color-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.s1-color-tabs button {
+  flex: 1;
+  padding: 6px 0;
+  font-size: 12px;
+  border-radius: 6px;
+  border: 1px solid #d0d7e2;
+  background: #f3f4f6;
+  cursor: pointer;
+}
+
+.s1-color-tabs button.active {
+  background: #2271b1;
+  color: #fff;
+  border-color: #2271b1;
+}
+
 /* ----------------------------------------------
    PREVIEW CARD (Right Side Module Preview)
 ---------------------------------------------- */
