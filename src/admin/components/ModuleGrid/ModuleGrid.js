@@ -3,10 +3,12 @@ import ModuleCard from '../ModuleCard/ModuleCard';
 
 const ModuleGrid = ({ modulesList, modulesState, tabs, setActiveModule }) => {
     return (
-        <div className="modules-wrapper">
-            <TabPanel className="module-tabs" tabs={tabs}>
+        <div className="s1-modules">
+            
+            {/* Tabs */}
+            <TabPanel className="s1-tabs" tabs={tabs}>
                 {(tab) => (
-                    <div className="modules-grid">
+                    <div className="s1-modules__grid">
                         {modulesList
                             .filter((m) => tab.modules.includes(m.id))
                             .map((mod) => (
@@ -20,6 +22,7 @@ const ModuleGrid = ({ modulesList, modulesState, tabs, setActiveModule }) => {
                     </div>
                 )}
             </TabPanel>
+
         </div>
     );
 };

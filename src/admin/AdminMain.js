@@ -10,7 +10,7 @@ import GlobalSettings from '@storeone-global/GlobalSettings';
 
 import { Notice, Spinner, Button } from '@wordpress/components';
 import './admin.scss';
-import '@storeone-global/globalsetting.scss';
+//import '@storeone-global/globalsetting.scss';
 
 const modulesList = [
     {
@@ -170,77 +170,85 @@ const AdminMain = () => {
 
     return (
         <div className="store-one-admin">
-            {success && (
-                <div className={`storeone-toast toast-success ${hideToast ? 'hide' : ''}`}>
-                    <span className="toast-icon success-icon"></span>
-                    <span>{success}</span>
-                </div>
-            )}
 
-            {error && (
-                <div className={`storeone-toast toast-error ${hideToast ? 'hide' : ''}`}>
-                    <span className="toast-icon error-icon"></span>
-                    <span>{error}</span>
-                </div>
-            )}
+    {success && (
+        <div className={`s1-toast s1-toast--success ${hideToast ? 'hide' : ''}`}>
+            <span className="s1-toast__icon"></span>
+            <span>{success}</span>
+        </div>
+    )}
 
-            <Header
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                setActiveModule={setActiveModule}
-            />
+    {error && (
+        <div className={`s1-toast s1-toast--error ${hideToast ? 'hide' : ''}`}>
+            <span className="s1-toast__icon"></span>
+            <span>{error}</span>
+        </div>
+    )}
 
-            {currentPage === 'dashboard' && (
-                <>
-                    {!loading && !activeModule && (
-                        <ModuleGrid
-                            modulesList={modulesList}
-                            modulesState={modulesState}
-                            tabs={tabs}
-                            setActiveModule={setActiveModule}
-                        />
-                    )}
+    <Header
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        setActiveModule={setActiveModule}
+    />
 
-                    {!loading && activeModule && currentModule && (
-                        <div className="store-module-wrap">
-                            <Button
-                                isTertiary
-                                className="back-btn"
-                                onClick={() => setActiveModule(null)}
-                            >
-                                ← {__('Go Back', 'store-one')}
-                            </Button>
-
-                            <div className="settings-grid">
-                                <ModuleSettings
-                                    currentModule={currentModule}
-                                    modulesState={modulesState}
-                                    onToggleModule={handleToggleModule}
-                                    saving={saving}
-                                />
-
-                                <PreviewPane />
-                            </div>
-                        </div>
-                    )}
-
-                    {loading && (
-                        <div className="store-loader">
-                            <Spinner />
-                            {__('Loading…', 'store-one')}
-                        </div>
-                    )}
-                </>
-            )}
-
-            {currentPage === 'settings' && (
-                <GlobalSettings
+    {currentPage === 'dashboard' && (
+        <>
+            {!loading && !activeModule && (
+                <ModuleGrid
                     modulesList={modulesList}
                     modulesState={modulesState}
-                    onToggleAllModules={handleToggleAllModules}
+                    tabs={tabs}
+                    setActiveModule={setActiveModule}
                 />
             )}
-        </div>
+
+            {!loading && activeModule && currentModule && (
+                <div className="store-module-wrap">
+                    <Button
+                        isTertiary
+                        className="back-btn"
+                        onClick={() => setActiveModule(null)}
+                    >
+                        ← {__('Go Back', 'store-one')}
+                    </Button>
+
+                    {/* 🔥 FIXED CLASS HERE */}
+                    <div className="s1-settings-layout">
+
+                        <ModuleSettings
+                            currentModule={currentModule}
+                            modulesState={modulesState}
+                            onToggleModule={handleToggleModule}
+                            saving={saving}
+                        />
+                    <div className="s1-preview-pane">
+                        <PreviewPane />
+                    </div>
+                       
+
+                    </div>
+                </div>
+            )}
+
+            {loading && (
+                <div className="s1-loader">
+                    <Spinner />
+                    {__('Loading…', 'store-one')}
+                </div>
+            )}
+        </>
+    )}
+
+    {currentPage === 'settings' && (
+        <GlobalSettings
+            modulesList={modulesList}
+            modulesState={modulesState}
+            onToggleAllModules={handleToggleAllModules}
+        />
+    )}
+
+</div>
+
     );
 };
 

@@ -5,13 +5,13 @@ const ModuleCard = ({ mod, modulesState, setActiveModule }) => {
     const isActive = modulesState[mod.id];
 
     return (
-        <Card className="module-card">
-            <CardBody>
+        <Card className="s1-module-card">
+            <CardBody className="s1-module-card__body">
 
-                <div className="mod-top">
-                    <span className="mod-icon">{mod.icon}</span>
+                <div className="s1-module-card__top">
+                    <span className="s1-module-card__icon">{mod.icon}</span>
 
-                    <span className={`badge ${isActive ? 'on' : 'off'}`}>
+                    <span className={`s1-module-card__badge ${isActive ? 'is-on' : 'is-off'}`}>
                         { isActive
                             ? __('Active', 'store-one')
                             : __('Inactive', 'store-one')
@@ -19,12 +19,12 @@ const ModuleCard = ({ mod, modulesState, setActiveModule }) => {
                     </span>
                 </div>
 
-                <h3>{ mod.label }</h3>
+                <h3 className="s1-module-card__title">{ mod.label }</h3>
 
-                <p>{ mod.description }</p>
+                <p className="s1-module-card__desc">{ mod.description }</p>
 
                 <Button
-                    className="try-now"
+                    className="s1-module-card__btn"
                     isPrimary
                     onClick={() => setActiveModule(mod.id)}
                 >

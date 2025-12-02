@@ -161,7 +161,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
     }, []);
 
     return (
-        <div className="store-one-rules-container" style={{ marginTop: 30 }}>
+        <div className="store-one-rules-container">
 
             <h3 className="store-one-section-title">{__('Offer Bundle', 'store-one')}</h3>
 
@@ -340,12 +340,12 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
                                         label: __('Single Page', 'store-one'),
                                         icon: '',
                                         content: (
-                                            <div className="store-one-rule-body">
+                                            
                                             <SingleProductSettings
-                settings={rule}
-                updateSetting={(key, val) => updateField(index, key, val)}
-            />
-                                            </div>
+                        settings={rule}
+                        updateSetting={(key, val) => updateField(index, key, val)}
+                    />
+                                                   
                                         ),
                                     },
                                 ]}
