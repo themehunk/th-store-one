@@ -14,29 +14,55 @@
  * WC tested up to:   8.9
  */
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-define( 'STORE_ONE_VERSION', '1.0.1' );
+// ------------------ Constants ------------------.
+define( 'STORE_ONE_VERSION', '1.0.2' );
 define( 'STORE_ONE_PLUGIN_FILE', __FILE__ );
 define( 'STORE_ONE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'STORE_ONE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
+// ------------------ Core Loader ------------------.
 require_once STORE_ONE_PLUGIN_DIR . 'includes/class-store-one.php';
 
 function store_one_run() {
-    Store_One::get_instance();
+	Store_One::get_instance();
 }
 add_action( 'plugins_loaded', 'store_one_run' );
 
-/**
- * Declare WooCommerce HPOS (Custom Order Tables) compatibility.
- */
-add_action( 'before_woocommerce_init', function() {
-    if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
-        \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility(
-            'custom_order_tables',
-            __FILE__,
-            true
-        );
-    }
-} );
+// ------------------ HPOS Compatibility ------------------.
+add_action(
+	'before_woocommerce_init',
+	function () {
+		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility(
+				'custom_order_tables',
+				__FILE__,
+				true
+			);
+		}
+	}
+);
+
+// ------------------ FBT Frontend Loader ------------------.
+add_action(
+	'woocommerce_init',
+	function () {
+		if ( is_admin() ) {
+			return;
+		}
+
+		if ( ! class_exists( 'WooCommerce' ) ) {
+			return;
+		}
+
+		// Frontend class include + init.
+		require_once STORE_ONE_PLUGIN_DIR . 'includes/modules/frequently-bought/class-storeone-fbt-frontend.php';
+
+		if ( class_exists( 'Store_One_FBT_Frontend' ) ) {
+			new Store_One_FBT_Frontend();
+		}
+	}
+);

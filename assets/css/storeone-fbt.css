@@ -1,0 +1,219 @@
+/* -----------------------------------------------------
+   S1-FBT Modern Clean Layout
+----------------------------------------------------- */
+
+.s1-fbt-box {
+    padding: 20px;
+    margin: 30px 0;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.s1-fbt-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    color: #222;
+}
+
+/* -----------------------------------------------------
+   IMAGES ROW
+----------------------------------------------------- */
+
+.s1-fbt-content-one {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.s1-fbt-product-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.s1-fbt-product {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    background: #fafafa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .25s ease;
+}
+
+.s1-fbt-product img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.s1-fbt-product.s1-fbt-inactive {
+    opacity: .4;
+    transform: scale(.93);
+}
+
+.s1-fbt-plus-sign {
+    font-size: 26px;
+    font-weight: 600;
+    color: #444;
+    margin: 0 10px;
+}
+
+/* -----------------------------------------------------
+   PRODUCT LIST (CHECKBOXES)
+----------------------------------------------------- */
+
+.s1-fbt-content-two {
+    margin-top: 15px;
+}
+
+.s1-fbt-product-list {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.s1-fbt-product-list-add {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #f3f3f3;
+}
+
+.s1-fbt-product-title a {
+    font-size: 15px;
+    font-weight: 500;
+    color: #222;
+}
+
+.s1-fbt-product-price {
+    margin-left: auto;
+    font-size: 14px;
+    font-weight: 600;
+    color: #111;
+}
+
+.s1-fbt-checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+
+/* -----------------------------------------------------
+   VARIATIONS
+----------------------------------------------------- */
+
+.s1-fbt-variation select {
+    width: 100%;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-top: 6px;
+}
+
+/* -----------------------------------------------------
+   TOTAL WRAPPER
+----------------------------------------------------- */
+
+.s1-fbt-total-wrapper {
+    padding: 15px;
+    margin-left: auto;
+    margin-top: 10px;
+    min-width: 260px;
+    border-radius: 12px;
+    background: #f5f9ff;
+    border: 1px solid #cfe0ff;
+}
+
+.s1-fbt-total-header {
+    margin-bottom: 6px;
+}
+
+.s1-fbt-total-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #222;
+}
+
+.s1-fbt-total-content {
+    margin-bottom: 12px;
+}
+
+.s1-fbt-one-price small {
+    opacity: .6;
+}
+
+.s1-fbt-base-price {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.s1-fbt-saving-line {
+    margin-top: 6px;
+    color: #118014;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.s1-fbt-final-price {
+    margin-top: 8px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #1d39cc;
+}
+
+/* -----------------------------------------------------
+   ADD BUTTON
+----------------------------------------------------- */
+
+.s1-fbt-action-box {
+    margin-top: 14px;
+    text-align: left;
+}
+
+.s1-fbt-add-button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    background: #1d39cc;
+    color: #fff;
+    font-size: 16px !important;
+    font-weight: 600;
+    transition: .25s ease;
+}
+
+.s1-fbt-add-button:hover {
+    background: #152c99;
+}
+
+.s1-fbt-add-button:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+/* -----------------------------------------------------
+   RESPONSIVE
+----------------------------------------------------- */
+
+@media (max-width: 720px) {
+    .s1-fbt-content-one {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .s1-fbt-total-wrapper {
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .s1-fbt-product-row {
+        flex-wrap: wrap;
+    }
+}

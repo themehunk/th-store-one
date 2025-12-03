@@ -31,6 +31,9 @@ const newFBTRule = () => ({
     flexible_id: crypto.randomUUID(),
     open: true,
 
+    offer_products: [],      // NEW: bundle products
+    offer_products_optional: true,
+
     // NEW: exclude system
     exclude_products_enabled: false,
     exclude_products: [],
@@ -322,6 +325,34 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
                                     },
 
                                     {
+                                        id: 'offer',
+                                        label: __('Offer Product', 'store-one'),
+                                        icon: '',
+                                        content: (
+                                            <div className="store-one-rule-body">
+                                                <MultiWooSearchSelector
+                                                    searchType="product"
+                                                    label={__('Search Offer products', 'store-one')}
+                                                    value={rule.offer_products || []}
+                                                    onChange={(items) => updateField(index, 'offer_products', items)}
+                                                />
+                                                {/* <S1Field label={__('Offer products as optional', 'store-one')}>
+                                                    <label className="s1-checkbox-item">
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={!!rule.offer_products_optional}
+                                                            onChange={(e) =>
+                                                                updateField(index, 'offer_products_optional', e.target.checked)
+                                                            }
+                                                        />
+                                                        {__('Customers can choose which products to include', 'store-one')}
+                                                    </label>
+                                                </S1Field> */}
+                                            </div>
+                                        ),
+                                    },
+
+                                    {
                                         id: 'user',
                                         label: __('User', 'store-one'),
                                         icon: '',
@@ -343,9 +374,9 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
                                         content: (
                                             
                                             <SingleProductSettings
-                        settings={rule}
-                        updateSetting={(key, val) => updateField(index, key, val)}
-                    />
+                                                settings={rule}
+                                                updateSetting={(key, val) => updateField(index, key, val)}
+                                            />
                                                    
                                         ),
                                     },
