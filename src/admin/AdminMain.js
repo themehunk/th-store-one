@@ -15,7 +15,7 @@ import './admin.scss';
 const modulesList = [
     {
         id: 'frequently-bought',
-        label: __('Frequently Bought', 'store-one'),
+        label: __('Frequently Bought Together', 'store-one'),
         description: __('AI-powered combos.', 'store-one'),
         icon: '🤝',
     },

@@ -121,6 +121,9 @@
 ------------------------------------------------------------- */
 /* Wrapper */
 .s1-header {
+    position: sticky;
+    top: 0;
+    z-index: 999;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -128,9 +131,10 @@
     background: #fff;
     border: 1px solid var(--s1-gray-200);
     box-shadow: var(--s1-shadow-sm);
-    margin-bottom: 20px;
-    border-radius: 0;
     font-family: var(--s1-font);
+}
+.admin-bar .s1-header {
+    top: 32px; /* WP admin bar height */
 }
 
 /* ------------------------------------------------------------
@@ -880,9 +884,28 @@ button.is-tertiary,
     opacity: 0.85;
 }
 
-/* CONTENT */
+/* ----------------------------------------
+   TAB CONTENT (FIXED HEIGHT + SCROLL)
+---------------------------------------- */
 .store-one-tab-content {
     padding-top: var(--s1-space-10);
+
+    /* NEW: You want minimum height */
+    height: 550px;
+
+    /* NEW: Scroll inside the panel */
+    overflow-y: auto;
+
+    /* Nice padding inside */
+    padding: var(--s1-space-12);
+
+    /* Smooth UI feel */
+    
+    
+
+    /* Smooth scrollbar for modern UI */
+    scrollbar-width: thin;
+    scrollbar-color: var(--s1-gray-300) var(--s1-gray-100);
 }
 /* ----------------------------------------
    MULTI SEARCH SELECTOR
@@ -1228,3 +1251,53 @@ button.is-tertiary,
     }
 }
 
+/* ----------------------------------------------
+   STOREONE — ACCORDION COMPONENT
+------------------------------------------------ */
+
+.s1-accordion {
+    border: var(--s1-border);
+    border-radius: var(--s1-radius-md);
+    background: #fff;
+    margin-bottom: var(--s1-space-12);
+    box-shadow: var(--s1-shadow-xs);
+}
+
+.s1-accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--s1-space-12) var(--s1-space-14);
+    cursor: pointer;
+    background: var(--s1-gray-100);
+    border-bottom: var(--s1-border);
+    transition: background var(--s1-anim-fast);
+}
+
+.s1-accordion-header:hover {
+    background: var(--s1-gray-150);
+}
+
+.s1-accordion-title {
+    font-size: var(--s1-font-size-sm);
+    font-weight: var(--s1-font-weight-semibold);
+    color: var(--s1-gray-800);
+    font-family: var(--s1-font-family);
+}
+
+.s1-accordion-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--s1-gray-600);
+}
+
+.s1-accordion-body {
+    padding: var(--s1-space-16);
+    background: #fff;
+    animation: accordionFade var(--s1-anim-normal);
+}
+
+@keyframes accordionFade {
+    from { opacity: 0; transform: translateY(-2px); }
+    to { opacity: 1; transform: translateY(0); }
+}

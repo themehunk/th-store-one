@@ -8,6 +8,7 @@ import ExcludeWooCondition from '@storeone-global/ExcludeWooCondition';
 import TabSwitcher from '@storeone-global/TabSwitcher';
 import UserCondition from '@storeone-global/UserCondition';
 import SingleProductSettings from './SingleProductSettings';
+import S1Accordion from "@storeone-global/S1Accordion";
 import { CopyIcon, TrashIcon, DragHandleDots2Icon ,ChevronDownIcon,
     ChevronUpIcon } from "@radix-ui/react-icons";
 /* Field Wrapper */
@@ -320,41 +321,20 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
                                     onChangeItems={() => {}}
                                     />
 
-                                            </div>
-                                        ),
-                                    },
+                                    <MultiWooSearchSelector
+                                                        searchType="product"
+                                                        label={__('Search Offer products', 'store-one')}
+                                                        value={rule.offer_products || []}
+                                                        onChange={(items) => updateField(index, 'offer_products', items)}
+                                                    />
 
-                                    {
-                                        id: 'offer',
-                                        label: __('Offer Product', 'store-one'),
-                                        icon: '',
-                                        content: (
-                                            <div className="store-one-rule-body">
-                                                <MultiWooSearchSelector
-                                                    searchType="product"
-                                                    label={__('Search Offer products', 'store-one')}
-                                                    value={rule.offer_products || []}
-                                                    onChange={(items) => updateField(index, 'offer_products', items)}
-                                                />
-                                                {/* <S1Field label={__('Offer products as optional', 'store-one')}>
-                                                    <label className="s1-checkbox-item">
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={!!rule.offer_products_optional}
-                                                            onChange={(e) =>
-                                                                updateField(index, 'offer_products_optional', e.target.checked)
-                                                            }
-                                                        />
-                                                        {__('Customers can choose which products to include', 'store-one')}
-                                                    </label>
-                                                </S1Field> */}
-                                            </div>
+                                                </div>
                                         ),
                                     },
 
                                     {
                                         id: 'user',
-                                        label: __('User', 'store-one'),
+                                        label: __('User Condition', 'store-one'),
                                         icon: '',
                                         content: (
                                             <div className="store-one-rule-body">
@@ -369,17 +349,39 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
                                     },
                                     {
                                         id: 'single',
-                                        label: __('Single Page', 'store-one'),
+                                        label: __('Display Page', 'store-one'),
                                         icon: '',
                                         content: (
-                                            
+                                            <>
+                                            <S1Accordion title={__("Single Product Page Settings", "store-one")} defaultOpen={true}>
                                             <SingleProductSettings
                                                 settings={rule}
                                                 updateSetting={(key, val) => updateField(index, key, val)}
                                             />
-                                                   
+                                            </S1Accordion>
+
+                                            <S1Accordion title={__("Cart Page Settings", "store-one")}>
+                                                    
+                                            </S1Accordion>
+
+                                            <S1Accordion title={__("Checkout Page Settings", "store-one")}>
+                                                
+                                            </S1Accordion>
+                                        </>
+                                             
                                         ),
                                     },
+                                    {
+                                        id: 'design',
+                                        label: __('Design', 'store-one'),
+                                        icon: '',
+                                        content: (
+                                            <div className="store-one-rule-body">
+                                                
+                                            </div>
+                                        ),
+                                    },
+
                                 ]}
                             />
                         )}
