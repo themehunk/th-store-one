@@ -118,6 +118,17 @@
 .s1-fbt-box.style_2 .s1-fbt-product-title {
     margin-left: 10px;
 }
+/* CHECKBOX */
+.s1-fbt-box .s1-fbt-product-list-add input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--s1-color-primary, #2271b1);
+}
+.s1-fbt-box .s1-fbt-product-list-add input[type="checkbox"]:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
 /* ==========================================================
    STYLE 3 — TABLE LAYOUT (s1-fbt classes)
    NOW WITH PARENT CLASS: .style_3
@@ -284,6 +295,72 @@
     margin-top: 5px;
     font-size: 12px;
     color: #888;
+}
+/* ------------------------------
+   STORE-ONE FBT – VARIATION WRAPPER
+---------------------------------- */
+.variations.s1-fbt-variation {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 18px;
+    padding: 14px 0;
+    align-items: flex-end;
+}
+
+/* Each variation box */
+.s1-fbt-variation .variation {
+    flex: 1 1 150px;
+    min-width: 150px;
+}
+
+/* Dropdown wrapper */
+.s1-fbt-variation .variation .select select {
+    width: 100%;
+    padding: 10px 12px;
+    background: #fff;
+    border: 1px solid #d0d7e2;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #2c3338;
+    transition: all 0.18s ease;
+    cursor: pointer;
+    appearance: none;
+    line-height: 1.4;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' fill='%2399a1ac' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3.5 4.5l2.5 2.5 2.5-2.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+
+/* Hover */
+.s1-fbt-variation .variation .select select:hover {
+    border-color: #bfc6d2;
+}
+
+/* Focus */
+.s1-fbt-variation .variation .select select:focus {
+    border-color: #007cba;
+    box-shadow: 0 0 0 1px #007cba;
+    outline: none;
+}
+
+/* Reset link wrapper */
+.s1-fbt-variation .reset {
+    margin-left: auto;
+}
+
+/* Reset link */
+.s1-fbt-variation .reset a {
+    font-size: 13px;
+    color: #cc0000;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 0;
+    transition: color 0.15s ease;
+}
+
+.s1-fbt-variation .reset a:hover {
+    color: #ff2a2a;
+    text-decoration: underline;
 }
 
 /* Responsive */

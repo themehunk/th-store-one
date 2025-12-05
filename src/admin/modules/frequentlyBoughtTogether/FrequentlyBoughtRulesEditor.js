@@ -378,7 +378,6 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
                                         icon: '',
                                         content: (
                                             <div className="store-one-rule-body">
-                                                
 
                                                 <S1Field label={__('Display Style', 'store-one')}>
                                                     <SelectControl

@@ -43,6 +43,8 @@
             });
         },
 
+        
+
         /** INITIAL CALC */
         initAll() {
             $(".s1-fbt-product-wrap").each((i, el) => {
