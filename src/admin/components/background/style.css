@@ -1,0 +1,42 @@
+.components-popover__content {
+ width:250px;
+    padding:10px;
+}
+
+.th-bg-control {
+    margin: 1.5rem 0;
+}
+.color-box {
+      width: 3rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #e2e8f0;
+        cursor: pointer;
+}
+.color-box-wrap {
+    display: flex;
+    position: relative;
+    gap: 5px;
+    width: 60%;
+}
+input.color-input {
+    width:100%;
+    border:1px solid #e2e8f0;
+    height: 2.5rem;
+    border-radius: .5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+        color:#475569;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    padding-right: 2.5rem;
+
+}
+
+span.component-color-indicator {
+      position: absolute;
+    left: 20rem;
+    top: 15px;
+    width: 12px;
+    height: 12px;
+}

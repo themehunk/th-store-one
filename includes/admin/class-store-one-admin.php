@@ -55,9 +55,11 @@ class Store_One_Admin {
 
 		$js_path  = 'build/admin/index.js';
 		$css_path = 'build/admin/index.css';
+		$css_path_style = 'build/admin/style-index.css';
 
 		$js_ver  = file_exists( STORE_ONE_PLUGIN_DIR . $js_path ) ? filemtime( STORE_ONE_PLUGIN_DIR . $js_path ) : STORE_ONE_VERSION;
 		$css_ver = file_exists( STORE_ONE_PLUGIN_DIR . $css_path ) ? filemtime( STORE_ONE_PLUGIN_DIR . $css_path ) : STORE_ONE_VERSION;
+		$css_path_style_var = file_exists( STORE_ONE_PLUGIN_DIR . $css_path_style ) ? filemtime( STORE_ONE_PLUGIN_DIR . $css_path_style ) : STORE_ONE_VERSION;
 
 		wp_register_script(
 			'store-one-admin',
@@ -72,6 +74,13 @@ class Store_One_Admin {
 			STORE_ONE_PLUGIN_URL . $css_path,
 			array( 'wp-components' ),
 			$css_ver
+		);
+
+			wp_register_style(
+			'store-one-admin-style',
+			STORE_ONE_PLUGIN_URL . $css_path_style,
+			array( 'wp-components' ),
+			$css_path_style_var
 		);
 
 		// IMPORTANT: apiFetch({ path }) me sirf relative path jata hai,
@@ -95,5 +104,6 @@ class Store_One_Admin {
 
 		wp_enqueue_script( 'store-one-admin' );
 		wp_enqueue_style( 'store-one-admin' );
+		wp_enqueue_style( 'store-one-admin-style' );
 	}
 }

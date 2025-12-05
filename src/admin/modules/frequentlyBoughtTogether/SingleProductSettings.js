@@ -8,6 +8,9 @@ import {
 import { __ } from '@wordpress/i18n';
 import MiniColorPicker from '@storeone-global/MiniColorPicker';
 import UniversalRangeControl from '@storeone-global/UniversalRangeControl';
+import THBackgroundControl from '../../components/background/color';
+import THBorderRadius from '../../components/background/borderRadius';
+
 
 
 
@@ -141,14 +144,22 @@ export default function SingleProductSettings({
             </div>
 
             {/* COLORS — using MiniColorPicker */}
-            <MiniColorPicker
+
+           <THBackgroundControl   
+            allowGradient={true}
+            label={__('Plus sign background color', 'store-one')}
+            value={settings.plus_bg_color}
+            onChange={(v) => updateSetting('plus_bg_color', v)}
+             />
+                
+            {/* <MiniColorPicker
             allowGradient={false} 
                 label={__('Plus sign background color', 'store-one')}
                 value={settings.plus_bg_color}
                 onChange={(v) => updateSetting('plus_bg_color', v)}
-            />
+            /> */}
 
-            <MiniColorPicker
+            <THBackgroundControl
             allowGradient={false} 
                 label={__('Plus sign text color', 'store-one')}
                 value={settings.plus_text_color}
@@ -161,7 +172,6 @@ export default function SingleProductSettings({
                 value={settings.background}
                 onChange={(v) => updateSetting('background', v)}
             />
-
         
             {/* BORDER RADIUS */}
             <div className="s1-field-control">
