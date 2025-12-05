@@ -1,118 +1,168 @@
 (function ($) {
-    'use strict';
 
-    const FBT = {
+    "use strict";
+
+    const S1FBT = {
 
         init() {
             this.bindEvents();
-            this.recalculateAll(); // first load
+            this.initAll();
         },
 
         bindEvents() {
-            $(document).on('change', '.s1-fbt-checkbox', () => this.recalculateAll());
-            $(document).on('change', '.s1-fbt-variation select', () => this.recalculateAll());
+            // Checkbox change
+            $(document).on("change", ".s1-fbt-checkbox", (e) => {
+                const wrap = $(e.target).closest(".s1-fbt-product-wrap");
+                this.updateSelection(wrap);
+                this.updateTotal(wrap);
+                this.updateButtonText(wrap);
+            });
+
+            // Variation change
+            $(document).on("change", ".variations_form select", (e) => {
+                const wrap = $(e.target).closest(".s1-fbt-product-wrap");
+                this.updateSelection(wrap);
+                this.updateTotal(wrap);
+                this.updateButtonText(wrap);
+            });
+
+            // Reset variation
+            $(document).on("click", ".reset_variations", (e) => {
+                const wrap = $(e.target).closest(".s1-fbt-product-wrap");
+                setTimeout(() => {
+                    this.updateSelection(wrap);
+                    this.updateTotal(wrap);
+                    this.updateButtonText(wrap);
+                }, 80);
+            });
+
+            // ADD BUNDLE TO CART
+            $(document).on("click", ".s1-fbt-add-button", (e) => {
+                e.preventDefault();
+                this.addBundleToCart($(e.target));
+            });
         },
 
-        /* -------------------------------------------------------------
-             MAIN — Recalculate TOTAL, SAVINGS, BUTTON LABEL, IDS
-        ------------------------------------------------------------- */
-        recalculateAll() {
+        /** INITIAL CALC */
+        initAll() {
+            $(".s1-fbt-product-wrap").each((i, el) => {
+                const wrap = $(el);
+                this.updateSelection(wrap);
+                this.updateTotal(wrap);
+                this.updateButtonText(wrap);
+            });
+        },
 
-            $('.s1-fbt-product-wrap').each((i, wrapEl) => {
+        /** COLLECT SELECTED IDS */
+        updateSelection($wrap) {
 
-                const wrap = $(wrapEl);
+            let selected = [];
 
-                let total = 0;
-                let base_price = 0;
-                let selected_ids = [];
+            $wrap.find(".s1-fbt-checkbox").each(function () {
 
-                const $totalFinal = wrap.find('.s1-fbt-total-final-amount');
-                const $savingText = wrap.find('.s1-fbt-saving-text');
-                const $basePriceEl = wrap.find('.s1-fbt-base-price');
-                const $selectedIdsEl = wrap.find('.s1-fbt-selected-ids');
+                const $cb = $(this);
+                if ($cb.is(":checked") && !$cb.is(":disabled")) {
 
-                const mainId = $selectedIdsEl.data('main-id');
+                    const vid = $cb.data("id"); // variation
+                    const pid = $cb.data("product-id"); // product id
 
-                /* ------------------------------------------
-                   MAIN PRODUCT BASE PRICE (first item)
-                ------------------------------------------ */
-                const mainCheckbox = wrap.find(`.s1-fbt-checkbox[data-product-id="${mainId}"]`);
-
-                if (mainCheckbox.length) {
-                    const baseVal = parseFloat(mainCheckbox.data('price')) || 0;
-                    base_price = baseVal;
+                    selected.push(vid && vid !== 0 ? vid : pid);
                 }
+            });
 
-                /* ------------------------------------------
-                    LOOP ALL CHECKED PRODUCTS
-                ------------------------------------------ */
-                wrap.find('.s1-fbt-checkbox').each((n, el) => {
+            $wrap.find(".s1-fbt-selected-ids").val(selected.join(","));
+        },
 
-                    if (!el.checked) return;
+        /** TOTAL PRICE CALCULATION */
+        updateTotal($wrap) {
 
-                    const pid = $(el).data('product-id');
-                    const price = parseFloat($(el).data('price')) || 0;
+            let total = 0;
+            let count = 0;
 
-                    selected_ids.push(pid);
-                    total += price;
-                });
+            $wrap.find(".s1-fbt-checkbox").each(function () {
+                const $cb = $(this);
 
-                /* ------------------------------------------
-                    UPDATE: FINAL PRICE
-                ------------------------------------------ */
-
-                $totalFinal.html(StoreOneFBT.currency_symbol + total.toFixed(2));
-
-                /* ------------------------------------------
-                    SAVING CALCULATION
-                ------------------------------------------ */
-                const saving = total - base_price;
-
-                if (saving > 0) {
-                    const template = $savingText.data('template');
-                    const text = template.replace('{amount}', StoreOneFBT.currency_symbol + saving.toFixed(2));
-                    $savingText.text(text).show();
-                } else {
-                    $savingText.text('').hide();
-                }
-
-                /* ------------------------------------------
-                    UPDATE SELECTED IDs (for AJAX)
-                ------------------------------------------ */
-                $selectedIdsEl.val(selected_ids.join(','));
-
-                /* ------------------------------------------
-                    BUTTON LABEL UPDATE
-                ------------------------------------------ */
-                const btn = wrap.find('.s1-fbt-add-button');
-                let count = selected_ids.length;
-
-                if (count === 1) {
-                    btn.text(StoreOneFBT.btn_single);
-                } else if (count === 2) {
-                    btn.text(StoreOneFBT.btn_double);
-                } else {
-                    btn.text(StoreOneFBT.btn_multi);
-                }
-
-                /* ------------------------------------------
-                    INACTIVE / ACTIVE PRODUCT IMAGE
-                ------------------------------------------ */
-
-                wrap.find('.s1-fbt-product').each((x, productEl) => {
-                    const pid = $(productEl).data('id') || productEl.className.match(/post-(\d+)/)?.[1];
-
-                    if (selected_ids.includes(parseInt(pid))) {
-                        $(productEl).removeClass('s1-fbt-inactive');
-                    } else {
-                        $(productEl).addClass('s1-fbt-inactive');
+                if ($cb.is(":checked")) {
+                    let price = parseFloat($cb.val());
+                    if (!isNaN(price)) {
+                        total += price;
+                        count++;
                     }
-                });
+                }
+            });
 
+            const currency = StoreOneFBT.currency_symbol;
+
+            // Show total amount
+            $wrap.find(".s1-fbt-total-final-amount")
+                 .html(currency + total.toFixed(2));
+
+            // Update label ("Total for X items")
+            let title =
+                count === 1 ? StoreOneFBT.total_single :
+                count === 2 ? StoreOneFBT.total_double :
+                StoreOneFBT.total_multi;
+
+            $wrap.find(".s1-fbt-total-title").text(title);
+        },
+
+        /** UPDATE BUTTON TEXT */
+        updateButtonText($wrap) {
+
+            let count = $wrap.find(".s1-fbt-checkbox:checked").length;
+
+            let txt =
+                count === 1 ? StoreOneFBT.btn_single :
+                count === 2 ? StoreOneFBT.btn_double :
+                StoreOneFBT.btn_multi;
+
+            $wrap.find(".s1-fbt-add-button").text(txt);
+        },
+
+        /** AJAX ADD TO CART */
+        addBundleToCart($button) {
+
+            let wrap = $button.closest(".s1-fbt-product-wrap");
+            let ids  = wrap.find(".s1-fbt-selected-ids").val();
+            let main_id = $button.data("main-id");
+
+            if (!ids) {
+                alert("Please select at least one item.");
+                return;
+            }
+
+            $button.addClass("loading");
+
+            $.ajax({
+                url: StoreOneFBT.ajax_url,
+                type: "POST",
+                data: {
+                    action: "storeone_fbt_add_bundle",
+                    nonce: StoreOneFBT.nonce,
+                    main_id: main_id,
+                    selected_ids: ids.split(",")
+                },
+                success: (response) => {
+                    $button.removeClass("loading");
+
+                    $(document.body).trigger("added_to_cart", [
+                        response.fragments,
+                        response.cart_hash,
+                        $button,
+                    ]);
+                },
+                error: (xhr) => {
+                    $button.removeClass("loading");
+                    console.log("ERROR:", xhr.responseText);
+                    alert("Something went wrong.");
+                }
             });
         }
+
     };
 
-    $(document).ready(() => FBT.init());
+    $(function () {
+        S1FBT.init();
+    });
 
 })(jQuery);
