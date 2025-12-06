@@ -57,9 +57,7 @@ class Store_One_FBT_Frontend {
                 'total_multi'      => __( 'Total for selected items', 'store-one' ),
 
                 // Button text (fallbacks – per-rule button_text PHP se aayega)
-                'btn_single'       => __( 'Add 1 item to cart', 'store-one' ),
-                'btn_double'       => __( 'Add 2 items to cart', 'store-one' ),
-                'btn_multi'        => __( 'Add all selected to cart', 'store-one' ),
+                // 'button_text' => $rule['button_text'] ?? __('Add {count} items to cart', 'store-one'),
             ]
         );
     }
@@ -513,7 +511,6 @@ private function s1_render_style_2( $product_id, $rule, $bundle_products, $bundl
 </section>
 <?php
 }
-
 /* --------------------------------------------------------------------
  * STYLE 3 (table) — s1 classes
  * ------------------------------------------------------------------ */
@@ -692,11 +689,11 @@ private function s1_render_table_style( $product_id, $rule, $bundle_products, $b
     // Settings
     $price_label                  = $this->get_fbt_setting($rule, 'price_label', __('Bundle price', 'store-one'));
     $one_price_label              = $this->get_fbt_setting($rule, 'one_price_label', __('Product price', 'store-one'));
-    $single_only_label            = $this->get_fbt_setting($rule, 'single_only_label', '');
+    // $single_only_label            = $this->get_fbt_setting($rule, 'single_only_label', '');
     $you_save_label_raw           = $this->get_fbt_setting($rule, 'you_save_label', 'You save: {amount}');
     $no_variation_text            = $this->get_fbt_setting($rule, 'no_variation_text', __('Please select an option to see your savings.', 'store-one'));
     $no_variation_no_discount     = $this->get_fbt_setting($rule, 'no_variation_no_discount_text', __('Please select an option to see the total price.', 'store-one'));
-    $btn_label                    = $this->get_fbt_setting($rule, 'button_text', __('Add to cart', 'store-one'));
+    $btn_label                    = $this->get_fbt_setting($rule, 'button_text', __('Add {count} items to cart', 'store-one'));
 
     // Base price
     if ( $product->get_type() !== 'variable' ) {
@@ -733,6 +730,7 @@ private function s1_render_table_style( $product_id, $rule, $bundle_products, $b
             </div>
 
             <div class="s1-fbt-final-price">
+                <small><?php echo esc_html( $price_label ); ?>:</small>
                 <span class="s1-fbt-total-final-amount"><?php echo wp_kses_post( $price_html ); ?></span>
             </div>
 
@@ -740,10 +738,11 @@ private function s1_render_table_style( $product_id, $rule, $bundle_products, $b
 
         <div class="s1-fbt-action-box">
             <button type="submit"
-                    class="button alt s1-fbt-add-button"
-                    data-main-id="<?php echo esc_attr( $product->get_id() ); ?>">
-                <?php echo esc_html( $btn_label ); ?>
-            </button>
+            class="button alt s1-fbt-add-button"
+            data-main-id="<?php echo esc_attr( $product->get_id() ); ?>"
+            data-template="<?php echo esc_attr( $btn_label ); ?>">
+            <?php echo esc_html( $btn_label ); ?>
+        </button>
 
             <input type="hidden"
                    class="s1-fbt-selected-ids"
