@@ -1,4 +1,3 @@
-// src/admin/modules/FrequentlyBoughtSettings.js
 
 import { useState, useEffect } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
@@ -9,7 +8,7 @@ import FrequentlyBoughtRulesEditor from './FrequentlyBoughtRulesEditor';
 
 const MODULE_ID = 'frequently-bought';
 
-export default function FrequentlyBoughtSettings() {
+export default function FrequentlyBoughtSettings({onSettingsChange}) {
 
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -19,6 +18,10 @@ export default function FrequentlyBoughtSettings() {
     const [hideToast, setHideToast] = useState(false);
 
     const [rules, setRules] = useState([]);
+
+    useEffect(() => {
+    onSettingsChange?.({ rules });
+    }, [rules]);
 
     useEffect(() => {
         setLoading(true);

@@ -8,6 +8,9 @@ import ExcludeWooCondition from '@storeone-global/ExcludeWooCondition';
 import TabSwitcher from '@storeone-global/TabSwitcher';
 import UserCondition from '@storeone-global/UserCondition';
 import SingleProductSettings from './SingleProductSettings';
+import CartPageSettings from './cartPageSettings';
+import CheckoutPageSettings from './CheckoutPageSettings';
+
 import S1Accordion from "@storeone-global/S1Accordion";
 import { CopyIcon, TrashIcon, DragHandleDots2Icon ,ChevronDownIcon,
     ChevronUpIcon } from "@radix-ui/react-icons";
@@ -64,7 +67,7 @@ const newFBTRule = () => ({
     /* -----------------------
      * SINGLE PAGE SETTINGS
      * ---------------------- */
-    single_enabled: true,
+    single_enabled: "active",
 
     placement: "after_summary",
     priority: 10,
@@ -94,7 +97,21 @@ const newFBTRule = () => ({
         Mobile: "0px",
     },
     display_style: "style_1",
-   
+    /* -----------------------
+     * CART PAGE SETTINGS
+     * ---------------------- */
+    cart_enabled: "active",
+    cart_bundle_title: "Add",
+    cart_button_text: "Add to cart",
+    cart_you_save_label: "and save: {amount}",
+    /* -----------------------
+     * Checkout PAGE SETTINGS
+     * ---------------------- */
+    checkout_enabled: "active",
+    checkout_placement: "before_order",
+    checkout_bundle_title: "Add",
+    checkout_button_text: "Add to cart",
+    checkout_you_save_label: "and save: {amount}",
 });
 
 
@@ -354,19 +371,24 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
                                         icon: '',
                                         content: (
                                             <>
-                                            <S1Accordion title={__("Single Product Page Settings", "store-one")} defaultOpen={true}>
+                                            <S1Accordion title={__("Single Product Page Settings", "store-one")} status={rule.single_enabled} defaultOpen={true}>
                                             <SingleProductSettings
                                                 settings={rule}
                                                 updateSetting={(key, val) => updateField(index, key, val)}
                                             />
                                             </S1Accordion>
-
-                                            <S1Accordion title={__("Cart Page Settings", "store-one")}>
-                                                    
+                                            <S1Accordion title={__("Cart Page Settings", "store-one")} status={rule.cart_enabled}>
+                                                <CartPageSettings
+                                                settings={rule}
+                                                updateSetting={(key, val) => updateField(index, key, val)}
+                                            />    
                                             </S1Accordion>
 
-                                            <S1Accordion title={__("Checkout Page Settings", "store-one")}>
-                                                
+                                            <S1Accordion title={__("Checkout Page Settings", "store-one")} >
+                                                <CheckoutPageSettings
+                                                settings={rule}
+                                                updateSetting={(key, val) => updateField(index, key, val)}
+                                            />    
                                             </S1Accordion>
                                         </>
                                              
@@ -401,7 +423,6 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
                     </div>
                 ))}
             </SortableWrapper>
-
             {/* Add Rule */}
             <div className="store-one-add-rule" onClick={addRule}>
                 {__('+ Add New Rule', 'store-one')}

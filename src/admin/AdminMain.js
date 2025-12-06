@@ -10,7 +10,7 @@ import GlobalSettings from '@storeone-global/GlobalSettings';
 
 import { Notice, Spinner, Button } from '@wordpress/components';
 import './admin.scss';
-//import '@storeone-global/globalsetting.scss';
+
 
 const modulesList = [
     {
@@ -52,6 +52,7 @@ const tabs = [
 ];
 
 const AdminMain = () => {
+    const [moduleSettings, setModuleSettings] = useState({});
     const [loading, setLoading]   = useState(true);
     const [saving, setSaving]     = useState(false);
     const [error, setError]       = useState('');
@@ -216,13 +217,19 @@ const AdminMain = () => {
                     <div className="s1-settings-layout">
 
                         <ModuleSettings
-                            currentModule={currentModule}
-                            modulesState={modulesState}
-                            onToggleModule={handleToggleModule}
-                            saving={saving}
-                        />
+                        currentModule={currentModule}
+                        modulesState={modulesState}
+                        onToggleModule={handleToggleModule}
+                        saving={saving}
+                        onSettingsChange={(settings) => {
+                            setModuleSettings(prev => ({
+                                ...prev,
+                                [currentModule.id]: settings
+                            }));
+                        }}
+                    />
                     <div className="s1-preview-pane">
-                        <PreviewPane />
+                        <PreviewPane currentModule={currentModule} settings={moduleSettings[currentModule.id]}/>
                     </div>
                        
                     </div>
