@@ -2,23 +2,16 @@ import {
     TextControl,
     TextareaControl,
     SelectControl,
-    ToggleControl,
-    RangeControl,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import MiniColorPicker from '@storeone-global/MiniColorPicker';
 import UniversalRangeControl from '@storeone-global/UniversalRangeControl';
 import THBackgroundControl from '../../components/background/color';
-import THBorderRadius from '../../components/background/borderRadius';
-
-
-
 
 export default function SingleProductSettings({
     settings,
     updateSetting,
 }) {
-
     // FIX: status toggle convert active/inactive ↔ boolean
     const statusChecked = settings.status === "active";
 
@@ -32,8 +25,8 @@ export default function SingleProductSettings({
                </label>
 
                <SelectControl
-                    value={settings.status}
-                    onChange={(v) => updateSetting('status', v)}
+                    value={settings.single_enabled}
+                    onChange={(v) => updateSetting('single_enabled', v)}
                     options={[
                          { label: __('Active', 'store-one'), value: 'active' },
                          { label: __('Inactive', 'store-one'), value: 'inactive' },
@@ -96,25 +89,6 @@ export default function SingleProductSettings({
                 />
             </div>
 
-            <div className="s1-field-control">
-                <label className="s1-field-label">
-                    {__('Price label when only one product selected', 'store-one')}
-                </label>
-                <TextControl
-                    value={settings.single_only_label}
-                    onChange={(v) => updateSetting('single_only_label', v)}
-                />
-            </div>
-
-            {/* YOU SAVE LABEL */}
-            <div className="s1-field-control">
-                <label className="s1-field-label">{__('You save label', 'store-one')}</label>
-                <TextControl
-                    value={settings.you_save_label}
-                    onChange={(v) => updateSetting('you_save_label', v)}
-                />
-            </div>
-
             {/* NO VARIATION SELECTED */}
             <div className="s1-field-control">
                 <label className="s1-field-label">{__('No variation selected text', 'store-one')}</label>
@@ -136,10 +110,13 @@ export default function SingleProductSettings({
 
             {/* BUTTON TEXT */}
             <div className="s1-field-control">
-                <label className="s1-field-label">{__('Button text', 'store-one')}</label>
+                <label className="s1-field-label">
+                    {__('Button text', 'store-one')}
+                </label>
                 <TextControl
                     value={settings.button_text}
                     onChange={(v) => updateSetting('button_text', v)}
+                    help={__('Use {count} to show selected items count.', 'store-one')}
                 />
             </div>
 

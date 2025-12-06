@@ -110,15 +110,18 @@
 
         /** UPDATE BUTTON TEXT */
         updateButtonText($wrap) {
+        let count = $wrap.find(".s1-fbt-checkbox:checked").length;
 
-            let count = $wrap.find(".s1-fbt-checkbox:checked").length;
+        // Button element inside this wrap
+        let $btn = $wrap.find(".s1-fbt-add-button");
 
-            let txt =
-                count === 1 ? StoreOneFBT.btn_single :
-                count === 2 ? StoreOneFBT.btn_double :
-                StoreOneFBT.btn_multi;
+        // User template from PHP
+        let template = $btn.data("template") || "Add {count} items to cart";
 
-            $wrap.find(".s1-fbt-add-button").text(txt);
+                // Replace {count} with real number
+                let finalTxt = template.replace("{count}", count);
+
+                $wrap.find(".s1-fbt-add-button").text(finalTxt);
         },
 
         /** AJAX ADD TO CART */

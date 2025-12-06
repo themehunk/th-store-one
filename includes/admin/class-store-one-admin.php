@@ -88,6 +88,7 @@ class Store_One_Admin {
 		wp_localize_script(
 			'store-one-admin',
 			'StoreOneAdmin',
+			
 			array(
 				// e.g. "store-one/v1/"
 				'restUrl' => 'store-one/v1/',
@@ -99,6 +100,7 @@ class Store_One_Admin {
 					'saveSuccess' => esc_html__( 'Settings saved successfully.', 'store-one' ),
 					'saveError'   => esc_html__( 'Failed to save settings. Please try again.', 'store-one' ),
 				),
+				'homeUrl' => home_url('/'), 
 			)
 		);
 
