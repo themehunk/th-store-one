@@ -246,7 +246,7 @@
    MODULE GRID — WRAPPER
 ------------------------------------------------------------- */
 
-.s1-modules {
+.s1-modules,.settings-global-wrap {
     padding: var(--s1-space-18);
     background: #fff;
     border: var(--s1-border);
@@ -1307,9 +1307,9 @@ button.is-tertiary,
 }
 
 /* INACTIVE LOOK */
-.s1-accordion.is-inactive {
-    opacity: 0.7;
-}
+// .s1-accordion.is-inactive {
+//     opacity: 0.7;
+// }
 
 .s1-accordion-status.on {
     background: #4CAF50;
@@ -1326,4 +1326,26 @@ button.is-tertiary,
     border-radius: 4px;
     font-size: 10px;
     margin-right: 8px;
+}
+.s1-fbt-preview-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 160px;
+  background: #fafafa;
+  border-radius: 8px;
+}
+
+.s1-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #ddd;
+  border-top: 3px solid #111;
+  border-radius: 50%;
+  animation: s1spin 0.8s linear infinite;
+}
+
+@keyframes s1spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

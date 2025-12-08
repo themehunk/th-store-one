@@ -4,7 +4,12 @@ import PreviewFBT from '../../modules/frequentlyBoughtTogether/livepreview/Previ
 
 const PreviewPane = ({ currentModule, settings }) => {
 
+    // `settings` can be either a single rule object (live preview)
+    // or a full module settings object with `rules` array (fallback).
     const moduleSettings = settings || {};
+    const activeRule = Array.isArray(moduleSettings.rules) && moduleSettings.rules.length > 0
+        ? moduleSettings.rules[0]
+        : moduleSettings;
 
     return (
         <Card className="preview-card">
@@ -24,8 +29,11 @@ const PreviewPane = ({ currentModule, settings }) => {
                     <div className="preview-content">
                         <div className="preview-pane-box">
 
-                            {currentModule?.id === "frequently-bought" && (
-                                <PreviewFBT settings={moduleSettings} />
+                            {currentModule?.id === "frequently-bought" && activeRule && (
+                                <PreviewFBT
+                                    key={(activeRule.flexible_id || 'rule') + (activeRule.display_style || '')}
+                                    settings={activeRule}
+                                />
                             )}
 
                             {/* You can add more modules here */}

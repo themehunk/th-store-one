@@ -52,6 +52,8 @@ const tabs = [
 ];
 
 const AdminMain = () => {
+    const [livePreviewSettings, setLivePreviewSettings] = useState(null);
+
     const [moduleSettings, setModuleSettings] = useState({});
     const [loading, setLoading]   = useState(true);
     const [saving, setSaving]     = useState(false);
@@ -217,6 +219,7 @@ const AdminMain = () => {
                     <div className="s1-settings-layout">
 
                         <ModuleSettings
+                        onLivePreview={(rule) => setLivePreviewSettings(rule)}
                         currentModule={currentModule}
                         modulesState={modulesState}
                         onToggleModule={handleToggleModule}
@@ -229,7 +232,7 @@ const AdminMain = () => {
                         }}
                     />
                     <div className="s1-preview-pane">
-                        <PreviewPane currentModule={currentModule} settings={moduleSettings[currentModule.id]}/>
+                        <PreviewPane currentModule={currentModule} settings={livePreviewSettings || moduleSettings[currentModule.id]?.rules?.[0]}/>
                     </div>
                        
                     </div>

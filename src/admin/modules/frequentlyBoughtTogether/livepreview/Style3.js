@@ -11,7 +11,7 @@ const Style3 = ({ settings }) => {
         <section className={`s1-fbt-box style_3`}>
 
             {/* TITLE */}
-            <h2 className="s1-fbt-title">
+            <h2 className="s1-fbt-title" style={{ color: settings?.bundel_title_clr || undefined }}>
                 {settings?.title || __("Frequently Bought Together", "store-one")}
             </h2>
 
@@ -79,11 +79,12 @@ const Style3 = ({ settings }) => {
                                         <div className="s1-fbt-total-box">
                                             <div className="s1-fbt-total-label">
                                                 {__("Bundle Price:", "store-one")}
-                                            </div>
-
-                                            <div className="s1-fbt-total-value">
+                                                <div className="s1-fbt-total-value">
                                                 ₹999
                                             </div>
+                                            </div>
+
+                                            
 
                                             <button className="s1-fbt-add-btn">
                                                 {__("Add Bundle to Cart", "store-one")}
