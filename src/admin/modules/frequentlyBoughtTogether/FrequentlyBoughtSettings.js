@@ -8,7 +8,7 @@ import FrequentlyBoughtRulesEditor from './FrequentlyBoughtRulesEditor';
 
 const MODULE_ID = 'frequently-bought';
 
-export default function FrequentlyBoughtSettings({onSettingsChange}) {
+export default function FrequentlyBoughtSettings({ onSettingsChange, onLivePreview }) {
 
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -101,7 +101,7 @@ export default function FrequentlyBoughtSettings({onSettingsChange}) {
                         </div>
                     )}
 
-                    <FrequentlyBoughtRulesEditor rules={rules} onChange={setRules} />
+                    <FrequentlyBoughtRulesEditor rules={rules} onChange={setRules} onLivePreview={onLivePreview} />
 
                     <Button
                         isPrimary

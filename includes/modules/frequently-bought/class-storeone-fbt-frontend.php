@@ -867,6 +867,4 @@ private function s1_render_table_style( $product_id, $rule, $bundle_products, $b
     wp_die();
 }
 
-
-
 }

@@ -10,6 +10,7 @@ import UserCondition from '@storeone-global/UserCondition';
 import SingleProductSettings from './SingleProductSettings';
 import CartPageSettings from './cartPageSettings';
 import CheckoutPageSettings from './CheckoutPageSettings';
+import THBackgroundControl from '../../components/background/color';
 
 import S1Accordion from "@storeone-global/S1Accordion";
 import { CopyIcon, TrashIcon, DragHandleDots2Icon ,ChevronDownIcon,
@@ -112,6 +113,9 @@ const newFBTRule = () => ({
     checkout_bundle_title: "Add",
     checkout_button_text: "Add to cart",
     checkout_you_save_label: "and save: {amount}",
+
+    //color
+    bundel_title_clr: "#111",
 });
 
 
@@ -135,7 +139,7 @@ function SortableWrapper({ items, onSortEnd, children }) {
 }
 
 /* ------------------------ Main Component ------------------------ */
-export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
+export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePreview }) {
 
     const updateAll = (arr) => onChange([...arr]);
 
@@ -150,12 +154,16 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
         const arr = [...rules];
         arr[i].open = !arr[i].open;
         updateAll(arr);
+        if (arr[i].open) {
+            onLivePreview?.(arr[i], i);
+        }
     };
 
     const updateField = (i, field, val) => {
         const arr = [...rules];
         arr[i][field] = val;
         updateAll(arr);
+        onLivePreview?.(arr[i], i);
     };
 
     const removeRule = (i) => {
@@ -171,7 +179,12 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
         updateAll(arr);
     };
 
-    const addRule = () => updateAll([...rules, newFBTRule()]);
+    const addRule = () => {
+        const arr = [...rules, newFBTRule()];
+        updateAll(arr);
+        const newIndex = arr.length - 1;
+        onLivePreview?.(arr[newIndex], newIndex);
+    };
 
     useEffect(() => {
         if (rules.length === 0) {
@@ -409,7 +422,21 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange }) {
                                                             { label: __('Style2', 'store-one'), value: 'style_2' },
                                                             { label: __('Style3', 'store-one'), value: 'style_3' },
                                                         ]}
-                                                        onChange={(v) => updateField(index, 'display_style', v)}
+                                                        onChange={(v) => {
+                                                            const updatedRule = { ...rule, display_style: v };
+                                                            updateField(index, 'display_style', v);
+                                                            onLivePreview?.(updatedRule, index);
+                                                        }}
+                                                    />
+                                                    <THBackgroundControl
+                                                        allowGradient={false}
+                                                        label={__('Title Color', 'store-one')}
+                                                        value={rule.bundel_title_clr}
+                                                        onChange={(v) => {
+                                                            const updatedRule = { ...rule, bundel_title_clr: v };
+                                                            updateField(index, 'bundel_title_clr', v);  // ✅ FIXED (was updateSetting)
+                                                            onLivePreview?.(updatedRule, index);        // ✅ live preview for color
+                                                        }}
                                                     />
                                                 </S1Field>
                                                 </div>

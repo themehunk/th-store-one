@@ -30,6 +30,7 @@ input.color-input {
     outline: 2px solid transparent;
     outline-offset: 2px;
     padding-right: 2.5rem;
+    background: #fff;
 
 }
 
