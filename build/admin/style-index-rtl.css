@@ -1,3 +1,6 @@
+/*!***********************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/admin/components/background/style.css ***!
+  \***********************************************************************************************************************************************************************************************/
  .components-popover__content {
  width:250px;
     padding:10px;
@@ -8,6 +11,7 @@
     border: 1px solid #e2e8f0;
     border-radius: .5rem;
 }
+
 .components-base-control__field .components-text-control__input,
 .components-input-control__container .components-select-control__input,
 .th-bg-control input.color-input  {
@@ -20,12 +24,13 @@
     color: #475569;
     outline: 2px solid transparent;
     outline-offset: 2px;
-    padding-right: 1.4rem ;
+    padding-left: 1.4rem ;
 }
 
 .th-bg-control {
     margin: 1.5rem 0;
 }
+
 .th-bg-control .color-box {
     width: 2.5rem;
     height: 2.5rem;
@@ -33,6 +38,7 @@
     border: 1px solid #e2e8f0;
         cursor: pointer;
 }
+
 .th-bg-control .color-box-wrap {
     display: flex;
     gap: 5px;
@@ -44,6 +50,7 @@
     display: flex;
     align-items: center;
 }
+
 .th-bg-control input.color-input {
 width: 100%;
     /* border:1px solid #e2e8f0;
@@ -61,5 +68,5 @@ width: 100%;
 .th-bg-control span.component-color-indicator {
  width: 12px;
     height: 12px;
-    margin-left: -20px;
+    margin-right: -20px;
 }

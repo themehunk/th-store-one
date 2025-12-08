@@ -1,3 +1,332 @@
+/*!***************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/admin/modules/frequentlyBoughtTogether/livepreview/live-style.css ***!
+  \***************************************************************************************************************************************************************************************************************************/
+/* ------------------------------------------
+   STORE-ONE FBT — STYLE 1
+------------------------------------------- */
+.s1-fbt-box.style_1 {
+    padding: 20px;
+}
+.s1-fbt-box.style_1 .s1-fbt-content {
+    display: flex;
+    flex-wrap: wrap;
+}
+.s1-fbt-box.style_1 .s1-fbt-content-one {
+    width: 65%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.s1-fbt-box.style_1 .s1-fbt-product {
+    width: 32%;
+    text-align: center;
+    padding: 10px;
+}
+.s1-fbt-box.style_1 .s1-fbt-product .s1-fbt-image img {
+    width: 100%;
+}
+/* FIRST LAYOUT — INACTIVE PRODUCT PLUS ICON CENTERED */
+.s1-fbt-box.style_1 .s1-fbt-product.s1-fbt-inactive .s1-fbt-image {
+    position: relative;  /* IMPORTANT */
+}
+/* Plus icon center aligned */
+.s1-fbt-box.style_1 .s1-fbt-product.s1-fbt-inactive .s1-fbt-image::after {
+    content: "+";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* PERFECT CENTER */
+    font-size: 28px;
+    color: #888;
+    font-weight: 600;
+    z-index: 3;
+}
+/* Light overlay for inactive image (optional) */
+.s1-fbt-box.style_1 .s1-fbt-product.s1-fbt-inactive .s1-fbt-image::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.55);
+    z-index: 2;
+}
+/* Right side list */
+.s1-fbt-box.style_1 .s1-fbt-content-two {
+    width: 35%;
+}
+.s1-fbt-box.style_1 .s1-fbt-product-list-add {
+    margin-bottom: 10px;
+}
+.s1-fbt-box.style_1 .s1-fbt-product-title {
+    font-size: 15px;
+    font-weight: 600;
+}
+/* ------------------------------------------
+   STORE-ONE FBT — STYLE 2
+------------------------------------------- */
+.s1-fbt-box.style_2 .s1-fbt-content {
+    flex-direction: column;
+}
+.s1-fbt-box.style_2 .s1-fbt-content-one {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    gap: 10px;
+}
+.s1-fbt-box.style_2 .s1-fbt-product-row {
+    display: flex;
+    align-items: center;
+}
+.s1-fbt-box.style_2 .s1-fbt-product {
+    width: 70px;
+}
+.s1-fbt-box.style_2 .s1-fbt-product img {
+    width: 70px;
+    height: 70px;
+    -o-object-fit: cover;
+       object-fit: cover;
+}
+.s1-fbt-box.style_2 .s1-fbt-plus-sign {
+    font-size: 22px;
+    margin: 0 10px;
+    font-weight: bold;
+    color: #999;
+}
+/* Right list below */
+.s1-fbt-box.style_2 .s1-fbt-content-two {
+    width: 100%;
+    margin-top: 15px;
+}
+.s1-fbt-box.style_2 .s1-fbt-product-list-add {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.s1-fbt-box.style_2 .s1-fbt-product-title {
+    margin-left: 10px;
+}
+/* CHECKBOX */
+.s1-fbt-box .s1-fbt-product-list-add input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--s1-color-primary, #2271b1);
+}
+.s1-fbt-box .s1-fbt-product-list-add input[type="checkbox"]:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+/* ==========================================================
+   STYLE 3 — TABLE LAYOUT (s1-fbt classes)
+   NOW WITH PARENT CLASS: .style_3
+   ========================================================== */
+.s1-fbt-box.style_3 {
+    padding: 0;
+}
+.s1-fbt-box.style_3 .s1-fbt-title {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+/* Table container */
+.s1-fbt-box.style_3 .s1-fbt-content-table {
+    width: 100%;
+    padding: 0;
+}
+/* Table */
+.s1-fbt-box.style_3 .s1-fbt-product-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.s1-fbt-box.style_3 .s1-fbt-product-table tbody tr {
+    border-bottom: 1px solid #eee;
+}
+.s1-fbt-box.style_3 .s1-fbt-product-table td {
+    padding: 10px 5px;
+    vertical-align: middle;
+}
+/* Checkbox column */
+.s1-fbt-box.style_3 .s1-fbt-check {
+    width: 50px;
+    text-align: center;
+}
+.s1-fbt-box.style_3 .s1-fbt-checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+}
+.s1-fbt-box.style_3 .s1-fbt-checkbox:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+/* Product (image + title) */
+.s1-fbt-box.style_3 .s1-fbt-td-title label {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    cursor: pointer;
+}
+.s1-fbt-box.style_3 .s1-fbt-image {
+    width: 55px;
+    height: 55px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    overflow: hidden;
+}
+.s1-fbt-box.style_3 .s1-fbt-image img {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+       object-fit: cover;
+}
+/* Title */
+.s1-fbt-box.style_3 .s1-fbt-product-title a {
+    font-size: 15px;
+    font-weight: 600;
+    color: #222;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 350px;
+}
+/* Price column */
+.s1-fbt-box.style_3 .s1-fbt-last {
+    text-align: right;
+    font-weight: 600;
+}
+.s1-fbt-box.style_3 .s1-fbt-product-price {
+    font-size: 15px;
+    color: #444;
+}
+.s1-fbt-box.style_3 .s1-fbt-product-price ins {
+    text-decoration: none;
+    margin-left: 5px;
+}
+/* Total Row */
+.s1-fbt-box.style_3 .s1-fbt-total-row td {
+    border: 0 !important;
+}
+.s1-fbt-box.style_3 .s1-fbt-total-wrap {
+    text-align: right;
+    padding-top: 15px;
+}
+/* Total display */
+.s1-fbt-box.style_3 .s1-fbt-total-title {
+    font-size: 16px;
+    font-weight: 600;
+}
+.s1-fbt-box.style_3 .s1-fbt-total-final-amount {
+    font-size: 19px;
+    font-weight: 700;
+    color: #111;
+}
+/* Button */
+.s1-fbt-box.style_3 .s1-fbt-action-box {
+    margin-top: 10px;
+    text-align: right;
+}
+.s1-fbt-box.style_3 .s1-fbt-add-button {
+    margin-top: 8px;
+    padding: 10px 18px;
+    background: #222;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+}
+.s1-fbt-box.style_3 .s1-fbt-add-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+/* Variations */
+.s1-fbt-box.style_3 .s1-fbt-variation {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+}
+.s1-fbt-box.style_3 .s1-fbt-variation .variation .select select {
+    width: 140px;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    font-size: 14px;
+}
+.s1-fbt-box.style_3 .reset_variations {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #888;
+}
+/* ------------------------------
+   STORE-ONE FBT – VARIATION WRAPPER
+---------------------------------- */
+.variations.s1-fbt-variation {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 18px;
+    padding: 14px 0;
+    align-items: flex-end;
+}
+/* Each variation box */
+.s1-fbt-variation .variation {
+    flex: 1 1 150px;
+    min-width: 150px;
+}
+/* Dropdown wrapper */
+.s1-fbt-variation .variation .select select {
+    width: 100%;
+    padding: 10px 12px;
+    background: #fff;
+    border: 1px solid #d0d7e2;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #2c3338;
+    transition: all 0.18s ease;
+    cursor: pointer;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    line-height: 1.4;
+    background-image: url("data:image/svg+xml,%3Csvg width=%2712%27 height=%2712%27 fill=%27%2399a1ac%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cpath d=%27M3.5 4.5l2.5 2.5 2.5-2.5%27/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+/* Hover */
+.s1-fbt-variation .variation .select select:hover {
+    border-color: #bfc6d2;
+}
+/* Focus */
+.s1-fbt-variation .variation .select select:focus {
+    border-color: #007cba;
+    box-shadow: 0 0 0 1px #007cba;
+    outline: none;
+}
+/* Reset link wrapper */
+.s1-fbt-variation .reset {
+    margin-left: auto;
+}
+/* Reset link */
+.s1-fbt-variation .reset a {
+    font-size: 13px;
+    color: #cc0000;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 0;
+    transition: color 0.15s ease;
+}
+.s1-fbt-variation .reset a:hover {
+    color: #ff2a2a;
+    text-decoration: underline;
+}
+/* Responsive */
+@media(max-width: 768px) {
+    .s1-fbt-box.style_3 .s1-fbt-td-title label {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+
 /*!*********************************************************************************************************************************************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/admin/admin.scss ***!
   \*********************************************************************************************************************************************************************************************************************************************/
@@ -91,28 +420,27 @@
   --s1-anim-normal: 0.25s ease;
   --s1-anim-slow: 0.35s ease;
 }
-
 /* ------------------------------------------------------------
    WORDPRESS ADMIN LAYOUT FIXES (DO NOT REMOVE)
 ------------------------------------------------------------- */
 .toplevel_page_store-one #wpcontent {
   padding: 0;
 }
-
 .wrap.store-one-wrap {
   padding: 0;
   margin: 0;
 }
-
 .store-module-wrap {
   margin: var(--s1-space-40);
 }
-
 /* ------------------------------------------------------------
    HEADER COMPONENT — StoreOne UI
 ------------------------------------------------------------- */
 /* Wrapper */
 .s1-header {
+  position: sticky;
+  top: 0;
+  z-index: 999;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -120,11 +448,11 @@
   background: #fff;
   border: 1px solid var(--s1-gray-200);
   box-shadow: var(--s1-shadow-sm);
-  margin-bottom: 20px;
-  border-radius: 0;
   font-family: var(--s1-font);
 }
-
+.admin-bar .s1-header {
+  top: 32px; /* WP admin bar height */
+}
 /* ------------------------------------------------------------
    LEFT AREA (Logo + Branding)
 ------------------------------------------------------------- */
@@ -133,7 +461,6 @@
   align-items: center;
   gap: 12px;
 }
-
 .s1-header__logo {
   width: 36px;
   height: 36px;
@@ -146,19 +473,16 @@
   border-radius: 999px;
   font-size: 15px;
 }
-
 .s1-header__title {
   margin: 0;
   font-size: 18px;
   font-weight: 600;
 }
-
 .s1-header__subtitle {
   margin: 2px 0 0;
   font-size: 12px;
   color: var(--s1-gray-500);
 }
-
 /* ------------------------------------------------------------
    NAVIGATION (Buttons)
 ------------------------------------------------------------- */
@@ -170,7 +494,6 @@
   align-items: center;
   gap: var(--s1-space-6);
 }
-
 .s1-nav__btn {
   background: transparent;
   border: none;
@@ -207,17 +530,14 @@
   box-shadow: var(--s1-shadow-xs);
   transform: translateY(-1px);
 }
-
 .s1-nav__btn .dashicons {
   opacity: 0.85;
   font-size: 16px;
   transition: var(--s1-anim-fast);
 }
-
 .s1-nav__btn:hover .dashicons {
   opacity: 1;
 }
-
 /* ------------------------------------------------------------
    UPGRADE BUTTON (CTA)
 ------------------------------------------------------------- */
@@ -226,7 +546,6 @@
   font-size: 13px !important;
   padding: 6px 14px !important;
 }
-
 /* ------------------------------------------------------------
    MODULE GRID — WRAPPER
 ------------------------------------------------------------- */
@@ -239,7 +558,6 @@
   margin: var(--s1-space-24);
   animation: fadeInUp var(--s1-anim-normal);
 }
-
 /* ------------------------------------------------------------
    TABS (WP TabPanel Custom UI)
 ------------------------------------------------------------- */
@@ -252,7 +570,6 @@
   padding: var(--s1-space-4);
   margin-bottom: var(--s1-space-24);
 }
-
 /* Each tab button */
 .s1-tabs .components-tab-panel__tabs-item {
   background: transparent !important;
@@ -265,13 +582,11 @@
   box-shadow: none !important;
   height: var(--s1-btn-height-lg) !important;
 }
-
 /* Hover */
 .s1-tabs .components-tab-panel__tabs-item:hover {
   background: var(--s1-gray-100) !important;
   color: var(--s1-gray-800) !important;
 }
-
 /* Active */
 .s1-tabs .components-button.is-active {
   background: var(--s1-gray-200) !important;
@@ -280,12 +595,10 @@
   box-shadow: var(--s1-shadow-xs);
   transform: translateY(-1px);
 }
-
 /* Remove underline */
 .s1-tabs .components-button.is-active::after {
   display: none !important;
 }
-
 /* ------------------------------------------------------------
    GRID LAYOUT
 ------------------------------------------------------------- */
@@ -304,7 +617,6 @@
     grid-template-columns: 1fr;
   }
 }
-
 /* ------------------------------------------------------------
    ANIMATION
 ------------------------------------------------------------- */
@@ -333,11 +645,9 @@
   box-shadow: var(--s1-shadow-md) !important;
   border-color: var(--s1-gray-300);
 }
-
 .s1-module-card__body {
   padding: var(--s1-space-16) var(--s1-space-18);
 }
-
 /* ------------------------------------------------------------
    TOP ROW (Icon + Badge)
 ------------------------------------------------------------- */
@@ -347,7 +657,6 @@
   justify-content: space-between;
   margin-bottom: var(--s1-space-8);
 }
-
 /* Icon */
 .s1-module-card__icon {
   width: 38px;
@@ -363,7 +672,6 @@
 .s1-module-card:hover .s1-module-card__icon {
   animation-duration: 1.5s;
 }
-
 /* Badge */
 .s1-module-card__badge {
   padding: 4px 10px;
@@ -372,17 +680,14 @@
   text-transform: uppercase;
   font-weight: 600;
 }
-
 .s1-module-card__badge.is-on {
   background: #e7f9ed;
   color: #047857;
 }
-
 .s1-module-card__badge.is-off {
   background: var(--s1-gray-100);
   color: var(--s1-gray-500);
 }
-
 /* ------------------------------------------------------------
    TITLE + DESCRIPTION
 ------------------------------------------------------------- */
@@ -391,13 +696,11 @@
   font-size: 15px;
   font-weight: 600;
 }
-
 .s1-module-card__desc {
   margin: 0 0 12px;
   font-size: 13px;
   color: var(--s1-gray-600);
 }
-
 /* ------------------------------------------------------------
    BUTTON
 ------------------------------------------------------------- */
@@ -406,7 +709,6 @@
   border-radius: var(--s1-radius-md) !important;
   margin-top: 6px !important;
 }
-
 /* ------------------------------------------------------------
    Animation (icon breathing effect)
 ------------------------------------------------------------- */
@@ -435,7 +737,6 @@
     grid-template-columns: 1fr;
   }
 }
-
 .s1-preview-pane {
   position: sticky;
   top: 90px; /* header की height + margin */
@@ -443,7 +744,6 @@
   overflow-y: auto;
   padding-right: 6px; /* scrollbar ka little space */
 }
-
 /* Settings panel wrapper */
 .s1-settings-panel {
   background: #fff;
@@ -452,25 +752,21 @@
   box-shadow: var(--s1-shadow-sm);
   padding: var(--s1-space-20) var(--s1-space-18);
 }
-
 /* SETTINGS GRID WRAPPER */
 .store-module-wrap {
   margin: var(--s1-space-40, 40px);
 }
-
 .settings-grid,
 .s1-settings-layout {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
   gap: var(--s1-space-20);
 }
-
 /* SETTINGS PANEL (Card) */
 .s1-settings-panel.components-card {
   background: transparent;
   box-shadow: none;
 }
-
 /* SETTINGS PANEL HEADER */
 .s1-settings-panel .components-card__header.s1-settings__header {
   border-radius: var(--s1-radius-xl);
@@ -478,32 +774,27 @@
   padding: 24px 18px;
   border: 1px solid var(--s1-gray-200);
 }
-
 /* SETTINGS PANEL BODY */
 .s1-settings-panel .components-card__body.s1-settings__body {
   padding: 0 !important;
 }
-
 /* TITLE + DESCRIPTION */
 .s1-settings__title {
   font-size: var(--s1-font-size-lg);
   font-weight: var(--s1-font-weight-semibold);
   margin: 0 0 4px;
 }
-
 .s1-settings__desc {
   font-size: 13px;
   color: var(--s1-gray-500);
   margin: 0;
 }
-
 /* Toggle Area (Right side) */
 .s1-settings__toggle {
   display: flex;
   align-items: center;
   justify-content: flex-end;
 }
-
 /* ------------------------------------------------------------
    PREVIEW PANEL
 ------------------------------------------------------------- */
@@ -513,7 +804,6 @@
   border: var(--s1-border);
   box-shadow: var(--s1-shadow-sm);
 }
-
 .s1-preview__title {
   margin: 0;
   padding: var(--s1-space-18);
@@ -521,14 +811,12 @@
   font-weight: 600;
   border-bottom: var(--s1-border);
 }
-
 .s1-preview__box {
   border-radius: var(--s1-radius-lg);
   overflow: hidden;
   background: #f9fafb;
   border: var(--s1-border);
 }
-
 .s1-preview__browser {
   background: #202020;
   height: 32px;
@@ -537,25 +825,21 @@
   gap: var(--s1-space-6);
   padding-left: var(--s1-space-12);
 }
-
 .s1-preview__browser .dot {
   width: 8px;
   height: 8px;
   background: var(--s1-gray-300);
   border-radius: 50%;
 }
-
 .s1-preview__content {
   padding: var(--s1-space-16);
 }
-
 .s1-preview__thumb {
   height: 140px;
   background: var(--s1-gray-200);
   border-radius: var(--s1-radius-md);
   margin-bottom: var(--s1-space-12);
 }
-
 .s1-preview__line {
   height: 8px;
   border-radius: 4px;
@@ -566,7 +850,6 @@
 .s1-preview__line--lg {
   width: 85%;
 }
-
 /* ------------------------------------------------------------
    TERTIARY BUTTONS (Back button etc.)
 ------------------------------------------------------------- */
@@ -593,18 +876,15 @@ button.is-tertiary:focus,
 .components-button.is-tertiary:focus {
   box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.15) !important;
 }
-
 .s1-settings-layout .components-card {
   background: transparent !important;
   box-shadow: none !important;
   border: none !important;
 }
-
 .s1-settings-layout .components-card__header {
   background: #fff;
   border-radius: var(--s1-radius-xl) !important;
 }
-
 /* ------------------------------------------------------------
    LOADER
 ------------------------------------------------------------- */
@@ -619,7 +899,6 @@ button.is-tertiary:focus,
 .s1-loader .components-spinner {
   transform: scale(1.2);
 }
-
 /* ------------------------------------------------------------
    TOAST / NOTIFICATION
 ------------------------------------------------------------- */
@@ -637,19 +916,15 @@ button.is-tertiary:focus,
   font-weight: 500;
   min-width: 260px;
 }
-
 .s1-toast--success {
   border-left-color: #46b450;
 }
-
 .s1-toast--error {
   border-left-color: #dc3232;
 }
-
 .s1-toast.hide {
   animation: fadeOut 0.3s ease forwards;
 }
-
 @keyframes fadeOut {
   from {
     opacity: 1;
@@ -667,7 +942,6 @@ button.is-tertiary:focus,
   margin-right: var(--s1-space-8);
   animation: popIn 0.3s ease;
 }
-
 @keyframes popIn {
   0% {
     transform: scale(0.4);
@@ -689,7 +963,6 @@ button.is-tertiary:focus,
   font-weight: 600;
   margin-bottom: var(--s1-space-16);
 }
-
 /* ------------------------------------------
    Rule Card
 ------------------------------------------- */
@@ -700,7 +973,6 @@ button.is-tertiary:focus,
   margin-bottom: var(--s1-space-20);
   box-shadow: var(--s1-shadow-sm);
 }
-
 /* Header */
 .store-one-rule-header {
   padding: 24px 18px;
@@ -708,13 +980,11 @@ button.is-tertiary:focus,
   align-items: center;
   gap: var(--s1-space-12);
 }
-
 .s1-rule-title {
   flex: 1;
   font-size: 15px;
   font-weight: 600;
 }
-
 .s1-icon {
   width: 22px;
   height: 22px;
@@ -727,14 +997,12 @@ button.is-tertiary:focus,
   opacity: 1;
   color: var(--s1-gray-900);
 }
-
 /* ------------------------------------------
    Body Wrapper
 ------------------------------------------- */
 .store-one-rule-body {
   padding: var(--s1-space-16);
 }
-
 /* Add rule */
 .store-one-add-rule {
   margin-top: var(--s1-space-10);
@@ -746,18 +1014,15 @@ button.is-tertiary:focus,
 .store-one-add-rule:hover {
   text-decoration: underline;
 }
-
 .s1-settings-layout .components-card__body.s1-settings__body {
   padding: 0;
 }
-
 /* ------------------------------------------
    Field Wrapper
 ------------------------------------------- */
 .s1-field-wrapper {
   margin-bottom: var(--s1-space-16);
 }
-
 .s1-field-label {
   display: block;
   margin-bottom: var(--s1-space-6);
@@ -765,12 +1030,10 @@ button.is-tertiary:focus,
   font-size: 13px;
   color: var(--s1-gray-700);
 }
-
 /* Inputs styling */
 .s1-field-control input,
 .s1-field-control select,
 .s1-field-control textarea {
-  width: 100%;
   border-radius: var(--s1-radius-sm);
   padding: 8px 10px;
   font-size: 14px;
@@ -803,13 +1066,11 @@ button.is-tertiary:focus,
   min-height: 80px;
   resize: vertical;
 }
-
 /* Number spin buttons */
 .s1-field-control input[type=number]::-webkit-inner-spin-button,
 .s1-field-control input[type=number]::-webkit-outer-spin-button {
   opacity: 0.35;
 }
-
 /* ------------------------------------------
    EXCLUDE CONDITION BOX
 ------------------------------------------- */
@@ -817,21 +1078,17 @@ button.is-tertiary:focus,
   margin-top: var(--s1-space-20);
   border-radius: var(--s1-radius-md);
 }
-
 .s1-exclude-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 .s1-exclude-search {
   margin-top: var(--s1-space-14);
 }
-
 .s1-exclude-wrapper .s1-field-label {
   margin-bottom: 0;
 }
-
 /* Responsive */
 @media (max-width: 700px) {
   .store-one-rule-header {
@@ -846,14 +1103,12 @@ button.is-tertiary:focus,
   margin-bottom: var(--s1-space-20);
   padding: var(--s1-space-20);
 }
-
 /* HEADER */
 .store-one-tab-header {
   display: flex;
   gap: var(--s1-space-6);
   border-bottom: 1px solid var(--s1-gray-200);
 }
-
 /* EACH TAB */
 .store-one-tab-item {
   padding: 8px 14px;
@@ -886,32 +1141,39 @@ button.is-tertiary:focus,
   height: 2px;
   background: var(--s1-color-primary);
 }
-
 /* Dashicons */
 .store-one-tab-item .dashicons {
   font-size: 16px;
   opacity: 0.85;
 }
-
-/* CONTENT */
+/* ----------------------------------------
+   TAB CONTENT (FIXED HEIGHT + SCROLL)
+---------------------------------------- */
 .store-one-tab-content {
   padding-top: var(--s1-space-10);
+  /* NEW: You want minimum height */
+  height: 550px;
+  /* NEW: Scroll inside the panel */
+  overflow-y: auto;
+  /* Nice padding inside */
+  padding: var(--s1-space-12);
+  /* Smooth UI feel */
+  /* Smooth scrollbar for modern UI */
+  scrollbar-width: thin;
+  scrollbar-color: var(--s1-gray-300) var(--s1-gray-100);
 }
-
 /* ----------------------------------------
    MULTI SEARCH SELECTOR
 ---------------------------------------- */
 .multi-search-selector {
   position: relative;
 }
-
 .selected-items {
   display: flex;
   flex-wrap: wrap;
   gap: var(--s1-space-6);
   margin-bottom: var(--s1-space-8);
 }
-
 .selector-chip {
   background: var(--s1-gray-150);
   padding: 4px 8px;
@@ -920,7 +1182,6 @@ button.is-tertiary:focus,
   align-items: center;
   font-size: 12px;
 }
-
 .selector-chip .remove-chip {
   margin-left: var(--s1-space-6);
   cursor: pointer;
@@ -929,7 +1190,6 @@ button.is-tertiary:focus,
 .selector-chip .remove-chip:hover {
   opacity: 1;
 }
-
 .selector-dropdown {
   background: #fff;
   border: 1px solid var(--s1-gray-300);
@@ -941,7 +1201,6 @@ button.is-tertiary:focus,
   z-index: 100;
   border-radius: var(--s1-radius-sm);
 }
-
 .selector-option {
   padding: 6px;
   cursor: pointer;
@@ -949,7 +1208,6 @@ button.is-tertiary:focus,
 .selector-option:hover {
   background: var(--s1-gray-100);
 }
-
 /* Wrapper selector (already exists) */
 .s1-field-control .multiwoo-selector {
   border: 1px solid var(--s1-gray-300);
@@ -970,7 +1228,6 @@ button.is-tertiary:focus,
   border-color: var(--s1-color-primary);
   box-shadow: 0 0 0 1px var(--s1-color-primary);
 }
-
 /* INPUT inside multi-search */
 .s1-field-control .multiwoo-selector input.components-text-control__input {
   flex: 1;
@@ -982,7 +1239,6 @@ button.is-tertiary:focus,
   outline: none !important;
   box-shadow: none !important;
 }
-
 /* Placeholder = white */
 .components-base-control__field input.components-text-control__input::-moz-placeholder {
   color: var(--s1-input-placeholder) !important; /* #fff per your theme */
@@ -992,14 +1248,12 @@ button.is-tertiary:focus,
   color: var(--s1-input-placeholder) !important; /* #fff per your theme */
   opacity: 0.8;
 }
-
 /* WP applies backdrop — remove it */
 .multiwoo-selector .components-input-control__backdrop {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
 }
-
 /* Tag chips also match the theme */
 .multiwoo-tag {
   background: #eef4ff;
@@ -1009,33 +1263,28 @@ button.is-tertiary:focus,
   font-size: 12px;
   color: var(--s1-gray-800);
 }
-
 /* ----------------------------------------
    RANGE CONTROL
 ---------------------------------------- */
 .s1-range-wrapper {
   margin-bottom: var(--s1-space-14);
 }
-
 .s1-range-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: var(--s1-space-6);
 }
-
 .s1-range-label {
   font-size: 13px;
   font-weight: 500;
   color: var(--s1-gray-800);
 }
-
 .s1-range-row {
   display: flex;
   align-items: center;
   gap: var(--s1-space-10);
 }
-
 .s1-slider-area {
   flex: 1;
   min-width: 0;
@@ -1043,7 +1292,6 @@ button.is-tertiary:focus,
 .s1-slider-area .components-range-control__slider {
   width: 100%;
 }
-
 .s1-number-area .components-number-control__input {
   height: 32px !important;
   width: 70px !important;
@@ -1052,7 +1300,6 @@ button.is-tertiary:focus,
   border-radius: var(--s1-radius-sm) !important;
   font-size: 13px;
 }
-
 .s1-unit-area .components-select-control__input {
   width: 55px !important;
   padding: 4px 8px !important;
@@ -1060,42 +1307,35 @@ button.is-tertiary:focus,
   border-radius: var(--s1-radius-sm) !important;
   font-size: 13px;
 }
-
 .s1-universal-range-control .components-base-control__field {
   margin: 0 !important;
 }
-
 .s1-universal-range-control .components-input-control__backdrop {
   border: none !important;
   box-shadow: none !important;
   background: transparent !important;
 }
-
 .save-button-wrap {
   display: flex;
   justify-content: flex-end;
 }
-
 /* ----------------------------------------
    COLOR PICKER
 ---------------------------------------- */
 .store-one-color-field {
   margin-bottom: var(--s1-space-18);
 }
-
 .store-one-color-label {
   display: block;
   margin-bottom: var(--s1-space-6);
   font-size: 13px;
   color: var(--s1-gray-700);
 }
-
 .store-one-color-wrapper {
   display: flex;
   align-items: center;
   gap: var(--s1-space-12);
 }
-
 .store-one-color-box {
   width: 32px;
   height: 32px;
@@ -1104,7 +1344,6 @@ button.is-tertiary:focus,
   cursor: pointer;
   background-size: cover;
 }
-
 .store-one-color-input {
   width: 110px;
   padding: 6px 8px;
@@ -1112,13 +1351,11 @@ button.is-tertiary:focus,
   border: 1px solid var(--s1-gray-300);
   font-size: 13px;
 }
-
 .s1-color-tabs {
   display: flex;
   gap: 6px;
   margin-bottom: 10px;
 }
-
 .s1-color-tabs button {
   flex: 1;
   padding: 6px 0;
@@ -1128,13 +1365,11 @@ button.is-tertiary:focus,
   background: #f3f4f6;
   cursor: pointer;
 }
-
 .s1-color-tabs button.active {
   background: #2271b1;
   color: #fff;
   border-color: #2271b1;
 }
-
 /* ----------------------------------------------
    PREVIEW CARD (Right Side Module Preview)
 ---------------------------------------------- */
@@ -1142,7 +1377,6 @@ button.is-tertiary:focus,
   padding: 0;
   margin-top: var(--s1-space-20);
 }
-
 .preview-card {
   border-radius: var(--s1-radius-xl) !important;
   background: #ffffff;
@@ -1150,14 +1384,12 @@ button.is-tertiary:focus,
   box-shadow: var(--s1-shadow-sm);
   padding: 0;
 }
-
 .preview-title {
   margin: 0;
   font-size: 15px;
   font-weight: 600;
   color: var(--s1-gray-800);
 }
-
 /* ----------------------------------------------
    Preview Content Box
 ---------------------------------------------- */
@@ -1167,7 +1399,6 @@ button.is-tertiary:focus,
   border: 1px solid var(--s1-gray-200);
   background: var(--s1-gray-50);
 }
-
 /* Fake Browser Top Bar */
 .preview-browser-bar {
   background: var(--s1-gray-800);
@@ -1177,19 +1408,16 @@ button.is-tertiary:focus,
   gap: var(--s1-space-6);
   padding-left: var(--s1-space-10);
 }
-
 .preview-browser-bar .dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: var(--s1-gray-300);
 }
-
 /* Content inside preview frame */
 .preview-content {
   padding: var(--s1-space-16) var(--s1-space-16) var(--s1-space-18);
 }
-
 /* Image placeholder */
 .preview-thumb {
   width: 100%;
@@ -1198,7 +1426,6 @@ button.is-tertiary:focus,
   background: var(--s1-gray-200);
   margin-bottom: var(--s1-space-12);
 }
-
 /* Grey lines (text placeholders) */
 .preview-line {
   height: 8px;
@@ -1210,7 +1437,6 @@ button.is-tertiary:focus,
 .preview-line.lg {
   width: 85%;
 }
-
 /* Highlight Text (like heading) */
 .preview-highlight-text {
   margin: var(--s1-space-16) 0 var(--s1-space-10);
@@ -1218,12 +1444,10 @@ button.is-tertiary:focus,
   font-weight: 600;
   color: var(--s1-gray-800);
 }
-
 /* Preview button (Add to cart simulation) */
 .preview-btn {
   border-radius: var(--s1-radius-sm) !important;
 }
-
 /* ----------------------------------------------
    Global Loader
 ---------------------------------------------- */
@@ -1239,6 +1463,79 @@ button.is-tertiary:focus,
 }
 .store-loader .components-spinner {
   transform: scale(1.3);
+}
+/* ----------------------------------------------
+   STOREONE — ACCORDION COMPONENT
+------------------------------------------------ */
+.s1-accordion {
+  border: var(--s1-border);
+  border-radius: var(--s1-radius-md);
+  background: #fff;
+  margin-bottom: var(--s1-space-12);
+  box-shadow: var(--s1-shadow-xs);
+}
+.s1-accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--s1-space-12) var(--s1-space-14);
+  cursor: pointer;
+  background: var(--s1-gray-100);
+  border-bottom: var(--s1-border);
+  transition: background var(--s1-anim-fast);
+}
+.s1-accordion-header:hover {
+  background: var(--s1-gray-150);
+}
+.s1-accordion-title {
+  font-size: var(--s1-font-size-sm);
+  font-weight: var(--s1-font-weight-semibold);
+  color: var(--s1-gray-800);
+  font-family: var(--s1-font-family);
+}
+.s1-accordion-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--s1-gray-600);
+}
+.s1-accordion-body {
+  padding: var(--s1-space-16);
+  background: #fff;
+  animation: accordionFade var(--s1-anim-normal);
+}
+@keyframes accordionFade {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.s1-accordion-status-wrapper {
+  display: flex;
+  align-items: center;
+}
+/* INACTIVE LOOK */
+.s1-accordion.is-inactive {
+  opacity: 0.7;
+}
+.s1-accordion-status.on {
+  background: #4CAF50;
+  color: #fff;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  margin-right: 8px;
+}
+.s1-accordion-status.off {
+  background: #bbb;
+  color: #fff;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  margin-right: 8px;
 }
 
 /*# sourceMappingURL=index.css.map*/

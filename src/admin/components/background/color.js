@@ -105,12 +105,14 @@ console.log(value);
 
     return (
         <div className="th-bg-control">
-          <label class="s1-field-label">{label}</label>
+          <div class="s1-field-label">{label}</div>
               <div className="s1-color-panel">
                 <div className='color-box-wrap' >
                 <div className='color-box' style={{ background: value }} ref={ref} onClick={() => setOpen(true)}></div>
+                <div className="color-input-wrap">
                 <input class="color-input" type="text" value={value} />
-                <ColorIndicator colorValue={ value } /> 
+                <ColorIndicator colorValue={ value } />
+                </div> 
                 </div>
               </div>
 
