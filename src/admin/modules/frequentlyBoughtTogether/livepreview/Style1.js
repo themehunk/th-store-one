@@ -8,7 +8,10 @@ const dummy = [
 
 const Style1 = ({ settings }) => {
     return (
-        <section className="s1-fbt-box style_1">
+        <section className="s1-fbt-box style_1" style={{
+    background: settings?.bundel_bg_clr || undefined,
+    '--s1-plus-bg': settings?.bundel_plus_clr || "#888", // ✅ PLUS SIGN LIVE PREVIEW
+  }}>
 
             <h2 className="s1-fbt-title" style={{ color: settings?.bundel_title_clr || undefined }}>
                 {settings?.title || __("Frequently Bought Together", "store-one")}
@@ -23,8 +26,8 @@ const Style1 = ({ settings }) => {
                             <div className="s1-fbt-image">
                                 <img src={p.img} alt={p.name} />
                             </div>
-                            <h4 className="s1-fbt-name">{p.name}</h4>
-                            <div className="s1-fbt-price">{p.price}</div>
+                            <h4 className="s1-fbt-name" style={{ color: settings?.prd_tle_clr|| undefined }}>{p.name}</h4>
+                            <div className="s1-fbt-price" style={{ color: settings?.prd_prc_clr|| undefined }}>{p.price}</div>
                         </div>
                     ))}
                 </div>
@@ -38,17 +41,16 @@ const Style1 = ({ settings }) => {
                                 <label>
                                     <input type="checkbox" defaultChecked={i !== 0} disabled={i === 0} />
 
-                                    <span className="s1-fbt-product-title">{p.name}</span>
-                                    <span className="s1-fbt-product-price">{p.price}</span>
+                                    <span className="s1-fbt-product-title" style={{ color: settings?.prd_tle_clr|| undefined }}>{p.name}</span>
+                                    <span className="s1-fbt-product-price" style={{ color: settings?.prd_prc_clr|| undefined }}>{p.price}</span>
                                 </label>
                             </div>
                         ))}
 
                         {/* Total Box */}
                         <div className="s1-fbt-total-box">
-                            <div className="s1-fbt-total-label">{__("Bundle Price:", "store-one")}<div className="s1-fbt-total-value">₹899</div></div>
-                            
-                            <button className="s1-fbt-add-btn">
+                            <div className="s1-fbt-total-label" style={{ color: settings?.bundel_cnt_clr|| undefined }}>{__("Bundle Price:", "store-one")}<div className="s1-fbt-total-value" style={{ color: settings?.prd_prc_clr|| undefined , marginLeft: '10px'}}>₹899</div></div>
+                            <button className="s1-fbt-add-btn" style={{ background: settings?.bundel_btn_bg|| undefined ,color: settings?.bundel_btn_txt || undefined }}>
                                 {__("Add Bundle to Cart", "store-one")}
                             </button>
                         </div>

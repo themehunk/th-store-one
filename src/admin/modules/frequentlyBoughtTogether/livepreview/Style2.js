@@ -8,7 +8,9 @@ const dummyProducts = [
 
 const Style2 = ({ settings }) => {
     return (
-        <section className="s1-fbt-box style_2">
+        <section className="s1-fbt-box style_2" style={{
+            background: settings?.bundel_bg_clr || undefined 
+        }}>
 
             {/* Title */}
             <h2 className="s1-fbt-title" style={{ color: settings?.bundel_title_clr || undefined }}>
@@ -27,7 +29,7 @@ const Style2 = ({ settings }) => {
                             <div key={p.id} style={{ display: "flex", alignItems: "center" }}>
 
                                 {/* PLUS SIGN (after first product) */}
-                                {i > 0 && <span className="s1-fbt-plus-sign">+</span>}
+                                {i > 0 && <span className="s1-fbt-plus-sign" style={{ color: settings?.bundel_plus_clr|| undefined }}>+</span>}
 
                                 {/* PRODUCT IMAGE */}
                                 <div className={`s1-fbt-product s1-fbt-active ${i === 0 ? "dltprd" : ""}`}>
@@ -43,16 +45,16 @@ const Style2 = ({ settings }) => {
 
                     {/* TOTAL BOX (dummy values for preview) */}
                     <div className="s1-fbt-total-box">
-                        <div className="s1-fbt-total-label">
+                        <div className="s1-fbt-total-label" style={{ color: settings?.bundel_cnt_clr|| undefined }}>
                             {__("Bundle Price:", "store-one")}
-                            <div className="s1-fbt-total-value">
+                            <div className="s1-fbt-total-value" style={{ color: settings?.prd_prc_clr|| undefined }}>
                             ₹999
                         </div>
                         </div>
 
                         
 
-                        <button className="s1-fbt-add-btn">
+                        <button className="s1-fbt-add-btn" style={{ background: settings?.bundel_btn_bg|| undefined ,color: settings?.bundel_btn_txt || undefined }}>
                             {__("Add Bundle to Cart", "store-one")}
                         </button>
                     </div>
@@ -74,10 +76,10 @@ const Style2 = ({ settings }) => {
                                     />
 
                                     <span className="s1-fbt-product-title">
-                                        <a href="#">{p.name}</a>
+                                        <a style={{ color: settings?.prd_tle_clr|| undefined }} href="#">{p.name}</a>
                                     </span>
 
-                                    <span className="s1-fbt-product-price">
+                                    <span className="s1-fbt-product-price" style={{ color: settings?.prd_prc_clr|| undefined }}>
                                         {p.price}
                                     </span>
                                 </label>
