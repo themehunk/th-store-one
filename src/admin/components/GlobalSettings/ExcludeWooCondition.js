@@ -13,7 +13,7 @@ export default function ExcludeCondition({
     const isSearchable = searchType !== 'on_sale';
 
     return (
-        <div className="s1-exclude-wrapper">
+        <>
 
             {/* Toggle Row */}
             <div className="s1-field-wrapper s1-exclude-header">
@@ -44,6 +44,6 @@ export default function ExcludeCondition({
                     </div>
                 </div>
             )}
-        </div>
+        </>
     );
 }

@@ -89,9 +89,6 @@ const newFBTRule = () => ({
     plus_bg_color: "#212121",
     plus_text_color: "#ffffff",
     border_color: "#f9f9f9",
-    background: {
-    color: "#ffffff",
-    },
     border_radius: {
         Desktop: "0px",
         Tablet: "0px",
@@ -113,9 +110,16 @@ const newFBTRule = () => ({
     checkout_bundle_title: "Add",
     checkout_button_text: "Add to cart",
     checkout_you_save_label: "and save: {amount}",
-
     //color
     bundel_title_clr: "#111",
+    bundel_bg_clr: "#ffffff",
+    prd_tle_clr: "#111",
+    bundel_cnt_clr:"#111",
+    bundel_plus_clr:"#888",
+    prd_prc_clr: "#111",
+    bundel_btn_txt:"#fff",
+    bundel_btn_bg: "#111",
+    bundel_brd_clr: "#eee",
 });
 
 
@@ -430,14 +434,99 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                     />
                                                     <THBackgroundControl
                                                         allowGradient={false}
-                                                        label={__('Title Color', 'store-one')}
+                                                        label={__('Title', 'store-one')}
                                                         value={rule.bundel_title_clr}
                                                         onChange={(v) => {
                                                             const updatedRule = { ...rule, bundel_title_clr: v };
-                                                            updateField(index, 'bundel_title_clr', v);  // ✅ FIXED (was updateSetting)
-                                                            onLivePreview?.(updatedRule, index);        // ✅ live preview for color
+                                                            updateField(index, 'bundel_title_clr', v); 
+                                                            onLivePreview?.(updatedRule, index);
                                                         }}
                                                     />
+                                                    <THBackgroundControl
+                                                        allowGradient={true}
+                                                        label={__('Background', 'store-one')}
+                                                        value={rule.bundel_bg_clr|| "#ffffff"}
+                                                        onChange={(v) => {
+                                                            const updatedRule = { ...rule, bundel_bg_clr: v };
+                                                            updateField(index, 'bundel_bg_clr', v); 
+                                                            onLivePreview?.(updatedRule, index);
+                                                        }}
+                                                    />
+                                                    {(rule.display_style === 'style_3') && (
+                                                    <THBackgroundControl
+                                                        allowGradient={false}
+                                                        label={__('Border', 'store-one')}
+                                                        value={rule.bundel_brd_clr|| "#eee"}
+                                                        onChange={(v) => {
+                                                            const updatedRule = { ...rule, bundel_brd_clr: v };
+                                                            updateField(index, 'bundel_brd_clr', v); 
+                                                            onLivePreview?.(updatedRule, index);
+                                                        }}
+                                                    />
+                                                    )}
+                                                    <THBackgroundControl
+                                                        allowGradient={false}
+                                                        label={__('Product Title', 'store-one')}
+                                                        value={rule.prd_tle_clr|| "#111"}
+                                                        onChange={(v) => {
+                                                            const updatedRule = { ...rule, prd_tle_clr: v };
+                                                            updateField(index, 'prd_tle_clr', v); 
+                                                            onLivePreview?.(updatedRule, index);
+                                                        }}
+                                                    />
+                                                    <THBackgroundControl
+                                                        allowGradient={false}
+                                                        label={__('Product Price', 'store-one')}
+                                                        value={rule.prd_prc_clr|| "#111"}
+                                                        onChange={(v) => {
+                                                            const updatedRule = { ...rule, prd_prc_clr: v };
+                                                            updateField(index, 'prd_prc_clr', v); 
+                                                            onLivePreview?.(updatedRule, index);
+                                                        }}
+                                                    />
+                                                    {(rule.display_style === 'style_1' || rule.display_style === 'style_2') && (
+                                                    <THBackgroundControl
+                                                        allowGradient={false}
+                                                        label={__('Plus Sign', 'store-one')}
+                                                        value={rule.bundel_plus_clr|| "#888"}
+                                                        onChange={(v) => {
+                                                            const updatedRule = { ...rule, bundel_plus_clr: v };
+                                                            updateField(index, 'bundel_plus_clr', v); 
+                                                            onLivePreview?.(updatedRule, index);
+                                                        }}
+                                                    />
+                                                    )}
+                                                    <THBackgroundControl
+                                                        allowGradient={false}
+                                                        label={__('Content', 'store-one')}
+                                                        value={rule.bundel_cnt_clr|| "#111"}
+                                                        onChange={(v) => {
+                                                            const updatedRule = { ...rule, bundel_cnt_clr: v };
+                                                            updateField(index, 'bundel_cnt_clr', v); 
+                                                            onLivePreview?.(updatedRule, index);
+                                                        }}
+                                                    />
+                                                    <THBackgroundControl
+                                                        allowGradient={true}
+                                                        label={__('Button Background', 'store-one')}
+                                                        value={rule.bundel_btn_bg|| "#111"}
+                                                        onChange={(v) => {
+                                                            const updatedRule = { ...rule, bundel_btn_bg: v };
+                                                            updateField(index, 'bundel_btn_bg', v); 
+                                                            onLivePreview?.(updatedRule, index);
+                                                        }}
+                                                    />
+                                                    <THBackgroundControl
+                                                        allowGradient={false}
+                                                        label={__('Button Text', 'store-one')}
+                                                        value={rule.bundel_btn_txt|| "#fff"}
+                                                        onChange={(v) => {
+                                                            const updatedRule = { ...rule, bundel_btn_txt: v };
+                                                            updateField(index, 'bundel_btn_txt', v); 
+                                                            onLivePreview?.(updatedRule, index);
+                                                        }}
+                                                    />
+                                                    
                                                 </S1Field>
                                                 </div>
                                             

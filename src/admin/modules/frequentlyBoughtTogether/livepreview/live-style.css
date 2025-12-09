@@ -40,7 +40,7 @@
     left: 50%;
     transform: translate(-50%, -50%); /* PERFECT CENTER */
     font-size: 28px;
-    color: #888;
+    color: var(--s1-plus-bg, #888);
     font-weight: 600;
     z-index: 3;
 }
@@ -152,7 +152,7 @@
 }
 
 .s1-fbt-box.style_3 .s1-fbt-product-table td {
-    padding: 10px 5px;
+    padding: 10px;
     vertical-align: middle;
 }
 

@@ -24,7 +24,7 @@ export default function UserCondition({
     const excludeEnabled = rule.exclude_enabled || false;
 
     return (
-        <div className="store-one-user-condition">
+        <>
 
             {/* MAIN SELECT */}
             <Field label={__('User Condition', 'store-one')}>
@@ -130,6 +130,6 @@ export default function UserCondition({
                 </>
             )}
 
-        </div>
+        </>
     );
 }
