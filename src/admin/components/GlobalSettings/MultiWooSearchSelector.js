@@ -131,11 +131,12 @@ export default function MultiWooSearchSelector({
      * UI RENDER
      ----------------------------------------------------------- */
     return (
-        <div className="multi-search-selector s1-field-control">
+        <div className="s1-field-wrapper multi-search-selector">
 
             {label && <label className="s1-field-label">{label}</label>}
 
             {/* SELECTED ITEMS */}
+            <div className='s1-field-control'>
             <div className="selected-items">
                 {value.map((item) => (
                     <span key={item.id} className="selector-chip">
@@ -166,6 +167,7 @@ export default function MultiWooSearchSelector({
                     ))}
                 </div>
             )}
+            </div>
         </div>
     );
 }

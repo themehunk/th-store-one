@@ -283,6 +283,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                 </S1Field>
 
                                                 {rule.trigger_type === 'specific_products' && (
+                                                    
                                                     <MultiWooSearchSelector
                                                         searchType="product"
                                                         label={__('Select Products', 'store-one')}
@@ -377,7 +378,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                 rule={rule}
                                                 index={index}
                                                 updateField={updateField}
-                                                Field={S1Field}
+                                                
                                             />
                                             </div>
                                         ),
@@ -432,6 +433,8 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                             onLivePreview?.(updatedRule, index);
                                                         }}
                                                     />
+                                                    </S1Field>
+                                                    <S1Field>
                                                     <THBackgroundControl
                                                         allowGradient={false}
                                                         label={__('Title', 'store-one')}
@@ -442,6 +445,8 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                             onLivePreview?.(updatedRule, index);
                                                         }}
                                                     />
+                                                    </S1Field>
+                                                    <S1Field>
                                                     <THBackgroundControl
                                                         allowGradient={true}
                                                         label={__('Background', 'store-one')}
@@ -452,7 +457,9 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                             onLivePreview?.(updatedRule, index);
                                                         }}
                                                     />
+                                                    </S1Field>
                                                     {(rule.display_style === 'style_3') && (
+                                                        <S1Field>
                                                     <THBackgroundControl
                                                         allowGradient={false}
                                                         label={__('Border', 'store-one')}
@@ -463,7 +470,9 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                             onLivePreview?.(updatedRule, index);
                                                         }}
                                                     />
+                                                    </S1Field>
                                                     )}
+                                                    <S1Field>
                                                     <THBackgroundControl
                                                         allowGradient={false}
                                                         label={__('Product Title', 'store-one')}
@@ -474,6 +483,8 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                             onLivePreview?.(updatedRule, index);
                                                         }}
                                                     />
+                                                    </S1Field>
+                                                    <S1Field>
                                                     <THBackgroundControl
                                                         allowGradient={false}
                                                         label={__('Product Price', 'store-one')}
@@ -484,8 +495,10 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                             onLivePreview?.(updatedRule, index);
                                                         }}
                                                     />
+                                                    </S1Field>
                                                     {(rule.display_style === 'style_1' || rule.display_style === 'style_2') && (
-                                                    <THBackgroundControl
+                                                   <S1Field>
+                                                   <THBackgroundControl
                                                         allowGradient={false}
                                                         label={__('Plus Sign', 'store-one')}
                                                         value={rule.bundel_plus_clr|| "#888"}
@@ -495,7 +508,9 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                             onLivePreview?.(updatedRule, index);
                                                         }}
                                                     />
+                                                    </S1Field>
                                                     )}
+                                                    <S1Field>
                                                     <THBackgroundControl
                                                         allowGradient={false}
                                                         label={__('Content', 'store-one')}
@@ -506,6 +521,8 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                             onLivePreview?.(updatedRule, index);
                                                         }}
                                                     />
+                                                    </S1Field>
+                                                    <S1Field>
                                                     <THBackgroundControl
                                                         allowGradient={true}
                                                         label={__('Button Background', 'store-one')}
@@ -516,6 +533,8 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                             onLivePreview?.(updatedRule, index);
                                                         }}
                                                     />
+                                                    </S1Field>
+                                                    <S1Field>
                                                     <THBackgroundControl
                                                         allowGradient={false}
                                                         label={__('Button Text', 'store-one')}
@@ -526,8 +545,9 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                             onLivePreview?.(updatedRule, index);
                                                         }}
                                                     />
+                                                    </S1Field>
                                                     
-                                                </S1Field>
+                                                
                                                 </div>
                                             
                                         ),
