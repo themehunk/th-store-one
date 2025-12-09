@@ -8,6 +8,7 @@ module.exports = {
         ...defaultConfig.resolve,
         alias: {
             '@storeone': path.resolve(__dirname, 'src/admin/components'),
+            '@storeone-control': path.resolve(__dirname, 'src/admin/components/componentsControl'),
             '@storeone-global': path.resolve(__dirname, 'src/admin/components/GlobalSettings'),
             '@storeone-header': path.resolve(__dirname, 'src/admin/components/Header'),
             '@storeone-modulecard': path.resolve(__dirname, 'src/admin/components/ModuleCard'),
@@ -17,3 +18,4 @@ module.exports = {
         },
     },
 };
+

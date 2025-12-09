@@ -10,7 +10,7 @@ import UserCondition from '@storeone-global/UserCondition';
 import SingleProductSettings from './SingleProductSettings';
 import CartPageSettings from './cartPageSettings';
 import CheckoutPageSettings from './CheckoutPageSettings';
-import THBackgroundControl from '../../components/background/color';
+import THBackgroundControl from '@storeone-control/color';
 
 import S1Accordion from "@storeone-global/S1Accordion";
 import { CopyIcon, TrashIcon, DragHandleDots2Icon ,ChevronDownIcon,
@@ -436,9 +436,9 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                     </S1Field>
                                                     <S1Field>
                                                     <THBackgroundControl
-                                                        allowGradient={false}
+                                                        allowGradient={true}
                                                         label={__('Title', 'store-one')}
-                                                        value={rule.bundel_title_clr}
+                                                        value={rule.bundel_title_clr|| "#000"}
                                                         onChange={(v) => {
                                                             const updatedRule = { ...rule, bundel_title_clr: v };
                                                             updateField(index, 'bundel_title_clr', v); 

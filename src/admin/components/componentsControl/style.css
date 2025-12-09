@@ -64,7 +64,7 @@ background-color: #fff;
 }
 .th-bg-control input.color-input {
 width: 100%;
-
+    background-color: #ffffff;
 }
 /** range control **/
 .th-bg-control span.component-color-indicator {

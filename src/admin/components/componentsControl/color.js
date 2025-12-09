@@ -38,55 +38,92 @@ console.log(value);
 
        const [open, setOpen] = useState(false);
     const [mode, setMode] = useState("color");
-    const [color, setColor] = useState(value);
-    const [gradient, setGradient] = useState(value);
  const ref = useRef();
    const colors = [
-    { name: 'red', color: '#f00' },
-    { name: 'white', color: '#fff' },
-    { name: 'blue', color: '#00f' },
-  ];
+        {
+          "slug": "black",
+          "name": "Black",
+          "color": "#000000"
+        },
+        {
+          "slug": "white",
+          "name": "White",
+          "color": "#ffffff"
+        },
+        {
+          "slug": "gray",
+          "name": "Gray",
+          "color": "#abb8c3"
+        },
+        {
+          "slug": "blue",
+          "name": "Blue",
+          "color": "#0073aa"
+        },
+        {
+          "slug": "dark-blue",
+          "name": "Dark Blue",
+          "color": "#005177"
+        },
+        {
+          "slug": "light-blue",
+          "name": "Light Blue",
+          "color": "#229fd8"
+        },
+        {
+          "slug": "red",
+          "name": "Red",
+          "color": "#d63638"
+        },
+        {
+          "slug": "orange",
+          "name": "Orange",
+          "color": "#f56e28"
+        },
+        {
+          "slug": "green",
+          "name": "Green",
+          "color": "#46b450"
+        },
+        {
+          "slug": "purple",
+          "name": "Purple",
+          "color": "#9b51e0"
+        }
+      ];
 
-  const gradientColor = [{
-          gradient: 'linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%)',
-          name: 'Vivid cyan blue to vivid purple',
-          slug: 'vivid-cyan-blue-to-vivid-purple'
+  const gradientColor = [
+        {
+          "slug": "vivid-cyan-blue-to-vivid-purple",
+          "name": "Vivid cyan blue to vivid purple",
+          "gradient": "linear-gradient(135deg, rgb(6,147,227) 0%, rgb(155,81,224) 100%)"
         },
         {
-          gradient: 'linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%)',
-          name: 'Light green cyan to vivid green cyan',
-          slug: 'light-green-cyan-to-vivid-green-cyan'
+          "slug": "light-green-cyan-to-vivid-green-cyan",
+          "name": "Light green cyan to vivid green cyan",
+          "gradient": "linear-gradient(135deg, rgb(122,220,180) 0%, rgb(0,208,132) 100%)"
         },
         {
-          gradient: 'linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%)',
-          name: 'Luminous vivid amber to luminous vivid orange',
-          slug: 'luminous-vivid-amber-to-luminous-vivid-orange'
+          "slug": "luminous-vivid-amber-to-luminous-vivid-orange",
+          "name": "Luminous vivid amber to luminous vivid orange",
+          "gradient": "linear-gradient(135deg, rgb(252,185,0) 0%, rgb(255,105,0) 100%)"
         },
         {
-          gradient: 'linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%)',
-          name: 'Luminous vivid orange to vivid red',
-          slug: 'luminous-vivid-orange-to-vivid-red'
+          "slug": "luminous-vivid-orange-to-vivid-red",
+          "name": "Luminous vivid orange to vivid red",
+          "gradient": "linear-gradient(135deg, rgb(255,105,0) 0%, rgb(207,46,46) 100%)"
         },
         {
-          gradient: 'linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%)',
-          name: 'Very light gray to cyan bluish gray',
-          slug: 'very-light-gray-to-cyan-bluish-gray'
+          "slug": "very-light-gray-to-cyan-bluish-gray",
+          "name": "Very light gray to cyan bluish gray",
+          "gradient": "linear-gradient(135deg, rgb(238,238,238) 0%, rgb(169,184,195) 100%)"
         },
         {
-          gradient: 'linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%)',
-          name: 'Cool to warm spectrum',
-          slug: 'cool-to-warm-spectrum'
-        },
-        {
-          gradient: 'linear-gradient(135deg,hsl(200, 100%, 50%) 0%,hsl(280, 100%, 60%) 100%)',
-          name: 'HSL blue to purple',
-          slug: 'hsl-blue-to-purple'
-        },
-        {
-          gradient: 'linear-gradient(135deg,hsla(120, 100%, 40%, 0.85) 0%,hsla(0, 100%, 50%, 0.85) 100%)',
-          name: 'HSLA green to red',
-          slug: 'hsla-green-to-red'
-        }];
+          "slug": "cool-to-warm-spectrum",
+          "name": "Cool to warm spectrum",
+          "gradient": "linear-gradient(135deg, rgb(74,234,220) 0%, rgb(151,120,209) 20%, rgb(207,42,186) 40%, rgb(238,44,130) 60%, rgb(251,105,98) 80%, rgb(254,248,76) 100%)"
+        }
+      ];
 
     const normalizeColor = (v) => {
         if (!v) return "#000"; // ⭐ default fallback
@@ -102,7 +139,6 @@ console.log(value);
     };
 
   // const colorValue = normalizeColor(value);
-
     return (
         <div className="s1-field-control th-bg-control">
           <div class="s1-field-label">{label}</div>
@@ -110,7 +146,7 @@ console.log(value);
                 <div className='color-box-wrap' >
                 <div className='color-box' style={{ background: value }} ref={ref} onClick={() => setOpen(true)}></div>
                 <div className="color-input-wrap">
-                <input class="color-input" type="text" value={value} />
+                <input class="color-input" type="text" value={value}   onChange={(e) =>onChange(e.target.value)} />
                 <ColorIndicator colorValue={ value } />
                 </div> 
                 </div>

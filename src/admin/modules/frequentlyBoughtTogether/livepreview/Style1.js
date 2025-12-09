@@ -1,4 +1,5 @@
 import { __ } from '@wordpress/i18n';
+import { getTextColor, isGradient } from '@storeone-control/isGradient';
 
 const dummy = [
     { id: 1, img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png", name: "Sample Product A", price: "₹499" },
@@ -7,13 +8,15 @@ const dummy = [
 ];
 
 const Style1 = ({ settings }) => {
+
+    console.log(getTextColor(settings?.bundel_title_clr));
     return (
         <section className="s1-fbt-box style_1" style={{
     background: settings?.bundel_bg_clr || undefined,
     '--s1-plus-bg': settings?.bundel_plus_clr || "#888", // ✅ PLUS SIGN LIVE PREVIEW
   }}>
 
-            <h2 className="s1-fbt-title" style={{ color: settings?.bundel_title_clr || undefined }}>
+            <h2 className="s1-fbt-title" style={getTextColor(settings?.bundel_title_clr|| undefined)}>
                 {settings?.title || __("Frequently Bought Together", "store-one")}
             </h2>
 

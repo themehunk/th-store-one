@@ -6,8 +6,7 @@ import {
 import { __ } from '@wordpress/i18n';
 import MiniColorPicker from '@storeone-global/MiniColorPicker';
 import UniversalRangeControl from '@storeone-global/UniversalRangeControl';
-import THBackgroundControl from '../../components/background/color';
-import THRangeControl from '../../components/background/rangeControl';
+import THRangeControl from '@storeone-control/rangeControl';
 
 
 export default function SingleProductSettings({
