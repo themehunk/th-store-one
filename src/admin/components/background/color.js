@@ -104,7 +104,7 @@ console.log(value);
   // const colorValue = normalizeColor(value);
 
     return (
-        <div className="th-bg-control">
+        <div className="s1-field-control th-bg-control">
           <div class="s1-field-label">{label}</div>
               <div className="s1-color-panel">
                 <div className='color-box-wrap' >

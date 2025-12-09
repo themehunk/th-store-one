@@ -19,7 +19,7 @@ export default function THRangeControl({
 }){
 console.log(defaultValue);
 
- return (<div className='s1-control-range'>
+ return (<div className='s1-field-control s1-control-range'>
          <RangeControl
       __nextHasNoMarginBottom
       __next40pxDefaultSize
