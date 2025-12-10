@@ -3,13 +3,17 @@ import apiFetch from '@wordpress/api-fetch';
 import { TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
+import {
+  MagnifyingGlassIcon,
+} from "@radix-ui/react-icons";
+
 export default function MultiWooSearchSelector({
     label = "",
     value = [],
     onChange,
-    searchType = "product",  
+    searchType = "product",
+    detailedView = false,
 }) {
-
     const [query, setQuery] = useState("");
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -17,9 +21,9 @@ export default function MultiWooSearchSelector({
     const abortRef = useRef(null);
     const debounceRef = useRef(null);
 
-    /* ----------------------------------------------------------
-     * ENDPOINTS
-     ----------------------------------------------------------- */
+    /* ----------------------------------
+     * ENDPOINT MAP
+    ----------------------------------- */
     const endpointMap = {
         product: "wc/v3/products",
         category: "wc/v3/products/categories",
@@ -28,15 +32,18 @@ export default function MultiWooSearchSelector({
 
     const endpoint = endpointMap[searchType];
 
-    /* ----------------------------------------------------------
-     * NORMALIZER (ensures consistent shape)
-     ----------------------------------------------------------- */
+    /* ----------------------------------
+     * ✅ NORMALIZER (FULL PRODUCT DATA)
+    ----------------------------------- */
     const normalizeProduct = (product) => ({
         id: product.id,
         name:
             product.type === "variable"
-                ? `${product.name} (Variable Product)`
+                ? `${product.name} (Variable)`
                 : product.name,
+        price_html: product.price_html,
+        image: product.images?.[0]?.src || "",
+        type: product.type,
     });
 
     const normalizerMap = {
@@ -47,9 +54,9 @@ export default function MultiWooSearchSelector({
 
     const normalize = normalizerMap[searchType] || ((x) => x);
 
-    /* ----------------------------------------------------------
-     * ADD ITEM
-     ----------------------------------------------------------- */
+    /* ----------------------------------
+     * ✅ ADD ITEM
+    ----------------------------------- */
     const addItem = (item) => {
         if (!value.some((v) => v.id === item.id)) {
             onChange([...value, item]);
@@ -58,16 +65,16 @@ export default function MultiWooSearchSelector({
         setResults([]);
     };
 
-    /* ----------------------------------------------------------
-     * REMOVE ITEM
-     ----------------------------------------------------------- */
+    /* ----------------------------------
+     * ✅ REMOVE ITEM
+    ----------------------------------- */
     const removeItem = (id) => {
         onChange(value.filter((x) => x.id !== id));
     };
 
-    /* ----------------------------------------------------------
-     * FETCH RESULTS (Supports variable products)
-     ----------------------------------------------------------- */
+    /* ----------------------------------
+     * ✅ FETCH PRODUCTS + VARIATIONS
+    ----------------------------------- */
     useEffect(() => {
         if (!endpoint) return;
         if (!query.trim()) {
@@ -85,7 +92,7 @@ export default function MultiWooSearchSelector({
             setLoading(true);
 
             try {
-                /* MAIN PRODUCT SEARCH */
+                /* ✅ MAIN PRODUCT SEARCH */
                 const res = await apiFetch({
                     path: `${endpoint}?search=${encodeURIComponent(query)}&per_page=50`,
                     signal: controller.signal,
@@ -93,80 +100,197 @@ export default function MultiWooSearchSelector({
 
                 let formatted = res.map(normalize);
 
-                /* EXTRA: Search inside variations if product is variable */
-                for (const p of res) {
-                    if (p.type === "variable") {
+                /* ✅ FETCH VARIATIONS FOR VARIABLE PRODUCTS */
+                for (const product of res) {
+                    if (product.type === "variable") {
                         try {
-                            const vars = await apiFetch({
-                                path: `wc/v3/products/${p.id}/variations`,
+                            const variations = await apiFetch({
+                                path: `wc/v3/products/${product.id}/variations?per_page=50`,
                                 signal: controller.signal,
                             });
 
-                            vars.forEach((v) => {
+                            variations.forEach((v) => {
                                 formatted.push({
                                     id: v.id,
-                                    name: `${p.name} – ${v.attributes
+                                    name: `${product.name} – ${v.attributes
                                         .map((a) => a.option)
                                         .join(", ")}`,
+                                    price_html: v.price_html || product.price_html,
+                                    image:
+                                        v.image?.src ||
+                                        product.images?.[0]?.src ||
+                                        "",
+                                    type: "variation",
                                 });
                             });
                         } catch (err) {
-                            // ignore
+                            // ✅ safely ignore
                         }
                     }
                 }
 
                 setResults(formatted);
+
             } catch (e) {
                 setResults([]);
             } finally {
                 setLoading(false);
             }
+
         }, 300);
 
         return () => clearTimeout(debounceRef.current);
+
     }, [query, endpoint]);
 
-    /* ----------------------------------------------------------
-     * UI RENDER
-     ----------------------------------------------------------- */
+    /* ----------------------------------
+     * ✅ UI RENDER
+    ----------------------------------- */
     return (
         <div className="s1-field-wrapper multi-search-selector">
 
             {label && <label className="s1-field-label">{label}</label>}
 
-            {/* SELECTED ITEMS */}
-            <div className='s1-field-control'>
-            <div className="selected-items">
-                {value.map((item) => (
-                    <span key={item.id} className="selector-chip">
-                        {item.name}
-                        <span className="remove-chip" onClick={() => removeItem(item.id)}>×</span>
-                    </span>
-                ))}
-            </div>
+            <div className="s1-field-control">
 
-            {/* SEARCH INPUT */}
-            <TextControl
-                placeholder={loading ? __('Searching…', 'store-one') : __('Search products…', 'store-one')}
-                value={query}
-                onChange={setQuery}
-            />
+                {/* ✅ SELECTED ITEMS */}
+                <div className="selected-items">
+                    {value.map((item) =>
+                        detailedView ? (
+                            <div key={item.id} className="s1-selected-row">
+                                <div className="s1-product-left">
+                                    {item.image && (
+                                        <img
+                                            src={item.image}
+                                            className="s1-product-thumb"
+                                            alt=""
+                                        />
+                                    )}
 
-            {/* DROPDOWN RESULTS */}
-            {query.length > 0 && results.length > 0 && (
-                <div className="selector-dropdown">
-                    {results.map((r) => (
-                        <div
-                            key={r.id}
-                            className="selector-option"
-                            onClick={() => addItem(r)}
-                        >
-                            {r.name}
-                        </div>
-                    ))}
+                                    <div className="s1-product-meta">
+                                        <div className="s1-product-title">
+                                            {item.name}
+                                        </div>
+
+                                        {item.price_html && (
+                                            <div
+                                                className="s1-product-price"
+                                                dangerouslySetInnerHTML={{
+                                                    __html: item.price_html,
+                                                }}
+                                            />
+                                        )}
+                                    </div>
+                                </div>
+
+                                <div className="s1-product-right">
+                                    <span className="s1-product-type">
+                                        {item.type}
+                                    </span>
+
+                                    <span
+                                        className="remove-chip"
+                                        onClick={() => removeItem(item.id)}
+                                    >
+                                        ×
+                                    </span>
+                                </div>
+                            </div>
+                        ) : (
+                            <span key={item.id} className="selector-chip">
+                                {item.name}
+                                <span
+                                    className="remove-chip"
+                                    onClick={() => removeItem(item.id)}
+                                >
+                                    ×
+                                </span>
+                            </span>
+                        )
+                    )}
                 </div>
-            )}
+
+                {/* ✅ SEARCH INPUT WITH LEFT ICON + RIGHT MODULE LOADER */}
+                <div className={`s1-search-input-wrap ${detailedView ? 'has-search-icon' : ''}`}>
+
+                    {/* ✅ LEFT SEARCH ICON (hide during loading) */}
+                    {detailedView && (
+                        <span className="s1-search-icon">
+                            <MagnifyingGlassIcon width={18} height={18} />
+                        </span>
+                    )}
+
+                    <TextControl
+                        placeholder={
+                            loading
+                                ? __('Searching…', 'store-one')
+                                : __('Search products…', 'store-one')
+                        }
+                        value={query}
+                        onChange={setQuery}
+                    />
+
+                    {/* ✅ RIGHT SIDE MODULE LOADER */}
+                    {loading && (
+                        <span className="s1-input-loader s1-loader">
+                            <span className="components-spinner"></span>
+                        </span>
+                    )}
+
+                </div>
+
+                {/* ✅ DROPDOWN RESULTS */}
+                {query.length > 0 && results.length > 0 && (
+                    <div className="selector-dropdown">
+                        {results.map((r) =>
+                            detailedView ? (
+                                <div
+                                    key={r.id}
+                                    className="s1-product-row"
+                                    onClick={() => addItem(r)}
+                                >
+                                    <div className="s1-product-left">
+                                        {r.image && (
+                                            <img
+                                                src={r.image}
+                                                className="s1-product-thumb"
+                                                alt=""
+                                            />
+                                        )}
+
+                                        <div className="s1-product-meta">
+                                            <div className="s1-product-title">
+                                                {r.name}
+                                            </div>
+
+                                            {r.price_html && (
+                                                <div
+                                                    className="s1-product-price"
+                                                    dangerouslySetInnerHTML={{
+                                                        __html: r.price_html,
+                                                    }}
+                                                />
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    <span className="s1-product-type">
+                                        {r.type}
+                                    </span>
+                                </div>
+                            ) : (
+                                <div
+                                    key={r.id}
+                                    className="selector-option"
+                                    onClick={() => addItem(r)}
+                                >
+                                    {r.name}
+                                </div>
+                            )
+                        )}
+                    </div>
+                )}
+
             </div>
         </div>
     );
