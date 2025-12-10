@@ -269,6 +269,14 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                     />
                                                 </S1Field>
 
+                                                <MultiWooSearchSelector
+                                                        searchType="product"
+                                                        label={__('Search Offer products', 'store-one')}
+                                                        value={rule.offer_products || []}
+                                                        onChange={(items) => updateField(index, 'offer_products', items)}
+                                                        detailedView={true} 
+                                                />
+
                                                 <S1Field label={__('Trigger Type', 'store-one')}>
                                                     <SelectControl
                                                         value={rule.trigger_type}
@@ -289,6 +297,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                         label={__('Select Products', 'store-one')}
                                                         value={rule.products || []}
                                                         onChange={(items) => updateField(index, 'products', items)}
+                                                        detailedView={true} 
                                                     />
                                                 )}
 
@@ -356,15 +365,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                     onToggle={(v) => updateField(index, 'exclude_on_sale_enabled', v)}
                                     onChangeItems={() => {}}
                                     />
-
-                                    <MultiWooSearchSelector
-                                                        searchType="product"
-                                                        label={__('Search Offer products', 'store-one')}
-                                                        value={rule.offer_products || []}
-                                                        onChange={(items) => updateField(index, 'offer_products', items)}
-                                                    />
-
-                                                </div>
+                                   </div>
                                         ),
                                     },
 

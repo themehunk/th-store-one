@@ -37,7 +37,8 @@ export default function SingleProductSettings({
                </div>
 
             {/* PLACEMENT */}
-            <div className="s1-field-wrapper">
+            <div className="s1-field-wrapper col-2">
+                <div className="s1-field-col">
                 <label className="s1-field-label">
                     {__('Placement on product page', 'store-one')}
                 </label>
@@ -52,18 +53,17 @@ export default function SingleProductSettings({
                         { label: __('After Add to Cart', 'store-one'), value: 'after_add_to_cart' },
                     ]}
                 />
+                </div>
             </div>
-            </div>
-
-            {/* PRIORITY */}
-            <div className="s1-field-wrapper">
-                <label className="s1-field-label">{__('Priority', 'store-one')}</label>
-                <div className="s1-field-control">
+            <div className="s1-field-col">
+             <label className="s1-field-label">{__('Priority', 'store-one')}</label>
+            <div className="s1-field-control">
                 <TextControl
                     type="number"
                     value={settings.priority}
                     onChange={(v) => updateSetting('priority', v)}
                 />
+                </div>
                 </div>
             </div>
 
@@ -138,26 +138,26 @@ export default function SingleProductSettings({
                 </div>
             </div>
 
-            <div className="s1-field-wrapper">
+            {/* <div className="s1-field-wrapper">
                     <THRangeControl  label={__('Bundle border radius', 'store-one')} defaultValue={10} value={20} onChange={(v) => updateSetting("border_radius", v)}/>
-            </div>
+            </div> */}
             {/* BORDER RADIUS */}
-            <div className="s1-field-wrapper">
+            {/* <div className="s1-field-wrapper">
                <label className="s1-field-label">
                     {__('Bundle border radius', 'store-one')}
                </label>
-                <div className="s1-field-control">
+                <div className="s1-field-control"> */}
                 {/* RESPONSIVE RANGE */}
-                <UniversalRangeControl
+                {/* <UniversalRangeControl
                     label="Border Radius"
                     responsive={true}
                     units={['px', '%','rem']}
                     value={settings.border_radius}
                     onChange={(v) => updateSetting("border_radius", v)}
                     defaultValue="10px"
-                />
-                </div>
-               </div>
+                /> */}
+                {/* </div>
+               </div> */}
 
         </div>
     );
