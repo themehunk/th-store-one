@@ -44,6 +44,7 @@ export default function MultiWooSearchSelector({
         price_html: product.price_html,
         image: product.images?.[0]?.src || "",
         type: product.type,
+        link: product.permalink, 
     });
 
     const normalizerMap = {
@@ -121,6 +122,7 @@ export default function MultiWooSearchSelector({
                                         product.images?.[0]?.src ||
                                         "",
                                     type: "variation",
+                                    link: product.permalink,
                                 });
                             });
                         } catch (err) {
@@ -184,9 +186,18 @@ export default function MultiWooSearchSelector({
                                 </div>
 
                                 <div className="s1-product-right">
-                                    <span className="s1-product-type">
-                                        {item.type}
-                                    </span>
+                                    {/* <span className="s1-product-type">
+                                        {item.type} #{item.id}
+                                    </span> */}
+
+                                    <a
+                                        href={item.link}
+                                        className="s1-product-type"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                       {item.type} #{item.id}
+                                    </a>
 
                                     <span
                                         className="remove-chip"

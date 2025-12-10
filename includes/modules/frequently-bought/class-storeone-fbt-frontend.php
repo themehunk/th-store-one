@@ -102,7 +102,7 @@ class Store_One_FBT_Frontend {
                 // Placement ke hisab se renderer hook add karo
                 $this->hook_bundle_renderer( $rule );
 
-                break;
+                // break;
             }
         }
     }
