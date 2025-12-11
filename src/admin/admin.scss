@@ -974,11 +974,11 @@ button.is-tertiary,
 .store-one-tab-content {
     padding-top: var(--s1-space-10);
 
-    /* NEW: You want minimum height */
-    height: 550px;
+    // /* NEW: You want minimum height */
+    // height: 550px;
 
-    /* NEW: Scroll inside the panel */
-    overflow-y: auto;
+    // /* NEW: Scroll inside the panel */
+    // overflow-y: auto;
 
     /* Nice padding inside */
     padding: var(--s1-space-12);
@@ -986,8 +986,8 @@ button.is-tertiary,
     /* Smooth UI feel */
 
     /* Smooth scrollbar for modern UI */
-    scrollbar-width: thin;
-    scrollbar-color: var(--s1-gray-300) var(--s1-gray-100);
+    // scrollbar-width: thin;
+    // scrollbar-color: var(--s1-gray-300) var(--s1-gray-100);
 }
 /* ----------------------------------------
    MULTI SEARCH SELECTOR
@@ -1085,14 +1085,15 @@ button.is-tertiary,
 
 /* ✅ Product Text */
 .s1-product-meta {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+    flex-direction: row;
     overflow: hidden;
+    gap: 5px;
+    align-items: center;
 }
 
 .s1-product-title {
-    font-weight: 500;
-    font-size: 11px;
+    font-size: 12px;
     color: var(--s1-gray-900);
     white-space: nowrap;
     overflow: hidden;
@@ -1102,7 +1103,9 @@ button.is-tertiary,
 .s1-product-price {
     font-size: 12px;
     color: var(--s1-gray-600);
-    margin-top: 2px;
+    background: #fcfcfc;
+    padding: 3px;
+
 }
 
 /* ✅ Right Side Type (simple / variable) */
@@ -1480,7 +1483,8 @@ input.components-text-control__input {
     border-radius: var(--s1-radius-md);
     background: #fff;
     margin-bottom: var(--s1-space-12);
-    box-shadow: var(--s1-shadow-xs);
+    
+    // box-shadow: var(--s1-shadow-xs);
 }
 
 .s1-accordion-header {
@@ -1489,9 +1493,10 @@ input.components-text-control__input {
     align-items: center;
     padding: var(--s1-space-12) var(--s1-space-14);
     cursor: pointer;
-    background: var(--s1-gray-100);
-    border-bottom: var(--s1-border);
+    // background: var(--s1-gray-100);
+    // border-bottom: var(--s1-border);
     transition: background var(--s1-anim-fast);
+    border-radius: var(--s1-radius-md) var(--s1-radius-md) 0 0;
 }
 
 .s1-accordion-header:hover {
@@ -1515,6 +1520,7 @@ input.components-text-control__input {
     padding: var(--s1-space-16);
     background: #fff;
     animation: accordionFade var(--s1-anim-normal);
+    border-radius: var(--s1-radius-md);
 }
 
 @keyframes accordionFade {

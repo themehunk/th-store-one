@@ -9,6 +9,7 @@ export default function ExcludeCondition({
     items,
     onToggle,
     onChangeItems,
+    detailedView
 }) {
     const isSearchable = searchType !== 'on_sale';
 
@@ -40,6 +41,7 @@ export default function ExcludeCondition({
                             placeholder={__('Search & select…', 'store-one')}
                             value={items}
                             onChange={onChangeItems}
+                            detailedView={detailedView} 
                         />
                     </div>
                 </div>

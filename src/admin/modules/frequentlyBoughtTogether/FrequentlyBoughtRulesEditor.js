@@ -328,6 +328,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                     items={rule.exclude_products}
                                     onToggle={(v) => updateField(index, 'exclude_products_enabled', v)}
                                     onChangeItems={(items) => updateField(index, 'exclude_products', items)}
+                                    detailedView={true} 
                                 />
 
                                 <ExcludeWooCondition
