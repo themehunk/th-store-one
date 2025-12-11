@@ -749,6 +749,7 @@ private function s1_render_table_style( $product_id, $rule, $bundle_products, $b
                    class="s1-fbt-selected-ids"
                    value=""
                    data-main-id="<?php echo esc_attr( $product->get_id() ); ?>">
+                   
         </div>
 
     </div>
