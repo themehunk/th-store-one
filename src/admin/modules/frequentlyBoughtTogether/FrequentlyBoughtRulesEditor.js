@@ -11,11 +11,13 @@ import SingleProductSettings from './SingleProductSettings';
 import CartPageSettings from './cartPageSettings';
 import CheckoutPageSettings from './CheckoutPageSettings';
 import THBackgroundControl from '@storeone-control/color';
+import UniversalRangeControl from '@storeone-global/UniversalRangeControl';
 
 import S1Accordion from "@storeone-global/S1Accordion";
 import { CopyIcon, TrashIcon, DragHandleDots2Icon ,ChevronDownIcon,
     ChevronUpIcon } from "@radix-ui/react-icons";
 /* Field Wrapper */
+
 const S1Field = ({ label, children }) => (
     <div className="s1-field-wrapper">
         {label && <label className="s1-field-label">{label}</label>}
@@ -89,11 +91,7 @@ const newFBTRule = () => ({
     plus_bg_color: "#212121",
     plus_text_color: "#ffffff",
     border_color: "#f9f9f9",
-    border_radius: {
-        Desktop: "0px",
-        Tablet: "0px",
-        Mobile: "0px",
-    },
+   border_radius: "0px",
     display_style: "style_1",
     /* -----------------------
      * CART PAGE SETTINGS
@@ -199,6 +197,8 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
             updateAll(arr);
         }
     }, []);
+
+    
 
     return (
         <div className="store-one-rules-container">
@@ -548,9 +548,22 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                         }}
                                                     />
                                                     </S1Field>
-                                                    
-                                                
-                                                </div>
+
+                                        {/* BORDER RADIUS */}
+                                        
+                                       
+                                            
+                                            <UniversalRangeControl
+                                                label={__('Bundle border radius', 'store-one')}
+                                                responsive={false}
+                                                units={['px']}
+                                                 value={rule.border_radius}
+                                                 onChange={(v) => updateField(index, 'border_radius', v)} 
+                                                defaultValue="0px"
+                                            />
+                                            
+                                                         
+                                        </div>
                                             
                                         ),
                                     },

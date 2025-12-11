@@ -232,6 +232,8 @@
     opacity: 0.85;
     font-size: 16px;
     transition: var(--s1-anim-fast);
+    width:auto;
+    height:auto;
 }
 
 .s1-nav__btn:hover .dashicons {
@@ -1245,6 +1247,9 @@ input.components-text-control__input {
 /* ----------------------------------------
    RANGE CONTROL
 ---------------------------------------- */
+/* ----------------------------------------
+   RANGE CONTROL (IMPROVED UI)
+---------------------------------------- */
 .s1-range-wrapper {
     margin-bottom: var(--s1-space-14);
 }
@@ -1268,45 +1273,68 @@ input.components-text-control__input {
     gap: var(--s1-space-10);
 }
 
+/* SLIDER */
 .s1-slider-area {
     flex: 1;
     min-width: 0;
-
-    .components-range-control__slider {
-        width: 100%;
-    }
 }
 
+.s1-slider-area .components-range-control__slider {
+    width: 100%;
+}
+
+/* NUMBER INPUT */
 .s1-number-area .components-number-control__input {
-    height: 32px !important;
-    width: 70px !important;
-    padding: 4px 8px !important;
+    height: 36px !important;
+    width: 80px !important;
+    padding: 6px 10px !important;
+
     border: 1px solid var(--s1-gray-300) !important;
-    border-radius: var(--s1-radius-sm) !important;
-    font-size: 13px;
+    border-radius: var(--s1-radius-md) !important;
+
+    font-size: 13px !important;
+    color: var(--s1-gray-900) !important;
+    background: #fff !important;
+
+    box-shadow: none !important;
 }
 
+/* UNIT DROPDOWN */
 .s1-unit-area .components-select-control__input {
-    width: 55px !important;
-    padding: 4px 8px !important;
+    height: 36px !important;
+    width: 65px !important;
+    padding: 6px 8px !important;
+
     border: 1px solid var(--s1-gray-300) !important;
-    border-radius: var(--s1-radius-sm) !important;
-    font-size: 13px;
+    border-radius: var(--s1-radius-md) !important;
+
+    font-size: 13px !important;
+    background: #fff !important;
 }
 
+/* Remove unwanted spacing */
 .s1-universal-range-control .components-base-control__field {
     margin: 0 !important;
 }
 
+/* Remove WP default box-shadows */
 .s1-universal-range-control .components-input-control__backdrop {
     border: none !important;
     box-shadow: none !important;
     background: transparent !important;
 }
+.s1-unit-area .components-base-control__field{
+    margin:0!important;
+}
+.s1-unit-area .components-input-control__container .components-select-control__input{
+    height:0!important;
+}
+/* Save wrap → keep */
 .save-button-wrap {
     display: flex;
     justify-content: flex-end;
 }
+
 /* ----------------------------------------
    COLOR PICKER
 ---------------------------------------- */
@@ -1574,4 +1602,9 @@ input.components-text-control__input {
 @keyframes s1spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+.s1-fbt-title{
+-webkit-background-clip: text;
+    background-clip: text !important;
+    color: transparent;
 }

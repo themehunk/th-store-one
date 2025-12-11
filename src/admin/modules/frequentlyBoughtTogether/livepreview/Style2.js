@@ -1,4 +1,5 @@
 import { __ } from '@wordpress/i18n';
+import { getTextStyle, getRadius } from '@storeone/utils/styleHelpers';
 
 const dummyProducts = [
     { id: 1, img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png", name: "Sample Product A", price: "₹499" },
@@ -9,11 +10,12 @@ const dummyProducts = [
 const Style2 = ({ settings }) => {
     return (
         <section className="s1-fbt-box style_2" style={{
-            background: settings?.bundel_bg_clr || undefined 
+            background: settings?.bundel_bg_clr || undefined ,
+            borderRadius: getRadius(settings?.border_radius),
         }}>
 
             {/* Title */}
-            <h2 className="s1-fbt-title" style={{ color: settings?.bundel_title_clr || undefined }}>
+            <h2 className="s1-fbt-title" style={getTextStyle(settings?.bundel_title_clr|| undefined)}>
                 {settings?.title || __("Frequently Bought Together", "store-one")}
             </h2>
 
