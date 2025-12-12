@@ -26,6 +26,7 @@ define( 'STORE_ONE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 // ------------------ Core Loader ------------------.
 require_once STORE_ONE_PLUGIN_DIR . 'includes/class-store-one.php';
+require_once STORE_ONE_PLUGIN_DIR . 'includes/store-one-function.php';
 
 function store_one_run() {
 	Store_One::get_instance();

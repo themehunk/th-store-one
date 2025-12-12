@@ -21,6 +21,7 @@ class Store_One_FBT_Frontend {
 
         // Optional shortcode: [storeone_fbt id="123"]
         add_shortcode( 'storeone_fbt', [ $this, 'shortcode' ] );
+        add_action( 'wp_enqueue_scripts', [ $this, 'add_inline_dynamic_css' ], 20 );
     }
 
     /* --------------------------------------------------------------------
@@ -351,7 +352,7 @@ protected function render_bundle_box( $product_id, $rule ) {
  * ------------------------------------------------------------------ */
 private function s1_render_style_1( $product_id, $rule, $bundle_products, $bundle_title ) {
 ?>
-<section class="s1-fbt-box style_1">
+<section class="s1-fbt-box style_1" data-id="<?php echo esc_attr($product_id); ?>">
     
     <h2 class="s1-fbt-title"><?php echo esc_html( $bundle_title ); ?></h2>
 
@@ -438,7 +439,7 @@ private function s1_render_style_1( $product_id, $rule, $bundle_products, $bundl
  * ------------------------------------------------------------------ */
 private function s1_render_style_2( $product_id, $rule, $bundle_products, $bundle_title ) {
 ?>
-<section class="s1-fbt-box style_2">
+<section class="s1-fbt-box style_2" data-id="<?php echo esc_attr($product_id); ?>">
     
     <h2 class="s1-fbt-title"><?php echo esc_html( $bundle_title ); ?></h2>
 
@@ -516,7 +517,7 @@ private function s1_render_style_2( $product_id, $rule, $bundle_products, $bundl
  * ------------------------------------------------------------------ */
 private function s1_render_table_style( $product_id, $rule, $bundle_products, $bundle_title ) {
     ?>
-   <section class="s1-fbt-box <?php echo esc_attr($rule['display_style']); ?>">
+   <section class="s1-fbt-box <?php echo esc_attr($rule['display_style']); ?>"  data-id="<?php echo esc_attr($product_id); ?>" >
 
         <h2 class="s1-fbt-title"><?php echo esc_html( $bundle_title ); ?></h2>
 
@@ -748,6 +749,7 @@ private function s1_render_table_style( $product_id, $rule, $bundle_products, $b
                    class="s1-fbt-selected-ids"
                    value=""
                    data-main-id="<?php echo esc_attr( $product->get_id() ); ?>">
+                   
         </div>
 
     </div>
@@ -866,5 +868,86 @@ private function s1_render_table_style( $product_id, $rule, $bundle_products, $b
     WC_AJAX::get_refreshed_fragments();
     wp_die();
 }
+
+// dynamic css add
+public function add_inline_dynamic_css() {
+
+    if ( ! is_product() ) return;
+
+    global $product;
+
+    if ( ! $product instanceof WC_Product ) {
+        $product = wc_get_product( get_the_ID() );
+    }
+
+    if ( ! $product ) return;
+
+    $rules = $this->get_rules();
+    if ( empty( $rules ) ) return;
+
+    $css = '';
+
+    foreach ( $rules as $rule ) {
+
+        if ( $this->rule_matches( $rule, $product ) ) {
+
+            $css .= $this->generate_dynamic_css( $rule, $product->get_id() );
+        }
+    }
+
+    if ( ! empty( $css ) ) {
+        wp_add_inline_style( 'storeone-fbt', $css );
+    }
+}
+
+protected function generate_dynamic_css( $rule, $product_id ) {
+
+    $id = absint($product_id);
+    $title   = store_one_normalize_radius( $rule['bundel_title_clr'] ?? '#111' );
+    $bg      = store_one_normalize_radius( $rule['bundel_bg_clr'] ?? '#fff' );
+    $border  = store_one_normalize_radius( $rule['bundel_brd_clr'] ?? '#eee' );
+    $ptitle  = store_one_normalize_radius( $rule['prd_tle_clr'] ?? '#111' );
+    $pprice  = store_one_normalize_radius( $rule['prd_prc_clr'] ?? '#111' );
+    $plus    = store_one_normalize_radius( $rule['bundel_plus_clr'] ?? '#888' );
+    $content = store_one_normalize_radius( $rule['bundel_cnt_clr'] ?? '#111' );
+    $btnbg   = store_one_normalize_radius( $rule['bundel_btn_bg'] ?? '#111' );
+    $btntxt  = store_one_normalize_radius( $rule['bundel_btn_txt'] ?? '#fff' );
+    $radius  = store_one_normalize_radius( $rule['border_radius'] ?? '0px' );
+    return "
+    .s1-fbt-box[data-id='{$id}'] {
+        background: {$bg};
+        border-color: {$border};
+        border-radius: {$radius};
+    }
+    .s1-fbt-box[data-id='{$id}'] .s1-fbt-title{
+        background: {$title};
+        -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    }
+    .s1-fbt-box[data-id='{$id}'] .s1-fbt-name,
+    .s1-fbt-box[data-id='{$id}'] .s1-fbt-name a {
+        color: {$ptitle};
+    }
+    .s1-fbt-box[data-id='{$id}'] .s1-fbt-product-title a {
+        color: {$ptitle};
+    }
+    .s1-fbt-box[data-id='{$id}'] .s1-fbt-product-price,.s1-fbt-box[data-id='{$id}'] .s1-fbt-price {
+        color: {$pprice};
+    }
+    .s1-fbt-box[data-id='{$id}'] .s1-fbt-plus-sign {
+        color: {$plus};
+    }
+    .s1-fbt-box[data-id='{$id}'] .s1-fbt-total-content,
+    .s1-fbt-box[data-id='{$id}'] .s1-fbt-total-title {
+        color: {$content};
+    }
+    .s1-fbt-box[data-id='{$id}'] .s1-fbt-add-button {
+        background: {$btnbg};
+        color: {$btntxt};
+    }
+    ";
+}
+
 
 }
