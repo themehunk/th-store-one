@@ -2,97 +2,96 @@ import { __ } from '@wordpress/i18n';
 import { getTextStyle, getRadius } from '@storeone/utils/styleHelpers';
 
 const dummyProducts = [
-    { id: 1, img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png", name: "Sample Product A", price: "₹499" },
-    { id: 2, img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png", name: "Sample Product B", price: "₹299" },
-   
+    {
+        id: 1,
+        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png",
+        name: "Premium Wool Cardigan",
+        price: "$119.00",
+    },
+    {
+        id: 2,
+        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png",
+        name: "Leather Tote Bag - Red",
+        price: "$40.00",
+    },
+    {
+        id: 3,
+        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png",
+        name: "Classic Silk Scarf",
+        price: "$25.00",
+    },
 ];
 
 const Style2 = ({ settings }) => {
     return (
-        <section className="s1-fbt-box style_2" style={{
-            background: settings?.bundel_bg_clr || undefined ,
-            borderRadius: getRadius(settings?.border_radius),
-        }}>
-
-            {/* Title */}
-            <h2 className="s1-fbt-title" style={getTextStyle(settings?.bundel_title_clr|| undefined)}>
-                {settings?.title || __("Frequently Bought Together", "store-one")}
+        <section
+            className="s1-fbt-box style_2"
+            style={{
+                borderRadius: getRadius(settings?.border_radius),
+                background: settings?.bundel_bg_clr || "#fff",
+            }}
+        >
+            {/* TITLE */}
+            <h2
+                className="s1-fbt-title"
+                style={getTextStyle(settings?.bundel_title_clr)}
+            >
+                {__("Frequently Bought Together", "store-one")}
             </h2>
 
-            <div className="s1-fbt-content s1-fbt-product-wrap">
+            <div className="s1-fbt-style2-wrap">
 
-                {/* LEFT SIDE — IMAGES + TOTAL BOX */}
-                <div className="s1-fbt-content-one">
-                    
-                    {/* PRODUCT ROW (images + plus signs) */}
-                    <div className="s1-fbt-product-row">
+                {/* LEFT SIDE */}
+                <div className="s1-fbt-style2-left">
 
+                    {/* IMAGE EQUATION */}
+                    <div className="s1-fbt-equation">
                         {dummyProducts.map((p, i) => (
-                            <div key={p.id} style={{ display: "flex", alignItems: "center" }}>
-
-                                {/* PLUS SIGN (after first product) */}
-                                {i > 0 && <span className="s1-fbt-plus-sign" style={{ color: settings?.bundel_plus_clr|| undefined }}>+</span>}
-
-                                {/* PRODUCT IMAGE */}
-                                <div className={`s1-fbt-product s1-fbt-active ${i === 0 ? "dltprd" : ""}`}>
-                                    <div className="s1-fbt-image">
-                                        <img src={p.img} alt={p.name} />
-                                    </div>
+                            <div key={p.id} className="s1-fbt-eq-item">
+                                {i !== 0 && <span className="s1-fbt-plus">+</span>}
+                                <div className="s1-fbt-eq-img">
+                                    <img src={p.img} alt={p.name} />
                                 </div>
-
                             </div>
                         ))}
-
                     </div>
 
-                    {/* TOTAL BOX (dummy values for preview) */}
+                    {/* PRODUCT CHECK LIST */}
+                    <ul className="s1-fbt-checklist">
+                        {dummyProducts.map((p) => (
+                            <li key={p.id}>
+                                <span className="s1-check-icon">✓</span>
+                                <div className="s1-title-wrap">
+                                <span className="s1-name">{p.name}</span>
+                                <span className="s1-price">{p.price}</span>
+                                </div>
+                            </li>
+                        ))}
+                    </ul>
+
+                </div>
+
+                {/* RIGHT SIDE */}
+                <div className="s1-fbt-style2-right">
+
                     <div className="s1-fbt-total-box">
-                        <div className="s1-fbt-total-label" style={{ color: settings?.bundel_cnt_clr|| undefined }}>
-                            {__("Bundle Price:", "store-one")}
-                            <div className="s1-fbt-total-value" style={{ color: settings?.prd_prc_clr|| undefined }}>
-                            ₹999
+                        <div className="s1-total-text">
+                            <span>Total for 3 items:</span>
+                            <del>$189.00</del>
                         </div>
+                        <div className="s1-total-price">
+                            <span>Bundle price: </span>
+                            <del>$189.00</del>
                         </div>
 
-                        
-
-                        <button className="s1-fbt-add-btn" style={{ background: settings?.bundel_btn_bg|| undefined ,color: settings?.bundel_btn_txt || undefined }}>
-                            {__("Add Bundle to Cart", "store-one")}
+                        <button className="s1-fbt-add-btn">
+                            {__("Add All to Cart", "store-one")}
                         </button>
                     </div>
 
                 </div>
 
-                {/* RIGHT SIDE — CHECKBOX LIST */}
-                <div className="s1-fbt-content-two">
-                    <div className="s1-fbt-product-list">
-
-                        {dummyProducts.map((p, i) => (
-                            <div key={p.id} className="s1-fbt-product-list-add">
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        className="product-checkbox s1-fbt-checkbox"
-                                        defaultChecked={i !== 0}
-                                        disabled={i === 0}
-                                    />
-
-                                    <span className="s1-fbt-product-title">
-                                        <a style={{ color: settings?.prd_tle_clr|| undefined }} href="#">{p.name}</a>
-                                    </span>
-
-                                    <span className="s1-fbt-product-price" style={{ color: settings?.prd_prc_clr|| undefined }}>
-                                        {p.price}
-                                    </span>
-                                </label>
-                            </div>
-                        ))}
-
-                    </div>
-                </div>
-
             </div>
-
         </section>
     );
 };
