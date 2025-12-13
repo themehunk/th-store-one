@@ -349,14 +349,14 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                     onChangeItems={(items) => updateField(index, 'exclude_tags', items)}
                                 />
 
-                                <ExcludeWooCondition
+                                {/* <ExcludeWooCondition
                                     label={__('Exclude brands', 'store-one')}
                                     searchType="brand"
                                     enabled={rule.exclude_brands_enabled}
                                     items={rule.exclude_brands}
                                     onToggle={(v) => updateField(index, 'exclude_brands_enabled', v)}
                                     onChangeItems={(items) => updateField(index, 'exclude_brands', items)}
-                                />
+                                /> */}
 
                                 <ExcludeWooCondition
                                     label={__('Exclude On-Sale products', 'store-one')}
