@@ -5,7 +5,7 @@ import { getTextStyle, getRadius } from '@storeone/utils/styleHelpers';
 const dummy = [
     { id: 1, img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png", name: "Premium Wool", price: "$119.00" },
     { id: 2, img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png", name: "Leather Tote", price: "$40.00" },
-    { id: 3, img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png", name: "Classic Silk Scarf", price: "$25.00" },
+    // { id: 3, img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png", name: "Classic Silk Scarf", price: "$25.00" },
 ];
 
 const Style1 = ({ settings }) => {
@@ -68,7 +68,7 @@ const Style1 = ({ settings }) => {
                                     className="s1-fbt-plus-floating"
                                     style={{ background: settings?.bundel_plus_clr || "#111" }}
                                 >
-                                    +
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus text-white" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
 
                                 </span>
                                 </div>

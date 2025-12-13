@@ -113,7 +113,7 @@ const newFBTRule = () => ({
     bundel_bg_clr: "#ffffff",
     prd_tle_clr: "#111",
     bundel_cnt_clr:"#111",
-    bundel_plus_clr:"#888",
+    bundel_plus_clr:"#111",
     prd_prc_clr: "#111",
     bundel_btn_txt:"#fff",
     bundel_btn_bg: "#111",
@@ -307,6 +307,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                         label={__('Select Categories', 'store-one')}
                                                         value={rule.categories || []}
                                                         onChange={(items) => updateField(index, 'categories', items)}
+                                                        detailedView={true} 
                                                     />
                                                 )}
 
@@ -316,6 +317,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                         label={__('Select Tags', 'store-one')}
                                                         value={rule.tags || []}
                                                         onChange={(items) => updateField(index, 'tags', items)}
+                                                        detailedView={true} 
                                                     />
                                                 )}
 
@@ -338,6 +340,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                     items={rule.exclude_categories}
                                     onToggle={(v) => updateField(index, 'exclude_categories_enabled', v)}
                                     onChangeItems={(items) => updateField(index, 'exclude_categories', items)}
+                                    detailedView={true} 
                                 />
 
                                 <ExcludeWooCondition
@@ -347,6 +350,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                     items={rule.exclude_tags}
                                     onToggle={(v) => updateField(index, 'exclude_tags_enabled', v)}
                                     onChangeItems={(items) => updateField(index, 'exclude_tags', items)}
+                                    detailedView={true} 
                                 />
 
                                 {/* <ExcludeWooCondition
@@ -503,7 +507,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                    <THBackgroundControl
                                                         allowGradient={false}
                                                         label={__('Plus Sign', 'store-one')}
-                                                        value={rule.bundel_plus_clr|| "#888"}
+                                                        value={rule.bundel_plus_clr|| "#111"}
                                                         onChange={(v) => {
                                                             const updatedRule = { ...rule, bundel_plus_clr: v };
                                                             updateField(index, 'bundel_plus_clr', v); 

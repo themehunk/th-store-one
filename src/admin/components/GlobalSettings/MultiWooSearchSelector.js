@@ -165,6 +165,23 @@ export default function MultiWooSearchSelector({
         return () => clearTimeout(debounceRef.current);
     }, [query]);
 
+    const getPlaceholderText = () => {
+        if (loading) {
+            return __('Searching…', 'store-one');
+        }
+
+        switch (searchType) {
+            case 'product':
+                return __('Search products…', 'store-one');
+            case 'category':
+                return __('Search categories…', 'store-one');
+            case 'tag':
+                return __('Search tags…', 'store-one');
+            default:
+                return __('Search…', 'store-one');
+        }
+    };
+
     /* -------------------- UI -------------------- */
     return (
         <div className="s1-field-wrapper multi-search-selector">
@@ -209,7 +226,7 @@ export default function MultiWooSearchSelector({
 
                     <TextControl
                         value={query}
-                        placeholder={loading ? __('Searching…', 'store-one') : __('Search…', 'store-one')}
+                       placeholder={getPlaceholderText()}
                         onChange={setQuery}
                         onFocus={() => {
                             setIsFocused(true);
