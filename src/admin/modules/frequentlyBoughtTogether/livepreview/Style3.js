@@ -1,115 +1,119 @@
 import { __ } from '@wordpress/i18n';
 import { getTextStyle, getRadius } from '@storeone/utils/styleHelpers';
-const dummyProducts =[
-    { id: 1, img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png", name: "Sample Product A", price: "₹499" },
-    { id: 2, img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png", name: "Sample Product B", price: "₹299" },
-   
+
+const dummyProducts = [
+    {
+        id: 1,
+        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png",
+        name: "Premium Wool Cardigan",
+        price: "$119.00",
+        checked: true,
+    },
+    {
+        id: 2,
+        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png",
+        name: "Leather Tote Bag - Red",
+        price: "$40.00",
+        oldPrice: "$45.00",
+        checked: true,
+    },
+    {
+        id: 3,
+        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png",
+        name: "Classic Silk Scarf",
+        price: "$25.00",
+        checked: true,
+    },
 ];
 
 const Style3 = ({ settings }) => {
     return (
-        <section className={`s1-fbt-box style_3`} style={{
-            borderRadius: getRadius(settings?.border_radius),
-        }}>
-
+        <section
+            className="s1-fbt-box style_3"
+            style={{ borderRadius: getRadius(settings?.border_radius) }}
+        >
             {/* TITLE */}
-            <h2 className="s1-fbt-title" style={getTextStyle(settings?.bundel_title_clr|| undefined)}>
+            <h2
+                className="s1-fbt-title"
+                style={getTextStyle(settings?.bundel_title_clr)}
+            >
                 {settings?.title || __("Frequently Bought Together", "store-one")}
             </h2>
 
-            <div className="s1-fbt-content s1-fbt-product-wrap" data-id="1" style={{
-            background: settings?.bundel_bg_clr || undefined 
-        }}>
+            {/* PRODUCTS */}
+            <div
+                className="s1-fbt-flex-list"
+                style={{ background: settings?.bundel_bg_clr }}
+            >
+                {dummyProducts.map((p, i) => (
+                    <div
+                        key={p.id}
+                        className="s1-fbt-flex-item"
+                        style={{ borderColor: settings?.bundel_brd_clr }}
+                    >
+                        {/* CHECK */}
+                        <input
+                            type="checkbox"
+                            className="product-checkbox s1-fbt-checkbox"
+                            defaultChecked={i === 0}
+                            disabled={i === 0}
+                        />
 
-                <div className="s1-fbt-content-table s1-fbt-products">
-                    <div className="s1-fbt-product-list">
+                        {/* IMAGE */}
+                        <div className="s1-fbt-thumb">
+                            <img src={p.img} alt={p.name} />
+                        </div>
 
-                        <table className="s1-fbt-product-table" >
-                            <tbody>
+                        {/* TITLE */}
+                        <div className="s1-fbt-info">
+                            <a
+                                href="#"
+                                className="s1-fbt-product-title"
+                                style={{ color: settings?.prd_tle_clr }}
+                            >
+                                {p.name}
+                            </a>
+                        </div>
 
-                                {dummyProducts.map((p, i) => (
-                                    <tr key={p.id} className="s1-fbt-product-list-add" style={{
-            borderColor: settings?.bundel_brd_clr || undefined 
-        }}>
+                        {/* PRICE */}
+                        <div
+                            className="s1-fbt-price"
+                            style={{ color: settings?.prd_prc_clr }}
+                        >
+                            {p.oldPrice && (
+                                <del className="s1-old-price">{p.oldPrice}</del>
+                            )}
+                            <span>{p.price}</span>
+                        </div>
+                    </div>
+                ))}
+            </div>
 
-                                        {/* CHECKBOX */}
-                                        <td className="s1-fbt-check">
-                                            <input
-                                                type="checkbox"
-                                                className="product-checkbox s1-fbt-checkbox"
-                                                defaultChecked={i === 0}
-                                                disabled={i === 0}
-                                            />
-                                        </td>
+            {/* TOTAL BAR */}
+            <div
+                className="s1-fbt-total-bar"
+            >
+                <div className="s1-fbt-total-left">
+                    <span className="s1-total-label">
+                        {__("Total Price for 3 items:", "store-one")}
+                    </span>
 
-                                        {/* IMAGE + TITLE */}
-                                        <td className="s1-fbt-td-title">
-                                            <label>
-
-                                                {/* PRODUCT IMAGE WRAPPER */}
-                                                <div className="s1-fbt-product">
-                                                    <div className="s1-fbt-image">
-                                                        <img src={p.img} alt={p.name} />
-                                                    </div>
-                                                </div>
-
-                                                {/* TITLE */}
-                                                <span className="s1-fbt-product-title">
-                                                    <a style={{ color: settings?.prd_tle_clr|| undefined }} href="#">{p.name}</a>
-                                                </span>
-
-                                                {/* VARIATIONS placeholder */}
-                                                {/* In actual UI variations load in this area */}
-
-                                            </label>
-                                        </td>
-
-                                        {/* PRICE */}
-                                        <td className="s1-fbt-last">
-                                            <span style={{ color: settings?.prd_prc_clr|| undefined }} className="s1-fbt-product-price">
-                                                {p.price}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))}
-
-                            </tbody>
-
-                            <tfoot>
-                                <tr className="s1-fbt-total-row" style={{
-            borderColor: settings?.bundel_brd_clr || undefined 
-        }}>
-                                    <td></td>
-                                    <td></td>
-                                    <td className="s1-fbt-total-wrap">
-
-                                        {/* TOTAL BOX (dummy) */}
-                                        <div className="s1-fbt-total-box">
-                                            <div className="s1-fbt-total-label" style={{ color: settings?.bundel_cnt_clr|| undefined }}>
-                                                {__("Bundle Price:", "store-one")}
-                                                <div style={{ color: settings?.prd_prc_clr|| undefined }} className="s1-fbt-total-value">
-                                                ₹999
-                                            </div>
-                                            </div>
-
-                                            
-
-                                            <button className="s1-fbt-add-btn" style={{ background: settings?.bundel_btn_bg|| undefined ,color: settings?.bundel_btn_txt || undefined }}>
-                                                {__("Add Bundle to Cart", "store-one")}
-                                            </button>
-                                        </div>
-
-                                    </td>
-                                </tr>
-                            </tfoot>
-
-                        </table>
-
+                    <div className="s1-total-price">
+                        <strong>$184.00</strong>
+                        <del>$189.00</del>
                     </div>
                 </div>
 
+                <button
+                    className="s1-fbt-add-btn"
+                    style={{
+                        background: settings?.bundel_btn_bg,
+                        color: settings?.bundel_btn_txt,
+                    }}
+                >
+                    {__("Add All to Cart", "store-one")}
+                </button>
             </div>
-
         </section>
     );
 };
