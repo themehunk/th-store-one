@@ -48,7 +48,7 @@ const Style2 = ({ settings }) => {
                     <div className="s1-fbt-equation">
                         {dummyProducts.map((p, i) => (
                             <div key={p.id} className="s1-fbt-eq-item">
-                                {i !== 0 && <span className="s1-fbt-plus">+</span>}
+                                {i !== 0 && <span className="s1-fbt-plus"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus text-white" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></span>}
                                 <div className="s1-fbt-eq-img">
                                     <img src={p.img} alt={p.name} />
                                 </div>

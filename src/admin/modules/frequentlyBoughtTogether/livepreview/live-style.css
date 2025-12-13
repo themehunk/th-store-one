@@ -9,8 +9,10 @@
     margin-bottom: 20px;
     margin-top: 0;
 }
-.s1-fbt-content-wrap{
+.style_1  .s1-fbt-content-wrap{
 margin-top:3rem;
+display:flex;
+align-items: flex-start;
 }
 .s1-fbt-box.style_1 .s1-fbt-cards-row {
     display: flex;
@@ -19,6 +21,7 @@ margin-top:3rem;
     flex-wrap: wrap;
     position: relative;
     justify-content: center;
+    width: 70%;
 }
 .s1-fbt-plus-wrap{
 margin-top:45px;
@@ -51,13 +54,14 @@ margin-top:45px;
 /* TITLE */
 .s1-fbt-box.style_1 .s1-fbt-card-title {
     margin-top: 10px;
-    font-weight: 600;
-    font-size: 14px;
+    font-weight: 400;
+    font-size: 13px;
+    color: #666;
 }
 
 /* PRICE */
 .s1-fbt-box.style_1 .s1-fbt-card-price {
-    font-weight: 700;
+    font-weight: 800;
     margin-top: 4px;
 }
 
@@ -103,7 +107,6 @@ margin-top:45px;
 
 /* SUMMARY */
 .s1-fbt-box.style_1 .s1-fbt-summary {
-    margin-top: 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -111,7 +114,8 @@ margin-top:45px;
     flex-wrap: wrap;
     background: #f8f8f8;
     border-radius: 10px;
-    padding:2rem;
+    padding:1rem;
+    width:30%;
 }
 .s1-fbt-footer-wrap-1,.s1-fbt-footer-wrap-2{
     width:100%;
@@ -128,7 +132,7 @@ margin-top:45px;
 .s1-fbt-box.style_1 .s1-fbt-summary-price{
     font-size: 1.2rem;
     line-height: 2.25rem;
-    font-weight:600;
+    font-weight:800;
     margin:0.4rem 0rem
 }
 .s1-fbt-box.style_1 .s1-fbt-summary-count{
@@ -143,7 +147,7 @@ background: #d7fbbe;
     justify-content: space-between;
 }
 .s1-fbt-box.style_1 .s1-price{
-font-weight: 500;
+font-weight:600;
 }
 .s1-fbt-bundle-list-wrap{
     margin-top: 1.5rem;
@@ -297,7 +301,7 @@ font-weight: 500;
 }
 
 .style_2 .s1-total-price {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 700;
     margin-bottom: 16px;
 }
