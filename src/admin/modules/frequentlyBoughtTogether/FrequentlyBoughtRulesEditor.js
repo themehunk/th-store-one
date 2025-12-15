@@ -198,6 +198,25 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
         }
     }, []);
 
+    useEffect(() => {
+        const handler = (e) => {
+            const { style } = e.detail;
+            if (!style) return;
+
+            // 🔥 ALWAYS update first open rule
+            const index = rules.findIndex(r => r.open);
+            if (index === -1) return;
+
+            updateField(index, 'display_style', style);
+        };
+
+        window.addEventListener('storeone:changeDisplayStyle', handler);
+
+        return () => {
+            window.removeEventListener('storeone:changeDisplayStyle', handler);
+        };
+    }, [rules]);
+
     
 
     return (

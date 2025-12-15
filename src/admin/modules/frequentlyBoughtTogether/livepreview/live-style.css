@@ -1,3 +1,48 @@
+.s1-style-tabs {
+    display: flex;
+    gap: 6px;
+    padding: 6px;
+   
+    border-radius: 10px;
+    margin-bottom: 18px;
+    justify-content: center;
+}
+
+/* ===== TAB BUTTON ===== */
+.s1-style-tab {
+    appearance: none;
+    border: none;
+   background: #fff;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #4b5563;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.18s ease;
+}
+
+/* Hover */
+.s1-style-tab:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+/* ===== ACTIVE TAB ===== */
+.s1-style-tab.active {
+    background: #111827;
+    color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+/* Optional icon sizing */
+.s1-style-tab svg,
+.s1-style-tab i {
+    font-size: 14px;
+}
+
 /* ================= STYLE 1 ================= */
 
 .s1-fbt-box.style_1 {
