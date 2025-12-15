@@ -1,3 +1,48 @@
+.s1-style-tabs {
+    display: flex;
+    gap: 6px;
+    padding: 6px;
+   
+    border-radius: 10px;
+    margin-bottom: 18px;
+    justify-content: center;
+}
+
+/* ===== TAB BUTTON ===== */
+.s1-style-tab {
+    appearance: none;
+    border: none;
+   background: #fff;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #4b5563;
+    border-radius: 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.18s ease;
+}
+
+/* Hover */
+.s1-style-tab:hover {
+    background: rgba(0,0,0,0.05);
+}
+
+/* ===== ACTIVE TAB ===== */
+.s1-style-tab.active {
+    background: #111827;
+    color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+/* Optional icon sizing */
+.s1-style-tab svg,
+.s1-style-tab i {
+    font-size: 14px;
+}
+
 /* ================= STYLE 1 ================= */
 
 .s1-fbt-box.style_1 {
@@ -86,12 +131,14 @@ margin-top:45px;
     justify-content: center;
 }
 
-.s1-fbt-check-ui::after {
+/* .s1-fbt-check-ui::after {
     content: "✓";
     color: #fff;
     font-size: 14px;
+} */
+.is-unchecked .s1-fbt-check-ui{
+    border:1px solid #eee;
 }
-
 /* PLUS SIGN */
 .s1-fbt-plus-floating {
     align-self: center;
@@ -367,7 +414,7 @@ section.s1-fbt-box.style_3{
     align-items:center;
     gap:14px;
     padding:14px;
-    border:1px solid;
+    border: 1px solid #ddd;
     border-radius:12px;
     background:#fff;
     margin-bottom: 1rem;
@@ -496,7 +543,7 @@ section.s1-fbt-box.style_3{
     width: 22px;
     height: 22px;
     border-radius: 50%;
-    border: 2px solid #111;
+    border: 1px solid #111;
     background: #fff;
     cursor: pointer;
     position: relative;
