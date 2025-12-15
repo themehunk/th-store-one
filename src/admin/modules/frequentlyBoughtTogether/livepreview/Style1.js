@@ -36,13 +36,42 @@ const Style1 = ({ settings }) => {
                             <div className="s1-fbt-card-holder">
 
                                 {/* CHECKBOX */}
-                                <label className="s1-fbt-check-wrap">
-                                    <input
-                                        type="checkbox"
-                                        defaultChecked
-                                    />
-                                    <span className="s1-fbt-check-ui"></span>
-                                </label>
+                                {/* CHECKBOX */}
+<label
+    className={`s1-fbt-check-wrap ${i === 0 ? 'is-checked' : 'is-unchecked'}`}
+>
+    <input
+        type="checkbox"
+        checked={i === 0}
+        readOnly
+    />
+
+    <span
+        className="s1-fbt-check-ui"
+        style={{
+            background: i === 0
+                ? settings?.bundel_chk_bg_clr || "#111"
+                : "#fff",
+            color: settings?.bundel_chk_clr || "#fff",
+        }}
+    >
+        {i === 0 && (
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+            >
+                <path d="M20 6 9 17l-5-5" />
+            </svg>
+        )}
+    </span>
+</label>
 
                                 {/* CARD */}
                                 <div className="s1-fbt-card">
@@ -50,11 +79,15 @@ const Style1 = ({ settings }) => {
                                         <img src={p.img} alt={p.name} />
                                     </div>
 
-                                    <div className="s1-fbt-card-title">
+                                    <div className="s1-fbt-card-title" style={{
+                                        color: settings?.prd_tle_clr || undefined
+                                    }}>
                                         {p.name}
                                     </div>
 
-                                    <div className="s1-fbt-card-price">
+                                    <div className="s1-fbt-card-price" style={{
+                                        color: settings?.prd_prc_clr || undefined
+                                    }}>
                                         {p.price}
                                     </div>
                                 </div>
@@ -66,7 +99,7 @@ const Style1 = ({ settings }) => {
                                 <div className="s1-fbt-plus-wrap">
                                 <span
                                     className="s1-fbt-plus-floating"
-                                    style={{ background: settings?.bundel_plus_clr || "#111" }}
+                                    style={{ background: settings?.bundel_plus_bg_clr || "#111", color: settings?.bundel_plus_clr || "#fff" }}
                                 >
                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus text-white" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>
 
@@ -80,13 +113,18 @@ const Style1 = ({ settings }) => {
                 </div>
 
                 {/* SUMMARY */}
-                <div className="s1-fbt-summary">
+                <div className="s1-fbt-summary"  style={{
+                                        background: settings?.bundel_cnt_bg || undefined,
+                                        color: settings?.bundel_cnt_clr || undefined
+                                    }}>
                     <div className="s1-fbt-footer-wrap-1">
                         <div className="s1-fbt-bundle-wrap">
                         <div className="s1-fbt-summary-label">
                             {__("Bundle Total:", "store-one")}
                         </div>
-                        <div className="s1-fbt-summary-price">
+                        <div className="s1-fbt-summary-price" style={{
+                                        color: settings?.prd_prc_clr || undefined
+                                    }}>
                             $184.00 
                         </div>
                         <span className="s1-fbt-summary-count">
@@ -99,8 +137,12 @@ const Style1 = ({ settings }) => {
                                             <li key={p.id}>
                                                 
                                                 <div className="s1-title-wrap">
-                                                <span className="s1-name">{p.name}</span>
-                                                <span className="s1-price">{p.price}</span>
+                                                <span className="s1-name" style={{
+                                        color: settings?.prd_tle_clr || undefined
+                                    }}>{p.name}</span>
+                                                <span className="s1-price" style={{
+                                        color: settings?.prd_prc_clr || undefined
+                                    }}>{p.price}</span>
                                                 </div>
                                             </li>
                                         ))}

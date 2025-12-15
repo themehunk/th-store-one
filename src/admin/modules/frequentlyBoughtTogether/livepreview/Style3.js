@@ -30,7 +30,6 @@ const Style3 = ({ settings }) => {
     return (
         <section
             className="s1-fbt-box style_3"
-            style={{ borderRadius: getRadius(settings?.border_radius) }}
         >
             {/* TITLE */}
             <h2
@@ -43,13 +42,16 @@ const Style3 = ({ settings }) => {
             {/* PRODUCTS */}
             <div
                 className="s1-fbt-flex-list"
-                style={{ background: settings?.bundel_bg_clr }}
             >
                 {dummyProducts.map((p, i) => (
                     <div
                         key={p.id}
                         className="s1-fbt-flex-item"
-                        style={{ borderColor: settings?.bundel_brd_clr }}
+                        
+                        style={{
+                borderRadius: getRadius(settings?.border_radius),
+                background: settings?.bundel_bg_clr || "#fff",
+            }}
                     >
                         {/* CHECK */}
                         <input
@@ -94,11 +96,15 @@ const Style3 = ({ settings }) => {
                 className="s1-fbt-total-bar"
             >
                 <div className="s1-fbt-total-left">
-                    <span className="s1-total-label">
+                    <span className="s1-total-label" tyle={{
+                        color:settings?.bundel_cnt_clr || undefined
+                    }}>
                         {__("Total Price for 3 items:", "store-one")}
                     </span>
 
-                    <div className="s1-total-price">
+                    <div className="s1-total-price" style={{
+                        color: settings?.prd_prc_clr
+                    }}>
                         <strong>$184.00</strong>
                         <del>$189.00</del>
                     </div>

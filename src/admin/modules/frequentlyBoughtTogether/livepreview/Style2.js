@@ -48,7 +48,7 @@ const Style2 = ({ settings }) => {
                     <div className="s1-fbt-equation">
                         {dummyProducts.map((p, i) => (
                             <div key={p.id} className="s1-fbt-eq-item">
-                                {i !== 0 && <span className="s1-fbt-plus"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus text-white" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></span>}
+                                {i !== 0 && <span style={{ background: settings?.bundel_plus_bg_clr || "#111", color: settings?.bundel_plus_clr || "#fff" }} className="s1-fbt-plus"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus text-white" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></span>}
                                 <div className="s1-fbt-eq-img">
                                     <img src={p.img} alt={p.name} />
                                 </div>
@@ -60,10 +60,30 @@ const Style2 = ({ settings }) => {
                     <ul className="s1-fbt-checklist">
                         {dummyProducts.map((p) => (
                             <li key={p.id}>
-                                <span className="s1-check-icon">✓</span>
+                                <span style={{
+                                        color: settings?.bundel_chk_clr || undefined,
+                                        background: settings?.bundel_chk_bg_clr || undefined
+                                    }} className="s1-check-icon">
+                                        <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="14"
+                                        height="14"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        strokeWidth="3"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    >
+                                    <path d="M20 6 9 17l-5-5" />
+                                </svg></span>
                                 <div className="s1-title-wrap">
-                                <span className="s1-name">{p.name}</span>
-                                <span className="s1-price">{p.price}</span>
+                                <span className="s1-name" style={{
+                                        color: settings?.prd_tle_clr || undefined
+                                    }}>{p.name}</span>
+                                <span style={{
+                                        color: settings?.prd_prc_clr || undefined
+                                    }} className="s1-price">{p.price}</span>
                                 </div>
                             </li>
                         ))}
@@ -74,17 +94,30 @@ const Style2 = ({ settings }) => {
                 {/* RIGHT SIDE */}
                 <div className="s1-fbt-style2-right">
 
-                    <div className="s1-fbt-total-box">
+                    <div className="s1-fbt-total-box"> 
                         <div className="s1-total-text">
-                            <span>Total for 3 items:</span>
-                            <del>$189.00</del>
+                            <span style={{
+    
+                                        color: settings?.bundel_cnt_clr || undefined
+                                    }}>Total for 3 items:</span>
+                            <del style={{
+                                        color: settings?.prd_prc_clr || undefined
+                                    }}>$189.00</del>
                         </div>
                         <div className="s1-total-price">
-                            <span>Bundle price: </span>
-                            <del>$189.00</del>
+                            <span style={{
+    
+                                        color: settings?.bundel_cnt_clr || undefined
+                                    }}>Bundle price: </span>
+                            <del style={{
+                                        color: settings?.prd_prc_clr || undefined
+                                    }}>$189.00</del>
                         </div>
 
-                        <button className="s1-fbt-add-btn">
+                        <button className="s1-fbt-add-btn"  style={{
+                            background: settings?.bundel_btn_bg || "#111",
+                            color: settings?.bundel_btn_txt || "#fff",
+                        }}>
                             {__("Add All to Cart", "store-one")}
                         </button>
                     </div>
