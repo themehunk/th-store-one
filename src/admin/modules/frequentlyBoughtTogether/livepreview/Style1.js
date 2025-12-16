@@ -3,8 +3,8 @@ import { __ } from '@wordpress/i18n';
 import { getTextStyle, getRadius } from '@storeone/utils/styleHelpers';
 
 const dummy = [
-    { id: 1, img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png", name: "Premium Wool", price: "$119.00" },
-    { id: 2, img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png", name: "Leather Tote", price: "$40.00" },
+    { id: 1, img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd1.png", name: "Premium Wool", price: "$119.00" },
+    { id: 2, img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd2.png", name: "Leather Tote", price: "$40.00" },
     // { id: 3, img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png", name: "Classic Silk Scarf", price: "$25.00" },
 ];
 

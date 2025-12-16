@@ -91,7 +91,7 @@ const newFBTRule = () => ({
     plus_bg_color: "#212121",
     plus_text_color: "#ffffff",
     border_color: "#f9f9f9",
-    border_radius: "0px",
+    border_radius: "12px",
     display_style: "style_1",
     /* -----------------------
      * CART PAGE SETTINGS
@@ -111,19 +111,43 @@ const newFBTRule = () => ({
     //color
     bundel_title_clr: "#111",
     bundel_bg_clr: "#ffffff",
-    prd_tle_clr: "#111",
     bundel_cnt_bg:"#f8f8f8",
     bundel_cnt_clr:"#111",
     bundel_plus_clr:"#fff",
     bundel_plus_bg_clr:"#111",
     bundel_chk_clr:"#fff",
     bundel_chk_bg_clr:"#111",
-    prd_prc_clr: "#111",
+    prd_prc_clr: "#111827",
     bundel_btn_txt:"#fff",
     bundel_btn_bg: "#111",
-    bundel_brd_clr: "#eee",
+    bundel_brd_clr: "#e5e7eb",
+
+    prd_tle_clr: "#6C7280",
+    prd_tle_clr_auto: true,
 });
 
+/* ================= STYLE DEFAULTS (ADDED) ================= */
+const STYLE_DEFAULTS = {
+    style_1: { prd_tle_clr: '#6C7280' },
+    style_2: { prd_tle_clr: '#111827' },
+    style_3: { prd_tle_clr: '#1f2937' },
+};
+
+/* ================= HELPER (ADDED) ================= */
+const applyStyleDefaults = (rule, style) => {
+    const defaults = STYLE_DEFAULTS[style] || {};
+    const updated = { ...rule, display_style: style };
+
+    Object.keys(defaults).forEach((key) => {
+        const autoKey = `${key}_auto`;
+        if (rule[autoKey] !== false) {
+            updated[key] = defaults[key];
+            updated[autoKey] = true;
+        }
+    });
+
+    return updated;
+};
 
 /* Sortable */
 function SortableWrapper({ items, onSortEnd, children }) {
@@ -207,18 +231,20 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
             const { style } = e.detail;
             if (!style) return;
 
-            // 🔥 ALWAYS update first open rule
             const index = rules.findIndex(r => r.open);
             if (index === -1) return;
 
-            updateField(index, 'display_style', style);
+            const updatedRule = applyStyleDefaults(rules[index], style);
+
+            updateAll(
+                rules.map((r, i) => (i === index ? updatedRule : r))
+            );
+
+            onLivePreview?.(updatedRule, index);
         };
 
         window.addEventListener('storeone:changeDisplayStyle', handler);
-
-        return () => {
-            window.removeEventListener('storeone:changeDisplayStyle', handler);
-        };
+        return () => window.removeEventListener('storeone:changeDisplayStyle', handler);
     }, [rules]);
 
     
@@ -457,8 +483,10 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                             { label: __('Style3', 'store-one'), value: 'style_3' },
                                                         ]}
                                                         onChange={(v) => {
-                                                            const updatedRule = { ...rule, display_style: v };
-                                                            updateField(index, 'display_style', v);
+                                                            const updatedRule = applyStyleDefaults(rule, v);
+                                                            updateAll(
+                                                                rules.map((r, i) => (i === index ? updatedRule : r))
+                                                            );
                                                             onLivePreview?.(updatedRule, index);
                                                         }}
                                                     />
@@ -505,10 +533,16 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                     <THBackgroundControl
                                                         allowGradient={false}
                                                         label={__('Product Title', 'store-one')}
-                                                        value={rule.prd_tle_clr|| "#111"}
+                                                        value={rule.prd_tle_clr}
                                                         onChange={(v) => {
-                                                            const updatedRule = { ...rule, prd_tle_clr: v };
-                                                            updateField(index, 'prd_tle_clr', v); 
+                                                            const updatedRule = {
+                                                                ...rule,
+                                                                prd_tle_clr: v,
+                                                                prd_tle_clr_auto: false,
+                                                            };
+                                                            updateAll(
+                                                                rules.map((r, i) => (i === index ? updatedRule : r))
+                                                            );
                                                             onLivePreview?.(updatedRule, index);
                                                         }}
                                                     />
@@ -517,7 +551,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                     <THBackgroundControl
                                                         allowGradient={false}
                                                         label={__('Product Price', 'store-one')}
-                                                        value={rule.prd_prc_clr|| "#111"}
+                                                        value={rule.prd_prc_clr}
                                                         onChange={(v) => {
                                                             const updatedRule = { ...rule, prd_prc_clr: v };
                                                             updateField(index, 'prd_prc_clr', v); 
@@ -642,7 +676,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                 units={['px']}
                                                  value={rule.border_radius}
                                                  onChange={(v) => updateField(index, 'border_radius', v)} 
-                                                defaultValue="0px"
+                                                defaultValue="12px"
                                             />
                                             
                                                          

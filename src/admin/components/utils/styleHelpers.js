@@ -29,7 +29,7 @@ export const getTextStyle = (value) => {
 
 // Border radius parser for live preview
 export const getRadius = (radius) => {
-    if (!radius) return "0px";
+    if (!radius) return "";
 
     // Responsive object case
     if (typeof radius === "object") {
@@ -37,7 +37,7 @@ export const getRadius = (radius) => {
             radius.Desktop ||
             radius.Tablet ||
             radius.Mobile ||
-            "0px"
+            ""
         );
     }
 

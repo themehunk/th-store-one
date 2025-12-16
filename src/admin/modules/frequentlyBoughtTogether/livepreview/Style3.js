@@ -4,14 +4,14 @@ import { getTextStyle, getRadius } from '@storeone/utils/styleHelpers';
 const dummyProducts = [
     {
         id: 1,
-        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png",
+        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd1.png",
         name: "Premium Wool Cardigan",
         price: "$119.00",
         checked: true,
     },
     {
         id: 2,
-        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png",
+        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd2.png",
         name: "Leather Tote Bag - Red",
         price: "$40.00",
         oldPrice: "$45.00",
@@ -19,7 +19,7 @@ const dummyProducts = [
     },
     {
         id: 3,
-        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png",
+        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd3.png",
         name: "Classic Silk Scarf",
         price: "$25.00",
         checked: true,
