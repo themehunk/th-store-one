@@ -4,19 +4,19 @@ import { getTextStyle, getRadius } from '@storeone/utils/styleHelpers';
 const dummyProducts = [
     {
         id: 1,
-        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png",
+        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd1.png",
         name: "Premium Wool Cardigan",
         price: "$119.00",
     },
     {
         id: 2,
-        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png",
+        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd2.png",
         name: "Leather Tote Bag - Red",
         price: "$40.00",
     },
     {
         id: 3,
-        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png",
+        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd3.png",
         name: "Classic Silk Scarf",
         price: "$25.00",
     },
@@ -100,6 +100,17 @@ const Style2 = ({ settings }) => {
     
                                         color: settings?.bundel_cnt_clr || undefined
                                     }}>Total for 3 items:</span>
+                           <span style={{
+    
+                                        color: settings?.bundel_cnt_clr || undefined
+                                    }}></span>
+                        </div>
+                        <div className="s1-total-text original">
+                            <span style={{
+    
+                                        color: settings?.bundel_cnt_clr || undefined
+                                    }}>Original price: </span>
+
                             <del style={{
                                         color: settings?.prd_prc_clr || undefined
                                     }}>$189.00</del>
@@ -109,6 +120,7 @@ const Style2 = ({ settings }) => {
     
                                         color: settings?.bundel_cnt_clr || undefined
                                     }}>Bundle price: </span>
+
                             <del style={{
                                         color: settings?.prd_prc_clr || undefined
                                     }}>$189.00</del>
