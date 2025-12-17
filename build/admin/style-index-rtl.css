@@ -1,6 +1,6 @@
-/*!***********************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/admin/components/background/style.css ***!
-  \***********************************************************************************************************************************************************************************************/
+/*!******************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[2].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[2].use[2]!./src/admin/components/componentsControl/style.css ***!
+  \******************************************************************************************************************************************************************************************************/
  .components-popover__content {
  width:250px;
     padding:10px;
@@ -69,20 +69,32 @@ background-color: #fff;
 
 .th-bg-control input.color-input {
 width: 100%;
-    /* border:1px solid #e2e8f0;
-    height: 2.5rem;
-    border-radius: .5rem;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
-        color:#475569;
-    outline: 2px solid transparent;
-    outline-offset: 2px;
-   padding-right: 1.4rem; */
-
+    background-color: #ffffff;
 }
+
+/** range control **/
 
 .th-bg-control span.component-color-indicator {
  width: 12px;
     height: 12px;
     margin-right: -20px;
 }
+
+.s1-control-range {
+    display: flex;
+    align-items: center;
+}
+
+.s1-control-range .components-base-control.components-range-control{
+    width: 100%;
+}
+
+.s1-control-range .s1-rangetype{
+     margin-right: -40px;
+    z-index: 999;
+    margin-top: 22px;
+}
+
+/* .th-bg-control{
+    margin:15px 0
+} */

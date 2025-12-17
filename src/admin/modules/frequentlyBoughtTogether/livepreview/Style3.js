@@ -89,9 +89,9 @@ const Style3 = ({ settings }) => {
                         </div>
                     </div>
                 ))}
-            </div>
 
-            {/* TOTAL BAR */}
+
+                  {/* TOTAL BAR */}
             <div
                 className="s1-fbt-total-bar"
             >
@@ -120,6 +120,12 @@ const Style3 = ({ settings }) => {
                     {__("Add All to Cart", "store-one")}
                 </button>
             </div>
+            </div>
+
+
+            
+
+          
         </section>
     );
 };
