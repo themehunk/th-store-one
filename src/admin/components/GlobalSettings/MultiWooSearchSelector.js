@@ -182,6 +182,49 @@ export default function MultiWooSearchSelector({
         }
     };
 
+    /* -------------------- SYNC VALUE → UI (FIX) -------------------- */
+useEffect(() => {
+    if (!endpoint) return;
+    if (!Array.isArray(value)) return;
+
+    // No IDs → clear UI
+    if (value.length === 0) {
+        setSelectedItems([]);
+        return;
+    }
+
+    let isMounted = true;
+
+    const fetchSelectedItems = async () => {
+        try {
+            // Woo allows include=1,2,3
+            const res = await apiFetch({
+                path: `${endpoint}?include=${value.join(",")}&per_page=100`,
+            });
+
+            if (!isMounted) return;
+
+            const normalized = res.map(normalize);
+
+            // 🔒 Maintain same order as saved IDs
+            const ordered = value
+                .map(id => normalized.find(p => p.id === id))
+                .filter(Boolean);
+
+            setSelectedItems(ordered);
+        } catch (e) {
+            console.error("MultiWooSearchSelector sync error", e);
+        }
+    };
+
+    fetchSelectedItems();
+
+    return () => {
+        isMounted = false;
+    };
+}, [value, endpoint, searchType]);
+
+
     /* -------------------- UI -------------------- */
     return (
         <div className="s1-field-wrapper multi-search-selector">
