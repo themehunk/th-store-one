@@ -1,5 +1,4 @@
 (function ($) {
-
     "use strict";
 
     const S1FBT = {
@@ -10,133 +9,115 @@
         },
 
         bindEvents() {
-            // Checkbox change
+
+            // CHECKBOX CHANGE (cards + list)
             $(document).on("change", ".s1-fbt-checkbox", (e) => {
-                const wrap = $(e.target).closest(".s1-fbt-product-wrap");
-                this.updateSelection(wrap);
-                this.updateTotal(wrap);
-                this.updateButtonText(wrap);
+                const $wrap = $(e.target).closest(".s1-fbt-content-wrap");
+                this.syncCheckboxes(e.target, $wrap);
+                this.updateSelectedIds($wrap);
+                this.updateTotal($wrap);
+                this.toggleRowUI($wrap);
             });
 
-            // Variation change
-            $(document).on("change", ".variations_form select", (e) => {
-                const wrap = $(e.target).closest(".s1-fbt-product-wrap");
-                this.updateSelection(wrap);
-                this.updateTotal(wrap);
-                this.updateButtonText(wrap);
-            });
-
-            // Reset variation
-            $(document).on("click", ".reset_variations", (e) => {
-                const wrap = $(e.target).closest(".s1-fbt-product-wrap");
-                setTimeout(() => {
-                    this.updateSelection(wrap);
-                    this.updateTotal(wrap);
-                    this.updateButtonText(wrap);
-                }, 80);
-            });
-
-            // ADD BUNDLE TO CART
+            // ADD TO CART
             $(document).on("click", ".s1-fbt-add-button", (e) => {
                 e.preventDefault();
-                this.addBundleToCart($(e.target));
+                this.addToCart($(e.currentTarget));
             });
         },
 
-        
-
-        /** INITIAL CALC */
         initAll() {
-            $(".s1-fbt-product-wrap").each((i, el) => {
-                const wrap = $(el);
-                this.updateSelection(wrap);
-                this.updateTotal(wrap);
-                this.updateButtonText(wrap);
+            $(".s1-fbt-content-wrap").each((_, el) => {
+                const $wrap = $(el);
+                this.updateSelectedIds($wrap);
+                this.updateTotal($wrap);
+                this.toggleRowUI($wrap);
             });
         },
 
-        /** COLLECT SELECTED IDS */
-        updateSelection($wrap) {
+        /* --------------------------------------------------
+         * Sync card checkbox <-> list checkbox
+         * -------------------------------------------------- */
+        syncCheckboxes(checkbox, $wrap) {
+            const $cb = $(checkbox);
+            const pid = $cb.data("product-id");
+            const checked = $cb.is(":checked");
 
-            let selected = [];
-
-            $wrap.find(".s1-fbt-checkbox").each(function () {
-
-                const $cb = $(this);
-                if ($cb.is(":checked") && !$cb.is(":disabled")) {
-
-                    const vid = $cb.data("id"); // variation
-                    const pid = $cb.data("product-id"); // product id
-
-                    selected.push(vid && vid !== 0 ? vid : pid);
-                }
-            });
-
-            $wrap.find(".s1-fbt-selected-ids").val(selected.join(","));
+            // same product ke saare checkboxes sync karo
+            $wrap.find(`.s1-fbt-checkbox[data-product-id="${pid}"]`)
+                .prop("checked", checked);
         },
 
-        /** TOTAL PRICE CALCULATION */
+        /* --------------------------------------------------
+            * Toggle row disabled UI (line-through etc)
+            * -------------------------------------------------- */
+            toggleRowUI($wrap) {
+
+                $wrap.find(".s1-fbt-checkbox").each(function () {
+
+                    const $cb = $(this);
+                    const $row = $cb.closest(".s1-fbt-row");
+
+                    if (!$cb.is(":checked")) {
+                        $row.addClass("s1-fbt-row-disabled");
+                    } else {
+                        $row.removeClass("s1-fbt-row-disabled");
+                    }
+                });
+            },
+
+        /* --------------------------------------------------
+         * Collect selected IDs
+         * -------------------------------------------------- */
+        updateSelectedIds($wrap) {
+            let ids = [];
+
+            $wrap.find(".s1-fbt-checkbox:checked").each(function () {
+                const pid = $(this).data("product-id");
+                if (pid) ids.push(pid);
+            });
+
+            $wrap.find(".s1-fbt-selected-ids").val(ids.join(","));
+        },
+
+        /* --------------------------------------------------
+         * Total price update
+         * -------------------------------------------------- */
         updateTotal($wrap) {
-
             let total = 0;
             let count = 0;
 
-            $wrap.find(".s1-fbt-checkbox").each(function () {
-                const $cb = $(this);
-
-                if ($cb.is(":checked")) {
-                    let price = parseFloat($cb.val());
-                    if (!isNaN(price)) {
-                        total += price;
-                        count++;
-                    }
+            $wrap.find(".s1-fbt-checkbox:checked").each(function () {
+                const price = parseFloat($(this).val());
+                if (!isNaN(price)) {
+                    total += price;
+                    count++;
                 }
             });
 
-            const currency = StoreOneFBT.currency_symbol;
+            const currency = StoreOneFBT.currency_symbol || "₹";
 
-            // Show total amount
             $wrap.find(".s1-fbt-total-final-amount")
-                 .html(currency + total.toFixed(2));
+                .html(currency + total.toFixed(2));
 
-            // Update label ("Total for X items")
-            let title =
-                count === 1 ? StoreOneFBT.total_single :
-                count === 2 ? StoreOneFBT.total_double :
-                StoreOneFBT.total_multi;
-
-            $wrap.find(".s1-fbt-total-title").text(title);
+            $wrap.find(".s1-fbt-summary-count")
+                .text(count + " items selected");
         },
 
-        /** UPDATE BUTTON TEXT */
-        updateButtonText($wrap) {
-        let count = $wrap.find(".s1-fbt-checkbox:checked").length;
-
-        // Button element inside this wrap
-        let $btn = $wrap.find(".s1-fbt-add-button");
-
-        // User template from PHP
-        let template = $btn.data("template") || "Add {count} items to cart";
-
-                // Replace {count} with real number
-                let finalTxt = template.replace("{count}", count);
-
-                $wrap.find(".s1-fbt-add-button").text(finalTxt);
-        },
-
-        /** AJAX ADD TO CART */
-        addBundleToCart($button) {
-
-            let wrap = $button.closest(".s1-fbt-product-wrap");
-            let ids  = wrap.find(".s1-fbt-selected-ids").val();
-            let main_id = $button.data("main-id");
+        /* --------------------------------------------------
+         * AJAX add to cart
+         * -------------------------------------------------- */
+        addToCart($btn) {
+            const $wrap = $btn.closest(".s1-fbt-content-wrap");
+            const ids = $wrap.find(".s1-fbt-selected-ids").val();
+            const mainId = $btn.data("main-id");
 
             if (!ids) {
-                alert("Please select at least one item.");
+                alert("Please select at least one product.");
                 return;
             }
 
-            $button.addClass("loading");
+            $btn.addClass("loading");
 
             $.ajax({
                 url: StoreOneFBT.ajax_url,
@@ -144,26 +125,23 @@
                 data: {
                     action: "storeone_fbt_add_bundle",
                     nonce: StoreOneFBT.nonce,
-                    main_id: main_id,
-                    selected_ids: ids.split(",")
+                    main_id: mainId,
+                    selected_ids: ids.split(","),
                 },
-                success: (response) => {
-                    $button.removeClass("loading");
-
+                success: (res) => {
+                    $btn.removeClass("loading");
                     $(document.body).trigger("added_to_cart", [
-                        response.fragments,
-                        response.cart_hash,
-                        $button,
+                        res.fragments,
+                        res.cart_hash,
+                        $btn,
                     ]);
                 },
-                error: (xhr) => {
-                    $button.removeClass("loading");
-                    console.log("ERROR:", xhr.responseText);
-                    alert("Something went wrong.");
-                }
+                error: () => {
+                    $btn.removeClass("loading");
+                    alert("Something went wrong");
+                },
             });
-        }
-
+        },
     };
 
     $(function () {

@@ -1,373 +1,303 @@
-/* ------------------------------------------
-   STORE-ONE FBT — STYLE 1
-------------------------------------------- */
+/* ================= STYLE 1 ================= */
+
 .s1-fbt-box.style_1 {
-    padding: 20px;
+    padding:2rem;
 }
-
-.s1-fbt-box.style_1 .s1-fbt-content {
+.style_1 .s1-fbt-title {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    margin-bottom:1rem;
+    margin-top: 0;
+    border-color: #e5e7eb;
+    border-style: solid;
+    border-width: 0;
+    border-style: solid;
+    border-bottom-width: 1px;
+    padding-bottom: 1rem;
+    font-weight: 700;
+}
+.style_1 .s1-fbt-content-wrap{
+margin-top:3rem;
+display:flex;
+align-items: flex-start;
+}
+.s1-fbt-box.style_1 .s1-fbt-cards-row {
     display: flex;
+    align-items: flex-start;
+    gap: 1rem;
     flex-wrap: wrap;
+    position: relative;
+    justify-content: start;
+    width: 70%;
+}
+.s1-fbt-box.style_1 .s1-fbt-plus-wrap{
+margin-top: 3.5em;
+}
+/* HOLDER */
+.s1-fbt-box.style_1 .s1-fbt-card-holder {
+    position: relative;
 }
 
-.s1-fbt-box.style_1 .s1-fbt-content-one {
-    width: 65%;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.s1-fbt-box.style_1 .s1-fbt-product {
-    width: 32%;
+/* CARD */
+.s1-fbt-box.style_1 .s1-fbt-card {
+    width: 9rem;
     text-align: center;
-    padding: 10px;
+    
 }
 
-.s1-fbt-box.style_1 .s1-fbt-product .s1-fbt-image img {
-    width: 100%;
+/* IMAGE */
+.s1-fbt-box.style_1 .s1-fbt-image {
+    padding:1rem;
+    border-radius: 0.75rem;
+    background: #fff;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    text-align: center;
+}
+.s1-fbt-box.style_1 .s1-fbt-image img {
+    max-width: 100%;
 }
 
-/* FIRST LAYOUT — INACTIVE PRODUCT PLUS ICON CENTERED */
-.s1-fbt-box.style_1 .s1-fbt-product.s1-fbt-inactive .s1-fbt-image {
-    position: relative;  /* IMPORTANT */
+/* TITLE */
+.s1-fbt-box.style_1 .s1-fbt-card-title,.s1-fbt-box.style_1 .s1-fbt-card-title a {
+    margin-top: 0.75rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.25;
+    color: #6b7280;
+    text-decoration: none;
 }
 
-/* Plus icon center aligned */
-.s1-fbt-box.style_1 .s1-fbt-product.s1-fbt-inactive .s1-fbt-image::after {
-    content: "+";
+/* PRICE */
+.s1-fbt-box.style_1 .s1-fbt-card-price {
+    font-weight: 700;
+    margin-top: 0.25rem;
+    font-size: 1rem;
+    line-height: 1.75rem;
+}
+
+/* CHECKBOX */
+.style_1 .s1-fbt-check-wrap {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); /* PERFECT CENTER */
-    font-size: 28px;
-    color: #888;
-    font-weight: 600;
-    z-index: 3;
+    top: -10px;
+    right: -10px;
 }
 
-/* Light overlay for inactive image (optional) */
-.s1-fbt-box.style_1 .s1-fbt-product.s1-fbt-inactive .s1-fbt-image::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(255,255,255,0.55);
-    z-index: 2;
-}
-/* Right side list */
-.s1-fbt-box.style_1 .s1-fbt-content-two {
-    width: 35%;
+.style_1 .s1-fbt-check-wrap input {
+    display: none;
 }
 
-.s1-fbt-box.style_1 .s1-fbt-product-list-add {
-    margin-bottom: 10px;
-}
-
-.s1-fbt-box.style_1 .s1-fbt-product-title {
-    font-size: 15px;
-    font-weight: 600;
-}
-/* ------------------------------------------
-   STORE-ONE FBT — STYLE 2
-------------------------------------------- */
-
-.s1-fbt-box.style_2 .s1-fbt-content {
-    flex-direction: column;
-}
-
-.s1-fbt-box.style_2 .s1-fbt-content-one {
+.style_1 .s1-fbt-check-ui {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    padding: 10px 0;
+    justify-content: center;
+    border:1px solid #eee;
+}
+
+.style_1 .is-unchecked .s1-fbt-check-ui{
+    border:1px solid #eee;
+}
+/* PLUS SIGN */
+.style_1 .s1-fbt-plus-floating {
+    align-self: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: #fff;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* SUMMARY */
+.s1-fbt-box.style_1 .s1-fbt-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap:1.5rem;
+    flex-wrap: wrap;
+    background: #f8f8f8;
+    border-radius: 0.75rem;
+    padding:1.5rem;
+    width:30%;
+}
+
+.s1-fbt-summary-label{
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    color: #6b7280;
+    font-weight: 500;
+}
+.s1-fbt-footer-wrap-1,.s1-fbt-footer-wrap-2{
+    width:100%;
+}
+/* BUTTON */
+.s1-fbt-box.style_1 .s1-fbt-add-btn,
+.s1-fbt-box.style_1 .added_to_cart {
+    
+    border: none;
+    cursor: pointer;
+    border-radius: 0.5rem;
+    font-weight: 700;
+    width: 100%!important;
+    padding-top: 0.75rem!important;
+    padding-bottom: 0.75rem!important;
+    padding-left: 1rem!important;
+    padding-right: 1rem!important;
+    background: #111;
+    color: #fff;
+    text-align: center;
+    margin-bottom:0.5rem;
+    line-height: normal;
+}
+.s1-fbt-box.style_1 .s1-fbt-summary-price{
+    font-weight: 800;
+    margin: 0.4rem 0rem;
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    color: #111827;
+    margin:0.5rem 0;
+}
+.s1-fbt-box.style_1 .s1-fbt-summary-count{
+font-size: 0.75rem;
+    line-height: 1rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    background: #dcfce7;
+    color:#15803d;
+    border-radius: 9999px;
+}
+
+.s1-fbt-box.style_1 .s1-title-wrap{
+    display: flex;
+    justify-content: space-between;
+}
+.style_1 .s1-title-wrap .s1-name{
+    color:#6b7280;
+}
+.s1-fbt-box.style_1 .s1-price{
+font-weight: 600;
+color: #111827;
+}
+.style_1 .s1-fbt-bundle-list-wrap{
+    margin-top: 1.5rem;
+}
+.style_1 ul.s1-fbt-checklist{
+    list-style: none;
+     padding: 0;
+     margin:0;
+}
+.style_1 ul.s1-fbt-checklist li{
+   margin-bottom:0.2rem;
+}
+.style_1 .s1-title-wrap{
+font-size: 0.875rem;
+    line-height: 1.25rem;
+    
+}
+.style_1 .s1-price del{
+    opacity: 0.4;
+    margin-right:0.2rem;
+}
+.style_1 .s1-fbt-check-wrap {
+    cursor: pointer;
+}
+
+/* input ko hide karo but clickable rakho */
+.style_1 .s1-fbt-check-wrap input[type="checkbox"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+/* CHECKED STATE */
+.style_1 .s1-fbt-check-wrap input:checked + .s1-fbt-check-ui {
+    background: #111;
+    color: #fff;
+}
+
+/* SVG hidden by default */
+.style_1 .s1-fbt-check-ui svg {
+    opacity: 0;
+}
+
+/* show tick when checked */
+.style_1 .s1-fbt-check-wrap input:checked + .s1-fbt-check-ui svg {
+    opacity: 1;
+}
+/* STYLE 1 ONLY */
+.s1-fbt-box.style_1 .s1-fbt-checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* clickable row */
+.s1-fbt-box.style_1 .s1-fbt-click-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
     gap: 10px;
 }
 
-.s1-fbt-box.style_2 .s1-fbt-product-row {
-    display: flex;
-    align-items: center;
+/* hover feedback */
+.s1-fbt-box.style_1 .s1-fbt-click-row:hover {
+    background: rgba(0,0,0,0.03);
 }
 
-.s1-fbt-box.style_2 .s1-fbt-product {
-    width: 70px;
-}
-
-.s1-fbt-box.style_2 .s1-fbt-product img {
-    width: 70px;
-    height: 70px;
-    object-fit: cover;
-}
-
-.s1-fbt-box.style_2 .s1-fbt-plus-sign {
-    font-size: 22px;
-    margin: 0 10px;
-    font-weight: bold;
-    color: #999;
-}
-
-/* Right list below */
-.s1-fbt-box.style_2 .s1-fbt-content-two {
-    width: 100%;
-    margin-top: 15px;
-}
-
-.s1-fbt-box.style_2 .s1-fbt-product-list-add {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-.s1-fbt-box.style_2 .s1-fbt-product-title {
-    margin-left: 10px;
-}
-/* CHECKBOX */
-.s1-fbt-box .s1-fbt-product-list-add input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-    accent-color: var(--s1-color-primary, #2271b1);
-}
-.s1-fbt-box .s1-fbt-product-list-add input[type="checkbox"]:focus {
-    outline: none !important;
-    box-shadow: none !important;
-}
-/* ==========================================================
-   STYLE 3 — TABLE LAYOUT (s1-fbt classes)
-   NOW WITH PARENT CLASS: .style_3
-   ========================================================== */
-
-.s1-fbt-box.style_3 {
-    padding: 0;
-}
-
-.s1-fbt-box.style_3 .s1-fbt-title {
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
-}
-
-/* Table container */
-.s1-fbt-box.style_3 .s1-fbt-content-table {
-    width: 100%;
-    padding: 0;
-}
-
-/* Table */
-.s1-fbt-box.style_3 .s1-fbt-product-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.s1-fbt-box.style_3 .s1-fbt-product-table tbody tr {
-    border-bottom: 1px solid #eee;
-}
-
-.s1-fbt-box.style_3 .s1-fbt-product-table td {
-    padding: 10px 5px;
-    vertical-align: middle;
-}
-
-/* Checkbox column */
-.s1-fbt-box.style_3 .s1-fbt-check {
-    width: 50px;
-    text-align: center;
-}
-
-.s1-fbt-box.style_3 .s1-fbt-checkbox {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-}
-
-.s1-fbt-box.style_3 .s1-fbt-checkbox:disabled {
+/* disabled main product */
+.s1-fbt-box.style_1 .s1-fbt-checkbox:disabled + .s1-name {
+    opacity: 0.6;
     cursor: not-allowed;
+}
+/* List row disabled style */
+.s1-fbt-box.style_1 .s1-fbt-row-disabled .s1-name,
+.s1-fbt-box.style_1 .s1-fbt-row-disabled .s1-price {
+    text-decoration: line-through;
     opacity: 0.5;
 }
 
-/* Product (image + title) */
-.s1-fbt-box.style_3 .s1-fbt-td-title label {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+/* optional: cursor */
+.s1-fbt-row {
     cursor: pointer;
 }
+/* ---------------- MOBILE ---------------- */
+@media (max-width: 990px) {
+    .s1-fbt-box.style_1 .s1-fbt-cards-row {
+        gap: 24px;
+    }
 
-.s1-fbt-box.style_3 .s1-fbt-image {
-    width: 55px;
-    height: 55px;
-    border: 1px solid #eee;
-    border-radius: 4px;
-    overflow: hidden;
-}
+    .s1-fbt-plus-floating {
+        display: none;
+    }
 
-.s1-fbt-box.style_3 .s1-fbt-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Title */
-.s1-fbt-box.style_3 .s1-fbt-product-title a {
-    font-size: 15px;
-    font-weight: 600;
-    color: #222;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 350px;
-}
-
-/* Price column */
-.s1-fbt-box.style_3 .s1-fbt-last {
-    text-align: right;
-    font-weight: 600;
-}
-
-.s1-fbt-box.style_3 .s1-fbt-product-price {
-    font-size: 15px;
-    color: #444;
-}
-
-.s1-fbt-box.style_3 .s1-fbt-product-price ins {
-    text-decoration: none;
-    margin-left: 5px;
-}
-
-/* Total Row */
-.s1-fbt-box.style_3 .s1-fbt-total-row td {
-    border: 0 !important;
-}
-
-.s1-fbt-box.style_3 .s1-fbt-total-wrap {
-    text-align: right;
-    padding-top: 15px;
-}
-
-/* Total display */
-.s1-fbt-box.style_3 .s1-fbt-total-title {
-    font-size: 16px;
-    font-weight: 600;
-}
-
-.s1-fbt-box.style_3 .s1-fbt-total-final-amount {
-    font-size: 19px;
-    font-weight: 700;
-    color: #111;
-}
-
-/* Button */
-.s1-fbt-box.style_3 .s1-fbt-action-box {
-    margin-top: 10px;
-    text-align: right;
-}
-
-.s1-fbt-box.style_3 .s1-fbt-add-button {
-    margin-top: 8px;
-    padding: 10px 18px;
-    background: #222;
-    color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-    border: none;
-}
-
-.s1-fbt-box.style_3 .s1-fbt-add-button:disabled {
-    background: #ccc;
-    cursor: not-allowed;
-}
-
-/* Variations */
-.s1-fbt-box.style_3 .s1-fbt-variation {
-    display: flex;
-    gap: 10px;
-    margin-top: 6px;
-}
-
-.s1-fbt-box.style_3 .s1-fbt-variation .variation .select select {
-    width: 140px;
-    padding: 6px;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    font-size: 14px;
-}
-
-.s1-fbt-box.style_3 .reset_variations {
-    display: block;
-    margin-top: 5px;
-    font-size: 12px;
-    color: #888;
-}
-/* ------------------------------
-   STORE-ONE FBT – VARIATION WRAPPER
----------------------------------- */
-.variations.s1-fbt-variation {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px 18px;
-    padding: 14px 0;
-    align-items: flex-end;
-}
-
-/* Each variation box */
-.s1-fbt-variation .variation {
-    flex: 1 1 150px;
-    min-width: 150px;
-}
-
-/* Dropdown wrapper */
-.s1-fbt-variation .variation .select select {
-    width: 100%;
-    padding: 10px 12px;
-    background: #fff;
-    border: 1px solid #d0d7e2;
-    border-radius: 6px;
-    font-size: 14px;
-    color: #2c3338;
-    transition: all 0.18s ease;
-    cursor: pointer;
-    appearance: none;
-    line-height: 1.4;
-    background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' fill='%2399a1ac' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3.5 4.5l2.5 2.5 2.5-2.5'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-}
-
-/* Hover */
-.s1-fbt-variation .variation .select select:hover {
-    border-color: #bfc6d2;
-}
-
-/* Focus */
-.s1-fbt-variation .variation .select select:focus {
-    border-color: #007cba;
-    box-shadow: 0 0 0 1px #007cba;
-    outline: none;
-}
-
-/* Reset link wrapper */
-.s1-fbt-variation .reset {
-    margin-left: auto;
-}
-
-/* Reset link */
-.s1-fbt-variation .reset a {
-    font-size: 13px;
-    color: #cc0000;
-    text-decoration: none;
-    font-weight: 500;
-    padding: 8px 0;
-    transition: color 0.15s ease;
-}
-
-.s1-fbt-variation .reset a:hover {
-    color: #ff2a2a;
-    text-decoration: underline;
-}
-
-/* Responsive */
-@media(max-width: 768px) {
-    .s1-fbt-box.style_3 .s1-fbt-td-title label {
+    .s1-fbt-box.style_1 .s1-fbt-summary {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
+    }
+
+    .s1-fbt-add-btn {
+        width: 100%;
+    }
+
+    .style_1 .s1-fbt-content-wrap{
+    flex-direction: column;
+    align-items: center
+    }
+    .s1-fbt-box.style_1 .s1-fbt-cards-row{
+        justify-content: center;
+        width: 100%;
+    }
+    .s1-fbt-box.style_1 .s1-fbt-summary{
+        width:100%;
+        margin-top:2rem;
     }
 }
-

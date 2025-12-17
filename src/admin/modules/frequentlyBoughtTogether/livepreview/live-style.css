@@ -139,12 +139,6 @@ margin-top:45px;
     align-items: center;
     justify-content: center;
 }
-
-/* .s1-fbt-check-ui::after {
-    content: "✓";
-    color: #fff;
-    font-size: 14px;
-} */
 .is-unchecked .s1-fbt-check-ui{
     border:1px solid #eee;
 }

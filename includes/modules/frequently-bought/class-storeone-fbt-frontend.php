@@ -278,49 +278,44 @@ class Store_One_FBT_Frontend {
 
    
 
-    /* --------------------------------------------------------------------
+/* --------------------------------------------------------------------
  * RENDER — choose style per-rule (store-one / s1- classnames)
  * ------------------------------------------------------------------ */
 protected function render_bundle_box( $product_id, $rule ) {
 
-    if ( ! $product_id ) {
-        return;
-    }
+    if ( ! $product_id ) return;
 
     $main = wc_get_product( $product_id );
-    if ( ! $main ) {
-        return;
-    }
+    if ( ! $main ) return;
 
-    // Bundle products (same logic as before)
-    $bundle_ids = [ $product_id ];
-    $offer_raw  = $rule['offer_products'] ?? [];
+    // MAIN PRODUCT
+    $bundle_ids = [ absint( $product_id ) ];
 
-    if ( ! empty( $offer_raw ) && is_array( $offer_raw ) ) {
-        foreach ( $offer_raw as $item ) {
-            if ( ! empty( $item['id'] ) ) {
-                $bundle_ids[] = absint( $item['id'] );
-            }
+    // OFFER PRODUCTS (IDs only)
+    $offer_raw = $rule['offer_products'] ?? [];
+
+    if ( is_array( $offer_raw ) ) {
+        foreach ( $offer_raw as $id ) {
+            $bundle_ids[] = absint( $id );
         }
     }
 
     $bundle_ids = array_unique( array_filter( $bundle_ids ) );
 
+
     $bundle_products = [];
+
     foreach ( $bundle_ids as $id ) {
         $p = wc_get_product( $id );
-        if ( ! $p ) {
-            continue;
-        }
-        if ( ! $p->is_purchasable() || ! $p->is_in_stock() ) {
-            continue;
-        }
+        if ( ! $p ) continue;
+        if ( ! $p->is_purchasable() || ! $p->is_in_stock() ) continue;
         $bundle_products[] = $p;
     }
 
     if ( count( $bundle_products ) <= 1 ) {
         return;
     }
+
 
     // Title / styling defaults (keep same keys as your rule)
     $bundle_title = ! empty( $rule['bundle_title'] )
@@ -329,7 +324,7 @@ protected function render_bundle_box( $product_id, $rule ) {
 
     // style: read from rule (this is set by your SelectControl)
     $style = ! empty( $rule['display_style'] ) ? $rule['display_style'] : 'style_2';
-
+    
     // Dispatch to actual renderer that outputs the HTML
     switch ( $style ) {
         case 'style_1':
@@ -353,86 +348,175 @@ protected function render_bundle_box( $product_id, $rule ) {
 private function s1_render_style_1( $product_id, $rule, $bundle_products, $bundle_title ) {
 ?>
 <section class="s1-fbt-box style_1" data-id="<?php echo esc_attr($product_id); ?>">
-    
     <h2 class="s1-fbt-title"><?php echo esc_html( $bundle_title ); ?></h2>
-
-    <div class="s1-fbt-content s1-fbt-product-wrap" data-id="<?php echo esc_attr($product_id); ?>">
-
-        <!-- LEFT: PRODUCT GRID -->
-        <div class="s1-fbt-content-one">
+    <div class="s1-fbt-content-wrap" data-id="<?php echo esc_attr($product_id); ?>">
+        <div class="s1-fbt-cards-row">
             <?php
             $index = 0;
+            $total_products = count( $bundle_products );
             foreach ( $bundle_products as $p ) {
                 $pid = $p->get_id();
 
-                $cls = "s1-fbt-product ";
+                $cls = "s1-fbt-card-holder s1-fbt-product ";
                 $cls .= ($index === 0) ? "s1-fbt-active" : "s1-fbt-inactive";
                 if ( $pid === $product_id ) {
                     $cls .= " dltprd";
                 }
             ?>
             <div <?php wc_product_class($cls, $pid); ?>>
+                <label class="s1-fbt-check-wrap <?php echo ($index === 0) ? 'is-checked' : ''; ?>">
+                    <input
+    type="checkbox"
+    class="product-checkbox s1-fbt-checkbox s1-fbt-card-checkbox"
+    data-product-id="<?php echo esc_attr( $pid ); ?>"
+    value="<?php echo esc_attr( $price_val ); ?>"
+    <?php checked( true ); ?>
+    <?php disabled( $pid === $product_id ); ?>
+>
+
+                    <span class="s1-fbt-check-ui">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            width="14" height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="3"
+                            stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M20 6 9 17l-5-5"></path>
+                        </svg>
+                    </span>
+                </label>
+
+                <div class="s1-fbt-card">
                 <div class="s1-fbt-image">
                     <?php echo wp_kses_post( $p->get_image() ); ?>
                 </div>
 
-                <h4 class="s1-fbt-name">
+                <h4 class="s1-fbt-card-title">
                     <a href="<?php echo esc_url( $p->get_permalink() ); ?>">
                         <?php echo esc_html( $p->get_name() ); ?>
                     </a>
                 </h4>
 
-                <div class="s1-fbt-price">
+                <div class="s1-fbt-card-price">
                     <?php echo wp_kses_post( $p->get_price_html() ); ?>
                 </div>
             </div>
+            </div>
+            <?php if ( $index < $total_products - 1 ) : ?>
+            <div class="s1-fbt-plus-wrap"><span class="s1-fbt-plus-floating" style="background: rgb(17, 17, 17); color: rgb(255, 255, 255);"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus text-white" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></span></div>
+            <?php endif; ?>
             <?php
             $index++;
             }
             ?>
         </div>
+        <?php $this->render_style1_total_wrap(
+            $bundle_products[0],
+            $rule,
+            $bundle_products
+        );?>
+        </section>
+<?php
+}
+/* --------------------------------------------------------------------
+ * STYLE 1 — Total + summary + button (JS compatible)
+ * ------------------------------------------------------------------ */
+protected function render_style1_total_wrap( WC_Product $main_product, $rule, $bundle_products ) {
 
-        <!-- RIGHT: CHECKBOX LIST -->
-        <div class="s1-fbt-content-two s1-fbt-products">
-            <div class="s1-fbt-product-list">
-                <?php foreach ( $bundle_products as $p ) {
-                    $pid = $p->get_id();
-                    $is_var = $p->is_type("variable");
-                    $price_value = (!$is_var && $p->is_in_stock()) ? wc_get_price_to_display($p) : "";
-                ?>
-                <div class="s1-fbt-product-list-add">
-                    <label>
-                        <input type="checkbox"
-                            class="product-checkbox s1-fbt-checkbox"
-                            data-product-id="<?php echo esc_attr($pid); ?>"
-                            value="<?php echo esc_attr($price_value); ?>"
-                            checked
-                            <?php echo ($pid === $product_id) ? "disabled" : ""; ?>
-                        >
+    // Labels
+    $price_label      = $this->get_fbt_setting( $rule, 'price_label', __('Bundle Total', 'store-one') );
+    $btn_label        = $this->get_fbt_setting( $rule, 'button_text', __('Add Bundle to Cart', 'store-one') );
+    $you_save_tpl     = $this->get_fbt_setting( $rule, 'you_save_label', 'You save: {amount}' );
 
-                        <span class="s1-fbt-product-title">
-                            <a href="<?php echo esc_url($p->get_permalink()); ?>">
-                                <?php echo esc_html( $p->get_name() ); ?>
-                            </a>
-                        </span>
+    // Base price (main product)
+    $base_price = '';
+    if ( $main_product->get_type() !== 'variable' ) {
+        $base_price = wc_get_price_to_display( $main_product );
+    }
+    ?>
 
-                        <span class="s1-fbt-product-price">
-                            <?php echo wp_kses_post( $p->get_price_html() ); ?>
-                        </span>
+    <div class="s1-fbt-summary"
+         data-base-price="<?php echo esc_attr( $base_price ); ?>"
+         data-save-template="<?php echo esc_attr( $you_save_tpl ); ?>">
 
-                        <?php if ($is_var) $this->render_variation_fields($p); ?>
-                    </label>
+        <!-- LEFT SUMMARY -->
+        <div class="s1-fbt-footer-wrap-1">
+
+            <div class="s1-fbt-bundle-wrap">
+                <div class="s1-fbt-summary-label">
+                    <?php echo esc_html( $price_label ); ?>:
                 </div>
-                <?php } ?>
 
-                <?php $this->render_total_wrap( $bundle_products[0], $rule ); ?>
+                <div class="s1-fbt-summary-price s1-fbt-total-final-amount">
+                    <?php echo wp_kses_post( wc_price( $base_price ) ); ?>
+                </div>
+
+                <span class="s1-fbt-summary-count">
+                    <?php echo count( $bundle_products ); ?> items selected
+                </span>
+            </div>
+
+            <!-- PRODUCT LIST -->
+            <div class="s1-fbt-bundle-list-wrap">
+                <ul class="s1-fbt-checklist">
+
+                    <?php foreach ( $bundle_products as $p ) :
+
+                        $pid      = $p->get_id();
+                        $is_var   = $p->is_type( 'variable' );
+                        $price_val = ( ! $is_var && $p->is_in_stock() )
+                            ? wc_get_price_to_display( $p )
+                            : '';
+                    ?>
+
+                   <li>
+                        <label class="s1-title-wrap s1-fbt-row">
+
+                            <!-- REAL CHECKBOX (JS USE KAREGA) -->
+                            <input type="checkbox"
+                                class="product-checkbox s1-fbt-checkbox"
+                                data-product-id="<?php echo esc_attr( $pid ); ?>"
+                                value="<?php echo esc_attr( $price_val ); ?>"
+                                checked
+                            >
+
+                            <!-- CLICK TARGET -->
+                            <span class="s1-name">
+                                <?php echo esc_html( $p->get_name() ); ?>
+                            </span>
+
+                            <span class="s1-price">
+                                <?php echo wp_kses_post( $p->get_price_html() ); ?>
+                            </span>
+
+                            <?php if ( $is_var ) $this->render_variation_fields( $p ); ?>
+
+                        </label>
+                    </li>
+                    <?php endforeach; ?>
+                </ul>
             </div>
         </div>
 
+        <!-- RIGHT BUTTON -->
+        <div class="s1-fbt-footer-wrap-2">
+            <button class="s1-fbt-add-btn s1-fbt-add-button"
+                    data-main-id="<?php echo esc_attr( $main_product->get_id() ); ?>">
+                <?php echo esc_html( $btn_label ); ?>
+            </button>
+
+            <input type="hidden"
+                   class="s1-fbt-selected-ids"
+                   data-main-id="<?php echo esc_attr( $main_product->get_id() ); ?>"
+                   value="">
+        </div>
+
     </div>
-</section>
-<?php
+    <?php
 }
+
 
 /* --------------------------------------------------------------------
  * STYLE 2 (horizontal row) — MATCHED TO THBT STYLE_2
@@ -902,7 +986,7 @@ public function add_inline_dynamic_css() {
 
 protected function generate_dynamic_css( $rule, $product_id ) {
 
-    $id = absint($product_id);
+    $id      = absint($product_id);
     $title   = store_one_normalize_radius( $rule['bundel_title_clr'] ?? '#111' );
     $bg      = store_one_normalize_radius( $rule['bundel_bg_clr'] ?? '#fff' );
     $border  = store_one_normalize_radius( $rule['bundel_brd_clr'] ?? '#eee' );
@@ -945,9 +1029,7 @@ protected function generate_dynamic_css( $rule, $product_id ) {
     .s1-fbt-box[data-id='{$id}'] .s1-fbt-add-button {
         background: {$btnbg};
         color: {$btntxt};
-    }
-    ";
-}
-
+    }";
+ }
 
 }
