@@ -343,83 +343,110 @@ protected function render_bundle_box( $product_id, $rule ) {
 }
 
 /* --------------------------------------------------------------------
- * STYLE 1 (cards/grid layout) — MATCHED TO THBT STYLE_1
+ * STYLE 1 (cards layout) — CLEAN & CORRECT
  * ------------------------------------------------------------------ */
 private function s1_render_style_1( $product_id, $rule, $bundle_products, $bundle_title ) {
 ?>
-<section class="s1-fbt-box style_1" data-id="<?php echo esc_attr($product_id); ?>">
+<section class="s1-fbt-box style_1" data-id="<?php echo esc_attr( $product_id ); ?>">
     <h2 class="s1-fbt-title"><?php echo esc_html( $bundle_title ); ?></h2>
-    <div class="s1-fbt-content-wrap" data-id="<?php echo esc_attr($product_id); ?>">
+
+    <div class="s1-fbt-content-wrap" data-id="<?php echo esc_attr( $product_id ); ?>">
         <div class="s1-fbt-cards-row">
             <?php
             $index = 0;
-            $total_products = count( $bundle_products );
+
             foreach ( $bundle_products as $p ) {
+
                 $pid = $p->get_id();
 
-                $cls = "s1-fbt-card-holder s1-fbt-product ";
-                $cls .= ($index === 0) ? "s1-fbt-active" : "";
+                // Card classes
+                $cls  = 's1-fbt-card-holder s1-fbt-product ';
+                $cls .= ( $index === 0 ) ? 's1-fbt-active ' : '';
                 if ( $pid === $product_id ) {
-                    $cls .= " dltprd";
+                    $cls .= 'dltprd ';
                 }
-            ?>
-            <div <?php wc_product_class($cls, $pid); ?>>
-                <label class="s1-fbt-check-wrap <?php echo ($index === 0) ? 'is-checked' : ''; ?>">
-                    <input
-                        type="checkbox"
-                        class="product-checkbox s1-fbt-checkbox s1-fbt-card-checkbox"
-                        data-product-id="<?php echo esc_attr( $pid ); ?>"
-                        value="<?php echo esc_attr( $price_val ); ?>"
-                        <?php checked( true ); ?>
-                        <?php disabled( $pid === $product_id ); ?>
-                    >
 
-                    <span class="s1-fbt-check-ui">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="14" height="14"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="3"
-                            stroke-linecap="round"
-                            stroke-linejoin="round">
-                            <path d="M20 6 9 17l-5-5"></path>
-                        </svg>
-                    </span>
-                </label>
+                ?>
 
-                <div class="s1-fbt-card">
-                <div class="s1-fbt-image">
-                    <?php echo wp_kses_post( $p->get_image() ); ?>
+                <div <?php wc_product_class( $cls, $pid ); ?>>
+                 
+                <?php if ( $index > 0 ) : ?>
+                    <div class="s1-fbt-plus-wrap">
+                        <span class="s1-fbt-plus-floating"
+                              style="background:#111;color:#fff;">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                 width="16" height="16"
+                                 viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor"
+                                 stroke-width="3"
+                                 stroke-linecap="round"
+                                 stroke-linejoin="round">
+                                <path d="M5 12h14"></path>
+                                <path d="M12 5v14"></path>
+                            </svg>
+                        </span>
+                    </div>
+                <?php endif; ?>
+
+                    <div class="s1-fbt-card">
+                        <label class="s1-fbt-check-wrap <?php echo ( $index === 0 ) ? 'is-checked' : ''; ?>">
+                            <input
+                                type="checkbox"
+                                class="product-checkbox s1-fbt-checkbox s1-fbt-card-checkbox"
+                                data-product-id="<?php echo esc_attr( $pid ); ?>"
+                                value="<?php echo esc_attr( $price_val ); ?>"
+                                <?php checked( true ); ?>
+                                <?php disabled( $pid === $product_id ); ?>
+                            >
+                            <span class="s1-fbt-check-ui">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="14" height="14"
+                                     viewBox="0 0 24 24"
+                                     fill="none"
+                                     stroke="currentColor"
+                                     stroke-width="3"
+                                     stroke-linecap="round"
+                                     stroke-linejoin="round">
+                                    <path d="M20 6 9 17l-5-5"></path>
+                                </svg>
+                            </span>
+                        </label>
+
+                        <div class="s1-fbt-image">
+                            <?php echo wp_kses_post( $p->get_image() ); ?>
+                        </div>
+
+                        <h4 class="s1-fbt-card-title">
+                            <a href="<?php echo esc_url( $p->get_permalink() ); ?>">
+                                <?php echo esc_html( $p->get_name() ); ?>
+                            </a>
+                        </h4>
+
+                        <div class="s1-fbt-card-price">
+                            <?php echo wp_kses_post( $p->get_price_html() ); ?>
+                        </div>
+                    </div>
                 </div>
 
-                <h4 class="s1-fbt-card-title">
-                    <a href="<?php echo esc_url( $p->get_permalink() ); ?>">
-                        <?php echo esc_html( $p->get_name() ); ?>
-                    </a>
-                </h4>
-
-                <div class="s1-fbt-card-price">
-                    <?php echo wp_kses_post( $p->get_price_html() ); ?>
-                </div>
-            </div>
-            </div>
-            <?php if ( $index < $total_products - 1 ) : ?>
-            <div class="s1-fbt-plus-wrap"><span class="s1-fbt-plus-floating" style="background: rgb(17, 17, 17); color: rgb(255, 255, 255);"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus text-white" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></span></div>
-            <?php endif; ?>
             <?php
-            $index++;
+                $index++;
             }
             ?>
         </div>
-        <?php $this->render_style1_total_wrap(
+
+        <?php
+        $this->render_style1_total_wrap(
             $bundle_products[0],
             $rule,
             $bundle_products
-        );?>
-        </section>
+        );
+        ?>
+    </div>
+</section>
 <?php
 }
+
 /* --------------------------------------------------------------------
  * STYLE 1 — Total + summary + button (JS compatible)
  * ------------------------------------------------------------------ */
@@ -683,10 +710,19 @@ private function s1_render_table_style( $product_id, $rule, $bundle_products, $b
             $index = 0;
             $total_products = count( $bundle_products );
             foreach ( $bundle_products as $p ) {
-                $is_var   = $p->is_type( 'variable' );
-                        $price_val = ( ! $is_var && $p->is_in_stock() )
-                            ? wc_get_price_to_display( $p )
-                            : '';
+                if ( $p->is_in_stock() ) {
+
+    if ( $p->is_type( 'variable' ) ) {
+        $price_val = wc_get_price_to_display( $p, [
+            'price' => $p->get_variation_price( 'min' )
+        ] );
+    } else {
+        $price_val = wc_get_price_to_display( $p );
+    }
+
+} else {
+    $price_val = 0;
+}
             ?>
         <div class="s1-fbt-flex-item">
             <label class="s1-fbt-check-wrap <?php echo ($index === 0) ? 'is-checked' : ''; ?>">
@@ -713,7 +749,7 @@ private function s1_render_table_style( $product_id, $rule, $bundle_products, $b
                     </span>
                 </label>
             <div class="s1-fbt-thumb"><?php echo wp_kses_post( $p->get_image() ); ?></div>
-            <div class="s1-fbt-info"><a href="<?php echo esc_url( $p->get_permalink() ); ?>">
+            <div class="s1-fbt-info"><a class="s1-fbt-product-title" href="<?php echo esc_url( $p->get_permalink() ); ?>">
                         <?php echo esc_html( $p->get_name() ); ?>
                     </a></div>
             <div class="s1-fbt-price"><?php echo wp_kses_post( $p->get_price_html() ); ?></div>
@@ -721,10 +757,81 @@ private function s1_render_table_style( $product_id, $rule, $bundle_products, $b
         <?php 
         $index++;
             }?>
+            <?php
+$this->render_style3_total_wrap(
+    wc_get_product( $product_id ),
+    $rule,
+    $bundle_products
+);
+?>
        </div>
     </section>
     <?php
 }
+/* --------------------------------------------------------------------
+ * STYLE 3 — Total price + button markup
+ * ------------------------------------------------------------------ */
+protected function render_style3_total_wrap( WC_Product $product, $rule, $bundle_products ) {
+
+    // Settings
+    $price_label      = $this->get_fbt_setting(
+        $rule,
+        'price_label',
+        __( 'Total price', 'store-one' )
+    );
+
+    $add_btn_text     = $this->get_fbt_setting(
+        $rule,
+        'add_all_text',
+        __( 'Add All to Cart', 'store-one' )
+    );
+
+    // Initial counts
+    $total_items = count( $bundle_products );
+
+    ?>
+    <div class="s1-fbt-total-bar">
+
+        <div class="s1-fbt-total-left">
+            <span class="s1-total-label">
+                <?php
+                printf(
+                    esc_html__( '%s for %d items:', 'store-one' ),
+                    esc_html( $price_label ),
+                    intval( $total_items )
+                );
+                ?>
+            </span>
+
+            <div class="s1-fbt-total-price">
+                <strong class="s1-fbt-total-final-amount">
+                    <?php echo wc_price( 0 ); ?>
+                </strong>
+
+                <del class="s1-fbt-total-compare-amount" style="display:none;">
+                    <?php echo wc_price( 0 ); ?>
+                </del>
+            </div>
+        </div>
+
+        <button
+            class="s1-fbt-add-btn s1-fbt-add-bundle"
+            data-main-id="<?php echo esc_attr( $product->get_id() ); ?>"
+        >
+            <?php echo esc_html( $add_btn_text ); ?>
+        </button>
+
+        <input
+            type="hidden"
+            class="s1-fbt-selected-ids"
+            data-main-id="<?php echo esc_attr( $product->get_id() ); ?>"
+            value=""
+        />
+
+    </div>
+    <?php
+}
+
     /* --------------------------------------------------------------------
      * Variation dropdowns (THBT se port, prefixed)
      * ------------------------------------------------------------------ */
