@@ -42,12 +42,17 @@ margin-top: 3.5em;
 .s1-fbt-box.style_1 .s1-fbt-card {
     width: 9rem;
     text-align: center;
-    
+    position: relative;
+}
+.s1-fbt-box.style_1 .s1-fbt-card-holder {
+    position: relative;
+    display: flex;
+    gap: 1rem;
 }
 
 /* IMAGE */
 .s1-fbt-box.style_1 .s1-fbt-image {
-    padding:1rem;
+    padding: 0.725rem;
     border-radius: 0.75rem;
     background: #fff;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
@@ -60,7 +65,7 @@ margin-top: 3.5em;
 /* TITLE */
 .s1-fbt-box.style_1 .s1-fbt-card-title,.s1-fbt-box.style_1 .s1-fbt-card-title a {
     margin-top: 0.75rem;
-    font-weight: 500;
+    font-weight: 400;
     font-size: 0.875rem;
     line-height: 1.25;
     color: #6b7280;
@@ -71,7 +76,7 @@ margin-top: 3.5em;
 .s1-fbt-box.style_1 .s1-fbt-card-price {
     font-weight: 700;
     margin-top: 0.25rem;
-    font-size: 1rem;
+    font-size: 1.1rem;
     line-height: 1.75rem;
 }
 
@@ -87,9 +92,10 @@ margin-top: 3.5em;
 }
 
 .style_1 .s1-fbt-check-ui {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: #000;
+    border-radius: 9999px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -101,15 +107,16 @@ margin-top: 3.5em;
 }
 /* PLUS SIGN */
 .style_1 .s1-fbt-plus-floating {
-    align-self: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 99999px;
+    background: #111;
     color: #fff;
-    font-weight: 700;
+
     display: flex;
     align-items: center;
     justify-content: center;
+    font-weight: 600;
 }
 
 /* SUMMARY */
@@ -117,12 +124,12 @@ margin-top: 3.5em;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap:1.5rem;
+    gap: 1.5rem;
     flex-wrap: wrap;
-    background: #f8f8f8;
+    background: #f9fafb;
     border-radius: 0.75rem;
-    padding:1.5rem;
-    width:30%;
+    padding: 1.5rem;
+    width: 30%;
 }
 
 .s1-fbt-summary-label{
@@ -130,6 +137,7 @@ margin-top: 3.5em;
     line-height: 1.25rem;
     color: #6b7280;
     font-weight: 500;
+    padding-right: 1rem;
 }
 .s1-fbt-footer-wrap-1,.s1-fbt-footer-wrap-2{
     width:100%;
@@ -154,12 +162,12 @@ margin-top: 3.5em;
     line-height: normal;
 }
 .s1-fbt-box.style_1 .s1-fbt-summary-price{
-    font-weight: 800;
+    font-weight: 700;
     margin: 0.4rem 0rem;
     font-size: 1.875rem;
     line-height: 2.25rem;
     color: #111827;
-    margin:0.5rem 0;
+    margin: 0.5rem 0;
 }
 .s1-fbt-box.style_1 .s1-fbt-summary-count{
 font-size: 0.75rem;
@@ -171,6 +179,7 @@ font-size: 0.75rem;
     background: #dcfce7;
     color:#15803d;
     border-radius: 9999px;
+    justify-content: space-between;
 }
 
 .s1-fbt-box.style_1 .s1-title-wrap{
@@ -178,7 +187,7 @@ font-size: 0.75rem;
     justify-content: space-between;
 }
 .style_1 .s1-title-wrap .s1-name{
-    color:#6b7280;
+    color:#1f2937;
 }
 .s1-fbt-box.style_1 .s1-price{
 font-weight: 600;
@@ -403,15 +412,16 @@ font-weight: 700;
 }
 
 .style_2 .s1-total-text {
-    color: #334155;
+    color: #64748b;
     font-size: 0.875rem;
     line-height: 1.25rem;
     font-weight: 500;
     margin: 0.4rem 0;
+    font-weight: 400;
 }
 .style_2 .s1-total-text.original{
     color: #64748b;
-    font-weight: 200;
+    font-weight: 500;
 }
 
 .style_2 .s1-total-text del {
@@ -549,10 +559,11 @@ section.s1-fbt-box.style_3{
     align-items: center;
     gap: 1rem;
     padding: 1rem;
-    border: 1px solid #ddd;
+     border: 1px solid #e5e7eb;
     border-radius: 0.5rem;
     background: #fff;
     margin-bottom: 1rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 /* ===============================
@@ -591,6 +602,7 @@ section.s1-fbt-box.style_3{
     line-height: 1.25rem;
     text-decoration: none;
     font-weight: 500;
+    color: #1f2937;
 }
 /* IMAGE */
 .style_3 .s1-fbt-thumb{
@@ -618,6 +630,7 @@ max-width:100%;
 .style_3 .s1-fbt-product-title a{
     font-weight:500;
     text-decoration:none;
+    
 }
 
 /* PRICE */
@@ -634,10 +647,15 @@ max-width:100%;
 /* ===============================
    TOTAL BAR (IMAGE LIKE)
 ================================ */
+.style_3 .s1-fbt-flex-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
 .style_3 .s1-fbt-footer,
 .style_3 .s1-fbt-total-bar{
-    margin-top:18px;
-    padding:16px;
+    
     display:flex;
     align-items:center;
     justify-content: flex-end;
@@ -646,8 +664,8 @@ max-width:100%;
 
 /* TOTAL TEXT */
 .style_3 .s1-total-label{
-font-size: 0.875rem;
-    line-height: 1.25rem;
+ font-size: 1.5rem;
+    line-height: 2rem;
     margin-bottom: 0.25rem;
 }
 .style_3 .s1-total-price{
@@ -656,7 +674,7 @@ font-size: 0.875rem;
 }
 .style_3 .s1-total-price del {
     opacity: 0.5;
-    font-size: 1.125rem;
+    font-size: 1rem;
     line-height: 1.75rem;
     margin-left: 0.3rem;
 }
@@ -671,6 +689,7 @@ font-size: 0.875rem;
     cursor:pointer;
     font-weight:600;
     transition:0.2s ease;
+    background:#111;
 }
 
 .style_3 .s1-fbt-add-btn:hover{
@@ -722,8 +741,9 @@ font-size: 0.875rem;
     opacity: 0;
     pointer-events: none;
 }
+
 /* ---------------- MOBILE ---------------- */
-@media (max-width: 990px) {
+@media (max-width:767px) {
     .s1-fbt-box.style_1 .s1-fbt-cards-row {
         gap: 24px;
     }
@@ -771,4 +791,11 @@ font-size: 0.875rem;
     .style_2 .s1-fbt-equation {
         flex-wrap: wrap;
     }
+}
+@media (max-width: 625px) {
+    .s1-fbt-box.style_1
+    .s1-fbt-card-holder:nth-of-type(odd) .s1-fbt-plus-wrap {
+        display: none !important;
+    }
+
 }

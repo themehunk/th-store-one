@@ -1608,3 +1608,28 @@ input.components-text-control__input {
     background-clip: text !important;
     color: transparent;
 }
+
+/* ---------------------------------
+ * Field Group Header Divider
+ * --------------------------------- */
+.s1-field-group-header {
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #e2e8f0; /* subtle gray */
+}
+
+.s1-field-group-title {
+    margin: 0;
+    font-weight: 700;
+    font-size: 14px;
+    color: #111827;
+}
+
+.s1-field-group-desc {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: #6b7280;
+}
+.s1-field-group-body, .s1-field-wrapper{
+    margin-bottom: 1rem;
+}
