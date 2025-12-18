@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Store One
  * Description:       Central dashboard for Store One modules (Woo Search, Cart, Frequently Bought, etc.)
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            themehunk
  * Author URI:        https://www.themehunk.com
  * License:           GPLv2 or later
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // ------------------ Constants ------------------.
-define( 'STORE_ONE_VERSION', '1.0.8' );
+define( 'STORE_ONE_VERSION', '1.0.12' );
 define( 'STORE_ONE_PLUGIN_FILE', __FILE__ );
 define( 'STORE_ONE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'STORE_ONE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
