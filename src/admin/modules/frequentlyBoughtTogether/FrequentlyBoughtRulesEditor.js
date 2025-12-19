@@ -69,8 +69,8 @@ const newFBTRule = () => ({
 
     bundle_title: "Frequently Bought Together",
 
-    price_label: "Bundle price",
-    one_price_label: "Product price",
+    price_label: "Bundle Total:",
+    one_price_label: "{count} items selected",
     single_only_label: "",
 
     you_save_label: "You save: {amount}",
@@ -78,7 +78,7 @@ const newFBTRule = () => ({
     no_variation_text: "Please select an option to see your savings.",
     no_variation_no_discount_text: "Please select an option to see the total price.",
 
-    button_text: "Add to cart",
+    button_text: "Add All to cart",
 
     plus_bg_color: "#212121",
     plus_text_color: "#ffffff",
@@ -111,6 +111,7 @@ const newFBTRule = () => ({
     bundel_chk_clr:"#fff",
     bundel_chk_bg_clr:"#111",
     prd_prc_clr: "#111827",
+    prd_bg_clr: "#fff",
     bundel_btn_txt:"#fff",
     bundel_btn_bg: "#111",
     bundel_brd_clr: "#e5e7eb",
@@ -515,7 +516,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                     <S1Field>
                                                     <THBackgroundControl
                                                         allowGradient={true}
-                                                        label={__('Border', 'store-one')}
+                                                        label={__('Horizontal', 'store-one')}
                                                         value={rule.bundel_tle_brd_clr}
                                                         onChange={(v) => {
                                                             const updatedRule = { ...rule, bundel_tle_brd_clr: v };
@@ -557,7 +558,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                     <S1Field>
                                                     <THBackgroundControl
                                                         allowGradient={false}
-                                                        label={__('Product Title', 'store-one')}
+                                                        label={__('Title', 'store-one')}
                                                         value={rule.prd_tle_clr}
                                                         onChange={(v) => {
                                                             const updatedRule = {
@@ -575,11 +576,23 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                     <S1Field>
                                                     <THBackgroundControl
                                                         allowGradient={false}
-                                                        label={__('Product Price', 'store-one')}
+                                                        label={__('Price', 'store-one')}
                                                         value={rule.prd_prc_clr}
                                                         onChange={(v) => {
                                                             const updatedRule = { ...rule, prd_prc_clr: v };
                                                             updateField(index, 'prd_prc_clr', v); 
+                                                            onLivePreview?.(updatedRule, index);
+                                                        }}
+                                                    />
+                                                    </S1Field>
+                                                    <S1Field>
+                                                    <THBackgroundControl
+                                                        allowGradient={false}
+                                                        label={__('Background', 'store-one')}
+                                                        value={rule.prd_bg_clr}
+                                                        onChange={(v) => {
+                                                            const updatedRule = { ...rule, prd_bg_clr: v };
+                                                            updateField(index, 'prd_bg_clr', v); 
                                                             onLivePreview?.(updatedRule, index);
                                                         }}
                                                     />
@@ -595,7 +608,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                   <S1Field>
                                                    <THBackgroundControl
                                                         allowGradient={false}
-                                                        label={__('Plus Background', 'store-one')}
+                                                        label={__('Background', 'store-one')}
                                                         value={rule.bundel_plus_bg_clr|| "#111"}
                                                         onChange={(v) => {
                                                             const updatedRule = { ...rule, bundel_plus_bg_clr: v };
@@ -607,7 +620,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                     <S1Field>
                                                    <THBackgroundControl
                                                         allowGradient={false}
-                                                        label={__('Plus Sign', 'store-one')}
+                                                        label={__('Color', 'store-one')}
                                                         value={rule.bundel_plus_clr|| "#fff"}
                                                         onChange={(v) => {
                                                             const updatedRule = { ...rule, bundel_plus_clr: v };
@@ -626,7 +639,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                    <S1Field>
                                                    <THBackgroundControl
                                                         allowGradient={false}
-                                                        label={__('Check Color', 'store-one')}
+                                                        label={__('Color', 'store-one')}
                                                         value={rule.bundel_chk_clr|| "#fff"}
                                                         onChange={(v) => {
                                                             const updatedRule = { ...rule, bundel_chk_clr: v };
@@ -639,7 +652,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                     <S1Field>
                                                    <THBackgroundControl
                                                         allowGradient={false}
-                                                        label={__('Check Background', 'store-one')}
+                                                        label={__('Background', 'store-one')}
                                                         value={rule.bundel_chk_bg_clr|| "#111"}
                                                         onChange={(v) => {
                                                             const updatedRule = { ...rule, bundel_chk_bg_clr: v };

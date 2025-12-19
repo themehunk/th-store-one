@@ -3,8 +3,8 @@ import { __ } from '@wordpress/i18n';
 import { getTextStyle, getRadius } from '@storeone/utils/styleHelpers';
 
 const dummy = [
-    { id: 1, img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd1.png", name: "Premium Wool", price: "$119.00" },
-    { id: 2, img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd2.png", name: "Leather Tote", price: "$40.00" },
+    { id: 1, img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd1.png", name: "Dewleaf Hydration Serum", price: "$119.00" },
+    { id: 2, img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd2.png", name: "Rosemist Daily Cream", price: "$40.00" },
     // { id: 3, img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/th-placeholder.png", name: "Classic Silk Scarf", price: "$25.00" },
 ];
 
@@ -24,7 +24,7 @@ const Style1 = ({ settings }) => {
                     borderColor: settings?.bundel_tle_brd_clr || undefined,
                 }}
             >
-                {settings?.title || __("Frequently Bought Together", "store-one")}
+                {settings?.bundle_title || __("Frequently Bought Together", "store-one")}
             </h2>
 
             <div className="s1-fbt-content-wrap">
@@ -78,7 +78,10 @@ const Style1 = ({ settings }) => {
 
                                 {/* CARD */}
                                 <div className="s1-fbt-card">
-                                    <div className="s1-fbt-image">
+                                    <div className="s1-fbt-image" style={{
+                                        background: settings?.prd_bg_clr || undefined,
+                                       
+                                    }}>
                                         <img src={p.img} alt={p.name} />
                                     </div>
 
@@ -126,7 +129,8 @@ const Style1 = ({ settings }) => {
                                         
                                         color: settings?.bundel_cnt_clr || undefined
                                     }}>
-                            {__("Bundle Total:", "store-one")}
+                           {settings?.price_label || __("Bundle Total:", "store-one")}
+                           
                         </div>
                         <div className="s1-fbt-summary-price" style={{
                                         color: settings?.prd_prc_clr || undefined
@@ -134,7 +138,8 @@ const Style1 = ({ settings }) => {
                             $184.00 
                         </div>
                         <span className="s1-fbt-summary-count">
-                            3 items selected
+                             {(settings?.one_price_label || "{count} items selected")
+        .replace("{count}", dummy.length)}
                         </span>
                         </div>
                         <div className="s1-fbt-bundle-list-wrap">
@@ -164,7 +169,7 @@ const Style1 = ({ settings }) => {
                             color: settings?.bundel_btn_txt || "#fff",
                         }}
                     >
-                        {__("Add All to Cart", "store-one")}
+                        {settings?.button_text || __("Add All to Cart", "store-one")}
                     </button>
                     </div>
                 </div>
