@@ -78,11 +78,19 @@
 
             const currency = StoreOneFBT.currency_symbol || "₹";
 
+            // ✅ TOTAL UPDATE
             $wrap.find(".s1-fbt-total-final-amount")
                 .html(currency + total.toFixed(2));
 
+            // ✅ COUNT LABEL FROM PHP SETTING
+            const labelTpl = $wrap
+                .find(".s1-fbt-summary")
+                .data("one-pricelabel") || "{count} items selected";
+
+            const finalLabel = labelTpl.replace("{count}", count);
+
             $wrap.find(".s1-fbt-summary-count")
-                .text(`${count} items selected`);
+                .text(finalLabel);
         },
 
         addToCart($btn) {

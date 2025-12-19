@@ -4,9 +4,7 @@ import {
     SelectControl,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import MiniColorPicker from '@storeone-global/MiniColorPicker';
-import UniversalRangeControl from '@storeone-global/UniversalRangeControl';
-import THRangeControl from '@storeone-control/rangeControl';
+
 
 
 export default function SingleProductSettings({
@@ -97,6 +95,7 @@ export default function SingleProductSettings({
                 <TextControl
                     value={settings.one_price_label}
                     onChange={(v) => updateSetting('one_price_label', v)}
+                    help={__('{count} items selected', 'store-one')}
                 />
                 </div>
             </div>
@@ -133,7 +132,7 @@ export default function SingleProductSettings({
                 <TextControl
                     value={settings.button_text}
                     onChange={(v) => updateSetting('button_text', v)}
-                    help={__('Use {count} to show selected items count.', 'store-one')}
+                    
                 />
                 </div>
             </div>

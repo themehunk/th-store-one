@@ -373,7 +373,7 @@ private function s1_render_style_1( $product_id, $rule, $bundle_products, $bundl
                 <?php if ( $index > 0 ) : ?>
                     <div class="s1-fbt-plus-wrap">
                         <span class="s1-fbt-plus-floating"
-                              style="background:#111;color:#fff;">
+                             >
                             <svg xmlns="http://www.w3.org/2000/svg"
                                  width="16" height="16"
                                  viewBox="0 0 24 24"
@@ -455,6 +455,7 @@ protected function render_style1_total_wrap( WC_Product $main_product, $rule, $b
     // Labels
     $price_label      = $this->get_fbt_setting( $rule, 'price_label', __('Bundle Total', 'store-one') );
     $btn_label        = $this->get_fbt_setting( $rule, 'button_text', __('Add Bundle to Cart', 'store-one') );
+    $one_price_label  = $this->get_fbt_setting( $rule, 'one_price_label', __('{count} items selected', 'store-one') );
     $you_save_tpl     = $this->get_fbt_setting( $rule, 'you_save_label', 'You save: {amount}' );
 
     // Base price (main product)
@@ -466,6 +467,7 @@ protected function render_style1_total_wrap( WC_Product $main_product, $rule, $b
 
     <div class="s1-fbt-summary"
          data-base-price="<?php echo esc_attr( $base_price ); ?>"
+         data-one-pricelabel="<?php echo esc_attr( $one_price_label ); ?>"
          data-save-template="<?php echo esc_attr( $you_save_tpl ); ?>">
 
         <!-- LEFT SUMMARY -->
@@ -1116,16 +1118,22 @@ public function add_inline_dynamic_css() {
 protected function generate_dynamic_css( $rule, $product_id ) {
 
     $id      = absint($product_id);
-    $title   = store_one_normalize_radius( $rule['bundel_title_clr'] ?? '#111' );
-    $bg      = store_one_normalize_radius( $rule['bundel_bg_clr'] ?? '#fff' );
-    $border  = store_one_normalize_radius( $rule['bundel_brd_clr'] ?? '#eee' );
-    $ptitle  = store_one_normalize_radius( $rule['prd_tle_clr'] ?? '#111' );
-    $pprice  = store_one_normalize_radius( $rule['prd_prc_clr'] ?? '#111' );
-    $plus    = store_one_normalize_radius( $rule['bundel_plus_clr'] ?? '#888' );
-    $content = store_one_normalize_radius( $rule['bundel_cnt_clr'] ?? '#111' );
-    $btnbg   = store_one_normalize_radius( $rule['bundel_btn_bg'] ?? '#111' );
-    $btntxt  = store_one_normalize_radius( $rule['bundel_btn_txt'] ?? '#fff' );
-    $radius  = store_one_normalize_radius( $rule['border_radius'] ?? '0px' );
+    $title   = store_one_normalize_color( $rule['bundel_title_clr'] );
+    $bg      = store_one_normalize_color( $rule['bundel_bg_clr'] );
+    $border  = store_one_normalize_color( $rule['bundel_brd_clr'] );
+    $bundel_tle_brd_clr  = store_one_normalize_color( $rule['bundel_tle_brd_clr']);
+    $ptitle  = store_one_normalize_color( $rule['prd_tle_clr']);
+    $pprice  = store_one_normalize_color( $rule['prd_prc_clr']);
+    $prd_bg_clr  = store_one_normalize_color( $rule['prd_bg_clr']);
+    $bundel_chk_clr  = store_one_normalize_color( $rule['bundel_chk_clr']);
+    $bundel_chk_bg_clr  = store_one_normalize_color( $rule['bundel_chk_bg_clr']);
+    $plus    = store_one_normalize_color( $rule['bundel_plus_clr']);
+    $plusbg    = store_one_normalize_color( $rule['bundel_plus_bg_clr']);
+    $content = store_one_normalize_color( $rule['bundel_cnt_clr']);
+    $contentbg = store_one_normalize_color( $rule['bundel_cnt_bg']);
+    $btnbg   = store_one_normalize_color( $rule['bundel_btn_bg']);
+    $btntxt  = store_one_normalize_color( $rule['bundel_btn_txt']);
+    $radius  = store_one_normalize_radius( $rule['border_radius']);
     return "
     .s1-fbt-box[data-id='{$id}'] {
         background: {$bg};
@@ -1138,24 +1146,44 @@ protected function generate_dynamic_css( $rule, $product_id ) {
     background-clip: text;
     color: transparent;
     }
-    .s1-fbt-box[data-id='{$id}'] .s1-fbt-name,
-    .s1-fbt-box[data-id='{$id}'] .s1-fbt-name a {
+    .style_1.s1-fbt-box[data-id='{$id}'] .s1-fbt-title{
+        border-color: {$bundel_tle_brd_clr};
+    }
+    .s1-fbt-box[data-id='{$id}'] .s1-fbt-card-title,
+    .s1-fbt-box[data-id='{$id}'] .s1-fbt-card-title a,
+    .style_1.s1-fbt-box[data-id='{$id}'] .s1-title-wrap .s1-name {
         color: {$ptitle};
     }
     .s1-fbt-box[data-id='{$id}'] .s1-fbt-product-title a {
         color: {$ptitle};
     }
-    .s1-fbt-box[data-id='{$id}'] .s1-fbt-product-price,.s1-fbt-box[data-id='{$id}'] .s1-fbt-price {
+    .s1-fbt-box[data-id='{$id}'].style_1 .s1-fbt-image {
+        background: {$prd_bg_clr};
+    }
+        
+    .s1-fbt-box[data-id='{$id}'] .s1-fbt-card-price,
+    .style_1.s1-fbt-box[data-id='{$id}'] .s1-price,
+    .s1-fbt-box[data-id='{$id}'].style_1 .s1-fbt-summary-price{
         color: {$pprice};
     }
-    .s1-fbt-box[data-id='{$id}'] .s1-fbt-plus-sign {
+    .style_1.s1-fbt-box[data-id='{$id}'] .s1-fbt-plus-floating{
         color: {$plus};
+        background: {$plusbg};
     }
-    .s1-fbt-box[data-id='{$id}'] .s1-fbt-total-content,
-    .s1-fbt-box[data-id='{$id}'] .s1-fbt-total-title {
+   .style_1.s1-fbt-box[data-id='{$id}'] .s1-fbt-check-wrap input:checked + .s1-fbt-check-ui{
+        background: {$bundel_chk_bg_clr};
+        border-color: {$bundel_chk_clr};
+        color: {$bundel_chk_clr};
+    }
+    .s1-fbt-box.style_1[data-id='{$id}'] .s1-fbt-summary{
         color: {$content};
+        background: {$contentbg};
     }
-    .s1-fbt-box[data-id='{$id}'] .s1-fbt-add-button {
+    .s1-fbt-box.style_1[data-id='{$id}'] .s1-fbt-summary-label{
+    color: {$content};
+    }
+    .s1-fbt-box.style_1[data-id='{$id}'] .s1-fbt-add-button,
+    .s1-fbt-box.style_1[data-id='{$id}'] .added_to_cart {
         background: {$btnbg};
         color: {$btntxt};
     }";
