@@ -92,7 +92,9 @@ const Style2 = ({ settings }) => {
                 </div>
 
                 {/* RIGHT SIDE */}
-                <div className="s1-fbt-style2-right">
+                <div className="s1-fbt-style2-right" style={{
+                                        boderColor: settings?.bundel_tle_brd_clr || undefined
+                                    }}>
 
                     <div className="s1-fbt-total-box"> 
                         <div className="s1-total-text">
