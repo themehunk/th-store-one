@@ -181,25 +181,47 @@
         },
 
         updateTotal($box) {
-            let total = 0;
-            let count = 0;
 
-            $box.find(".s1-fbt-checkbox:checked").each(function () {
-                const price = parseFloat($(this).val());
-                if (!isNaN(price)) {
-                    total += price;
-                    count++;
-                }
-            });
+    let total = 0;
 
-            const currency = StoreOneFBT.currency_symbol || "₹";
+    // ✅ 1. Bundle checkboxes
+    const $checked = $box.find(".s1-fbt-checkbox:checked:not(:disabled)");
 
-            $box.find(".s1-fbt-total-final-amount")
-                .html(currency + total.toFixed(2));
+    // ✅ 2. COUNT = bundle items
+    let count = $checked.length;
 
-            $box.find(".s1-fbt-total-title span")
-                .text(`Total for ${count} items:`);
-        },
+    // ✅ 3. MAIN PRODUCT ALWAYS INCLUDED
+    const mainId =
+        $box.find(".s1-fbt-add-button, .s1-fbt-add-bundle").data("main-id");
+
+    if (mainId) {
+        count += 1;
+    }
+
+    // ✅ 4. TOTAL PRICE (sirf bundle products ka)
+    $checked.each(function () {
+        const price = parseFloat($(this).val());
+        if (!isNaN(price)) {
+            total += price;
+        }
+    });
+
+    const currency = StoreOneFBT.currency_symbol || "₹";
+
+    // ✅ 5. PRICE UPDATE
+    $box.find(".s1-fbt-total-final-amount")
+        .html(currency + total.toFixed(2));
+
+    // ✅ 6. LABEL TEMPLATE (STYLE-SAFE)
+    const labelTpl =
+        $box.find(".s1-fbt-total-box, .s1-fbt-total-bar")
+            .data("one-pricelabel") ||
+        "{count} items selected";
+
+    // ✅ 7. COUNT LABEL
+    $box.find(".s1-fbt-total-title span, .s1-total-label")
+        .text(labelTpl.replace("{count}", count));
+},
 
         addToCart($btn) {
             const $box = $btn.closest(".s1-fbt-box.style_2");
@@ -269,25 +291,38 @@
         },
 
         updateTotal($box) {
-            let total = 0;
-            let count = 0;
 
-            $box.find(".s1-fbt-checkbox:checked").each(function () {
-                const price = parseFloat($(this).val());
-                if (!isNaN(price)) {
-                    total += price;
-                }
-                count++;
-            });
+    // ✅ bundle checkboxes
+    const $checked = $box.find(".s1-fbt-checkbox:checked:not(:disabled)");
+    // ✅ bundle count
+    let count = $checked.length;
+    // ✅ MAIN PRODUCT ALWAYS INCLUDED
+    const mainId = $box.find(".s1-fbt-add-bundle").data("main-id");
+    if (mainId) {
+        count += 1;
+    }
+    // ✅ TOTAL PRICE
+    let total = 0;
+    $checked.each(function () {
+        const price = parseFloat($(this).val());
+        if (!isNaN(price)) {
+            total += price;
+        }
+    });
 
-            const currency = StoreOneFBT.currency_symbol || "₹";
+    const currency = StoreOneFBT.currency_symbol || "₹";
 
-            $box.find(".s1-fbt-total-final-amount")
-                .html(currency + total.toFixed(2));
+    $box.find(".s1-fbt-total-final-amount")
+        .html(currency + total.toFixed(2));
 
-            $box.find(".s1-total-label")
-                .text(`Total price for ${count} items:`);
-        },
+    // ✅ LABEL
+    const labelTpl =
+        $box.find(".s1-fbt-total-bar").data("one-pricelabel") ||
+        "{count} items selected";
+
+    $box.find(".s1-total-label")
+        .text(labelTpl.replace("{count}", count));
+    },
 
         addToCart($btn) {
             const $box = $btn.closest(".s1-fbt-box.style_3");

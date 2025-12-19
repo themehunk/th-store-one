@@ -82,7 +82,7 @@ const newFBTRule = () => ({
 
     plus_bg_color: "#212121",
     plus_text_color: "#ffffff",
-    border_color: "#f9f9f9",
+    border_color: "rgba(229, 231, 235, 0.3)",
     border_radius: "12px",
     display_style: "style_1",
     /* -----------------------
@@ -102,7 +102,7 @@ const newFBTRule = () => ({
     checkout_you_save_label: "and save: {amount}",
     //color
     bundel_title_clr: "#111",
-    bundel_tle_brd_clr:"#e5e7eb",
+    bundel_tle_brd_clr:"rgba(229, 231, 235, 0.3)",
     bundel_bg_clr: "#ffffff",
 
     bundel_cnt_clr:"#111",

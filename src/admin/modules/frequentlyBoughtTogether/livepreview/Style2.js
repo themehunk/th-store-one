@@ -5,19 +5,19 @@ const dummyProducts = [
     {
         id: 1,
         img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd1.png",
-        name: "Premium Wool Cardigan",
+        name: "Dewleaf Hydration Serum",
         price: "$119.00",
     },
     {
         id: 2,
         img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd2.png",
-        name: "Leather Tote Bag - Red",
+        name: "Rosemist Daily Cream",
         price: "$40.00",
     },
     {
         id: 3,
         img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd3.png",
-        name: "Classic Silk Scarf",
+        name: "Greenveil Repair Balm",
         price: "$25.00",
     },
 ];
@@ -50,10 +50,7 @@ const Style2 = ({ settings }) => {
                             <div key={p.id} className="s1-fbt-eq-item">
                                 {i !== 0 && <span style={{ background: settings?.bundel_plus_bg_clr || "#111", color: settings?.bundel_plus_clr || "#fff" }} className="s1-fbt-plus">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus text-white" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></span>}
-                                <div className="s1-fbt-eq-img" style={{
-                                        background: settings?.prd_bg_clr || undefined,
-                                       
-                                    }}>
+                                <div className="s1-fbt-eq-img" >
                                     <img src={p.img} alt={p.name} />
                                 </div>
                             </div>
