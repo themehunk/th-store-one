@@ -19,7 +19,10 @@ const Style1 = ({ settings }) => {
         >
             <h2
                 className="s1-fbt-title"
-                style={getTextStyle(settings?.bundel_title_clr)}
+               style={{
+                    ...getTextStyle(settings?.bundel_title_clr),
+                    borderColor: settings?.bundel_tle_brd_clr || undefined,
+                }}
             >
                 {settings?.title || __("Frequently Bought Together", "store-one")}
             </h2>
@@ -119,7 +122,10 @@ const Style1 = ({ settings }) => {
                                     }}>
                     <div className="s1-fbt-footer-wrap-1">
                         <div className="s1-fbt-bundle-wrap">
-                        <div className="s1-fbt-summary-label">
+                        <div className="s1-fbt-summary-label" style={{
+                                        
+                                        color: settings?.bundel_cnt_clr || undefined
+                                    }}>
                             {__("Bundle Total:", "store-one")}
                         </div>
                         <div className="s1-fbt-summary-price" style={{

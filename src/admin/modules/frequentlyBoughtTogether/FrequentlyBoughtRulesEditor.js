@@ -16,15 +16,7 @@ import UniversalRangeControl from '@storeone-global/UniversalRangeControl';
 import S1Accordion from "@storeone-global/S1Accordion";
 import { CopyIcon, TrashIcon, DragHandleDots2Icon ,ChevronDownIcon,
     ChevronUpIcon } from "@radix-ui/react-icons";
-/* Field Wrapper */
-
-const S1Field = ({ label, children }) => (
-    <div className="s1-field-wrapper">
-        {label && <label className="s1-field-label">{label}</label>}
-        <div className="s1-field-control">{children}</div>
-    </div>
-);
-
+import {S1Field, S1FieldGroup} from '@storeone-global/S1Field';
 /* Default Rule */
 const newFBTRule = () => ({
     status: 'active',
@@ -110,6 +102,7 @@ const newFBTRule = () => ({
     checkout_you_save_label: "and save: {amount}",
     //color
     bundel_title_clr: "#111",
+    bundel_tle_brd_clr:"#e5e7eb",
     bundel_bg_clr: "#ffffff",
     bundel_cnt_bg:"#f8f8f8",
     bundel_cnt_clr:"#111",
@@ -491,18 +484,9 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                         }}
                                                     />
                                                     </S1Field>
-                                                    <S1Field>
-                                                    <THBackgroundControl
-                                                        allowGradient={true}
-                                                        label={__('Title', 'store-one')}
-                                                        value={rule.bundel_title_clr|| "#000"}
-                                                        onChange={(v) => {
-                                                            const updatedRule = { ...rule, bundel_title_clr: v };
-                                                            updateField(index, 'bundel_title_clr', v); 
-                                                            onLivePreview?.(updatedRule, index);
-                                                        }}
-                                                    />
-                                                    </S1Field>
+                                                    <S1FieldGroup
+                                                        title={__('Bundle', 'store-one')}
+                                                    >
                                                     <S1Field>
                                                     <THBackgroundControl
                                                         allowGradient={true}
@@ -515,12 +499,38 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                         }}
                                                     />
                                                     </S1Field>
+                                                    <S1Field>
+                                                    <THBackgroundControl
+                                                        allowGradient={true}
+                                                        label={__('Title', 'store-one')}
+                                                        value={rule.bundel_title_clr|| "#000"}
+                                                        onChange={(v) => {
+                                                            const updatedRule = { ...rule, bundel_title_clr: v };
+                                                            updateField(index, 'bundel_title_clr', v); 
+                                                            onLivePreview?.(updatedRule, index);
+                                                        }}
+                                                    />
+                                                    </S1Field>
+                                                    {(rule.display_style === 'style_1' || rule.display_style === 'style_2') && (
+                                                    <S1Field>
+                                                    <THBackgroundControl
+                                                        allowGradient={true}
+                                                        label={__('Border', 'store-one')}
+                                                        value={rule.bundel_tle_brd_clr}
+                                                        onChange={(v) => {
+                                                            const updatedRule = { ...rule, bundel_tle_brd_clr: v };
+                                                            updateField(index, 'bundel_tle_brd_clr', v); 
+                                                            onLivePreview?.(updatedRule, index);
+                                                        }}
+                                                    />
+                                                    </S1Field>
+                                                    )}
                                                     {(rule.display_style === 'style_3') && (
                                                         <S1Field>
                                                     <THBackgroundControl
                                                         allowGradient={false}
                                                         label={__('Border', 'store-one')}
-                                                        value={rule.bundel_brd_clr|| "#eee"}
+                                                        value={rule.bundel_brd_clr}
                                                         onChange={(v) => {
                                                             const updatedRule = { ...rule, bundel_brd_clr: v };
                                                             updateField(index, 'bundel_brd_clr', v); 
@@ -529,6 +539,21 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                     />
                                                     </S1Field>
                                                     )}
+                                                    {/* BORDER RADIUS */}
+                                                    <UniversalRangeControl
+                                                        label={__('Bundle border radius', 'store-one')}
+                                                        responsive={false}
+                                                        units={['px']}
+                                                        value={rule.border_radius}
+                                                        onChange={(v) => updateField(index, 'border_radius', v)} 
+                                                        defaultValue="12px"
+                                                    />
+                                                    
+                                                    </S1FieldGroup>
+                                                    
+                                                    <S1FieldGroup
+                                                        title={__('Product', 'store-one')}
+                                                    >
                                                     <S1Field>
                                                     <THBackgroundControl
                                                         allowGradient={false}
@@ -559,22 +584,15 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                         }}
                                                     />
                                                     </S1Field>
-                                                    {(rule.display_style === 'style_1' || rule.display_style === 'style_2') && (
-                                                        <>
-                                                   <S1Field>
-                                                   <THBackgroundControl
-                                                        allowGradient={false}
-                                                        label={__('Plus Sign', 'store-one')}
-                                                        value={rule.bundel_plus_clr|| "#fff"}
-                                                        onChange={(v) => {
-                                                            const updatedRule = { ...rule, bundel_plus_clr: v };
-                                                            updateField(index, 'bundel_plus_clr', v); 
-                                                            onLivePreview?.(updatedRule, index);
-                                                        }}
-                                                    />
-                                                    </S1Field>
 
-                                                    <S1Field>
+                                                    </S1FieldGroup>
+                                                   
+                                                    <S1FieldGroup
+                                                        title={__('Plus Icon', 'store-one')}
+                                                    >
+                                                {(rule.display_style === 'style_1' || rule.display_style === 'style_2') && (
+                                                    <>
+                                                  <S1Field>
                                                    <THBackgroundControl
                                                         allowGradient={false}
                                                         label={__('Plus Background', 'store-one')}
@@ -586,10 +604,25 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                         }}
                                                     />
                                                     </S1Field>
+                                                    <S1Field>
+                                                   <THBackgroundControl
+                                                        allowGradient={false}
+                                                        label={__('Plus Sign', 'store-one')}
+                                                        value={rule.bundel_plus_clr|| "#fff"}
+                                                        onChange={(v) => {
+                                                            const updatedRule = { ...rule, bundel_plus_clr: v };
+                                                            updateField(index, 'bundel_plus_clr', v); 
+                                                            onLivePreview?.(updatedRule, index);
+                                                        }}
+                                                    />
+                                                    </S1Field>
                                                     </>
-                                                    
                                                     )}
-                                                    <>
+                                                    </S1FieldGroup>
+                                                    
+                                                  <S1FieldGroup
+                                                        title={__('Checkbox', 'store-one')}
+                                                    >
                                                    <S1Field>
                                                    <THBackgroundControl
                                                         allowGradient={false}
@@ -615,25 +648,29 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                         }}
                                                     />
                                                     </S1Field>
-                                                    </>
+                                                    </S1FieldGroup>
+
+                                                    <S1FieldGroup
+                                                        title={__('Summary Box', 'store-one')}
+                                                    >
                                                     <S1Field>
-                                                        <S1Field>
-                                                   <THBackgroundControl
-                                                        allowGradient={false}
-                                                        label={__('Content Background', 'store-one')}
-                                                        value={rule.bundel_cnt_bg|| "#f8f8f8"}
-                                                        onChange={(v) => {
-                                                            const updatedRule = { ...rule, bundel_cnt_bg: v };
-                                                            updateField(index, 'bundel_cnt_bg', v); 
-                                                            onLivePreview?.(updatedRule, index);
-                                                        }}
-                                                    />
+                                                    <THBackgroundControl
+                                                            allowGradient={false}
+                                                            label={__('Background', 'store-one')}
+                                                            value={rule.bundel_cnt_bg}
+                                                            onChange={(v) => {
+                                                                const updatedRule = { ...rule, bundel_cnt_bg: v };
+                                                                updateField(index, 'bundel_cnt_bg', v); 
+                                                                onLivePreview?.(updatedRule, index);
+                                                            }}
+                                                        />
                                                     </S1Field>
+                                                    <S1Field>
 
                                                     <THBackgroundControl
                                                         allowGradient={false}
                                                         label={__('Content', 'store-one')}
-                                                        value={rule.bundel_cnt_clr|| "#111"}
+                                                        value={rule.bundel_cnt_clr}
                                                         onChange={(v) => {
                                                             const updatedRule = { ...rule, bundel_cnt_clr: v };
                                                             updateField(index, 'bundel_cnt_clr', v); 
@@ -641,11 +678,17 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                         }}
                                                     />
                                                     </S1Field>
+                                                    </S1FieldGroup>
+                                                    
+                                                    
+                                                    <S1FieldGroup
+                                                        title={__('Button', 'store-one')}
+                                                    >
                                                     <S1Field>
                                                     <THBackgroundControl
                                                         allowGradient={true}
                                                         label={__('Button Background', 'store-one')}
-                                                        value={rule.bundel_btn_bg|| "#111"}
+                                                        value={rule.bundel_btn_bg}
                                                         onChange={(v) => {
                                                             const updatedRule = { ...rule, bundel_btn_bg: v };
                                                             updateField(index, 'bundel_btn_bg', v); 
@@ -657,7 +700,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                     <THBackgroundControl
                                                         allowGradient={false}
                                                         label={__('Button Text', 'store-one')}
-                                                        value={rule.bundel_btn_txt|| "#fff"}
+                                                        value={rule.bundel_btn_txt}
                                                         onChange={(v) => {
                                                             const updatedRule = { ...rule, bundel_btn_txt: v };
                                                             updateField(index, 'bundel_btn_txt', v); 
@@ -665,21 +708,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                         }}
                                                     />
                                                     </S1Field>
-
-                                        {/* BORDER RADIUS */}
-                                        
-                                       
-                                            
-                                            <UniversalRangeControl
-                                                label={__('Bundle border radius', 'store-one')}
-                                                responsive={false}
-                                                units={['px']}
-                                                 value={rule.border_radius}
-                                                 onChange={(v) => updateField(index, 'border_radius', v)} 
-                                                defaultValue="12px"
-                                            />
-                                            
-                                                         
+                                                 </S1FieldGroup>     
                                         </div>
                                             
                                         ),
