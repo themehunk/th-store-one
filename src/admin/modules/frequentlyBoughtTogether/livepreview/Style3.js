@@ -5,14 +5,14 @@ const dummyProducts = [
     {
         id: 1,
         img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd1.png",
-        name: "Premium Wool Cardigan",
+        name: "Dewleaf Hydration Serum",
         price: "$119.00",
         checked: true,
     },
     {
         id: 2,
         img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd2.png",
-        name: "Leather Tote Bag - Red",
+        name: "Rosemist Daily Cream",
         price: "$40.00",
         oldPrice: "$45.00",
         checked: true,
@@ -20,7 +20,7 @@ const dummyProducts = [
     {
         id: 3,
         img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd3.png",
-        name: "Classic Silk Scarf",
+        name: "Greenveil Repair Balm",
         price: "$25.00",
         checked: true,
     },
@@ -30,6 +30,10 @@ const Style3 = ({ settings }) => {
     return (
         <section
             className="s1-fbt-box style_3"
+            style={{
+                            background: settings?.bundel_bg_clr || undefined,
+                            borderRadius: getRadius(settings?.border_radius),
+                        }}
         >
             {/* TITLE */}
             <h2
@@ -49,8 +53,8 @@ const Style3 = ({ settings }) => {
                         className="s1-fbt-flex-item"
                         
                         style={{
-                borderRadius: getRadius(settings?.border_radius),
-                background: settings?.bundel_bg_clr || "#fff",
+                
+                borderColor: settings?.border_color || undefined,
             }}
                     >
                         {/* CHECK */}
@@ -59,6 +63,13 @@ const Style3 = ({ settings }) => {
                             className="product-checkbox s1-fbt-checkbox"
                             defaultChecked={i === 0}
                             disabled={i === 0}
+                             style={{
+                                background: i === 0
+                                    ? settings?.bundel_chk_bg_clr 
+                                    : "",
+                                color: settings?.bundel_chk_clr ,
+                               
+                            }}
                         />
 
                         {/* IMAGE */}
@@ -96,10 +107,10 @@ const Style3 = ({ settings }) => {
                 className="s1-fbt-total-bar"
             >
                 <div className="s1-fbt-total-left">
-                    <span className="s1-total-label" tyle={{
+                    <span className="s1-total-label" style={{
                         color:settings?.bundel_cnt_clr || undefined
                     }}>
-                        {__("Total Price for 3 items:", "store-one")}
+                        {__("3 items selected:", "store-one")}
                     </span>
 
                     <div className="s1-total-price" style={{

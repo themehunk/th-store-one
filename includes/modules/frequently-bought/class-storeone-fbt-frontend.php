@@ -640,7 +640,7 @@ protected function render_style2_total_wrap( WC_Product $main_product, $rule, $b
 
     $price_label  = $this->get_fbt_setting( $rule, 'price_label', __('Bundle price', 'store-one') );
     $btn_label    = $this->get_fbt_setting( $rule, 'button_text', __('Add Bundle to Cart', 'store-one') );
-
+    $one_price_label  = $this->get_fbt_setting( $rule, 'one_price_label', __('{count} items selected', 'store-one') );
     // Base price (main product)
     $base_price = '';
     if ( $main_product->get_type() !== 'variable' ) {
@@ -651,15 +651,13 @@ protected function render_style2_total_wrap( WC_Product $main_product, $rule, $b
     <div class="s1-fbt-style2-right">
 
         <div class="s1-fbt-total-box"
-             data-base-price="<?php echo esc_attr( $base_price ); ?>">
+             data-base-price="<?php echo esc_attr( $base_price ); ?>"
+             data-one-pricelabel="<?php echo esc_attr( $one_price_label ); ?>">
 
             <!-- TOTAL COUNT -->
             <div class="s1-total-text s1-fbt-total-title">
                 <span>
-                    <?php echo sprintf(
-                        __('Total for %d items:', 'store-one'),
-                        count( $bundle_products )
-                    ); ?>
+                    <?php echo count( $bundle_products ); ?> items selected
                 </span>
                 
             </div>
@@ -760,12 +758,12 @@ private function s1_render_table_style( $product_id, $rule, $bundle_products, $b
         $index++;
             }?>
             <?php
-$this->render_style3_total_wrap(
-    wc_get_product( $product_id ),
-    $rule,
-    $bundle_products
-);
-?>
+    $this->render_style3_total_wrap(
+        wc_get_product( $product_id ),
+        $rule,
+        $bundle_products
+    );
+    ?>
        </div>
     </section>
     <?php
@@ -787,23 +785,17 @@ protected function render_style3_total_wrap( WC_Product $product, $rule, $bundle
         'add_all_text',
         __( 'Add All to Cart', 'store-one' )
     );
-
+    $one_price_label  = $this->get_fbt_setting( $rule, 'one_price_label', __('{count} items selected', 'store-one') );
     // Initial counts
     $total_items = count( $bundle_products );
 
     ?>
-    <div class="s1-fbt-total-bar">
+    <div class="s1-fbt-total-bar" data-one-pricelabel="<?php echo esc_attr( $one_price_label ); ?>">
 
         <div class="s1-fbt-total-left">
             <span class="s1-total-label">
-                <?php
-                printf(
-                    esc_html__( '%s for %d items:', 'store-one' ),
-                    esc_html( $price_label ),
-                    intval( $total_items )
-                );
-                ?>
-            </span>
+            <?php echo esc_html( str_replace('{count}', count($bundle_products), $one_price_label) ); ?>
+        </span>
 
             <div class="s1-fbt-total-price">
                 <strong class="s1-fbt-total-final-amount">
@@ -897,81 +889,7 @@ protected function render_style3_total_wrap( WC_Product $product, $rule, $bundle
         endif;
     }
 
-    /* --------------------------------------------------------------------
-     * Total price + button markup (THBT style, prefixed)
-     * ------------------------------------------------------------------ */
-    protected function render_total_wrap( WC_Product $product, $rule ) {
-
-    // Settings
-    $price_label                  = $this->get_fbt_setting($rule, 'price_label', __('Bundle price', 'store-one'));
-    $one_price_label              = $this->get_fbt_setting($rule, 'one_price_label', __('Product price', 'store-one'));
-    // $single_only_label            = $this->get_fbt_setting($rule, 'single_only_label', '');
-    $you_save_label_raw           = $this->get_fbt_setting($rule, 'you_save_label', 'You save: {amount}');
-    $no_variation_text            = $this->get_fbt_setting($rule, 'no_variation_text', __('Please select an option to see your savings.', 'store-one'));
-    $no_variation_no_discount     = $this->get_fbt_setting($rule, 'no_variation_no_discount_text', __('Please select an option to see the total price.', 'store-one'));
-    $btn_label                    = $this->get_fbt_setting($rule, 'button_text', __('Add {count} items to cart', 'store-one'));
-
-    // Base price
-    if ( $product->get_type() !== 'variable' ) {
-        $price      = wc_get_price_to_display( $product );
-        $price_html = $product->get_price_html();
-    } else {
-        $price      = '';
-        $price_html = '';
-    }
-    ?>
-
-    <div class="s1-fbt-total-wrapper" 
-         data-total="<?php echo esc_attr( $price ); ?>"
-         data-no-var-text="<?php echo esc_attr( $no_variation_text ); ?>"
-         data-no-var-nodisc-text="<?php echo esc_attr( $no_variation_no_discount ); ?>">
-
-        <div class="s1-fbt-total-header">
-            <span class="s1-fbt-total-title"><?php echo esc_html( $price_label ); ?></span>
-        </div>
-
-        <div class="s1-fbt-total-content">
-
-            <div class="s1-fbt-one-price">
-                <small><?php echo esc_html( $one_price_label ); ?>:</small>
-                <strong class="s1-fbt-base-price">
-                    <?php echo wp_kses_post( $price_html ); ?>
-                </strong>
-            </div>
-
-            <div class="s1-fbt-saving-line">
-                <span class="s1-fbt-saving-text"
-                      data-template="<?php echo esc_attr( $you_save_label_raw ); ?>">
-                </span>
-            </div>
-
-            <div class="s1-fbt-final-price">
-                <small><?php echo esc_html( $price_label ); ?>:</small>
-                <span class="s1-fbt-total-final-amount"><?php echo wp_kses_post( $price_html ); ?></span>
-            </div>
-
-        </div>
-
-        <div class="s1-fbt-action-box">
-            <button type="submit"
-            class="button alt s1-fbt-add-button"
-            data-main-id="<?php echo esc_attr( $product->get_id() ); ?>"
-            data-template="<?php echo esc_attr( $btn_label ); ?>">
-            <?php echo esc_html( $btn_label ); ?>
-        </button>
-
-            <input type="hidden"
-                   class="s1-fbt-selected-ids"
-                   value=""
-                   data-main-id="<?php echo esc_attr( $product->get_id() ); ?>">
-                   
-        </div>
-
-    </div>
-
-     <?php
-     }
-     
+    
      protected function get_fbt_setting( $rule, $key, $default = '' ) {
           return ! empty( $rule[ $key ] ) ? $rule[ $key ] : $default;
      }
@@ -1135,7 +1053,7 @@ protected function generate_dynamic_css( $rule, $product_id ) {
     $btntxt  = store_one_normalize_color( $rule['bundel_btn_txt']);
     $radius  = store_one_normalize_radius( $rule['border_radius']);
     return "
-    .s1-fbt-box[data-id='{$id}'] {
+    .s1-fbt-box[data-id='{$id}'],section.s1-fbt-box.style_3[data-id='{$id}'] {
         background: {$bg};
         border-color: {$border};
         border-radius: {$radius};
@@ -1151,39 +1069,58 @@ protected function generate_dynamic_css( $rule, $product_id ) {
     }
     .s1-fbt-box[data-id='{$id}'] .s1-fbt-card-title,
     .s1-fbt-box[data-id='{$id}'] .s1-fbt-card-title a,
-    .style_1.s1-fbt-box[data-id='{$id}'] .s1-title-wrap .s1-name {
+    .style_1.s1-fbt-box[data-id='{$id}'] .s1-title-wrap .s1-name,
+    .style_2.s1-fbt-box[data-id='{$id}'] .s1-title-wrap .s1-name, 
+    .style_2.s1-fbt-box[data-id='{$id}'] .s1-title-wrap .s1-name a,
+    .style_3.s1-fbt-box[data-id='{$id}'] .s1-fbt-product-title {
         color: {$ptitle};
     }
     .s1-fbt-box[data-id='{$id}'] .s1-fbt-product-title a {
         color: {$ptitle};
     }
    
-        
     .s1-fbt-box[data-id='{$id}'] .s1-fbt-card-price,
     .style_1.s1-fbt-box[data-id='{$id}'] .s1-price,
-    .s1-fbt-box[data-id='{$id}'].style_1 .s1-fbt-summary-price{
+    .s1-fbt-box[data-id='{$id}'].style_1 .s1-fbt-summary-price,
+    .s1-fbt-box[data-id='{$id}'].style_2 .s1-price,  
+    .s1-fbt-box[data-id='{$id}'].style_2 .s1-fbt-total-final-amount,
+    .style_3.s1-fbt-box[data-id='{$id}'] .s1-fbt-price,
+    .style_3.s1-fbt-box[data-id='{$id}'] .s1-fbt-total-final-amount {
         color: {$pprice};
     }
-    .style_1.s1-fbt-box[data-id='{$id}'] .s1-fbt-plus-floating{
+    .style_1.s1-fbt-box[data-id='{$id}'] .s1-fbt-plus-floating,
+    .style_2.s1-fbt-box[data-id='{$id}'] .s1-fbt-plus{
         color: {$plus};
         background: {$plusbg};
     }
    .style_1.s1-fbt-box[data-id='{$id}'] .s1-fbt-check-wrap input:checked + .s1-fbt-check-ui{
         background: {$bundel_chk_bg_clr};
-       
         color: {$bundel_chk_clr};
     }
-    .s1-fbt-box.style_1[data-id='{$id}'] .s1-fbt-summary{
-        color: {$content};
-       
+    .style_2.s1-fbt-box[data-id='{$id}'] .s1-fbt-checkbox:checked + .s1-check-icon,
+    .style_3.s1-fbt-box[data-id='{$id}'] .s1-fbt-checkbox:checked + .s1-check-icon{
+        background: {$bundel_chk_bg_clr};
+        color: {$bundel_chk_clr};
+        border-color: {$bundel_chk_bg_clr};
     }
-    .s1-fbt-box.style_1[data-id='{$id}'] .s1-fbt-summary-label{
+    .s1-fbt-box.style_1[data-id='{$id}'] .s1-fbt-summary,
+    .s1-fbt-box.style_2[data-id='{$id}'] .s1-fbt-total-box,
+    .s1-fbt-box.style_2[data-id='{$id}'] .s1-total-text{
+        color: {$content};
+    }
+    .s1-fbt-box.style_1[data-id='{$id}'] .s1-fbt-summary-label,
+    .s1-fbt-box.style_3[data-id='{$id}'] .s1-total-label{
     color: {$content};
     }
     .s1-fbt-box.style_1[data-id='{$id}'] .s1-fbt-add-button,
-    .s1-fbt-box.style_1[data-id='{$id}'] .added_to_cart {
+    .s1-fbt-box.style_1[data-id='{$id}'] .added_to_cart,
+    .style_2[data-id='{$id}'] .s1-fbt-add-btn, .style_2[data-id='{$id}'] .added_to_cart,
+    .style_3[data-id='{$id}'] .s1-fbt-add-btn, .style_3[data-id='{$id}'] .added_to_cart{
         background: {$btnbg};
         color: {$btntxt};
+    }
+    .style_2[data-id='{$id}'] .s1-fbt-style2-right{
+        border-color: {$bundel_tle_brd_clr};
     }";
  }
 
