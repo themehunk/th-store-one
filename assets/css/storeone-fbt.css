@@ -54,8 +54,10 @@ margin-top: 3.5em;
 .s1-fbt-box.style_1 .s1-fbt-image {
     padding: 0.725rem;
     border-radius: 0.75rem;
-    background: #fff;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+        background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     text-align: center;
 }
 .s1-fbt-box.style_1 .s1-fbt-image img {
@@ -85,6 +87,7 @@ margin-top: 3.5em;
     position: absolute;
     top: -10px;
     right: -10px;
+    z-index: 1;
 }
 
 .style_1 .s1-fbt-check-wrap input {
@@ -96,15 +99,18 @@ margin-top: 3.5em;
     height: 1.5rem;
     background: #000;
     border-radius: 9999px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+        background: rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
-    border:1px solid #eee;
 }
 
-.style_1 .is-unchecked .s1-fbt-check-ui{
+/* .style_1 .is-unchecked .s1-fbt-check-ui{
     border:1px solid #eee;
-}
+} */
 /* PLUS SIGN */
 .style_1 .s1-fbt-plus-floating {
     width: 1.5rem;
@@ -126,10 +132,14 @@ margin-top: 3.5em;
     align-items: center;
     gap: 1.5rem;
     flex-wrap: wrap;
-    background: #f9fafb;
-    border-radius: 0.75rem;
     padding: 1.5rem;
     width: 30%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .s1-fbt-summary-label{

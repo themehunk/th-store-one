@@ -104,14 +104,14 @@ const newFBTRule = () => ({
     bundel_title_clr: "#111",
     bundel_tle_brd_clr:"#e5e7eb",
     bundel_bg_clr: "#ffffff",
-    bundel_cnt_bg:"#f8f8f8",
+
     bundel_cnt_clr:"#111",
     bundel_plus_clr:"#fff",
     bundel_plus_bg_clr:"#111",
     bundel_chk_clr:"#fff",
     bundel_chk_bg_clr:"#111",
     prd_prc_clr: "#111827",
-    prd_bg_clr: "#fff",
+  
     bundel_btn_txt:"#fff",
     bundel_btn_bg: "#111",
     bundel_brd_clr: "#e5e7eb",
@@ -585,18 +585,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                         }}
                                                     />
                                                     </S1Field>
-                                                    <S1Field>
-                                                    <THBackgroundControl
-                                                        allowGradient={false}
-                                                        label={__('Background', 'store-one')}
-                                                        value={rule.prd_bg_clr}
-                                                        onChange={(v) => {
-                                                            const updatedRule = { ...rule, prd_bg_clr: v };
-                                                            updateField(index, 'prd_bg_clr', v); 
-                                                            onLivePreview?.(updatedRule, index);
-                                                        }}
-                                                    />
-                                                    </S1Field>
+                                                   
 
                                                     </S1FieldGroup>
                                                    
@@ -666,18 +655,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                     <S1FieldGroup
                                                         title={__('Summary Box', 'store-one')}
                                                     >
-                                                    <S1Field>
-                                                    <THBackgroundControl
-                                                            allowGradient={false}
-                                                            label={__('Background', 'store-one')}
-                                                            value={rule.bundel_cnt_bg}
-                                                            onChange={(v) => {
-                                                                const updatedRule = { ...rule, bundel_cnt_bg: v };
-                                                                updateField(index, 'bundel_cnt_bg', v); 
-                                                                onLivePreview?.(updatedRule, index);
-                                                            }}
-                                                        />
-                                                    </S1Field>
+                                                    
                                                     <S1Field>
 
                                                     <THBackgroundControl

@@ -54,7 +54,7 @@ const Style1 = ({ settings }) => {
         style={{
             background: i === 0
                 ? settings?.bundel_chk_bg_clr || "#111"
-                : "#fff",
+                : "",
             color: settings?.bundel_chk_clr || "#fff",
         }}
     >
@@ -78,10 +78,7 @@ const Style1 = ({ settings }) => {
 
                                 {/* CARD */}
                                 <div className="s1-fbt-card">
-                                    <div className="s1-fbt-image" style={{
-                                        background: settings?.prd_bg_clr || undefined,
-                                       
-                                    }}>
+                                    <div className="s1-fbt-image" >
                                         <img src={p.img} alt={p.name} />
                                     </div>
 
@@ -120,7 +117,7 @@ const Style1 = ({ settings }) => {
 
                 {/* SUMMARY */}
                 <div className="s1-fbt-summary"  style={{
-                                        background: settings?.bundel_cnt_bg || undefined,
+                                        
                                         color: settings?.bundel_cnt_clr || undefined
                                     }}>
                     <div className="s1-fbt-footer-wrap-1">

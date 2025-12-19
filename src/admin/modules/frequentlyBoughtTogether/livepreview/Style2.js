@@ -36,7 +36,7 @@ const Style2 = ({ settings }) => {
                 className="s1-fbt-title"
                 style={getTextStyle(settings?.bundel_title_clr)}
             >
-                {__("Frequently Bought Together", "store-one")}
+               {settings?.bundle_title || __("Frequently Bought Together", "store-one")}
             </h2>
 
             <div className="s1-fbt-style2-wrap">
@@ -48,8 +48,12 @@ const Style2 = ({ settings }) => {
                     <div className="s1-fbt-equation">
                         {dummyProducts.map((p, i) => (
                             <div key={p.id} className="s1-fbt-eq-item">
-                                {i !== 0 && <span style={{ background: settings?.bundel_plus_bg_clr || "#111", color: settings?.bundel_plus_clr || "#fff" }} className="s1-fbt-plus"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus text-white" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></span>}
-                                <div className="s1-fbt-eq-img">
+                                {i !== 0 && <span style={{ background: settings?.bundel_plus_bg_clr || "#111", color: settings?.bundel_plus_clr || "#fff" }} className="s1-fbt-plus">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus text-white" aria-hidden="true"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></span>}
+                                <div className="s1-fbt-eq-img" style={{
+                                        background: settings?.prd_bg_clr || undefined,
+                                       
+                                    }}>
                                     <img src={p.img} alt={p.name} />
                                 </div>
                             </div>
@@ -101,13 +105,14 @@ const Style2 = ({ settings }) => {
                             <span style={{
     
                                         color: settings?.bundel_cnt_clr || undefined
-                                    }}>Total for 3 items:</span>
+                                    }}>{(settings?.one_price_label || "{count} items selected")
+        .replace("{count}", dummyProducts.length)}</span>
                            <span style={{
     
                                         color: settings?.bundel_cnt_clr || undefined
                                     }}></span>
                         </div>
-                        <div className="s1-total-text original">
+                        {/* <div className="s1-total-text original">
                             <span style={{
     
                                         color: settings?.bundel_cnt_clr || undefined
@@ -116,12 +121,12 @@ const Style2 = ({ settings }) => {
                             <del style={{
                                         color: settings?.prd_prc_clr || undefined
                                     }}>$189.00</del>
-                        </div>
+                        </div> */}
                         <div className="s1-total-price">
                             <span style={{
     
                                         color: settings?.bundel_cnt_clr || undefined
-                                    }}>Bundle price: </span>
+                                    }}> {settings?.price_label || __("Bundle Total:", "store-one")}</span>
 
                             <del style={{
                                         color: settings?.prd_prc_clr || undefined
@@ -132,7 +137,7 @@ const Style2 = ({ settings }) => {
                             background: settings?.bundel_btn_bg || "#111",
                             color: settings?.bundel_btn_txt || "#fff",
                         }}>
-                            {__("Add All to Cart", "store-one")}
+                           {settings?.button_text || __("Add All to Cart", "store-one")}
                         </button>
                     </div>
 

@@ -1124,13 +1124,13 @@ protected function generate_dynamic_css( $rule, $product_id ) {
     $bundel_tle_brd_clr  = store_one_normalize_color( $rule['bundel_tle_brd_clr']);
     $ptitle  = store_one_normalize_color( $rule['prd_tle_clr']);
     $pprice  = store_one_normalize_color( $rule['prd_prc_clr']);
-    $prd_bg_clr  = store_one_normalize_color( $rule['prd_bg_clr']);
+    
     $bundel_chk_clr  = store_one_normalize_color( $rule['bundel_chk_clr']);
     $bundel_chk_bg_clr  = store_one_normalize_color( $rule['bundel_chk_bg_clr']);
     $plus    = store_one_normalize_color( $rule['bundel_plus_clr']);
     $plusbg    = store_one_normalize_color( $rule['bundel_plus_bg_clr']);
     $content = store_one_normalize_color( $rule['bundel_cnt_clr']);
-    $contentbg = store_one_normalize_color( $rule['bundel_cnt_bg']);
+    
     $btnbg   = store_one_normalize_color( $rule['bundel_btn_bg']);
     $btntxt  = store_one_normalize_color( $rule['bundel_btn_txt']);
     $radius  = store_one_normalize_radius( $rule['border_radius']);
@@ -1157,9 +1157,7 @@ protected function generate_dynamic_css( $rule, $product_id ) {
     .s1-fbt-box[data-id='{$id}'] .s1-fbt-product-title a {
         color: {$ptitle};
     }
-    .s1-fbt-box[data-id='{$id}'].style_1 .s1-fbt-image {
-        background: {$prd_bg_clr};
-    }
+   
         
     .s1-fbt-box[data-id='{$id}'] .s1-fbt-card-price,
     .style_1.s1-fbt-box[data-id='{$id}'] .s1-price,
@@ -1172,12 +1170,12 @@ protected function generate_dynamic_css( $rule, $product_id ) {
     }
    .style_1.s1-fbt-box[data-id='{$id}'] .s1-fbt-check-wrap input:checked + .s1-fbt-check-ui{
         background: {$bundel_chk_bg_clr};
-        border-color: {$bundel_chk_clr};
+       
         color: {$bundel_chk_clr};
     }
     .s1-fbt-box.style_1[data-id='{$id}'] .s1-fbt-summary{
         color: {$content};
-        background: {$contentbg};
+       
     }
     .s1-fbt-box.style_1[data-id='{$id}'] .s1-fbt-summary-label{
     color: {$content};
