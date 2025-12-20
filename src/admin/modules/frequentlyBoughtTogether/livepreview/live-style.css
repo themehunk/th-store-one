@@ -1,5 +1,5 @@
 .s1-style-tabs {
-  display: flex;
+    display: flex;
     gap: 6px;
     padding: 6px;
     border-radius: 10px;
@@ -51,6 +51,8 @@
 .s1-fbt-box.style_1 {
     padding:2rem;
 }
+
+
 .style_1 .s1-fbt-title {
     font-size: 1.125rem;
     line-height: 1.75rem;
@@ -212,15 +214,19 @@ margin-top:45px;
     margin: 0.5rem 0;
 }
 .s1-fbt-box.style_1 .s1-fbt-summary-count{
-font-size: 0.75rem;
+    font-size: 0.75rem;
     line-height: 1rem;
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-    background: #dcfce7;
-    color:#15803d;
+    color: #006626;
     border-radius: 9999px;
+    background: rgba(220, 252, 231, 0.6);
+    border-radius: 16px;
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .s1-fbt-box.style_1 .s1-title-wrap{
@@ -364,7 +370,7 @@ font-weight: 700;
 
 /* RIGHT */
 .style_2 .s1-fbt-style2-right {
-    border-left: 1px solid #eee;
+    border-left: 1px solid rgba(229, 231, 235, 0.3);
     padding-left: 1.5rem;
     display: flex;
     align-items: center;
