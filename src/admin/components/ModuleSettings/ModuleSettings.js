@@ -11,13 +11,17 @@ import { __ } from '@wordpress/i18n';
 
 import FrequentlyBoughtSettings from '../../modules/frequentlyBoughtTogether/FrequentlyBoughtSettings';
 
-const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, onSettingsChange, onLivePreview }) => {
+const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, onSettingsChange, onLivePreview,onRegisterSave }) => {
     const enabled = !!modulesState[currentModule.id];
 
     const renderModuleContent = () => {
         switch (currentModule.id) {
             case 'frequently-bought':
-                return <FrequentlyBoughtSettings onSettingsChange={ onSettingsChange } onLivePreview={ onLivePreview } />;
+                return <FrequentlyBoughtSettings
+                    onSettingsChange={onSettingsChange}
+                    onLivePreview={onLivePreview}
+                    onRegisterSave={onRegisterSave} // 👈 PASS
+                />
 
             default:
                 return <p className="s1-settings__placeholder">

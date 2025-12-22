@@ -678,7 +678,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                     <S1Field>
                                                     <THBackgroundControl
                                                         allowGradient={true}
-                                                        label={__('Button Background', 'store-one')}
+                                                        label={__('Background', 'store-one')}
                                                         value={rule.bundel_btn_bg}
                                                         onChange={(v) => {
                                                             const updatedRule = { ...rule, bundel_btn_bg: v };
@@ -690,7 +690,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                     <S1Field>
                                                     <THBackgroundControl
                                                         allowGradient={false}
-                                                        label={__('Button Text', 'store-one')}
+                                                        label={__('Color', 'store-one')}
                                                         value={rule.bundel_btn_txt}
                                                         onChange={(v) => {
                                                             const updatedRule = { ...rule, bundel_btn_txt: v };

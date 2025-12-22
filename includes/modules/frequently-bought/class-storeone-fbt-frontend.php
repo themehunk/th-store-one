@@ -749,10 +749,12 @@ private function s1_render_table_style( $product_id, $rule, $bundle_products, $b
                     </span>
                 </label>
             <div class="s1-fbt-thumb"><?php echo wp_kses_post( $p->get_image() ); ?></div>
+            <div class="s1-fbt-content">
             <div class="s1-fbt-info"><a class="s1-fbt-product-title" href="<?php echo esc_url( $p->get_permalink() ); ?>">
                         <?php echo esc_html( $p->get_name() ); ?>
                     </a></div>
             <div class="s1-fbt-price"><?php echo wp_kses_post( $p->get_price_html() ); ?></div>
+            </div>
         </div>
         <?php 
         $index++;
