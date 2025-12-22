@@ -78,14 +78,8 @@ const Style3 = ({ settings }) => {
                         </div>
 
                         {/* TITLE */}
-                        <div className="s1-fbt-info">
-                            <a
-                                href="#"
-                                className="s1-fbt-product-title"
-                                style={{ color: settings?.prd_tle_clr }}
-                            >
+                        <div className="s1-fbt-info" style={{ color: settings?.prd_tle_clr }}>
                                 {p.name}
-                            </a>
                         </div>
 
                         {/* PRICE */}

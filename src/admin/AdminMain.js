@@ -61,6 +61,8 @@ const AdminMain = () => {
     const [success, setSuccess]   = useState('');
     const [currentPage, setCurrentPage] = useState('dashboard');
     const [activeModule, setActiveModule] = useState(null);
+    const [saveHandler, setSaveHandler] = useState(null);
+    const [isDirty, setIsDirty] = useState(false);
 
     const [modulesState, setModulesState] = useState({
         'pre-order': true,
@@ -171,6 +173,59 @@ const AdminMain = () => {
         }
     }, [success, error]);
 
+    useEffect(() => {
+    function updateSavebarOffset() {
+        const header = document.querySelector('.s1-header');
+        if (!header) return;
+
+        const adminBarHeight = document.body.classList.contains('admin-bar')
+            ? document.getElementById('wpadminbar')?.offsetHeight || 32
+            : 0;
+
+        const headerHeight = header.offsetHeight;
+
+        document.documentElement.style.setProperty(
+            '--s1-header-offset',
+            `${headerHeight + adminBarHeight}px`
+        );
+    }
+
+    // initial
+    updateSavebarOffset();
+
+    // responsive
+    window.addEventListener('resize', updateSavebarOffset);
+
+    // header height dynamic ho to (best)
+    const headerEl = document.querySelector('.s1-header');
+    let observer;
+    if (headerEl && window.ResizeObserver) {
+        observer = new ResizeObserver(updateSavebarOffset);
+        observer.observe(headerEl);
+    }
+
+    return () => {
+        window.removeEventListener('resize', updateSavebarOffset);
+        if (observer) observer.disconnect();
+    };
+   }, []);
+
+   const handleTopSave = async () => {
+        if (!saveHandler || saving) return;
+
+        try {
+            setSaving(true);
+            await saveHandler();        // 👈 module save
+            setIsDirty(false);
+            setSuccess(__('Saved successfully!', 'store-one'));
+        } catch (e) {
+            setError(__('Failed to save settings.', 'store-one'));
+        } finally {
+            setSaving(false);
+        }
+    };
+
+
     return (
         <div className="store-one-admin">
 
@@ -193,7 +248,26 @@ const AdminMain = () => {
         setCurrentPage={setCurrentPage}
         setActiveModule={setActiveModule}
     />
-
+                   {/* 🔥 SAVE BUTTON */}
+                    {isDirty && saveHandler && (
+                        <div className="s1-top-savebar">
+                            <span>{__('Your settings have been modified. Save?')}</span>
+                            <Button
+                        isPrimary
+                        disabled={saving}
+                        onClick={handleTopSave}
+                    >
+                        {saving ? (
+                            <>
+                                {__('Saving', 'store-one')}
+                                <Spinner style={{ marginLeft: 8 }} />
+                            </>
+                        ) : (
+                            __('Save Settings', 'store-one')
+                        )}
+                    </Button>
+                        </div>
+                    )}
     {currentPage === 'dashboard' && (
         <>
             {!loading && !activeModule && (
@@ -215,6 +289,8 @@ const AdminMain = () => {
                         ← {__('Go Back', 'store-one')}
                     </Button>
 
+                    
+
                     {/* 🔥 FIXED CLASS HERE */}
                     <div className="s1-settings-layout">
 
@@ -229,7 +305,9 @@ const AdminMain = () => {
                                 ...prev,
                                 [currentModule.id]: settings
                             }));
+                            setIsDirty(true);
                         }}
+                        onRegisterSave={setSaveHandler} 
                     />
                     <div className="s1-preview-pane">
                         <PreviewPane currentModule={currentModule} settings={livePreviewSettings || moduleSettings[currentModule.id]?.rules?.[0]}/>
