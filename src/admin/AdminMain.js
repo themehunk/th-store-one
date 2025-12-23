@@ -253,7 +253,6 @@ const AdminMain = () => {
                         <div className="s1-top-savebar">
                             <span>{__('Your settings have been modified. Save?')}</span>
                             <Button
-                        isPrimary
                         disabled={saving}
                         onClick={handleTopSave}
                     >
@@ -263,7 +262,7 @@ const AdminMain = () => {
                                 <Spinner style={{ marginLeft: 8 }} />
                             </>
                         ) : (
-                            __('Save Settings', 'store-one')
+                            __('SAVE', 'store-one')
                         )}
                     </Button>
                         </div>

@@ -1642,11 +1642,8 @@ input.components-text-control__input {
     z-index: 999;
     background: #1d2327;
     animation: s1SavebarSlide 0.25s ease-out;
-}
 
-/* inner content – sticky feel */
-.s1-top-savebar{
-    margin: 0 auto;
+        margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -1654,6 +1651,14 @@ input.components-text-control__input {
     padding: 12px 16px;
     color:#fff;
 }
+   .s1-top-savebar button {
+      background-color: #524cff;
+    border-radius: 6px;
+    padding: 1rem 2rem;
+       color:#fff;
+       font-weight: 700;
+}
+
 @keyframes s1SavebarSlide {
     from {
         opacity: 0;
