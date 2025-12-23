@@ -1,14 +1,17 @@
-
 import { useState, useEffect } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import { __ } from '@wordpress/i18n';
-import { Button, Spinner } from '@wordpress/components';
+import { Spinner } from '@wordpress/components';
 
 import FrequentlyBoughtRulesEditor from './FrequentlyBoughtRulesEditor';
 
 const MODULE_ID = 'frequently-bought';
 
-export default function FrequentlyBoughtSettings({ onSettingsChange, onLivePreview }) {
+export default function FrequentlyBoughtSettings({
+    onSettingsChange,
+    onLivePreview,
+    onRegisterSave, // ✅ REQUIRED for AdminMain
+}) {
 
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -19,10 +22,12 @@ export default function FrequentlyBoughtSettings({ onSettingsChange, onLivePrevi
 
     const [rules, setRules] = useState([]);
 
+    /* notify parent on change */
     useEffect(() => {
-    onSettingsChange?.({ rules });
+        onSettingsChange?.({ rules });
     }, [rules]);
 
+    /* load settings */
     useEffect(() => {
         setLoading(true);
         apiFetch.use(apiFetch.createNonceMiddleware(StoreOneAdmin.nonce));
@@ -41,40 +46,46 @@ export default function FrequentlyBoughtSettings({ onSettingsChange, onLivePrevi
             .finally(() => setLoading(false));
     }, []);
 
-    /* AUTO HIDE TOAST */
+    /* auto hide toast */
     useEffect(() => {
         if (success || error) {
             setHideToast(false);
 
-            const timer = setTimeout(() => setHideToast(true), 2500);
-            const removeTimer = setTimeout(() => {
+            const t1 = setTimeout(() => setHideToast(true), 2500);
+            const t2 = setTimeout(() => {
                 setSuccess('');
                 setError('');
             }, 3000);
 
             return () => {
-                clearTimeout(timer);
-                clearTimeout(removeTimer);
+                clearTimeout(t1);
+                clearTimeout(t2);
             };
         }
     }, [success, error]);
 
+    /* 🔥 SAME SAVE FUNCTION */
     const handleSave = () => {
+        if (saving) return;
+
         setSaving(true);
         setSuccess('');
         setError('');
 
-        const payload = { settings: { rules } };
-
         apiFetch({
             path: `${StoreOneAdmin.restUrl}module/${MODULE_ID}`,
             method: 'POST',
-            data: payload,
+            data: { settings: { rules } },
         })
             .then(() => setSuccess(__('Saved successfully!', 'store-one')))
             .catch(() => setError(__('Failed to save.', 'store-one')))
             .finally(() => setSaving(false));
     };
+
+    /* 🔥 THIS IS THE KEY — AdminMain yahin se save call karta hai */
+    useEffect(() => {
+        onRegisterSave?.(() => handleSave);
+    }, [rules]);
 
     return (
         <div>
@@ -86,7 +97,7 @@ export default function FrequentlyBoughtSettings({ onSettingsChange, onLivePrevi
 
             {!loading && (
                 <>
-                    {/* Correct Toasts */}
+                    {/* notices SAME */}
                     {error && (
                         <div className={`s1-toast s1-toast--error ${hideToast ? 'hide' : ''}`}>
                             <span className="s1-toast__icon"></span>
@@ -101,16 +112,12 @@ export default function FrequentlyBoughtSettings({ onSettingsChange, onLivePrevi
                         </div>
                     )}
 
-                    <FrequentlyBoughtRulesEditor rules={rules} onChange={setRules} onLivePreview={onLivePreview} />
-
-                    <Button
-                        isPrimary
-                        onClick={handleSave}
-                        disabled={saving}
-                        style={{ marginTop: 20 }}
-                    >
-                        {saving ? __('Saving…', 'store-one') : __('Save Settings', 'store-one')}
-                    </Button>
+                    {/* RULES EDITOR */}
+                    <FrequentlyBoughtRulesEditor
+                        rules={rules}
+                        onChange={setRules}
+                        onLivePreview={onLivePreview}
+                    />
                 </>
             )}
         </div>

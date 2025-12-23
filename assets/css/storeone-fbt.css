@@ -76,7 +76,8 @@ margin-top: 3.5em;
 }
 
 /* PRICE */
-.s1-fbt-box.style_1 .s1-fbt-card-price {
+
+.s1-fbt-box.style_1 .s1-fbt-card-price ,.s1-fbt-box.style_1 .s1-fbt-card-price .price  {
     font-weight: 600;
     margin-top: 0.25rem;
     font-size: 1rem;
@@ -200,9 +201,13 @@ font-size: 0.75rem;
 .style_1 .s1-title-wrap .s1-name{
     color:#1f2937;
 }
-.s1-fbt-box.style_1 .s1-price{
+.s1-fbt-box.style_1 .s1-price,.s1-fbt-box.style_1 .s1-price .price{
 font-weight: 600;
 color: #111827;
+}
+.s1-fbt-box.style_1 .s1-price .price{
+font-size: 0.875rem;
+    line-height: 1.25rem;
 }
 .style_1 .s1-fbt-bundle-list-wrap{
     margin-top: 1.5rem;
@@ -815,4 +820,19 @@ font-size: 1.3rem;
         display: none !important;
     }
 
+}
+/* variation box style */
+.s1-fbt-variation .variation .select select{
+    background:transparent;
+    margin-top:0.5rem;
+}
+.s1-fbt-variation .reset{
+margin-top:0.5rem;
+}
+.style_3 .variations.s1-fbt-variation .select{
+    margin-top:0;
+    margin-right:0.5rem;
+}
+.style_3 .variations.s1-fbt-variation .select select{
+    margin:0;
 }

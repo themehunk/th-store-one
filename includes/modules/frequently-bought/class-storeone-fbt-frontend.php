@@ -518,9 +518,10 @@ protected function render_style1_total_wrap( WC_Product $main_product, $rule, $b
 
                             <span class="s1-price">
                                 <?php echo wp_kses_post( $p->get_price_html() ); ?>
+                                <?php if ( $is_var ) $this->render_variation_fields( $p ); ?>
                             </span>
 
-                            <?php if ( $is_var ) $this->render_variation_fields( $p ); ?>
+                            
 
                         </label>
                     </li>
@@ -615,7 +616,8 @@ private function s1_render_style_2( $product_id, $rule, $bundle_products, $bundl
                     <span class="s1-name"><a href="<?php echo esc_url( $p->get_permalink() ); ?>">
                         <?php echo esc_html( $p->get_name() ); ?>
                     </a></span>
-                    <span class="s1-price"> <?php echo wp_kses_post( $p->get_price_html() ); ?></span>
+                    <span class="s1-price"> <?php echo wp_kses_post( $p->get_price_html() ); ?>
+                <?php if ( $is_var ) $this->render_variation_fields( $p ); ?></span>
                 </div>
             </li>
             <?php $index++;
@@ -710,6 +712,10 @@ private function s1_render_table_style( $product_id, $rule, $bundle_products, $b
             $index = 0;
             $total_products = count( $bundle_products );
             foreach ( $bundle_products as $p ) {
+                $is_var   = $p->is_type( 'variable' );
+                        $price_val = ( ! $is_var && $p->is_in_stock() )
+                            ? wc_get_price_to_display( $p )
+                            : '';
                 if ( $p->is_in_stock() ) {
 
     if ( $p->is_type( 'variable' ) ) {
@@ -749,10 +755,14 @@ private function s1_render_table_style( $product_id, $rule, $bundle_products, $b
                     </span>
                 </label>
             <div class="s1-fbt-thumb"><?php echo wp_kses_post( $p->get_image() ); ?></div>
+            <div class="s1-fbt-content">
             <div class="s1-fbt-info"><a class="s1-fbt-product-title" href="<?php echo esc_url( $p->get_permalink() ); ?>">
                         <?php echo esc_html( $p->get_name() ); ?>
                     </a></div>
-            <div class="s1-fbt-price"><?php echo wp_kses_post( $p->get_price_html() ); ?></div>
+            <div class="s1-fbt-price"><?php echo wp_kses_post( $p->get_price_html() ); ?>
+        </span></div>
+            </div>
+            <?php if ( $is_var ) $this->render_variation_fields( $p ); ?>
         </div>
         <?php 
         $index++;
@@ -1080,13 +1090,15 @@ protected function generate_dynamic_css( $rule, $product_id ) {
     }
    
     .s1-fbt-box[data-id='{$id}'] .s1-fbt-card-price,
+    .s1-fbt-box[data-id='{$id}'] .s1-fbt-card-price .price,
     .style_1.s1-fbt-box[data-id='{$id}'] .s1-price,
     .s1-fbt-box[data-id='{$id}'].style_1 .s1-fbt-summary-price,
     .s1-fbt-box[data-id='{$id}'].style_2 .s1-price,  
+    .s1-fbt-box[data-id='{$id}'].style_1 .s1-price .price,
     .s1-fbt-box[data-id='{$id}'].style_2 .s1-fbt-total-final-amount,
     .style_3.s1-fbt-box[data-id='{$id}'] .s1-fbt-price,
     .style_3.s1-fbt-box[data-id='{$id}'] .s1-fbt-total-final-amount {
-        color: {$pprice};
+        color: {$pprice}!important;
     }
     .style_1.s1-fbt-box[data-id='{$id}'] .s1-fbt-plus-floating,
     .style_2.s1-fbt-box[data-id='{$id}'] .s1-fbt-plus{
