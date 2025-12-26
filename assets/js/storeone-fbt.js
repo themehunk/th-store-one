@@ -2,264 +2,403 @@
     "use strict";
 
 /* ===============================
- * STYLE 1 (WITH VARIATION SUPPORT)
+ * STYLE 1 — MULTI-BUNDLE SAFE (FULL)
  * =============================== */
 const S1FBT_STYLE1 = {
+
+    /* ------------------
+     * INIT
+     * ------------------ */
     init() {
-        this.bindEvents();
-        this.initAll();
-    },
+        const self = this;
 
-    bindEvents() {
-
-        // checkbox toggle
-        $(document).on("change", ".style_1 .s1-fbt-checkbox", (e) => {
-            const $wrap = $(e.target).closest(".s1-fbt-content-wrap");
-            this.syncCards(e.target, $wrap);
-            this.toggleCardUI($wrap);
-            this.updateSelectedIds($wrap);
-            this.updateTotal($wrap);
-        });
-
-        // add to cart
-        $(document).on("click", ".style_1 .s1-fbt-add-button", (e) => {
-            e.preventDefault();
-            this.addToCart($(e.currentTarget));
-        });
-
-        // 🔥 VARIATION FOUND (MOST IMPORTANT)
-        $(document).on("found_variation", ".variations_form", (e, variation) => {
-            this.onVariationFound($(e.target), variation);
-        });
-
-        // reset variation
-        $(document).on("reset_data", ".variations_form", (e) => {
-            this.onVariationReset($(e.target));
-        });
-    },
-
-    initAll() {
-        $(".style_1 .s1-fbt-content-wrap").each((_, el) => {
-            const $wrap = $(el);
-            $wrap.find(".s1-fbt-checkbox:not(:disabled)").prop("checked", true);
-            this.toggleCardUI($wrap);
-            this.updateSelectedIds($wrap);
-            this.updateTotal($wrap);
-        });
-
-        // init WC variation forms
-        $(".variations_form").each(function () {
-            $(this).wc_variation_form();
+        $(".s1-fbt-box.style_1").each(function () {
+            self.initBundle($(this));
         });
     },
 
     /* ------------------
-     * VARIATION FOUND
+     * INIT PER BUNDLE
      * ------------------ */
-    onVariationFound($form, variation) {
+    initBundle($bundle) {
 
-        if (!variation || !variation.variation_id) return;
+        const $wrap = $bundle.find(".s1-fbt-content-wrap");
 
-        const $wrap = $form.closest(".s1-fbt-content-wrap");
-        const productId = $form.data("product_id");
+        /* ------------------
+         * CHECKBOX CHANGE
+         * ------------------ */
+        $bundle.on("change", ".s1-fbt-checkbox", (e) => {
+            this.syncCheckboxes(e.target, $wrap);
+            this.toggleCardUI($wrap);
+            this.updateSelectedIds($wrap);
+            this.updateTotal($wrap);
+            
+        });
 
-        const $checkbox = $wrap.find(
-            `.s1-fbt-checkbox[data-product-id="${productId}"]`
+        /* ------------------
+         * ADD TO CART
+         * ------------------ */
+        $bundle.on("click", ".s1-fbt-add-button", (e) => {
+            e.preventDefault();
+            this.addToCart($(e.currentTarget), $bundle);
+        });
+
+        /* ------------------
+         * VARIATION FOUND
+         * ------------------ */
+        $bundle.on(
+            "found_variation",
+            ".variations_form",
+            (e, variation) => {
+                this.onVariationFound(
+                    $(e.currentTarget),
+                    variation,
+                    $bundle
+                );
+            }
         );
 
-        // ✅ price update
-        const price = parseFloat(variation.display_price);
-        $checkbox.val(price);
+        /* ------------------
+         * VARIATION RESET
+         * ------------------ */
+        $bundle.on(
+            "reset_data",
+            ".variations_form",
+            (e) => {
+                this.onVariationReset(
+                    $(e.currentTarget),
+                    $bundle
+                );
+            }
+        );
 
-        // ✅ store variation info
-        $checkbox
-            .attr("data-variation-id", variation.variation_id)
-            .attr("data-attrs", JSON.stringify(variation.attributes));
+        /* ------------------
+         * INIT VARIATIONS (ONLY INSIDE THIS BUNDLE)
+         * ------------------ */
+        $bundle.find(".variations_form").each(function () {
+            $(this).wc_variation_form();
+        });
 
-        // ✅ update price HTML
+        /* ------------------
+         * INITIAL STATE
+         * ------------------ */
+        $wrap.find(".s1-fbt-checkbox:not(:disabled)").prop("checked", true);
+
+        this.toggleCardUI($wrap);
+        this.updateSelectedIds($wrap);
+        this.updateTotal($wrap);
+    },
+
+    /* ------------------
+     * CHECKBOX SYNC
+     * ------------------ */
+    syncCheckboxes(checkbox, $wrap) {
+
+        const productId = $(checkbox).data("product-id");
+        const checked = checkbox.checked;
+
         $wrap
-            .find(`.post-${productId} .s1-fbt-card-price`)
-            .html(variation.price_html);
+            .find(`.s1-fbt-checkbox[data-product-id="${productId}"]`)
+            .prop("checked", checked);
 
-        // ✅ update image
-        if (variation.image && variation.image.url) {
+        $wrap
+            .find(`.post-${productId}`)
+            .toggleClass("is-disabled", !checked);
+    },
+
+    /* ------------------
+     * CARD UI
+     * ------------------ */
+    toggleCardUI($wrap) {
+
+        $wrap.find(".s1-fbt-checkbox").each(function () {
+
+            const productId = $(this).data("product-id");
+            const checked = $(this).is(":checked");
+
             $wrap
-                .find(`.post-${productId} img`)
-                .attr("src", variation.image.url);
+                .find(`.post-${productId}`)
+                .toggleClass("is-disabled", !checked);
+        });
+    },
+
+    /* ------------------
+    * VARIATION FOUND (FINAL & STABLE)
+    * ------------------ */
+    onVariationFound($form, variation, $bundle) {
+
+    if (!variation || !variation.variation_id) return;
+
+    /* ✅ Parent product id (ALWAYS) */
+    const parentId = parseInt($form.data("product_id"), 10);
+    
+    if (!parentId) return;
+
+    const $wrap = $bundle.find(".s1-fbt-content-wrap");
+
+    /* ✅ Only checkboxes of this parent */
+    const $checkboxes = $wrap.find(
+        `.s1-fbt-checkbox[data-product-id="${parentId}"]`
+    );
+
+    if (!$checkboxes.length) {
+        console.warn("FBT: no checkbox for parent", parentId);
+        return;
+    }
+
+    const price = parseFloat(variation.display_price) || 0;
+
+    /* ------------------
+     * UPDATE CHECKBOX META
+     * ------------------ */
+    $checkboxes.each(function () {
+
+        const $cb = $(this);
+
+        // 🔒 hard safety (kabhi galat id na rahe)
+        $cb
+            .attr("data-product-id", parentId)
+            .data("product-id", parentId);
+
+        // ✅ THIS IS THE MOST IMPORTANT PART
+        $cb
+            .attr("data-variation-id", variation.variation_id)
+            .attr("data-attrs", JSON.stringify(variation.attributes))
+            .val(price);
+    });
+
+    /* ------------------
+     * CARD PRICE
+     * ------------------ */
+    const $cardPrice = $wrap.find(`.post-${parentId} .s1-fbt-card-price`);
+    if ($cardPrice.length) {
+        if (!$cardPrice.data("original-html")) {
+            $cardPrice.data("original-html", $cardPrice.html());
+        }
+        $cardPrice.html(variation.price_html);
+    }
+
+    /* ------------------
+     * LIST PRICE
+     * ------------------ */
+    const $row = $wrap
+        .find(".s1-title-wrap.s1-fbt-row")
+        .has(`.s1-fbt-checkbox[data-product-id="${parentId}"]`);
+
+    const $priceHtml = $row.find(".s1-price-html");
+    if ($priceHtml.length) {
+        if (!$priceHtml.data("original-html")) {
+            $priceHtml.data("original-html", $priceHtml.html());
+        }
+        $priceHtml.html(variation.price_html);
+    }
+
+    /* ------------------
+     * IMAGE
+     * ------------------ */
+    const $img = $wrap.find(`.post-${parentId} img`);
+    if ($img.length && variation.image?.url) {
+
+        if (!$img.data("original-src")) {
+            $img
+                .data("original-src", $img.attr("src"))
+                .data("original-srcset", $img.attr("srcset"));
         }
 
-        // enable add button
-        $wrap.find(".s1-fbt-add-button").prop("disabled", false);
+        $img
+            .attr("src", variation.image.url)
+            .attr("srcset", variation.image.srcset || "");
+    }
+
+    /* ------------------
+     * FINAL RECALC
+     * ------------------ */
+    this.updateSelectedIds($wrap);
+    this.updateTotal($wrap);
+}
+,
+    /* ------------------
+     * VARIATION RESET
+     * ------------------ */
+    onVariationReset($form, $bundle) {
+
+        const productId = $form.data("product_id");
+        const $wrap = $bundle.find(".s1-fbt-content-wrap");
+
+        $wrap
+            .find(`.s1-fbt-checkbox[data-product-id="${productId}"]`)
+            .removeAttr("data-variation-id")
+            .removeAttr("data-attrs")
+            .val(0);
+
+        /* CARD PRICE */
+        const $cardPrice = $wrap.find(`.post-${productId} .s1-fbt-card-price`);
+        if ($cardPrice.data("original-html")) {
+            $cardPrice.html($cardPrice.data("original-html"));
+        }
+
+        /* LIST PRICE */
+        const $row = $wrap
+            .find(".s1-title-wrap.s1-fbt-row")
+            .has(`.s1-fbt-checkbox[data-product-id="${productId}"]`);
+
+        const $priceHtml = $row.find(".s1-price-html");
+        if ($priceHtml.data("original-html")) {
+            $priceHtml.html($priceHtml.data("original-html"));
+        }
+
+        /* IMAGE */
+        const $img = $wrap.find(`.post-${productId} img`);
+        if ($img.data("original-src")) {
+            $img
+                .attr("src", $img.data("original-src"))
+                .attr("srcset", $img.data("original-srcset") || "");
+        }
 
         this.updateSelectedIds($wrap);
         this.updateTotal($wrap);
     },
 
-    onVariationFound($form, variation) {
-
-    if (!variation || !variation.variation_id) return;
-
-    const $wrap = $form.closest(".s1-fbt-content-wrap");
-    const productId = $form.data("product_id");
-
-    const $checkbox = $wrap.find(
-        `.s1-fbt-checkbox[data-product-id="${productId}"]`
-    );
-
-    /* =========================
-     * 1. PRICE UPDATE (VALUE)
-     * ========================= */
-    const price = parseFloat(variation.display_price) || 0;
-    $checkbox.val(price);
-
-    /* =========================
-     * 2. VARIATION META
-     * ========================= */
-    $checkbox
-        .attr("data-variation-id", variation.variation_id)
-        .attr("data-attrs", JSON.stringify(variation.attributes));
-
-    /* =========================
-     * 3. CARD PRICE UPDATE
-     * ========================= */
-    $wrap
-        .find(`.post-${productId} .s1-fbt-card-price`)
-        .html(variation.price_html);
-
-    /* =========================
-     * 4. 🔥 LIST PRICE UPDATE (MISSING PART)
-     * ========================= */
-    $wrap
-        .find(
-            `.s1-title-wrap .s1-fbt-checkbox[data-product-id="${productId}"]`
-        )
-        .closest(".s1-title-wrap")
-        .find(".s1-price")
-        .html(variation.price_html);
-
-    /* =========================
-     * 5. IMAGE UPDATE
-     * ========================= */
-    if (variation.image && variation.image.url) {
-        $wrap
-            .find(`.post-${productId} img`)
-            .attr("src", variation.image.url);
-    }
-
-    /* =========================
-     * 6. ENABLE ADD BUTTON
-     * ========================= */
-    $wrap.find(".s1-fbt-add-button").prop("disabled", false);
-
-    /* =========================
-     * 7. RECALCULATE
-     * ========================= */
-    this.updateSelectedIds($wrap);
-    this.updateTotal($wrap);
-},
-
     /* ------------------
-     * IDS (VAR SAFE)
+     * IDS
      * ------------------ */
     updateSelectedIds($wrap) {
 
-    const ids = new Set();
+        const ids = new Set();
 
-    // ✅ MAIN PRODUCT (ONLY ONCE)
-    const mainId = $wrap.find(".s1-fbt-add-button").data("main-id");
-    if (mainId) {
-        ids.add(String(mainId));
-    }
+        const mainId = $wrap
+            .find(".s1-fbt-add-button")
+            .data("main-id");
 
-    // ✅ BUNDLE PRODUCTS
-    $wrap.find(".s1-fbt-checkbox:checked:not(:disabled)").each(function () {
+        if (mainId) ids.add(String(mainId));
 
-        const variationId = $(this).attr("data-variation-id");
-        const productId   = $(this).data("product-id");
+        $wrap.find(".s1-fbt-checkbox:checked:not(:disabled)")
+            .each(function () {
 
-        // 🔥 variation priority
-        ids.add(String(variationId ? variationId : productId));
-    });
+                const vid = $(this).attr("data-variation-id");
+                const pid = $(this).data("product-id");
 
-    // ✅ SAVE CLEAN IDS
-    $wrap.find(".s1-fbt-selected-ids")
-        .val(Array.from(ids).join(","));
+                ids.add(String(vid ? vid : pid));
+            });
+
+        $wrap.find(".s1-fbt-selected-ids")
+            .val(Array.from(ids).join(","));
     },
+
     /* ------------------
      * TOTAL
      * ------------------ */
     updateTotal($wrap) {
 
-    // ✅ 1. IDs से count निकालो
-    const idsStr = $wrap.find(".s1-fbt-selected-ids").val() || "";
-    const idsArr = idsStr.split(",").filter(Boolean);
+        let total = 0;
 
-    const count = idsArr.length;
+        $wrap.find(".s1-fbt-checkbox:checked:not(:disabled)")
+            .each(function () {
+                total += parseFloat($(this).val()) || 0;
+            });
 
-    // ✅ 2. Total price
-    let total = 0;
+        const currency = StoreOneFBT.currency_symbol || "₹";
 
-    $wrap.find(".s1-fbt-checkbox:checked:not(:disabled)").each(function () {
-        const price = parseFloat($(this).val()) || 0;
-        total += price;
-    });
+        $wrap.find(".s1-fbt-total-final-amount")
+            .html(currency + total.toFixed(2));
 
-    const currency = StoreOneFBT.currency_symbol || "₹";
+        const count = ($wrap.find(".s1-fbt-selected-ids").val() || "")
+            .split(",")
+            .filter(Boolean).length;
 
-    // ✅ 3. Update UI
-    $wrap.find(".s1-fbt-total-final-amount")
-        .html(currency + total.toFixed(2));
+        const labelTpl =
+            $wrap.find(".s1-fbt-summary").data("one-pricelabel")
+            || "{count} items selected";
 
-    const labelTpl = $wrap
-        .find(".s1-fbt-summary")
-        .data("one-pricelabel") || "{count} items selected";
-
-    $wrap.find(".s1-fbt-summary-count")
-        .text(labelTpl.replace("{count}", count));
-}
-,
-    /* ------------------
-     * ADD TO CART
-     * ------------------ */
-    addToCart($btn) {
-
-        const $wrap = $btn.closest(".s1-fbt-content-wrap");
-        const ids = $wrap.find(".s1-fbt-selected-ids").val();
-
-        if (!ids) {
-            alert("Please select at least one product.");
-            return;
-        }
-
-        $btn.addClass("loading");
-
-        $.post(StoreOneFBT.ajax_url, {
-            action: "storeone_fbt_add_bundle",
-            nonce: StoreOneFBT.nonce,
-            main_id: $btn.data("main-id"),
-            selected_ids: ids.split(","),
-        }).done((res) => {
-            $(document.body).trigger("added_to_cart", [
-                res.fragments,
-                res.cart_hash,
-                $btn,
-            ]);
-        }).always(() => {
-            $btn.removeClass("loading");
-        });
-    }
-};
-
-
-    /* ===============================
- * STYLE 2 (FIXED + VARIATION SAFE)
- * =============================== */
-const S1FBT_STYLE2 = {
-    init() {
-        this.bindEvents();
-        this.initAll();
+        $wrap.find(".s1-fbt-summary-count")
+            .text(labelTpl.replace("{count}", count));
     },
 
+    addToCart($btn, $bundle) {
+
+    const $wrap = $bundle.find(".s1-fbt-content-wrap");
+    const items = [];
+
+    $wrap.find(".s1-fbt-checkbox:not(.s1-fbt-card-checkbox):checked:not(:disabled)")
+        .each(function () {
+
+            const pid   = $(this).data("product-id");
+            const vid   = $(this).attr("data-variation-id");
+            const attrs = $(this).attr("data-attrs");
+
+            // ⛔ variable product but variation not selected
+            if ($(this).closest(".s1-fbt-row").find(".variations_form").length && !vid) {
+                return;
+            }
+
+            if (vid) {
+                items.push({
+                    product_id: pid,
+                    variation_id: vid,
+                    variation: attrs ? JSON.parse(attrs) : {}
+                });
+            } else {
+                items.push({ product_id: pid });
+            }
+        });
+
+    if (!items.length) {
+        alert("Please select variation first");
+        return;
+    }
+
+
+    $btn.addClass("loading");
+
+    $.post(StoreOneFBT.ajax_url, {
+        action: "storeone_fbt_add_bundle",
+        nonce: StoreOneFBT.nonce,
+        items: items
+    }).done((res) => {
+        $(document.body).trigger("added_to_cart", [
+            res.fragments,
+            res.cart_hash,
+            $btn,
+        ]);
+    }).always(() => {
+        $btn.removeClass("loading");
+    });
+}
+};
+/* ===============================
+ * STYLE 2 — FINAL STABLE
+ * =============================== */
+const S1FBT_STYLE2 = {
+
+    init() {
+        this.initAll();
+        this.bindEvents();
+    },
+
+    /* ------------------
+     * INIT
+     * ------------------ */
+    initAll() {
+        $(".s1-fbt-box.style_2").each((_, box) => {
+            const $box = $(box);
+
+            // init variations inside this box
+            $box.find(".variations_form").each(function () {
+                $(this).wc_variation_form();
+            });
+
+            // default checked
+            $box.find(".s1-fbt-checkbox:not(:disabled)").prop("checked", true);
+
+            this.updateUI($box);
+            this.updateSelectedIds($box);
+            this.updateTotal($box);
+        });
+    },
+
+    /* ------------------
+     * EVENTS
+     * ------------------ */
     bindEvents() {
 
         // checkbox toggle
@@ -276,192 +415,192 @@ const S1FBT_STYLE2 = {
             this.addToCart($(e.currentTarget));
         });
 
-        // 🔥 variation found
-        $(document).on("found_variation", ".style_2 .variations_form", (e, variation) => {
-            this.onVariationFound($(e.target), variation);
-        });
+        // variation found
+        $(document).on(
+            "found_variation",
+            ".style_2 .variations_form",
+            (e, variation) => {
+                this.onVariationFound($(e.currentTarget), variation);
+            }
+        );
 
-        // reset variation
-        $(document).on("reset_data", ".style_2 .variations_form", (e) => {
-            this.onVariationReset($(e.target));
-        });
+        // variation reset
+        $(document).on(
+            "reset_data",
+            ".style_2 .variations_form",
+            (e) => {
+                this.onVariationReset($(e.currentTarget));
+            }
+        );
     },
 
-    initAll() {
-        $(".s1-fbt-box.style_2").each((_, box) => {
-            const $box = $(box);
-
-            // init variations
-            $box.find(".variations_form").each(function () {
-                $(this).wc_variation_form();
-            });
-
-            $box.find(".s1-fbt-checkbox:not(:disabled)").prop("checked", true);
-
-            this.updateUI($box);
-            this.updateSelectedIds($box);
-            this.updateTotal($box);
-        });
-    },
-
-    /* --------------------
+    /* ------------------
      * UI TOGGLE
-     * -------------------- */
+     * ------------------ */
     updateUI($box) {
+
         $box.find(".s1-fbt-checkbox").each(function () {
-            const checked = $(this).is(":checked");
+
+            const checked = this.checked;
             const pid = $(this).data("product-id");
 
+            // row disable
             $(this)
                 .closest(".s1-title-wrap")
                 .toggleClass("s1-fbt-row-disabled", !checked);
 
+            // equation image disable
             $box
                 .find(`.s1-fbt-eq-item[data-product-id="${pid}"]`)
                 .toggleClass("is-inactive", !checked);
         });
     },
 
-    /* --------------------
+    /* ------------------
      * VARIATION FOUND
-     * -------------------- */
-   onVariationFound($form, variation) {
-
-    if (!variation || !variation.variation_id) return;
-
-    const $wrap = $form.closest(".s1-fbt-content-wrap");
-    const productId = $form.data("product_id");
-
-    const $checkbox = $wrap.find(
-        `.s1-fbt-checkbox[data-product-id="${productId}"]`
-    );
-
-    const price = parseFloat(variation.display_price) || 0;
-
-    /* ------------------
-     * 1️⃣ checkbox data
      * ------------------ */
-    $checkbox
-        .val(price)
-        .attr("data-variation-id", variation.variation_id)
-        .attr("data-attrs", JSON.stringify(variation.attributes));
+    onVariationFound($form, variation) {
 
-    /* ------------------
-     * 2️⃣ CARD PRICE
-     * ------------------ */
-    $wrap
-        .find(`.post-${productId} .s1-fbt-card-price`)
-        .html(variation.price_html);
+        if (!variation || !variation.variation_id) return;
 
-    /* ------------------
-     * 3️⃣ ROW / TITLE PRICE 🔥 FIX
-     * ------------------ */
-    $wrap
-        .find(`.s1-title-wrap[data-product-id="${productId}"] .s1-fbt-price`)
-        .html(variation.price_html);
+        const $box = $form.closest(".s1-fbt-box.style_2");
+        const productId = parseInt($form.data("product_id"), 10);
 
-    /* ------------------
-     * 4️⃣ IMAGE
-     * ------------------ */
-    if (variation.image && variation.image.url) {
-        $wrap
-            .find(`.post-${productId} img`)
-            .attr("src", variation.image.url)
-            .attr("srcset", "");
-    }
+        const $checkbox = $box.find(
+            `.s1-fbt-checkbox[data-product-id="${productId}"]`
+        );
 
-    $wrap.find(".s1-fbt-add-button").prop("disabled", false);
+        if (!$checkbox.length) return;
 
-    this.updateSelectedIds($wrap);
-    this.updateTotal($wrap);
-}
-,
+        const price = parseFloat(variation.display_price) || 0;
 
+        // checkbox meta
+        $checkbox
+            .val(price)
+            .attr("data-variation-id", variation.variation_id)
+            .attr("data-attrs", JSON.stringify(variation.attributes));
 
-    onVariationReset($form) {
+        // price text (same span where price_html is)
+        $box
+            .find(`.s1-title-wrap .s1-fbt-checkbox[data-product-id="${productId}"]`)
+            .closest(".s1-title-wrap")
+            .find(".s1-price")
+            .html(variation.price_html);
 
-    const $wrap = $form.closest(".s1-fbt-content-wrap");
-    const productId = $form.data("product_id");
+        // image
+        if (variation.image?.url) {
+            $box
+                .find(`.s1-fbt-eq-item[data-product-id="${productId}"] img`)
+                .attr("src", variation.image.url);
+        }
 
-    const $checkbox = $wrap.find(
-        `.s1-fbt-checkbox[data-product-id="${productId}"]`
-    );
-
-    $checkbox
-        .val(0)
-        .removeAttr("data-variation-id")
-        .removeAttr("data-attrs");
-
-    this.updateSelectedIds($wrap);
-    this.updateTotal($wrap);
-}
-,
-
-    /* --------------------
-     * SELECTED IDS (FIXED)
-     * -------------------- */
-    updateSelectedIds($box) {
-
-        const ids = [];
-
-        const mainId = $box.find(".s1-fbt-add-button").data("main-id");
-        if (mainId) ids.push(mainId);
-
-        $box.find(".s1-fbt-checkbox:checked:not(:disabled)").each(function () {
-            const variationId = $(this).attr("data-variation-id");
-            const productId   = $(this).data("product-id");
-
-            ids.push(variationId ? variationId : productId);
-        });
-
-        $box.find(".s1-fbt-selected-ids").val(ids.join(","));
+        this.updateSelectedIds($box);
+        this.updateTotal($box);
     },
 
-    /* --------------------
-     * TOTAL (FIXED COUNT)
-     * -------------------- */
-    updateTotal($wrap) {
+    /* ------------------
+     * VARIATION RESET
+     * ------------------ */
+    onVariationReset($form) {
 
-    let total = 0;
+        const $box = $form.closest(".s1-fbt-box.style_2");
+        const productId = parseInt($form.data("product_id"), 10);
 
-    // ✅ bundle items (exclude disabled main checkbox)
-    const $checked = $wrap.find(".s1-fbt-checkbox:checked:not(:disabled)");
+        const $checkbox = $box.find(
+            `.s1-fbt-checkbox[data-product-id="${productId}"]`
+        );
 
-    // ✅ COUNT = bundle items + main product
-    let count = $checked.length;
+        $checkbox
+            .val(0)
+            .removeAttr("data-variation-id")
+            .removeAttr("data-attrs");
 
-    const mainId = $wrap.find(".s1-fbt-add-button").data("main-id");
-    if (mainId) {
-        count += 1;
-    }
+        this.updateSelectedIds($box);
+        this.updateTotal($box);
+    },
 
-    // ✅ TOTAL PRICE
-    $checked.each(function () {
-        const price = parseFloat($(this).val()) || 0;
-        total += price;
-    });
+    /* ------------------
+     * IDS
+     * ------------------ */
+    updateSelectedIds($box) {
 
-    const currency = StoreOneFBT.currency_symbol || "₹";
+        const ids = new Set();
 
-    $wrap.find(".s1-fbt-total-final-amount")
-        .html(currency + total.toFixed(2));
+        const mainId = $box.find(".s1-fbt-add-button").data("main-id");
+        if (mainId) ids.add(String(mainId));
 
-    const labelTpl =
-        $wrap.find(".s1-fbt-summary").data("one-pricelabel") ||
-        "{count} items selected";
+        $box.find(".s1-fbt-checkbox:checked:not(:disabled)").each(function () {
 
-    $wrap.find(".s1-fbt-summary-count")
-        .text(labelTpl.replace("{count}", count));
-},
-    /* --------------------
+            const vid = $(this).attr("data-variation-id");
+            const pid = $(this).data("product-id");
+
+            ids.add(String(vid ? vid : pid));
+        });
+
+        $box.find(".s1-fbt-selected-ids")
+            .val(Array.from(ids).join(","));
+    },
+
+    /* ------------------
+     * TOTAL
+     * ------------------ */
+    updateTotal($box) {
+
+        let total = 0;
+
+        $box.find(".s1-fbt-checkbox:checked:not(:disabled)").each(function () {
+            total += parseFloat($(this).val()) || 0;
+        });
+
+        const currency = StoreOneFBT.currency_symbol || "₹";
+
+        $box.find(".s1-fbt-total-final-amount")
+            .html(currency + total.toFixed(2));
+
+        const count = ($box.find(".s1-fbt-selected-ids").val() || "")
+            .split(",")
+            .filter(Boolean).length;
+
+        const labelTpl =
+            $box.find(".s1-fbt-total-box").data("one-pricelabel") ||
+            "{count} items selected";
+
+        $box.find(".s1-fbt-total-title span")
+            .text(labelTpl.replace("{count}", count));
+    },
+
+    /* ------------------
      * ADD TO CART
-     * -------------------- */
+     * ------------------ */
     addToCart($btn) {
-        const $box = $btn.closest(".s1-fbt-box.style_2");
-        const ids = $box.find(".s1-fbt-selected-ids").val();
 
-        if (!ids) {
-            alert("Please select at least one product.");
+        const $box = $btn.closest(".s1-fbt-box.style_2");
+        const items = [];
+
+        $box.find(".s1-fbt-checkbox:checked:not(:disabled)").each(function () {
+
+            const pid = $(this).data("product-id");
+            const vid = $(this).attr("data-variation-id");
+            const attrs = $(this).attr("data-attrs");
+
+            // variable but no variation selected
+            if ($(this).closest(".s1-title-wrap").find(".variations_form").length && !vid) {
+                return;
+            }
+
+            if (vid) {
+                items.push({
+                    product_id: pid,
+                    variation_id: vid,
+                    variation: attrs ? JSON.parse(attrs) : {}
+                });
+            } else {
+                items.push({ product_id: pid });
+            }
+        });
+
+        if (!items.length) {
+            alert("Please select variation first");
             return;
         }
 
@@ -470,8 +609,7 @@ const S1FBT_STYLE2 = {
         $.post(StoreOneFBT.ajax_url, {
             action: "storeone_fbt_add_bundle",
             nonce: StoreOneFBT.nonce,
-            main_id: $btn.data("main-id"),
-            selected_ids: ids.split(","),
+            items: items
         }).done((res) => {
             $(document.body).trigger("added_to_cart", [
                 res.fragments,
@@ -485,105 +623,288 @@ const S1FBT_STYLE2 = {
 };
 
     /* ===============================
-     * STYLE 3
-     * =============================== */
-    const S1FBT_STYLE3 = {
-        init() {
-            this.bindEvents();
-            this.initAll();
-        },
+ * STYLE 3 — VARIATION SAFE (FINAL)
+ * =============================== */
+const S1FBT_STYLE3 = {
 
-        bindEvents() {
-            $(document).on("change", ".style_3 .s1-fbt-checkbox", (e) => {
-                const $box = $(e.target).closest(".s1-fbt-box.style_3");
-                this.updateSelectedIds($box);
-                this.updateTotal($box);
-            });
-
-            $(document).on("click", ".style_3 .s1-fbt-add-bundle", (e) => {
-                e.preventDefault();
-                this.addToCart($(e.currentTarget));
-            });
-        },
-
-        initAll() {
-            $(".s1-fbt-box.style_3").each((_, box) => {
-                const $box = $(box);
-                $box.find(".s1-fbt-checkbox:not(:disabled)").prop("checked", true);
-                this.updateSelectedIds($box);
-                this.updateTotal($box);
-            });
-        },
-
-        updateSelectedIds($box) {
-            const ids = new Set();
-
-            const mainId = $box.data("id");
-            if (mainId) ids.add(mainId);
-
-            $box.find(".s1-fbt-checkbox:checked:not(:disabled)").each(function () {
-                ids.add($(this).data("product-id"));
-            });
-
-            $box.find(".s1-fbt-selected-ids").val([...ids].join(","));
-        },
-
-        updateTotal($box) {
-
-    // ✅ bundle checkboxes
-    const $checked = $box.find(".s1-fbt-checkbox:checked:not(:disabled)");
-    // ✅ bundle count
-    let count = $checked.length;
-    // ✅ MAIN PRODUCT ALWAYS INCLUDED
-    const mainId = $box.find(".s1-fbt-add-bundle").data("main-id");
-    if (mainId) {
-        count += 1;
-    }
-    // ✅ TOTAL PRICE
-    let total = 0;
-    $checked.each(function () {
-        const price = parseFloat($(this).val());
-        if (!isNaN(price)) {
-            total += price;
-        }
-    });
-
-    const currency = StoreOneFBT.currency_symbol || "₹";
-
-    $box.find(".s1-fbt-total-final-amount")
-        .html(currency + total.toFixed(2));
-
-    // ✅ LABEL
-    const labelTpl =
-        $box.find(".s1-fbt-total-bar").data("one-pricelabel") ||
-        "{count} items selected";
-
-    $box.find(".s1-total-label")
-        .text(labelTpl.replace("{count}", count));
+    init() {
+        this.bindEvents();
+        this.initAll();
     },
 
-        addToCart($btn) {
-            const $box = $btn.closest(".s1-fbt-box.style_3");
-            const ids = $box.find(".s1-fbt-selected-ids").val();
+    bindEvents() {
 
-            if (!ids) return alert("Please select at least one product.");
+        // checkbox change
+        $(document).on("change", ".style_3 .s1-fbt-checkbox", (e) => {
+            const $box = $(e.target).closest(".s1-fbt-box.style_3");
+            this.updateSelectedIds($box);
+            this.updateTotal($box);
+        });
 
-            $btn.addClass("loading");
+        // add to cart
+        $(document).on("click", ".style_3 .s1-fbt-add-bundle", (e) => {
+            e.preventDefault();
+            this.addToCart($(e.currentTarget));
+        });
 
-            $.post(StoreOneFBT.ajax_url, {
-                action: "storeone_fbt_add_bundle",
-                nonce: StoreOneFBT.nonce,
-                main_id: $btn.data("main-id"),
-                selected_ids: ids.split(","),
-            }).done((res) => {
-                $(document.body).trigger("added_to_cart", [
-                    res.fragments,
-                    res.cart_hash,
-                    $btn,
-                ]);
-            }).always(() => $btn.removeClass("loading"));
+        // 🔥 variation found
+        $(document).on(
+            "found_variation",
+            ".style_3 .variations_form",
+            (e, variation) => {
+                this.onVariationFound($(e.target), variation);
+            }
+        );
+
+        // 🔄 variation reset
+        $(document).on(
+            "reset_data",
+            ".style_3 .variations_form",
+            (e) => {
+                this.onVariationReset($(e.target));
+            }
+        );
+    },
+
+    initAll() {
+        $(".s1-fbt-box.style_3").each((_, box) => {
+            const $box = $(box);
+
+            // init variations
+            $box.find(".variations_form").each(function () {
+                $(this).wc_variation_form();
+            });
+
+            // default checked
+            $box.find(".s1-fbt-checkbox:not(:disabled)").prop("checked", true);
+
+            this.updateSelectedIds($box);
+            this.updateTotal($box);
+        });
+    },
+
+    /* ------------------
+     * VARIATION FOUND
+     * ------------------ */
+    onVariationFound($form, variation) {
+
+    if (!variation || !variation.variation_id) return;
+
+    const productId = parseInt($form.data("product_id"), 10);
+    if (!productId) return;
+
+    const $box = $form.closest(".s1-fbt-box.style_3");
+
+    /* ------------------
+     * CHECKBOX
+     * ------------------ */
+    const $checkbox = $box.find(
+        `.s1-fbt-checkbox[data-product-id="${productId}"]`
+    );
+
+    const price = parseFloat(variation.display_price) || 0;
+
+    $checkbox
+        .val(price)
+        .attr("data-variation-id", variation.variation_id)
+        .attr("data-attrs", JSON.stringify(variation.attributes));
+
+    /* ------------------
+     * PRICE (🔥 FIX)
+     * ------------------ */
+    const $priceHtml = $box
+        .find(".s1-fbt-flex-item")
+        .has(`.s1-fbt-checkbox[data-product-id="${productId}"]`)
+        .find(".s1-fbt-price-html");
+
+    // save original once
+    if (!$priceHtml.data("original-html")) {
+        $priceHtml.data("original-html", $priceHtml.html());
+    }
+
+    $priceHtml.html(variation.price_html);
+
+    /* ------------------
+     * IMAGE (🔥 FIX)
+     * ------------------ */
+    const $img = $box
+        .find(".s1-fbt-flex-item")
+        .has(`.s1-fbt-checkbox[data-product-id="${productId}"]`)
+        .find(".s1-fbt-thumb img");
+
+    if ($img.length && variation.image?.url) {
+
+        // save original once
+        if (!$img.data("original-src")) {
+            $img
+                .data("original-src", $img.attr("src"))
+                .data("original-srcset", $img.attr("srcset"));
         }
-    };
+
+        $img
+            .attr("src", variation.image.url)
+            .attr("srcset", variation.image.srcset || "");
+    }
+
+    this.updateSelectedIds($box);
+    this.updateTotal($box);
+},
+
+    /* ------------------
+     * VARIATION RESET
+     * ------------------ */
+    onVariationReset($form) {
+
+    const productId = parseInt($form.data("product_id"), 10);
+    if (!productId) return;
+
+    const $box = $form.closest(".s1-fbt-box.style_3");
+
+    const $checkbox = $box.find(
+        `.s1-fbt-checkbox[data-product-id="${productId}"]`
+    );
+
+    $checkbox
+        .val(0)
+        .removeAttr("data-variation-id")
+        .removeAttr("data-attrs");
+
+    /* PRICE RESET */
+    const $priceHtml = $box
+        .find(".s1-fbt-flex-item")
+        .has(`.s1-fbt-checkbox[data-product-id="${productId}"]`)
+        .find(".s1-fbt-price-html");
+
+    const originalPrice = $priceHtml.data("original-html");
+    if (originalPrice) {
+        $priceHtml.html(originalPrice);
+    }
+
+    /* IMAGE RESET */
+    const $img = $box
+        .find(".s1-fbt-flex-item")
+        .has(`.s1-fbt-checkbox[data-product-id="${productId}"]`)
+        .find(".s1-fbt-thumb img");
+
+    const originalSrc    = $img.data("original-src");
+    const originalSrcset = $img.data("original-srcset");
+
+    if (originalSrc) {
+        $img.attr("src", originalSrc);
+    }
+    if (originalSrcset) {
+        $img.attr("srcset", originalSrcset);
+    }
+
+    this.updateSelectedIds($box);
+    this.updateTotal($box);
+},
+    /* ------------------
+     * IDS
+     * ------------------ */
+    updateSelectedIds($box) {
+
+        const ids = new Set();
+
+        const mainId = $box.find(".s1-fbt-add-bundle").data("main-id");
+        if (mainId) ids.add(String(mainId));
+
+        $box.find(".s1-fbt-checkbox:checked:not(:disabled)")
+            .each(function () {
+
+                const vid = $(this).attr("data-variation-id");
+                const pid = $(this).data("product-id");
+
+                ids.add(String(vid ? vid : pid));
+            });
+
+        $box.find(".s1-fbt-selected-ids")
+            .val([...ids].join(","));
+    },
+
+    /* ------------------
+     * TOTAL
+     * ------------------ */
+    updateTotal($box) {
+
+        let total = 0;
+
+        $box.find(".s1-fbt-checkbox:checked:not(:disabled)")
+            .each(function () {
+                total += parseFloat($(this).val()) || 0;
+            });
+
+        const currency = StoreOneFBT.currency_symbol || "₹";
+
+        $box.find(".s1-fbt-total-final-amount")
+            .html(currency + total.toFixed(2));
+
+        const count =
+            ($box.find(".s1-fbt-selected-ids").val() || "")
+                .split(",")
+                .filter(Boolean).length;
+
+        const labelTpl =
+            $box.find(".s1-fbt-total-bar").data("one-pricelabel") ||
+            "{count} items selected";
+
+        $box.find(".s1-total-label")
+            .text(labelTpl.replace("{count}", count));
+    },
+
+    /* ------------------
+     * ADD TO CART
+     * ------------------ */
+    addToCart($btn) {
+
+        const $box = $btn.closest(".s1-fbt-box.style_3");
+        const items = [];
+
+        $box.find(".s1-fbt-checkbox:checked:not(:disabled)").each(function () {
+
+            const pid   = $(this).data("product-id");
+            const vid   = $(this).attr("data-variation-id");
+            const attrs = $(this).attr("data-attrs");
+
+            // ❌ variable but no variation selected
+            if ($(this).closest(".s1-fbt-flex-item")
+                .find(".variations_form").length && !vid) {
+                return;
+            }
+
+            if (vid) {
+                items.push({
+                    product_id: pid,
+                    variation_id: vid,
+                    variation: attrs ? JSON.parse(attrs) : {}
+                });
+            } else {
+                items.push({ product_id: pid });
+            }
+        });
+
+        if (!items.length) {
+            alert("Please select variation first.");
+            return;
+        }
+
+        $btn.addClass("loading");
+
+        $.post(StoreOneFBT.ajax_url, {
+            action: "storeone_fbt_add_bundle",
+            nonce: StoreOneFBT.nonce,
+            items: items
+        }).done((res) => {
+            $(document.body).trigger("added_to_cart", [
+                res.fragments,
+                res.cart_hash,
+                $btn,
+            ]);
+        }).always(() => {
+            $btn.removeClass("loading");
+        });
+    }
+};
 
     /* ===============================
      * INIT ALL

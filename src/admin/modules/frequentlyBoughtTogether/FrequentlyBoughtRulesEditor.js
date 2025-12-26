@@ -468,9 +468,10 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                         content: (
                                             <div className="store-one-rule-body">
 
-                                                <S1Field label={__('Display Style', 'store-one')}>
+                                                <S1Field label={__('Display Style', 'store-one')} visible={false}>
                                                     <SelectControl
                                                         value={rule.display_style}
+        
                                                         options={[
                                                             { label: __('Style1', 'store-one'), value: 'style_1' },
                                                             { label: __('Style2', 'store-one'), value: 'style_2' },

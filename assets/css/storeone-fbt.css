@@ -416,11 +416,11 @@ object-fit: cover;
     flex: 1;
 }
 
-.style_2 .s1-price {
-font-weight: 700;
-    margin-left: 0.5rem;
-    font-size: 0.875rem;
-    line-height: 1.25rem;
+.style_2 .s1-price,.style_2 .s1-price .price {
+font-weight: 700!important;
+    margin-left: 0.5rem!important;
+    font-size: 0.875rem!important;
+    line-height: 1.25rem!important;
 }
 
 /* RIGHT */
@@ -763,7 +763,9 @@ font-size: 1.3rem;
     opacity: 0;
     pointer-events: none;
 }
-
+.style_3 .variations.s1-fbt-variation{
+    display:flex;
+}
 /* ---------------- MOBILE ---------------- */
 @media (max-width:767px) {
     .s1-fbt-box.style_1 .s1-fbt-cards-row {
