@@ -3,18 +3,22 @@ import React from '@wordpress/element';
 /* ---------------------------------
  * Single Field Wrapper
  * --------------------------------- */
-export const S1Field = ({ label, children }) => (
-    <div className="s1-field-wrapper">
-        {label && (
-            <label className="s1-field-label">
-                {label}
-            </label>
-        )}
-        <div className="s1-field-control">
-            {children}
+export const S1Field = ({ label, children, visible = true }) => {
+    if (!visible) return null; // 👈 fully hide
+
+    return (
+        <div className="s1-field-wrapper">
+            {label && (
+                <label className="s1-field-label">
+                    {label}
+                </label>
+            )}
+            <div className="s1-field-control">
+                {children}
+            </div>
         </div>
-    </div>
-);
+    );
+};
 
 /* ---------------------------------
  * Field Group Wrapper
