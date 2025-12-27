@@ -444,7 +444,8 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                 updateSetting={(key, val) => updateField(index, key, val)}
                                             />
                                             </S1Accordion>
-                                            <S1Accordion title={__("Cart Page Settings", "store-one")} status={rule.cart_enabled}>
+
+                                            {/* <S1Accordion title={__("Cart Page Settings", "store-one")} status={rule.cart_enabled}>
                                                 <CartPageSettings
                                                 settings={rule}
                                                 updateSetting={(key, val) => updateField(index, key, val)}
@@ -456,7 +457,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                 settings={rule}
                                                 updateSetting={(key, val) => updateField(index, key, val)}
                                             />    
-                                            </S1Accordion>
+                                            </S1Accordion> */} 
                                         </>
                                              
                                         ),
@@ -543,7 +544,7 @@ export default function FrequentlyBoughtRulesEditor({ rules, onChange, onLivePre
                                                     )}
                                                     {/* BORDER RADIUS */}
                                                     <UniversalRangeControl
-                                                        label={__('Bundle border radius', 'store-one')}
+                                                        label={__('Bundle Border Radius', 'store-one')}
                                                         responsive={false}
                                                         units={['px']}
                                                         value={rule.border_radius}

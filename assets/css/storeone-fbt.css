@@ -825,8 +825,12 @@ font-size: 1.3rem;
 }
 /* variation box style */
 .s1-fbt-variation .variation .select select{
-    background:transparent;
+    
     margin-top:0.5rem;
+    background-color: #ffffff3b;
+    margin-top: 0.5rem;
+    min-width: 100px;
+    border-color:#ffffff3b;
 }
 .s1-fbt-variation .reset{
 margin-top:0.5rem;
