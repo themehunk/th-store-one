@@ -35,6 +35,8 @@ class Store_One_FBT_Frontend {
             [],
             STORE_ONE_VERSION
         );
+        // Required for variable products
+        wp_enqueue_script( 'wc-add-to-cart-variation' );
 
         wp_enqueue_script(
             'storeone-fbt',
@@ -347,7 +349,7 @@ protected function render_bundle_box( $product_id, $rule ) {
  * ------------------------------------------------------------------ */
 private function s1_render_style_1( $product_id, $rule, $bundle_products, $bundle_title ) {
 ?>
-<section class="s1-fbt-box style_1" data-id="<?php echo esc_attr( $product_id ); ?>">
+<section class="s1-fbt-box style_1" data-rule-id="<?php echo esc_attr( $rule['flexible_id']); ?>" data-id="<?php echo esc_attr( $product_id ); ?>">
     <h2 class="s1-fbt-title"><?php echo esc_html( $bundle_title ); ?></h2>
 
     <div class="s1-fbt-content-wrap" data-id="<?php echo esc_attr( $product_id ); ?>">
@@ -541,7 +543,7 @@ protected function render_style1_total_wrap( WC_Product $main_product, $rule, $b
  * ------------------------------------------------------------------ */
 private function s1_render_style_2( $product_id, $rule, $bundle_products, $bundle_title ) {
 ?>
-<section class="s1-fbt-box style_2" data-id="<?php echo esc_attr($product_id); ?>">
+<section class="s1-fbt-box style_2" data-rule-id="<?php echo esc_attr( $rule['flexible_id']); ?>" data-id="<?php echo esc_attr($product_id); ?>">
     
     <h2 class="s1-fbt-title"><?php echo esc_html( $bundle_title ); ?></h2>
 
@@ -694,7 +696,7 @@ protected function render_style2_total_wrap( WC_Product $main_product, $rule, $b
  * ------------------------------------------------------------------ */
 private function s1_render_table_style( $product_id, $rule, $bundle_products, $bundle_title ) {
     ?>
-   <section class="s1-fbt-box style_3"  data-id="<?php echo esc_attr($product_id); ?>" >
+   <section class="s1-fbt-box style_3"  data-rule-id="<?php echo esc_attr( $rule['flexible_id']); ?>" data-id="<?php echo esc_attr($product_id); ?>" >
 
         <h2 class="s1-fbt-title"><?php echo esc_html( $bundle_title ); ?></h2>
 
@@ -793,7 +795,7 @@ protected function render_style3_total_wrap( WC_Product $product, $rule, $bundle
     $total_items = count( $bundle_products );
 
     ?>
-    <div class="s1-fbt-total-bar" data-one-pricelabel="<?php echo esc_attr( $one_price_label ); ?>">
+    <div class="s1-fbt-total-bar" data-base-price="<?php echo esc_attr( wc_get_price_to_display( $product ) ); ?>" data-one-pricelabel="<?php echo esc_attr( $one_price_label ); ?>">
 
         <div class="s1-fbt-total-left">
             <span class="s1-total-label">
@@ -1061,7 +1063,7 @@ public function add_inline_dynamic_css() {
 
 protected function generate_dynamic_css( $rule, $product_id ) {
 
-    $id      = absint($product_id);
+    $id      = $rule['flexible_id'];
     $title   = store_one_normalize_color( $rule['bundel_title_clr'] );
     $bg      = store_one_normalize_color( $rule['bundel_bg_clr'] );
     $border  = store_one_normalize_color( $rule['bundel_brd_clr'] );
@@ -1079,46 +1081,46 @@ protected function generate_dynamic_css( $rule, $product_id ) {
     $btntxt  = store_one_normalize_color( $rule['bundel_btn_txt']);
     $radius  = store_one_normalize_radius( $rule['border_radius']);
     return "
-    .s1-fbt-box[data-id='{$id}'],section.s1-fbt-box.style_3[data-id='{$id}'] {
+    .s1-fbt-box[data-rule-id='{$id}'],section.s1-fbt-box.style_3[data-rule-id='{$id}'] {
         background: {$bg};
         border-color: {$border};
         border-radius: {$radius};
     }
-    .s1-fbt-box[data-id='{$id}'] .s1-fbt-title{
+    .s1-fbt-box[data-rule-id='{$id}'] .s1-fbt-title{
         background: {$title};
         -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
     }
-    .style_1.s1-fbt-box[data-id='{$id}'] .s1-fbt-title{
+    .style_1.s1-fbt-box[data-rule-id='{$id}'] .s1-fbt-title{
         border-color: {$bundel_tle_brd_clr};
     }
-    .s1-fbt-box[data-id='{$id}'] .s1-fbt-card-title,
-    .s1-fbt-box[data-id='{$id}'] .s1-fbt-card-title a,
-    .style_1.s1-fbt-box[data-id='{$id}'] .s1-title-wrap .s1-name,
-    .style_2.s1-fbt-box[data-id='{$id}'] .s1-title-wrap .s1-name, 
-    .style_2.s1-fbt-box[data-id='{$id}'] .s1-title-wrap .s1-name a,
+    .s1-fbt-box[data-rule-id='{$id}'] .s1-fbt-card-title,
+    .s1-fbt-box[data-rule-id='{$id}'] .s1-fbt-card-title a,
+    .style_1.s1-fbt-box[data-rule-id='{$id}'] .s1-title-wrap .s1-name,
+    .style_2.s1-fbt-box[data-rule-id='{$id}'] .s1-title-wrap .s1-name, 
+    .style_2.s1-fbt-box[data-rule-id='{$id}'] .s1-title-wrap .s1-name a,
     .style_3.s1-fbt-box[data-id='{$id}'] .s1-fbt-product-title {
         color: {$ptitle};
     }
-    .s1-fbt-box[data-id='{$id}'] .s1-fbt-product-title a {
+    .s1-fbt-box[data-rule-id='{$id}'] .s1-fbt-product-title a {
         color: {$ptitle};
     }
    
-    .s1-fbt-box[data-id='{$id}'] .s1-fbt-card-price,
-    .s1-fbt-box[data-id='{$id}'] .s1-fbt-card-price .price,
-    .style_1.s1-fbt-box[data-id='{$id}'] .s1-price,
-    .s1-fbt-box[data-id='{$id}'].style_1 .s1-fbt-summary-price,
-    .s1-fbt-box[data-id='{$id}'].style_2 .s1-price,  
-    .s1-fbt-box[data-id='{$id}'].style_2 .s1-price .price, 
-    .s1-fbt-box[data-id='{$id}'].style_1 .s1-price .price,
-    .s1-fbt-box[data-id='{$id}'].style_2 .s1-fbt-total-final-amount,
-    .style_3.s1-fbt-box[data-id='{$id}'] .s1-fbt-price,
-    .style_3.s1-fbt-box[data-id='{$id}'] .s1-fbt-total-final-amount {
+    .s1-fbt-box[data-rule-id='{$id}'] .s1-fbt-card-price,
+    .s1-fbt-box[data-rule-id='{$id}'] .s1-fbt-card-price .price,
+    .style_1.s1-fbt-box[data-rule-id='{$id}'] .s1-price,
+    .s1-fbt-box[data-rule-id='{$id}'].style_1 .s1-fbt-summary-price,
+    .s1-fbt-box[data-rule-id='{$id}'].style_2 .s1-price,  
+    .s1-fbt-box[data-rule-id='{$id}'].style_2 .s1-price .price, 
+    .s1-fbt-box[data-rule-id='{$id}'].style_1 .s1-price .price,
+    .s1-fbt-box[data-rule-id='{$id}'].style_2 .s1-fbt-total-final-amount,
+    .style_3.s1-fbt-box[data-rule-id='{$id}'] .s1-fbt-price,
+    .style_3.s1-fbt-box[data-rule-id='{$id}'] .s1-fbt-total-final-amount {
         color: {$pprice}!important;
     }
-    .style_1.s1-fbt-box[data-id='{$id}'] .s1-fbt-plus-floating,
-    .style_2.s1-fbt-box[data-id='{$id}'] .s1-fbt-plus{
+    .style_1.s1-fbt-box[data-rule-id='{$id}'] .s1-fbt-plus-floating,
+    .style_2.s1-fbt-box[data-rule-id='{$id}'] .s1-fbt-plus{
         color: {$plus};
         background: {$plusbg};
     }
@@ -1126,29 +1128,29 @@ protected function generate_dynamic_css( $rule, $product_id ) {
         background: {$bundel_chk_bg_clr};
         color: {$bundel_chk_clr};
     }
-    .style_2.s1-fbt-box[data-id='{$id}'] .s1-fbt-checkbox:checked + .s1-check-icon,
-    .style_3.s1-fbt-box[data-id='{$id}'] .s1-fbt-checkbox:checked + .s1-check-icon{
+    .style_2.s1-fbt-box[data-rule-id='{$id}'] .s1-fbt-checkbox:checked + .s1-check-icon,
+    .style_3.s1-fbt-box[data-rule-id='{$id}'] .s1-fbt-checkbox:checked + .s1-check-icon{
         background: {$bundel_chk_bg_clr};
         color: {$bundel_chk_clr};
         border-color: {$bundel_chk_bg_clr};
     }
-    .s1-fbt-box.style_1[data-id='{$id}'] .s1-fbt-summary,
-    .s1-fbt-box.style_2[data-id='{$id}'] .s1-fbt-total-box,
-    .s1-fbt-box.style_2[data-id='{$id}'] .s1-total-text{
+    .s1-fbt-box.style_1[data-rule-id='{$id}'] .s1-fbt-summary,
+    .s1-fbt-box.style_2[data-rule-id='{$id}'] .s1-fbt-total-box,
+    .s1-fbt-box.style_2[data-rule-id='{$id}'] .s1-total-text{
         color: {$content};
     }
-    .s1-fbt-box.style_1[data-id='{$id}'] .s1-fbt-summary-label,
-    .s1-fbt-box.style_3[data-id='{$id}'] .s1-total-label{
+    .s1-fbt-box.style_1[data-rule-id='{$id}'] .s1-fbt-summary-label,
+    .s1-fbt-box.style_3[data-rule-id='{$id}'] .s1-total-label{
     color: {$content};
     }
-    .s1-fbt-box.style_1[data-id='{$id}'] .s1-fbt-add-button,
-    .s1-fbt-box.style_1[data-id='{$id}'] .added_to_cart,
-    .style_2[data-id='{$id}'] .s1-fbt-add-btn, .style_2[data-id='{$id}'] .added_to_cart,
-    .style_3[data-id='{$id}'] .s1-fbt-add-btn, .style_3[data-id='{$id}'] .added_to_cart{
+    .s1-fbt-box.style_1[data-rule-id='{$id}'] .s1-fbt-add-button,
+    .s1-fbt-box.style_1[data-rule-id='{$id}'] .added_to_cart,
+    .style_2[data-rule-id='{$id}'] .s1-fbt-add-btn, .style_2[data-rule-id='{$id}'] .added_to_cart,
+    .style_3[data-rule-id='{$id}'] .s1-fbt-add-btn, .style_3[data-rule-id='{$id}'] .added_to_cart{
         background: {$btnbg};
         color: {$btntxt};
     }
-    .style_2[data-id='{$id}'] .s1-fbt-style2-right{
+    .style_2[data-rule-id='{$id}'] .s1-fbt-style2-right{
         border-color: {$bundel_tle_brd_clr};
     }";
  }

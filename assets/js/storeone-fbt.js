@@ -292,7 +292,7 @@ const S1FBT_STYLE1 = {
 
         let total = 0;
 
-        $wrap.find(".s1-fbt-checkbox:checked:not(:disabled)")
+        $wrap.find(".s1-fbt-checkbox:not(.s1-fbt-card-checkbox):checked:not(:disabled)")
             .each(function () {
                 total += parseFloat($(this).val()) || 0;
             });
@@ -546,80 +546,107 @@ const S1FBT_STYLE2 = {
      * ------------------ */
     updateTotal($box) {
 
-        let total = 0;
+    const $totalBox = $box.find(".s1-fbt-total-box");
 
-        $box.find(".s1-fbt-checkbox:checked:not(:disabled)").each(function () {
-            total += parseFloat($(this).val()) || 0;
-        });
+    // ✅ BASE PRICE (main product)
+    let total = parseFloat($totalBox.data("base-price")) || 0;
 
-        const currency = StoreOneFBT.currency_symbol || "₹";
+    // ✅ ADD-ON PRODUCTS (checkboxes)
+    $box.find(".s1-fbt-checkbox:checked:not(:disabled)").each(function () {
+        total += parseFloat($(this).val()) || 0;
+    });
 
-        $box.find(".s1-fbt-total-final-amount")
-            .html(currency + total.toFixed(2));
+    const currency = StoreOneFBT.currency_symbol || "₹";
 
-        const count = ($box.find(".s1-fbt-selected-ids").val() || "")
-            .split(",")
-            .filter(Boolean).length;
+    // ✅ UPDATE PRICE
+    $box.find(".s1-fbt-total-final-amount")
+        .html(currency + total.toFixed(2));
 
-        const labelTpl =
-            $box.find(".s1-fbt-total-box").data("one-pricelabel") ||
-            "{count} items selected";
+    // ✅ COUNT (main product + addons)
+    let count = 1; // main product always included
 
-        $box.find(".s1-fbt-total-title span")
-            .text(labelTpl.replace("{count}", count));
-    },
+    count += $box.find(".s1-fbt-checkbox:checked:not(:disabled)").length;
+
+    const labelTpl =
+        $totalBox.data("one-pricelabel") || "{count} items selected";
+
+    $box.find(".s1-fbt-total-title span")
+        .text(labelTpl.replace("{count}", count));
+},
 
     /* ------------------
-     * ADD TO CART
-     * ------------------ */
-    addToCart($btn) {
+ * ADD TO CART — STYLE 2 (FIXED)
+ * ------------------ */
+addToCart($btn) {
 
-        const $box = $btn.closest(".s1-fbt-box.style_2");
-        const items = [];
+    const $box = $btn.closest(".s1-fbt-box.style_2");
+    const items = [];
 
-        $box.find(".s1-fbt-checkbox:checked:not(:disabled)").each(function () {
+    /* =========================
+     * 1️⃣ ADD MAIN PRODUCT (ALWAYS)
+     * ========================= */
+    const mainId = $btn.data("main-id");
+    if (mainId) {
+        items.push({ product_id: mainId });
+    }
 
-            const pid = $(this).data("product-id");
-            const vid = $(this).attr("data-variation-id");
-            const attrs = $(this).attr("data-attrs");
+    /* =========================
+     * 2️⃣ ADD BUNDLE PRODUCTS
+     * ========================= */
+    $box.find(".s1-fbt-checkbox:checked").each(function () {
 
-            // variable but no variation selected
-            if ($(this).closest(".s1-title-wrap").find(".variations_form").length && !vid) {
-                return;
-            }
+        const pid   = $(this).data("product-id");
+        const vid   = $(this).attr("data-variation-id");
+        const attrs = $(this).attr("data-attrs");
 
-            if (vid) {
-                items.push({
-                    product_id: pid,
-                    variation_id: vid,
-                    variation: attrs ? JSON.parse(attrs) : {}
-                });
-            } else {
-                items.push({ product_id: pid });
-            }
-        });
+        // ❌ skip main product checkbox (already added)
+        if (pid == mainId) return;
 
-        if (!items.length) {
-            alert("Please select variation first");
+        // ❌ variable product but no variation selected
+        if (
+            $(this)
+                .closest(".s1-title-wrap")
+                .find(".variations_form").length &&
+            !vid
+        ) {
             return;
         }
 
-        $btn.addClass("loading");
+        if (vid) {
+            items.push({
+                product_id: pid,
+                variation_id: vid,
+                variation: attrs ? JSON.parse(attrs) : {}
+            });
+        } else {
+            items.push({ product_id: pid });
+        }
+    });
 
-        $.post(StoreOneFBT.ajax_url, {
-            action: "storeone_fbt_add_bundle",
-            nonce: StoreOneFBT.nonce,
-            items: items
-        }).done((res) => {
-            $(document.body).trigger("added_to_cart", [
-                res.fragments,
-                res.cart_hash,
-                $btn,
-            ]);
-        }).always(() => {
-            $btn.removeClass("loading");
-        });
+    if (!items.length) {
+       // alert("Please select variation first");
+        return;
     }
+
+    //console.log("STYLE 2 FINAL ITEMS:", items); // 🔍 debug
+
+    $btn.addClass("loading");
+
+    $.post(StoreOneFBT.ajax_url, {
+        action: "storeone_fbt_add_bundle",
+        nonce: StoreOneFBT.nonce,
+        items: items
+    }).done((res) => {
+        $(document.body).trigger("added_to_cart", [
+            res.fragments,
+            res.cart_hash,
+            $btn,
+        ]);
+    }).always(() => {
+        $btn.removeClass("loading");
+    });
+}
+
 };
 
     /* ===============================
@@ -825,85 +852,118 @@ const S1FBT_STYLE3 = {
     /* ------------------
      * TOTAL
      * ------------------ */
-    updateTotal($box) {
+    /* ------------------
+ * TOTAL (STYLE 3 – FIXED)
+ * ------------------ */
+updateTotal($box) {
 
-        let total = 0;
+    let total = 0;
 
-        $box.find(".s1-fbt-checkbox:checked:not(:disabled)")
-            .each(function () {
-                total += parseFloat($(this).val()) || 0;
-            });
+    /* ✅ 1. MAIN PRODUCT PRICE */
+    const basePrice =
+        parseFloat(
+            $box.find(".s1-fbt-total-bar").data("base-price")
+        ) || 0;
 
-        const currency = StoreOneFBT.currency_symbol || "₹";
+    total += basePrice;
 
-        $box.find(".s1-fbt-total-final-amount")
-            .html(currency + total.toFixed(2));
+    /* ✅ 2. ADD-ON PRODUCTS */
+    const $checked = $box.find(".s1-fbt-checkbox:checked:not(:disabled)");
 
-        const count =
-            ($box.find(".s1-fbt-selected-ids").val() || "")
-                .split(",")
-                .filter(Boolean).length;
+    $checked.each(function () {
+        total += parseFloat($(this).val()) || 0;
+    });
 
-        const labelTpl =
-            $box.find(".s1-fbt-total-bar").data("one-pricelabel") ||
-            "{count} items selected";
+    const currency = StoreOneFBT.currency_symbol || "₹";
 
-        $box.find(".s1-total-label")
-            .text(labelTpl.replace("{count}", count));
-    },
+    /* ✅ UPDATE TOTAL PRICE */
+    $box.find(".s1-fbt-total-final-amount")
+        .html(currency + total.toFixed(2));
+
+    /* ✅ COUNT = main product + addons */
+    let count = 1; // main product always included
+    count += $checked.length;
+
+    const labelTpl =
+        $box.find(".s1-fbt-total-bar").data("one-pricelabel") ||
+        "{count} items selected";
+
+    $box.find(".s1-total-label")
+        .text(labelTpl.replace("{count}", count));
+   }, 
 
     /* ------------------
      * ADD TO CART
      * ------------------ */
     addToCart($btn) {
 
-        const $box = $btn.closest(".s1-fbt-box.style_3");
-        const items = [];
+    const $box = $btn.closest(".s1-fbt-box.style_3");
+    const items = [];
 
-        $box.find(".s1-fbt-checkbox:checked:not(:disabled)").each(function () {
+    /* =========================
+     * 1️⃣ ADD MAIN PRODUCT (ALWAYS)
+     * ========================= */
+    const mainId = $btn.data("main-id");
+    if (mainId) {
+        items.push({ product_id: mainId });
+    }
 
-            const pid   = $(this).data("product-id");
-            const vid   = $(this).attr("data-variation-id");
-            const attrs = $(this).attr("data-attrs");
+    /* =========================
+     * 2️⃣ ADD BUNDLE PRODUCTS
+     * ========================= */
+    $box.find(".s1-fbt-checkbox:checked").each(function () {
 
-            // ❌ variable but no variation selected
-            if ($(this).closest(".s1-fbt-flex-item")
-                .find(".variations_form").length && !vid) {
-                return;
-            }
+        const pid   = $(this).data("product-id");
+        const vid   = $(this).attr("data-variation-id");
+        const attrs = $(this).attr("data-attrs");
 
-            if (vid) {
-                items.push({
-                    product_id: pid,
-                    variation_id: vid,
-                    variation: attrs ? JSON.parse(attrs) : {}
-                });
-            } else {
-                items.push({ product_id: pid });
-            }
-        });
+        // ❌ skip main product checkbox (already added)
+        if (pid == mainId) return;
 
-        if (!items.length) {
-            alert("Please select variation first.");
+        // ❌ variable product but variation not selected
+        if (
+            $(this)
+                .closest(".s1-fbt-flex-item")
+                .find(".variations_form").length &&
+            !vid
+        ) {
             return;
         }
 
-        $btn.addClass("loading");
+        if (vid) {
+            items.push({
+                product_id: pid,
+                variation_id: vid,
+                variation: attrs ? JSON.parse(attrs) : {}
+            });
+        } else {
+            items.push({ product_id: pid });
+        }
+    });
 
-        $.post(StoreOneFBT.ajax_url, {
-            action: "storeone_fbt_add_bundle",
-            nonce: StoreOneFBT.nonce,
-            items: items
-        }).done((res) => {
-            $(document.body).trigger("added_to_cart", [
-                res.fragments,
-                res.cart_hash,
-                $btn,
-            ]);
-        }).always(() => {
-            $btn.removeClass("loading");
-        });
+    if (!items.length) {
+        alert("Please select variation first.");
+        return;
     }
+
+    console.log("STYLE 3 FINAL ITEMS:", items); // 🔍 debug
+
+    $btn.addClass("loading");
+
+    $.post(StoreOneFBT.ajax_url, {
+        action: "storeone_fbt_add_bundle",
+        nonce: StoreOneFBT.nonce,
+        items: items
+    }).done((res) => {
+        $(document.body).trigger("added_to_cart", [
+            res.fragments,
+            res.cart_hash,
+            $btn,
+        ]);
+    }).always(() => {
+        $btn.removeClass("loading");
+    });
+}
 };
 
     /* ===============================
