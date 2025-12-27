@@ -241,21 +241,24 @@ useEffect(() => {
                         <div key={item.id} className="s1-selected-row">
                             <div className="s1-product-left">
                                 {item.image && <img src={item.image} className="s1-product-thumb" alt="" />}
-                                <div className="s1-product-meta">
-                                    <div className="s1-product-title">{item.name}</div>
+                                <div className="s1-product-title">{item.name}</div>
+                            </div>
+                             <div className="s1-product-meta">
+                                    
                                     {item.price_html && (
                                         <div
                                             className="s1-product-price"
                                             dangerouslySetInnerHTML={{ __html: item.price_html }}
                                         />
                                     )}
-                                    <div className={`s1-product-stock ${item.stock_status}`}>{item.stock_status}</div>
                                 </div>
-                            </div>
+                            <div className={`s1-product-stock ${item.stock_status}`}>{item.stock_status}</div>
+
                             <div className="s1-product-right">
                                 <span className="s1-product-type">{item.type} #{item.id}</span>
-                                <span className="remove-chip" onClick={() => removeItem(item.id)}>×</span>
                             </div>
+                           <span className="remove-chip" onClick={() => removeItem(item.id)}>×</span>
+
                         </div>
                     ))}
                 </div>
