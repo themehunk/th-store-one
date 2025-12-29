@@ -19,25 +19,19 @@ const modulesList = [
         description: __('AI-powered combos.', 'store-one'),
         icon: '🤝',
     },
-    // {
-    //     id: 'pre-order',
-    //     label: __('Pre Oreder', 'store-one'),
-    //     description: __('Boost product discovery.', 'store-one'),
-    //     icon: '🔍',
-    // },
-    // {
-    //     id: 'cart',
-    //     label: __('Smart Cart', 'store-one'),
-    //     description: __('Elegant AJAX mini cart.', 'store-one'),
-    //     icon: '🛒',
-    // },
+    {
+        id: 'bundle-product',
+        label: __('Bundle Product', 'store-one'),
+        description: __('Boost product discovery.', 'store-one'),
+        icon: '🔍',
+    },
 ];
 
 const tabs = [
     {
         name: 'all',
         title: __('All Modules', 'store-one'),
-        modules: ['frequently-bought'],
+        modules: ['frequently-bought','bundle-product'],
     },
     {
         name: 'recommended',
@@ -68,6 +62,7 @@ const AdminMain = () => {
         'pre-order': true,
         cart: true,
         'frequently-bought': true,
+        'bundle-product': true,
     });
 
     const currentModule = activeModule
