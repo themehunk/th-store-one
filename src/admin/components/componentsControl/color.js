@@ -34,7 +34,7 @@ export default function THBackgroundControl({
   onChange
 }) {
 
-console.log(value);
+// console.log(value);
 
        const [open, setOpen] = useState(false);
     const [mode, setMode] = useState("color");
