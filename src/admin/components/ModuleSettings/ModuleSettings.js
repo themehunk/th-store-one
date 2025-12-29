@@ -10,6 +10,7 @@ import {
 import { __ } from '@wordpress/i18n';
 
 import FrequentlyBoughtSettings from '../../modules/frequentlyBoughtTogether/FrequentlyBoughtSettings';
+import BundleProductSettings from '../../modules/BundleProductSetting/BundleProductSettings';
 
 const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, onSettingsChange, onLivePreview,onRegisterSave }) => {
     const enabled = !!modulesState[currentModule.id];
@@ -22,6 +23,13 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                     onLivePreview={onLivePreview}
                     onRegisterSave={onRegisterSave} // 👈 PASS
                 />
+            case 'bundle-product':
+                return <BundleProductSettings
+                    onSettingsChange={onSettingsChange}
+                    onLivePreview={onLivePreview}
+                    onRegisterSave={onRegisterSave} // 👈 PASS
+                />
+
 
             default:
                 return <p className="s1-settings__placeholder">
