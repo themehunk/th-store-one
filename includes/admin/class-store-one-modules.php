@@ -44,6 +44,7 @@ class Store_One_Modules {
 			'woo-search'        => true,
 			'cart'              => true,
 			'frequently-bought' => true,
+			'bundle-product' => true,
 		);
 	}
 

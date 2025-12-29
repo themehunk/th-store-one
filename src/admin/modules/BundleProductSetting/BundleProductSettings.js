@@ -113,7 +113,7 @@ export default function BundleProductSettings({
                     )}
 
                     {/* RULES EDITOR */}
-                    <div>Bundle setting </div>
+                    <div>Bundle setting</div>
                 </>
             )}
         </div>

@@ -1,0 +1,110 @@
+/* ==================================================
+   Store One – Bundle Product (Admin)
+   Scoped & Safe CSS
+   ================================================== */
+
+/* List reset */
+#storeone_bundle_product_data .storeone-bundle-selected {
+    margin: 0;
+    padding: 0;
+}
+
+/* Row */
+#storeone_bundle_product_data .storeone-bundle-selected .bundle-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #ffffff;
+    border: 1px solid #dcdcde;
+    border-radius: 4px;
+    padding: 6px 10px;
+    margin-bottom: 6px;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+#storeone_bundle_product_data .storeone-bundle-selected .bundle-item:hover {
+    background: #f6f7f7;
+    border-color: #c3c4c7;
+}
+
+/* Drag handle */
+#storeone_bundle_product_data .bundle-item .drag {
+    cursor: grab;
+    font-size: 14px;
+    color: #646970;
+    user-select: none;
+}
+
+/* --------------------------------------------------
+   Quantity Input (Override Woo global styles)
+   -------------------------------------------------- */
+#storeone_bundle_product_data .bundle-item input[type="number"].qty {
+    width: 46px !important;
+    height: 28px !important;
+    min-height: auto !important;
+    padding: 2px 6px !important;
+    font-size: 13px !important;
+    line-height: 1 !important;
+    box-sizing: border-box;
+}
+
+/* Thumbnail */
+#storeone_bundle_product_data .bundle-item img {
+    width: 36px;
+    height: auto;
+    border-radius: 2px;
+}
+
+/* --------------------------------------------------
+   Title (Fixed width + ellipsis)
+   -------------------------------------------------- */
+#storeone_bundle_product_data .bundle-item .title {
+    font-weight: 500;
+    font-size: 13px;
+    color: #1d2327;
+    text-decoration: none;
+
+    /* 🔥 Fixed width */
+    max-width: 260px;
+    min-width: 260px;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#storeone_bundle_product_data .bundle-item .title:hover {
+    color: #2271b1;
+    text-decoration: underline;
+}
+
+/* Price */
+#storeone_bundle_product_data .bundle-item .price {
+    font-size: 13px;
+    color: #2271b1;
+    white-space: nowrap;
+}
+
+/* Type badge */
+#storeone_bundle_product_data .bundle-item .type {
+    font-size: 11px;
+    color: #646970;
+    text-transform: capitalize;
+    background: #f0f0f1;
+    padding: 2px 6px;
+    border-radius: 3px;
+    white-space: nowrap;
+}
+
+/* Remove */
+#storeone_bundle_product_data .bundle-item .remove {
+    margin-left: auto;
+    color: #b32d2e;
+    font-size: 18px;
+    text-decoration: none;
+    line-height: 1;
+}
+
+#storeone_bundle_product_data .bundle-item .remove:hover {
+    color: #d63638;
+}
