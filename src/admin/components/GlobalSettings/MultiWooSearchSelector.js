@@ -255,7 +255,9 @@ useEffect(() => {
                             <div className={`s1-product-stock ${item.stock_status}`}>{item.stock_status}</div>
 
                             <div className="s1-product-right">
-                                <span className="s1-product-type">{item.type} #{item.id}</span>
+                                <span className="s1-product-type">{item.type}</span>
+                                <span className="s1-product-type i_id">#{item.id}</span>
+    
                             </div>
                            <span className="remove-chip" onClick={() => removeItem(item.id)}>×</span>
 
