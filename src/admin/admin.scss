@@ -1134,15 +1134,15 @@ button.is-tertiary,
 }
 
 /* ✅ Right Side Type (simple / variable) */
-.s1-product-type {
-    font-size: 11px;
-    color: var(--s1-color-primary);
-    background: #eef4ff;
-    border: 1px solid #c7d6f5;
-    padding: 2px 6px;
-    border-radius: 4px;
-    text-transform: capitalize;
-}
+// .s1-product-type {
+//     font-size: 11px;
+//     color: var(--s1-color-primary);
+//     background: #eef4ff;
+//     border: 1px solid #c7d6f5;
+//     padding: 2px 6px;
+//     border-radius: 4px;
+//     text-transform: capitalize;
+// }
 
 /* ✅ Hover Effect like Woo */
 .s1-product-row:hover {
@@ -1173,6 +1173,15 @@ button.is-tertiary,
 .selected-items .s1-selected-row .s1-product-right{
     display: flex;
     flex-wrap: wrap;
+    font-size: 10px;
+     color: var(--s1-color-primary);
+    background: #EEF4FF;
+    border: 1px solid #C7D6F5;
+    padding: 2px 4px;
+    border-radius: 4px;
+    text-transform: capitalize;
+    gap: 2px;
+    justify-content: center;
 }
 /* ----------------------------------------
    ✅ INPUT WRAPPER (already exists - untouched)
