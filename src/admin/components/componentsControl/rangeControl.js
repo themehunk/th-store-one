@@ -17,7 +17,7 @@ export default function THRangeControl({
     min=0,
     onChange,
 }){
-console.log(defaultValue);
+//console.log(defaultValue);
 
  return (<div className='s1-field-control s1-control-range'>
          <RangeControl

@@ -444,22 +444,25 @@
 /* ------------------------------------------------------------
    SETTINGS LAYOUT (Left panel + Right preview)
 ------------------------------------------------------------- */
-.s1-settings-layout {
-    display: grid;
-    grid-template-columns: 1fr 1.4fr;
-    gap: var(--s1-space-20);
-    margin-top: var(--s1-space-18);
+// .s1-settings-layout {
+//     display: grid;
+//     grid-template-columns: 1fr 1.4fr;
+//     gap: var(--s1-space-20);
+//     margin-top: var(--s1-space-18);
 
-    @media (max-width: 900px) {
-        grid-template-columns: 1fr;
-    }
-}
+//     @media (max-width: 900px) {
+//         grid-template-columns: 1fr;
+//     }
+// }
 .s1-preview-pane {
     position: sticky;
-    top: 90px;           /* header की height + margin */
+    top: 90px;
     max-height: calc(100vh - 120px);
     overflow-y: auto;
-    padding-right: 6px; /* scrollbar ka little space */
+    padding-right: 6px;
+    flex: 0 0 60%;
+    min-width: 40%;
+    max-width: 60%;
 }
 /* Settings panel wrapper */
 .s1-settings-panel {
@@ -476,9 +479,9 @@
 
 .settings-grid,
 .s1-settings-layout {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: var(--s1-space-20);
+    display: flex;
+    gap: 20px;
+  align-items: flex-start;
 }
 
 /* SETTINGS PANEL (Card) */
@@ -618,11 +621,28 @@ button.is-tertiary,
         box-shadow: 0 0 0 2px rgba(17, 24, 39, 0.15) !important;
     }
 }
-.s1-settings-layout .components-card {
+.s1-settings-layout .components-card.s1-settings {
     background: transparent !important;
     box-shadow: none !important;
     border: none !important;
+    flex: 1;
+    min-width: 40%;
+  max-width: 40%;
 }
+.s1-settings-layout .components-card.s1-settings {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    flex: 1;
+    min-width: 40%;
+  max-width: 40%;
+}
+.s1-settings-layout .components-card.preview-card{
+     background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+
 .s1-settings-layout .components-card__header {
     background: #fff;
     border-radius: var(--s1-radius-xl)!important;
@@ -1143,14 +1163,17 @@ button.is-tertiary,
     font-size: 18px;
     line-height: 1;
     cursor: pointer;
-    padding-left: 10px;
+    // padding-left: 10px;
     opacity: 0.7;
 }
 
 .s1-selected-row .remove-chip:hover {
     opacity: 1;
 }
-
+.selected-items .s1-selected-row .s1-product-right{
+    display: flex;
+    flex-wrap: wrap;
+}
 /* ----------------------------------------
    ✅ INPUT WRAPPER (already exists - untouched)
 ---------------------------------------- */
