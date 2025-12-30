@@ -22,8 +22,40 @@ jQuery(function ($) {
         }
     }
 
-    // On page load (important for saved items)
+    /* -----------------------------
+     * 🔥 REGULAR PRICE CALCULATION
+     * ----------------------------- */
+    
+    function calculateBundleRegularPrice() {
+
+    let total = 0;
+
+    const $list = jQuery('.storeone-bundle-selected:visible').first();
+
+    $list.children('li.bundle-item').each(function () {
+
+        const $item  = jQuery(this);
+        const $price = $item.children('.bundle-price');
+
+        let price = parseFloat($price.attr('data-price')) || 0;
+
+        let qty = parseInt($item.find('.qty').val(), 10);
+        if (isNaN(qty) || qty < 1) qty = 1;
+
+        total += price * qty;
+
+        $item.find('.qty-hidden').val(qty);
+    });
+
+    jQuery('.storeone-bundle-regular-input').val(total.toFixed(2));
+}
+
+
+    /* -----------------------------
+     * Initial load (delay for WP admin)
+     * ----------------------------- */
     toggleSelectedBox();
+    setTimeout(calculateBundleRegularPrice, 80);
 
     /* -----------------------------
      * Add product from search
@@ -58,7 +90,9 @@ jQuery(function ($) {
 
                     <a href="${p.edit}" target="_blank" class="title">${p.title}</a>
 
-                    <span class="price">${p.price}</span>
+                    <span class="bundle-price" data-price="${p.regular_price}">
+                        ${p.price_html}
+                    </span>
 
                     <span class="type">${p.type}</span>
 
@@ -75,19 +109,21 @@ jQuery(function ($) {
                 </li>
             `);
 
-            // 🔥 Show selected box
             toggleSelectedBox();
 
-            // 🔄 Reset search field
+            // Delay ensures DOM is ready
+            setTimeout(calculateBundleRegularPrice, 50);
+
+            // Reset search field
             $('.storeone-bundle-search').val(null).trigger('change');
         });
     });
 
     /* -----------------------------
-     * Qty sync
+     * Qty change (keyup + change)
      * ----------------------------- */
-    $(document).on('input', '.bundle-item .qty', function () {
-        $(this).closest('.bundle-item').find('.qty-hidden').val(this.value);
+    $(document).on('keyup change', '.bundle-item .qty', function () {
+        calculateBundleRegularPrice();
     });
 
     /* -----------------------------
@@ -97,8 +133,8 @@ jQuery(function ($) {
         e.preventDefault();
         $(this).closest('.bundle-item').remove();
 
-        // 🔥 Hide box if empty
         toggleSelectedBox();
+        calculateBundleRegularPrice();
     });
 
     /* -----------------------------
@@ -106,7 +142,85 @@ jQuery(function ($) {
      * ----------------------------- */
     if ($('.storeone-bundle-selected').length) {
         $('.storeone-bundle-selected').sortable({
-            handle: '.drag'
+            handle: '.drag',
+            update: calculateBundleRegularPrice
         });
     }
+
+});
+
+
+jQuery(function ($) {
+
+    function toggleFixedPriceField() {
+
+        const $scope = $('#_storeone_discount_scope');
+
+        // Field not ready yet
+        if (!$scope.length) {
+            return;
+        }
+
+        const scope = $scope.val();
+
+        if (scope === 'store_bundle') {
+            $('.show_if_storeone_bundle_scope').slideDown(120);
+        } else {
+            $('.show_if_storeone_bundle_scope').slideUp(120);
+        }
+    }
+
+    /* ---------------------------------
+     * Run AFTER Woo panels are ready
+     * --------------------------------- */
+    $(document).on('woocommerce-product-data-panel-loaded', function () {
+        toggleFixedPriceField();
+    });
+
+    /* ---------------------------------
+     * Fallback (first load)
+     * --------------------------------- */
+    setTimeout(toggleFixedPriceField, 300);
+
+    /* ---------------------------------
+     * On change
+     * --------------------------------- */
+    $(document).on('change', '#_storeone_discount_scope', function () {
+        toggleFixedPriceField();
+    });
+
+    function toggleDiscountFields() {
+        const type = $('#_storeone_discount_type').val();
+
+        if (type === 'percent') {
+            // % दिखाओ
+            $('#_storeone_discount_percent')
+                .closest('.form-field')
+                .show();
+
+            // fixed hide
+            $('#_storeone_discount_fixed')
+                .closest('.form-field')
+                .hide();
+        } else {
+            // fixed दिखाओ
+            $('#_storeone_discount_fixed')
+                .closest('.form-field')
+                .show();
+
+            // % hide
+            $('#_storeone_discount_percent')
+                .closest('.form-field')
+                .hide();
+        }
+    }
+
+    // Initial load
+    toggleDiscountFields();
+
+    // On change
+    $(document).on('change', '#_storeone_discount_type', function () {
+        toggleDiscountFields();
+    });
+
 });
