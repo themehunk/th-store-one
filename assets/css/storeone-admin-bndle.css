@@ -5,7 +5,7 @@
 
 /* List reset */
 #storeone_bundle_product_data .storeone-bundle-selected {
-    margin: 0;
+    margin: 0rem 1rem;
     padding: 0;
 }
 
@@ -98,7 +98,7 @@
 
 /* Remove */
 #storeone_bundle_product_data .bundle-item .remove {
-    margin-left: auto;
+    
     color: #b32d2e;
     font-size: 18px;
     text-decoration: none;
@@ -107,4 +107,83 @@
 
 #storeone_bundle_product_data .bundle-item .remove:hover {
     color: #d63638;
+}
+
+/* item bundle setting */
+/* Bundle item layout fix */
+.bundle-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Settings toggle button */
+.bundle-item-settings-toggle {
+    margin-left: auto;
+    background: #fff;
+    border:none;
+    padding:0;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+/* Full width settings panel */
+.bundle-item-settings {
+    width: 100%;
+    display: none;
+    margin-top: 8px;
+    padding: 12px;
+    background: #f6f7f7;
+    border: 1px solid #dcdcde;
+    border-radius: 6px;
+}
+
+/* Fields inside settings */
+.bundle-item-settings .form-field {
+    margin-bottom: 10px;
+}
+
+.bundle-item-settings label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+/* Inputs full width */
+.bundle-item-settings select,
+.bundle-item-settings input[type="number"] {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* Smooth animation */
+.bundle-item-settings {
+    animation: storeoneSlide 0.15s ease-out;
+}
+
+@keyframes storeoneSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.s1-qty-field,
+.s1-discount-percent,
+.s1-discount-fixed {
+    display: none;
+}
+
+.s1-discount-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.s1-unit {
+    font-weight: 600;
 }

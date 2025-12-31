@@ -136,8 +136,12 @@ class Store_One_BNDLP_Admin {
                                 <?php echo $product->is_type( 'variation' ) ? 'variation' : 'simple'; ?>
                             </span>
 
-                            <a href="#" class="remove">×</a>
+                           
 
+                            <!-- Settings toggle -->
+                            
+                           <?php $this->render_bundle_item_settings( $pid, $item );?>
+                           
                             <!-- Required hidden inputs for save -->
                             <input type="hidden"
                                    name="_storeone_bundle_products[<?php echo esc_attr( $pid ); ?>][id]"
@@ -313,6 +317,177 @@ private function calculate_bundle_regular_price( $items ) {
 }
 
 
+private function render_bundle_item_settings( $pid, $item = [] ) {
+    ?>
+    <button type="button" class="bundle-item-settings-toggle">
+     <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="drag-handle s1-icon"><path d="M5.5 4.625C6.12132 4.625 6.625 4.12132 6.625 3.5C6.625 2.87868 6.12132 2.375 5.5 2.375C4.87868 2.375 4.375 2.87868 4.375 3.5C4.375 4.12132 4.87868 4.625 5.5 4.625ZM9.5 4.625C10.1213 4.625 10.625 4.12132 10.625 3.5C10.625 2.87868 10.1213 2.375 9.5 2.375C8.87868 2.375 8.375 2.87868 8.375 3.5C8.375 4.12132 8.87868 4.625 9.5 4.625ZM10.625 7.5C10.625 8.12132 10.1213 8.625 9.5 8.625C8.87868 8.625 8.375 8.12132 8.375 7.5C8.375 6.87868 8.87868 6.375 9.5 6.375C10.1213 6.375 10.625 6.87868 10.625 7.5ZM5.5 8.625C6.12132 8.625 6.625 8.12132 6.625 7.5C6.625 6.87868 6.12132 6.375 5.5 6.375C4.87868 6.375 4.375 6.87868 4.375 7.5C4.375 8.12132 4.87868 8.625 5.5 8.625ZM10.625 11.5C10.625 12.1213 10.1213 12.625 9.5 12.625C8.87868 12.625 8.375 12.1213 8.375 11.5C8.375 10.8787 8.87868 10.375 9.5 10.375C10.1213 10.375 10.625 10.8787 10.625 11.5ZM5.5 12.625C6.12132 12.625 6.625 12.1213 6.625 11.5C6.625 10.8787 6.12132 10.375 5.5 10.375C4.87868 10.375 4.375 10.8787 4.375 11.5C4.375 12.1213 4.87868 12.625 5.5 12.625Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+    </button>
+    <a href="#" class="remove"><svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="s1-icon s1-icon-danger"><path d="M5.5 1C5.22386 1 5 1.22386 5 1.5C5 1.77614 5.22386 2 5.5 2H9.5C9.77614 2 10 1.77614 10 1.5C10 1.22386 9.77614 1 9.5 1H5.5ZM3 3.5C3 3.22386 3.22386 3 3.5 3H5H10H11.5C11.7761 3 12 3.22386 12 3.5C12 3.77614 11.7761 4 11.5 4H11V12C11 12.5523 10.5523 13 10 13H5C4.44772 13 4 12.5523 4 12V4L3.5 4C3.22386 4 3 3.77614 3 3.5ZM5 4H10V12H5V4Z" fill="currentColor" fill-rule="evenodd" clip-rule="evenodd"></path></svg></a>
+    
+    <div class="bundle-item-settings">
+        <!-- Per Product Settings -->
+        <div class="bundle-settings-per-product" data-pid="<?php echo esc_attr( $pid ); ?>">
+
+    <!-- Optional -->
+    <p class="form-field">
+        <label>
+            <input type="checkbox"
+                   class="s1-optional-toggle"
+                   name="_storeone_bundle_products[<?php echo esc_attr( $pid ); ?>][optional]"
+                   value="1"
+                   <?php checked( $item['optional'] ?? '', 1 ); ?>>
+            <?php _e( 'Optional', 'store-one' ); ?>
+        </label>
+
+        <span class="description">
+            <?php _e( 'User can choose whether to include this product in the bundle.', 'store-one' ); ?>
+        </span>
+    </p>
+
+    <!-- Allow Quantity -->
+    <p class="form-field">
+        <label>
+            <input type="checkbox"
+                   class="s1-qty-toggle"
+                   name="_storeone_bundle_products[<?php echo esc_attr( $pid ); ?>][allow_change_quantity]"
+                   value="1"
+                   <?php checked( $item['allow_change_quantity'] ?? '', 1 ); ?>>
+            <?php _e( 'Quantity', 'store-one' ); ?>
+        </label>
+
+        <span class="description">
+            <?php _e( 'If enabled, the user will be able to set their desired quantity.', 'store-one' ); ?>
+        </span>
+    </p>
+
+    <!-- Min quantity -->
+    <p class="form-field s1-qty-field">
+        <label><?php _e( 'Min quantity', 'store-one' ); ?></label>
+        <input type="number"
+               class="short"
+               min="0"
+               step="1"
+               name="_storeone_bundle_products[<?php echo esc_attr( $pid ); ?>][min_qty]"
+               value="<?php echo esc_attr( $item['min_qty'] ?? 0 ); ?>">
+    </p>
+
+    <!-- Max quantity -->
+    <p class="form-field s1-qty-field">
+        <label><?php _e( 'Max quantity', 'store-one' ); ?></label>
+        <input type="number"
+               class="short"
+               min="0"
+               step="1"
+               name="_storeone_bundle_products[<?php echo esc_attr( $pid ); ?>][max_qty]"
+               value="<?php echo esc_attr( $item['max_qty'] ?? 0 ); ?>">
+    </p>
+
+    <!-- Discount type -->
+    <p class="form-field">
+        <label><?php _e( 'Discount Type', 'store-one' ); ?></label>
+        <select class="s1-discount-type"
+                name="_storeone_bundle_products[<?php echo esc_attr( $pid ); ?>][discount_type]">
+            <option value="percent" <?php selected( $item['discount_type'] ?? '', 'percent' ); ?>>
+                <?php _e( 'Percentage', 'store-one' ); ?>
+            </option>
+            <option value="fixed" <?php selected( $item['discount_type'] ?? '', 'fixed' ); ?>>
+                <?php _e( 'Fixed', 'store-one' ); ?>
+            </option>
+        </select>
+    </p>
+
+    <!-- Discount percent -->
+    <p class="form-field s1-discount-percent">
+        <label><?php _e( 'Discount (%)', 'store-one' ); ?></label>
+        <span class="s1-discount-wrap">
+            <input type="number"
+                   class="short"
+                   step="0.01"
+                   min="0"
+                   max="100"
+                   name="_storeone_bundle_products[<?php echo esc_attr( $pid ); ?>][discount_percent]"
+                   value="<?php echo esc_attr( $item['discount_percent'] ?? '' ); ?>">
+            <span class="s1-unit">%</span>
+        </span>
+    </p>
+
+    <!-- Discount fixed -->
+    <p class="form-field s1-discount-fixed">
+        <label><?php printf( __( 'Discount (%s)', 'store-one' ), get_woocommerce_currency_symbol() ); ?></label>
+        <span class="s1-discount-wrap">
+            <input type="number"
+                   class="short"
+                   step="1"
+                   min="0"
+                   name="_storeone_bundle_products[<?php echo esc_attr( $pid ); ?>][discount_fixed]"
+                   value="<?php echo esc_attr( $item['discount_fixed'] ?? '' ); ?>">
+            <span class="s1-unit"><?php echo esc_html( get_woocommerce_currency_symbol() ); ?></span>
+        </span>
+    </p>
+
+</div>
+        <!-- Bundle Wide Settings -->
+        <div class="bundle-settings-bundle">
+            <!-- Optional -->
+    <p class="form-field">
+        <label>
+            <input type="checkbox"
+                   class="s1-optional-toggle"
+                   name="_storeone_bundle_products[<?php echo esc_attr( $pid ); ?>][optional]"
+                   value="1"
+                   <?php checked( $item['optional'] ?? '', 1 ); ?>>
+            <?php _e( 'Optional', 'store-one' ); ?>
+        </label>
+
+        <span class="description">
+            <?php _e( 'User can choose whether to include this product in the bundle.', 'store-one' ); ?>
+        </span>
+    </p>
+
+    <!-- Allow Quantity -->
+    <p class="form-field">
+        <label>
+            <input type="checkbox"
+                   class="s1-qty-toggle"
+                   name="_storeone_bundle_products[<?php echo esc_attr( $pid ); ?>][allow_change_quantity]"
+                   value="1"
+                   <?php checked( $item['allow_change_quantity'] ?? '', 1 ); ?>>
+            <?php _e( 'Quantity', 'store-one' ); ?>
+        </label>
+
+        <span class="description">
+            <?php _e( 'If enabled, the user will be able to set their desired quantity.', 'store-one' ); ?>
+        </span>
+    </p>
+
+    <!-- Min quantity -->
+    <p class="form-field s1-qty-field">
+        <label><?php _e( 'Min quantity', 'store-one' ); ?></label>
+        <input type="number"
+               class="short"
+               min="0"
+               step="1"
+               name="_storeone_bundle_products[<?php echo esc_attr( $pid ); ?>][min_qty]"
+               value="<?php echo esc_attr( $item['min_qty'] ?? 0 ); ?>">
+    </p>
+
+    <!-- Max quantity -->
+    <p class="form-field s1-qty-field">
+        <label><?php _e( 'Max quantity', 'store-one' ); ?></label>
+        <input type="number"
+               class="short"
+               min="0"
+               step="1"
+               name="_storeone_bundle_products[<?php echo esc_attr( $pid ); ?>][max_qty]"
+               value="<?php echo esc_attr( $item['max_qty'] ?? 0 ); ?>">
+    </p>
+        </div>
+
+    </div>
+    <?php
+}
+
+
 
     public function store_one_save( $post_id ) {
 
@@ -351,6 +526,18 @@ private function calculate_bundle_regular_price( $items ) {
             $items[] = [
                 'id'  => absint($row['id']),
                 'qty' => max(1, absint($row['qty'] ?? 1)),
+                // ✅ Optional product
+                'optional' => isset( $row['optional'] ) ? 1 : 0,
+
+                // ✅ Quantity settings
+                'allow_change_quantity' => isset( $row['allow_change_quantity'] ) ? 1 : 0,
+                'min_qty'               => absint( $row['min_qty'] ?? 0 ),
+                'max_qty'               => absint( $row['max_qty'] ?? 0 ),
+
+                // ✅ Discount settings
+                'discount_type'    => sanitize_text_field( $row['discount_type'] ?? 'percent' ),
+                'discount_percent' => floatval( $row['discount_percent'] ?? 0 ),
+                'discount_fixed'   => floatval( $row['discount_fixed'] ?? 0 ),
             ];
         }
         update_post_meta( $post_id, '_storeone_bundle_products', $items );
@@ -358,7 +545,7 @@ private function calculate_bundle_regular_price( $items ) {
         update_post_meta( $post_id, '_storeone_bundle_products', [] );
     }
 
-}
+   }
 
 
 
@@ -372,14 +559,14 @@ private function calculate_bundle_regular_price( $items ) {
 
         wp_enqueue_style(
             'storeone-bundle-admin',
-            STORE_ONE_PLUGIN_URL . 'assets/css/storeone-bndle.css',
+            STORE_ONE_PLUGIN_URL . 'assets/css/storeone-admin-bndle.css',
             [],
             STORE_ONE_VERSION
         );
 
         wp_enqueue_script(
             'storeone-bundle-admin',
-            STORE_ONE_PLUGIN_URL . 'assets/js/storeone-bndle.js',
+            STORE_ONE_PLUGIN_URL . 'assets/js/storeone-admin-bndle.js',
             ['jquery','select2','jquery-ui-sortable'],
             STORE_ONE_VERSION,
             true
