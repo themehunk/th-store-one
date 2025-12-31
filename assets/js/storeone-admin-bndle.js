@@ -152,16 +152,20 @@ jQuery(function ($) {
 
 jQuery(function ($) {
 
+    /* =====================================================
+     * Helpers
+     * ===================================================== */
+
+    function getScope() {
+        return $('#_storeone_discount_scope').val();
+    }
+
+    /* =====================================================
+     * Bundle-level fields (top meta box)
+     * ===================================================== */
+
     function toggleFixedPriceField() {
-
-        const $scope = $('#_storeone_discount_scope');
-
-        // Field not ready yet
-        if (!$scope.length) {
-            return;
-        }
-
-        const scope = $scope.val();
+        const scope = getScope();
 
         if (scope === 'store_bundle') {
             $('.show_if_storeone_bundle_scope').slideDown(120);
@@ -170,57 +174,99 @@ jQuery(function ($) {
         }
     }
 
-    /* ---------------------------------
-     * Run AFTER Woo panels are ready
-     * --------------------------------- */
-    $(document).on('woocommerce-product-data-panel-loaded', function () {
-        toggleFixedPriceField();
-    });
-
-    /* ---------------------------------
-     * Fallback (first load)
-     * --------------------------------- */
-    setTimeout(toggleFixedPriceField, 300);
-
-    /* ---------------------------------
-     * On change
-     * --------------------------------- */
-    $(document).on('change', '#_storeone_discount_scope', function () {
-        toggleFixedPriceField();
-    });
-
-    function toggleDiscountFields() {
+    function toggleBundleDiscountFields() {
         const type = $('#_storeone_discount_type').val();
 
-        if (type === 'percent') {
-            // % दिखाओ
-            $('#_storeone_discount_percent')
-                .closest('.form-field')
-                .show();
+        $('#_storeone_discount_percent')
+            .closest('.form-field')
+            .toggle(type === 'percent');
 
-            // fixed hide
-            $('#_storeone_discount_fixed')
-                .closest('.form-field')
-                .hide();
-        } else {
-            // fixed दिखाओ
-            $('#_storeone_discount_fixed')
-                .closest('.form-field')
-                .show();
-
-            // % hide
-            $('#_storeone_discount_percent')
-                .closest('.form-field')
-                .hide();
-        }
+        $('#_storeone_discount_fixed')
+            .closest('.form-field')
+            .toggle(type === 'fixed');
     }
 
-    // Initial load
-    toggleDiscountFields();
+    /* =====================================================
+     * Per-item settings dropdown
+     * ===================================================== */
 
-    // On change
-    $(document).on('change', '#_storeone_discount_type', function () {
-        toggleDiscountFields();
+    function toggleSettingsByScope() {
+        const scope = getScope();
+
+        $('.bundle-settings-per-product').toggle(scope === 'store_product');
+        $('.bundle-settings-bundle').toggle(scope === 'store_bundle');
+    }
+
+    function syncQuantityFields($section) {
+        const enabled = $section.find('.s1-qty-toggle').is(':checked');
+        $section.find('.s1-qty-field').toggle(enabled);
+    }
+
+    function syncDiscountFields($section) {
+        const type = $section.find('.s1-discount-type').val();
+        $section.find('.s1-discount-percent').toggle(type === 'percent');
+        $section.find('.s1-discount-fixed').toggle(type === 'fixed');
+    }
+
+    function syncItemSettings($section) {
+        syncQuantityFields($section);
+        syncDiscountFields($section);
+    }
+
+    /* =====================================================
+     * Initial load
+     * ===================================================== */
+
+    function initAll() {
+
+        // Top bundle fields
+        toggleFixedPriceField();
+        toggleBundleDiscountFields();
+
+        // Per-item sections
+        toggleSettingsByScope();
+
+        $('.bundle-settings-per-product, .bundle-settings-bundle').each(function () {
+            syncItemSettings($(this));
+        });
+    }
+
+    /* =====================================================
+     * Event bindings
+     * ===================================================== */
+
+    // WooCommerce product panel ready
+    $(document).on('woocommerce-product-data-panel-loaded', initAll);
+
+    // Fallback for first load
+    setTimeout(initAll, 300);
+
+    // Discount scope change (global)
+    $(document).on('change', '#_storeone_discount_scope', function () {
+        toggleFixedPriceField();
+        toggleSettingsByScope();
+    });
+
+    // Bundle-level discount type
+    $(document).on('change', '#_storeone_discount_type', toggleBundleDiscountFields);
+
+    // Per-item dropdown toggle
+    $(document).on('click', '.bundle-item-settings-toggle', function () {
+        $(this).siblings('.bundle-item-settings').slideToggle(150);
+    });
+
+    // Per-item quantity toggle
+    $(document).on('change', '.s1-qty-toggle', function () {
+        syncQuantityFields(
+            $(this).closest('.bundle-settings-per-product, .bundle-settings-bundle')
+        );
+    });
+
+    // Per-item discount type toggle
+    $(document).on('change', '.s1-discount-type', function () {
+        syncDiscountFields(
+            $(this).closest('.bundle-settings-per-product, .bundle-settings-bundle')
+        );
     });
 
 });
