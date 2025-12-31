@@ -485,9 +485,7 @@ private function render_bundle_item_settings( $pid, $item = [] ) {
 
     </div>
     <?php
-}
-
-
+    }
 
     public function store_one_save( $post_id ) {
 
@@ -546,8 +544,6 @@ private function render_bundle_item_settings( $pid, $item = [] ) {
     }
 
    }
-
-
 
 
     /* -----------------------------------------
