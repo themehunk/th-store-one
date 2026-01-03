@@ -33,8 +33,7 @@ class Store_One {
 		if ( is_admin() ) {
 			require_once STORE_ONE_PLUGIN_DIR . 'includes/admin/class-store-one-admin.php';
 			new Store_One_Admin();
-			require_once STORE_ONE_PLUGIN_DIR . 'includes/admin/bndlp/class-store-one-bndlp-admin.php';
-
+			require_once STORE_ONE_PLUGIN_DIR . 'includes/admin/bundle-product/class-admin.php';
 		}
 		// Modules manager (option + REST).
 		require_once STORE_ONE_PLUGIN_DIR . 'includes/admin/class-store-one-modules.php';

@@ -171,14 +171,14 @@ class StoreOne_Bundle_Frontend {
         * =============================== */
         wp_enqueue_style(
             'storeone-bundle-frontend',
-            STORE_ONE_PLUGIN_URL . 'assets/css/storeone-bundle-frontend.css',
+            STORE_ONE_PLUGIN_URL . 'assets/css/bundle-front.css',
             [],
             STORE_ONE_VERSION
         );
 
         wp_enqueue_script(
             'storeone-bundle-frontend',
-            STORE_ONE_PLUGIN_URL . 'assets/js/storeone-bundle-frontend.js',
+            STORE_ONE_PLUGIN_URL . 'assets/js/bundle-front.js',
             [ 'jquery' ],
             STORE_ONE_VERSION,
             true
