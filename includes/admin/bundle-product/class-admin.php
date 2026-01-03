@@ -185,6 +185,7 @@ class Store_One_BNDLP_Admin {
     <input type="text"
            class="storeone-bundle-regular-input"
            data-auto="<?php echo esc_attr( $this->calculate_bundle_regular_price( $items ) ); ?>"
+           data-manual="0"
            value="<?php echo esc_attr(
                wc_format_localized_price(
                    $this->calculate_bundle_regular_price( $items )
@@ -192,6 +193,7 @@ class Store_One_BNDLP_Admin {
            ); ?>"
     >
 </p>
+
 
         
 <?php
@@ -303,10 +305,8 @@ private function calculate_bundle_regular_price( $items ) {
         $qty = max( 1, absint( $item['qty'] ?? 1 ) );
 
         // Prefer regular price, fallback to price
-        $price = $product->get_regular_price();
-        if ( $price === '' ) {
-            $price = $product->get_price();
-        }
+        $price = $product->get_price();
+        
 
         $total += floatval( $price ) * $qty;
     }

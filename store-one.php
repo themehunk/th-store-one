@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Store One
  * Description:       Central dashboard for Store One modules (Woo Search, Cart, Frequently Bought, etc.)
- * Version:           1.0.1
+ * Version:           1.0.3
  * Author:            themehunk
  * Author URI:        https://www.themehunk.com
  * License:           GPLv2 or later
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // ------------------ Constants ------------------.
-define( 'STORE_ONE_VERSION', '1.0.21' );
+define( 'STORE_ONE_VERSION', '1.0.24' );
 define( 'STORE_ONE_PLUGIN_FILE', __FILE__ );
 define( 'STORE_ONE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'STORE_ONE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -51,12 +51,15 @@ add_action(
 add_action(
 	'woocommerce_init',
 	function () {
-		
 		// Frontend class include + init.
-		require_once STORE_ONE_PLUGIN_DIR . 'includes/modules/frequently-bought/class-storeone-fbt-frontend.php';
-
+		require_once STORE_ONE_PLUGIN_DIR . 'includes/modules/frequently-bought/class-frontend.php';
+		require_once STORE_ONE_PLUGIN_DIR . 'includes/modules/bundle-product/class-frontend.php';
 		if ( class_exists( 'Store_One_FBT_Frontend' ) ) {
 			new Store_One_FBT_Frontend();
+		}
+		if ( class_exists( 'StoreOne_Bundle_Frontend' ) ) {
+			new StoreOne_Bundle_Frontend();
+			
 		}
 	}
 );

@@ -34,79 +34,44 @@ jQuery(function ($) {
         }
     }
 
-    function calculateBundleRegularPrice() {
+    /* -----------------------------
+ * 🔥 REGULAR PRICE CALCULATION
+ * ----------------------------- */
+function calculateBundleRegularPrice() {
 
-    let baseTotal = 0;
+    let total = 0;
 
-    const scope = $('#_storeone_discount_scope').val() || 'store_bundle';
+    const $list = jQuery('.storeone-bundle-selected:visible').first();
 
-    const $list = $('.storeone-bundle-selected:visible').first();
-
-    /* --------------------------------
-     * 1️⃣ BASE PRICE (NO DISCOUNT)
-     * -------------------------------- */
     $list.children('li.bundle-item').each(function () {
 
-        const $item  = $(this);
-        const price  = parseFloat(
-            $item.find('.bundle-price').data('price')
-        ) || 0;
+        const $item  = jQuery(this);
+        const $price = $item.children('.bundle-price');
+
+        let price = parseFloat($price.attr('data-price')) || 0;
 
         let qty = parseInt($item.find('.qty').val(), 10);
-        if (!qty || qty < 1) qty = 1;
+        if (isNaN(qty) || qty < 1) qty = 1;
+
+        total += price * qty;
 
         // sync hidden qty
         $item.find('.qty-hidden').val(qty);
-
-        baseTotal += price * qty;
     });
 
-    baseTotal = Math.max(0, baseTotal);
-
-    let finalTotal = baseTotal;
+    const finalPrice = total.toFixed(2);
 
     /* --------------------------------
-     * 2️⃣ BUNDLE WIDE DISCOUNT
+     * 🔥 AUTO SET WC PRICE FIELDS
      * -------------------------------- */
-    if (scope === 'store_bundle') {
+    jQuery('#_regular_price').val(finalPrice);
+    jQuery('#_price').val(finalPrice).trigger('change');
 
-        const type    = $('#_storeone_discount_type').val();
-        const percent = parseFloat($('#_storeone_discount_percent').val()) || 0;
-        const fixed   = parseFloat($('#_storeone_discount_fixed').val()) || 0;
+    // optional: clear sale price
+    jQuery('#_sale_price').val('');
 
-        if (type === 'percent' && percent > 0) {
-            finalTotal -= baseTotal * percent / 100;
-        }
-
-        if (type === 'fixed' && fixed > 0) {
-            finalTotal -= fixed;
-        }
-    }
-
-    finalTotal = Math.max(0, finalTotal);
-
-    const regularPrice = baseTotal.toFixed(2);
-    const salePrice    = finalTotal.toFixed(2);
-
-    /* --------------------------------
-     * 3️⃣ WC PRICE FIELDS (🔥 CORRECT)
-     * -------------------------------- */
-
-    // 🔹 Regular = always base
-    $('#_regular_price').val(regularPrice);
-
-    if (scope === 'store_bundle' && finalTotal < baseTotal) {
-        // 🔹 Sale only when bundle discount exists
-        $('#_sale_price').val(salePrice);
-        $('#_price').val(salePrice).trigger('change');
-    } else {
-        // 🔹 No sale
-        $('#_sale_price').val('');
-        $('#_price').val(regularPrice).trigger('change');
-    }
-
-    // 🔹 Custom readonly field
-    $('.storeone-bundle-regular-input').val(regularPrice);
+    // optional: your custom readonly display
+    jQuery('.storeone-bundle-regular-input').val(finalPrice);
 }
 
     /* -----------------------------
