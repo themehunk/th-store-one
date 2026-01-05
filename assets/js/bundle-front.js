@@ -3,84 +3,101 @@ jQuery(function ($) {
     const $wrap = $('.storeone-bundle-frontend');
     if (!$wrap.length) return;
 
-    const currency = StoreOneFrontend.currency || '₹';
+    function getQty($item) {
 
-    function clamp(val, min, max) {
-        if (val < min) return min;
-        if (max > 0 && val > max) return max;
-        return val;
+        const $input = $item.find('.s1-qty-input');
+
+        if ($input.length) {
+            let v = parseInt($input.val(), 10);
+            return v > 0 ? v : 1;
+        }
+
+        let d = parseInt($item.data('qty'), 10);
+        return d > 0 ? d : 1;
     }
 
-    function calculateBundle() {
+    function buildBundleData() {
 
-        let total = 0;
         let items = [];
-
-        const scope = $wrap.data('scope');
+        const scope = $wrap.data('discount-scope');
 
         $('.s1-bundle-item').each(function () {
 
             const $item = $(this);
 
-            if ($item.data('optional') == 1 &&
-                !$item.find('.s1-bundle-check').is(':checked')) {
+            if (
+                $item.data('optional') == 1 &&
+                !$item.find('.s1-bundle-check').is(':checked')
+            ) {
                 return;
             }
 
-            let price = parseFloat($item.data('price')) || 0;
-            let qty   = parseInt($item.find('.s1-qty-input').val(), 10) || 1;
-
-            if (scope === 'store_product') {
-
-                const type    = $item.data('discount-type');
-                const percent = parseFloat($item.data('discount-percent')) || 0;
-                const fixed   = parseFloat($item.data('discount-fixed')) || 0;
-
-                if (type === 'percent') {
-                    price -= price * percent / 100;
-                }
-
-                if (type === 'fixed') {
-                    price -= fixed;
-                }
-            }
-
-            price = Math.max(0, price);
-            total += price * qty;
-
             items.push({
                 id: $item.data('id'),
-                qty: qty
+                qty: getQty($item),
+                discount_type: $item.data('discount-type'),
+                discount_percent: $item.data('discount-percent'),
+                discount_fixed: $item.data('discount-fixed')
             });
         });
 
-        $('.s1-bundle-total-price').text(
-            currency + total.toFixed(2)
+        $('#storeone_bundle_data').val(
+            JSON.stringify({
+                scope: scope,
+                items: items
+            })
         );
 
-        $('#storeone_bundle_data').val(JSON.stringify(items));
+        const bundleMin = parseInt($wrap.data('bundle-min'), 10) || 0;
+        const bundleMax = parseInt($wrap.data('bundle-max'), 10) || 0;
+
+        let totalQty = 0;
+        items.forEach(i => totalQty += i.qty);
+
+        // Min validation
+        if (bundleMin > 0 && totalQty < bundleMin) {
+            $('.single_add_to_cart_button').prop('disabled', true);
+            return;
+        }
+
+        // Max validation
+        if (bundleMax > 0 && totalQty > bundleMax) {
+            $('.single_add_to_cart_button').prop('disabled', true);
+            return;
+        }
+
+        $('.single_add_to_cart_button').prop('disabled', false);
+
     }
 
-    $(document).on('click', '.s1-qty-btn', function () {
+    $(document).on(
+        'click',
+        '.s1-qty-btn',
+        function () {
 
-        const $input = $(this).siblings('.s1-qty-input');
-        if (!$input.length) return;
+            const $wrap = $(this).closest('.s1-qty-wrap');
+            const $input = $wrap.find('.s1-qty-input');
 
-        let val = parseInt($input.val(), 10) || 1;
-        let min = parseInt($input.attr('min'), 10) || 1;
-        let max = parseInt($input.attr('max'), 10) || 0;
+            let val = parseInt($input.val(), 10) || 1;
+            let min = parseInt($input.attr('min'), 10) || 1;
+            let max = parseInt($input.attr('max'), 10) || 0;
 
-        if ($(this).hasClass('plus')) val++;
-        if ($(this).hasClass('minus')) val--;
+            if ($(this).hasClass('plus')) val++;
+            if ($(this).hasClass('minus')) val--;
 
-        $input.val(clamp(val, min, max)).trigger('change');
-    });
+            if (val < min) val = min;
+            if (max > 0 && val > max) val = max;
+
+            $input.val(val).trigger('change');
+        }
+    );
 
     $(document).on(
         'change keyup',
         '.s1-qty-input, .s1-bundle-check',
-        calculateBundle
+        buildBundleData
     );
 
-    calculateBundle();
+    // initial
+    buildBundleData();
 });

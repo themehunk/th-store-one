@@ -79,62 +79,67 @@ function calculateBundleRegularPrice() {
      * ----------------------------- */
     $('.storeone-bundle-search').on('select2:select', function (e) {
 
-        const id = e.params.data.id;
+    const id = e.params.data.id;
 
-        // Prevent duplicate
-        if ($('.bundle-item[data-id="' + id + '"]').length) {
-            $(this).val(null).trigger('change');
-            return;
-        }
+    // Prevent duplicate
+    if ($('.bundle-item[data-id="' + id + '"]').length) {
+        $(this).val(null).trigger('change');
+        return;
+    }
 
-        $.post(StoreOneBundle.ajax, {
-            action: 'storeone_get_product_data',
-            nonce: StoreOneBundle.nonce,
-            id: id
-        }, function (res) {
+    $.post(StoreOneBundle.ajax, {
+        action: 'storeone_get_product_data',
+        nonce: StoreOneBundle.nonce,
+        id: id
+    }, function (res) {
 
-            if (!res.success) return;
+        if (!res.success) return;
 
-            const p = res.data;
+        const p = res.data;
 
-            $('.storeone-bundle-selected').append(`
-                <li class="bundle-item" data-id="${p.id}">
-                    <span class="drag">☰</span>
+        $('.storeone-bundle-selected').append(`
+            <li class="bundle-item" data-id="${p.id}">
+                <span class="drag">☰</span>
 
-                    <input type="number" class="qty" min="1" value="1">
+                <input type="number" class="qty" min="1" value="1">
 
-                    <img src="${p.image}" alt="">
+                <img src="${p.image}" alt="">
 
-                    <a href="${p.edit}" target="_blank" class="title">${p.title}</a>
+                <a href="${p.edit}" target="_blank" class="title">${p.title}</a>
 
-                    <span class="bundle-price" data-price="${p.regular_price}">
-                        ${p.price_html}
-                    </span>
+                <span class="bundle-price" data-price="${p.regular_price}">
+                    ${p.price_html}
+                </span>
 
-                    <span class="type">${p.type}</span>
+                <span class="type">${p.type}</span>
 
-                    <a href="#" class="remove">×</a>
+                <button type="button" class="bundle-item-settings-toggle">
+                    <!-- SAME SVG -->
+                    ${$('.bundle-item-settings-toggle svg').first().prop('outerHTML') || ''}
+                </button>
 
-                    <input type="hidden"
-                           name="_storeone_bundle_products[${p.id}][id]"
-                           value="${p.id}">
+                <a href="#" class="remove">
+                    ${$('.bundle-item .remove svg').first().prop('outerHTML') || '×'}
+                </a>
 
-                    <input type="hidden"
-                           class="qty-hidden"
-                           name="_storeone_bundle_products[${p.id}][qty]"
-                           value="1">
-                </li>
-            `);
+                <input type="hidden"
+                       name="_storeone_bundle_products[${p.id}][id]"
+                       value="${p.id}">
 
-            toggleSelectedBox();
+                <input type="hidden"
+                       class="qty-hidden"
+                       name="_storeone_bundle_products[${p.id}][qty]"
+                       value="1">
+            </li>
+        `);
 
-            // Delay ensures DOM is ready
-            setTimeout(calculateBundleRegularPrice, 50);
+        toggleSelectedBox();
+        calculateBundleRegularPrice();
 
-            // Reset search field
-            $('.storeone-bundle-search').val(null).trigger('change');
-        });
+        $('.storeone-bundle-search').val(null).trigger('change');
     });
+});
+
 
     /* -----------------------------
      * Qty change (keyup + change)
@@ -297,6 +302,28 @@ jQuery(function ($) {
         syncDiscountFields($section);
     }
 
+    function toggleRegularPriceByScope() {
+
+    const scope = getScope();
+
+    const $regularPrice = jQuery('.storeone-bundle-regular-input');
+
+    if (scope === 'store_product') {
+        // 🔒 Disable regular price
+        $regularPrice
+            .prop('readonly', true)
+            .addClass('storeone-disabled')
+            .attr('title', 'Regular price is auto-calculated for bundle products');
+    } else {
+        // 🔓 Enable regular price
+        $regularPrice
+            .prop('readonly', false)
+            .removeClass('storeone-disabled')
+            .removeAttr('title');
+    }
+}
+
+
     /* =====================================================
      * 4. INIT
      * ===================================================== */
@@ -309,6 +336,7 @@ jQuery(function ($) {
 
         // Per-item behaviour
         toggleSettingsByScope();
+        toggleRegularPriceByScope();
 
         // Sync existing items
         $('.bundle-settings-per-product').each(function () {
@@ -331,6 +359,7 @@ jQuery(function ($) {
         toggleFixedPriceField();
         toggleTopDiscountByScope();
         toggleSettingsByScope();
+        toggleRegularPriceByScope();
     });
 
     // Global discount type
@@ -339,8 +368,11 @@ jQuery(function ($) {
     });
 
     // Item settings toggle
-    $(document).on('click', '.bundle-item-settings-toggle', function () {
-        $(this).siblings('.bundle-item-settings').slideToggle(150);
+    $(document).on('click', '.bundle-item-settings-toggle', function (e) {
+    e.preventDefault();
+
+    const $item = $(this).closest('.bundle-item');
+    $item.find('.bundle-item-settings').stop(true, true).slideToggle(150);
     });
 
     // Quantity toggle

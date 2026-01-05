@@ -134,7 +134,20 @@
     min-width: 80px;
     text-align: right;
 }
+.storeone-bundle-frontend .storeone-bundle-above-text > p{
+    margin-bottom:10px;
+}
 
+.storeone-bundle-frontend .storeone-bundle-below-text > p{
+    margin-bottom:0px;
+    margin-top:10px;
+    
+}
+.storeone-bundle-frontend .storeone-bundle-above-text > p,
+.storeone-bundle-frontend .storeone-bundle-below-text > p{
+font-size:14px;
+    font-weight:500;
+}
 /* MOBILE */
 @media (max-width: 480px) {
     .s1-bundle-item {
