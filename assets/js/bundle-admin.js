@@ -35,44 +35,44 @@ jQuery(function ($) {
     }
 
     /* -----------------------------
- * 🔥 REGULAR PRICE CALCULATION
- * ----------------------------- */
-function calculateBundleRegularPrice() {
+    * 🔥 REGULAR PRICE CALCULATION
+    * ----------------------------- */
+    function calculateBundleRegularPrice() {
 
-    let total = 0;
+        let total = 0;
 
-    const $list = jQuery('.storeone-bundle-selected:visible').first();
+        const $list = jQuery('.storeone-bundle-selected:visible').first();
 
-    $list.children('li.bundle-item').each(function () {
+        $list.children('li.bundle-item').each(function () {
 
-        const $item  = jQuery(this);
-        const $price = $item.children('.bundle-price');
+            const $item  = jQuery(this);
+            const $price = $item.children('.bundle-price');
 
-        let price = parseFloat($price.attr('data-price')) || 0;
+            let price = parseFloat($price.attr('data-price')) || 0;
 
-        let qty = parseInt($item.find('.qty').val(), 10);
-        if (isNaN(qty) || qty < 1) qty = 1;
+            let qty = parseInt($item.find('.qty').val(), 10);
+            if (isNaN(qty) || qty < 1) qty = 1;
 
-        total += price * qty;
+            total += price * qty;
 
-        // sync hidden qty
-        $item.find('.qty-hidden').val(qty);
-    });
+            // sync hidden qty
+            $item.find('.qty-hidden').val(qty);
+        });
 
-    const finalPrice = total.toFixed(2);
+        const finalPrice = total.toFixed(2);
 
-    /* --------------------------------
-     * 🔥 AUTO SET WC PRICE FIELDS
-     * -------------------------------- */
-    jQuery('#_regular_price').val(finalPrice);
-    jQuery('#_price').val(finalPrice).trigger('change');
+        /* --------------------------------
+        * 🔥 AUTO SET WC PRICE FIELDS
+        * -------------------------------- */
+        jQuery('#_regular_price').val(finalPrice);
+        jQuery('#_price').val(finalPrice).trigger('change');
 
-    // optional: clear sale price
-    jQuery('#_sale_price').val('');
+        // optional: clear sale price
+        jQuery('#_sale_price').val('');
 
-    // optional: your custom readonly display
-    jQuery('.storeone-bundle-regular-input').val(finalPrice);
-}
+        // optional: your custom readonly display
+        jQuery('.storeone-bundle-regular-input').val(finalPrice);
+    }
 
     /* -----------------------------
      * Add product from search

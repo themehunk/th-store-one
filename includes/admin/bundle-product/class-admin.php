@@ -183,19 +183,18 @@ class Store_One_BNDLP_Admin {
     </label>
 
     <input type="text"
-           class="storeone-bundle-regular-input"
-           data-auto="<?php echo esc_attr( $this->calculate_bundle_regular_price( $items ) ); ?>"
-           data-manual="0"
-           value="<?php echo esc_attr(
-               wc_format_localized_price(
-                   $this->calculate_bundle_regular_price( $items )
-               )
-           ); ?>"
-    >
+        name="_storeone_bundle_regular_price"
+        class="storeone-bundle-regular-input"
+        data-auto="<?php echo esc_attr( $this->calculate_bundle_regular_price( $items ) ); ?>"
+        data-manual="0"
+        value="<?php echo esc_attr(
+            wc_format_localized_price(
+                $this->calculate_bundle_regular_price( $items )
+            )
+        ); ?>"
+        >
 </p>
-
-
-        
+  
 <?php
 
 $discount_type  = get_post_meta( $post->ID, '_storeone_discount_type', true ) ?: 'percent';
@@ -422,8 +421,7 @@ private function render_bundle_item_settings( $pid, $item = [] ) {
             <span class="s1-unit"><?php echo esc_html( get_woocommerce_currency_symbol() ); ?></span>
         </span>
     </p>
-
-</div>
+     </div>
         <!-- Bundle Wide Settings -->
         <div class="bundle-settings-bundle">
            
@@ -433,10 +431,7 @@ private function render_bundle_item_settings( $pid, $item = [] ) {
     <?php
     }
 
-    /**
- * 🔥 AUTO UPDATE WC PRICES (ONLY store_bundle)
- */
-private function update_bundle_wc_prices( $post_id ) {
+    private function update_bundle_wc_prices( $post_id ) {
 
     // Only bundle product
     $product = wc_get_product( $post_id );
@@ -450,38 +445,42 @@ private function update_bundle_wc_prices( $post_id ) {
         return;
     }
 
-    $items = (array) get_post_meta( $post_id, '_storeone_bundle_products', true );
-    if ( empty( $items ) ) {
-        return;
-    }
+    // 🔥 READ ADMIN REGULAR PRICE INPUT
+    if ( isset($_POST['_storeone_bundle_regular_price']) && $_POST['_storeone_bundle_regular_price'] !== '' ) {
 
-    /* -----------------------------
-     * 1️⃣ REGULAR PRICE CALCULATION
-     * ----------------------------- */
-    $regular_total = 0;
+        $regular_total = wc_format_decimal( $_POST['_storeone_bundle_regular_price'] );
 
-    foreach ( $items as $item ) {
+    } else {
 
-        $pid = absint( $item['id'] ?? 0 );
-        if ( ! $pid ) continue;
+        // 🔁 FALLBACK AUTO CALCULATION
+        $items = (array) get_post_meta( $post_id, '_storeone_bundle_products', true );
+        if ( empty( $items ) ) return;
 
-        $p = wc_get_product( $pid );
-        if ( ! $p ) continue;
+        $regular_total = 0;
 
-        $qty = max( 1, absint( $item['qty'] ?? 1 ) );
+        foreach ( $items as $item ) {
 
-        $price = $p->get_regular_price();
-        if ( $price === '' ) {
-            $price = $p->get_price();
+            $pid = absint( $item['id'] ?? 0 );
+            if ( ! $pid ) continue;
+
+            $p = wc_get_product( $pid );
+            if ( ! $p ) continue;
+
+            $qty = max( 1, absint( $item['qty'] ?? 1 ) );
+
+            $price = $p->get_regular_price();
+            if ( $price === '' ) {
+                $price = $p->get_price();
+            }
+
+            $regular_total += floatval( $price ) * $qty;
         }
 
-        $regular_total += floatval( $price ) * $qty;
+        $regular_total = wc_format_decimal( $regular_total );
     }
 
-    $regular_total = wc_format_decimal( $regular_total );
-
     /* -----------------------------
-     * 2️⃣ APPLY BUNDLE DISCOUNT
+     * APPLY BUNDLE DISCOUNT
      * ----------------------------- */
     $type    = get_post_meta( $post_id, '_storeone_discount_type', true ) ?: 'percent';
     $percent = floatval( get_post_meta( $post_id, '_storeone_discount_percent', true ) );
@@ -500,7 +499,7 @@ private function update_bundle_wc_prices( $post_id ) {
     $sale_price = max( 0, wc_format_decimal( $sale_price ) );
 
     /* -----------------------------
-     * 3️⃣ SAVE WC PRICE META
+     * SAVE WC PRICE META
      * ----------------------------- */
     update_post_meta( $post_id, '_regular_price', $regular_total );
 
@@ -526,7 +525,6 @@ private function update_bundle_wc_prices( $post_id ) {
         // Quantity fields
         '_storeone_min_qty',
         '_storeone_max_qty',
-
         // Text areas
         '_storeone_above_text',
         '_storeone_below_text',
@@ -542,6 +540,13 @@ private function update_bundle_wc_prices( $post_id ) {
         }
     }
 
+    // 🔥 READ BUNDLE REGULAR PRICE (AUTO OR MANUAL)
+        $bundle_regular = null;
+
+        if ( isset($_POST['_storeone_bundle_regular_price']) && $_POST['_storeone_bundle_regular_price'] !== '' ) {
+            $bundle_regular = wc_format_decimal( $_POST['_storeone_bundle_regular_price'] );
+        }
+
     // Bundle products
     if ( isset($_POST['_storeone_bundle_products']) && is_array($_POST['_storeone_bundle_products']) ) {
         $items = [];
@@ -552,12 +557,10 @@ private function update_bundle_wc_prices( $post_id ) {
                 'qty' => max(1, absint($row['qty'] ?? 1)),
                 // ✅ Optional product
                 'optional' => isset( $row['optional'] ) ? 1 : 0,
-
                 // ✅ Quantity settings
                 'allow_change_quantity' => isset( $row['allow_change_quantity'] ) ? 1 : 0,
                 'min_qty'               => absint( $row['min_qty'] ?? 0 ),
                 'max_qty'               => absint( $row['max_qty'] ?? 0 ),
-
                 // ✅ Discount settings
                 'discount_type'    => sanitize_text_field( $row['discount_type'] ?? 'percent' ),
                 'discount_percent' => floatval( $row['discount_percent'] ?? 0 ),
@@ -565,11 +568,11 @@ private function update_bundle_wc_prices( $post_id ) {
             ];
         }
         update_post_meta( $post_id, '_storeone_bundle_products', $items );
-    } else {
-        update_post_meta( $post_id, '_storeone_bundle_products', [] );
+        } else {
+            update_post_meta( $post_id, '_storeone_bundle_products', [] );
+        }
+        $this->update_bundle_wc_prices( $post_id );
     }
-         $this->update_bundle_wc_prices( $post_id );
-   }
 
 
     /* -----------------------------------------

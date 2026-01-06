@@ -279,43 +279,58 @@ class StoreOne_Bundle_Frontend {
      * ============================= */
     public function set_bundle_price( $cart ) {
 
-        if ( is_admin() && ! defined( 'DOING_AJAX' ) ) return;
+    if ( is_admin() && ! defined( 'DOING_AJAX' ) ) return;
 
-        foreach ( $cart->get_cart() as $cart_item ) {
+    foreach ( $cart->get_cart() as $cart_item ) {
 
-            if ( empty( $cart_item['storeone_bundle'] ) ) continue;
+        if ( empty( $cart_item['storeone_bundle'] ) ) continue;
 
-            $bundle = $cart_item['storeone_bundle'];
-            $scope  = $bundle['scope'] ?? 'store_bundle';
+        $bundle = $cart_item['storeone_bundle'];
+        $scope  = $bundle['scope'] ?? 'store_bundle';
 
-            $total = 0;
+        /* --------------------------------
+         * STORE BUNDLE → USE WC PRICE
+         * -------------------------------- */
+        if ( $scope === 'store_bundle' ) {
 
-            foreach ( $bundle['items'] as $item ) {
+            $product = $cart_item['data'];
+            if ( ! $product ) continue;
 
-                $product = wc_get_product( $item['id'] );
-                if ( ! $product ) continue;
+            // WC price already correct
+            return;
+        }
 
-                $qty   = max( 1, absint( $item['qty'] ?? 1 ) );
+        /* --------------------------------
+         * STORE PRODUCT → CALCULATE ITEMS
+         * -------------------------------- */
+        $total = 0;
+
+        foreach ( $bundle['items'] as $item ) {
+
+            $product = wc_get_product( $item['id'] );
+            if ( ! $product ) continue;
+
+            $qty   = max( 1, absint( $item['qty'] ?? 1 ) );
+            $price = (float) $product->get_regular_price();
+            if ( ! $price ) {
                 $price = (float) $product->get_price();
-
-                if ( $scope === 'store_product' ) {
-
-                    if ( ( $item['discount_type'] ?? '' ) === 'percent' ) {
-                        $price -= $price * floatval( $item['discount_percent'] ?? 0 ) / 100;
-                    }
-
-                    if ( ( $item['discount_type'] ?? '' ) === 'fixed' ) {
-                        $price -= floatval( $item['discount_fixed'] ?? 0 );
-                    }
-                }
-
-                $price = max( 0, $price );
-                $total += $price * $qty;
             }
 
-            $cart_item['data']->set_price( $total );
+            if ( ( $item['discount_type'] ?? '' ) === 'percent' ) {
+                $price -= $price * floatval( $item['discount_percent'] ?? 0 ) / 100;
+            }
+
+            if ( ( $item['discount_type'] ?? '' ) === 'fixed' ) {
+                $price -= floatval( $item['discount_fixed'] ?? 0 );
+            }
+
+            $price = max( 0, $price );
+            $total += $price * $qty;
         }
+
+        $cart_item['data']->set_price( $total );
     }
+}
 
     public function display_bundle_in_cart( $item_data, $cart_item ) {
 
@@ -323,67 +338,90 @@ class StoreOne_Bundle_Frontend {
         return $item_data;
     }
 
-    $scope = $cart_item['storeone_bundle']['scope'] ?? 'store_bundle';
+    $bundle = $cart_item['storeone_bundle'];
+    $scope  = $bundle['scope'] ?? 'store_bundle';
 
-    foreach ( $cart_item['storeone_bundle']['items'] as $item ) {
+    /* --------------------------------
+     * STORE BUNDLE → SHOW BUNDLE PRICE
+     * -------------------------------- */
+    if ( $scope === 'store_bundle' ) {
 
-        if ( empty( $item['id'] ) ) continue;
+    $bundle = $cart_item['storeone_bundle'];
+    $qty    = max( 1, absint( $cart_item['quantity'] ) );
+
+    /* --------------------------------
+     * 1️⃣ SHOW BUNDLE ITEMS (NO PRICE)
+     * -------------------------------- */
+    foreach ( $bundle['items'] as $item ) {
+
+        $product = wc_get_product( $item['id'] );
+        if ( ! $product ) continue;
+
+        $item_qty = max( 1, absint( $item['qty'] ?? 1 ) );
+
+        $item_data[] = [
+            'name'  => $product->get_name(),
+            'value' => '× ' . ( $item_qty * $qty ),
+        ];
+    }
+
+    /* --------------------------------
+     * 2️⃣ SHOW BUNDLE TOTAL PRICE
+     * -------------------------------- */
+    $product = $cart_item['data'];
+
+    $regular = (float) $product->get_regular_price() * $qty;
+    $price   = (float) $product->get_price() * $qty;
+
+    $item_data[] = [
+        'name'  => __( 'Bundle price', 'store-one' ),
+        'value' => wc_price( $price ),
+    ];
+
+    return $item_data;
+   }
+
+    /* --------------------------------
+     * STORE PRODUCT → PER ITEM DISPLAY
+     * -------------------------------- */
+    foreach ( $bundle['items'] as $item ) {
 
         $product = wc_get_product( $item['id'] );
         if ( ! $product ) continue;
 
         $qty = max( 1, absint( $item['qty'] ?? 1 ) );
 
-        /* -----------------------------
-         * Regular price
-         * ----------------------------- */
         $regular = (float) $product->get_regular_price();
         if ( ! $regular ) {
             $regular = (float) $product->get_price();
         }
 
-        /* -----------------------------
-         * Discount amount
-         * ----------------------------- */
-        $discount = 0;
+        $final = $regular;
 
-        if ( $scope === 'store_product' ) {
-
-            if ( ( $item['discount_type'] ?? '' ) === 'percent' ) {
-                $discount = $regular * floatval( $item['discount_percent'] ?? 0 ) / 100;
-            }
-
-            if ( ( $item['discount_type'] ?? '' ) === 'fixed' ) {
-                $discount = floatval( $item['discount_fixed'] ?? 0 );
-            }
+        if ( ( $item['discount_type'] ?? '' ) === 'percent' ) {
+            $final -= $regular * floatval( $item['discount_percent'] ?? 0 ) / 100;
         }
 
-        $regular_total  = $regular * $qty;
-        $discount_total = max( 0, $discount * $qty );
-
-        /* -----------------------------
-         * CLEAN PRICE HTML (NO WC TEXT)
-         * ----------------------------- */
-        if ( $discount_total > 0 ) {
-            $price_html =
-                '<del class="woocommerce-Price-amount amount">' .
-                wc_price( $regular_total ) .
-                '</del> ' .
-                '<ins class="woocommerce-Price-amount amount">' .
-                wc_price( $discount_total ) .
-                '</ins>';
-        } else {
-            $price_html = wc_price( $regular_total );
+        if ( ( $item['discount_type'] ?? '' ) === 'fixed' ) {
+            $final -= floatval( $item['discount_fixed'] ?? 0 );
         }
+
+        $final = max( 0, $final );
+
+        $regular_total = $regular * $qty;
+        $final_total   = $final * $qty;
 
         $item_data[] = [
             'name'  => $product->get_name() . ' × ' . $qty,
-            'value' => $price_html,
+            'value' => $final_total < $regular_total
+                ? '<del>' . wc_price( $regular_total ) . '</del> <ins>' . wc_price( $final_total ) . '</ins>'
+                : wc_price( $regular_total ),
         ];
     }
 
     return $item_data;
 }
+
 
 
     public function restore_bundle_from_session( $cart_item, $session_item ) {
