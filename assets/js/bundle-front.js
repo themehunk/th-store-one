@@ -1,30 +1,64 @@
 jQuery(function ($) {
 
-    const $wrap = $('.storeone-bundle-frontend');
-    if (!$wrap.length) return;
+    const $bundle = $('.storeone-bundle-frontend');
+    if (!$bundle.length) return;
 
+    const $addToCartBtn = $('.single_add_to_cart_button');
+
+    /* ---------------------------------
+     * Woo Price Formatter (basic)
+     * --------------------------------- */
+    function wc_price_format(amount) {
+        if (window.wc_price_params && wc_price_params.currency_format_symbol) {
+            return wc_price_params.currency_format_symbol + amount.toFixed(2);
+        }
+        return amount.toFixed(2);
+    }
+
+    /* ---------------------------------
+     * Get quantity for an item
+     * --------------------------------- */
     function getQty($item) {
-
         const $input = $item.find('.s1-qty-input');
 
         if ($input.length) {
-            let v = parseInt($input.val(), 10);
+            const v = parseInt($input.val(), 10);
             return v > 0 ? v : 1;
         }
 
-        let d = parseInt($item.data('qty'), 10);
+        const d = parseInt($item.data('qty'), 10);
         return d > 0 ? d : 1;
     }
 
+    /* ---------------------------------
+     * Update single item line price
+     * --------------------------------- */
+    function updateBundleLinePrice($item) {
+        const unit = parseFloat($item.data('price')) || 0;
+        const qty  = getQty($item);
+        const total = unit * qty;
+
+        $item.find('.s1-line-qty').text(qty);
+        $item.find('.s1-line-total').html(wc_price_format(total));
+    }
+
+    /* ---------------------------------
+     * Build bundle JSON + validate min/max
+     * --------------------------------- */
     function buildBundleData() {
 
         let items = [];
-        const scope = $wrap.data('discount-scope');
+        let totalQty = 0;
+
+        const scope     = $bundle.data('discount-scope');
+        const bundleMin = parseInt($bundle.data('bundle-min'), 10) || 0;
+        const bundleMax = parseInt($bundle.data('bundle-max'), 10) || 0;
 
         $('.s1-bundle-item').each(function () {
 
             const $item = $(this);
 
+            // Optional unchecked → skip
             if (
                 $item.data('optional') == 1 &&
                 !$item.find('.s1-bundle-check').is(':checked')
@@ -32,9 +66,12 @@ jQuery(function ($) {
                 return;
             }
 
+            const qty = getQty($item);
+            totalQty += qty;
+
             items.push({
                 id: $item.data('id'),
-                qty: getQty($item),
+                qty: qty,
                 discount_type: $item.data('discount-type'),
                 discount_percent: $item.data('discount-percent'),
                 discount_fixed: $item.data('discount-fixed')
@@ -48,56 +85,58 @@ jQuery(function ($) {
             })
         );
 
-        const bundleMin = parseInt($wrap.data('bundle-min'), 10) || 0;
-        const bundleMax = parseInt($wrap.data('bundle-max'), 10) || 0;
-
-        let totalQty = 0;
-        items.forEach(i => totalQty += i.qty);
-
-        // Min validation
-        if (bundleMin > 0 && totalQty < bundleMin) {
-            $('.single_add_to_cart_button').prop('disabled', true);
-            return;
+        /* ---- Min / Max validation ---- */
+        if (
+            (bundleMin > 0 && totalQty < bundleMin) ||
+            (bundleMax > 0 && totalQty > bundleMax)
+        ) {
+            $addToCartBtn.prop('disabled', true);
+        } else {
+            $addToCartBtn.prop('disabled', false);
         }
-
-        // Max validation
-        if (bundleMax > 0 && totalQty > bundleMax) {
-            $('.single_add_to_cart_button').prop('disabled', true);
-            return;
-        }
-
-        $('.single_add_to_cart_button').prop('disabled', false);
-
     }
 
-    $(document).on(
-        'click',
-        '.s1-qty-btn',
-        function () {
+    /* ---------------------------------
+     * Qty + / − buttons
+     * --------------------------------- */
+    $(document).on('click', '.s1-qty-btn', function () {
 
-            const $wrap = $(this).closest('.s1-qty-wrap');
-            const $input = $wrap.find('.s1-qty-input');
+        const $wrap  = $(this).closest('.s1-qty-wrap');
+        const $input = $wrap.find('.s1-qty-input');
 
-            let val = parseInt($input.val(), 10) || 1;
-            let min = parseInt($input.attr('min'), 10) || 1;
-            let max = parseInt($input.attr('max'), 10) || 0;
+        let val = parseInt($input.val(), 10) || 1;
+        const min = parseInt($input.attr('min'), 10) || 1;
+        const max = parseInt($input.attr('max'), 10) || 0;
 
-            if ($(this).hasClass('plus')) val++;
-            if ($(this).hasClass('minus')) val--;
+        if ($(this).hasClass('plus')) val++;
+        if ($(this).hasClass('minus')) val--;
 
-            if (val < min) val = min;
-            if (max > 0 && val > max) val = max;
+        if (val < min) val = min;
+        if (max > 0 && val > max) val = max;
 
-            $input.val(val).trigger('change');
-        }
-    );
+        $input.val(val).trigger('change');
+    });
 
+    /* ---------------------------------
+     * Qty / checkbox change
+     * --------------------------------- */
     $(document).on(
         'change keyup',
         '.s1-qty-input, .s1-bundle-check',
-        buildBundleData
+        function () {
+            const $item = $(this).closest('.s1-bundle-item');
+            updateBundleLinePrice($item);
+            buildBundleData();
+        }
     );
 
-    // initial
+    /* ---------------------------------
+     * Initial setup
+     * --------------------------------- */
+    $('.s1-bundle-item').each(function () {
+        updateBundleLinePrice($(this));
+    });
+
     buildBundleData();
+
 });

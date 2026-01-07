@@ -150,28 +150,43 @@ class StoreOne_Bundle_Frontend {
                         </a>
                     </div>
 
-                    <div class="s1-unit-price"><?php echo wc_price( $price ); ?></div>
+                    <div class="s1-unit-price">
+                    <div class="s1-line-price"
+                        data-unit-price="<?php echo esc_attr( $price ); ?>">
+                        <span class="s1-line-qty"><?php echo esc_html( $qty ); ?></span>
+                        <span class="s1-line-multiply">×</span>
+                        <span class="s1-line-unit"><?php echo wc_price( $price ); ?></span>
+                        <span class="s1-line-equal">=</span>
+                        <strong class="s1-line-total">
+                            <?php echo wc_price( $price * $qty ); ?>
+                        </strong>
+                    </div>
+                    </div>
+                    <?php
+                $allow_qty = ! empty( $item['allow_change_quantity'] );
 
-                    <?php if ( ! empty( $item['allow_change_quantity'] ) ) :
-                        $min = max( 1, absint( $item['min_qty'] ?? 1 ) );
-                        $max = absint( $item['max_qty'] ?? 0 );
-                        $val = max( $min, $qty );
-                    ?>
+                $min = max( 1, absint( $item['min_qty'] ?? 1 ) );
+                $max = absint( $item['max_qty'] ?? 0 );
+
+                // SHOW INPUT only if real range exists
+                $show_qty_input = $allow_qty && $max > $min;
+                ?>
+
+                <?php if ( $show_qty_input ) : ?>
                     <div class="s1-qty-wrap">
                         <button type="button" class="s1-qty-btn minus">−</button>
 
                         <input type="number"
-                               class="s1-qty-input"
-                               name="storeone_bundle_qty[]"
-                               min="<?php echo esc_attr( $min ); ?>"
-                               <?php if ( $max > 0 ) : ?>
-                                   max="<?php echo esc_attr( $max ); ?>"
-                               <?php endif; ?>
-                               value="<?php echo esc_attr( $val ); ?>">
+                            class="s1-qty-input"
+                            name="storeone_bundle_qty[]"
+                            min="<?php echo esc_attr( $min ); ?>"
+                            max="<?php echo esc_attr( $max ); ?>"
+                            value="<?php echo esc_attr( max( $min, $qty ) ); ?>">
 
                         <button type="button" class="s1-qty-btn plus">+</button>
                     </div>
-                    <?php endif; ?>
+                <?php endif; ?>
+
                 </div>
 
             </div>
@@ -420,7 +435,7 @@ class StoreOne_Bundle_Frontend {
     }
 
     return $item_data;
-}
+   }
 
 
 

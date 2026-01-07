@@ -329,7 +329,7 @@ jQuery(function ($) {
      * ===================================================== */
 
     function initAll() {
-
+        
         // Top bundle fields
         toggleFixedPriceField();
         toggleTopDiscountByScope();

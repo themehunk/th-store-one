@@ -574,7 +574,6 @@ private function render_bundle_item_settings( $pid, $item = [] ) {
         $this->update_bundle_wc_prices( $post_id );
     }
 
-
     /* -----------------------------------------
      * Assets
      * ----------------------------------------- */
