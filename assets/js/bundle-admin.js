@@ -417,6 +417,7 @@ jQuery(document).ready(function ($) {
             qtyVal = 1;
         }
 
+
         /* ===============================
          * MIN QTY (ALWAYS ENFORCE)
          * =============================== */
@@ -460,4 +461,3 @@ jQuery(document).ready(function ($) {
     );
 
 });
-

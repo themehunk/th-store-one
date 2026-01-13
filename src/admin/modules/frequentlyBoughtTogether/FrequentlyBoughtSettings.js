@@ -12,7 +12,7 @@ export default function FrequentlyBoughtSettings({
     onLivePreview,
     onRegisterSave, // ✅ REQUIRED for AdminMain
 }) {
-
+ 
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
 

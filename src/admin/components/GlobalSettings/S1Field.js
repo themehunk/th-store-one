@@ -3,11 +3,11 @@ import React from '@wordpress/element';
 /* ---------------------------------
  * Single Field Wrapper
  * --------------------------------- */
-export const S1Field = ({ label, children, visible = true }) => {
+export const S1Field = ({ label, children, classN, visible = true }) => {
     if (!visible) return null; // 👈 fully hide
 
     return (
-        <div className="s1-field-wrapper">
+        <div className={`s1-field-wrapper ${classN || ''}`}>
             {label && (
                 <label className="s1-field-label">
                     {label}

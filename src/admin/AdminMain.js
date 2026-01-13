@@ -59,8 +59,6 @@ const AdminMain = () => {
     const [isDirty, setIsDirty] = useState(false);
 
     const [modulesState, setModulesState] = useState({
-        'pre-order': true,
-        cart: true,
         'frequently-bought': true,
         'bundle-product': true,
     });
@@ -282,12 +280,8 @@ const AdminMain = () => {
                     >
                         ← {__('Go Back', 'store-one')}
                     </Button>
-
-                    
-
                     {/* 🔥 FIXED CLASS HERE */}
                     <div className="s1-settings-layout">
-
                         <ModuleSettings
                         onLivePreview={(rule) => setLivePreviewSettings(rule)}
                         currentModule={currentModule}

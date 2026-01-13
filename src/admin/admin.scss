@@ -904,7 +904,7 @@ button.is-tertiary,
     border-radius: var(--s1-radius-md);
 }
 
-.s1-exclude-header {
+.s1-exclude-header,.s1-toggle-wrpapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1746,4 +1746,17 @@ input.components-text-control__input {
     align-items: flex-start;
     width: 100%;
 }
+}
+
+
+.store-one-content-settings{
+    background: #fff;
+    border: 1px solid var(--s1-gray-200);
+    border-radius: var(--s1-radius-lg);
+    margin-bottom: var(--s1-space-20);
+    box-shadow: var(--s1-shadow-sm);
+    padding: var(--s1-space-20);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
