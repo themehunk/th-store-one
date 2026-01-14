@@ -5,11 +5,13 @@ class StoreOne_Bundle_Frontend {
 
     public function __construct() {
 
-        add_action(
-            'woocommerce_before_add_to_cart_button',
-            [ $this, 'render_bundle' ],
-            5
-        );
+        $settings = $this->get_bundle_settings();
+
+        $hook = $settings['product_page']['position'] === 'after_cart'
+        ? 'woocommerce_after_add_to_cart_button'
+        : 'woocommerce_before_add_to_cart_button';
+
+        add_action( $hook, [ $this, 'render_bundle' ], 5 );
 
         add_action(
             'wp_enqueue_scripts',
@@ -82,6 +84,8 @@ class StoreOne_Bundle_Frontend {
     global $product;
     if ( ! $product ) return;
 
+    $settings = $this->get_bundle_settings();
+
     $items = get_post_meta(
         $product->get_id(),
         '_storeone_bundle_products',
@@ -90,32 +94,12 @@ class StoreOne_Bundle_Frontend {
 
     if ( empty( $items ) || ! is_array( $items ) ) return;
 
-    $scope = get_post_meta(
-        $product->get_id(),
-        '_storeone_discount_scope',
-        true
-    ) ?: 'store_bundle';
-
-    $bundle_min = absint( get_post_meta( $product->get_id(), '_storeone_min_qty', true ) );
-    $bundle_max = absint( get_post_meta( $product->get_id(), '_storeone_max_qty', true ) );
-    
     ?>
+    <div class="storeone-bundle-frontend">
 
-    <div class="storeone-bundle-frontend"
-         data-discount-scope="<?php echo esc_attr( $scope ); ?>"
-         data-bundle-min="<?php echo esc_attr( $bundle_min ); ?>"
-         data-bundle-max="<?php echo esc_attr( $bundle_max ); ?>">
-
-        <h3 class="s1-bundle-title"><?php esc_html_e( 'Bundle includes', 'store-one' ); ?></h3>
-
-        <?php
-        $above = get_post_meta( $product->get_id(), '_storeone_above_text', true );
-        if ( $above ) :
-        ?>
-            <div class="storeone-bundle-above-text">
-                <?php echo wp_kses_post( wpautop( $above ) ); ?>
-            </div>
-        <?php endif; ?>
+        <h3 class="s1-bundle-title">
+            <?php esc_html_e( 'Bundle includes', 'store-one' ); ?>
+        </h3>
 
         <div class="s1-bundle-items">
 
@@ -126,96 +110,103 @@ class StoreOne_Bundle_Frontend {
                 $p = wc_get_product( $item['id'] );
                 if ( ! $p ) continue;
 
-                $price = (float) $p->get_price();
-                $qty   = max( 1, absint( $item['qty'] ?? 1 ) );
+                $qty = max( 1, absint( $item['qty'] ?? 1 ) );
+
+                // PRICE SOURCE
+                if ( $settings['product_page']['price_based_on'] === 'regular' ) {
+                    $price = (float) $p->get_regular_price();
+                } else {
+                    $price = (float) $p->get_price();
+                }
+
+                if ( ! $price ) {
+                    $price = (float) $p->get_price();
+                }
             ?>
 
             <div class="s1-bundle-item"
-                 data-id="<?php echo esc_attr( $p->get_id() ); ?>"
-                 data-price="<?php echo esc_attr( $price ); ?>"
-                 data-qty="<?php echo esc_attr( $qty ); ?>"
-                 data-optional="<?php echo esc_attr( $item['optional'] ?? 0 ); ?>"
-                 data-discount-type="<?php echo esc_attr( $item['discount_type'] ?? 'percent' ); ?>"
-                 data-discount-percent="<?php echo esc_attr( $item['discount_percent'] ?? 0 ); ?>"
-                 data-discount-fixed="<?php echo esc_attr( $item['discount_fixed'] ?? 0 ); ?>">
+                data-id="<?php echo esc_attr( $p->get_id() ); ?>"
+                data-price="<?php echo esc_attr( $price ); ?>"
+                data-qty="<?php echo esc_attr( $qty ); ?>">
 
                 <?php if ( ! empty( $item['optional'] ) ) : ?>
                     <label class="s1-check-wrap">
-                        <input type="checkbox"
-                               class="s1-bundle-check"
-                               checked>
+                        <input type="checkbox" class="s1-bundle-check" checked>
                     </label>
                 <?php endif; ?>
 
-                <div class="s1-thumb">
-                    <?php echo wp_kses_post( $p->get_image( 'woocommerce_thumbnail' ) ); ?>
-                </div>
+                <?php if ( $settings['product_page']['show_thumbnails'] ) : ?>
+                    <div class="s1-thumb">
+                        <?php
+                        if ( $settings['product_page']['thumbnails_clickable'] ) {
+                            echo '<a href="' . esc_url( $p->get_permalink() ) . '">';
+                        }
 
-                <div class="s1-info">
-                    <div class="s1-name">
-                        <a href="<?php echo esc_url( $p->get_permalink() ); ?>" target="_blank">
-                            <?php echo esc_html( $p->get_name() ); ?>
-                        </a>
-                    </div>
+                        echo wp_kses_post( $p->get_image( 'woocommerce_thumbnail' ) );
 
-                    <div class="s1-unit-price">
-                    <div class="s1-line-price"
-                        data-unit-price="<?php echo esc_attr( $price ); ?>">
-                        <span class="s1-line-qty"><?php echo esc_html( $qty ); ?></span>
-                        <span class="s1-line-multiply">×</span>
-                        <span class="s1-line-unit"><?php echo wc_price( $price ); ?></span>
-                        <span class="s1-line-equal">=</span>
-                        <strong class="s1-line-total">
-                            <?php echo wc_price( $price * $qty ); ?>
-                        </strong>
-                    </div>
-                    </div>
-                    <?php
-                $allow_qty = ! empty( $item['allow_change_quantity'] );
-
-                $min = max( 1, absint( $item['min_qty'] ?? 1 ) );
-                $max = absint( $item['max_qty'] ?? 0 );
-
-                // SHOW INPUT only if real range exists
-                $show_qty_input = $allow_qty && $max > $min;
-                ?>
-
-                <?php if ( $show_qty_input ) : ?>
-                    <div class="s1-qty-wrap">
-                        <button type="button" class="s1-qty-btn minus">−</button>
-
-                        <input type="number"
-                            class="s1-qty-input"
-                            name="storeone_bundle_qty[]"
-                            min="<?php echo esc_attr( $min ); ?>"
-                            max="<?php echo esc_attr( $max ); ?>"
-                            value="<?php echo esc_attr( max( $min, $qty ) ); ?>">
-
-                        <button type="button" class="s1-qty-btn plus">+</button>
+                        if ( $settings['product_page']['thumbnails_clickable'] ) {
+                            echo '</a>';
+                        }
+                        ?>
                     </div>
                 <?php endif; ?>
 
-                </div>
+                <div class="s1-info">
 
+                    <div class="s1-name">
+                        <?php
+                        if ( $settings['product_page']['thumbnails_clickable'] ) {
+                            echo '<a href="' . esc_url( $p->get_permalink() ) . '">';
+                        }
+
+                        echo esc_html( $p->get_name() );
+
+                        if ( $settings['product_page']['thumbnails_clickable'] ) {
+                            echo '</a>';
+                        }
+                        ?>
+                    </div>
+
+                    <?php if ( $settings['product_page']['show_descriptions'] ) : ?>
+                        <div class="s1-desc">
+                            <?php echo wp_kses_post( wpautop( $p->get_short_description() ) ); ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ( $settings['product_page']['price_display'] !== 'hide' ) : ?>
+                        <div class="s1-line-price">
+
+                            <?php if ( $settings['product_page']['show_quantities'] ) : ?>
+                                <span class="s1-line-qty"><?php echo esc_html( $qty ); ?></span>
+                                <span class="s1-line-multiply">×</span>
+                            <?php endif; ?>
+
+                            <span class="s1-line-unit">
+                                <?php echo wc_price( $price ); ?>
+                            </span>
+
+                            <?php if ( $settings['product_page']['price_display'] === 'total' ) : ?>
+                                <span class="s1-line-equal">=</span>
+                                <strong class="s1-line-total">
+                                    <?php echo wc_price( $price * $qty ); ?>
+                                </strong>
+                            <?php endif; ?>
+
+                        </div>
+                    <?php endif; ?>
+
+                </div>
             </div>
 
             <?php endforeach; ?>
 
         </div>
 
-        <?php
-        $below = get_post_meta( $product->get_id(), '_storeone_below_text', true );
-        if ( $below ) :
-        ?>
-            <div class="storeone-bundle-below-text">
-                <?php echo wp_kses_post( wpautop( $below ) ); ?>
-            </div>
-        <?php endif; ?>
-
         <input type="hidden" id="storeone_bundle_data" name="storeone_bundle_data">
+
     </div>
     <?php
-}
+    }
 
     public function validate_bundle_data( $passed, $product_id, $qty ) {
 
@@ -376,6 +367,15 @@ class StoreOne_Bundle_Frontend {
 
     public function display_bundle_in_cart( $item_data, $cart_item ) {
 
+    $settings = $this->get_bundle_settings();
+
+    if (
+        ! empty( $settings['cart_page']['hide_products'] ) &&
+        isset( $cart_item['storeone_bundle'] )
+    ) {
+        return $item_data;
+    }
+
     if ( empty( $cart_item['storeone_bundle'] ) ) {
         return $item_data;
     }
@@ -481,4 +481,34 @@ class StoreOne_Bundle_Frontend {
             wp_json_encode( $values['storeone_bundle'] )
         );
     }
+
+    private function get_bundle_settings() {
+
+    $modules = get_option( 'store_one_module_set', [] );
+    $bundle  = $modules['bundle-product'] ?? [];
+
+    $defaults = [
+        'product_page' => [
+            'show_price_range'     => true,
+            'show_thumbnails'      => true,
+            'show_descriptions'    => false,
+            'show_quantities'      => true,
+            'thumbnails_clickable' => true,
+            'price_display'        => 'unit', // unit | total | hide
+            'price_based_on'       => 'sale', // sale | regular
+            'position'             => 'before_cart',
+        ],
+        'cart_page' => [
+            'hide_products'       => false,
+            'hide_products_mini'  => false,
+            'include_links'       => true,
+            'cart_count'          => 'bundle', // bundle | items
+            'display_type'        => 'list',   // list | bullet
+        ],
+        
+    ];
+
+    return wp_parse_args( $bundle, $defaults );
+   }
+
 }
