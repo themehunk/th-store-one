@@ -148,6 +148,24 @@
 font-size:14px;
     font-weight:500;
 }
+.wc-block-components-product-details__bundle-items,
+.wc-block-components-product-details__bundle-price{
+    display: flex;
+    align-items: start;
+    gap:10px;
+    margin-bottom:10pxpx;
+}
+.s1-bundle-cart-list {
+    margin: 6px 0;
+    padding-left: 18px;
+}
+.s1-desc p{
+   margin:0; 
+}
+.wc-block-components-product-details li{
+    margin-bottom:10px;
+}
+
 /* MOBILE */
 @media (max-width: 480px) {
     .s1-bundle-item {

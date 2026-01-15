@@ -140,3 +140,48 @@ jQuery(function ($) {
     buildBundleData();
 
 });
+
+jQuery(function ($) {
+
+    function recalcBundleTotal() {
+        let total = 0;
+
+        $('.s1-bundle-item').each(function () {
+            const $item = $(this);
+
+            const optional = $item.find('.s1-bundle-check').length
+                ? $item.find('.s1-bundle-check').is(':checked')
+                : true;
+
+            if (!optional) return;
+
+            const price = parseFloat($item.data('price')) || 0;
+            const qty   = parseInt($item.data('qty'), 10) || 1;
+
+            total += price * qty;
+        });
+
+        $('.s1-bundle-total-amount').text(
+            wc_price(total)
+        );
+    }
+
+    /* ==========================
+     * VARIABLE PRODUCT SUPPORT
+     * ========================== */
+    $(document).on('found_variation', '.variations_form', function (e, variation) {
+
+        const $form = $(this);
+        const productId = variation.product_id;
+        const price = parseFloat(variation.display_price);
+
+        $('.s1-bundle-item[data-id="' + productId + '"]')
+            .attr('data-price', price)
+            .find('.s1-line-unit')
+            .html(wc_price(price));
+
+        recalcBundleTotal();
+    });
+
+});
+

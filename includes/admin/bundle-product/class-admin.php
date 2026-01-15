@@ -158,6 +158,8 @@ class Store_One_BNDLP_Admin {
             </div>
             </div>
 
+            <div class="storeone-admin-set storeone-col-2">
+
             <?php 
             $scope          = get_post_meta( $post->ID, '_storeone_discount_scope', true ) ?: 'store_bundle';
             /* -----------------------------
@@ -174,28 +176,29 @@ class Store_One_BNDLP_Admin {
             ] );?>
           
             <p class="form-field storeone-bundle-regular-price">
-    <label>
-        <?php
-        printf(
-            __( 'Regular Price (%s)', 'store-one' ),
-            get_woocommerce_currency_symbol()
-        );
-        ?>
-    </label>
+            <label>
+                <?php
+                printf(
+                    __( 'Regular Price (%s)', 'store-one' ),
+                    get_woocommerce_currency_symbol()
+                );
+                ?>
+            </label>
 
-    <input type="text"
-        name="_storeone_bundle_regular_price"
-        class="storeone-bundle-regular-input"
-        data-auto="<?php echo esc_attr( $this->calculate_bundle_regular_price( $items ) ); ?>"
-        data-manual="0"
-        value="<?php echo esc_attr(
-            wc_format_localized_price(
-                $this->calculate_bundle_regular_price( $items )
-            )
-        ); ?>"
-        >
-</p>
-  
+            <input type="text"
+                name="_storeone_bundle_regular_price"
+                class="storeone-bundle-regular-input"
+                data-auto="<?php echo esc_attr( $this->calculate_bundle_regular_price( $items ) ); ?>"
+                data-manual="0"
+                value="<?php echo esc_attr(
+                    wc_format_localized_price(
+                        $this->calculate_bundle_regular_price( $items )
+                    )
+                ); ?>"
+                >
+            </p>
+        </div>
+   <div class="storeone-admin-set storeone-col-2">
 <?php
 
 $discount_type  = get_post_meta( $post->ID, '_storeone_discount_type', true ) ?: 'percent';
@@ -243,7 +246,10 @@ woocommerce_wp_text_input( [
     'value'         => get_post_meta( $post->ID, '_storeone_discount_fixed', true ),
     'wrapper_class'=> 'show_if_storeone_discount_fixed',
 ] );
-
+?>
+</div>
+<div class="storeone-admin-set storeone-col-2">
+<?php 
 woocommerce_wp_text_input( [
     'id'                => '_storeone_min_qty',
     'label'             => __( 'Minimum Quantity', 'store-one' ),
@@ -268,6 +274,8 @@ woocommerce_wp_text_input( [
     'desc_tip' => true,
     'description' => __( 'Maximum quantity allowed for bundle.', 'store-one' ),
 ] );
+?>
+</div><?php
 woocommerce_wp_textarea_input( [
     'id'          => '_storeone_above_text',
     'label'       => __( 'Above Bundle Text', 'store-one' ),

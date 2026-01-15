@@ -189,3 +189,14 @@
 .s1-unit {
     font-weight: 600;
 }
+.storeone-admin-set {
+            display: flex;
+            width:100%;
+        }
+
+.storeone-col-2 .form-field {
+            width: 50%;
+        }
+.storeone-col-2 .form-field select{
+            width:100%;
+        }
