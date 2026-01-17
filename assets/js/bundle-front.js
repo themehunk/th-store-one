@@ -4,11 +4,13 @@ jQuery(function ($) {
     if (!$bundle.length) return;
 
     const $addToCartBtn = $('.single_add_to_cart_button');
+    const $hiddenInput = $('#storeone_bundle_data');
 
     /* ---------------------------------
-     * Woo Price Formatter (basic)
+     * Woo Price Formatter (safe)
      * --------------------------------- */
     function wc_price_format(amount) {
+        amount = parseFloat(amount) || 0;
         if (window.wc_price_params && wc_price_params.currency_format_symbol) {
             return wc_price_params.currency_format_symbol + amount.toFixed(2);
         }
@@ -16,53 +18,38 @@ jQuery(function ($) {
     }
 
     /* ---------------------------------
-     * Get quantity for an item
+     * Get qty from item
      * --------------------------------- */
     function getQty($item) {
-        const $input = $item.find('.s1-qty-input');
-
-        if ($input.length) {
-            const v = parseInt($input.val(), 10);
-            return v > 0 ? v : 1;
-        }
-
-        const d = parseInt($item.data('qty'), 10);
-        return d > 0 ? d : 1;
+        const qty = parseInt($item.attr('data-qty'), 10);
+        return qty > 0 ? qty : 1;
     }
 
     /* ---------------------------------
-     * Update single item line price
+     * Update line price UI
      * --------------------------------- */
-    function updateBundleLinePrice($item) {
+    function updateLinePrice($item) {
         const unit = parseFloat($item.data('price')) || 0;
         const qty  = getQty($item);
-        const total = unit * qty;
 
         $item.find('.s1-line-qty').text(qty);
-        $item.find('.s1-line-total').html(wc_price_format(total));
+        $item.find('.s1-line-total').html(wc_price_format(unit * qty));
     }
 
     /* ---------------------------------
-     * Build bundle JSON + validate min/max
+     * Build bundle JSON
      * --------------------------------- */
     function buildBundleData() {
 
         let items = [];
         let totalQty = 0;
 
-        const scope     = $bundle.data('discount-scope');
-        const bundleMin = parseInt($bundle.data('bundle-min'), 10) || 0;
-        const bundleMax = parseInt($bundle.data('bundle-max'), 10) || 0;
-
         $('.s1-bundle-item').each(function () {
 
             const $item = $(this);
+            const isOptional = $item.data('optional') == 1;
 
-            // Optional unchecked → skip
-            if (
-                $item.data('optional') == 1 &&
-                !$item.find('.s1-bundle-check').is(':checked')
-            ) {
+            if (isOptional && !$item.find('.s1-bundle-check').is(':checked')) {
                 return;
             }
 
@@ -71,75 +58,74 @@ jQuery(function ($) {
 
             items.push({
                 id: $item.data('id'),
-                qty: qty,
-                discount_type: $item.data('discount-type'),
-                discount_percent: $item.data('discount-percent'),
-                discount_fixed: $item.data('discount-fixed')
+                qty: qty
             });
         });
 
-        $('#storeone_bundle_data').val(
-            JSON.stringify({
-                scope: scope,
-                items: items
-            })
-        );
-
-        /* ---- Min / Max validation ---- */
-        if (
-            (bundleMin > 0 && totalQty < bundleMin) ||
-            (bundleMax > 0 && totalQty > bundleMax)
-        ) {
+        if (!items.length) {
+            $hiddenInput.val('');
             $addToCartBtn.prop('disabled', true);
-        } else {
-            $addToCartBtn.prop('disabled', false);
+            return;
         }
+
+        $hiddenInput.val(JSON.stringify({
+            items: items
+        }));
+
+        $addToCartBtn.prop('disabled', false);
     }
 
     /* ---------------------------------
-     * Qty + / − buttons
+     * Qty buttons (+ / -)
      * --------------------------------- */
     $(document).on('click', '.s1-qty-btn', function () {
 
-        const $wrap  = $(this).closest('.s1-qty-wrap');
-        const $input = $wrap.find('.s1-qty-input');
+        const $item = $(this).closest('.s1-bundle-item');
+        let qty = getQty($item);
 
-        let val = parseInt($input.val(), 10) || 1;
-        const min = parseInt($input.attr('min'), 10) || 1;
-        const max = parseInt($input.attr('max'), 10) || 0;
+        if ($(this).hasClass('plus')) qty++;
+        if ($(this).hasClass('minus')) qty--;
 
-        if ($(this).hasClass('plus')) val++;
-        if ($(this).hasClass('minus')) val--;
+        if (qty < 1) qty = 1;
 
-        if (val < min) val = min;
-        if (max > 0 && val > max) val = max;
-
-        $input.val(val).trigger('change');
+        $item.attr('data-qty', qty);
+        updateLinePrice($item);
+        buildBundleData();
     });
 
     /* ---------------------------------
-     * Qty / checkbox change
+     * Optional checkbox
      * --------------------------------- */
-    $(document).on(
-        'change keyup',
-        '.s1-qty-input, .s1-bundle-check',
-        function () {
-            const $item = $(this).closest('.s1-bundle-item');
-            updateBundleLinePrice($item);
-            buildBundleData();
-        }
-    );
+    $(document).on('change', '.s1-bundle-check', function () {
+        buildBundleData();
+    });
 
     /* ---------------------------------
-     * Initial setup
+     * Variable product price support
+     * --------------------------------- */
+    $(document).on('found_variation', '.variations_form', function (e, variation) {
+
+        const price = parseFloat(variation.display_price);
+
+        $('.s1-bundle-item[data-id="' + variation.product_id + '"]')
+            .attr('data-price', price)
+            .find('.s1-line-unit')
+            .html(wc_price_format(price));
+
+        buildBundleData();
+    });
+
+    /* ---------------------------------
+     * Init
      * --------------------------------- */
     $('.s1-bundle-item').each(function () {
-        updateBundleLinePrice($(this));
+        updateLinePrice($(this));
     });
 
     buildBundleData();
 
 });
+
 
 jQuery(function ($) {
 
@@ -184,4 +170,3 @@ jQuery(function ($) {
     });
 
 });
-

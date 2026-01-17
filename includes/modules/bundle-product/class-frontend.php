@@ -27,7 +27,7 @@ class StoreOne_Bundle_Frontend {
 
         add_action(
             'woocommerce_before_calculate_totals',
-            [ $this, 'set_bundle_price' ]
+            [ $this, 'set_bundle_price' ],10,3
         );
 
         add_filter(
@@ -331,16 +331,6 @@ class StoreOne_Bundle_Frontend {
     return $cart_item_data;
    }
 
-
-   public function add_cart_item_hash ( $hash, $cart_item ) {
-
-        if ( isset( $cart_item['storeone_bundle'] ) ) {
-            $hash .= md5( wp_json_encode( $cart_item['storeone_bundle'] ) );
-        }
-
-        return $hash;
-    }
-
     /* =============================
      * SET CART PRICE
      * ============================= */
@@ -362,9 +352,6 @@ class StoreOne_Bundle_Frontend {
 
             $product = $cart_item['data'];
             if ( ! $product ) continue;
-
-            // WC price already correct
-            return;
         }
 
         /* --------------------------------

@@ -158,10 +158,10 @@ class Store_One_BNDLP_Admin {
             </div>
             </div>
 
-            <div class="storeone-admin-set storeone-col-2">
+            
 
             <?php 
-            $scope          = get_post_meta( $post->ID, '_storeone_discount_scope', true ) ?: 'store_bundle';
+            $scope = get_post_meta( $post->ID, '_storeone_discount_scope', true ) ?: 'store_bundle';
             /* -----------------------------
             * Discount Scope
             * ----------------------------- */
@@ -197,8 +197,8 @@ class Store_One_BNDLP_Admin {
                 ); ?>"
                 >
             </p>
-        </div>
-   <div class="storeone-admin-set storeone-col-2">
+        
+  
 <?php
 
 $discount_type  = get_post_meta( $post->ID, '_storeone_discount_type', true ) ?: 'percent';
@@ -240,14 +240,14 @@ woocommerce_wp_text_input( [
     'label'             => __( 'Discount Amount', 'store-one' ),
     'type'              => 'number',
     'custom_attributes' => [
-        'step' => '1',
+        'step' => '0.01',
         'min'  => '0',
     ],
     'value'         => get_post_meta( $post->ID, '_storeone_discount_fixed', true ),
     'wrapper_class'=> 'show_if_storeone_discount_fixed',
 ] );
 ?>
-</div>
+
 <div class="storeone-admin-set storeone-col-2">
 <?php 
 woocommerce_wp_text_input( [
@@ -312,10 +312,11 @@ private function calculate_bundle_regular_price( $items ) {
 
         $qty = max( 1, absint( $item['qty'] ?? 1 ) );
 
-        // Prefer regular price, fallback to price
-        $price = $product->get_price();
+        $price = $product->get_regular_price();
+        if ( $price === '' ) {
+            $price = $product->get_price();
+        }
         
-
         $total += floatval( $price ) * $qty;
     }
 
@@ -509,7 +510,7 @@ private function render_bundle_item_settings( $pid, $item = [] ) {
             $sale_price -= $fixed;
         }
 
-        $sale_price = max( 0, wc_format_decimal( $sale_price ) );
+        $sale_price = wc_format_decimal( $sale_price );
 
         update_post_meta( $post_id, '_regular_price', $regular_total );
 
@@ -525,63 +526,52 @@ private function render_bundle_item_settings( $pid, $item = [] ) {
     }
 
     /* ======================================================
- * 2️⃣ STORE PRODUCT (CORRECT PER ITEM DISCOUNT)
- * ====================================================== */
-if ( $scope === 'store_product' ) {
+    * 2️⃣ STORE PRODUCT (CORRECT PER ITEM DISCOUNT)
+    * ====================================================== */
+    if ( $scope === 'store_product' ) {
 
-    $bundle_regular_total = 0;
-    $bundle_sale_total    = 0;
+        $bundle_regular_total = 0;
+        $bundle_sale_total    = 0;
 
-    foreach ( $items as $item ) {
+        foreach ( $items as $item ) {
 
-        $pid = absint( $item['id'] ?? 0 );
-        if ( ! $pid ) continue;
+            $pid = absint( $item['id'] ?? 0 );
+            if ( ! $pid ) continue;
 
-        $product = wc_get_product( $pid );
-        if ( ! $product ) continue;
+            $product = wc_get_product( $pid );
+            if ( ! $product ) continue;
 
-        $qty     = max( 1, absint( $item['qty'] ?? 1 ) );
+            $qty     = max( 1, absint( $item['qty'] ?? 1 ) );
 
-        // 🔥 ALWAYS base on REGULAR PRICE
-        $regular = (float) $product->get_regular_price();
-        if ( ! $regular ) continue;
+            // 🔥 ALWAYS base on REGULAR PRICE
+            $regular = (float) $product->get_regular_price();
+            if ( ! $regular ) continue;
 
-        /* ---------------------------------
-         * 🔥 USE ITEM LEVEL DISCOUNT (NOT GLOBAL)
-         * --------------------------------- */
-        $item_type    = $item['discount_type'] ?? 'percent';
-        $item_percent = floatval( $item['discount_percent'] ?? 0 );
-        $item_fixed   = floatval( $item['discount_fixed'] ?? 0 );
+            /* ---------------------------------
+            * 🔥 USE ITEM LEVEL DISCOUNT (NOT GLOBAL)
+            * --------------------------------- */
+            $item_type    = $item['discount_type'] ?? 'percent';
+            $item_percent = floatval( $item['discount_percent'] ?? 0 );
+            $item_fixed   = floatval( $item['discount_fixed'] ?? 0 );
 
-        $sale = $regular;
+            $sale = $regular;
 
-        if ( $item_type === 'percent' && $item_percent > 0 ) {
-            $sale -= ( $regular * $item_percent / 100 );
+            if ( $item_type === 'percent' && $item_percent > 0 ) {
+                $sale -= ( $regular * $item_percent / 100 );
+            }
+
+            if ( $item_type === 'fixed' && $item_fixed > 0 ) {
+                $sale -= $item_fixed;
+            }
+
+            $sale = wc_format_decimal( $sale );
+
+            /* ---------------------------------
+            * BUNDLE TOTAL
+            * --------------------------------- */
+            $bundle_regular_total += $regular * $qty;
+            $bundle_sale_total    += $sale * $qty;
         }
-
-        if ( $item_type === 'fixed' && $item_fixed > 0 ) {
-            $sale -= $item_fixed;
-        }
-
-        $sale = max( 0, wc_format_decimal( $sale ) );
-
-        /* ---------------------------------
-         * SAVE CHILD PRODUCT PRICE
-         * --------------------------------- */
-        if ( $sale < $regular ) {
-            update_post_meta( $pid, '_sale_price', $sale );
-            update_post_meta( $pid, '_price', $sale );
-        } else {
-            delete_post_meta( $pid, '_sale_price' );
-            update_post_meta( $pid, '_price', $regular );
-        }
-
-        /* ---------------------------------
-         * BUNDLE TOTAL
-         * --------------------------------- */
-        $bundle_regular_total += $regular * $qty;
-        $bundle_sale_total    += $sale * $qty;
-    }
 
     /* ---------------------------------
      * SAVE MAIN BUNDLE PRODUCT PRICE
@@ -650,9 +640,10 @@ if ( $scope === 'store_product' ) {
         }
         update_post_meta( $post_id, '_storeone_bundle_products', $items );
         } else {
-            update_post_meta( $post_id, '_storeone_bundle_products', [] );
+        update_post_meta( $post_id, '_storeone_bundle_products', [] );
         }
         $this->update_bundle_wc_prices( $post_id );
+        
     }
 
     /* -----------------------------------------
