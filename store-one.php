@@ -30,7 +30,6 @@ require_once STORE_ONE_PLUGIN_DIR . 'includes/store-one-function.php';
 
 function store_one_run() {
 	      Store_One::get_instance();
-		
 }
 add_action( 'plugins_loaded', 'store_one_run' );
 
@@ -54,13 +53,14 @@ add_action(
 	function () {
 		// Frontend class include + init.
 		require_once STORE_ONE_PLUGIN_DIR . 'includes/modules/frequently-bought/class-frontend.php';
+		require_once STORE_ONE_PLUGIN_DIR . 'includes/modules/bundle-product/class-bundle-extended.php';
 		require_once STORE_ONE_PLUGIN_DIR . 'includes/modules/bundle-product/class-frontend.php';
 		
 		if ( class_exists( 'Store_One_FBT_Frontend' ) ) {
 			new Store_One_FBT_Frontend();
 		}
 		if ( class_exists( 'StoreOne_Bundle_Frontend' ) ) {
-			new StoreOne_Bundle_Frontend();
+			StoreOne_Bundle_Frontend::instance();
 			
 		}
 	}

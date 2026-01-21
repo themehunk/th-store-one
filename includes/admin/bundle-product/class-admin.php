@@ -1,74 +1,71 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
-/* -----------------------------------------
- * Product Class
- * ----------------------------------------- */
-if ( class_exists( 'WC_Product_Simple' ) && ! class_exists( 'WC_Product_StoreOne_Bundle' ) ) {
-
-    class WC_Product_StoreOne_Bundle extends WC_Product_Simple {
-
-        public function get_type() {
-            return 'storeone_bundle';
-        }
-    }
-}
 
 class Store_One_BNDLP_Admin {
 
-    public function __construct() {
+    private static $instance = null;
 
-    add_filter( 'product_type_selector', [ $this, 'add_product_type' ] );
-    add_filter( 'woocommerce_product_data_tabs', [ $this, 'add_tab' ] );
-    add_action( 'woocommerce_product_data_panels', [ $this, 'render_panel' ] );
-    add_filter( 'woocommerce_product_class', function( $classname, $product_type ) {
-    if ( $product_type === 'storeone_bundle' ) {
+    public static function instance() {
+        if ( self::$instance === null ) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    private function __construct() {
+
+        // Product type dropdown mein add
+        add_filter( 'product_type_selector', [ $this, 'add_product_type' ] );
+
+        // Tabs
+        add_filter( 'woocommerce_product_data_tabs', [ $this, 'add_tab' ] );
+        add_action( 'woocommerce_product_data_panels', [ $this, 'render_panel' ] );
+
+        // Custom class mapping – high priority
+        add_filter( 'woocommerce_product_class', [ $this, 'custom_product_class' ], 9999, 4 );
+
+        // Force purchasable – high priority
+        add_filter( 'woocommerce_is_purchasable', [ $this, 'force_purchasable' ], 9999, 2 );
+
+        // Save meta
+        add_action( 'woocommerce_process_product_meta_storeone_bundle', [ $this, 'store_one_save' ],30 );
+
+        // Term ensure (sirf ek baar)
+        add_action( 'init', [ $this, 'ensure_product_type_term' ] );
+
+        // Admin assets + AJAX
+        add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+        add_action( 'wp_ajax_storeone_get_product_data', [ $this, 'ajax_get_product_data' ] );
+
+    }
+
+    public function ensure_product_type_term() {
+        if ( ! term_exists( 'storeone_bundle', 'product_type' ) ) {
+            wp_insert_term( 'storeone_bundle', 'product_type' );
+        }
+    }
+
+    public function custom_product_class( $classname, $product_type, $post_type = 'product', $product_id = 0 ) {
+    // Extra check: agar post meta ya term mein bundle hai to force
+    $terms = wp_get_object_terms( $product_id, 'product_type', [ 'fields' => 'slugs' ] );
+    if ( in_array( 'storeone_bundle', (array) $terms ) || get_post_meta( $product_id, '_storeone_bundle_products', true ) ) {
+        error_log( 'Forced custom class for ID ' . $product_id . ' (term/meta check passed)' );
         return 'WC_Product_StoreOne_Bundle';
     }
-    return $classname;
-    }, 10, 2 );
 
-    add_filter( 'woocommerce_is_purchasable', function( $purchasable, $product ) {
-        if ( $product->get_type() === 'storeone_bundle' ) {
+    if ( $product_type === 'storeone_bundle' ) {
+        error_log( 'Custom class mapped for ID ' . $product_id . ': WC_Product_StoreOne_Bundle' );
+        return 'WC_Product_StoreOne_Bundle';
+    }
+
+    return $classname;
+}
+
+    public function force_purchasable( $purchasable, $product ) {
+        if ( $product && $product->get_type() === 'storeone_bundle' ) {
             return true;
         }
         return $purchasable;
-    }, 10, 2 );
-    
-    add_action(
-        'woocommerce_process_product_meta_storeone_bundle',
-        [ $this, 'store_one_save' ]
-    );
-
-    add_action( 'init', function() {
-
-    if ( ! term_exists( 'storeone_bundle', 'product_type' ) ) {
-        wp_insert_term( 'storeone_bundle', 'product_type' );
-    }
-
-    });
-
-    add_action(
-    'woocommerce_process_product_meta_storeone_bundle',
-    function ( $post_id ) {
-
-        wp_delete_object_term_relationships(
-            $post_id,
-            'product_type'
-        );
-
-        wp_set_object_terms(
-            $post_id,
-            'storeone_bundle',
-            'product_type',
-            false
-        );
-
-        wc_delete_product_transients( $post_id );
-    }
-   );
-
-    add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_assets' ] );
-    add_action( 'wp_ajax_storeone_get_product_data', [ $this, 'ajax_get_product_data' ] );
     }
 
 
@@ -682,6 +679,26 @@ private function render_bundle_item_settings( $pid, $item = [] ) {
         update_post_meta( $post_id, '_storeone_bundle_products', [] );
         }
         $this->update_bundle_wc_prices( $post_id );
+
+        $price = get_post_meta( $post_id, '_price', true );
+        if ( '' === $price || ! is_numeric( $price ) ) {
+            $fallback = get_post_meta( $post_id, '_regular_price', true );
+            update_post_meta( $post_id, '_price', $fallback ? wc_format_decimal( $fallback ) : '0' );
+            error_log( 'Forced _price for bundle ' . $post_id );
+        }
+
+        // Cache clear
+        // Extra force
+    update_post_meta( $post_id, '_virtual', 'yes' ); // virtual banao
+    update_post_meta( $post_id, '_stock_status', 'instock' ); // stock force
+
+    // Clear more caches
+    wp_cache_delete( 'wc_product_children_' . $post_id, 'products' );
+    wp_cache_delete( 'wc_product_' . $post_id, 'products' );
+
+    error_log( 'Extra bundle force applied for ID ' . $post_id );
+        wc_delete_product_transients( $post_id );
+        clean_post_cache( $post_id );
         
     }
 
@@ -747,5 +764,3 @@ private function render_bundle_item_settings( $pid, $item = [] ) {
 }
 
 }
-
-new Store_One_BNDLP_Admin();

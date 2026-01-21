@@ -3,6 +3,15 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 class StoreOne_Bundle_Frontend {
 
+    private static $instance = null;
+
+    public static function instance() {
+        if ( self::$instance === null ) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
     public function __construct() {
 
         $settings = $this->get_bundle_settings();
@@ -12,6 +21,10 @@ class StoreOne_Bundle_Frontend {
         : 'woocommerce_before_add_to_cart_button';
 
         add_action( $hook, [ $this, 'render_bundle' ], 5 );
+
+        add_action( 'woocommerce_storeone_bundle_add_to_cart', function() {
+            wc_get_template( 'single-product/add-to-cart/simple.php' );
+        });
 
         add_action(
             'wp_enqueue_scripts',
@@ -40,7 +53,7 @@ class StoreOne_Bundle_Frontend {
         add_filter(
             'woocommerce_get_cart_item_from_session',
             [ $this, 'restore_bundle_from_session' ],
-            20,
+            5,
             2
         );
 
@@ -75,6 +88,7 @@ class StoreOne_Bundle_Frontend {
             'woocommerce_cart_contents_count',
             [ $this, 'bundle_cart_count' ],99
         );
+        
 
         add_filter( 'woocommerce_quantity_input_args', [ $this, 'bundle_woocommerce_quantity_limits' ], 10, 2 );
 
@@ -362,6 +376,16 @@ class StoreOne_Bundle_Frontend {
      * ADD TO CART
      * ============================= */
     public function add_bundle_to_cart_item( $cart_item_data, $product_id ) {
+
+    $product = wc_get_product( $product_id );
+
+    
+    if ( ! $product ) {
+        error_log( 'wc_get_product failed for ID ' . $product_id );
+        return $cart_item_data;
+    }
+
+    error_log( 'Product type: ' . $product->get_type() );
    
     if ( ! isset( $_POST['storeone_bundle_data'] ) || empty( $_POST['storeone_bundle_data'] ) ) {
         return $cart_item_data;
@@ -671,3 +695,4 @@ class StoreOne_Bundle_Frontend {
    }
    
 }
+
