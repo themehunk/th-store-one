@@ -10,7 +10,7 @@ if ( class_exists( 'WC_Product_Simple' ) && ! class_exists( 'WC_Product_StoreOne
 
 				public function __construct( $product = 0 ) {
 					parent::__construct( $product );
-					$this->product_type = 'storeone_bundle'; // force set
+					$this->product_type = 'storeone_bundle';
 				}
 
 				public function get_type() {
