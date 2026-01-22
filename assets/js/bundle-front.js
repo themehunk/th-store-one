@@ -97,9 +97,14 @@ jQuery(function ($) {
 
             if (!isOptional) return;
 
+            const productId = $item.data('id');
+            if (!productId) return;
+
             items.push({
-                id:  $item.data('id'),
-                qty: getQty($item)
+                id: productId,
+                qty: getQty($item),
+                variation_id: $item.data('variation-id') || 0,
+                variation: $item.data('variation-attrs') || {}
             });
         });
 
@@ -142,25 +147,96 @@ jQuery(function ($) {
         applyStrikeToTotal();
     });
 
-    /* =====================================================
-     * VARIABLE PRODUCT SUPPORT
-     * ===================================================== */
-    $(document).on('found_variation', '.variations_form', function (e, variation) {
+   
+        /* =====================================================
+ * VARIABLE PRODUCT SUPPORT (BUNDLE SAFE) ✅ FIXED
+ * ===================================================== */
+$(document).on('change', '.s1-variation-form select', function () {
 
-        const price = parseFloat(variation.display_price) || 0;
-        const $item = $('.s1-bundle-item[data-id="' + variation.product_id + '"]');
+    const $form = $(this).closest('.s1-variation-form');
+    const productId = $form.data('product-id');
+    const variations = $form.data('variations');
 
-        if (!$item.length) return;
+    const attributes = {};
 
-        $item.attr('data-price', price);
-
-        // Unit price untouched (no del)
-        $item.find('.s1-line-unit').html(formatPrice(price));
-
-        updateLinePrice($item);
-        buildBundleData();
-        applyStrikeToTotal();
+    // collect selected attributes
+    $form.find('select').each(function () {
+        if (this.value) {
+            attributes[this.name] = this.value;
+        }
     });
+
+    // all attributes must be selected
+    if (Object.keys(attributes).length !== $form.find('select').length) {
+        return;
+    }
+
+    if (!variations || !variations.length) {
+        console.warn('No variations found for', productId);
+        return;
+    }
+
+    let matched = null;
+
+    // find matching variation
+    variations.forEach(function (v) {
+        let match = true;
+        for (const attr in attributes) {
+            if (v.attributes[attr] !== attributes[attr]) {
+                match = false;
+                break;
+            }
+        }
+        if (match) matched = v;
+    });
+
+    if (!matched) {
+        console.warn('No matching variation for', productId);
+        return;
+    }
+
+    const $item = $('.s1-bundle-item[data-id="' + productId + '"]');
+    if (!$item.length) return;
+
+    const price = parseFloat(matched.display_price) || 0;
+
+    /* ===============================
+     * 🔥 CRITICAL FIX (THIS WAS MISSING)
+     * =============================== */
+    // variation id
+    $item.attr('data-variation-id', matched.variation_id);
+    $item.data('variation-id', matched.variation_id);
+
+    // variation attributes (FOR CART)
+    $item.data('variation-attrs', matched.attributes);
+
+    // price
+    $item.attr('data-price', price);
+
+    // price html
+    $item.find('.s1-line-unit').html(matched.price_html);
+
+    // image update
+    if (matched.image && matched.image.src) {
+        $item.find('.s1-thumb img').attr({
+            src: matched.image.src,
+            srcset: matched.image.srcset || '',
+            sizes: matched.image.sizes || ''
+        });
+    }
+
+    updateLinePrice($item);
+    buildBundleData();
+    applyStrikeToTotal();
+
+    // debug (optional)
+    console.log('BUNDLE VAR SET', {
+        product: productId,
+        variation_id: matched.variation_id,
+        attrs: matched.attributes
+    });
+});
+
 
     /* =====================================================
      * INIT (IMPORTANT)
