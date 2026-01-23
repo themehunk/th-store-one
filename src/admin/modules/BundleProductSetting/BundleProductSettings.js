@@ -170,7 +170,7 @@ export default function BundleProductSettings({
                         <S1FieldGroup
                     title={__('Product page', 'store-one')}
                     >
-                      <S1Field label={__('Display bundle price as range for variable products', 'store-one')} classN="s1-toggle-wrpapper">
+                      {/* <S1Field label={__('Display bundle price as range for variable products', 'store-one')} classN="s1-toggle-wrpapper">
                             <ToggleControl
                                 checked={settings.product_page.show_price_range}
                             onChange={(v) =>
@@ -183,7 +183,7 @@ export default function BundleProductSettings({
                                 })
                             }
                             />
-                    </S1Field>
+                    </S1Field> */}
                     <S1Field label={__('Display bundled product thumbnails', 'store-one')} classN="s1-toggle-wrpapper">
                     <ToggleControl
                         checked={settings.product_page.show_thumbnails}
