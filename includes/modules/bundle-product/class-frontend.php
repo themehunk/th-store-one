@@ -154,7 +154,7 @@ class StoreOne_Bundle_Frontend {
     if ( empty( $items ) || ! is_array( $items ) ) return;
 
     ?>
-    <div class="storeone-bundle-frontend" data-discount-scope="<?php echo esc_attr($discount_scope);?>">
+    <div class="storeone-bundle-frontend" data-discount-scope="<?php echo esc_attr($discount_scope);?>" data-bundle-base-price="<?php echo esc_attr( $product->get_price() ); ?>">
 
         <h3 class="s1-bundle-title">
             <?php esc_html_e( 'Bundle includes', 'store-one' ); ?>
@@ -201,16 +201,29 @@ class StoreOne_Bundle_Frontend {
                 if ( $max_qty > 0 ) {
                     $qty = min( $max_qty, $qty );
                 }
+
+                $prices = $this->storeone_get_bundle_item_prices( $product->get_id(), $item );
             ?>
         
             <div class="s1-bundle-item"
+
                 data-id="<?php echo esc_attr( $p->get_id() ); ?>"
-                data-price="<?php echo esc_attr( $price ); ?>"
+                data-price="<?php
+                    echo esc_attr(
+                        $discount_scope === 'store_product'
+                            ? $prices['sale']
+                            : $prices['regular']
+                    );
+                ?>"
                 data-qty="<?php echo esc_attr( $qty ); ?>"
                 data-allow-qty="<?php echo esc_attr( $allow_qty ); ?>"
                 data-min="<?php echo esc_attr( $min_qty ); ?>"
                 data-max="<?php echo esc_attr( $max_qty ); ?>"
-                data-variable="<?php echo $p->is_type('variable') ? '1' : '0'; ?>">
+                data-variable="<?php echo $p->is_type('variable') ? '1' : '0'; ?>"
+                
+                data-regular="<?php echo esc_attr( $prices['regular'] ); ?>"
+                data-sale="<?php echo esc_attr( $prices['sale'] ); ?>"
+              >
 
                 <?php if ( ! empty( $item['optional'] ) ) : ?>
                     <label class="s1-check-wrap">
@@ -316,7 +329,20 @@ class StoreOne_Bundle_Frontend {
         }
         ?>
         <span class="s1-line-unit">
-            <?php echo $price_html; ?>
+           <?php
+            if (
+                $discount_scope === 'store_product'
+                && $prices
+                && (float) $prices['sale'] < (float) $prices['regular']
+            ) {
+                echo '<del>' . wc_price( $prices['regular'] ) . '</del> ';
+                echo '<ins>' . wc_price( $prices['sale'] ) . '</ins>';
+
+            } else {
+                // store_bundle OR no discount
+                echo wc_price( $prices['regular'] );
+            }
+            ?>
         </span>
         <?php if ( $settings['product_page']['price_display'] === 'total' ) : ?>
         <span class="s1-line-equal">=</span>
@@ -356,6 +382,38 @@ class StoreOne_Bundle_Frontend {
     <?php
     }
 
+    public function storeone_get_bundle_item_prices( $bundle_id, $item ) {
+
+    $product = wc_get_product( $item['id'] );
+    if ( ! $product ) {
+        return false;
+    }
+
+    $regular = (float) ( $product->get_regular_price() ?: $product->get_price() );
+    $sale    = $regular;
+
+    $scope = get_post_meta( $bundle_id, '_storeone_discount_scope', true );
+
+    if ( $scope === 'store_product' ) {
+
+        $type    = $item['discount_type'] ?? 'percent';
+        $percent = floatval( $item['discount_percent'] ?? 0 );
+        $fixed   = floatval( $item['discount_fixed'] ?? 0 );
+
+        if ( $type === 'percent' && $percent > 0 ) {
+            $sale -= ( $regular * $percent / 100 );
+        }
+
+        if ( $type === 'fixed' && $fixed > 0 ) {
+            $sale -= $fixed;
+        }
+    }
+
+    return [
+        'regular' => wc_format_decimal( $regular ),
+        'sale'    => wc_format_decimal( max( 0, $sale ) ),
+    ];
+  }
 
     public function validate_bundle_data( $passed, $product_id, $qty ) {
 
