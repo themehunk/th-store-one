@@ -256,3 +256,83 @@ $(document).on('change', '.s1-variation-form select', function () {
     buildBundleData();
     applyStrikeToTotal();
 });
+// ✅ STORE PRODUCT DISCOUNT SCOPE – FINAL FIXED
+jQuery(function ($) {
+
+    const $bundle = $('.storeone-bundle-frontend');
+    if (!$bundle.length) return;
+
+    const discountScope = $bundle.data('discount-scope');
+    if (discountScope !== 'store_product') return;
+
+    const bundleId  = $bundle.data('product-id');
+    const $priceWrap = $('.summary.entry-summary .price');
+
+    /* ---------------------------------
+     * COLLECT SELECTED ITEMS
+     * --------------------------------- */
+    function getItems() {
+        let items = [];
+
+        $('.s1-bundle-item').each(function () {
+            const $item = $(this);
+
+            // optional unchecked → skip
+            if (
+                $item.find('.s1-bundle-check').length &&
+                !$item.find('.s1-bundle-check').is(':checked')
+            ) {
+                return;
+            }
+
+            items.push({
+                id:  $item.data('id'),
+                qty: parseInt($item.attr('data-qty'), 10) || 1
+            });
+        });
+
+        return items; // ✅ can be []
+    }
+
+    /* ---------------------------------
+     * AJAX PRICE PREVIEW
+     * --------------------------------- */
+    function previewPrice() {
+
+        const items = getItems(); // 🔥 EMPTY ARRAY ALLOWED
+
+        $.ajax({
+            url: storeOneBundle.ajaxurl,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                action: 'storeone_preview_bundle_price',
+                nonce: storeOneBundle.nonce,
+                bundle_id: bundleId,
+                items: items
+            },
+            success: function (res) {
+                if (!res || !res.success) return;
+
+                // 🔥 SAFE REPLACE
+                $priceWrap.html(res.data.price_html);
+            }
+        });
+    }
+
+    /* ---------------------------------
+     * EVENTS
+     * --------------------------------- */
+    $('body').on(
+        'click change',
+        '.s1-qty-btn, .s1-bundle-check, .s1-variation-form select',
+        function () {
+            previewPrice();
+        }
+    );
+
+    /* ---------------------------------
+     * INIT
+     * --------------------------------- */
+    previewPrice();
+});
