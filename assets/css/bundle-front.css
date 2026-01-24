@@ -215,6 +215,15 @@ font-size:14px;
     cursor: not-allowed;
 }
 
+.storeone-old-price {
+    text-decoration: line-through;
+    opacity: 0.7;
+    margin-right: 6px;
+}
+
+.storeone-sale-price {
+    font-weight: 600;
+}
 
 
 /* Mobile friendly */

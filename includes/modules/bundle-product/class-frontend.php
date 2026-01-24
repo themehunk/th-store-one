@@ -93,9 +93,77 @@ class StoreOne_Bundle_Frontend {
         
 
         add_filter( 'woocommerce_quantity_input_args', [ $this, 'bundle_woocommerce_quantity_limits' ], 10, 2 );
+        
+        add_action( 'wp_ajax_storeone_preview_bundle_price', [ $this, 'ajax_preview_bundle_price' ] );
+        add_action( 'wp_ajax_nopriv_storeone_preview_bundle_price', [ $this, 'ajax_preview_bundle_price' ] ); 
 
-    }
+   
+   
+        }
     
+    public function ajax_preview_bundle_price() {
+
+    check_ajax_referer( 'storeone_bundle_nonce', 'nonce' );
+
+    $items     = $_POST['items'] ?? [];
+    $bundle_id = absint( $_POST['bundle_id'] ?? 0 );
+
+    if ( ! is_array( $items ) || ! $bundle_id ) {
+        wp_send_json_error();
+    }
+
+    // ✅ NO ITEMS SELECTED → PRICE 0
+    if ( empty( $items ) ) {
+        wp_send_json_success( [
+            'price_html' => wc_price( 0 ),
+            'raw'        => 0,
+        ] );
+    }
+
+    $bundle_items = get_post_meta(
+        $bundle_id,
+        '_storeone_bundle_products',
+        true
+    );
+
+    if ( empty( $bundle_items ) || ! is_array( $bundle_items ) ) {
+        wp_send_json_error();
+    }
+
+    $bundle_map = [];
+    foreach ( $bundle_items as $bi ) {
+        if ( ! empty( $bi['id'] ) ) {
+            $bundle_map[ $bi['id'] ] = $bi;
+        }
+    }
+
+    $total = 0;
+
+    foreach ( $items as $item ) {
+
+        $product_id = absint( $item['id'] ?? 0 );
+        if ( ! $product_id || empty( $bundle_map[ $product_id ] ) ) {
+            continue;
+        }
+
+        $qty = max( 1, absint( $item['qty'] ?? 1 ) );
+
+        $prices = $this->storeone_get_bundle_item_prices(
+            $bundle_id,
+            $bundle_map[ $product_id ]
+        );
+
+        if ( ! $prices ) continue;
+
+        $total += (float) $prices['sale'] * $qty;
+    }
+
+    wp_send_json_success( [
+        'price_html' => wc_price( $total ),
+        'raw'        => $total,
+    ] );
+}
+
     /* =============================
      * ASSETS
      * ============================= */
@@ -118,6 +186,14 @@ class StoreOne_Bundle_Frontend {
             [ 'jquery' ],
             STORE_ONE_VERSION,
             true
+        );
+        wp_localize_script(
+            'storeone-bundle-frontend',
+            'storeOneBundle',
+            [
+                'ajaxurl'  => admin_url( 'admin-ajax.php' ),
+                'nonce' => wp_create_nonce( 'storeone_bundle_nonce' ),
+            ]
         );
 
     }
@@ -154,7 +230,7 @@ class StoreOne_Bundle_Frontend {
     if ( empty( $items ) || ! is_array( $items ) ) return;
 
     ?>
-    <div class="storeone-bundle-frontend" data-discount-scope="<?php echo esc_attr($discount_scope);?>" data-bundle-base-price="<?php echo esc_attr( $product->get_price() ); ?>">
+    <div class="storeone-bundle-frontend" data-product-id="<?php echo esc_attr( $product->get_id() ); ?>" data-discount-scope="<?php echo esc_attr($discount_scope);?>" data-bundle-base-price="<?php echo esc_attr( $product->get_price() ); ?>">
 
         <h3 class="s1-bundle-title">
             <?php esc_html_e( 'Bundle includes', 'store-one' ); ?>
@@ -464,7 +540,7 @@ class StoreOne_Bundle_Frontend {
 
     
     if ( ! $product ) {
-        error_log( 'wc_get_product failed for ID ' . $product_id );
+        
         return $cart_item_data;
     }
 
@@ -520,33 +596,45 @@ class StoreOne_Bundle_Frontend {
             continue;
         }
 
-        
-        /* --------------------------------
-         * STORE PRODUCT → CALCULATE ITEMS
-         * -------------------------------- */
-        $total = 0;
+        if ( $scope === 'store_product' ) {
 
-        foreach ( $bundle['items'] as $item ) {
+    $total = 0;
 
-            $product = wc_get_product( $item['id'] );
-            if ( ! $product ) continue;
+    // 🔥 bundle meta se original items lao
+    $bundle_items = get_post_meta(
+        $cart_item['product_id'],
+        '_storeone_bundle_products',
+        true
+    );
 
-            $qty   = max( 1, absint( $item['qty'] ?? 1 ) );
-            $price = (float) $product->get_regular_price();
-            if ( ! $price ) {
-                $price = (float) $product->get_price();
-            }
+    if ( empty( $bundle_items ) || ! is_array( $bundle_items ) ) {
+        continue;
+    }
 
-            if ( ( $item['discount_type'] ?? '' ) === 'percent' ) {
-                $price -= $price * floatval( $item['discount_percent'] ?? 0 ) / 100;
-            }
+    // index by product id
+    $bundle_map = [];
+    foreach ( $bundle_items as $bi ) {
+        if ( ! empty( $bi['id'] ) ) {
+            $bundle_map[ $bi['id'] ] = $bi;
+        }
+    }
 
-            if ( ( $item['discount_type'] ?? '' ) === 'fixed' ) {
-                $price -= floatval( $item['discount_fixed'] ?? 0 );
-            }
+    foreach ( $bundle['items'] as $item ) {
 
-            $price = max( 0, $price );
-            $total += $price * $qty;
+        if ( empty( $bundle_map[ $item['id'] ] ) ) continue;
+
+        $qty = max( 1, absint( $item['qty'] ?? 1 ) );
+
+        // ✅ SAME LOGIC AS SINGLE PAGE
+        $prices = $this->storeone_get_bundle_item_prices(
+            $cart_item['product_id'],
+            $bundle_map[ $item['id'] ]
+        );
+
+        if ( ! $prices ) continue;
+
+        $total += (float) $prices['sale'] * $qty;
+        }
         }
 
         $cart_item['data']->set_price( $total );
@@ -645,10 +733,8 @@ class StoreOne_Bundle_Frontend {
 
         return $item_data;
     }
+   if ( $scope === 'store_product' ) {
 
-    /* --------------------------------
-     * STORE PRODUCT → PER ITEM DISPLAY
-     * -------------------------------- */
     foreach ( $bundle['items'] as $item ) {
 
         $product_id = ! empty( $item['variation_id'] )
@@ -660,37 +746,86 @@ class StoreOne_Bundle_Frontend {
 
         $qty = max( 1, absint( $item['qty'] ?? 1 ) );
 
+        /* --------------------------------
+         * ORIGINAL BUNDLE META (for discount)
+         * -------------------------------- */
+        $bundle_items = get_post_meta(
+            $cart_item['product_id'],
+            '_storeone_bundle_products',
+            true
+        );
+
+        if ( empty( $bundle_items ) ) continue;
+
+        $bundle_item = null;
+        foreach ( $bundle_items as $bi ) {
+            if ( (int) $bi['id'] === (int) $item['id'] ) {
+                $bundle_item = $bi;
+                break;
+            }
+        }
+        if ( ! $bundle_item ) continue;
+
+        /* --------------------------------
+         * SAME PRICE LOGIC AS SINGLE PAGE
+         * -------------------------------- */
+        $prices = $this->storeone_get_bundle_item_prices(
+            $cart_item['product_id'],
+            $bundle_item
+        );
+
+        if ( ! $prices ) continue;
+
+        $regular_line_total = (float) $prices['regular'] * $qty;
+        $sale_line_total    = (float) $prices['sale'] * $qty;
+
+        /* --------------------------------
+         * PRICE HTML (DEL + INS)
+         * -------------------------------- */
+        if ( $sale_line_total < $regular_line_total ) {
+
+    $price_html  = '<span class="storeone-old-price">'
+        . wc_price( $regular_line_total )
+        . '</span> ';
+
+    $price_html .= '<span class="storeone-sale-price">'
+        . wc_price( $sale_line_total )
+        . '</span>';
+
+} else {
+    $price_html = wc_price( $sale_line_total );
+}
+
+        /* --------------------------------
+         * ITEM NAME + VARIATION
+         * -------------------------------- */
         $name = esc_html( $product->get_name() ) . ' × ' . $qty;
 
-        /* ✅ VARIATION ATTRIBUTES */
-        if ( ! empty( $item['variation'] ) && is_array( $item['variation'] ) ) {
-
+        if ( ! empty( $item['variation'] ) ) {
             $attrs = [];
-
-            foreach ( $item['variation'] as $key => $value ) {
-                if ( ! $value ) continue;
-                $label = wc_attribute_label( str_replace( 'attribute_', '', $key ) );
-                $attrs[] = $label . ': ' . esc_html( $value );
+            foreach ( $item['variation'] as $k => $v ) {
+                if ( $v ) {
+                    $attrs[] = wc_attribute_label(
+                        str_replace( 'attribute_', '', $k )
+                    ) . ': ' . esc_html( $v );
+                }
             }
-
             if ( $attrs ) {
                 $name .= ' <small>(' . implode( ', ', $attrs ) . ')</small>';
             }
         }
 
-        if ( $include_links ) {
-            $name = '<a href="' . esc_url( $product->get_permalink() ) . '">' . $name . '</a>';
-        }
-
-        $price = (float) $product->get_price();
-
         $item_data[] = [
             'name'  => $name,
-            'value' => wc_price( $price * $qty ),
+            'value' => wp_kses_post( $price_html ),
         ];
     }
 
     return $item_data;
+}
+
+
+
    }
 
 
