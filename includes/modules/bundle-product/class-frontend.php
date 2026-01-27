@@ -18,11 +18,21 @@ class StoreOne_Bundle_Frontend {
 
         $settings = $this->get_bundle_settings();
 
+        // $hook = $settings['product_page']['position'] === 'after_cart'
+        // ? 'woocommerce_after_add_to_cart_button'
+        // : 'woocommerce_before_add_to_cart_button';
+
         $hook = $settings['product_page']['position'] === 'after_cart'
-        ? 'woocommerce_after_add_to_cart_button'
-        : 'woocommerce_before_add_to_cart_button';
+        ? 'woocommerce_after_add_to_cart_form'
+        : 'woocommerce_before_add_to_cart_form';
 
         add_action( $hook, [ $this, 'render_bundle' ], 5 );
+
+        add_action(
+            'woocommerce_after_add_to_cart_button',
+            [ $this, 'render_bundle_hidden_input' ],
+            5
+        );
 
         add_action( 'woocommerce_storeone_bundle_add_to_cart', function() {
             wc_get_template( 'single-product/add-to-cart/simple.php' );
@@ -326,6 +336,10 @@ class StoreOne_Bundle_Frontend {
                 <div class="s1-info">
 
                     <div class="s1-name">
+                        <?php if ( $settings['product_page']['show_quantities'] ) : ?>
+                        <span class="s1-line-qty"><?php echo esc_html( $qty ); ?></span>
+                        <span class="s1-line-multiply">×</span>
+                        <?php endif;?>
                         <?php
                         if ( $settings['product_page']['thumbnails_clickable'] ) {
                             echo '<a href="' . esc_url( $p->get_permalink() ) . '">';
@@ -371,19 +385,14 @@ class StoreOne_Bundle_Frontend {
 
             <?php if ( $settings['product_page']['price_display'] !== 'hide' ) : ?>
             <div class="s1-line-price">
-
-            <?php if ( $settings['product_page']['show_quantities'] ) : ?>
+            
             <?php if ( ! empty( $item['allow_change_quantity'] ) ) : ?>
             <div class="s1-qty-wrap">
                 <button type="button" class="s1-qty-btn minus">−</button>
                 <span class="s1-line-qty"><?php echo esc_html( $qty ); ?></span>
                 <button type="button" class="s1-qty-btn plus">+</button>
             </div>
-        <?php else:?>
-            <span class="s1-line-qty"><?php echo esc_html( $qty ); ?></span>
-            <span class="s1-line-multiply">×</span>
-            <?php endif; endif; ?>
-
+            <?php endif; ?>
         <?php
         $is_variable = $p->is_type( 'variable' );
 
@@ -404,24 +413,59 @@ class StoreOne_Bundle_Frontend {
             $price_html = wc_price( $price );
         }
         ?>
-        <span class="s1-line-unit">
-           <?php
-            if (
-                $discount_scope === 'store_product'
-                && $prices
-                && (float) $prices['sale'] < (float) $prices['regular']
-            ) {
-                echo '<del>' . wc_price( $prices['regular'] ) . '</del> ';
-                echo '<ins>' . wc_price( $prices['sale'] ) . '</ins>';
 
-            } else {
-                // store_bundle OR no discount
-                echo wc_price( $prices['regular'] );
-            }
+         <!-- <span class="s1-line-unit">
+           <?php
+            // if (
+            //     $discount_scope === 'store_product'
+            //     && $prices
+            //     && (float) $prices['sale'] < (float) $prices['regular']
+            // ) {
+            //     if( empty( $item['price_hide'] ) )  : 
+            //     echo '<del>' . wc_price( $prices['regular'] ) . '</del> ';
+            //     endif;
+            //     echo '<ins>' . wc_price( $prices['sale'] ) . '</ins>';
+            // } else {
+               
+            //     // store_bundle OR no discount
+            //     echo wc_price( $prices['regular'] );
+                
+            // }
             ?>
+        </span> -->
+
+        <span class="s1-line-unit">
+        <?php
+        //CASE 1: VARIABLE PRODUCT & NO VARIATION SELECTED
+        if ( $is_variable ) {
+            // show price range ONLY (no discount here)
+            echo $price_html;
+        }
+        //CASE 2: STORE PRODUCT DISCOUNT (SIMPLE / VARIATION SELECTED)
+        elseif (
+            $discount_scope === 'store_product'
+            && $prices
+            && (float) $prices['sale'] < (float) $prices['regular']
+        ) {
+
+            if ( empty( $item['price_hide'] ) ) {
+                echo '<del>' . wc_price( $prices['regular'] ) . '</del> ';
+            }
+
+            echo '<ins>' . wc_price( $prices['sale'] ) . '</ins>';
+
+        }
+        //CASE 3: STORE BUNDLE OR NO DISCOUNT
+        else {
+
+            echo wc_price( $prices['regular'] );
+
+        }
+        ?>
         </span>
-        <?php if ( $settings['product_page']['price_display'] === 'total' ) : ?>
-        <span class="s1-line-equal">=</span>
+
+        <?php if(  $discount_scope === 'store_bundle'
+                && empty( $item['price_hide'] ) && !$is_variable )  : ?>
         <strong class="s1-line-total">
             <?php
             if ( $discount_scope === 'store_bundle' ) {
@@ -431,7 +475,6 @@ class StoreOne_Bundle_Frontend {
             }
             ?>
         </strong>
-        
         <?php endif; ?>
 
          </div>
@@ -450,13 +493,21 @@ class StoreOne_Bundle_Frontend {
             </div>
         <?php endif; ?>
         </div>
-        <input type="hidden" id="storeone_bundle_data" name="storeone_bundle_data">
+        <!-- <input type="hidden" id="storeone_bundle_data" name="storeone_bundle_data"> -->
         <span class="s1-currency-template" style="display:none">
             <?php echo wc_price( 0 ); ?>
         </span>
     </div>
     <?php
     }
+    public function render_bundle_hidden_input() {
+    ?>
+    <input type="hidden"
+           id="storeone_bundle_data"
+           name="storeone_bundle_data"
+           value="">
+    <?php
+}
 
     public function storeone_get_bundle_item_prices( $bundle_id, $item ) {
 
@@ -822,12 +873,9 @@ class StoreOne_Bundle_Frontend {
     }
 
     return $item_data;
+  }
+
 }
-
-
-
-   }
-
 
    public function bundle_cart_count( $count ) {
 
