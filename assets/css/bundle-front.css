@@ -73,6 +73,7 @@
     overflow: hidden;
     height: 32px;
     background: #fff;
+    margin-right: 0.5rem;
 }
 
 /* + / - buttons */
@@ -90,7 +91,10 @@
     align-items: center;
     justify-content: center;
 }
-
+.s1-line-qty{
+width: 30px;
+    text-align: center;
+}
 .s1-qty-btn:hover {
     background: #ececec;
 }
@@ -132,6 +136,7 @@
 .s1-line-price {
     font-weight: 600;
     min-width: 80px;
+    margin-top: 0.5rem;
     
 }
 .storeone-bundle-frontend .storeone-bundle-above-text > p{
@@ -224,7 +229,6 @@ font-size:14px;
 .storeone-sale-price {
     font-weight: 600;
 }
-
 
 /* Mobile friendly */
 @media (max-width: 600px) {

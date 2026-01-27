@@ -387,6 +387,22 @@ private function render_bundle_item_settings( $pid, $item = [] ) {
         </span>
     </p>
 
+    <!-- Optional -->
+    <p class="form-field">
+        <label>
+            <input type="checkbox"
+                   class="s1-hide-price-toggle"
+                   name="_storeone_bundle_products[<?php echo esc_attr( $pid ); ?>][price_hide]"
+                   value="1"
+                   <?php checked( $item['price_hide'] ?? '', 1 ); ?>>
+            <?php _e( 'Hide Price', 'store-one' ); ?>
+        </label>
+
+        <span class="description">
+            <?php _e( 'User can choose whether to hide regular price product.', 'store-one' ); ?>
+        </span>
+    </p>
+
     <!-- Allow Quantity -->
     <p class="form-field">
         <label>
@@ -664,6 +680,8 @@ private function render_bundle_item_settings( $pid, $item = [] ) {
                 'qty' => max(1, absint($row['qty'] ?? 1)),
                 //Optional product
                 'optional' => isset( $row['optional'] ) ? 1 : 0,
+                //Optional product
+                'price_hide' => isset( $row['price_hide'] ) ? 1 : 0,
                 //Quantity settings
                 'allow_change_quantity' => isset( $row['allow_change_quantity'] ) ? 1 : 0,
                 'min_qty'               => absint( $row['min_qty'] ?? 0 ),
