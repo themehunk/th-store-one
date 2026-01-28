@@ -986,4 +986,3 @@ class StoreOne_Bundle_Frontend {
    }
    
 }
-
