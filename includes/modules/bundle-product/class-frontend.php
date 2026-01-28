@@ -115,6 +115,8 @@ class StoreOne_Bundle_Frontend {
 
     check_ajax_referer( 'storeone_bundle_nonce', 'nonce' );
 
+    error_log( 'AJAX ITEMS: ' . print_r( $_POST['items'], true ) );
+
     $items     = $_POST['items'] ?? [];
     $bundle_id = absint( $_POST['bundle_id'] ?? 0 );
 
@@ -122,7 +124,6 @@ class StoreOne_Bundle_Frontend {
         wp_send_json_error();
     }
 
-    // ✅ NO ITEMS SELECTED → PRICE 0
     if ( empty( $items ) ) {
         wp_send_json_success( [
             'price_html' => wc_price( 0 ),
@@ -151,22 +152,27 @@ class StoreOne_Bundle_Frontend {
 
     foreach ( $items as $item ) {
 
-        $product_id = absint( $item['id'] ?? 0 );
-        if ( ! $product_id || empty( $bundle_map[ $product_id ] ) ) {
-            continue;
-        }
+    $product_id   = absint( $item['id'] ?? 0 );
+    $variation_id = absint( $item['variation_id'] ?? 0 );
 
-        $qty = max( 1, absint( $item['qty'] ?? 1 ) );
-
-        $prices = $this->storeone_get_bundle_item_prices(
-            $bundle_id,
-            $bundle_map[ $product_id ]
-        );
-
-        if ( ! $prices ) continue;
-
-        $total += (float) $prices['sale'] * $qty;
+    if ( ! $product_id || empty( $bundle_map[ $product_id ] ) ) {
+        continue;
     }
+
+    $qty = max( 1, absint( $item['qty'] ?? 1 ) );
+    $bundle_item = $bundle_map[ $product_id ];
+    $bundle_item['variation_id'] = $variation_id;
+
+    $prices = $this->storeone_get_bundle_item_prices(
+        $bundle_id,
+        $bundle_item
+    );
+
+    if ( ! $prices ) continue;
+
+    $total += (float) $prices['sale'] * $qty;
+}
+
 
     wp_send_json_success( [
         'price_html' => wc_price( $total ),
@@ -507,17 +513,29 @@ class StoreOne_Bundle_Frontend {
            name="storeone_bundle_data"
            value="">
     <?php
-}
+    }
 
     public function storeone_get_bundle_item_prices( $bundle_id, $item ) {
 
-    $product = wc_get_product( $item['id'] );
+    $product_id   = absint( $item['id'] ?? 0 );
+    $variation_id = absint( $item['variation_id'] ?? 0 );
+
+    // 🔥 variation > parent
+    $product = $variation_id
+        ? wc_get_product( $variation_id )
+        : wc_get_product( $product_id );
+
     if ( ! $product ) {
         return false;
     }
 
-    $regular = (float) ( $product->get_regular_price() ?: $product->get_price() );
-    $sale    = $regular;
+    // 🔥 correct base price
+    $regular = (float) (
+        $product->get_regular_price()
+        ?: $product->get_price()
+    );
+
+    $sale = $regular;
 
     $scope = get_post_meta( $bundle_id, '_storeone_discount_scope', true );
 
@@ -540,7 +558,8 @@ class StoreOne_Bundle_Frontend {
         'regular' => wc_format_decimal( $regular ),
         'sale'    => wc_format_decimal( max( 0, $sale ) ),
     ];
-  }
+}
+
 
     public function validate_bundle_data( $passed, $product_id, $qty ) {
 
@@ -967,4 +986,3 @@ class StoreOne_Bundle_Frontend {
    }
    
 }
-

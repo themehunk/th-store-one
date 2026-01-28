@@ -137,6 +137,7 @@ jQuery(function ($) {
         updateLinePrice($item);
         buildBundleData();
         applyStrikeToTotal();
+        
     });
 
     /* =====================================================
@@ -228,13 +229,16 @@ $(document).on('change', '.s1-variation-form select', function () {
     updateLinePrice($item);
     buildBundleData();
     applyStrikeToTotal();
+    setTimeout(function () {
+    previewPrice();
+}, 0);
 
     // debug (optional)
-    console.log('BUNDLE VAR SET', {
-        product: productId,
-        variation_id: matched.variation_id,
-        attrs: matched.attributes
-    });
+    // console.log('BUNDLE VAR SET', {
+    //     product: productId,
+    //     variation_id: matched.variation_id,
+    //     attrs: matched.attributes
+    // });
 });
 
 
@@ -272,27 +276,29 @@ jQuery(function ($) {
      * COLLECT SELECTED ITEMS
      * --------------------------------- */
     function getItems() {
-        let items = [];
+    let items = [];
 
-        $('.s1-bundle-item').each(function () {
-            const $item = $(this);
+    $('.s1-bundle-item').each(function () {
+        const $item = $(this);
 
-            // optional unchecked → skip
-            if (
-                $item.find('.s1-bundle-check').length &&
-                !$item.find('.s1-bundle-check').is(':checked')
-            ) {
-                return;
-            }
+        // optional unchecked → skip
+        if (
+            $item.find('.s1-bundle-check').length &&
+            !$item.find('.s1-bundle-check').is(':checked')
+        ) {
+            return;
+        }
 
-            items.push({
-                id:  $item.data('id'),
-                qty: parseInt($item.attr('data-qty'), 10) || 1
-            });
+        items.push({
+            id: $item.data('id'),
+            qty: parseInt($item.attr('data-qty'), 10) || 1,
+            variation_id: $item.data('variation-id') || 0
         });
+    });
 
-        return items; // ✅ can be []
-    }
+    return items;
+}
+
 
     /* ---------------------------------
      * AJAX PRICE PREVIEW
