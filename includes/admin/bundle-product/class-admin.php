@@ -386,7 +386,6 @@ private function render_bundle_item_settings( $pid, $item = [] ) {
             <?php _e( 'User can choose whether to include this product in the bundle.', 'store-one' ); ?>
         </span>
     </p>
-
     <!-- Optional -->
     <p class="form-field">
         <label>
@@ -395,14 +394,12 @@ private function render_bundle_item_settings( $pid, $item = [] ) {
                    name="_storeone_bundle_products[<?php echo esc_attr( $pid ); ?>][price_hide]"
                    value="1"
                    <?php checked( $item['price_hide'] ?? '', 1 ); ?>>
-            <?php _e( 'Hide Price', 'store-one' ); ?>
+            <?php _e( 'Hide Discount', 'store-one' ); ?>
         </label>
-
         <span class="description">
-            <?php _e( 'User can choose whether to hide regular price product.', 'store-one' ); ?>
+            <?php _e( 'User can choose whether to hide regular price product', 'store-one' ); ?>
         </span>
     </p>
-
     <!-- Allow Quantity -->
     <p class="form-field">
         <label>

@@ -16,106 +16,84 @@ class StoreOne_Bundle_Frontend {
 
     public function __construct() {
 
-        $settings = $this->get_bundle_settings();
-
-        // $hook = $settings['product_page']['position'] === 'after_cart'
-        // ? 'woocommerce_after_add_to_cart_button'
-        // : 'woocommerce_before_add_to_cart_button';
+        $settings = $this->storeone_get_bundle_settings();
 
         $hook = $settings['product_page']['position'] === 'after_cart'
         ? 'woocommerce_after_add_to_cart_form'
         : 'woocommerce_before_add_to_cart_form';
 
-        add_action( $hook, [ $this, 'render_bundle' ], 5 );
+        add_action( $hook, [ $this, 'store_one_render_bundle' ], 5 );
 
         add_action(
             'woocommerce_after_add_to_cart_button',
-            [ $this, 'render_bundle_hidden_input' ],
+            [ $this, 'storeone_render_bundle_hidden_input' ],
             5
         );
 
         add_action( 'woocommerce_storeone_bundle_add_to_cart', function() {
             wc_get_template( 'single-product/add-to-cart/simple.php' );
         });
-
         add_action(
             'wp_enqueue_scripts',
-            [ $this, 'enqueue_assets' ]
+            [ $this, 'storeone_enqueue_assets' ]
         );
-
         add_filter(
             'woocommerce_add_cart_item_data',
-            [ $this, 'add_bundle_to_cart_item' ],
+            [ $this, 'storeone_add_bundle_to_cart_item' ],
             10,
             2
         );
-
         add_action(
             'woocommerce_before_calculate_totals',
-            [ $this, 'set_bundle_price' ]
+            [ $this, 'storeone_set_bundle_price' ]
         );
-
         add_filter(
             'woocommerce_get_item_data',
-            [ $this, 'display_bundle_in_cart' ],
+            [ $this, 'storeone_display_bundle_in_cart' ],
             10,
             3
         );
-
         add_filter(
             'woocommerce_get_cart_item_from_session',
-            [ $this, 'restore_bundle_from_session' ],
+            [ $this, 'storeone_restore_bundle_from_session' ],
             5,
             2
         );
-
         add_action(
             'woocommerce_checkout_create_order_line_item',
-            [ $this, 'save_bundle_to_order' ],
+            [ $this, 'storeone_save_bundle_to_order' ],
             10,
             4
         );
-
         add_filter( 'woocommerce_add_to_cart_validation',
-            [ $this, 'validate_bundle_data' ],
+            [ $this, 'storeone_validate_bundle_data' ],
             10,
             3
         );
-
-
         add_filter(
             'woocommerce_cart_item_hash',
-            [ $this, 'add_cart_item_hash' ],
+            [ $this, 'storeone_add_cart_item_hash' ],
             10,
             2
         );
-
         add_filter(
         'woocommerce_widget_cart_item_quantity',
-        [ $this, 'hide_bundle_in_mini_cart' ],
+        [ $this, 'storeone_hide_bundle_in_mini_cart' ],
         10,
         3
         );
         add_filter(
             'woocommerce_cart_contents_count',
-            [ $this, 'bundle_cart_count' ],99
+            [ $this, 'storeone_bundle_cart_count' ],99
         );
-        
-
-        add_filter( 'woocommerce_quantity_input_args', [ $this, 'bundle_woocommerce_quantity_limits' ], 10, 2 );
-        
-        add_action( 'wp_ajax_storeone_preview_bundle_price', [ $this, 'ajax_preview_bundle_price' ] );
-        add_action( 'wp_ajax_nopriv_storeone_preview_bundle_price', [ $this, 'ajax_preview_bundle_price' ] ); 
-
-   
-   
+        add_filter( 'woocommerce_quantity_input_args', [ $this, 'storeone_bundle_woocommerce_quantity_limits' ], 10, 2 );
+        add_action( 'wp_ajax_storeone_preview_bundle_price', [ $this, 'storeone_ajax_preview_bundle_price' ] );
+        add_action( 'wp_ajax_nopriv_storeone_preview_bundle_price', [ $this, 'storeone_ajax_preview_bundle_price' ] ); 
         }
     
-    public function ajax_preview_bundle_price() {
+    public function storeone_ajax_preview_bundle_price() {
 
     check_ajax_referer( 'storeone_bundle_nonce', 'nonce' );
-
-    error_log( 'AJAX ITEMS: ' . print_r( $_POST['items'], true ) );
 
     $items     = $_POST['items'] ?? [];
     $bundle_id = absint( $_POST['bundle_id'] ?? 0 );
@@ -183,9 +161,7 @@ class StoreOne_Bundle_Frontend {
     /* =============================
      * ASSETS
      * ============================= */
-    public function enqueue_assets() {
-
-     if ( ! is_product() ) return;
+    public function storeone_enqueue_assets() {
      /* ===============================
      * FRONTEND CSS
      * =============================== */
@@ -214,7 +190,7 @@ class StoreOne_Bundle_Frontend {
 
     }
 
-    public function bundle_woocommerce_quantity_limits( $args, $product ) {
+    public function storeone_bundle_woocommerce_quantity_limits( $args, $product ) {
 
     $bundle_min = absint( get_post_meta( $product->get_id(), '_storeone_min_qty', true ) );
     $bundle_max = absint( get_post_meta( $product->get_id(), '_storeone_max_qty', true ) );
@@ -225,12 +201,14 @@ class StoreOne_Bundle_Frontend {
     return $args;
     }
 
-    public function render_bundle() {
+    public function store_one_render_bundle() {
 
     global $product;
-    if ( ! $product ) return;
+    if ( ! $product instanceof WC_Product ) {
+        return;
+    }
 
-    $settings = $this->get_bundle_settings();
+    $settings = $this->storeone_get_bundle_settings();
 
     $items = get_post_meta(
         $product->get_id(),
@@ -246,14 +224,17 @@ class StoreOne_Bundle_Frontend {
     if ( empty( $items ) || ! is_array( $items ) ) return;
 
     ?>
-    <div class="storeone-bundle-frontend" data-product-id="<?php echo esc_attr( $product->get_id() ); ?>" data-discount-scope="<?php echo esc_attr($discount_scope);?>" data-bundle-base-price="<?php echo esc_attr( $product->get_price() ); ?>">
+    <div class="storeone-bundle-frontend" 
+    data-product-id="<?php echo esc_attr( $product->get_id() ); ?>" 
+    data-discount-scope="<?php echo esc_attr($discount_scope);?>" 
+    data-bundle-base-price="<?php echo esc_attr( $product->get_price() ); ?>">
 
         <h3 class="s1-bundle-title">
             <?php esc_html_e( 'Bundle includes', 'store-one' ); ?>
         </h3>
       <?php
         $above = get_post_meta( $product->get_id(), '_storeone_above_text', true );
-        if ( $above ) :
+        if ( ! empty( $above ) ) :
         ?>
         <div class="storeone-bundle-above-text">
         <?php echo wp_kses_post( wpautop( $above ) ); ?>
@@ -270,7 +251,6 @@ class StoreOne_Bundle_Frontend {
 
                 $qty = max( 1, absint( $item['qty'] ?? 1 ) );
 
-                // PRICE SOURCE
                 if ( $settings['product_page']['price_based_on'] === 'regular' ) {
                     $price = (float) $p->get_regular_price();
                 } else {
@@ -295,24 +275,19 @@ class StoreOne_Bundle_Frontend {
                 }
 
                 $prices = $this->storeone_get_bundle_item_prices( $product->get_id(), $item );
+                $product_name  = esc_html( $p->get_name() );
+                $product_link  = esc_url( $p->get_permalink() );
+                $product_image = wp_kses_post( $p->get_image( 'woocommerce_thumbnail' ) );
             ?>
         
             <div class="s1-bundle-item"
-
                 data-id="<?php echo esc_attr( $p->get_id() ); ?>"
-                data-price="<?php
-                    echo esc_attr(
-                        $discount_scope === 'store_product'
-                            ? $prices['sale']
-                            : $prices['regular']
-                    );
-                ?>"
+                data-price="<?php echo esc_attr($discount_scope === 'store_product'? $prices['sale']: $prices['regular']);?>"
                 data-qty="<?php echo esc_attr( $qty ); ?>"
                 data-allow-qty="<?php echo esc_attr( $allow_qty ); ?>"
                 data-min="<?php echo esc_attr( $min_qty ); ?>"
                 data-max="<?php echo esc_attr( $max_qty ); ?>"
-                data-variable="<?php echo $p->is_type('variable') ? '1' : '0'; ?>"
-                
+                data-variable="<?php echo esc_attr( $p->is_type( 'variable' ) ? 1 : 0 ); ?>"
                 data-regular="<?php echo esc_attr( $prices['regular'] ); ?>"
                 data-sale="<?php echo esc_attr( $prices['sale'] ); ?>"
               >
@@ -325,18 +300,14 @@ class StoreOne_Bundle_Frontend {
 
                 <?php if ( $settings['product_page']['show_thumbnails'] ) : ?>
                     <div class="s1-thumb">
-                        <?php
-                        if ( $settings['product_page']['thumbnails_clickable'] ) {
-                            echo '<a href="' . esc_url( $p->get_permalink() ) . '">';
-                        }
-
-                        echo wp_kses_post( $p->get_image( 'woocommerce_thumbnail' ) );
-
-                        if ( $settings['product_page']['thumbnails_clickable'] ) {
-                            echo '</a>';
-                        }
-                        ?>
-                    </div>
+                    <?php
+                    if ( ! empty( $settings['product_page']['thumbnails_clickable'] ) ) {
+                        printf( '<a href="%s">%s</a>', $product_link, $product_image );
+                    }else {
+                        echo wp_kses_post( $product_image );
+                    }
+                    ?>
+                </div>
                 <?php endif; ?>
 
                 <div class="s1-info">
@@ -346,17 +317,14 @@ class StoreOne_Bundle_Frontend {
                         <span class="s1-line-qty"><?php echo esc_html( $qty ); ?></span>
                         <span class="s1-line-multiply">×</span>
                         <?php endif;?>
+
                         <?php
-                        if ( $settings['product_page']['thumbnails_clickable'] ) {
-                            echo '<a href="' . esc_url( $p->get_permalink() ) . '">';
+                        if ( ! empty( $settings['product_page']['thumbnails_clickable'] ) ) {
+                            printf( '<a href="%s">%s</a>', $product_link, $product_name );
+                        } else {
+                            echo esc_html( $product_name );
                         }
-
-                        echo esc_html( $p->get_name() );
-
-                        if ( $settings['product_page']['thumbnails_clickable'] ) {
-                            echo '</a>';
-                        }
-                        ?>
+                    ?>
                     </div>
 
                 <?php if ( $settings['product_page']['show_descriptions'] ) : ?>
@@ -392,7 +360,14 @@ class StoreOne_Bundle_Frontend {
             <?php if ( $settings['product_page']['price_display'] !== 'hide' ) : ?>
             <div class="s1-line-price">
             
-            <?php if ( ! empty( $item['allow_change_quantity'] ) ) : ?>
+            <?php if (
+                ! empty( $item['allow_change_quantity'] ) &&
+                ! (
+                    isset( $item['min_qty'], $item['max_qty'] ) &&
+                    absint( $item['min_qty'] ) > 0 &&
+                    absint( $item['min_qty'] ) === absint( $item['max_qty'] )
+                )
+            ) : ?>
             <div class="s1-qty-wrap">
                 <button type="button" class="s1-qty-btn minus">−</button>
                 <span class="s1-line-qty"><?php echo esc_html( $qty ); ?></span>
@@ -419,57 +394,25 @@ class StoreOne_Bundle_Frontend {
             $price_html = wc_price( $price );
         }
         ?>
-
-         <!-- <span class="s1-line-unit">
-           <?php
-            // if (
-            //     $discount_scope === 'store_product'
-            //     && $prices
-            //     && (float) $prices['sale'] < (float) $prices['regular']
-            // ) {
-            //     if( empty( $item['price_hide'] ) )  : 
-            //     echo '<del>' . wc_price( $prices['regular'] ) . '</del> ';
-            //     endif;
-            //     echo '<ins>' . wc_price( $prices['sale'] ) . '</ins>';
-            // } else {
-               
-            //     // store_bundle OR no discount
-            //     echo wc_price( $prices['regular'] );
-                
-            // }
-            ?>
-        </span> -->
-
         <span class="s1-line-unit">
         <?php
-        //CASE 1: VARIABLE PRODUCT & NO VARIATION SELECTED
         if ( $is_variable ) {
-            // show price range ONLY (no discount here)
             echo $price_html;
         }
-        //CASE 2: STORE PRODUCT DISCOUNT (SIMPLE / VARIATION SELECTED)
         elseif (
             $discount_scope === 'store_product'
             && $prices
             && (float) $prices['sale'] < (float) $prices['regular']
         ) {
-
             if ( empty( $item['price_hide'] ) ) {
                 echo '<del>' . wc_price( $prices['regular'] ) . '</del> ';
             }
-
             echo '<ins>' . wc_price( $prices['sale'] ) . '</ins>';
-
-        }
-        //CASE 3: STORE BUNDLE OR NO DISCOUNT
-        else {
-
+        }else {
             echo wc_price( $prices['regular'] );
-
         }
         ?>
         </span>
-
         <?php if(  $discount_scope === 'store_bundle'
                 && empty( $item['price_hide'] ) && !$is_variable )  : ?>
         <strong class="s1-line-total">
@@ -482,13 +425,10 @@ class StoreOne_Bundle_Frontend {
             ?>
         </strong>
         <?php endif; ?>
-
          </div>
         <?php endif; ?>
-            </div>
-                
+        </div>  
         </div>
-
         <?php endforeach; ?>
         <?php
         $below = get_post_meta( $product->get_id(), '_storeone_below_text', true );
@@ -499,14 +439,14 @@ class StoreOne_Bundle_Frontend {
             </div>
         <?php endif; ?>
         </div>
-        <!-- <input type="hidden" id="storeone_bundle_data" name="storeone_bundle_data"> -->
         <span class="s1-currency-template" style="display:none">
             <?php echo wc_price( 0 ); ?>
         </span>
     </div>
     <?php
     }
-    public function render_bundle_hidden_input() {
+
+    public function storeone_render_bundle_hidden_input() {
     ?>
     <input type="hidden"
            id="storeone_bundle_data"
@@ -520,7 +460,7 @@ class StoreOne_Bundle_Frontend {
     $product_id   = absint( $item['id'] ?? 0 );
     $variation_id = absint( $item['variation_id'] ?? 0 );
 
-    // 🔥 variation > parent
+    //variation > parent
     $product = $variation_id
         ? wc_get_product( $variation_id )
         : wc_get_product( $product_id );
@@ -529,7 +469,7 @@ class StoreOne_Bundle_Frontend {
         return false;
     }
 
-    // 🔥 correct base price
+    //correct base price
     $regular = (float) (
         $product->get_regular_price()
         ?: $product->get_price()
@@ -561,7 +501,7 @@ class StoreOne_Bundle_Frontend {
 }
 
 
-    public function validate_bundle_data( $passed, $product_id, $qty ) {
+    public function storeone_validate_bundle_data( $passed, $product_id, $qty ) {
 
     if ( empty( $_POST['storeone_bundle_data'] ) ) {
         return $passed;
@@ -600,11 +540,10 @@ class StoreOne_Bundle_Frontend {
     return $passed;
    }
 
-    
     /* =============================
      * ADD TO CART
      * ============================= */
-    public function add_bundle_to_cart_item( $cart_item_data, $product_id ) {
+    public function storeone_add_bundle_to_cart_item( $cart_item_data, $product_id ) {
 
     $product = wc_get_product( $product_id );
 
@@ -633,7 +572,7 @@ class StoreOne_Bundle_Frontend {
    }
 
 
-   public function add_cart_item_hash( $hash, $cart_item ) {
+   public function storeone_add_cart_item_hash( $hash, $cart_item ) {
     if ( ! empty( $cart_item['storeone_bundle'] ) ) {
         return md5( $hash . serialize( $cart_item['storeone_bundle'] ) );
     }
@@ -643,7 +582,7 @@ class StoreOne_Bundle_Frontend {
     /* =============================
      * SET CART PRICE
      * ============================= */
-    public function set_bundle_price( $cart ) {
+    public function storeone_set_bundle_price( $cart ) {
 
     if ( is_admin() && ! defined( 'DOING_AJAX' ) ) return;
 
@@ -670,7 +609,7 @@ class StoreOne_Bundle_Frontend {
 
     $total = 0;
 
-    // 🔥 bundle meta se original items lao
+    //bundle meta se original items lao
     $bundle_items = get_post_meta(
         $cart_item['product_id'],
         '_storeone_bundle_products',
@@ -695,7 +634,7 @@ class StoreOne_Bundle_Frontend {
 
         $qty = max( 1, absint( $item['qty'] ?? 1 ) );
 
-        // ✅ SAME LOGIC AS SINGLE PAGE
+        //SAME LOGIC AS SINGLE PAGE
         $prices = $this->storeone_get_bundle_item_prices(
             $cart_item['product_id'],
             $bundle_map[ $item['id'] ]
@@ -711,9 +650,9 @@ class StoreOne_Bundle_Frontend {
       }
    }
 
-    public function display_bundle_in_cart( $item_data, $cart_item ) {
+    public function storeone_display_bundle_in_cart( $item_data, $cart_item ) {
 
-    $settings = $this->get_bundle_settings();
+    $settings = $this->storeone_get_bundle_settings();
 
     if (
         ! empty( $settings['cart_page']['hide_products'] ) &&
@@ -742,7 +681,7 @@ class StoreOne_Bundle_Frontend {
 
         foreach ( $bundle['items'] as $item ) {
 
-            /* ✅ VARIATION SAFE PRODUCT LOAD */
+            /* VARIATION SAFE PRODUCT LOAD */
             $product_id = ! empty( $item['variation_id'] )
                 ? absint( $item['variation_id'] )
                 : absint( $item['id'] );
@@ -753,7 +692,7 @@ class StoreOne_Bundle_Frontend {
             $item_qty = max( 1, absint( $item['qty'] ?? 1 ) ) * $qty;
             $name = esc_html( $product->get_name() );
 
-            /* ✅ VARIATION ATTRIBUTES */
+            /* VARIATION ATTRIBUTES */
             if ( ! empty( $item['variation'] ) && is_array( $item['variation'] ) ) {
 
                 $attrs = [];
@@ -862,9 +801,9 @@ class StoreOne_Bundle_Frontend {
         . wc_price( $sale_line_total )
         . '</span>';
 
-} else {
-    $price_html = wc_price( $sale_line_total );
-}
+    } else {
+            $price_html = wc_price( $sale_line_total );
+        }
 
         /* --------------------------------
          * ITEM NAME + VARIATION
@@ -896,9 +835,9 @@ class StoreOne_Bundle_Frontend {
 
 }
 
-   public function bundle_cart_count( $count ) {
+   public function storeone_bundle_cart_count( $count ) {
 
-    $settings = $this->get_bundle_settings();
+    $settings = $this->storeone_get_bundle_settings();
 
     if ( ( $settings['cart_page']['cart_count'] ?? 'bundle' ) !== 'items' ) {
         return $count;
@@ -922,9 +861,9 @@ class StoreOne_Bundle_Frontend {
     
     }
 
-   public function hide_bundle_in_mini_cart( $quantity_html, $cart_item, $cart_item_key ) {
+   public function storeone_hide_bundle_in_mini_cart( $quantity_html, $cart_item, $cart_item_key ) {
 
-        $settings = $this->get_bundle_settings();
+        $settings = $this->storeone_get_bundle_settings();
 
         if (
             ! empty( $settings['cart_page']['hide_products_mini'] ) &&
@@ -936,7 +875,7 @@ class StoreOne_Bundle_Frontend {
         return $quantity_html;
     }
 
-    public function restore_bundle_from_session( $cart_item, $session_item ) {
+    public function storeone_restore_bundle_from_session( $cart_item, $session_item ) {
     if ( isset( $session_item['storeone_bundle'] ) ) {
         $cart_item['storeone_bundle'] = $session_item['storeone_bundle'];
     }
@@ -946,7 +885,7 @@ class StoreOne_Bundle_Frontend {
     return $cart_item;
     }
 
-    public function save_bundle_to_order( $order_item, $cart_item_key, $values ) {
+    public function storeone_save_bundle_to_order( $order_item, $cart_item_key, $values ) {
         if ( empty( $values['storeone_bundle'] ) ) return;
 
         $order_item->add_meta_data(
@@ -955,7 +894,7 @@ class StoreOne_Bundle_Frontend {
         );
     }
 
-    private function get_bundle_settings() {
+    private function storeone_get_bundle_settings() {
 
     $modules = get_option( 'store_one_module_set', [] );
     $bundle  = $modules['bundle-product'] ?? [];
