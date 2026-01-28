@@ -241,3 +241,7 @@ font-size:14px;
 .storeone-sale-price {
     font-weight: 600;
 }
+.s1-qty-btn:focus{
+    outline:none;
+    border:none;
+}
