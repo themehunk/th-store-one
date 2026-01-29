@@ -14,6 +14,7 @@ const MODULE_ID = 'bundle-product';
  * DEFAULT SETTINGS
  * --------------------------------- */
 const DEFAULT_SETTINGS = {
+    display_style: 'product',
     product_page: {
         show_price_range: true,
         show_thumbnails: true,
@@ -125,7 +126,7 @@ export default function BundleProductSettings({
                 setError('');
             }, 3000);
 
-            return () => {
+            return () => { 
                 clearTimeout(t1);
                 clearTimeout(t2);
             };

@@ -241,7 +241,7 @@ const AdminMain = () => {
         setCurrentPage={setCurrentPage}
         setActiveModule={setActiveModule}
     />
-                   {/* 🔥 SAVE BUTTON */}
+                   {/* SAVE BUTTON */}
                     {isDirty && saveHandler && (
                         <div className="s1-top-savebar">
                             <span>{__('Your settings have been modified. Save?')}</span>
@@ -298,7 +298,26 @@ const AdminMain = () => {
                         onRegisterSave={setSaveHandler} 
                     />
                     <div className="s1-preview-pane">
-                        <PreviewPane currentModule={currentModule} settings={livePreviewSettings || moduleSettings[currentModule.id]?.rules?.[0]}/>
+                        {/* <PreviewPane currentModule={currentModule} settings={livePreviewSettings || moduleSettings[currentModule.id]?.rules?.[0]}/> */}
+                        {currentModule?.id === 'frequently-bought' && (
+                            <PreviewPane
+                                currentModule={currentModule}
+                                settings={
+                                    livePreviewSettings ||
+                                    moduleSettings[currentModule.id]?.rules?.[0]
+                                }
+                            />
+                        )}
+
+                        {currentModule?.id === 'bundle-product' && (
+                            <PreviewPane
+                                currentModule={currentModule}
+                                settings={
+                                    livePreviewSettings ||
+                                    moduleSettings[currentModule.id]
+                                }
+                            />
+                        )}
                     </div>
                        
                     </div>

@@ -1,8 +1,9 @@
 import { Card, CardHeader, CardBody } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import PreviewFBT from '../../modules/frequentlyBoughtTogether/livepreview/PreviewFBT';
-
+import PreviewBndl from '../../modules/BundleProductSetting/livepreview/PreviewBndl';
 const PreviewPane = ({ currentModule, settings }) => {
+
 
     // `settings` can be either a single rule object (live preview)
     // or a full module settings object with `rules` array (fallback).
@@ -36,7 +37,12 @@ const PreviewPane = ({ currentModule, settings }) => {
                                 />
                             )}
 
-                            {/* You can add more modules here */}
+                            {currentModule?.id === "bundle-product" && activeRule && (
+                                <PreviewBndl
+                                    key={(activeRule.flexible_id || 'rule') + (activeRule.display_style || '')}
+                                    settings={settings}
+                                />
+                            )}
                         </div>
                     </div>
 

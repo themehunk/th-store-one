@@ -7,7 +7,7 @@ import { __ } from '@wordpress/i18n';
 const PreviewFBT = ({ settings = {} }) => {
     const style = settings?.display_style;
 
-    // 🔥 Tab click → Design SelectControl change
+    //Tab click → Design SelectControl change
     const changeStyle = (value) => {
         window.dispatchEvent(
             new CustomEvent('storeone:changeDisplayStyle', {
