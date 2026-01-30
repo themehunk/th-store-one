@@ -9,19 +9,19 @@
     background: #fff;
 }
 
-.s1-bundle-title {
+.storeone-bundle-frontend .s1-bundle-title {
     font-size: 18px;
     font-weight: 600;
     margin-bottom: 12px;
 }
 
-.s1-bundle-items {
+.storeone-bundle-frontend .s1-bundle-items {
     display: flex;
     flex-direction: column;
     gap: 14px;
 }
 
-.s1-bundle-item {
+.storeone-bundle-frontend .s1-bundle-item {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -31,11 +31,11 @@
     position: relative;
 }
 
-.s1-check-wrap {
+.storeone-bundle-frontend .s1-check-wrap {
     margin-right: 6px;
 }
 
-.s1-thumb img {
+.storeone-bundle-frontend .s1-thumb img {
     width: 64px;
     height: 64px;
     object-fit: cover;
@@ -43,16 +43,16 @@
     box-shadow: none;
 }
 
-.s1-info {
+.storeone-bundle-frontend .s1-info {
     flex: 1;
 }
 
-.s1-name {
+.storeone-bundle-frontend .s1-name {
     font-weight: 500;
     margin-bottom: 4px;
 }
 
-.s1-unit-price {
+.storeone-bundle-frontend .s1-unit-price {
     font-size: 13px;
     color: #6b7280;
     margin-bottom: 6px;
