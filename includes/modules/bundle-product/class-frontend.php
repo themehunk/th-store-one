@@ -230,7 +230,7 @@ class StoreOne_Bundle_Frontend {
     data-bundle-base-price="<?php echo esc_attr( $product->get_price() ); ?>">
 
         <h3 class="s1-bundle-title">
-            <?php esc_html_e( 'Bundle includes', 'store-one' ); ?>
+            <?php esc_html_e( 'Bundle', 'store-one' ); ?>
         </h3>
       <?php
         $above = get_post_meta( $product->get_id(), '_storeone_above_text', true );
