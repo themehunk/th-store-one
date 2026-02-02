@@ -22,12 +22,13 @@
 }
 
 .s1-bundle-item {
+    border: 1px solid #f1f5f9;
+    border-radius: 16px;
     display: flex;
     align-items: center;
+    padding: 1rem;
     gap: 12px;
-    padding: 12px;
-    border: 1px solid #eef0f3;
-    border-radius: 10px;
+    background-color: rgba(248, 250, 252, 0.3);
 }
 
 .s1-thumb img {
@@ -41,9 +42,16 @@
     flex: 1;
 }
 
-.s1-name {
-    font-weight: 500;
+.s1-bundle-items .s1-bundle-item  .s1-name {
+      font-weight: 500;
     margin-bottom: 4px;
+    color: #0f172a;
+}
+
+.s1-bundle-items .s1-bundle-item .s1-line-qty-prefix {
+    color: #cbd5e1;
+        font-size: 0.875rem;
+    line-height: 1.25rem;
 }
 
 .s1-desc p {
@@ -144,19 +152,15 @@
 
 /* ================= BUNDLE ================= */
 .storeone-bundle-frontend {
-    border: 1px solid #e5e7eb;
+      background: #fff;
+    border: 1px solid rgb(239 239 239 / 50%);
     border-radius: 12px;
     padding: 16px;
-    background: #fff;
+    box-shadow: 0 24px 66px -20px rgba(0, 0, 0, 0.1);
+
 }
 
-.s1-bundle-item {
-    display: flex;
-    gap: 12px;
-    padding: 10px;
-    border: 1px solid #eef0f3;
-    border-radius: 10px;
-}
+
 
 .s1-bundle-add-all {
     width: 100%;
