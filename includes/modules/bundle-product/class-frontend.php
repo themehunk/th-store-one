@@ -363,7 +363,7 @@ class StoreOne_Bundle_Frontend {
                         echo '<del>' . wc_price( $prices['regular'] ) . '</del> ';
                     }
                     echo '<ins>' . wc_price( $prices['sale'] ) . '</ins>';
-                }else {
+                }elseif($discount_scope === 'store_bundle' && !empty( $item['price_hide'] )) {
                     echo wc_price( $prices['regular'] );
                 }
             ?>
