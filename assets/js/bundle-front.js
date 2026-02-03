@@ -224,6 +224,45 @@ jQuery(function ($) {
 
 });
 
+
+
+jQuery(function ($) {
+
+    $('body').on('click', '.add_to_cart_button.ajax_add_to_cart', function (e) {
+
+        const $btn = $(this);
+        const productId = $btn.data('product_id');
+        if (!productId) return;
+
+        e.preventDefault();
+        $btn.addClass('loading');
+
+        $.ajax({
+            url: storeOneBundle.ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'storeone_add_bundle_from_loop',
+                product_id: productId,
+                nonce: storeOneBundle.nonce
+            },
+            success(res) {
+                $btn.removeClass('loading');
+
+                if (res.success) {
+                    $(document.body).trigger('added_to_cart', [
+                        res.data.fragments,
+                        res.data.cart_hash,
+                        $btn
+                    ]);
+                }
+            }
+        });
+    });
+
+});
+
+
+
 // jQuery(function ($) {
 //     /* =====================================================
 //      * BASE ELEMENTS
