@@ -368,3 +368,7 @@ font-size:14px;
     outline:none;
     border:none;
 }
+.wc-block-components-product-details li{
+    display:flex;
+    justify-content: space-between;
+}

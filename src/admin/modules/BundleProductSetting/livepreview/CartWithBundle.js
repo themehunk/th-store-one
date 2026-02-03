@@ -15,21 +15,20 @@ const bundleItems = [
         id: 1,
         name: __("Album", "store-one"),
         qty: 1,
+        price: "$23.10",
     },
     {
         id: 2,
         name: __("Cap", "store-one"),
         qty: 1,
+        price: "$25.10",
+        old_price: "$30.00",
     },
 ];
 
 const CartWithBundle = () => {
     return (
         <div className="s1-cart-preview">
-
-            <h2 className="s1-cart-title">
-                {__("Cart", "store-one")}
-            </h2>
 
             <div className="s1-cart-layout">
 
@@ -39,61 +38,39 @@ const CartWithBundle = () => {
                     <div className="s1-cart-item">
 
                         <div className="s1-cart-thumb">
-                            <img src={cartItem.img} alt={cartItem.name} />
+                            <div className="static-skeleton static-main-img"></div>
                         </div>
 
                         <div className="s1-cart-info">
-                            <a href="#" className="s1-cart-product-name">
-                                {cartItem.name}
-                            </a>
+                           <div className="static-skeleton static-title"></div>
 
                             <div className="s1-cart-price">
-                                {cartItem.old_price && (
-                                    <del>{cartItem.old_price}</del>
-                                )}
-                                <ins>{cartItem.price}</ins>
-                                <span className="s1-cart-save">
-                                    {__("Save $6.90", "store-one")}
-                                </span>
+                                <div className="static-skeleton static-price"></div>
                             </div>
 
                             <div className="s1-cart-bundle-details">
                             <div className="s1-cart-bundle-items">
-                                <strong>
-                                    {__("Bundle items:", "store-one")}
-                                </strong>
                                 <ul>
                                     {bundleItems.map((item) => (
                                         <li key={item.id}>
-                                            {item.name} × {item.qty}
+                                            <span className="title">{item.qty} ×  {item.name} :</span>
+                                            <span className="price">{item.price} <del>{item.old_price ? item.old_price : ''}</del></span> 
                                         </li>
                                     ))}
                                 </ul>
                             </div>
-                            <div className="s1-bundle-total">
-                                <strong>
-                                    {__("Bundle items:", "store-one")}
-                                </strong>
-                                <span>{cartItem.price}</span>
-                            </div>
-                            </div>
-
-                            <div className="s1-cart-qty">
-                                <button type="button">−</button>
-                                <span>{cartItem.qty}</span>
-                                <button type="button">+</button>
-                            </div>
                             
+                            </div>
 
+                            
+                            <div className="static-skeleton static-title quantity"></div>
 
-                            <a href="#" className="s1-cart-remove">
-                                {__("Remove item", "store-one")}
-                            </a>
+                           <div className="static-skeleton static-title"></div>
 
                         </div>
 
                         <div className="s1-cart-total">
-                            {cartItem.price}
+                             <div className="static-skeleton static-price"></div>
                         </div>
                     </div>
 
@@ -101,18 +78,7 @@ const CartWithBundle = () => {
 
                 {/* ===== RIGHT: CART TOTALS ===== */}
                 <div className="s1-cart-totals">
-
-                    <h3>{__("Cart totals", "store-one")}</h3>
-
-                    <div className="s1-cart-row">
-                        <span>{__("Estimated total", "store-one")}</span>
-                        <strong>$23.10</strong>
-                    </div>
-
-                    <button className="s1-checkout-btn">
-                        {__("Proceed to checkout", "store-one")}
-                    </button>
-
+                 <div className="static-skeleton static-cart"></div>
                 </div>
 
             </div>

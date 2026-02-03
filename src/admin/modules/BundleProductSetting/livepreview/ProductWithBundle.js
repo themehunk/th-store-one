@@ -150,8 +150,6 @@ const ProductWithBundle = ({ settings = {} }) => {
                 <div className="s1-main-thumb">
                     <div className="static-skeleton static-main-img"></div>
                 </div>
-          
-
                 <div className="s1-main-info">
                     <div className="static-skeleton static-title"></div>
                     <div className="static-skeleton static-price"></div>
@@ -170,113 +168,8 @@ const ProductWithBundle = ({ settings = {} }) => {
                     {productSettings.position === 'after_cart' && (
                             <BundleSection productSettings={productSettings} />
                         )}
-                    {/* ===== BUNDLE SECTION ===== */}
-                    {/* <div className="storeone-bundle-frontend">
-                        <h3 className="s1-bundle-title">
-                            {__("Bundle", "store-one")}
-                        </h3>
-
-                        <div className="storeone-bundle-above-text">
-                            <p>
-                                {__(
-                                    "A lightweight hydration serum that helps lock in moisture and keeps skin fresh all day.",
-                                    "store-one"
-                                )}
-                            </p>
-                        </div>
-
-                        <div className="s1-bundle-items">
-                            {bundleItems.map((item) => (
-                                <div
-                                    key={item.id}
-                                    className="s1-bundle-item"
-                                >
-                                    <label className="s1-check-wrap">
-                                        <input
-                                            type="checkbox"
-                                            checked
-                                            readOnly
-                                        />
-                                    </label>
-                                   {productSettings.show_thumbnails && (
-                                    <div className="s1-thumb">
-                                       {productSettings.thumbnails_clickable ? (
-                                            <a href={productUrl}>
-                                                <img src={item.img} alt={item.name} />
-                                            </a>
-                                        ) : (
-                                            <img src={item.img} alt={item.name} />
-                                        )}
-                                    </div>
-                                    )}
-
-                                    <div className="s1-info">
-                                        <div className="s1-name">
-                                            {productSettings.show_quantities && __("1 ×", "store-one")} {productSettings.thumbnails_clickable ? (
-                                                <a href={productUrl} className="s1-product-link">
-                                                    {item.name}
-                                                </a>
-                                            ) : (
-                                                <span>{item.name}</span>
-                                            )}
-                                        </div>
-                                       {productSettings.show_descriptions && (
-                                        <div className="s1-desc">
-                                            <p>{item.desc}</p>
-                                        </div>
-                                        )}
-
-                                        <div className="s1-line-price">
-                                            
-                                            <div className="s1-qty-wrap">
-                                                <button
-                                                    type="button"
-                                                    className="s1-qty-btn"
-                                                >
-                                                    −
-                                                </button>
-
-                                                <span className="s1-line-qty">
-                                                    1
-                                                </span>
-
-                                                <button
-                                                    type="button"
-                                                    className="s1-qty-btn"
-                                                >
-                                                    +
-                                                </button>
-                                            </div>
-                                            
-
-                                            <span className="s1-line-unit">
-                                                {item.old_price && (
-                                                    <del className="storeone-old-price">
-                                                        {item.old_price}
-                                                    </del>
-                                                )}
-                                                <ins className="storeone-sale-price">
-                                                    {item.price}
-                                                </ins>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-
-                        <div className="storeone-bundle-below-text">
-                            <p>
-                                {__(
-                                    "A nourishing daily cream designed to soften skin and enhance hydration.",
-                                    "store-one"
-                                )}
-                            </p>
-                        </div>
-                    </div> */}
                 </div>
             </div>
-
         </div>
     );
 };

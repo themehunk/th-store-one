@@ -328,9 +328,10 @@ class StoreOne_Bundle_Frontend {
 
                     <div class="s1-name">
                         <?php if ( $settings['product_page']['show_quantities'] ) : ?>
+                         <?php if ( ! empty( $item['allow_change_quantity'] ) ) : ?>
                         <span class="s1-line-qty"><?php echo esc_html( $qty ); ?></span>
                         <span class="s1-line-multiply">×</span>
-                        <?php endif;?>
+                        <?php endif; endif;?>
 
                         <?php
                         if ( ! empty( $settings['product_page']['thumbnails_clickable'] ) ) {
@@ -599,7 +600,7 @@ class StoreOne_Bundle_Frontend {
         return md5( $hash . serialize( $cart_item['storeone_bundle'] ) );
     }
     return $hash;
-}
+   }
 
     /* =============================
      * SET CART PRICE
@@ -629,18 +630,18 @@ class StoreOne_Bundle_Frontend {
 
         if ( $scope === 'store_product' ) {
 
-    $total = 0;
+        $total = 0;
 
-    //bundle meta se original items lao
-    $bundle_items = get_post_meta(
-        $cart_item['product_id'],
-        '_storeone_bundle_products',
-        true
-    );
+        //bundle meta se original items lao
+        $bundle_items = get_post_meta(
+            $cart_item['product_id'],
+            '_storeone_bundle_products',
+            true
+        );
 
-    if ( empty( $bundle_items ) || ! is_array( $bundle_items ) ) {
-        continue;
-    }
+        if ( empty( $bundle_items ) || ! is_array( $bundle_items ) ) {
+            continue;
+        }
 
     // index by product id
     $bundle_map = [];
@@ -738,10 +739,10 @@ class StoreOne_Bundle_Frontend {
 
             if ( $display_type === 'bullet' ) {
                 $items_html .= $is_block_cart
-                    ? '• ' . $name . ' × ' . $item_qty . '<br>'
-                    : '<li>' . $name . ' × ' . $item_qty . '</li>';
+                    ? '• ' . $item_qty . ' × ' . $name . '<br>'
+                    : '<li>' . $item_qty . ' × ' . $name . '</li>';
             } else {
-                $items_html .= '<span class="s1-bundle-item">' . $name . ' × ' . $item_qty . '</span><br>';
+                $items_html .= '<span class="s1-bundle-item">' . $item_qty . ' × ' . $name . '</span><br>';
             }
         }
 
@@ -830,7 +831,8 @@ class StoreOne_Bundle_Frontend {
         /* --------------------------------
          * ITEM NAME + VARIATION
          * -------------------------------- */
-        $name = esc_html( $product->get_name() ) . ' × ' . $qty;
+        $name = $qty . ' × ' . esc_html( $product->get_name() );
+        
 
         if ( ! empty( $item['variation'] ) ) {
             $attrs = [];
@@ -957,7 +959,7 @@ class StoreOne_Bundle_Frontend {
         esc_html__( 'Add to cart', 'store-one' )
     );
     }
-    
+
     private function storeone_bundle_has_variable_product( $product_id ) {
 
         $items = get_post_meta(
