@@ -49,7 +49,7 @@ class Store_One_BNDLP_Admin {
     // Extra check: agar post meta ya term mein bundle hai to force
     $terms = wp_get_object_terms( $product_id, 'product_type', [ 'fields' => 'slugs' ] );
     if ( in_array( 'storeone_bundle', (array) $terms ) || get_post_meta( $product_id, '_storeone_bundle_products', true ) ) {
-        error_log( 'Forced custom class for ID ' . $product_id . ' (term/meta check passed)' );
+        //error_log( 'Forced custom class for ID ' . $product_id . ' (term/meta check passed)' );
         return 'WC_Product_StoreOne_Bundle';
     }
 
@@ -59,7 +59,7 @@ class Store_One_BNDLP_Admin {
     }
 
     return $classname;
-}
+    }
 
     public function force_purchasable( $purchasable, $product ) {
         if ( $product && $product->get_type() === 'storeone_bundle' ) {
