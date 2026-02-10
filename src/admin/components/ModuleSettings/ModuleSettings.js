@@ -11,6 +11,7 @@ import { __ } from '@wordpress/i18n';
 
 import FrequentlyBoughtSettings from '../../modules/frequentlyBoughtTogether/FrequentlyBoughtSettings';
 import BundleProductSettings from '../../modules/BundleProductSetting/BundleProductSettings';
+import BuytoListSettings from '../../modules/BuytoList/BuytoListSettings';
 
 const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, onSettingsChange, onLivePreview,onRegisterSave }) => {
     const enabled = !!modulesState[currentModule.id];
@@ -21,23 +22,26 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                 return <FrequentlyBoughtSettings
                     onSettingsChange={onSettingsChange}
                     onLivePreview={onLivePreview}
-                    onRegisterSave={onRegisterSave} // 👈 PASS
+                    onRegisterSave={onRegisterSave}
                 />
             case 'bundle-product':
                 return <BundleProductSettings
                     onSettingsChange={onSettingsChange}
                     onLivePreview={onLivePreview}
-                    onRegisterSave={onRegisterSave} // 👈 PASS
+                    onRegisterSave={onRegisterSave}
                 />
-
-
+            case 'buy-to-list':
+                return <BuytoListSettings
+                    onSettingsChange={onSettingsChange}
+                    onLivePreview={onLivePreview}
+                    onRegisterSave={onRegisterSave}
+                />
             default:
                 return <p className="s1-settings__placeholder">
                     {__('More settings will appear here…', 'store-one')}
                 </p>;
         }
     };
-
     return (
         <Card className="s1-settings">
             <CardHeader className="s1-settings__header">
@@ -66,5 +70,4 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
         </Card>
     );
 };
-
 export default ModuleSettings;

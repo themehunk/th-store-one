@@ -25,13 +25,19 @@ const modulesList = [
         description: __('Boost product discovery.', 'store-one'),
         icon: '🔍',
     },
+    {
+        id: 'buy-to-list',
+        label: __('Buy to List', 'store-one'),
+        description: __('Encourage customers to buy more.', 'store-one'),
+        icon: '📋',
+    },
 ];
 
 const tabs = [
     {
         name: 'all',
         title: __('All Modules', 'store-one'),
-        modules: ['frequently-bought','bundle-product'],
+        modules: ['frequently-bought','bundle-product','buy-to-list'],
     },
     {
         name: 'recommended',
@@ -61,6 +67,7 @@ const AdminMain = () => {
     const [modulesState, setModulesState] = useState({
         'frequently-bought': true,
         'bundle-product': true,
+        'buy-to-list': true,
     });
 
     const currentModule = activeModule
@@ -315,6 +322,16 @@ const AdminMain = () => {
                                 settings={
                                     livePreviewSettings ||
                                     moduleSettings[currentModule.id]
+                                }
+                            />
+                        )}
+
+                        {currentModule?.id === 'buy-to-list' && (
+                            <PreviewPane
+                                currentModule={currentModule}
+                                settings={
+                                    livePreviewSettings ||
+                                    moduleSettings[currentModule.id]?.rules?.[0]
                                 }
                             />
                         )}

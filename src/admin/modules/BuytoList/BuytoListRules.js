@@ -1,0 +1,505 @@
+/* ------------------------ imports ------------------------ */
+import { useState, useEffect, useRef } from '@wordpress/element';
+import { TextControl, SelectControl } from '@wordpress/components';
+import { __, sprintf } from '@wordpress/i18n';
+import Sortable from 'sortablejs';
+import MultiWooSearchSelector from '@storeone-global/MultiWooSearchSelector';
+import ExcludeWooCondition from '@storeone-global/ExcludeWooCondition';
+import TabSwitcher from '@storeone-global/TabSwitcher';
+import UserCondition from '@storeone-global/UserCondition';
+
+import THBackgroundControl from '@storeone-control/color';
+import UniversalRangeControl from '@storeone-global/UniversalRangeControl';
+
+import S1Accordion from "@storeone-global/S1Accordion";
+import { CopyIcon, TrashIcon, DragHandleDots2Icon ,ChevronDownIcon,
+    ChevronUpIcon } from "@radix-ui/react-icons";
+import {S1Field, S1FieldGroup} from '@storeone-global/S1Field';
+import { ICONS } from '@storeone-global/icons';
+
+/* Default Rule */
+const newFBTRule = () => ({
+    status: 'active',
+    list_title: '',
+    trigger_type: 'all_products',
+    products: [],
+    categories: [],
+    tags: [],
+    flexible_id: crypto.randomUUID(),
+    buy_list: [
+        {
+            id: crypto.randomUUID(),
+            text: '',
+            open: true,
+        }
+    ],
+    open: true,
+    offer_products: [],      // NEW: bundle products
+    offer_products_optional: true,
+    // NEW: exclude system
+    exclude_products_enabled: false,
+    exclude_products: [],
+    exclude_categories_enabled: false,
+    exclude_categories: [],
+    exclude_tags_enabled: false,
+    exclude_tags: [],
+    exclude_brands_enabled: false,
+    exclude_brands: [],
+    exclude_on_sale_enabled: false, 
+    user_condition: "all",
+    exclude_enabled: false,
+    allowed_roles: [],
+    allowed_users: [],
+    exclude_roles: [],
+    exclude_users: [],
+    exclude_users_enabled: false,
+    //color
+    bundel_title_clr: "#111",
+});
+/** menu tabs */
+/* ================= STYLE DEFAULTS (ADDED) ================= */
+const STYLE_DEFAULTS = {
+    style_1: { prd_tle_clr: '#6C7280' },
+    style_2: { prd_tle_clr: '#111827' },
+    style_3: { prd_tle_clr: '#1f2937' },
+};
+/* ================= HELPER (ADDED) ================= */
+const applyStyleDefaults = (rule, style) => {
+    const defaults = STYLE_DEFAULTS[style] || {};
+    const updated = { ...rule, display_style: style };
+
+    Object.keys(defaults).forEach((key) => {
+        const autoKey = `${key}_auto`;
+        if (rule[autoKey] !== false) {
+            updated[key] = defaults[key];
+            updated[autoKey] = true;
+        }
+    });
+
+    return updated;
+};
+
+/* Sortable */
+function SortableWrapper({ items, onSortEnd, children }) {
+    const ref = useRef(null);
+
+    useEffect(() => {
+        if (!ref.current) return;
+
+        const sortable = Sortable.create(ref.current, {
+            animation: 150,
+            handle: ".drag-handle",
+            onEnd: (evt) => onSortEnd(evt.oldIndex, evt.newIndex),
+        });
+
+        return () => sortable.destroy();
+    }, [items]);
+
+    return <div ref={ref}>{children}</div>;
+}
+
+/* ------------------------ Main Component ------------------------ */
+export default function BuytoListRules({ rules, onChange, onLivePreview }) {
+
+const menuItems = [
+  { id: 'settings', label: 'Settings', icon: 'SETTINGS' },
+  { id: 'design', label: 'Design', icon: 'DESIGN' },
+];
+
+    const updateAll = (arr) => onChange([...arr]);
+
+    const reorder = (oldIndex, newIndex) => {
+        const arr = [...rules];
+        const moved = arr.splice(oldIndex, 1)[0];
+        arr.splice(newIndex, 0, moved);
+        updateAll(arr);
+    };
+
+    const toggleOpen = (i) => {
+        const arr = [...rules];
+        arr[i].open = !arr[i].open;
+        updateAll(arr);
+        if (arr[i].open) {
+            onLivePreview?.(arr[i], i);
+        }
+    };
+
+    const updateField = (i, field, val) => {
+        const arr = [...rules];
+        arr[i][field] = val;
+        updateAll(arr);
+        onLivePreview?.(arr[i], i);
+    };
+
+    const removeRule = (i) => {
+        const arr = [...rules];
+        arr.splice(i, 1);
+        updateAll(arr);
+    };
+
+    const duplicateRule = (i) => {
+        const arr = [...rules];
+        const copy = { ...arr[i], flexible_id: crypto.randomUUID(), open: true };
+        arr.splice(i + 1, 0, copy);
+        updateAll(arr);
+    };
+
+    const addRule = () => {
+        const arr = [...rules, newFBTRule()];
+        updateAll(arr);
+        const newIndex = arr.length - 1;
+        onLivePreview?.(arr[newIndex], newIndex);
+    };
+
+    /* ---------------- BUY LIST FUNCTIONS ---------------- */
+
+    const updateBuyList = (ruleIndex, newList) => {
+        const arr = [...rules];
+        arr[ruleIndex].buy_list = newList;
+        updateAll(arr);
+        onLivePreview?.(arr[ruleIndex], ruleIndex);
+    };
+
+    const addBuyItem = (ruleIndex) => {
+        const list = rules[ruleIndex].buy_list || [];
+        updateBuyList(ruleIndex, [
+            ...list,
+            { id: crypto.randomUUID(), text: '', open: true }
+        ]);
+    };
+
+    const removeBuyItem = (ruleIndex, itemIndex) => {
+        const list = [...rules[ruleIndex].buy_list];
+        list.splice(itemIndex, 1);
+        updateBuyList(ruleIndex, list);
+    };
+
+    const duplicateBuyItem = (ruleIndex, itemIndex) => {
+        const list = [...rules[ruleIndex].buy_list];
+        const copy = {
+            ...list[itemIndex],
+            id: crypto.randomUUID(),
+            open: true,
+        };
+        list.splice(itemIndex + 1, 0, copy);
+        updateBuyList(ruleIndex, list);
+    };
+
+    const toggleBuyItem = (ruleIndex, itemIndex) => {
+        const list = [...rules[ruleIndex].buy_list];
+        list[itemIndex].open = !list[itemIndex].open;
+        updateBuyList(ruleIndex, list);
+    };
+
+    const updateBuyItemField = (ruleIndex, itemIndex, value) => {
+        const list = [...rules[ruleIndex].buy_list];
+        list[itemIndex].text = value;
+        updateBuyList(ruleIndex, list);
+    };
+
+    const reorderBuyList = (ruleIndex, oldIndex, newIndex) => {
+        const list = [...rules[ruleIndex].buy_list];
+        const moved = list.splice(oldIndex, 1)[0];
+        list.splice(newIndex, 0, moved);
+        updateBuyList(ruleIndex, list);
+    };
+
+
+    useEffect(() => {
+        if (rules.length === 0) {
+            updateAll([newFBTRule()]);
+        } else {
+            const arr = [...rules];
+            arr[0].open = true;
+            updateAll(arr);
+        }
+    }, []);
+
+    useEffect(() => {
+        const handler = (e) => {
+            const { style } = e.detail;
+            if (!style) return;
+
+            const index = rules.findIndex(r => r.open);
+            if (index === -1) return;
+
+            const updatedRule = applyStyleDefaults(rules[index], style);
+
+            updateAll(
+                rules.map((r, i) => (i === index ? updatedRule : r))
+            );
+
+            onLivePreview?.(updatedRule, index);
+        };
+
+        window.addEventListener('storeone:changeDisplayStyle', handler);
+        return () => window.removeEventListener('storeone:changeDisplayStyle', handler);
+    }, [rules]);
+
+    return (
+        <div className="store-one-rules-container">
+            <h3 className="store-one-section-title">{__('Buy To List', 'store-one')}</h3>
+            <SortableWrapper items={rules} onSortEnd={reorder}>
+                {rules.map((rule, index) => (
+                    <div key={rule.flexible_id} className="store-one-rule-item">
+
+                        {/* ---------------------- Header ---------------------- */}
+                        <div className="store-one-rule-header">
+                            <DragHandleDots2Icon className="drag-handle s1-icon" />
+                            {/* <span className="dashicons dashicons-menu drag-handle s1-icon" /> */}
+
+                            <strong className="s1-rule-title">
+                                {sprintf(
+                                    __('Rule %d: %s', 'store-one'),
+                                    index + 1,
+                                    rule.list_title || __('Untitled', 'store-one')
+                                )}
+                            </strong>
+
+                            <CopyIcon className="s1-icon" onClick={() => duplicateRule(index)}/>
+                            <TrashIcon className="s1-icon s1-icon-danger"
+                                onClick={() => removeRule(index)} />
+                            {rule.open ? (
+                                <ChevronUpIcon
+                                    className="s1-icon"
+                                    onClick={() => toggleOpen(index)}
+                                />
+                            ) : (
+                                <ChevronDownIcon
+                                    className="s1-icon"
+                                    onClick={() => toggleOpen(index)}
+                                />
+                            )}
+
+                        </div>
+
+                        {/* ---------------------- Body ---------------------- */}
+                        {rule.open && (
+                            <TabSwitcher
+                                defaultTab={menuItems[0].id}
+                                tabs={[
+                                    {
+                                        id: menuItems[0].id,
+                                        label: menuItems[0].label,
+                                        icon:ICONS[menuItems[0].icon],
+                                        content: (
+                                            <div className="store-one-rule-body">
+
+                                                <S1Field label={__('Status', 'store-one')}>
+                                                    <SelectControl
+                                                        value={rule.status}
+                                                        options={[
+                                                            { label: __('Active', 'store-one'), value: 'active' },
+                                                            { label: __('Inactive', 'store-one'), value: 'inactive' },
+                                                        ]}
+                                                        onChange={(v) => updateField(index, 'status', v)}
+                                                    />
+                                                </S1Field>
+
+                                                <S1Field label={__('Title', 'store-one')}>
+                                                    <TextControl
+                                                        value={rule.list_title}
+                                                        onChange={(v) => updateField(index, 'list_title', v)}
+                                                    />
+                                                </S1Field>
+
+                                                <S1Field label={__('Trigger Type', 'store-one')}>
+                                                    <SelectControl
+                                                        value={rule.trigger_type}
+                                                        options={[
+                                                            { label: __('All Products', 'store-one'), value: 'all_products' },
+                                                            { label: __('Specific Products', 'store-one'), value: 'specific_products' },
+                                                            { label: __('Specific Categories', 'store-one'), value: 'specific_categories' },
+                                                            { label: __('Specific Tags', 'store-one'), value: 'specific_tags' },
+                                                        ]}
+                                                        onChange={(v) => updateField(index, 'trigger_type', v)}
+                                                    />
+                                                </S1Field>
+
+                                                {rule.trigger_type === 'specific_products' && (
+                                                    
+                                                    <MultiWooSearchSelector
+                                                        searchType="product"
+                                                        label={__('Select Products', 'store-one')}
+                                                        value={rule.products || []}
+                                                        onChange={(items) => updateField(index, 'products', items)}
+                                                        detailedView={true} 
+                                                    />
+                                                )}
+
+                                                {rule.trigger_type === 'specific_categories' && (
+                                                    <MultiWooSearchSelector
+                                                        searchType="category"
+                                                        label={__('Select Categories', 'store-one')}
+                                                        value={rule.categories || []}
+                                                        onChange={(items) => updateField(index, 'categories', items)}
+                                                        detailedView={true} 
+                                                    />
+                                                )}
+
+                                                {rule.trigger_type === 'specific_tags' && (
+                                                    <MultiWooSearchSelector
+                                                        searchType="tag"
+                                                        label={__('Select Tags', 'store-one')}
+                                                        value={rule.tags || []}
+                                                        onChange={(items) => updateField(index, 'tags', items)}
+                                                        detailedView={true} 
+                                                    />
+                                                )}
+
+                                {/* ———————— EXCLUDE OPTIONS ————————— */}
+
+                                <ExcludeWooCondition
+                                    label={__('Exclude products', 'store-one')}
+                                    searchType="product"
+                                    enabled={rule.exclude_products_enabled}
+                                    items={rule.exclude_products}
+                                    onToggle={(v) => updateField(index, 'exclude_products_enabled', v)}
+                                    onChangeItems={(items) => updateField(index, 'exclude_products', items)}
+                                    detailedView={true} 
+                                />
+
+                                <ExcludeWooCondition
+                                    label={__('Exclude categories', 'store-one')}
+                                    searchType="category"
+                                    enabled={rule.exclude_categories_enabled}
+                                    items={rule.exclude_categories}
+                                    onToggle={(v) => updateField(index, 'exclude_categories_enabled', v)}
+                                    onChangeItems={(items) => updateField(index, 'exclude_categories', items)}
+                                    detailedView={true} 
+                                />
+
+                                <ExcludeWooCondition
+                                    label={__('Exclude product tags', 'store-one')}
+                                    searchType="tag"
+                                    enabled={rule.exclude_tags_enabled}
+                                    items={rule.exclude_tags}
+                                    onToggle={(v) => updateField(index, 'exclude_tags_enabled', v)}
+                                    onChangeItems={(items) => updateField(index, 'exclude_tags', items)}
+                                    detailedView={true} 
+                                />
+
+                                 <ExcludeWooCondition
+                                    label={__('Exclude On-Sale products', 'store-one')}
+                                    searchType="on_sale"
+                                    enabled={rule.exclude_on_sale_enabled}
+                                    items={[]}   // no search selector for this one
+                                    onToggle={(v) => updateField(index, 'exclude_on_sale_enabled', v)}
+                                    onChangeItems={() => {}}
+                                    />
+                                    {/* BUY LIST GROUP */}
+                                <S1FieldGroup title={__('Buy To List Items', 'store-one')}>
+
+                                    <SortableWrapper
+                                        items={rule.buy_list}
+                                        onSortEnd={(oldI, newI) =>
+                                            reorderBuyList(index, oldI, newI)
+                                        }
+                                    >
+                                        {rule.buy_list?.map((item, i) => (
+                                            <div key={item.id} className="store-one-rule-item inner">
+
+                                                <div className="store-one-rule-header">
+                                                    <DragHandleDots2Icon className="drag-handle s1-icon" />
+
+                                                    <strong>
+                                                        {sprintf(__('Item %d', 'store-one'), i + 1)}
+                                                    </strong>
+
+                                                    <CopyIcon
+                                                        className="s1-icon"
+                                                        onClick={() => duplicateBuyItem(index, i)}
+                                                    />
+                                                    <TrashIcon
+                                                        className="s1-icon s1-icon-danger"
+                                                        onClick={() => removeBuyItem(index, i)}
+                                                    />
+
+                                                    {item.open ? (
+                                                        <ChevronUpIcon
+                                                            className="s1-icon"
+                                                            onClick={() => toggleBuyItem(index, i)}
+                                                        />
+                                                    ) : (
+                                                        <ChevronDownIcon
+                                                            className="s1-icon"
+                                                            onClick={() => toggleBuyItem(index, i)}
+                                                        />
+                                                    )}
+                                                </div>
+
+                                                {item.open && (
+                                                    <div className="store-one-rule-body">
+                                                        <S1Field label={__('Text', 'store-one')}>
+                                                            <TextControl
+                                                                value={item.text}
+                                                                onChange={(v) =>
+                                                                    updateBuyItemField(index, i, v)
+                                                                }
+                                                                placeholder="Enter list text"
+                                                            />
+                                                        </S1Field>
+                                                    </div>
+                                                )}
+
+                                            </div>
+                                        ))}
+                                    </SortableWrapper>
+
+                                    <div
+                                        className="store-one-add-rule"
+                                        onClick={() => addBuyItem(index)}
+                                    >
+                                        + Add List Item
+                                    </div>
+
+                                </S1FieldGroup>
+                                   </div>
+
+                                   
+                                        ),
+                                    },
+
+                                    {
+                                             id: menuItems[1].id,
+                                                                            label: menuItems[1].label,
+                                                                            icon: ICONS[menuItems[1].icon],
+                                                                            content: (
+                                                                                <div className="store-one-rule-body">
+                                    
+                                                                                    <S1Field label={__('Display Style', 'store-one')} visible={false}>
+                                                                                        
+                                                                                        </S1Field>
+                                                                                        <S1FieldGroup
+                                                                                            title={__('Buy To list', 'store-one')}
+                                                                                        >
+                                                                                        <S1Field>
+                                                                                        <THBackgroundControl
+                                                                                            allowGradient={true}
+                                                                                            label={__('Background', 'store-one')}
+                                                                                            value={rule.bundel_bg_clr|| "#ffffff"}
+                                                                                            onChange={(v) => {
+                                                                                                const updatedRule = { ...rule, bundel_bg_clr: v };
+                                                                                                updateField(index, 'bundel_bg_clr', v); 
+                                                                                                onLivePreview?.(updatedRule, index);
+                                                                                            }}
+                                                                                        />
+                                                                                        </S1Field>
+                                                                                        </S1FieldGroup>
+                                                                                        </div>
+                                        ),
+                                    },
+
+                                ]}
+                            />
+                        )}
+                    </div>
+                ))}
+            </SortableWrapper>
+            {/* Add Rule */}
+            <div className="store-one-add-rule" onClick={addRule}>
+                {__('+ Add New Rule', 'store-one')}
+            </div>
+        </div>
+    );
+}
