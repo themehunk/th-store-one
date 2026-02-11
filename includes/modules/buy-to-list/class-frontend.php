@@ -53,9 +53,18 @@ class StoreOne_Buy_To_List_Frontend {
             $hook     = $this->get_hook_from_placement( $rule );
             $priority = isset( $rule['priority'] ) ? absint( $rule['priority'] ) : 10;
 
-            // Pass rule directly to callback
-               add_action( $hook, function() use ( $rule ) {
+            add_action( $hook, function() use ( $rule ) {
+
+               global $product;
+
+               if ( ! $product instanceof WC_Product ) {
+                    return;
+               }
+
+               if ( $this->rule_matches( $rule, $product ) ) {
                     $this->render_single_rule( $rule );
+               }
+
                }, $priority );
         }
     }
@@ -85,6 +94,104 @@ class StoreOne_Buy_To_List_Frontend {
                 return 'woocommerce_after_single_product_summary';
         }
     }
+
+    private function rule_matches( $rule, $product ) {
+
+    $product_id = $product->get_id();
+
+    /* ---------------- Trigger Type ---------------- */
+
+    $trigger = $rule['trigger_type'] ?? 'all_products';
+
+    switch ( $trigger ) {
+
+        case 'specific_products':
+            if ( empty( $rule['products'] ) || ! in_array( $product_id, $rule['products'], true ) ) {
+                return false;
+            }
+            break;
+
+        case 'specific_categories':
+            if ( empty( $rule['categories'] ) ) {
+                return false;
+            }
+            $product_cats = wp_get_post_terms( $product_id, 'product_cat', [ 'fields' => 'ids' ] );
+            if ( ! array_intersect( $rule['categories'], $product_cats ) ) {
+                return false;
+            }
+            break;
+
+        case 'specific_tags':
+            if ( empty( $rule['tags'] ) ) {
+                return false;
+            }
+            $product_tags = wp_get_post_terms( $product_id, 'product_tag', [ 'fields' => 'ids' ] );
+            if ( ! array_intersect( $rule['tags'], $product_tags ) ) {
+                return false;
+            }
+            break;
+
+        case 'all_products':
+        default:
+            break;
+    }
+
+    /* ---------------- Exclude Products ---------------- */
+
+    if ( ! empty( $rule['exclude_products_enabled'] ) && ! empty( $rule['exclude_products'] ) ) {
+        if ( in_array( $product_id, $rule['exclude_products'], true ) ) {
+            return false;
+        }
+    }
+
+    /* ---------------- Exclude Categories ---------------- */
+
+    if ( ! empty( $rule['exclude_categories_enabled'] ) && ! empty( $rule['exclude_categories'] ) ) {
+
+        $product_cats = wp_get_post_terms( $product_id, 'product_cat', [ 'fields' => 'ids' ] );
+
+        if ( array_intersect( $rule['exclude_categories'], $product_cats ) ) {
+            return false;
+        }
+    }
+
+    /* ---------------- Exclude Tags ---------------- */
+
+    if ( ! empty( $rule['exclude_tags_enabled'] ) && ! empty( $rule['exclude_tags'] ) ) {
+
+        $product_tags = wp_get_post_terms( $product_id, 'product_tag', [ 'fields' => 'ids' ] );
+
+        if ( array_intersect( $rule['exclude_tags'], $product_tags ) ) {
+            return false;
+        }
+    }
+
+    /* ---------------- Exclude On Sale ---------------- */
+
+    if ( ! empty( $rule['exclude_on_sale_enabled'] ) ) {
+        if ( $product->is_on_sale() ) {
+            return false;
+        }
+    }
+
+    /* ---------------- User Role Condition ---------------- */
+
+    if ( ! empty( $rule['allowed_roles'] ) ) {
+
+        if ( ! is_user_logged_in() ) {
+            return false;
+        }
+
+        $user = wp_get_current_user();
+
+        if ( ! array_intersect( $rule['allowed_roles'], $user->roles ) ) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 
     /**
      * Render Single Rule (No Inline Style)
