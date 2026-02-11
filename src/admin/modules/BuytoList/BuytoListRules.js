@@ -35,7 +35,7 @@ const newBlistTRule = () => ({
     ],
     placement: 'after_summary',
     priority: 10,
-    icon_enabled: false,
+    icon_enabled: true,
     selected_icon: 'check',
 
     open: true,
@@ -59,7 +59,11 @@ const newBlistTRule = () => ({
     exclude_users: [],
     exclude_users_enabled: false,
     //color
-    bundel_title_clr: "#111",
+    btl_title_clr: "#111",
+    btl_list_clr:"#111",
+    btl_icon_bg_clr:"#fff",
+    btl_icon_clr:"#2563eb",
+    btl_bg_clr:"#fff",
 });
 
 const ICON_OPTIONS = [
@@ -555,14 +559,63 @@ const menuItems = [
                                                                                         <THBackgroundControl
                                                                                             allowGradient={true}
                                                                                             label={__('Background', 'store-one')}
-                                                                                            value={rule.bundel_bg_clr|| "#ffffff"}
+                                                                                            value={rule.btl_bg_clr|| "#ffffff"}
                                                                                             onChange={(v) => {
-                                                                                                const updatedRule = { ...rule, bundel_bg_clr: v };
-                                                                                                updateField(index, 'bundel_bg_clr', v); 
+                                                                                                const updatedRule = { ...rule, btl_bg_clr: v };
+                                                                                                updateField(index, 'btl_bg_clr', v); 
                                                                                                 onLivePreview?.(updatedRule, index);
                                                                                             }}
                                                                                         />
                                                                                         </S1Field>
+                                                                                        <S1Field>
+                                                                                        <THBackgroundControl
+                                                                                            allowGradient={true}
+                                                                                            label={__('Title', 'store-one')}
+                                                                                            value={rule.btl_title_clr|| "#111"}
+                                                                                            onChange={(v) => {
+                                                                                                const updatedRule = { ...rule, btl_title_clr: v };
+                                                                                                updateField(index, 'btl_title_clr', v); 
+                                                                                                onLivePreview?.(updatedRule, index);
+                                                                                            }}
+                                                                                        />
+                                                                                        </S1Field>
+                                                                                        <S1Field>
+                                                                                        <THBackgroundControl
+                                                                                            allowGradient={true}
+                                                                                            label={__('Icon Background', 'store-one')}
+                                                                                            value={rule.icon|| "#fff"}
+                                                                                            onChange={(v) => {
+                                                                                                const updatedRule = { ...rule, btl_icon_bg_clr: v };
+                                                                                                updateField(index, 'btl_icon_bg_clr', v); 
+                                                                                                onLivePreview?.(updatedRule, index);
+                                                                                            }}
+                                                                                        />
+                                                                                        </S1Field>
+                                                                                        <S1Field>
+                                                                                        <THBackgroundControl
+                                                                                            allowGradient={true}
+                                                                                            label={__('Icon', 'store-one')}
+                                                                                            value={rule.icon|| "#2563eb"}
+                                                                                            onChange={(v) => {
+                                                                                                const updatedRule = { ...rule, btl_icon_clr: v };
+                                                                                                updateField(index, 'btl_icon_clr', v); 
+                                                                                                onLivePreview?.(updatedRule, index);
+                                                                                            }}
+                                                                                        />
+                                                                                        </S1Field>
+                                                                                        <S1Field>
+                                                                                        <THBackgroundControl
+                                                                                            allowGradient={true}
+                                                                                            label={__('List', 'store-one')}
+                                                                                            value={rule.icon|| "#111"}
+                                                                                            onChange={(v) => {
+                                                                                                const updatedRule = { ...rule, btl_list_clr: v };
+                                                                                                updateField(index, 'btl_list_clr', v); 
+                                                                                                onLivePreview?.(updatedRule, index);
+                                                                                            }}
+                                                                                        />
+                                                                                        </S1Field>
+                                                                                       
                                                                                        
                                                                                         </div>
                                         ),
