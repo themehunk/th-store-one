@@ -86,3 +86,9 @@
     width: 150px;
     height: 40px;
 }
+.s1-btl-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}

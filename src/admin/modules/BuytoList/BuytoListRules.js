@@ -30,12 +30,17 @@ const newBlistTRule = () => ({
         {
             id: crypto.randomUUID(),
             text: '',
+            link_enabled: false,
+            link_url: 'https://example.com', 
             open: true,
         }
     ],
     placement: 'after_summary',
     priority: 10,
     icon_enabled: true,
+    icontype: 'icon',
+    custom_svg: '',
+    image_url:'',
     selected_icon: 'check',
 
     open: true,
@@ -208,11 +213,11 @@ const menuItems = [
         updateBuyList(ruleIndex, list);
     };
 
-    const updateBuyItemField = (ruleIndex, itemIndex, value) => {
-        const list = [...rules[ruleIndex].buy_list];
-        list[itemIndex].text = value;
-        updateBuyList(ruleIndex, list);
-    };
+    const updateBuyItemField = (ruleIndex, itemIndex, field, value) => {
+    const list = [...rules[ruleIndex].buy_list];
+    list[itemIndex][field] = value;
+    updateBuyList(ruleIndex, list);
+};
 
     const reorderBuyList = (ruleIndex, oldIndex, newIndex) => {
         const list = [...rules[ruleIndex].buy_list];
@@ -253,9 +258,24 @@ const menuItems = [
         return () => window.removeEventListener('storeone:changeDisplayStyle', handler);
     }, [rules]);
 
+    const openMediaLibrary = (callback) => {
+    const media = window.wp.media({
+        title: 'Select Image',
+        button: { text: 'Use Image' },
+        multiple: false,
+    });
+
+    media.on('select', () => {
+        const attachment = media.state().get('selection').first().toJSON();
+        callback(attachment);
+    });
+
+    media.open();
+   };
+
     return (
         <div className="store-one-rules-container">
-            <h3 className="store-one-section-title">{__('Buy To List', 'store-one')}</h3>
+            <h3 className="store-one-section-title">{__('Featured List', 'store-one')}</h3>
             <SortableWrapper items={rules} onSortEnd={reorder}>
                 {rules.map((rule, index) => (
                     <div key={rule.flexible_id} className="store-one-rule-item">
@@ -312,14 +332,12 @@ const menuItems = [
                                                         onChange={(v) => updateField(index, 'status', v)}
                                                     />
                                                 </S1Field>
-
                                                 <S1Field label={__('Title', 'store-one')}>
                                                     <TextControl
                                                         value={rule.list_title}
                                                         onChange={(v) => updateField(index, 'list_title', v)}
                                                     />
                                                 </S1Field>
-
                                                 <S1Field label={__('Trigger Type', 'store-one')}>
                                                     <SelectControl
                                                         value={rule.trigger_type}
@@ -328,12 +346,14 @@ const menuItems = [
                                                             { label: __('Specific Products', 'store-one'), value: 'specific_products' },
                                                             { label: __('Specific Categories', 'store-one'), value: 'specific_categories' },
                                                             { label: __('Specific Tags', 'store-one'), value: 'specific_tags' },
+                                                            { label: __('Disable', 'store-one'), value: 'disable' },
                                                         ]}
                                                         onChange={(v) => updateField(index, 'trigger_type', v)}
                                                     />
                                                 </S1Field>
 
-                                                {rule.trigger_type === 'specific_products' && (
+
+                                                {rule.trigger_type === 'specific_products' && rule.trigger_type !== 'disable' &&(
                                                     
                                                     <MultiWooSearchSelector
                                                         searchType="product"
@@ -344,7 +364,7 @@ const menuItems = [
                                                     />
                                                 )}
 
-                                                {rule.trigger_type === 'specific_categories' && (
+                                                {rule.trigger_type === 'specific_categories'&& rule.trigger_type !== 'disable'  && (
                                                     <MultiWooSearchSelector
                                                         searchType="category"
                                                         label={__('Select Categories', 'store-one')}
@@ -354,7 +374,7 @@ const menuItems = [
                                                     />
                                                 )}
 
-                                                {rule.trigger_type === 'specific_tags' && (
+                                                {rule.trigger_type === 'specific_tags' && rule.trigger_type !== 'disable' && (
                                                     <MultiWooSearchSelector
                                                         searchType="tag"
                                                         label={__('Select Tags', 'store-one')}
@@ -365,7 +385,8 @@ const menuItems = [
                                                 )}
 
                                 {/* ———————— EXCLUDE OPTIONS ————————— */}
-
+ {rule.trigger_type !== 'disable' && (
+    <>
                                 <ExcludeWooCondition
                                     label={__('Exclude products', 'store-one')}
                                     searchType="product"
@@ -404,8 +425,11 @@ const menuItems = [
                                     onToggle={(v) => updateField(index, 'exclude_on_sale_enabled', v)}
                                     onChangeItems={() => {}}
                                     />
+                                    </>
+ )}
+                               
                                     {/* BUY LIST GROUP */}
-                                <S1FieldGroup title={__('Buy To List Items', 'store-one')}>
+                                <S1FieldGroup title={__('Featured List Item', 'store-one')}>
 
                                     <SortableWrapper
                                         items={rule.buy_list}
@@ -453,11 +477,30 @@ const menuItems = [
                                                             <TextControl
                                                                 value={item.text}
                                                                 onChange={(v) =>
-                                                                    updateBuyItemField(index, i, v)
+                                                                    updateBuyItemField(index, i, 'text', v)
                                                                 }
                                                                 placeholder="Enter list text"
                                                             />
                                                         </S1Field>
+                                                        <S1Field label={__('Enable Link', 'store-one')} classN="s1-toggle-wrpapper">
+                                                        <ToggleControl
+                                                            checked={item.link_enabled}
+                                                            onChange={(value) =>
+                                                                updateBuyItemField(index, i, 'link_enabled', value)
+                                                            }
+                                                        />
+                                                    </S1Field>
+                                                     {item.link_enabled && (
+                                                    <S1Field label={__('Link URL', 'store-one')}>
+                                                        <TextControl
+                                                            value={item.link_url}
+                                                            onChange={(v) =>
+                                                                updateBuyItemField(index, i, 'link_url', v)
+                                                            }
+                                                            placeholder="https://example.com"
+                                                        />
+                                                    </S1Field>
+                                                )}
                                                     </div>
                                                 )}
 
@@ -473,6 +516,33 @@ const menuItems = [
                                     </div>
 
                                 </S1FieldGroup>
+                                <S1Field label={__('Shortcode', 'store-one')}>
+                                     <p className="s1-shortcode-description">
+            {__('Use this shortcode to display this Featured List anywhere on your site (posts, pages, widgets, or page builders).', 'store-one')}
+        </p>
+    <div className="s1-shortcode-wrapper">
+       
+
+        <textarea
+            readOnly
+            value={`[storeone_featured_list id="${rule.flexible_id}"]`}
+            className="s1-shortcode-textarea"
+        />
+
+        <button
+            type="button"
+            className="s1-shortcode-copy"
+            onClick={() => {
+                navigator.clipboard.writeText(
+                    `[storeone_featured_list id="${rule.flexible_id}"]`
+                );
+            }}
+        >
+            <CopyIcon />
+        </button>
+    </div>
+</S1Field>
+
                                    </div>
 
                                    
@@ -505,20 +575,114 @@ const menuItems = [
 
     {/* IconSelector */}
     {rule.icon_enabled && (
-        <S1Field classN="s1-toggle-wrpapper list-icon">
-        
-            {ICON_OPTIONS.map(({ id, icon }) => (
-        <div
-            key={id}
-            className={`s1-icon-option ${
-                rule.selected_icon === id ? 'active' : ''
-            }`}
-            onClick={() => updateField(index, 'selected_icon', id)}
-        >
-            {icon}
+        <>
+        <S1Field label="Icon Type">
+                                    <SelectControl
+                                        value={rule.icontype}
+                                        options={[
+                                            { label: 'Icon', value: 'icon' },
+                                            { label: 'Image', value: 'image' },
+                                            { label: 'SVG', value: 'custom_svg' },
+                                            
+                                        ]}
+                                        onChange={(v) =>
+                                            updateField(index, 'icontype', v)
+                                        }
+                                    />
+                    </S1Field>
+         {(rule.icontype || 'icon') === 'icon' && (
+            <S1Field classN="s1-toggle-wrpapper list-icon">
+                {ICON_OPTIONS.map(({ id, icon }) => (
+                    <div
+                        key={id}
+                        className={`s1-icon-option ${
+                            rule.selected_icon === id ? 'active' : ''
+                        }`}
+                        onClick={() => updateField(index, 'selected_icon', id)}
+                    >
+                        {icon}
+                    </div>
+                ))}
+            </S1Field>
+         )}
+         {rule.icontype === 'custom_svg' && (
+                                    <S1Field label="SVG Code">
+                                        <TextControl
+                                            value={rule.custom_svg}
+                                            onChange={(v) =>
+                                                updateField(index, 'custom_svg', v)
+                                            }
+                                        />
+                                    </S1Field>
+                                )}
+        {rule.icontype === 'image' && (
+                                    <S1Field label="Upload Image">
+        <div className="s1-image-upload-wrapper">
+
+            {rule.image_url ? (
+                <div className="s1-image-card">
+
+                    <div className="s1-image-preview">
+                        <img src={rule.image_url} alt="" />
+                    </div>
+
+                    <div className="s1-image-actions">
+
+                        <button
+                            type="button"
+                            className="s1-btn s1-btn-edit"
+                            onClick={() =>
+                                openMediaLibrary((media) =>
+                                    updateField(index, 'image_url', media.url)
+                                )
+                            }
+                        >
+                            <span className="s1-btn-icon">
+                                {ICONS.SETTINGS}
+                            </span>
+                            Change
+                        </button>
+
+                        <button
+                            type="button"
+                            className="s1-btn s1-btn-remove"
+                            onClick={() =>
+                                updateField(index, 'image_url', '')
+                            }
+                        >
+                            <TrashIcon />
+                        </button>
+
+                    </div>
+
+                </div>
+            ) : (
+                <button
+                    type="button"
+                    className="s1-upload-card"
+                    onClick={() =>
+                        openMediaLibrary((media) =>
+                            updateField(index, 'image_url', media.url)
+                        )
+                    }
+                >
+                    <span className="s1-btn-icon">
+                        {ICONS.DISPLAY}
+                    </span>
+                    <div className="s1-upload-text">
+                    <strong>Upload Image</strong>
+                    <p>Select or upload an image file</p>
+                    <small className="s1-upload-note">
+                        PNG, JPG, and SVG formats supported
+                    </small>
+                </div>
+                </button>
+            )}
+
         </div>
-    ))}
-        </S1Field>
+    </S1Field>
+)}
+        </>
     )}
 
 
@@ -533,9 +697,9 @@ const menuItems = [
                 onChange={(v) => updateField(index, 'placement', v)}
                 options={[
                     { label: __('After Product Summary', 'store-one'), value: 'after_summary' },
-                    { label: __('Before Product Summary', 'store-one'), value: 'before_summary' },
                     { label: __('After Title', 'store-one'), value: 'after_title' },
                     { label: __('After Add to Cart', 'store-one'), value: 'after_add_to_cart' },
+                    { label: __('Before Add to Cart', 'store-one'), value: 'before_add_to_cart' },
                 ]}
             />
         </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { __ } from '@wordpress/i18n';
 
 const Header = ({ currentPage, setCurrentPage, setActiveModule }) => {
@@ -7,9 +7,13 @@ const Header = ({ currentPage, setCurrentPage, setActiveModule }) => {
     
     {/* Left Area */}
     <div className="s1-header__left">
-        <span className="s1-header__logo">S1</span>
+        <span className="s1-header__logo"><img
+    src={StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/storeonemain.png"}
+    alt="Store One"
+    className="s1-header__logo"
+/></span>
 
-        <div className="s1-header__branding">
+        {/* <div className="s1-header__branding">
             <h1 className="s1-header__title">
                 { __('Store One', 'store-one') }
             </h1>
@@ -17,7 +21,7 @@ const Header = ({ currentPage, setCurrentPage, setActiveModule }) => {
             <p className="s1-header__subtitle">
                 { __('WooCommerce Enhancement Toolkit', 'store-one') }
             </p>
-        </div>
+        </div> */}
     </div>
 
     {/* Navigation */}

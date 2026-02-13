@@ -18,6 +18,7 @@ class StoreOne_Buy_To_List_Frontend {
         add_action( 'wp', array( $this, 'register_hooks' ) );
         add_action( 'wp_enqueue_scripts', array( $this, 'add_inline_dynamic_css' ), 20 );
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+        add_shortcode( 'storeone_featured_list', array( $this, 'shortcode_render' ) );
     }
 
     /* --------------------------------------------------------------------
@@ -80,8 +81,8 @@ class StoreOne_Buy_To_List_Frontend {
 
         switch ( $placement ) {
 
-            case 'before_summary':
-                return 'woocommerce_before_single_product_summary';
+            case 'before_add_to_cart':
+                return 'woocommerce_before_add_to_cart_button';
 
             case 'after_title':
                 return 'woocommerce_single_product_summary';
@@ -102,6 +103,9 @@ class StoreOne_Buy_To_List_Frontend {
     /* ---------------- Trigger Type ---------------- */
 
     $trigger = $rule['trigger_type'] ?? 'all_products';
+    if ( $trigger === 'disable' ) {
+    return false; //
+    }
 
     switch ( $trigger ) {
 
@@ -190,7 +194,33 @@ class StoreOne_Buy_To_List_Frontend {
     }
 
     return true;
-}
+    }
+
+    public function shortcode_render( $atts ) {
+
+    $atts = shortcode_atts(
+        array(
+            'id' => '',
+        ),
+        $atts
+    );
+
+    if ( empty( $atts['id'] ) ) {
+        return '';
+    }
+
+    foreach ( $this->rules as $rule ) {
+
+        if ( isset( $rule['flexible_id'] ) && $rule['flexible_id'] === $atts['id'] ) {
+
+            ob_start();
+            $this->render_single_rule( $rule );
+            return ob_get_clean();
+        }
+    }
+
+    return '';
+   }
 
 
     /**
@@ -223,17 +253,84 @@ class StoreOne_Buy_To_List_Frontend {
                     <li class="storeone-btl-item">
 
                         <?php if ( ! empty( $rule['icon_enabled'] ) ) : ?>
-                            <span class="storeone-btl-icon">
-                                <?php
-                                   echo $this->get_icon_svg( $rule['selected_icon'] ?? 'check' );
-                                   ?>
 
-                            </span>
-                        <?php endif; ?>
+    <span class="storeone-btl-icon">
+
+        <?php
+        $icon_type = isset( $rule['icontype'] ) ? $rule['icontype'] : 'icon';
+
+        // 1️⃣ Preset SVG Icons
+        if ( 'icon' === $icon_type ) {
+
+            echo $this->get_icon_svg( $rule['selected_icon'] ?? 'check' );
+
+        }
+
+        // 2️⃣ Uploaded Image
+        elseif ( 'image' === $icon_type && ! empty( $rule['image_url'] ) ) {
+
+            printf(
+                '<img src="%s" alt="%s" class="storeone-btl-icon-img" />',
+                esc_url( $rule['image_url'] ),
+                esc_attr__( 'List Icon', 'store-one' )
+            );
+
+        }
+
+        // 3️⃣ Custom SVG Code
+        elseif ( 'custom_svg' === $icon_type && ! empty( $rule['custom_svg'] ) ) {
+
+            echo wp_kses(
+                $rule['custom_svg'],
+                array(
+                    'svg'  => array(
+                        'xmlns' => true,
+                        'width' => true,
+                        'height' => true,
+                        'viewBox' => true,
+                        'fill' => true,
+                        'stroke' => true,
+                        'class' => true,
+                    ),
+                    'path' => array(
+                        'd' => true,
+                        'fill' => true,
+                        'stroke' => true,
+                        'stroke-width' => true,
+                        'stroke-linecap' => true,
+                        'stroke-linejoin' => true,
+                    ),
+                )
+            );
+
+        }
+        ?>
+
+    </span>
+
+<?php endif; ?>
+
+
+                        <?php if ( ! empty( $item['text'] ) ) : ?>
+
+                    <?php if ( ! empty( $item['link_enabled'] ) && ! empty( $item['link_url'] ) ) : ?>
+
+                        <a 
+                            class="storeone-btl-text storeone-btl-link"
+                            href="<?php echo esc_url( $item['link_url'] ); ?>"
+                        >
+                            <?php echo esc_html( $item['text'] ); ?>
+                        </a>
+
+                    <?php else : ?>
 
                         <span class="storeone-btl-text">
                             <?php echo esc_html( $item['text'] ); ?>
                         </span>
+
+                    <?php endif; ?>
+
+                <?php endif; ?>
 
                     </li>
 
@@ -257,19 +354,19 @@ class StoreOne_Buy_To_List_Frontend {
      */
     public function add_inline_dynamic_css() {
 
-        if ( ! is_product() || empty( $this->rules ) ) {
-            return;
-        }
+        // if ( ! is_product() || empty( $this->rules ) ) {
+        //     return;
+        // }
 
-        global $product;
+        // global $product;
 
-        if ( ! $product instanceof WC_Product ) {
-            $product = wc_get_product( get_the_ID() );
-        }
+        // if ( ! $product instanceof WC_Product ) {
+        //     $product = wc_get_product( get_the_ID() );
+        // }
 
-        if ( ! $product ) {
-            return;
-        }
+        // if ( ! $product ) {
+        //     return;
+        // }
 
         $css = '';
 

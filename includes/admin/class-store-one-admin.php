@@ -11,6 +11,7 @@ class Store_One_Admin {
 	}
 
 	public function register_menu() {
+		
 
 		add_menu_page(
 			__( 'Store One', 'store-one' ),
@@ -18,7 +19,7 @@ class Store_One_Admin {
 			'manage_options',
 			'store-one',
 			array( $this, 'render_admin_page' ),
-			'dashicons-store',
+			STORE_ONE_PLUGIN_URL . 'assets/images/storeone-icon.svg',
 			56
 		);
 

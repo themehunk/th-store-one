@@ -27,7 +27,7 @@ const modulesList = [
     },
     {
         id: 'buy-to-list',
-        label: __('Buy to List', 'store-one'),
+        label: __('Featured List', 'store-one'),
         description: __('Encourage customers to buy more.', 'store-one'),
         icon: '📋',
     },
