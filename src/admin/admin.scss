@@ -1718,6 +1718,127 @@ input.components-text-control__input {
     }
 }
 
+.s1-field-wrapper.list-icon .s1-field-control,
+.s1-field-wrapper.list-icon .s1-field-control{
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.s1-field-wrapper.list-icon .s1-field-control .s1-icon-option {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.s1-field-wrapper.list-icon .s1-field-control .s1-icon-option.active {
+    border-color: #2563eb;
+    background: #eff6ff;
+}
+// image upload
+.s1-image-upload-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.s1-preview-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+.s1-upload-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    border: 2px dashed #d1d5db;
+    border-radius: 8px;
+    background: #fafafa;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.s1-upload-card:hover {
+    border-color: #2563eb;
+    background: #f0f7ff;
+}
+
+.s1-upload-text p {
+    margin: 2px 0 0;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.s1-btn-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Preview Card */
+.s1-image-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.s1-image-preview img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.s1-image-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.s1-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: 0.2s;
+}
+
+.s1-btn-edit {
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+}
+
+.s1-btn-edit:hover {
+    background: #e5e7eb;
+}
+
+.s1-btn-remove {
+    background: #fff;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+    padding: 6px 8px;
+}
+
+.s1-btn-remove:hover {
+    background: #fee2e2;
+}
+
 
 /** responsive css **/
 

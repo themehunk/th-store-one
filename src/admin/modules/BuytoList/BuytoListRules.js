@@ -1,6 +1,6 @@
 /* ------------------------ imports ------------------------ */
 import { useState, useEffect, useRef } from '@wordpress/element';
-import { TextControl, SelectControl } from '@wordpress/components';
+import { TextControl, SelectControl,ToggleControl } from '@wordpress/components';
 import { __, sprintf } from '@wordpress/i18n';
 import Sortable from 'sortablejs';
 import MultiWooSearchSelector from '@storeone-global/MultiWooSearchSelector';
@@ -13,12 +13,12 @@ import UniversalRangeControl from '@storeone-global/UniversalRangeControl';
 
 import S1Accordion from "@storeone-global/S1Accordion";
 import { CopyIcon, TrashIcon, DragHandleDots2Icon ,ChevronDownIcon,
-    ChevronUpIcon } from "@radix-ui/react-icons";
+    ChevronUpIcon,CheckIcon, StarIcon, HeartIcon,LightningBoltIcon, RocketIcon  } from "@radix-ui/react-icons";
 import {S1Field, S1FieldGroup} from '@storeone-global/S1Field';
 import { ICONS } from '@storeone-global/icons';
 
 /* Default Rule */
-const newFBTRule = () => ({
+const newBlistTRule = () => ({
     status: 'active',
     list_title: '',
     trigger_type: 'all_products',
@@ -33,6 +33,11 @@ const newFBTRule = () => ({
             open: true,
         }
     ],
+    placement: 'after_summary',
+    priority: 10,
+    icon_enabled: true,
+    selected_icon: 'check',
+
     open: true,
     offer_products: [],      // NEW: bundle products
     offer_products_optional: true,
@@ -54,8 +59,20 @@ const newFBTRule = () => ({
     exclude_users: [],
     exclude_users_enabled: false,
     //color
-    bundel_title_clr: "#111",
+    btl_title_clr: "#111",
+    btl_list_clr:"#111",
+    btl_icon_bg_clr:"#fff",
+    btl_icon_clr:"#2563eb",
+    btl_bg_clr:"#fff",
 });
+
+const ICON_OPTIONS = [
+    { id: 'check', icon: ICONS.CheckSVG },
+    { id: 'star', icon: ICONS.StarSVG },
+    { id: 'heart', icon: ICONS.HeartSVG },
+    { id: 'bolt', icon: ICONS.BoltSVG },
+    // { id: 'rocket', icon: ICONS.RocketSVG },
+];
 /** menu tabs */
 /* ================= STYLE DEFAULTS (ADDED) ================= */
 const STYLE_DEFAULTS = {
@@ -145,7 +162,7 @@ const menuItems = [
     };
 
     const addRule = () => {
-        const arr = [...rules, newFBTRule()];
+        const arr = [...rules, newBlistTRule()];
         updateAll(arr);
         const newIndex = arr.length - 1;
         onLivePreview?.(arr[newIndex], newIndex);
@@ -207,7 +224,7 @@ const menuItems = [
 
     useEffect(() => {
         if (rules.length === 0) {
-            updateAll([newFBTRule()]);
+            updateAll([newBlistTRule()]);
         } else {
             const arr = [...rules];
             arr[0].open = true;
@@ -402,9 +419,11 @@ const menuItems = [
                                                 <div className="store-one-rule-header">
                                                     <DragHandleDots2Icon className="drag-handle s1-icon" />
 
-                                                    <strong>
-                                                        {sprintf(__('Item %d', 'store-one'), i + 1)}
-                                                    </strong>
+                                                    <strong className="s1-rule-title">
+                                                    {sprintf(__('Item %d', 'store-one'), i + 1)}
+                                                </strong>
+
+                
 
                                                     <CopyIcon
                                                         className="s1-icon"
@@ -467,25 +486,137 @@ const menuItems = [
                                                                             content: (
                                                                                 <div className="store-one-rule-body">
                                     
-                                                                                    <S1Field label={__('Display Style', 'store-one')} visible={false}>
+                                                                                  
                                                                                         
-                                                                                        </S1Field>
-                                                                                        <S1FieldGroup
-                                                                                            title={__('Buy To list', 'store-one')}
-                                                                                        >
+                                                                                            {/* PLACEMENT */}
+
+                                                                                            
+
+    {/* Toggle */}
+    <S1Field label={__('Enable Icon', 'store-one')} classN="s1-toggle-wrpapper">
+                    <ToggleControl
+                        checked={rule.icon_enabled}
+                        onChange={(value) =>
+                            updateField(index, 'icon_enabled', value)
+                        }
+                    />
+                    </S1Field>
+        
+
+    {/* IconSelector */}
+    {rule.icon_enabled && (
+        <S1Field classN="s1-toggle-wrpapper list-icon">
+        
+            {ICON_OPTIONS.map(({ id, icon }) => (
+        <div
+            key={id}
+            className={`s1-icon-option ${
+                rule.selected_icon === id ? 'active' : ''
+            }`}
+            onClick={() => updateField(index, 'selected_icon', id)}
+        >
+            {icon}
+        </div>
+    ))}
+        </S1Field>
+    )}
+
+
+            <div className="s1-field-wrapper col-2">
+    <div className="s1-field-col">
+        <label className="s1-field-label">
+            {__('Placement on product page', 'store-one')}
+        </label>
+        <div className="s1-field-control">
+            <SelectControl
+                value={rule.placement}
+                onChange={(v) => updateField(index, 'placement', v)}
+                options={[
+                    { label: __('After Product Summary', 'store-one'), value: 'after_summary' },
+                    { label: __('Before Product Summary', 'store-one'), value: 'before_summary' },
+                    { label: __('After Title', 'store-one'), value: 'after_title' },
+                    { label: __('After Add to Cart', 'store-one'), value: 'after_add_to_cart' },
+                ]}
+            />
+        </div>
+    </div>
+
+    <div className="s1-field-col">
+        <label className="s1-field-label">
+            {__('Priority', 'store-one')}
+        </label>
+        <div className="s1-field-control">
+            <TextControl
+                type="number"
+                value={rule.priority}
+                onChange={(v) => updateField(index, 'priority', v)}
+            />
+        </div>
+    </div>
+</div>
+
                                                                                         <S1Field>
                                                                                         <THBackgroundControl
                                                                                             allowGradient={true}
                                                                                             label={__('Background', 'store-one')}
-                                                                                            value={rule.bundel_bg_clr|| "#ffffff"}
+                                                                                            value={rule.btl_bg_clr|| "#ffffff"}
                                                                                             onChange={(v) => {
-                                                                                                const updatedRule = { ...rule, bundel_bg_clr: v };
-                                                                                                updateField(index, 'bundel_bg_clr', v); 
+                                                                                                const updatedRule = { ...rule, btl_bg_clr: v };
+                                                                                                updateField(index, 'btl_bg_clr', v); 
                                                                                                 onLivePreview?.(updatedRule, index);
                                                                                             }}
                                                                                         />
                                                                                         </S1Field>
-                                                                                        </S1FieldGroup>
+                                                                                        <S1Field>
+                                                                                        <THBackgroundControl
+                                                                                            allowGradient={true}
+                                                                                            label={__('Title', 'store-one')}
+                                                                                            value={rule.btl_title_clr|| "#111"}
+                                                                                            onChange={(v) => {
+                                                                                                const updatedRule = { ...rule, btl_title_clr: v };
+                                                                                                updateField(index, 'btl_title_clr', v); 
+                                                                                                onLivePreview?.(updatedRule, index);
+                                                                                            }}
+                                                                                        />
+                                                                                        </S1Field>
+                                                                                        <S1Field>
+                                                                                        <THBackgroundControl
+                                                                                            allowGradient={true}
+                                                                                            label={__('Icon Background', 'store-one')}
+                                                                                            value={rule.icon|| "#fff"}
+                                                                                            onChange={(v) => {
+                                                                                                const updatedRule = { ...rule, btl_icon_bg_clr: v };
+                                                                                                updateField(index, 'btl_icon_bg_clr', v); 
+                                                                                                onLivePreview?.(updatedRule, index);
+                                                                                            }}
+                                                                                        />
+                                                                                        </S1Field>
+                                                                                        <S1Field>
+                                                                                        <THBackgroundControl
+                                                                                            allowGradient={true}
+                                                                                            label={__('Icon', 'store-one')}
+                                                                                            value={rule.icon|| "#2563eb"}
+                                                                                            onChange={(v) => {
+                                                                                                const updatedRule = { ...rule, btl_icon_clr: v };
+                                                                                                updateField(index, 'btl_icon_clr', v); 
+                                                                                                onLivePreview?.(updatedRule, index);
+                                                                                            }}
+                                                                                        />
+                                                                                        </S1Field>
+                                                                                        <S1Field>
+                                                                                        <THBackgroundControl
+                                                                                            allowGradient={true}
+                                                                                            label={__('List', 'store-one')}
+                                                                                            value={rule.icon|| "#111"}
+                                                                                            onChange={(v) => {
+                                                                                                const updatedRule = { ...rule, btl_list_clr: v };
+                                                                                                updateField(index, 'btl_list_clr', v); 
+                                                                                                onLivePreview?.(updatedRule, index);
+                                                                                            }}
+                                                                                        />
+                                                                                        </S1Field>
+                                                                                       
+                                                                                       
                                                                                         </div>
                                         ),
                                     },

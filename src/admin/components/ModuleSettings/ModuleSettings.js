@@ -12,6 +12,7 @@ import { __ } from '@wordpress/i18n';
 import FrequentlyBoughtSettings from '../../modules/frequentlyBoughtTogether/FrequentlyBoughtSettings';
 import BundleProductSettings from '../../modules/BundleProductSetting/BundleProductSettings';
 import BuytoListSettings from '../../modules/BuytoList/BuytoListSettings';
+import QuickSocialSettings from '../../modules/QuickSocial/QuickSocialSettings';
 
 const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, onSettingsChange, onLivePreview,onRegisterSave }) => {
     const enabled = !!modulesState[currentModule.id];
@@ -32,6 +33,12 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                 />
             case 'buy-to-list':
                 return <BuytoListSettings
+                    onSettingsChange={onSettingsChange}
+                    onLivePreview={onLivePreview}
+                    onRegisterSave={onRegisterSave}
+                />
+            case 'quick-social':
+                return <QuickSocialSettings
                     onSettingsChange={onSettingsChange}
                     onLivePreview={onLivePreview}
                     onRegisterSave={onRegisterSave}

@@ -31,13 +31,19 @@ const modulesList = [
         description: __('Encourage customers to buy more.', 'store-one'),
         icon: '📋',
     },
+    {
+        id: 'quick-social',
+        label: __('Quick Social Link', 'store-one'),
+        description: __('Encourage customers to buy more.', 'store-one'),
+        icon: '📋',
+    },
 ];
 
 const tabs = [
     {
         name: 'all',
         title: __('All Modules', 'store-one'),
-        modules: ['frequently-bought','bundle-product','buy-to-list'],
+        modules: ['frequently-bought','bundle-product','buy-to-list','quick-social'],
     },
     {
         name: 'recommended',
@@ -68,6 +74,7 @@ const AdminMain = () => {
         'frequently-bought': true,
         'bundle-product': true,
         'buy-to-list': true,
+        'quick-social': true,
     });
 
     const currentModule = activeModule
@@ -327,6 +334,15 @@ const AdminMain = () => {
                         )}
 
                         {currentModule?.id === 'buy-to-list' && (
+                            <PreviewPane
+                                currentModule={currentModule}
+                                settings={
+                                    livePreviewSettings ||
+                                    moduleSettings[currentModule.id]?.rules?.[0]
+                                }
+                            />
+                        )}
+                        {currentModule?.id === 'quick-social' && (
                             <PreviewPane
                                 currentModule={currentModule}
                                 settings={
