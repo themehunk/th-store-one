@@ -27,6 +27,9 @@ const ICON_OPTIONS = [
     { id: 'TWITTER', icon: ICONS.TWITTER },
     { id: 'LINKEDIN', icon: ICONS.LINKEDIN },
     { id: 'YOUTUBE', icon: ICONS.YOUTUBE },
+    { id: 'WHATSAPP', icon: ICONS. WHATSAPP },
+    { id: 'TELEGRAM', icon: ICONS.TELEGRAM },
+    { id: 'PINTEREST', icon: ICONS.PINTEREST },
 ];
 
 function SortableWrapper({ items, onSortEnd, children }) {

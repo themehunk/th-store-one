@@ -17,25 +17,31 @@ const modulesList = [
         id: 'frequently-bought',
         label: __('Frequently Bought Together', 'store-one'),
         description: __('AI-powered combos.', 'store-one'),
-        icon: '🤝',
+        icon: (
+            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M14 14.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" fill="currentColor" fill-opacity="0.2" stroke="currentColor" stroke-width="1.5"></path><circle cx="18" cy="18" r="4" fill="white" stroke="currentColor" stroke-width="2"></circle><path d="M18 16v4M16 18h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path></svg>
+        ),
+        premium: true,
     },
     {
         id: 'bundle-product',
         label: __('Bundle Product', 'store-one'),
         description: __('Boost product discovery.', 'store-one'),
-        icon: '🔍',
+        icon: (<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 7.5L12 3L3 7.5V16.5L12 21L21 16.5V7.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 21V12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 12L21 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M12 12L3 7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M7.5 5.25L16.5 9.75" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>),
+        premium: true,
     },
     {
         id: 'buy-to-list',
         label: __('Featured List', 'store-one'),
         description: __('Encourage customers to buy more.', 'store-one'),
-        icon: '📋',
+        icon: (<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 6H21M8 12H21M8 18H21M3 6H3.01M3 12H3.01M3 18H3.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>),
+        premium: false,
     },
     {
         id: 'quick-social',
         label: __('Quick Social Link', 'store-one'),
         description: __('Encourage customers to buy more.', 'store-one'),
-        icon: '📋',
+        icon: (<svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 2H6C3.79086 2 2 3.79086 2 6V18C2 20.2091 3.79086 22 6 22H18C20.2091 22 22 20.2091 22 18V6C22 3.79086 20.2091 2 18 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8 12C8 14.2091 9.79086 16 12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M17.5 6.5H17.51" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>),
+        premium: false,
     },
 ];
 

@@ -7,7 +7,7 @@
     /* BRAND PALETTE */
     --s1-color-primary: #3858e9;
     --s1-color-primary-light: #e7f3ff;
-    --s1-color-primary-dark: #2a49d1;
+    --s1-color-primary-dark: #4f46e5;
 
     /* GRAY SCALE */
     --s1-gray-50: #fafafa;
@@ -53,7 +53,7 @@
     --s1-radius-sm: 6px;
     --s1-radius-md: 8px;
     --s1-radius-lg: 10px;
-    --s1-radius-xl: 12px;
+    --s1-radius-xl: 1rem;
     --s1-radius-full: 999px;
 
     /* SHADOWS */
@@ -86,7 +86,7 @@
     /* BUTTON SYSTEM — GLOBAL TOKEN SET */
     --s1-btn-height-sm: 32px;
     --s1-btn-height-md: 36px;
-    --s1-btn-height-lg: 42px;
+    --s1-btn-height-lg: 36px;
 
     --s1-btn-padding-sm: 4px 10px;
     --s1-btn-padding-md: 6px 14px;   /* Tabs + Header nav match */
@@ -135,7 +135,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 24px;
+    padding: 0px 24px;
     background: #fff;
     border: 1px solid var(--s1-gray-200);
     box-shadow: var(--s1-shadow-sm);
@@ -145,6 +145,30 @@
     top: 32px; /* WP admin bar height */
 }
 
+.s1-modules__header h2{
+    font-size:2.25rem;
+    line-height:2.25rem;
+    font-weight: 900;
+    margin-bottom: 0.75rem;
+    color:var(--s1-gray-700);
+}
+.s1-modules__header h2 span{
+    color:#4f46e5;
+}
+.s1-modules__header p{
+    font-size: 1rem;
+    line-height: 1.75rem;
+    font-weight: 300;
+    color:#64748b;
+}
+.s1-modules__header{
+   max-width: 36rem;
+}
+.s1-top-section{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+}
 /* ------------------------------------------------------------
    LEFT AREA (Logo + Branding)
 ------------------------------------------------------------- */
@@ -156,9 +180,11 @@
 
 .s1-header__logo {
 
-    display: flex;
+display: flex;
     align-items: center;
     justify-content: center;
+    width: 80%;
+    padding: 5px 0px;
 
 }
 
@@ -272,7 +298,6 @@
     border: var(--s1-border);
     border-radius: var(--s1-radius-lg);
     padding: var(--s1-space-4);
-    margin-bottom: var(--s1-space-24);
     
 }
 
@@ -296,7 +321,7 @@
 }
 
 /* Active */
-.s1-tabs .components-button.is-active {
+.s1-tabs .components-tab-panel__tabs-item.is-active {
     background: var(--s1-gray-200) !important;
     color: var(--s1-gray-900) !important;
     font-weight: 600 !important;
@@ -305,7 +330,7 @@
 }
 
 /* Remove underline */
-.s1-tabs .components-button.is-active::after {
+.s1-tabs .components-tab-panel__tabs-item.is-active::after {
     display: none !important;
 }
 
@@ -317,6 +342,7 @@
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--s1-space-18);
+    margin-top:var(--s1-space-18);
 
     @media (max-width: 1100px) {
         grid-template-columns: repeat(2, 1fr);
@@ -363,15 +389,21 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: var(--s1-space-8);
+    margin-bottom: var(--s1-space-16);
 }
 
 /* Icon */
+
+.s1-module-card__icon svg{ 
+    height:21px;
+    width:21px;
+    color:#fff;
+}
 .s1-module-card__icon {
-    width: 38px;
-    height: 38px;
-    border-radius: var(--s1-radius-md);
-    background: var(--s1-gray-100);
+    width: 42px;
+    height: 42px;
+    border-radius: var(--s1-radius-xl);
+    background: var(--s1-color-primary-dark);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -384,6 +416,16 @@
 }
 
 /* Badge */
+.s1-module-card__right{
+    display:flex;
+    flex-direction: column;
+    text-align:center;
+    gap:0.5rem;
+}
+.s1-module-card__pro{
+  font-size:0.78rem;  
+  color:#6366f1;
+}
 .s1-module-card__badge {
     padding: 4px 10px;
     border-radius: var(--s1-radius-full);
@@ -427,7 +469,17 @@
     border-radius: var(--s1-radius-md) !important;
     margin-top: 6px !important;
 }
-
+.s1-modules__grid .components-button.s1-module-card__btn{
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    background: #0f172a;
+}
+.s1-modules__grid .components-button.s1-module-card__btn:hover{
+    background:var(--s1-color-primary-dark)!important;
+}
 /* ------------------------------------------------------------
    Animation (icon breathing effect)
 ------------------------------------------------------------- */
@@ -1720,6 +1772,7 @@ input.components-text-control__input {
     display: flex;
     gap: 10px;
     margin-top: 10px;
+    flex-wrap: wrap;
 }
 
 .s1-field-wrapper.list-icon .s1-field-control .s1-icon-option {

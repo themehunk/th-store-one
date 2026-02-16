@@ -10,6 +10,8 @@ import UniversalRangeControl from '@storeone-global/UniversalRangeControl';
 import { ICONS } from '@storeone-global/icons';
 import { S1Field } from '@storeone-global/S1Field';
 import { TextControl, SelectControl, Button } from '@wordpress/components';
+import { CopyIcon, TrashIcon, DragHandleDots2Icon ,ChevronDownIcon,
+    ChevronUpIcon,CheckIcon, StarIcon, HeartIcon,LightningBoltIcon, RocketIcon  } from "@radix-ui/react-icons";
 
 const MODULE_ID = 'quick-social';
 
@@ -129,6 +131,30 @@ export default function QuickSocialSettings({
                                 setSettings({ ...settings, links })
                             }
                         />
+                        <S1Field label={__('Shortcode', 'store-one')}>
+    <p className="s1-shortcode-description">
+        {__('Use this shortcode to display Quick Social anywhere on your site.', 'store-one')}
+    </p>
+
+                        <div className="s1-shortcode-wrapper">
+                            <textarea
+                                readOnly
+                                value='[storeone_quick_social]'
+                                className="s1-shortcode-textarea"
+                            />
+
+                            <button
+                                type="button"
+                                className="s1-shortcode-copy"
+                                onClick={() => {
+                                    navigator.clipboard.writeText('[storeone_quick_social]');
+                                }}
+                            >
+                                <CopyIcon />
+                            </button>
+                        </div>
+                    </S1Field>
+
                         </div>
                         </>
                     ),
