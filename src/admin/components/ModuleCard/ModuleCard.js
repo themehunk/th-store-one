@@ -9,9 +9,15 @@ const ModuleCard = ({ mod, modulesState, setActiveModule }) => {
 
     return (
         <Card className="s1-module-card">
-            <CardBody className="s1-module-card__body">
+           <CardBody
+  className={[
+    's1-module-card__body',
+    isPremium ? 'is-premium' : 'is-free',
+    isActive ? 'is-active' : ''
+  ].join(' ')}
+>
 
-                <div className="s1-module-card__top">
+                <div className="s1-module-card__top"  >
                     <span className="s1-module-card__icon">{mod.icon}</span>
                     <div className="s1-module-card__right">
                     <span className={`s1-module-card__badge ${isActive ? 'is-on' : 'is-off'}`}>
@@ -38,7 +44,7 @@ const ModuleCard = ({ mod, modulesState, setActiveModule }) => {
                     isPrimary
                     onClick={() => setActiveModule(mod.id)}
                 >
-                    { __('Try now', 'store-one') } →
+                    { __('Configure', 'store-one') } →
                 </Button>
 
             </CardBody>

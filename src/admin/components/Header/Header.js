@@ -3,25 +3,15 @@ import { __ } from '@wordpress/i18n';
 
 const Header = ({ currentPage, setCurrentPage, setActiveModule }) => {
     return (
-       <header className="s1-header">
-    
-    {/* Left Area */}
+    <header className="s1-header">
+    <div className="s1-content-area"> 
+    <div className="s1-header-wrap">
     <div className="s1-header__left">
-        <span className="s1-header__logo"><img
+    <span className="s1-header__logo"><img
     src={StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/storeonemain.png"}
     alt="Store One"
     className="s1-header__logo"
-/></span>
-
-        {/* <div className="s1-header__branding">
-            <h1 className="s1-header__title">
-                { __('Store One', 'store-one') }
-            </h1>
-
-            <p className="s1-header__subtitle">
-                { __('WooCommerce Enhancement Toolkit', 'store-one') }
-            </p>
-        </div> */}
+    /></span>
     </div>
 
     {/* Navigation */}
@@ -55,6 +45,8 @@ const Header = ({ currentPage, setCurrentPage, setActiveModule }) => {
     <a href="#" className="s1-header__upgrade components-button is-secondary">
         { __('Upgrade', 'store-one') }
     </a>
+    </div>
+    </div>
 </header>
 
     );

@@ -10,7 +10,9 @@ const ModuleGrid = ({ modulesList, modulesState, tabs, setActiveModule }) => {
     return (
         <div className="s1-modules">
 
-            {/* 🔥 Header + Tab List Wrapper */}
+            <div className="s1-content-area">
+
+            {/* Header + Tab List Wrapper */}
             <div className="s1-top-section">
 
                 <div className="s1-modules__header">
@@ -45,6 +47,8 @@ const ModuleGrid = ({ modulesList, modulesState, tabs, setActiveModule }) => {
                             setActiveModule={setActiveModule}
                         />
                     ))}
+            </div>
+
             </div>
 
         </div>

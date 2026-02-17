@@ -8,6 +8,7 @@ const GlobalSettings = ({ modulesList, modulesState, onToggleAllModules }) => {
     );
 
     return (
+       <div className="s1-content-area">
         <div className="settings-global-wrap">
             <Card className="settings-card">
                 <CardHeader>
@@ -44,6 +45,7 @@ const GlobalSettings = ({ modulesList, modulesState, onToggleAllModules }) => {
                     </Button>
                 </CardBody>
             </Card>
+        </div>
         </div>
     );
 };

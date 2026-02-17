@@ -41,10 +41,12 @@ class Store_One_Modules {
 	 */
 	public function get_default() {
 		return array(
-			'woo-search'        => true,
-			'cart'              => true,
+			
 			'frequently-bought' => true,
 			'bundle-product' => true,
+			'buy-to-list' => true,
+			'quick-social' => true,
+			'product-brand' => true,
 		);
 	}
 

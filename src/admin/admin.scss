@@ -13,7 +13,7 @@
     --s1-gray-50: #fafafa;
     --s1-gray-100: #f8fafc;
     --s1-gray-150: #f1f1f1;
-    --s1-gray-200: #e5e7eb;
+    --s1-gray-200: #f1f5f9;
     --s1-gray-250: #dddddd;
     --s1-gray-300: rgb(226 232 240);
     --s1-gray-350: #cccccc;
@@ -21,8 +21,8 @@
     --s1-gray-500: #6b7280;
     --s1-gray-600: #4b5563;
     --s1-gray-700: rgb(51 65 85);
-    --s1-gray-800: #1f2937;
-    --s1-gray-900: #111827;
+    --s1-gray-800: #64748b;
+    --s1-gray-900: #334155;
 
     /* TEXT / FONT */
     --s1-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -95,7 +95,7 @@
     --s1-btn-radius: var(--s1-radius-md);
 
     --s1-btn-font-sm: 12px;
-    --s1-btn-font-md: 13px;
+    --s1-btn-font-md: 0.775rem;
     --s1-btn-font-lg: 15px;
 
     /* ANIMATION SPEEDS */
@@ -110,6 +110,9 @@
 .toplevel_page_store-one .wp-menu-image img{
     padding:0!important;
 }
+.store-one-admin{
+    min-height: 100vh;
+}
 /* ------------------------------------------------------------
    WORDPRESS ADMIN LAYOUT FIXES (DO NOT REMOVE)
 ------------------------------------------------------------- */
@@ -119,7 +122,7 @@
 .wrap.store-one-wrap {
     padding: 0;
     margin: 0;
-    background-color: rgb(249 250 251 / 0.5);
+    background-color:#fff;
 }
 .store-module-wrap {
     margin: var(--s1-space-40);
@@ -132,10 +135,6 @@
     position: sticky;
     top: 0;
     z-index: 999;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0px 24px;
     background: #fff;
     border: 1px solid var(--s1-gray-200);
     box-shadow: var(--s1-shadow-sm);
@@ -144,13 +143,24 @@
 .admin-bar .s1-header {
     top: 32px; /* WP admin bar height */
 }
-
+.s1-header-wrap{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width:100%;
+}
+.s1-content-area{
+    max-width:1065px;
+    margin-left:auto;
+    margin-right:auto;
+}
 .s1-modules__header h2{
     font-size:2.25rem;
     line-height:2.25rem;
     font-weight: 900;
     margin-bottom: 0.75rem;
     color:var(--s1-gray-700);
+    margin:0
 }
 .s1-modules__header h2 span{
     color:#4f46e5;
@@ -158,8 +168,8 @@
 .s1-modules__header p{
     font-size: 1rem;
     line-height: 1.75rem;
-    font-weight: 300;
-    color:#64748b;
+    font-weight: 500;
+    color:var(--s1-gray-800);
 }
 .s1-modules__header{
    max-width: 36rem;
@@ -222,7 +232,7 @@ display: flex;
     
     cursor: pointer;
     font-size: 14px;
-    color: var(--s1-gray-600);
+    color: var(--s1-gray-800);
     border-radius: var(--s1-radius-md);
     display: flex;
     align-items: center;
@@ -237,7 +247,7 @@ display: flex;
 
     /* Hover (same as tabs) */
     &:hover {
-        background: var(--s1-gray-100);
+        background: var(--s1-gray-200);
         color: var(--s1-gray-900);
         font-weight: 500;
     }
@@ -246,7 +256,7 @@ display: flex;
     &.is-active {
         background: var(--s1-gray-200);
         color: var(--s1-gray-900);
-        font-weight: 600;
+        font-weight: 500;
         box-shadow: var(--s1-shadow-xs);
         transform: translateY(-1px);
     }
@@ -278,13 +288,9 @@ display: flex;
 ------------------------------------------------------------- */
 
 .s1-modules,.settings-global-wrap {
-    padding: var(--s1-space-18);
-    background: #fff;
-    border: var(--s1-border);
-    border-radius: var(--s1-radius-lg);
-    box-shadow: var(--s1-shadow-sm);
-    margin: var(--s1-space-24);
+   
     animation: fadeInUp var(--s1-anim-normal);
+    margin-top: 2.5rem;
 }
 
 /* ------------------------------------------------------------
@@ -370,6 +376,7 @@ display: flex;
     background: #fff;
     box-shadow: none !important;
     transition: var(--s1-anim-normal);
+    border-color: #e0e7ff;
 
     &:hover {
         transform: translateY(-3px);
@@ -397,13 +404,14 @@ display: flex;
 .s1-module-card__icon svg{ 
     height:21px;
     width:21px;
-    color:#fff;
+    
 }
 .s1-module-card__icon {
     width: 42px;
     height: 42px;
     border-radius: var(--s1-radius-xl);
-    background: var(--s1-color-primary-dark);
+    color:#475569;
+    background: #f8fafc;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -414,7 +422,10 @@ display: flex;
         animation-duration: 1.5s;
     }
 }
-
+.is-premium .s1-module-card__icon{
+background: var(--s1-color-primary-dark);
+color: var(--s1-gray-150);
+}
 /* Badge */
 .s1-module-card__right{
     display:flex;
@@ -473,12 +484,24 @@ display: flex;
     font-size: 0.875rem;
     line-height: 1.25rem;
     width: 100%;
+    background: #fff;
+    color:#334155;
     text-align: center;
     justify-content: center;
+    border: 1px solid #f1f5f9;
+}
+.s1-modules__grid .is-active .components-button.s1-module-card__btn{
     background: #0f172a;
+    color:#fff;
+}
+
+.s1-modules__grid .is-active .components-button.s1-module-card__btn:hover{
+    background:var(--s1-color-primary-dark)!important;
+    color:#fff;
 }
 .s1-modules__grid .components-button.s1-module-card__btn:hover{
-    background:var(--s1-color-primary-dark)!important;
+    background:#f8fafc!important;
+    color:#334155;
 }
 /* ------------------------------------------------------------
    Animation (icon breathing effect)
