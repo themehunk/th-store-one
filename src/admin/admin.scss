@@ -122,7 +122,7 @@
 .wrap.store-one-wrap {
     padding: 0;
     margin: 0;
-    background-color:#fff;
+    background-color:rgb(253 253 255);
 }
 .store-module-wrap {
     margin: var(--s1-space-40);
@@ -147,10 +147,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width:100%;
+   padding: 0 0.5rem;
 }
 .s1-content-area{
-    max-width:1065px;
+    max-width:1200px;
     margin-left:auto;
     margin-right:auto;
 }
@@ -489,6 +489,7 @@ color: var(--s1-gray-150);
     text-align: center;
     justify-content: center;
     border: 1px solid #f1f5f9;
+    font-weight: 600;
 }
 .s1-modules__grid .is-active .components-button.s1-module-card__btn{
     background: #0f172a;
@@ -502,6 +503,7 @@ color: var(--s1-gray-150);
 .s1-modules__grid .components-button.s1-module-card__btn:hover{
     background:#f8fafc!important;
     color:#334155;
+    border: 2px solid #f1f5f9
 }
 /* ------------------------------------------------------------
    Animation (icon breathing effect)
@@ -727,7 +729,7 @@ button.is-tertiary,
         transform: scale(1.2);
     }
 }
-/* ✅ Force loader visible inside input */
+/* Force loader visible inside input */
 .s1-input-loader {
     position: absolute !important;
     right: 12px !important;
@@ -744,7 +746,7 @@ button.is-tertiary,
     pointer-events: none;
 }
 
-/* ✅ Override your main loader padding */
+/* Override your main loader padding */
 .s1-input-loader.s1-loader {
     padding: 0 !important;
     gap: 0 !important;
@@ -752,7 +754,7 @@ button.is-tertiary,
     opacity: 1 !important;
 }
 
-/* ✅ Force WordPress spinner visible */
+/* Force WordPress spinner visible */
 .s1-input-loader .components-spinner {
     width: 18px !important;
     height: 18px !important;
@@ -764,7 +766,7 @@ button.is-tertiary,
     transform: scale(1) !important;
 }
 
-/* ✅ IMPORTANT: WordPress spinner animation restore */
+/* IMPORTANT: WordPress spinner animation restore */
 .s1-input-loader .components-spinner::after {
     content: "";
     display: block;

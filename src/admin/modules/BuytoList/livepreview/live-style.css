@@ -58,14 +58,22 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 12px;
+    margin-bottom: 1rem;
 }
 
 .s1-btl-preview .s1-btl-icon {
-    color: #2563eb;
+    color: #10b981;
     display: flex;
+    background: #ecfdf5;
+    padding: 0.3rem;
+    border-radius: 50%;
 }
 
+.s1-btl-text{
+    font-size:15px;
+    font-weight:600;
+    color:#334155;
+}
 .s1-btl-preview .static-btl-text {
     height: 14px;
 }
@@ -91,4 +99,22 @@
     font-weight: 600;
     margin-bottom: 1rem;
     line-height: 1.4;
+}
+
+.s1-btl-preview-4 .s1-btl-item,.btl-style-5 .s1-btl-item{
+
+padding: 1rem;
+border-radius:1rem;
+}
+.s1-btl-preview-4 .s1-btl-item .s1-btl-icon{
+border-radius: 0.5rem;
+
+}
+
+.btl-style-5 .s1-btl-item .s1-btl-icon{
+background-color: transparent;
+}
+.btl-style-5 .s1-btl-item{
+border:1px solid #fff9;
+background-color: #ffffff66;
 }

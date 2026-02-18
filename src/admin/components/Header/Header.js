@@ -4,7 +4,7 @@ import { __ } from '@wordpress/i18n';
 const Header = ({ currentPage, setCurrentPage, setActiveModule }) => {
     return (
     <header className="s1-header">
-    <div className="s1-content-area"> 
+    
     <div className="s1-header-wrap">
     <div className="s1-header__left">
     <span className="s1-header__logo"><img
@@ -46,7 +46,7 @@ const Header = ({ currentPage, setCurrentPage, setActiveModule }) => {
         { __('Upgrade', 'store-one') }
     </a>
     </div>
-    </div>
+    
 </header>
 
     );

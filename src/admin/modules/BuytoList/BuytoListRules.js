@@ -35,13 +35,14 @@ const newBlistTRule = () => ({
             open: true,
         }
     ],
+    display_style: "style_1",
     placement: 'after_summary',
     priority: 10,
     icon_enabled: true,
     icontype: 'icon',
     custom_svg: '',
     image_url:'',
-    selected_icon: 'check',
+    selected_icon: 'bolt',
 
     open: true,
     offer_products: [],      // NEW: bundle products
@@ -81,25 +82,64 @@ const ICON_OPTIONS = [
 /** menu tabs */
 /* ================= STYLE DEFAULTS (ADDED) ================= */
 const STYLE_DEFAULTS = {
-    style_1: { prd_tle_clr: '#6C7280' },
-    style_2: { prd_tle_clr: '#111827' },
-    style_3: { prd_tle_clr: '#1f2937' },
+    style_1: {
+        btl_title_clr: "#111",
+        btl_list_clr: "#334155",
+        btl_icon_bg_clr: "#ecfdf5",
+        btl_icon_clr: "#10b981",
+        btl_bg_clr: "#ffffff",
+    },
+    style_2: {
+        btl_title_clr: "#fff",
+        btl_list_clr: "#cbd5e1",
+        btl_icon_bg_clr: "#8b5cf633",
+        btl_icon_clr: "#a78bfa",
+        btl_bg_clr: "#0f172ae6",
+    },
+    style_3: {
+        btl_title_clr: "#111827",
+        btl_list_clr: "#374151",
+        btl_icon_bg_clr: "#ffff",
+        btl_icon_clr: "#9ca3af",
+        btl_bg_clr: "#fff",
+    },
+    style_4: {
+        btl_title_clr: "#111827",
+        btl_list_clr: "#ffff",
+        btl_icon_bg_clr: "#fff3",
+        btl_icon_clr: "#10b981",
+        btl_bg_clr: "#000000",
+    },
+    style_5: {
+        btl_title_clr: "#312e81",
+        btl_list_clr: "#312e81",
+        btl_icon_bg_clr: "transparent",
+        btl_icon_clr: "#4f46e5",
+        btl_bg_clr: "linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%)",
+
+    },
 };
+
 /* ================= HELPER (ADDED) ================= */
 const applyStyleDefaults = (rule, style) => {
     const defaults = STYLE_DEFAULTS[style] || {};
     const updated = { ...rule, display_style: style };
 
     Object.keys(defaults).forEach((key) => {
+
         const autoKey = `${key}_auto`;
+
+        // Agar user ne manually change nahi kiya
         if (rule[autoKey] !== false) {
             updated[key] = defaults[key];
-            updated[autoKey] = true;
+            updated[autoKey] = true; 
         }
+
     });
 
     return updated;
 };
+
 
 /* Sortable */
 function SortableWrapper({ items, onSortEnd, children }) {
@@ -557,10 +597,29 @@ const menuItems = [
                                                                                 <div className="store-one-rule-body">
                                     
                                                                                   
-                                                                                        
+                                                                     <S1Field label={__('Display Style', 'store-one')} visible={true}>
+                                                                    <SelectControl
+                                                                        value={rule.display_style}
+                        
+                                                                        options={[
+                                                                            { label: __('Style1', 'store-one'), value: 'style_1' },
+                                                                            { label: __('Style2', 'store-one'), value: 'style_2' },
+                                                                            { label: __('Style3', 'store-one'), value: 'style_3' },
+                                                                             { label: __('Style4', 'store-one'), value: 'style_4' },
+                                                                            { label: __('Style5', 'store-one'), value: 'style_5' },
+                                                                        ]}
+                                                                        onChange={(v) => {
+                                                                            const updatedRule = applyStyleDefaults(rule, v);
+                                                                            updateAll(
+                                                                                rules.map((r, i) => (i === index ? updatedRule : r))
+                                                                            );
+                                                                            onLivePreview?.(updatedRule, index);
+                                                                        }}
+                                                                    />
+                                                                    </S1Field>  
                                                                                             {/* PLACEMENT */}
 
-                                                                                            
+                                                                                          
 
     {/* Toggle */}
     <S1Field label={__('Enable Icon', 'store-one')} classN="s1-toggle-wrpapper">
@@ -735,10 +794,16 @@ const menuItems = [
                                                                                         <THBackgroundControl
                                                                                             allowGradient={true}
                                                                                             label={__('Title', 'store-one')}
-                                                                                            value={rule.btl_title_clr|| "#111"}
+                                                                                            value={rule.btl_title_clr}
                                                                                             onChange={(v) => {
-                                                                                                const updatedRule = { ...rule, btl_title_clr: v };
-                                                                                                updateField(index, 'btl_title_clr', v); 
+                                                                                                const updatedRule = {
+                                                                                                    ...rule,
+                                                                                                    btl_title_clr: v,
+                                                                                                    btl_title_clr_auto: false  
+                                                                                                };
+
+                                                                                                updateField(index, 'btl_title_clr', v);
+                                                                                                updateField(index, 'btl_title_clr_auto', false);
                                                                                                 onLivePreview?.(updatedRule, index);
                                                                                             }}
                                                                                         />
@@ -747,10 +812,16 @@ const menuItems = [
                                                                                         <THBackgroundControl
                                                                                             allowGradient={true}
                                                                                             label={__('Icon Background', 'store-one')}
-                                                                                            value={rule.icon|| "#fff"}
+                                                                                            value={rule.btl_icon_bg_clr}
                                                                                             onChange={(v) => {
-                                                                                                const updatedRule = { ...rule, btl_icon_bg_clr: v };
-                                                                                                updateField(index, 'btl_icon_bg_clr', v); 
+                                                                                                const updatedRule = {
+                                                                                                    ...rule,
+                                                                                                    btl_icon_bg_clr: v,
+                                                                                                    icon_bg_clr_auto: false  
+                                                                                                };
+
+                                                                                                updateField(index, 'btl_icon_bg_clr', v);
+                                                                                                updateField(index, 'btl_icon_bg_clr_auto', false);
                                                                                                 onLivePreview?.(updatedRule, index);
                                                                                             }}
                                                                                         />
@@ -759,10 +830,17 @@ const menuItems = [
                                                                                         <THBackgroundControl
                                                                                             allowGradient={true}
                                                                                             label={__('Icon', 'store-one')}
-                                                                                            value={rule.icon|| "#2563eb"}
+                                                                                            value={rule.btl_icon_clr}
                                                                                             onChange={(v) => {
-                                                                                                const updatedRule = { ...rule, btl_icon_clr: v };
-                                                                                                updateField(index, 'btl_icon_clr', v); 
+                                                                                                const updatedRule = {
+                                                                                                    ...rule,
+                                                                                                    
+                                                                                                    btl_icon_clr: v,
+                                                                                                    btl_icon_clr_auto: false  
+                                                                                                };
+
+                                                                                                updateField(index, 'btl_icon_clr', v);
+                                                                                                updateField(index, 'btl_icon_clr_auto', false);
                                                                                                 onLivePreview?.(updatedRule, index);
                                                                                             }}
                                                                                         />
@@ -771,10 +849,17 @@ const menuItems = [
                                                                                         <THBackgroundControl
                                                                                             allowGradient={true}
                                                                                             label={__('List', 'store-one')}
-                                                                                            value={rule.icon|| "#111"}
+                                                                                            value={rule.btl_list_clr}
                                                                                             onChange={(v) => {
-                                                                                                const updatedRule = { ...rule, btl_list_clr: v };
-                                                                                                updateField(index, 'btl_list_clr', v); 
+                                                                                                const updatedRule = {
+                                                                                                    ...rule,
+                                                                                                    
+                                                                                                    btl_list_clr: v,
+                                                                                                    btl_list_clr_auto: false  
+                                                                                                };
+
+                                                                                                updateField(index, 'btl_list_clr', v);
+                                                                                                updateField(index, 'btl_list_clr_auto', false);
                                                                                                 onLivePreview?.(updatedRule, index);
                                                                                             }}
                                                                                         />

@@ -1,96 +1,81 @@
-import { ICONS } from '@storeone-global/icons';
+import Style1 from "./Style1";
+import Style2 from "./Style2";
+import Style3 from "./Style3";
+import Style4 from "./Style4";
+import Style5 from "./Style5";
 import './live-style.css';
+import { __ } from '@wordpress/i18n';
 
 const PreviewBuyToList = ({ settings = {} }) => {
+    const style = settings?.display_style;
 
-    const iconMap = {
-        check: ICONS.CheckSVG,
-        star: ICONS.StarSVG,
-        heart: ICONS.HeartSVG,
-        bolt: ICONS.BoltSVG,
-        rocket: ICONS.RocketSVG,
+    //Tab click → Design SelectControl change
+    const changeStyle = (value) => {
+        window.dispatchEvent(
+            new CustomEvent('storeone:changeDisplayStyle', {
+                detail: { style: value }
+            })
+        );
     };
 
-    const SelectedIcon =
-        iconMap[settings.selected_icon] || ICONS.CheckSVG;
-
-    const listItems = [
-        "Premium Quality Material",
-        "Fast & Secure Shipping",
-        "30 Days Easy Returns",
-        "Trusted by 10,000+ Customers"
-    ];
+    if (!style) {
+        return (
+            <div className="s1-fbt-preview-loader">
+                <div className="s1-spinner"></div>
+            </div>
+        );
+    }
 
     return (
-        <div className="s1-product-preview">
+        <div className="s1-fbt-preview-wrap">
 
-            <div className="s1-main-product">
+            {/* ================= STYLE TABS ================= */}
+            <div className="s1-style-tabs">
+                <button
+                    className={`s1-style-tab ${style === 'style_1' ? 'active' : ''}`}
+                    onClick={() => changeStyle('style_1')}
+                >
+                   
+                    <span> {__("style1", "store-one")}</span>
+                </button>
 
-                <div className="s1-main-thumb">
-                    <div className="static-skeleton static-main-img"></div>
-                </div>
+                <button
+                    className={`s1-style-tab ${style === 'style_2' ? 'active' : ''}`}
+                    onClick={() => changeStyle('style_2')}
+                >
+                   
+                    <span> {__("style2", "store-one")}</span>
+                   
+                </button>
 
-                <div className="s1-main-info">
-
-                    <div className="static-skeleton static-title"></div>
-                    <div className="static-skeleton static-price"></div>
-
-                    {/* ================= BUY TO LIST ================= */}
-                    <div
-                        className="s1-btl-preview"
-                        style={{
-                            background: settings.btl_bg_clr || "#fff"
-                        }}
-                    >
-
-                        <div
-                            className="s1-btl-title"
-                            style={{
-                                color: settings.btl_title_clr || "#111"
-                            }}
-                        >
-                            {settings.list_title || "Featured List"}
-                        </div>
-
-                        <ul className="s1-btl-list">
-                            {listItems.map((text, index) => (
-                                <li key={index} className="s1-btl-item">
-
-                                    {settings.icon_enabled && (
-                                        <span
-                                            className="s1-btl-icon"
-                                            style={{
-                                                background: settings.btl_icon_bg_clr || "#fff",
-                                                color: settings.btl_icon_clr || "#2563eb"
-                                            }}
-                                        >
-                                            {SelectedIcon}
-                                        </span>
-                                    )}
-
-                                    <span
-                                        className="s1-btl-text"
-                                        style={{
-                                            color: settings.btl_list_clr || "#111"
-                                        }}
-                                    >
-                                        {text}
-                                    </span>
-
-                                </li>
-                            ))}
-                        </ul>
-
-                    </div>
-                    {/* ================= END BUY TO LIST ================= */}
-
-                    <div className="s1-main-cart">
-                        <div className="static-skeleton static-qty"></div>
-                        <div className="static-skeleton static-btn"></div>
-                    </div>
-
-                </div>
+                <button
+                    className={`s1-style-tab ${style === 'style_3' ? 'active' : ''}`}
+                    onClick={() => changeStyle('style_3')}
+                >
+                   
+                    <span>{__("style3", "store-one")}</span>
+                </button>
+                <button
+                    className={`s1-style-tab ${style === 'style_4' ? 'active' : ''}`}
+                    onClick={() => changeStyle('style_4')}
+                >
+                   
+                    <span>{__("style4", "store-one")}</span>
+                </button>
+                 <button
+                    className={`s1-style-tab ${style === 'style_5' ? 'active' : ''}`}
+                    onClick={() => changeStyle('style_5')}
+                >
+                    <span>{__("style5", "store-one")}</span>
+                </button>
             </div>
+
+            {/* ================= PREVIEW ================= */}
+            {style === 'style_1' && <Style1 settings={settings} />}
+            {style === 'style_2' && <Style2 settings={settings} />}
+            {style === 'style_3' && <Style3 settings={settings} />}
+            {style === 'style_4' && <Style4 settings={settings} />}
+            {style === 'style_5' && <Style5 settings={settings} />}
 
         </div>
     );
