@@ -1,80 +1,53 @@
+import Style1 from "./Style1";
+import Style2 from "./Style2";
+import Style3 from "./Style3";
+
 import './live-style.css';
+import { __ } from '@wordpress/i18n';
 
 const PreviewQuickSocial = ({ settings = {} }) => {
 
-    const {
-        social_style = 'style1',
-        icon_size = '20px',
-        icon_color = '#111',
-        bg_color = '#fff',
-        social_visiblity = 'show-all'
-    } = settings;
+    const style = settings?.display_style || 'style1';
 
-    console.log(settings.social_style);
+    const changeStyle = (value) => {
+        window.dispatchEvent(
+            new CustomEvent('storeone:changeDisplayStyle', {
+                detail: { style: value }
+            })
+        );
+    };
 
     return (
-        <div className="s1-product-preview social_link">
+        <div className="s1-fbt-preview-wrap">
 
-            <div className="s1-main-product">
+            <div className="s1-style-tabs">
 
-                {/* ================= QUICK SOCIAL SKELETON ================= */}
-
-                <div
-                    className={`s1-quick-social s1-quick-social--${social_style}`}
-                    data-visibility={social_visiblity}
-                    style={{
-                        "--s1-icon-size": icon_size,
-                        "--s1-icon-color": icon_color,
-                        "--s1-icon-bg": bg_color,
-                    }}
+                <button
+                    className={`s1-style-tab ${style === 'style1' ? 'active' : ''}`}
+                    onClick={() => changeStyle('style1')}
                 >
-                    <div className="s1-quick-social__inner">
+                    <span>{__("Left", "store-one")}</span>
+                </button>
 
-                        {/* 3 Skeleton Icons */}
-                        {[1, 2, 3].map((i) => (
-                            <div
-                                key={i}
-                                className="s1-quick-social__item s1-quick-social__skeleton"
-                            >
-                                <div className="s1-quick-social__icon">
-                                    <div className="s1-icon-placeholder" />
-                                </div>
-                            </div>
-                        ))}
+                <button
+                    className={`s1-style-tab ${style === 'style2' ? 'active' : ''}`}
+                    onClick={() => changeStyle('style2')}
+                >
+                    <span>{__("Right", "store-one")}</span>
+                </button>
 
-                    </div>
-                </div>
+                <button
+                    className={`s1-style-tab ${style === 'style3' ? 'active' : ''}`}
+                    onClick={() => changeStyle('style3')}
+                >
+                    <span>{__("Bottom", "store-one")}</span>
+                </button>
 
-                {/* ================= END QUICK SOCIAL ================= */}
-
-
-                {/* LEFT IMAGE */}
-                <div className="s1-main-thumb">
-                    <div className="static-skeleton static-main-img"></div>
-                </div>
-
-                {/* RIGHT CONTENT */}
-                <div className="s1-main-info">
-
-                    <div className="static-skeleton static-title"></div>
-                    <div className="static-skeleton static-price"></div>
-
-                    {/* BUY TO LIST */}
-                    <div className="s1-btl-preview">
-                        <div className="static-skeleton static-btl-title"></div>
-                        <ul className="s1-btl-list">
-                            <li className="static-skeleton static-btl-title"></li>
-                            <li className="static-skeleton static-btl-title"></li>
-                        </ul>
-                    </div>
-
-                    <div className="s1-main-cart">
-                        <div className="static-skeleton static-qty"></div>
-                        <div className="static-skeleton static-btn"></div>
-                    </div>
-
-                </div>
             </div>
+
+            {style === 'style1' && <Style1 settings={settings} />}
+            {style === 'style2' && <Style2 settings={settings} />}
+            {style === 'style3' && <Style3 settings={settings} />}
 
         </div>
     );

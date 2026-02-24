@@ -18,7 +18,7 @@ export default function MultiWooSearchSelector({
     const [loading, setLoading] = useState(false);
     const [isFocused, setIsFocused] = useState(false);
 
-    // 🔥 UI ke liye full objects
+    // UI ke liye full objects
     const [selectedItems, setSelectedItems] = useState([]);
 
     const abortRef = useRef(null);
@@ -29,6 +29,7 @@ export default function MultiWooSearchSelector({
         product: "wc/v3/products",
         category: "wc/v3/products/categories",
         tag: "wc/v3/products/tags",
+         page: "wp/v2/pages",
     };
 
     const endpoint = endpointMap[searchType];
@@ -57,6 +58,14 @@ export default function MultiWooSearchSelector({
             name: t.name,
             type: "tag",
         }),
+        page: (p) => ({
+        id: p.id,
+        name: p.title?.rendered || "",
+        image: "",   
+        type: "page",
+        link: p.link,
+        stock_status: "",
+    }),
     };
 
     const normalize = normalizerMap[searchType];
@@ -68,7 +77,7 @@ export default function MultiWooSearchSelector({
         const newItems = [...selectedItems, item];
         setSelectedItems(newItems);
 
-        // ✅ ONLY IDS SAVE
+        // ONLY IDS SAVE
         onChange(newItems.map((i) => i.id));
 
         setQuery("");
@@ -80,7 +89,7 @@ export default function MultiWooSearchSelector({
         const newItems = selectedItems.filter((i) => i.id !== id);
         setSelectedItems(newItems);
 
-        // ✅ ONLY IDS SAVE
+        // ONLY IDS SAVE
         onChange(newItems.map((i) => i.id));
     };
 
@@ -93,8 +102,10 @@ export default function MultiWooSearchSelector({
         try {
             const path =
                 searchType === "product"
-                    ? `${endpoint}?per_page=5&orderby=date&order=desc`
-                    : `${endpoint}?per_page=5&orderby=name&order=asc&hide_empty=true`;
+        ? `${endpoint}?per_page=5&orderby=date&order=desc`
+        : searchType === "page"
+        ? `${endpoint}?per_page=5&orderby=date&order=desc`
+        : `${endpoint}?per_page=5&orderby=name&order=asc&hide_empty=true`;
 
             const res = await apiFetch({ path });
             setResults(res.map(normalize));
@@ -109,6 +120,9 @@ export default function MultiWooSearchSelector({
     const buildSearchPath = (q) => {
         if (searchType === "product") {
             return `${endpoint}?search=${encodeURIComponent(q)}&per_page=20`;
+        }
+        if (searchType === "page") {
+        return `${endpoint}?search=${encodeURIComponent(q)}&per_page=20`;
         }
         return `${endpoint}?search=${encodeURIComponent(q)}&per_page=20&hide_empty=true`;
     };
@@ -133,7 +147,7 @@ export default function MultiWooSearchSelector({
 
                 let formatted = res.map(normalize);
 
-                // 🔥 VARIATIONS SUPPORT (unchanged)
+                // VARIATIONS SUPPORT (unchanged)
                 if (searchType === "product") {
                     for (const product of res) {
                         if (product.type === "variable") {
@@ -175,6 +189,8 @@ export default function MultiWooSearchSelector({
         switch (searchType) {
             case 'product':
                 return __('Search products…', 'store-one');
+            case 'page':
+                 return __('Search pages…', 'store-one');
             case 'category':
                 return __('Search categories…', 'store-one');
             case 'tag':
@@ -185,7 +201,7 @@ export default function MultiWooSearchSelector({
     };
 
     /* -------------------- SYNC VALUE → UI (FIX) -------------------- */
-useEffect(() => {
+    useEffect(() => {
     if (!endpoint) return;
     if (!Array.isArray(value)) return;
 
