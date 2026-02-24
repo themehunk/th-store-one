@@ -68,7 +68,7 @@ const STYLE_DEFAULTS = {
     style_1: {
         btl_title_clr: "#111",
         btl_list_clr: "#334155",
-        btl_icon_bg_clr: "#ecfdf5",
+        icon_bg_clr: "#ecfdf5",
         btl_icon_clr: "#10b981",
         btl_bg_clr: "#ffffff",
         btl_border_clr:"#e5e7eb",
@@ -77,7 +77,7 @@ const STYLE_DEFAULTS = {
     style_2: {
         btl_title_clr: "#fff",
         btl_list_clr: "#cbd5e1",
-        btl_icon_bg_clr: "#8b5cf633",
+        icon_bg_clr: "#8b5cf633",
         btl_icon_clr: "#a78bfa",
         btl_bg_clr: "#0f172ae6",
         btl_border_clr:"#0f172ae6",
@@ -87,31 +87,12 @@ const STYLE_DEFAULTS = {
     style_3: {
         btl_title_clr: "#111827",
         btl_list_clr: "#374151",
-        btl_icon_bg_clr: "#ffff",
+        icon_bg_clr: "#ffff",
         btl_icon_clr: "#9ca3af",
         btl_bg_clr: "#fff",
         btl_border_clr:"#e5e7eb",
         btl_border_radius:"8px",
-    },
-    style_4: {
-        btl_title_clr: "#111827",
-        btl_list_clr: "#ffff",
-        btl_icon_bg_clr: "#fff3",
-        btl_icon_clr: "#10b981",
-        btl_bg_clr: "#000000",
-        btl_border_clr:"#e5e7eb",
-        btl_border_radius:"8px",
-    },
-    style_5: {
-        btl_title_clr: "#312e81",
-        btl_list_clr: "#312e81",
-        btl_icon_bg_clr: "transparent",
-        btl_icon_clr: "#4f46e5",
-        btl_bg_clr: "linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%)",
-        btl_border_clr:"#fff9",
-        btl_border_radius:"16px",
-
-    },
+    }
 };
 
 /* ================= HELPER (ADDED) ================= */
@@ -448,15 +429,6 @@ const menuItems = [
                                                 {item.open && (
                                                     <div className="store-one-rule-body">
                                                        
-                                                        <S1Field label={__('Enable Link', 'store-one')} classN="s1-toggle-wrpapper">
-                                                        <ToggleControl
-                                                            checked={item.link_enabled}
-                                                            onChange={(value) =>
-                                                                updateBuyItemField(index, i, 'link_enabled', value)
-                                                            }
-                                                        />
-                                                    </S1Field>
-                                                     
 
                                                 <>
         <S1Field label="Icon Type">
@@ -478,10 +450,10 @@ const menuItems = [
                 {ICON_OPTIONS.map(({ id, icon }) => (
                     <div
                         key={id}
-                        className={`s1-icon-option ${
-                            rule.selected_icon === id ? 'active' : ''
-                        }`}
-                        onClick={() => updateField(index, 'selected_icon', id)}
+                       className={`s1-icon-option ${
+    item.selected_icon === id ? 'active' : ''
+}`}
+                        onClick={() => updateBuyItemField(index, i, 'selected_icon', id)}
                     >
                         {icon}
                     </div>
@@ -492,9 +464,7 @@ const menuItems = [
                                     <S1Field label="SVG Code">
                                         <TextControl
                                             value={rule.custom_svg}
-                                            onChange={(v) =>
-                                                updateField(index, 'custom_svg', v)
-                                            }
+                                           onChange={(v) => updateBuyItemField(index, i, 'custom_svg', v)}
                                         />
                                     </S1Field>
                                 )}
@@ -516,7 +486,7 @@ const menuItems = [
                             className="s1-btn s1-btn-edit"
                             onClick={() =>
                                 openMediaLibrary((media) =>
-                                    updateField(index, 'image_url', media.url)
+                                    updateBuyItemField(index, i, 'image_url', media.url)
                                 )
                             }
                         >
@@ -530,7 +500,7 @@ const menuItems = [
                             type="button"
                             className="s1-btn s1-btn-remove"
                             onClick={() =>
-                                updateField(index, 'image_url', '')
+                               updateBuyItemField(index, i, 'image_url', media.url)
                             }
                         >
                             <TrashIcon />
@@ -545,7 +515,7 @@ const menuItems = [
                     className="s1-upload-card"
                     onClick={() =>
                         openMediaLibrary((media) =>
-                            updateField(index, 'image_url', media.url)
+                            updateBuyItemField(index, i, 'image_url', media.url)
                         )
                     }
                 >
@@ -568,9 +538,7 @@ const menuItems = [
 <S1Field label="Link URL">
                                     <TextControl
                                         value={item.url}
-                                        onChange={(v) =>
-                                            updateField(index, 'url', v)
-                                        }
+                                        onChange={(v) => updateBuyItemField(index, i, 'url', v)}
                                     />
                                 </S1Field>
         </>
@@ -628,9 +596,9 @@ const menuItems = [
                                                                                                           value={rule.display_style}
                                    
                                                                                                           options={[
-                                                                                                              { label: __('Style1', 'store-one'), value: 'style_1' },
-                                                                                                              { label: __('Style2', 'store-one'), value: 'style_2' },
-                                                                                                              { label: __('Style3', 'store-one'), value: 'style_3' },
+                                                                                                              { label: __('Style1', 'store-one'), value: 'style1' },
+                                                                                                              { label: __('Style2', 'store-one'), value: 'style2' },
+                                                                                                              { label: __('Style3', 'store-one'), value: 'style3' },
                                                                                                               
                                                                                                           ]}
                                                                                                           onChange={(v) => {
@@ -678,7 +646,7 @@ const menuItems = [
                                                                                         <THBackgroundControl
                                                                                             allowGradient={true}
                                                                                             label={__('Background', 'store-one')}
-                                                                                            value={rule.icon_bg_clr}
+                                                                                            value={rule.icon_bg_hvr_clr}
                                                                                             onChange={(v) => {
                                                                                                 const updatedRule = { ...rule, icon_bg_hvr_clr: v };
                                                                                                 updateField(index, 'icon_bg_hvr_clr', v); 
@@ -690,7 +658,7 @@ const menuItems = [
                                                                                         <THBackgroundControl
                                                                                             allowGradient={true}
                                                                                             label={__('Color', 'store-one')}
-                                                                                            value={rule.icon_clr}
+                                                                                            value={rule.icon_hvr_clr}
                                                                                             onChange={(v) => {
                                                                                                 const updatedRule = { ...rule, icon_hvr_clr: v };
                                                                                                 updateField(index, 'icon_hvr_clr', v); 
