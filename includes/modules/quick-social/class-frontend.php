@@ -127,7 +127,9 @@ class StoreOne_Quick_Social {
             '--s1-icon-color'       => $rule['icon_clr'] ?? '#111',
             '--s1-icon-bg'          => $rule['icon_bg_clr'] ?? '#fff',
             '--s1-icon-bg-hover'    => $rule['icon_bg_hvr_clr'] ?? '#eee',
-            '--s1-icon-color-hover' => $rule['icon_hvr_clr'] ?? '#111',
+            '--s1-icon-color-hover' => $rule['icon_hvr_clr'] ?? '#2563eb',
+            '--s1-icon-size'        => $rule['icon_size'] ?? '18px',
+            '--s1-border-radius'    => $rule['border_radius'] ?? '50%',
         );
 
         $output = '';

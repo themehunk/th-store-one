@@ -880,13 +880,32 @@ class StoreOne_Bundle_Frontend {
     }
 
     public function storeone_save_bundle_to_order( $order_item, $cart_item_key, $values ) {
-        if ( empty( $values['storeone_bundle'] ) ) return;
+
+    if ( empty( $values['storeone_bundle']['items'] ) ) {
+        return;
+    }
+
+    $bundle = $values['storeone_bundle'];
+
+    foreach ( $bundle['items'] as $item ) {
+
+        $product_id = ! empty( $item['variation_id'] )
+            ? absint( $item['variation_id'] )
+            : absint( $item['id'] );
+
+        $product = wc_get_product( $product_id );
+        if ( ! $product ) continue;
+
+        $qty = max( 1, absint( $item['qty'] ?? 1 ) );
+
+        $label = $product->get_name() . ' × ' . $qty;
 
         $order_item->add_meta_data(
-            __( 'Bundle Items', 'store-one' ),
-            wp_json_encode( $values['storeone_bundle'] )
+            __( 'Item', 'store-one' ),
+            $label
         );
     }
+   }
 
     public function storeone_bundle_loop_button( $html, $product ) {
 
