@@ -31,17 +31,13 @@
 
 .s1-quick-social__item {
 
-    width: calc(var(--s1-icon-size) + 18px);
-    height: calc(var(--s1-icon-size) + 18px);
-
     background: var(--s1-icon-bg);
-    color: var(--s1-icon-color);
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    border-radius: 50%;
+    border-radius: var(--s1-border-radius);
     cursor: pointer;
 
     box-shadow: 0 6px 18px rgba(0,0,0,0.15);
@@ -50,6 +46,8 @@
 
 /* Hover Animation */
 .s1-quick-social__item:hover {
+    background: var(--s1-icon-hover-bg);
+   
     transform: translateY(-6px);
     box-shadow: 0 10px 26px rgba(0,0,0,0.22);
 }
@@ -60,9 +58,7 @@
 ====================================== */
 
 .s1-quick-social__icon {
-    width:34px;
-    height:34px;
-
+    padding:10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -87,10 +83,13 @@
 ====================================== */
 
 .s1-icon-placeholder {
-    width: 65%;
-    height: 65%;
+   width: calc(var(--s1-icon-size) + 18px);
+    height: calc(var(--s1-icon-size) + 18px);
     border-radius: 50%;
-    background: rgba(0,0,0,0.18);
+    background: var(--s1-icon-color);
+}
+.s1-quick-social__item:hover .s1-icon-placeholder {
+ background: var(--s1-icon-hover-color);
 }
 
 

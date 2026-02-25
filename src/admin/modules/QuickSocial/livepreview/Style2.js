@@ -3,10 +3,18 @@ import { ICONS } from '@storeone-global/icons';
 
 const Style2 = ({ settings = {} }) => {
 
-    const list = settings?.buy_list || [];
+   const rule = settings || {};
 
+     const styleVars = {
+        '--s1-icon-size': rule?.icon_size || '18px',
+        '--s1-icon-bg': rule?.icon_bg_clr || '#ffffff',
+        '--s1-icon-color': rule?.icon_clr || '#000000',
+        '--s1-icon-hover-bg': rule?.icon_bg_hvr_clr || '#ffffff',
+        '--s1-icon-hover-color': rule?.icon_hvr_clr || '#2563eb',
+        '--s1-border-radius': rule?.border_radius || '50%',
+    };
     return (
-          <div className="s1-product-preview social_link">
+          <div className="s1-product-preview social_link" style={styleVars}>
 
             <div className="s1-main-product">
 

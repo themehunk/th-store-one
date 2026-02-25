@@ -39,17 +39,16 @@ const newBlistTRule = () => ({
     placement: 'after_summary',
     priority: 10,
     open: true,
-    offer_products: [],      // NEW: bundle products
+    offer_products: [],
     offer_products_optional: true,
     //color
-    btl_title_clr: "#111",
-    btl_list_clr:"#111",
+  
     icon_bg_clr:"#fff",
     icon_bg_hvr_clr:"#f0f0f0",
-    icon_clr:"#2563eb",
+    icon_clr:"#111",
     icon_hvr_clr:"#2563eb",
-    btl_border_clr:"#e5e7eb",
-    btl_border_radius:"",
+    icon_size:"18px",
+    border_radius:"50%",
 });
 
 const ICON_OPTIONS = [
@@ -66,32 +65,14 @@ const ICON_OPTIONS = [
 /* ================= STYLE DEFAULTS (ADDED) ================= */
 const STYLE_DEFAULTS = {
     style_1: {
-        btl_title_clr: "#111",
-        btl_list_clr: "#334155",
-        icon_bg_clr: "#ecfdf5",
-        btl_icon_clr: "#10b981",
-        btl_bg_clr: "#ffffff",
-        btl_border_clr:"#e5e7eb",
-        btl_border_radius:"8px",
+       
     },
     style_2: {
-        btl_title_clr: "#fff",
-        btl_list_clr: "#cbd5e1",
-        icon_bg_clr: "#8b5cf633",
-        btl_icon_clr: "#a78bfa",
-        btl_bg_clr: "#0f172ae6",
-        btl_border_clr:"#0f172ae6",
-        btl_border_radius:"8px",
+        
         
     },
     style_3: {
-        btl_title_clr: "#111827",
-        btl_list_clr: "#374151",
-        icon_bg_clr: "#ffff",
-        btl_icon_clr: "#9ca3af",
-        btl_bg_clr: "#fff",
-        btl_border_clr:"#e5e7eb",
-        btl_border_radius:"8px",
+    
     }
 };
 
@@ -666,6 +647,22 @@ const menuItems = [
                                                                                             }}
                                                                                         />
                                                                                         </S1Field>
+                                                                                        <UniversalRangeControl
+                                                                                    label={__('Icon Size', 'store-one')}
+                                                                                    responsive={false}
+                                                                                    units={['px']}
+                                                                                    value={rule.icon_size}
+                                                                                    onChange={(v) => updateField(index, 'icon_size', v)} 
+                                                                                    defaultValue="18px"
+                                                                                />
+                                                                                <UniversalRangeControl
+                                                                                    label={__('Border Radius', 'store-one')}
+                                                                                    responsive={false}
+                                                                                    units={['px','%']}
+                                                                                    value={rule.border_radius}
+                                                                                    onChange={(v) => updateField(index, 'border_radius', v)} 
+                                                                                    defaultValue="50%"
+                                                                                />
 
 
                                                     </S1FieldGroup>
