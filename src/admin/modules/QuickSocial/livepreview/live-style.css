@@ -130,7 +130,7 @@
 ====================================== */
 
 .s1-quick-social--style3 {
-    bottom: 0;
+    bottom:20;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
@@ -138,12 +138,12 @@
     justify-content: center;
 }
 
-.s1-quick-social--style3 .s1-quick-social__inner {
+/* .s1-quick-social--style3 .s1-quick-social__inner {
     padding: 16px 26px;
     border-radius: 28px 28px 0 0;
     background: var(--s1-icon-bg);
     box-shadow: 0 -6px 22px rgba(0,0,0,0.18);
-}
+} */
 
 
 /* ======================================
