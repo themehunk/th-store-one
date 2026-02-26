@@ -32,6 +32,10 @@ import {
 import { S1Field, S1FieldGroup } from "@storeone-global/S1Field";
 import { ICONS } from "@storeone-global/icons";
 import SocialItemEditor from "./SocialItemEditor";
+import MessagingItemEditor from "./MessagingItemEditor";
+import ContactItemEditor from "./ContactItemEditor";
+import ProfessionalItemEditor from "./ProfessionalItemEditor";
+import  BusinessItemEditor from "./BusinessItemEditor";
 /* Default Rule */
 const newsocialTRule = () => ({
   status: "active",
@@ -43,13 +47,48 @@ const newsocialTRule = () => ({
   social_list: [
     {
       id: crypto.randomUUID(),
-      selected_icon: "facebook",
-      custom_svg: "",
-      image_url: "",
-      url: "",
       open: true,
       itemTab: "social",
-      social_choose: "share",
+      social: {
+        selected_icon: "FACEBOOK",
+        icontype: "icon",
+        custom_svg: "",
+        image_url: "",
+        url: "",
+        social_choose: "share",
+      },
+      messaging: {
+        selected_icon: "",
+        icontype: "icon",
+        custom_svg: "",
+        image_url: "",
+        url: "",
+        social_choose: "profile",
+      },
+      contact: {
+        selected_icon: "",
+        icontype: "icon",
+        custom_svg: "",
+        image_url: "",
+        url: "",
+        social_choose: "profile",
+      },
+      professional: {
+        selected_icon: "",
+        icontype: "icon",
+        custom_svg: "",
+        image_url: "",
+        url: "",
+        social_choose: "profile",
+      },
+      business: {
+        selected_icon: "",
+        icontype: "icon",
+        custom_svg: "",
+        image_url: "",
+        url: "",
+        social_choose: "profile",
+        },
     },
   ],
   social_style: "style1",
@@ -59,7 +98,6 @@ const newsocialTRule = () => ({
   offer_products: [],
   offer_products_optional: true,
   //color
-
   icon_bg_clr: "#fff",
   icon_bg_hvr_clr: "#f0f0f0",
   icon_clr: "#111",
@@ -74,9 +112,25 @@ const ICON_OPTIONS = [
   { id: "TWITTER", icon: ICONS.TWITTER },
   { id: "LINKEDIN", icon: ICONS.LINKEDIN },
   { id: "YOUTUBE", icon: ICONS.YOUTUBE },
-  //   { id: "WHATSAPP", icon: ICONS.WHATSAPP },
-  { id: "TELEGRAM", icon: ICONS.TELEGRAM },
   { id: "PINTEREST", icon: ICONS.PINTEREST },
+];
+const MESSAGING_ICON_OPTIONS = [
+  { id: "WHATSAPP", icon: ICONS.WHATSAPP },
+  { id: "TELEGRAM", icon: ICONS.TELEGRAM },
+];
+
+const CONTACT_ICON_OPTIONS = [
+  { id: "EMAIL", icon: ICONS.EMAIL },
+  { id: "PHONE", icon: ICONS.PHONE },
+  { id: "SMS", icon: ICONS.SMS },
+];
+const PROFESSIONAL_ICON_OPTIONS = [
+  { id: "GITHUB", icon: ICONS.GITHUB },
+  { id: "BEHANCE", icon: ICONS.BEHANCE },
+];
+const BUSINESS_ICON_OPTIONS = [
+  { id: "GOOGLE_MAPS", icon: ICONS.GOOGLE_MAPS },
+  { id: "YELP", icon: ICONS.YELP },
 ];
 /** menu tabs */
 /* ================= STYLE DEFAULTS (ADDED) ================= */
@@ -192,12 +246,31 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
     onLivePreview?.(arr[ruleIndex], ruleIndex);
   };
 
+  const createDefaultItem = () => ({
+    id: crypto.randomUUID(),
+    open: true,
+    itemTab: "social",
+    social: {
+      selected_icon: "FACEBOOK",
+      icontype: "icon",
+      custom_svg: "",
+      image_url: "",
+      url: "",
+      social_choose: "share",
+    },
+    messaging: {
+      selected_icon: "",
+      icontype: "icon",
+      custom_svg: "",
+      image_url: "",
+      url: "",
+      social_choose: "profile",
+    },
+  });
+
   const addSocialItem = (ruleIndex) => {
     const list = rules[ruleIndex].social_list || [];
-    updateSocialList(ruleIndex, [
-      ...list,
-      { id: crypto.randomUUID(), text: "", open: true },
-    ]);
+    updateSocialList(ruleIndex, [...list, createDefaultItem()]);
   };
 
   const removeBuyItem = (ruleIndex, itemIndex) => {
@@ -223,9 +296,18 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
     updateSocialList(ruleIndex, list);
   };
 
-  const updateBuyItemField = (ruleIndex, itemIndex, field, value) => {
+  const updateBuyItemField = (ruleIndex, itemIndex, tab, field, value) => {
     const list = [...rules[ruleIndex].social_list];
-    list[itemIndex][field] = value;
+
+    if (!list[itemIndex][tab]) {
+      list[itemIndex][tab] = {};
+    }
+
+    list[itemIndex][tab] = {
+      ...list[itemIndex][tab],
+      [field]: value,
+    };
+
     updateSocialList(ruleIndex, list);
   };
 
@@ -467,7 +549,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
 
                                 {item.open && (
                                   <TabSwitcher
-                                    activeTab={item.itemTab || "social"}
+                                    defaultTab={item.itemTab || "social"}
                                     onChange={(tabId) =>
                                       updateItemTab(index, i, tabId)
                                     }
@@ -476,16 +558,19 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                                         id: "social",
                                         label: "Social",
                                         content: (
-                                            <>
-                                             
+                                          <>
                                             <SocialItemEditor
-                                            item={item}
-                                            ruleIndex={index}
-                                            itemIndex={i}
-                                            updateBuyItemField={updateBuyItemField}
-                                            ICON_OPTIONS={ICON_OPTIONS}
-                                            /> 
-                                           
+                                              item={item}
+                                              ruleIndex={index}
+                                              itemIndex={i}
+                                              updateBuyItemField={
+                                                updateBuyItemField
+                                              }
+                                              openMediaLibrary={
+                                                openMediaLibrary
+                                              }
+                                              ICON_OPTIONS={ICON_OPTIONS}
+                                            />
                                           </>
                                         ),
                                       },
@@ -493,30 +578,62 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                                         id: "messaging",
                                         label: "Messaging",
                                         content: (
-                                          <S1Field label="URL"></S1Field>
+                                          <MessagingItemEditor
+                                            item={item}
+                                            ruleIndex={index}
+                                            itemIndex={i}
+                                            updateBuyItemField={
+                                              updateBuyItemField
+                                            }
+                                            openMediaLibrary={openMediaLibrary}
+                                            ICON_OPTIONS={
+                                              MESSAGING_ICON_OPTIONS
+                                            }
+                                          />
                                         ),
                                       },
                                       {
-                                        id: "professional",
-                                        label: "Professional",
+                                        id: "contact",
+                                        label: "Contact",
                                         content: (
-                                          <S1Field label="URL"></S1Field>
+                                            <ContactItemEditor
+                                            item={item}
+                                            ruleIndex={index}
+                                            itemIndex={i}
+                                            updateBuyItemField={updateBuyItemField}
+                                            openMediaLibrary={openMediaLibrary}
+                                            ICON_OPTIONS={CONTACT_ICON_OPTIONS}
+                                            />
                                         ),
-                                      },
+                                        },
                                       {
-                                        id: "business",
-                                        label: "Business",
-                                        content: (
-                                          <S1Field label="URL"></S1Field>
-                                        ),
-                                      },
-                                      {
-                                        id: "other",
-                                        label: "Other",
-                                        content: (
-                                          <S1Field label="URL"></S1Field>
-                                        ),
-                                      },
+                                    id: "professional",
+                                    label: "Professional",
+                                    content: (
+                                        <ProfessionalItemEditor
+                                        item={item}
+                                        ruleIndex={index}
+                                        itemIndex={i}
+                                        updateBuyItemField={updateBuyItemField}
+                                        openMediaLibrary={openMediaLibrary}
+                                        ICON_OPTIONS={PROFESSIONAL_ICON_OPTIONS}
+                                        />
+                                    ),
+                                    },
+                                     {
+                                    id: "business",
+                                    label: "Business",
+                                    content: (
+                                        <BusinessItemEditor
+                                        item={item}
+                                        ruleIndex={index}
+                                        itemIndex={i}
+                                        updateBuyItemField={updateBuyItemField}
+                                        openMediaLibrary={openMediaLibrary}
+                                        ICON_OPTIONS={BUSINESS_ICON_OPTIONS}
+                                        />
+                                    ),
+                                    },
                                     ]}
                                   />
                                 )}

@@ -5,83 +5,72 @@ import { ICONS } from "@storeone-global/icons";
 import { usePlatformUrl } from "./usePlatformUrl";
 import { PLATFORM_CONFIG } from "./platformConfig";
 
-export default function SocialItemEditor({
+export default function MessagingItemEditor({
   item,
   ruleIndex,
   itemIndex,
   updateBuyItemField,
-  ICON_OPTIONS,
   openMediaLibrary,
+  ICON_OPTIONS,
 }) {
   const { generateUrl } = usePlatformUrl();
 
-  /* ================= SAFE SOCIAL OBJECT ================= */
-  const social = item.social || {
-    selected_icon: "FACEBOOK",
+  /* ================= SAFE OBJECT ================= */
+  const messaging = item.messaging || {
+    selected_icon: "",
     icontype: "icon",
     custom_svg: "",
     image_url: "",
     url: "",
-    social_choose: "share",
+    social_choose: "profile",
   };
 
-  /* ================= ENSURE DEFAULT FACEBOOK ================= */
+  /* ================= NORMALIZED KEY ================= */
+  const platformKey = messaging.selected_icon
+    ? messaging.selected_icon.toLowerCase()
+    : "";
+
+  const currentPlatform = PLATFORM_CONFIG?.[platformKey];
+
+  /* ================= AUTO URL FILL ================= */
   useEffect(() => {
-    if (!item.social) {
+    if (!currentPlatform) return;
+
+    const mode = messaging.social_choose || "profile";
+
+    const autoUrl =
+      mode === "share"
+        ? currentPlatform.share
+        : currentPlatform.profile;
+
+    if (autoUrl && messaging.url !== autoUrl) {
       updateBuyItemField(
         ruleIndex,
         itemIndex,
-        "social",
-        "selected_icon",
-        "FACEBOOK"
-      );
-    }
-  }, []);
-
-  /* ================= PLATFORM CONFIG ================= */
-  const currentPlatform =
-    PLATFORM_CONFIG?.[social.selected_icon?.toUpperCase()];
-
-  /* ================= AUTO FORCE PROFILE ================= */
-  useEffect(() => {
-    if (
-      currentPlatform &&
-      !currentPlatform.share &&
-      social.social_choose !== "profile"
-    ) {
-      updateBuyItemField(
-        ruleIndex,
-        itemIndex,
-        "social",
-        "social_choose",
-        "profile"
-      );
-
-      updateBuyItemField(
-        ruleIndex,
-        itemIndex,
-        "social",
+        "messaging",
         "url",
-        currentPlatform.profile || ""
+        autoUrl
       );
     }
-  }, [social.selected_icon]);
+  }, [messaging.selected_icon, messaging.social_choose]);
 
   /* ================= PLATFORM SELECT ================= */
   const handlePlatformSelect = (platformId) => {
-    const config = PLATFORM_CONFIG?.[platformId?.toUpperCase()];
+    const key = platformId.toLowerCase();
+    const config = PLATFORM_CONFIG?.[key];
+
+    if (!config) return;
 
     const mode =
-      config && !config?.share
-        ? "profile"
-        : social.social_choose || "share";
+      config.share ? messaging.social_choose || "profile" : "profile";
 
-    const url = generateUrl(platformId, mode);
+    const url =
+      mode === "share" ? config.share : config.profile;
 
     updateBuyItemField(
       ruleIndex,
       itemIndex,
-      "social",
+      "messaging",
       "selected_icon",
       platformId
     );
@@ -89,7 +78,7 @@ export default function SocialItemEditor({
     updateBuyItemField(
       ruleIndex,
       itemIndex,
-      "social",
+      "messaging",
       "social_choose",
       mode
     );
@@ -97,7 +86,7 @@ export default function SocialItemEditor({
     updateBuyItemField(
       ruleIndex,
       itemIndex,
-      "social",
+      "messaging",
       "url",
       url
     );
@@ -106,13 +95,13 @@ export default function SocialItemEditor({
   return (
     <>
       {/* ================= PLATFORM GRID ================= */}
-      <S1Field label="Choose Platform">
+      <S1Field label="Choose Messaging Platform">
         <div className="s1-platform-grid">
           {ICON_OPTIONS.map(({ id, icon }) => (
             <div
               key={id}
               className={`s1-icon-option ${
-                social.selected_icon === id ? "active" : ""
+                messaging.selected_icon === id ? "active" : ""
               }`}
               onClick={() => handlePlatformSelect(id)}
             >
@@ -125,7 +114,7 @@ export default function SocialItemEditor({
       {/* ================= ICON TYPE ================= */}
       <S1Field label="Icon Type">
         <SelectControl
-          value={social.icontype || "icon"}
+          value={messaging.icontype || "icon"}
           options={[
             { label: "Default Icon", value: "icon" },
             { label: "Upload Image", value: "image" },
@@ -135,7 +124,7 @@ export default function SocialItemEditor({
             updateBuyItemField(
               ruleIndex,
               itemIndex,
-              "social",
+              "messaging",
               "icontype",
               v
             )
@@ -144,21 +133,21 @@ export default function SocialItemEditor({
       </S1Field>
 
       {/* ================= DEFAULT ICON ================= */}
-      {(social.icontype || "icon") === "icon" &&
-        social.selected_icon && (
+      {(messaging.icontype || "icon") === "icon" &&
+        messaging.selected_icon && (
           <S1Field>
-            {ICONS[social.selected_icon?.toUpperCase()]}
+            {ICONS[messaging.selected_icon?.toUpperCase()]}
           </S1Field>
         )}
 
-      {/* ================= IMAGE UPLOAD ================= */}
-      {social.icontype === "image" && (
+      {/* ================= IMAGE UPLOAD (SOCIAL STYLE) ================= */}
+      {messaging.icontype === "image" && (
         <S1Field label="Upload Image">
           <div className="s1-image-upload-wrapper">
-            {social.image_url ? (
+            {messaging.image_url ? (
               <div className="s1-image-card">
                 <div className="s1-image-preview">
-                  <img src={social.image_url} alt="" />
+                  <img src={messaging.image_url} alt="" />
                 </div>
 
                 <div className="s1-image-actions">
@@ -170,7 +159,7 @@ export default function SocialItemEditor({
                         updateBuyItemField(
                           ruleIndex,
                           itemIndex,
-                          "social",
+                          "messaging",
                           "image_url",
                           media.url
                         )
@@ -187,7 +176,7 @@ export default function SocialItemEditor({
                       updateBuyItemField(
                         ruleIndex,
                         itemIndex,
-                        "social",
+                        "messaging",
                         "image_url",
                         ""
                       )
@@ -206,7 +195,7 @@ export default function SocialItemEditor({
                     updateBuyItemField(
                       ruleIndex,
                       itemIndex,
-                      "social",
+                      "messaging",
                       "image_url",
                       media.url
                     )
@@ -225,15 +214,15 @@ export default function SocialItemEditor({
       )}
 
       {/* ================= CUSTOM SVG ================= */}
-      {social.icontype === "custom_svg" && (
+      {messaging.icontype === "custom_svg" && (
         <S1Field label="SVG Code">
           <TextControl
-            value={social.custom_svg || ""}
+            value={messaging.custom_svg || ""}
             onChange={(v) =>
               updateBuyItemField(
                 ruleIndex,
                 itemIndex,
-                "social",
+                "messaging",
                 "custom_svg",
                 v
               )
@@ -248,33 +237,20 @@ export default function SocialItemEditor({
         currentPlatform.profile && (
           <S1Field label="Mode">
             <SelectControl
-              value={social.social_choose || "share"}
+              value={messaging.social_choose || "profile"}
               options={[
                 { label: "Share", value: "share" },
                 { label: "Profile", value: "profile" },
               ]}
-              onChange={(v) => {
-                const url = generateUrl(
-                  social.selected_icon,
-                  v
-                );
-
+              onChange={(v) =>
                 updateBuyItemField(
                   ruleIndex,
                   itemIndex,
-                  "social",
+                  "messaging",
                   "social_choose",
                   v
-                );
-
-                updateBuyItemField(
-                  ruleIndex,
-                  itemIndex,
-                  "social",
-                  "url",
-                  url
-                );
-              }}
+                )
+              }
             />
           </S1Field>
         )}
@@ -283,12 +259,12 @@ export default function SocialItemEditor({
       {currentPlatform && (
         <S1Field label="URL">
           <TextControl
-            value={social.url || ""}
+            value={messaging.url || ""}
             onChange={(v) =>
               updateBuyItemField(
                 ruleIndex,
                 itemIndex,
-                "social",
+                "messaging",
                 "url",
                 v
               )

@@ -5,83 +5,51 @@ import { ICONS } from "@storeone-global/icons";
 import { usePlatformUrl } from "./usePlatformUrl";
 import { PLATFORM_CONFIG } from "./platformConfig";
 
-export default function SocialItemEditor({
+export default function ContactItemEditor({
   item,
   ruleIndex,
   itemIndex,
   updateBuyItemField,
-  ICON_OPTIONS,
   openMediaLibrary,
+  ICON_OPTIONS,
 }) {
   const { generateUrl } = usePlatformUrl();
 
-  /* ================= SAFE SOCIAL OBJECT ================= */
-  const social = item.social || {
-    selected_icon: "FACEBOOK",
+  /* ================= SAFE CONTACT OBJECT ================= */
+  const contact = item.contact || {
+    selected_icon: "",
     icontype: "icon",
     custom_svg: "",
     image_url: "",
     url: "",
-    social_choose: "share",
+    social_choose: "profile",
   };
 
-  /* ================= ENSURE DEFAULT FACEBOOK ================= */
-  useEffect(() => {
-    if (!item.social) {
-      updateBuyItemField(
-        ruleIndex,
-        itemIndex,
-        "social",
-        "selected_icon",
-        "FACEBOOK"
-      );
-    }
-  }, []);
-
-  /* ================= PLATFORM CONFIG ================= */
   const currentPlatform =
-    PLATFORM_CONFIG?.[social.selected_icon?.toUpperCase()];
+    PLATFORM_CONFIG?.[contact.selected_icon?.toLowerCase()];
 
-  /* ================= AUTO FORCE PROFILE ================= */
+  /* ================= AUTO SET DEFAULT URL ================= */
   useEffect(() => {
-    if (
-      currentPlatform &&
-      !currentPlatform.share &&
-      social.social_choose !== "profile"
-    ) {
+    if (currentPlatform && !contact.url) {
       updateBuyItemField(
         ruleIndex,
         itemIndex,
-        "social",
-        "social_choose",
-        "profile"
-      );
-
-      updateBuyItemField(
-        ruleIndex,
-        itemIndex,
-        "social",
+        "contact",
         "url",
         currentPlatform.profile || ""
       );
     }
-  }, [social.selected_icon]);
+  }, [contact.selected_icon]);
 
   /* ================= PLATFORM SELECT ================= */
   const handlePlatformSelect = (platformId) => {
-    const config = PLATFORM_CONFIG?.[platformId?.toUpperCase()];
-
-    const mode =
-      config && !config?.share
-        ? "profile"
-        : social.social_choose || "share";
-
-    const url = generateUrl(platformId, mode);
+    const config =
+      PLATFORM_CONFIG?.[platformId?.toLowerCase()];
 
     updateBuyItemField(
       ruleIndex,
       itemIndex,
-      "social",
+      "contact",
       "selected_icon",
       platformId
     );
@@ -89,30 +57,22 @@ export default function SocialItemEditor({
     updateBuyItemField(
       ruleIndex,
       itemIndex,
-      "social",
-      "social_choose",
-      mode
-    );
-
-    updateBuyItemField(
-      ruleIndex,
-      itemIndex,
-      "social",
+      "contact",
       "url",
-      url
+      config?.profile || ""
     );
   };
 
   return (
     <>
-      {/* ================= PLATFORM GRID ================= */}
-      <S1Field label="Choose Platform">
+      {/* PLATFORM GRID */}
+      <S1Field label="Choose Contact Platform">
         <div className="s1-platform-grid">
           {ICON_OPTIONS.map(({ id, icon }) => (
             <div
               key={id}
               className={`s1-icon-option ${
-                social.selected_icon === id ? "active" : ""
+                contact.selected_icon === id ? "active" : ""
               }`}
               onClick={() => handlePlatformSelect(id)}
             >
@@ -122,10 +82,10 @@ export default function SocialItemEditor({
         </div>
       </S1Field>
 
-      {/* ================= ICON TYPE ================= */}
+      {/* ICON TYPE */}
       <S1Field label="Icon Type">
         <SelectControl
-          value={social.icontype || "icon"}
+          value={contact.icontype || "icon"}
           options={[
             { label: "Default Icon", value: "icon" },
             { label: "Upload Image", value: "image" },
@@ -135,7 +95,7 @@ export default function SocialItemEditor({
             updateBuyItemField(
               ruleIndex,
               itemIndex,
-              "social",
+              "contact",
               "icontype",
               v
             )
@@ -143,22 +103,22 @@ export default function SocialItemEditor({
         />
       </S1Field>
 
-      {/* ================= DEFAULT ICON ================= */}
-      {(social.icontype || "icon") === "icon" &&
-        social.selected_icon && (
+      {/* DEFAULT ICON */}
+      {(contact.icontype || "icon") === "icon" &&
+        contact.selected_icon && (
           <S1Field>
-            {ICONS[social.selected_icon?.toUpperCase()]}
+            {ICONS[contact.selected_icon]}
           </S1Field>
         )}
 
-      {/* ================= IMAGE UPLOAD ================= */}
-      {social.icontype === "image" && (
+      {/* IMAGE UPLOAD */}
+      {contact.icontype === "image" && (
         <S1Field label="Upload Image">
           <div className="s1-image-upload-wrapper">
-            {social.image_url ? (
+            {contact.image_url ? (
               <div className="s1-image-card">
                 <div className="s1-image-preview">
-                  <img src={social.image_url} alt="" />
+                  <img src={contact.image_url} alt="" />
                 </div>
 
                 <div className="s1-image-actions">
@@ -170,7 +130,7 @@ export default function SocialItemEditor({
                         updateBuyItemField(
                           ruleIndex,
                           itemIndex,
-                          "social",
+                          "contact",
                           "image_url",
                           media.url
                         )
@@ -187,7 +147,7 @@ export default function SocialItemEditor({
                       updateBuyItemField(
                         ruleIndex,
                         itemIndex,
-                        "social",
+                        "contact",
                         "image_url",
                         ""
                       )
@@ -206,7 +166,7 @@ export default function SocialItemEditor({
                     updateBuyItemField(
                       ruleIndex,
                       itemIndex,
-                      "social",
+                      "contact",
                       "image_url",
                       media.url
                     )
@@ -224,16 +184,16 @@ export default function SocialItemEditor({
         </S1Field>
       )}
 
-      {/* ================= CUSTOM SVG ================= */}
-      {social.icontype === "custom_svg" && (
+      {/* CUSTOM SVG */}
+      {contact.icontype === "custom_svg" && (
         <S1Field label="SVG Code">
           <TextControl
-            value={social.custom_svg || ""}
+            value={contact.custom_svg || ""}
             onChange={(v) =>
               updateBuyItemField(
                 ruleIndex,
                 itemIndex,
-                "social",
+                "contact",
                 "custom_svg",
                 v
               )
@@ -242,53 +202,16 @@ export default function SocialItemEditor({
         </S1Field>
       )}
 
-      {/* ================= MODE ================= */}
-      {currentPlatform &&
-        currentPlatform.share &&
-        currentPlatform.profile && (
-          <S1Field label="Mode">
-            <SelectControl
-              value={social.social_choose || "share"}
-              options={[
-                { label: "Share", value: "share" },
-                { label: "Profile", value: "profile" },
-              ]}
-              onChange={(v) => {
-                const url = generateUrl(
-                  social.selected_icon,
-                  v
-                );
-
-                updateBuyItemField(
-                  ruleIndex,
-                  itemIndex,
-                  "social",
-                  "social_choose",
-                  v
-                );
-
-                updateBuyItemField(
-                  ruleIndex,
-                  itemIndex,
-                  "social",
-                  "url",
-                  url
-                );
-              }}
-            />
-          </S1Field>
-        )}
-
-      {/* ================= URL ================= */}
+      {/* URL */}
       {currentPlatform && (
         <S1Field label="URL">
           <TextControl
-            value={social.url || ""}
+            value={contact.url || ""}
             onChange={(v) =>
               updateBuyItemField(
                 ruleIndex,
                 itemIndex,
-                "social",
+                "contact",
                 "url",
                 v
               )
