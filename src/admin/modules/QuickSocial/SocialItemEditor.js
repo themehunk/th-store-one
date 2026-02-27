@@ -23,7 +23,7 @@ export default function SocialItemEditor({
     image_url: "",
     url: "",
     social_choose: "share",
-     share_text: "[TITLE]",
+    share_text: "{TITLE}",
     ...(item.social || {}),
   };
 
@@ -37,14 +37,7 @@ export default function SocialItemEditor({
       !currentPlatform.share &&
       social.social_choose !== "profile"
     ) {
-      updateBuyItemField(
-        ruleIndex,
-        itemIndex,
-        "social",
-        "social_choose",
-        "profile"
-      );
-
+      updateBuyItemField(ruleIndex, itemIndex, "social", "social_choose", "profile");
       updateBuyItemField(
         ruleIndex,
         itemIndex,
@@ -55,63 +48,47 @@ export default function SocialItemEditor({
     }
   }, [social.selected_icon]);
 
-  /* ================= HANDLE PLATFORM SELECT ================= */
+  /* ================= PLATFORM SELECT ================= */
   const handlePlatformSelect = (platformId) => {
     const config = PLATFORM_CONFIG?.[platformId?.toUpperCase()];
-
-    const mode =
-      config && !config?.share
-        ? "profile"
-        : "share";
+    const mode = config && !config?.share ? "profile" : "share";
 
     const baseUrl = generateUrl(platformId, mode);
 
     updateBuyItemField(ruleIndex, itemIndex, "social", "selected_icon", platformId);
     updateBuyItemField(ruleIndex, itemIndex, "social", "social_choose", mode);
     updateBuyItemField(ruleIndex, itemIndex, "social", "url", baseUrl);
-    updateBuyItemField(ruleIndex, itemIndex, "social", "share_text", "");
+
+    // Reset share text ONLY if platform actually uses it
+    if (config?.share?.includes("{TEXT}") || config?.share?.includes("{DESCRIPTION}")) {
+      updateBuyItemField(ruleIndex, itemIndex, "social", "share_text", "{TITLE}");
+    }
   };
 
-  /* ================= HANDLE SHARE TEXT ================= */
+  /* ================= SHARE TEXT HANDLER ================= */
   const handleShareTextChange = (value) => {
-    updateBuyItemField(
-      ruleIndex,
-      itemIndex,
-      "social",
-      "share_text",
-      value
-    );
+    updateBuyItemField(ruleIndex, itemIndex, "social", "share_text", value);
 
-    let baseUrl = generateUrl(
-      social.selected_icon,
-      "share"
-    );
-
+    let baseUrl = generateUrl(social.selected_icon, "share");
     if (!baseUrl) return;
 
     const finalUrl = baseUrl
-      .replace("[TEXT]", encodeURIComponent(value))
-      .replace("[DESCRIPTION]", encodeURIComponent(value));
+      .replace("{TEXT}", encodeURIComponent(value))
+      .replace("{DESCRIPTION}", encodeURIComponent(value));
 
-    updateBuyItemField(
-      ruleIndex,
-      itemIndex,
-      "social",
-      "url",
-      finalUrl
-    );
+    updateBuyItemField(ruleIndex, itemIndex, "social", "url", finalUrl);
   };
 
+  /* ================= CHECK IF TEXT FIELD NEEDED ================= */
   const shouldShowShareField =
     currentPlatform &&
     social.social_choose === "share" &&
     currentPlatform.share &&
-    (currentPlatform.share.includes("[TEXT]") ||
-      currentPlatform.share.includes("[DESCRIPTION]"));
+    (/\{TEXT\}|\{DESCRIPTION\}/.test(currentPlatform.share));
 
   return (
     <>
-      {/* ================= PLATFORM SELECT ================= */}
+      {/* ================= PLATFORM GRID ================= */}
       <S1Field label="Choose Platform">
         <div className="s1-platform-grid">
           {ICON_OPTIONS.map(({ id, icon }) => (
@@ -138,13 +115,7 @@ export default function SocialItemEditor({
             { label: "Custom SVG", value: "custom_svg" },
           ]}
           onChange={(v) =>
-            updateBuyItemField(
-              ruleIndex,
-              itemIndex,
-              "social",
-              "icontype",
-              v
-            )
+            updateBuyItemField(ruleIndex, itemIndex, "social", "icontype", v)
           }
         />
       </S1Field>
@@ -218,11 +189,7 @@ export default function SocialItemEditor({
                   )
                 }
               >
-                <div className="s1-upload-text">
-                  <strong>Upload Image</strong>
-                  <p>Select or upload an image file</p>
-                  <small>PNG, JPG, SVG supported</small>
-                </div>
+                Upload Image
               </button>
             )}
           </div>
@@ -235,13 +202,7 @@ export default function SocialItemEditor({
           <TextControl
             value={social.custom_svg}
             onChange={(v) =>
-              updateBuyItemField(
-                ruleIndex,
-                itemIndex,
-                "social",
-                "custom_svg",
-                v
-              )
+              updateBuyItemField(ruleIndex, itemIndex, "social", "custom_svg", v)
             }
           />
         </S1Field>
@@ -259,26 +220,9 @@ export default function SocialItemEditor({
                 { label: "Profile", value: "profile" },
               ]}
               onChange={(v) => {
-                const url = generateUrl(
-                  social.selected_icon,
-                  v
-                );
-
-                updateBuyItemField(
-                  ruleIndex,
-                  itemIndex,
-                  "social",
-                  "social_choose",
-                  v
-                );
-
-                updateBuyItemField(
-                  ruleIndex,
-                  itemIndex,
-                  "social",
-                  "url",
-                  url
-                );
+                const url = generateUrl(social.selected_icon, v);
+                updateBuyItemField(ruleIndex, itemIndex, "social", "social_choose", v);
+                updateBuyItemField(ruleIndex, itemIndex, "social", "url", url);
               }}
             />
           </S1Field>
@@ -288,7 +232,7 @@ export default function SocialItemEditor({
       {shouldShowShareField && (
         <S1Field
           label={
-            currentPlatform.share.includes("[DESCRIPTION]")
+            currentPlatform.share.includes("{DESCRIPTION}")
               ? "Description"
               : "Share Text"
           }
@@ -296,7 +240,11 @@ export default function SocialItemEditor({
           <TextControl
             value={social.share_text}
             onChange={handleShareTextChange}
-            placeholder="Enter share text..."
+            placeholder={
+              currentPlatform.share.includes("{DESCRIPTION}")
+                ? "{DESCRIPTION}"
+                : "{TEXT}"
+            }
           />
         </S1Field>
       )}
@@ -307,14 +255,7 @@ export default function SocialItemEditor({
           <TextControl
             value={social.url}
             onChange={(v) =>
-              updateBuyItemField(
-                ruleIndex,
-                itemIndex,
-                "social",
-                "url",
-                v
-              )
-              
+              updateBuyItemField(ruleIndex, itemIndex, "social", "url", v)
             }
           />
         </S1Field>

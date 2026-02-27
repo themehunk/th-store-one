@@ -1,7 +1,7 @@
 export const PLATFORM_CONFIG = {
     FACEBOOK: {
     label: "Facebook",
-    share: "https://www.facebook.com/sharer/sharer.php?u=[PAGE_URL]",
+    share: "https://www.facebook.com/sharer/sharer.php?u={PAGE_URL}",
     profile: "https://facebook.com/username",
   },
   INSTAGRAM: {
@@ -11,12 +11,12 @@ export const PLATFORM_CONFIG = {
   },
   TWITTER: {
     label: "X",
-    share: "https://twitter.com/intent/tweet?url=[PAGE_URL]&text=[TEXT]",
+    share: "https://twitter.com/intent/tweet?url={PAGE_URL}&text={TEXT}",
     profile: "https://x.com/username",
   },
   LINKEDIN: {
     label: "LinkedIn",
-    share: "https://www.linkedin.com/sharing/share-offsite/?url=[PAGE_URL]",
+    share: "https://www.linkedin.com/sharing/share-offsite/?url={PAGE_URL}",
     profile: "https://linkedin.com/in/username",
   },
   YOUTUBE: {
@@ -26,7 +26,7 @@ export const PLATFORM_CONFIG = {
   },
   PINTEREST: {
     label: "Pinterest",
-    share: "https://pinterest.com/pin/create/button/?url=[PAGE_URL]&description=[TEXT]",
+    share: "https://pinterest.com/pin/create/button/?url={PAGE_URL}&description={TEXT}",
     profile: "https://pinterest.com/username",
   },
   TIKTOK: {

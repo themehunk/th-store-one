@@ -56,7 +56,7 @@ const newsocialTRule = () => ({
         image_url: "",
         url: "",
         social_choose: "share",
-        share_text: "[TITLE]",
+        share_text: "{TITLE}",
       },
       messaging: {
         selected_icon: "",
