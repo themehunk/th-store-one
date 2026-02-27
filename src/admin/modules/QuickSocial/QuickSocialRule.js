@@ -56,6 +56,7 @@ const newsocialTRule = () => ({
         image_url: "",
         url: "",
         social_choose: "share",
+        share_text: "[TITLE]",
       },
       messaging: {
         selected_icon: "",
@@ -113,6 +114,8 @@ const ICON_OPTIONS = [
   { id: "LINKEDIN", icon: ICONS.LINKEDIN },
   { id: "YOUTUBE", icon: ICONS.YOUTUBE },
   { id: "PINTEREST", icon: ICONS.PINTEREST },
+  { id: "TIKTOK", icon: ICONS.TIKTOK },
+  { id: "SNAPCHAT", icon: ICONS.SNAPCHAT },
 ];
 const MESSAGING_ICON_OPTIONS = [
   { id: "WHATSAPP", icon: ICONS.WHATSAPP },
