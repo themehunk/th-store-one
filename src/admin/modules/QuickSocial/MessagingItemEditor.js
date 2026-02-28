@@ -1,3 +1,4 @@
+
 import { useEffect } from "@wordpress/element";
 import { SelectControl, TextControl } from "@wordpress/components";
 import { S1Field } from "@storeone-global/S1Field";
@@ -23,9 +24,9 @@ export default function MessagingItemEditor({
   image_url: "",
   url: "",
   social_choose: "profile",
-   phone: "{phone}",
+    phone: "{phone}",
   message: "{message}",
-};
+  };
 
   /* ================= NORMALIZED KEY ================= */
   const platformKey = messaging.selected_icon
@@ -84,7 +85,6 @@ export default function MessagingItemEditor({
   messaging.phone,
   messaging.message
 ]);
-
   /* ================= PLATFORM SELECT ================= */
   const handlePlatformSelect = (platformId) => {
     const key = platformId.toLowerCase();
@@ -302,6 +302,23 @@ export default function MessagingItemEditor({
   currentPlatform.profile && (
     <>
       {currentPlatform.profile.includes("{MOBILE_NUMBER}") && (
+         <S1Field label="Message">
+          <TextControl
+            value={messaging.message || "{message}"}
+            onChange={(v) =>
+              updateBuyItemField(
+                ruleIndex,
+                itemIndex,
+                "messaging",
+                "message",
+                v || "{message}"
+              )
+            }
+          />
+        </S1Field>
+      )}
+
+      {currentPlatform.profile.includes("{YOUR_MESSAGE}") && (
         <S1Field label="Phone Number">
           <TextControl
             value={messaging.phone || "{phone}"}
@@ -312,23 +329,6 @@ export default function MessagingItemEditor({
                 "messaging",
                 "phone",
                 v || "{phone}"
-              )
-            }
-          />
-        </S1Field>
-      )}
-
-      {currentPlatform.profile.includes("{YOUR_MESSAGE}") && (
-        <S1Field label="Message">
-          <TextControl
-            value={messaging.message || "{message}"}
-            onChange={(v) =>
-              updateBuyItemField(
-                ruleIndex,
-                itemIndex,
-                "messaging",
-                "message",
-                v || "{message}"
               )
             }
           />

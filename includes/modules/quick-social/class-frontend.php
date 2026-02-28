@@ -67,7 +67,6 @@ class StoreOne_Quick_Social {
 
                         $tab  = $item['itemTab'] ?? 'social';
                         $data = $item[$tab] ?? array();
-
                         $url = $this->build_dynamic_url( $data );
                         if ( empty( $url ) ) continue;
                         ?>
@@ -95,69 +94,112 @@ class StoreOne_Quick_Social {
 
     /* ================= DYNAMIC URL BUILDER ================= */
 
-    private function build_dynamic_url( $data ) {
+   private function build_dynamic_url( $data ) {
 
-        if ( empty( $data ) ) return '';
+    if ( empty( $data ) ) return '';
 
-        $mode       = $data['social_choose'] ?? 'share';
-        $custom_url = trim( $data['url'] ?? '' );
-        $platform   = strtoupper( $data['selected_icon'] ?? '' );
+    $mode       = $data['social_choose'] ?? 'share';
+    $custom_url = trim( $data['url'] ?? '' );
+    $platform   = strtoupper( $data['selected_icon'] ?? '' );
 
-        /* PROFILE MODE */
-        if ( $mode === 'profile' ) {
+    /* ================= PROFILE MODE ================= */
+    if ( $mode === 'profile' ) {
 
-            if ( empty( $custom_url ) ) return '';
+    if ( empty( $custom_url ) ) return '';
 
-            if ( ! preg_match( '#^(https?|mailto|tel|sms):#', $custom_url ) ) {
-                $custom_url = 'https://' . $custom_url;
-            }
+    $phone   = trim( $data['phone'] ?? '' );
+    $message = trim( $data['message'] ?? '' );
 
-            return esc_url( $custom_url );
-        }
+    /* CLEAN PHONE + MESSAGE */
+    $phone   = trim( $phone, '{}' );
+    $message = trim( $message, '{}' );
 
-        /* SHARE MODE */
+    /* ===== FIX IF MESSAGE ALREADY INSIDE URL ===== */
 
-        // Detect current URL & title
-        if ( function_exists( 'is_product' ) && is_product() ) {
-            global $product;
-            $page_url   = $product ? get_permalink( $product->get_id() ) : get_permalink();
-            $page_title = $product ? $product->get_name() : get_the_title();
-        } elseif ( is_singular() ) {
-            $page_url   = get_permalink();
-            $page_title = get_the_title();
-        } else {
-            $page_url   = home_url();
-            $page_title = get_bloginfo( 'name' );
-        }
+    // Decode URL so %7B %7D become { }
+    $decoded_url = urldecode( $custom_url );
 
-        $encoded_url   = urlencode( $page_url );
-        $share_text    = ! empty( $data['share_text'] ) ? $data['share_text'] : $page_title;
-        $encoded_text  = urlencode( $share_text );
+    // Remove any curly brackets globally
+    $decoded_url = str_replace( array('{','}'), '', $decoded_url );
 
-        switch ( $platform ) {
+    $custom_url = $decoded_url;
 
-            case 'FACEBOOK':
-                return "https://www.facebook.com/sharer/sharer.php?u={$encoded_url}";
-
-            case 'TWITTER':
-                return "https://twitter.com/intent/tweet?url={$encoded_url}&text={$encoded_text}";
-
-            case 'LINKEDIN':
-                return "https://www.linkedin.com/sharing/share-offsite/?url={$encoded_url}";
-
-            case 'PINTEREST':
-                return "https://pinterest.com/pin/create/button/?url={$encoded_url}&description={$encoded_text}";
-
-            case 'YOUTUBE':
-            case 'INSTAGRAM':
-            case 'TIKTOK':
-            case 'SNAPCHAT':
-                return ! empty( $custom_url ) ? esc_url( $custom_url ) : '';
-
-            default:
-                return '';
+    // Replace MOBILE
+    if ( strpos( $custom_url, '{MOBILE_NUMBER}' ) !== false ) {
+        if ( ! empty( $phone ) ) {
+            $custom_url = str_replace( '{MOBILE_NUMBER}', $phone, $custom_url );
         }
     }
+
+    // Replace MESSAGE
+    if ( strpos( $custom_url, '{YOUR_MESSAGE}' ) !== false ) {
+        if ( ! empty( $message ) ) {
+            $custom_url = str_replace(
+                '{YOUR_MESSAGE}',
+                urlencode( $message ),
+                $custom_url
+            );
+        }
+    }
+
+    // Re-encode URL
+    $custom_url = esc_url_raw( $custom_url );
+
+    if ( ! preg_match( '#^(https?|mailto|tel|sms):#', $custom_url ) ) {
+        $custom_url = 'https://' . $custom_url;
+    }
+
+    return esc_url( $custom_url );
+   }
+
+    /* ================= SHARE MODE ================= */
+
+    if ( function_exists( 'is_product' ) && is_product() ) {
+        global $product;
+        $page_url   = $product ? get_permalink( $product->get_id() ) : get_permalink();
+        $page_title = $product ? $product->get_name() : get_the_title();
+    } elseif ( is_singular() ) {
+        $page_url   = get_permalink();
+        $page_title = get_the_title();
+    } else {
+        $page_url   = home_url();
+        $page_title = get_bloginfo( 'name' );
+    }
+
+    $encoded_url  = urlencode( $page_url );
+    $share_text   = ! empty( $data['share_text'] ) ? $data['share_text'] : $page_title;
+    $encoded_text = urlencode( $share_text );
+
+    switch ( $platform ) {
+
+        case 'FACEBOOK':
+            return "https://www.facebook.com/sharer/sharer.php?u={$encoded_url}";
+
+        case 'TWITTER':
+            return "https://twitter.com/intent/tweet?url={$encoded_url}&text={$encoded_text}";
+
+        case 'LINKEDIN':
+            return "https://www.linkedin.com/sharing/share-offsite/?url={$encoded_url}";
+
+        case 'PINTEREST':
+            return "https://pinterest.com/pin/create/button/?url={$encoded_url}&description={$encoded_text}";
+
+        case 'WHATSAPP':
+            return "https://wa.me/?text={$encoded_text}%20{$encoded_url}";
+
+        case 'TELEGRAM':
+            return "https://t.me/share/url?url={$encoded_url}&text={$encoded_text}";
+
+        case 'YOUTUBE':
+        case 'INSTAGRAM':
+        case 'TIKTOK':
+        case 'SNAPCHAT':
+            return ! empty( $custom_url ) ? esc_url( $custom_url ) : '';
+
+        default:
+            return '';
+    }
+   }
 
     /* ================= STYLE VARS ================= */
 
@@ -273,6 +315,102 @@ class StoreOne_Quick_Social {
                 return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
     <path d="M12 2c-3.866 0-7 3.134-7 7 0 1.57.518 3.017 1.393 4.183C5.534 14.11 5 15.49 5 17c0 2.761 3.134 5 7 5s7-2.239 7-5c0-1.51-.534-2.89-1.393-3.817C18.482 12.017 19 10.57 19 9c0-3.866-3.134-7-7-7zm0 2c2.761 0 5 2.239 5 5 0 1.1-.36 2.116-.968 2.937C15.41 12.56 15 13.23 15 14c0 .552.448 1 1 1s1-.448 1-1c0-.403.16-.768.423-1.033C17.785 12.24 18 11.15 18 10c0-3.314-2.686-6-6-6s-6 2.686-6 6c0 1.15.215 2.24.577 3.217C6.84 13.232 7 13.597 7 14c0 .552.448 1 1 1s1-.448 1-1c0-.77-.41-1.44-1.032-2.063C7.36 11.116 7 10.1 7 9c0-2.761 2.239-5 5-5zm0 14c-2.761 0-5-1.343-5-3 0-.414.336-.75.75-.75s.75.336.75.75c0 .828 1.567 1.5 3.5 1.5s3.5-.672 3.5-1.5c0-.414.336-.75.75-.75s.75.336.75.75c0 1.657-2.239 3-5 3z" />
   </svg>';
+  case 'WHATSAPP':
+                return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path d="M12.04 2C6.58 2 2.2 6.38 2.2 11.84c0 1.92.5 3.7 1.46 5.28L2 22l5-1.6a9.79 9.79 0 0 0 5.04 1.36c5.46 0 9.84-4.38 9.84-9.84S17.5 2 12.04 2zm0 17.9c-1.6 0-3.15-.42-4.5-1.22l-.32-.18-2.96.95.97-2.88-.2-.33a7.78 7.78 0 0 1-1.2-4.2c0-4.34 3.53-7.88 7.88-7.88 4.35 0 7.88 3.54 7.88 7.88 0 4.35-3.53 7.88-7.88 7.88zm4.35-5.92c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.44-1.34-1.68-.14-.24-.02-.36.1-.48.1-.1.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.48-.4-.42-.54-.42h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2 0 1.18.86 2.32.98 2.48.12.16 1.7 2.6 4.12 3.64.58.26 1.04.42 1.4.54.58.18 1.1.16 1.52.1.46-.06 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z" />
+    </svg>';
+    case 'TELEGRAM':
+                return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path d="M21.5 2.5L2.8 9.7c-1.28.5-1.27 1.23-.23 1.55l4.8 1.5 1.84 5.78c.23.7.12.98.86.98.58 0 .83-.26 1.15-.58.2-.2.94-.92 1.92-1.86l4 2.94c.74.4 1.28.2 1.46-.7l3.03-14.3c.27-1.1-.42-1.6-1.2-1.25zM8.2 12.3l9.6-6.06c.48-.3.92-.14.56.18l-8.24 7.44-.32 3.36-.6-4.92z" />
+    </svg>';
+    case 'MESSENGER':
+            return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.02 2 11c0 2.54 1.18 4.82 3.08 6.47V22l4.18-2.3c.9.25 1.85.39 2.84.39 5.52 0 10-4.02 10-9S17.52 2 12 2z"/>
+            </svg>';
+    case 'WEBSITE':
+            return ' <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm7.93 9h-3.18a15.6 15.6 0 00-1.13-5.03A8.03 8.03 0 0119.93 11zM12 4c.9 1.3 1.64 3.1 1.93 5H10.07c.29-1.9 1.03-3.7 1.93-5zM4.07 13h3.18c.23 1.78.84 3.42 1.75 4.8A8.03 8.03 0 014.07 13zm3.18-2H4.07a8.03 8.03 0 014.93-5.03A15.6 15.6 0 007.25 11zm2.82 0c.29-1.9 1.03-3.7 1.93-5 .9 1.3 1.64 3.1 1.93 5H10.07zm1.93 9c-.9-1.3-1.64-3.1-1.93-5h3.86c-.29 1.9-1.03 3.7-1.93 5zm3.62-2.2c.91-1.38 1.52-3.02 1.75-4.8h3.18a8.03 8.03 0 01-4.93 4.8z" />
+    </svg>';
+
+        case 'RSS':
+            return ' <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path d="M4 4v3a13 13 0 0113 13h3C20 11.16 12.84 4 4 4zm0 6v3a7 7 0 017 7h3c0-5.52-4.48-10-10-10zm0 6a2 2 0 100 4 2 2 0 000-4z" />
+    </svg>';
+       
+    case 'CUSTOM':
+             return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path d="M18 16a3 3 0 00-2.24 1.02L8.91 13.7a3.03 3.03 0 000-3.4l6.85-3.32A3 3 0 1014 5a2.98 2.98 0 00.24 1.18L7.39 9.5a3 3 0 100 5l6.85 3.32A3 3 0 0014 19a3 3 0 103-3z" />
+    </svg>';
+
+    case 'GOOGLE_MAPS':
+    return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+    </svg>';
+
+case 'YELP':
+    return '<svg
+      viewBox="0 0 24 24"
+      width="18"
+      height="18"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M12.4 2.1c-.5 0-.9.3-1 .8l-1.2 6.1c-.1.4.1.8.5 1l3.5 1.7c.4.2.9.1 1.1-.3l3.3-5.1c.3-.5.1-1.2-.5-1.4L12.9 2.2c-.2-.1-.3-.1-.5-.1zm-5.7 4c-.4 0-.8.3-.9.7l-.8 4.2c-.1.4.1.8.4 1l3.6 1.8c.4.2.9 0 1.1-.4l1.7-3.6c.2-.4 0-.9-.4-1.1L7.3 6.2c-.2-.1-.4-.1-.6-.1zm9.9 4.3c-.3 0-.6.2-.8.5l-1.6 3.7c-.2.4 0 .9.4 1.1l3.6 1.8c.4.2.9 0 1-.4l.8-4.2c.1-.4-.1-.8-.5-1l-3.6-1.8c-.1-.1-.2-.1-.3-.1zm-6.7 5.1c-.3 0-.6.2-.8.4l-3.2 5.2c-.3.5-.1 1.2.5 1.4l5.1 2.7c.5.3 1.2.1 1.4-.5l1.2-6.1c.1-.4-.1-.8-.5-1l-3.5-1.7c-.1-.1-.2-.1-.3-.1z" />
+    </svg>';
+
+case 'TRUSTPILOT':
+    return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+        <path d="M12 2l2.9 6.6 7.1.6-5.4 4.7 1.6 7-6.2-3.8-6.2 3.8 1.6-7L2 9.2l7.1-.6L12 2z"/>
+    </svg>';
+
+case 'GOOGLEBUSS':
+    return '<svg
+      viewBox="0 0 24 24"
+      width="18"
+      height="18"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M3 7l1-4h16l1 4v2a3 3 0 01-3 3 3 3 0 01-2-1 3 3 0 01-4 0 3 3 0 01-4 0 3 3 0 01-2 1 3 3 0 01-3-3V7z" />
+      <path d="M5 11h14v9H5z" />
+    </svg>';
+
+case 'TRIPADVISER':
+    return '<svg
+      viewBox="0 0 24 24"
+      width="18"
+      height="18"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M12 5c2.4 0 4.5.8 6 2.2l2-.4-1.2 1.8c.4.7.7 1.5.7 2.4 0 2.8-2.2 5-5 5-1.4 0-2.7-.6-3.5-1.6C10.2 15.4 8.9 16 7.5 16c-2.8 0-5-2.2-5-5 0-.9.3-1.7.7-2.4L2 6.8l2 .4C5.5 5.8 7.6 5 10 5h2zm-4.5 3.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zm9 0a2.5 2.5 0 100 5 2.5 2.5 0 000-5z" />
+    </svg>';
+
+case 'BEHANCE':
+    return '<svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M3 6h5.5c2.5 0 4 1.2 4 3.2 0 1.3-.7 2.2-1.8 2.6 1.5.4 2.4 1.6 2.4 3.1 0 2.3-1.8 3.6-4.5 3.6H3V6zm5.3 5.1c1.3 0 2-.6 2-1.6 0-1-.7-1.5-2-1.5H5v3.1h3.3zm.2 5.1c1.4 0 2.2-.6 2.2-1.8 0-1.1-.8-1.7-2.2-1.7H5v3.5h3.5zM15 8h6v1.5h-6V8zm3 3c3 0 4.5 2 4.5 4.6 0 .3 0 .6-.1.9h-6.9c.2 1.3 1.1 2 2.5 2 .9 0 1.7-.3 2.2-1l1.8 1.2c-.9 1.3-2.3 2-4 2-3 0-5-2-5-5s2-4.7 5-4.7zm-2.4 3.3h4.7c-.1-1.2-.9-2-2.3-2-1.2 0-2.1.7-2.4 2z" />
+    </svg>';
+
+case 'GITLAB':
+    return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path d="M22.65 14.39L12 22.5 1.35 14.39a1 1 0 01-.36-1.1L3.3 6.1a.8.8 0 011.5-.08l2.1 6.55h10.2l2.1-6.55a.8.8 0 011.5.08l2.31 7.19a1 1 0 01-.36 1.1z" />
+    </svg>';
+
+case 'STACKOVERFLOW':
+    return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path d="M17.473 20.004H6.527v-5.454h1.818v3.636h7.31V14.55h1.818v5.454zM9.45 14.55h7.1v1.818h-7.1V14.55zm.363-3.818l6.737 1.41-.364 1.78-6.736-1.41.363-1.78zm1.454-4.182l6.364 2.973-.727 1.636-6.364-2.973.727-1.636zm2.546-4.546l5.273 4.545-1.182 1.364-5.273-4.545 1.182-1.364z" />
+    </svg>';
+
+case 'DRIBBLE':
+    return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm6.93 6.36a8.02 8.02 0 01-3.48.54 17.62 17.62 0 00-1.68-3.3 8.05 8.05 0 015.16 2.76zM12 4a8 8 0 012.8.52 15.9 15.9 0 011.82 3.46 26.2 26.2 0 01-7.24-.1 14.93 14.93 0 011.64-3.36A8 8 0 0112 4zM6.7 5.54a16.2 16.2 0 001.7 3.34 26.03 26.03 0 01-3.86 1.2A8.02 8.02 0 016.7 5.54zM4 12c0-.24.01-.48.04-.72a27.87 27.87 0 004.76-1.48 18.2 18.2 0 011.16 2.84 27.4 27.4 0 00-5.92 1.22A8 8 0 014 12zm1.54 3.92a25.66 25.66 0 015.12-1.1 27.92 27.92 0 01.34 4.14A8.04 8.04 0 015.54 15.92zM12 20a8 8 0 01-2.64-.45 29.93 29.93 0 00-.34-4.48 25.77 25.77 0 015.54.06 15.95 15.95 0 011.44 3.1A8 8 0 0112 20zm4.3-2.28a17.66 17.66 0 00-1.3-2.78 27.9 27.9 0 014.3-1.16A8.04 8.04 0 0116.3 17.72z" />
+    </svg>';
 
             default:
                 return '';

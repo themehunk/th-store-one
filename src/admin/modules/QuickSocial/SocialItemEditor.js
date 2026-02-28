@@ -81,10 +81,10 @@ export default function SocialItemEditor({
 
   /* ================= CHECK IF TEXT FIELD NEEDED ================= */
   const shouldShowShareField =
-    currentPlatform &&
-    social.social_choose === "share" &&
-    currentPlatform.share &&
-    (/\{TEXT\}|\{DESCRIPTION\}/.test(currentPlatform.share));
+  currentPlatform &&
+  social.social_choose === "share" &&
+  currentPlatform.share &&
+  (/\{TITLE\}|\{TEXT\}|\{DESCRIPTION\}/.test(currentPlatform.share));
 
   return (
     <>
