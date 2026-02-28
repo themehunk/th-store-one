@@ -60,7 +60,7 @@ export default function SocialItemEditor({
     updateBuyItemField(ruleIndex, itemIndex, "social", "url", baseUrl);
 
     // Reset share text ONLY if platform actually uses it
-    if (config?.share?.includes("{TEXT}") || config?.share?.includes("{DESCRIPTION}")) {
+    if (config?.share?.includes("{TITLE}") || config?.share?.includes("{DESCRIPTION}")) {
       updateBuyItemField(ruleIndex, itemIndex, "social", "share_text", "{TITLE}");
     }
   };
@@ -73,7 +73,7 @@ export default function SocialItemEditor({
     if (!baseUrl) return;
 
     const finalUrl = baseUrl
-      .replace("{TEXT}", encodeURIComponent(value))
+      .replace("{TITLE}", encodeURIComponent(value))
       .replace("{DESCRIPTION}", encodeURIComponent(value));
 
     updateBuyItemField(ruleIndex, itemIndex, "social", "url", finalUrl);
@@ -243,7 +243,7 @@ export default function SocialItemEditor({
             placeholder={
               currentPlatform.share.includes("{DESCRIPTION}")
                 ? "{DESCRIPTION}"
-                : "{TEXT}"
+                : "{TITLE}"
             }
           />
         </S1Field>

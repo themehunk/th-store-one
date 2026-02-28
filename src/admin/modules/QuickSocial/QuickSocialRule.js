@@ -73,6 +73,8 @@ const newsocialTRule = () => ({
         image_url: "",
         url: "",
         social_choose: "profile",
+        phone: "{phone}",
+        message: "{message}",
       },
       professional: {
         selected_icon: "",

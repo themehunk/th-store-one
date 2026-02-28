@@ -11,7 +11,7 @@ export const PLATFORM_CONFIG = {
   },
   TWITTER: {
     label: "X",
-    share: "https://twitter.com/intent/tweet?url={PAGE_URL}&text={TEXT}",
+    share: "https://twitter.com/intent/tweet?url={PAGE_URL}&text={TITLE}",
     profile: "https://x.com/username",
   },
   LINKEDIN: {
@@ -26,7 +26,7 @@ export const PLATFORM_CONFIG = {
   },
   PINTEREST: {
     label: "Pinterest",
-    share: "https://pinterest.com/pin/create/button/?url={PAGE_URL}&description={TEXT}",
+    share: "https://pinterest.com/pin/create/button/?url={PAGE_URL}&description={TITLE}",
     profile: "https://pinterest.com/username",
   },
   TIKTOK: {
@@ -42,12 +42,12 @@ export const PLATFORM_CONFIG = {
   /* ================= MESSAGING ================= */
   whatsapp: {
     group: "messaging",
-    share: "https://wa.me/?text=POST_URL",
-    profile: "https://wa.me/phone",
+    share: "https://wa.me/?text={PAGE_URL}",
+    profile: "https://api.whatsapp.com/send?phone={MOBILE_NUMBER}&text={YOUR_MESSAGE}",
   },
   telegram: {
     group: "messaging",
-    share: "https://t.me/share/url?url=POST_URL",
+    share: "https://t.me/share/url?url={PAGE_URL}",
     profile: "https://t.me/username",
   },
   messenger: {

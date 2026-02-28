@@ -17,13 +17,15 @@ export default function MessagingItemEditor({
 
   /* ================= SAFE OBJECT ================= */
   const messaging = item.messaging || {
-    selected_icon: "",
-    icontype: "icon",
-    custom_svg: "",
-    image_url: "",
-    url: "",
-    social_choose: "profile",
-  };
+  selected_icon: "",
+  icontype: "icon",
+  custom_svg: "",
+  image_url: "",
+  url: "",
+  social_choose: "profile",
+   phone: "{phone}",
+  message: "{message}",
+};
 
   /* ================= NORMALIZED KEY ================= */
   const platformKey = messaging.selected_icon
@@ -34,25 +36,54 @@ export default function MessagingItemEditor({
 
   /* ================= AUTO URL FILL ================= */
   useEffect(() => {
-    if (!currentPlatform) return;
+  if (!currentPlatform) return;
 
-    const mode = messaging.social_choose || "profile";
+  const mode = messaging.social_choose || "profile";
 
-    const autoUrl =
-      mode === "share"
-        ? currentPlatform.share
-        : currentPlatform.profile;
+  let template =
+    mode === "share"
+      ? currentPlatform.share
+      : currentPlatform.profile;
 
-    if (autoUrl && messaging.url !== autoUrl) {
-      updateBuyItemField(
-        ruleIndex,
-        itemIndex,
-        "messaging",
-        "url",
-        autoUrl
-      );
-    }
-  }, [messaging.selected_icon, messaging.social_choose]);
+  if (!template) return;
+
+  let finalUrl = template;
+
+  // PHONE
+  if (template.includes("{MOBILE_NUMBER}")) {
+    const phoneValue =
+      messaging.phone && messaging.phone !== "{phone}"
+        ? messaging.phone
+        : "{MOBILE_NUMBER}";
+
+    finalUrl = finalUrl.replace("{MOBILE_NUMBER}", phoneValue);
+  }
+
+  // MESSAGE
+  if (template.includes("{YOUR_MESSAGE}")) {
+    const messageValue =
+      messaging.message && messaging.message !== "{message}"
+        ? encodeURIComponent(messaging.message)
+        : "{YOUR_MESSAGE}";
+
+    finalUrl = finalUrl.replace("{YOUR_MESSAGE}", messageValue);
+  }
+
+  if (messaging.url !== finalUrl) {
+    updateBuyItemField(
+      ruleIndex,
+      itemIndex,
+      "messaging",
+      "url",
+      finalUrl
+    );
+  }
+}, [
+  messaging.selected_icon,
+  messaging.social_choose,
+  messaging.phone,
+  messaging.message
+]);
 
   /* ================= PLATFORM SELECT ================= */
   const handlePlatformSelect = (platformId) => {
@@ -64,8 +95,16 @@ export default function MessagingItemEditor({
     const mode =
       config.share ? messaging.social_choose || "profile" : "profile";
 
-    const url =
+    let url =
       mode === "share" ? config.share : config.profile;
+
+    if (url?.includes("{MOBILE_NUMBER}")) {
+      url = url.replace("{MOBILE_NUMBER}", "{MOBILE_NUMBER}");
+    }
+
+    if (url?.includes("{YOUR_MESSAGE}")) {
+      url = url.replace("{YOUR_MESSAGE}", "{YOUR_MESSAGE}");
+    }
 
     updateBuyItemField(
       ruleIndex,
@@ -91,6 +130,8 @@ export default function MessagingItemEditor({
       url
     );
   };
+
+ 
 
   return (
     <>
@@ -255,6 +296,46 @@ export default function MessagingItemEditor({
           </S1Field>
         )}
 
+        {/* ================= PHONE + MESSAGE ================= */}
+{currentPlatform &&
+  messaging.social_choose === "profile" &&
+  currentPlatform.profile && (
+    <>
+      {currentPlatform.profile.includes("{MOBILE_NUMBER}") && (
+        <S1Field label="Phone Number">
+          <TextControl
+            value={messaging.phone || "{phone}"}
+            onChange={(v) =>
+              updateBuyItemField(
+                ruleIndex,
+                itemIndex,
+                "messaging",
+                "phone",
+                v || "{phone}"
+              )
+            }
+          />
+        </S1Field>
+      )}
+
+      {currentPlatform.profile.includes("{YOUR_MESSAGE}") && (
+        <S1Field label="Message">
+          <TextControl
+            value={messaging.message || "{message}"}
+            onChange={(v) =>
+              updateBuyItemField(
+                ruleIndex,
+                itemIndex,
+                "messaging",
+                "message",
+                v || "{message}"
+              )
+            }
+          />
+        </S1Field>
+      )}
+    </>
+)}
       {/* ================= URL ================= */}
       {currentPlatform && (
         <S1Field label="URL">
@@ -272,6 +353,8 @@ export default function MessagingItemEditor({
           />
         </S1Field>
       )}
+
+     
     </>
   );
 }
