@@ -35,7 +35,8 @@ import SocialItemEditor from "./SocialItemEditor";
 import MessagingItemEditor from "./MessagingItemEditor";
 import ContactItemEditor from "./ContactItemEditor";
 import ProfessionalItemEditor from "./ProfessionalItemEditor";
-import  BusinessItemEditor from "./BusinessItemEditor";
+import BusinessItemEditor from "./BusinessItemEditor";
+import OtherItemEditor from "./OtherItemEditor";
 /* Default Rule */
 const newsocialTRule = () => ({
   status: "active",
@@ -65,6 +66,8 @@ const newsocialTRule = () => ({
         image_url: "",
         url: "",
         social_choose: "profile",
+        phone: "",
+        message: "",
       },
       contact: {
         selected_icon: "",
@@ -73,6 +76,8 @@ const newsocialTRule = () => ({
         image_url: "",
         url: "",
         social_choose: "profile",
+         phone: "{PHONE}",
+         message: "{MESSAGE}",
       },
       professional: {
         selected_icon: "",
@@ -90,6 +95,13 @@ const newsocialTRule = () => ({
         url: "",
         social_choose: "profile",
         },
+      other: {
+        selected_icon: "",
+        icontype: "icon",
+        custom_svg: "",
+        image_url: "",
+        url: "", 
+      },
     },
   ],
   social_style: "style1",
@@ -120,21 +132,41 @@ const ICON_OPTIONS = [
 const MESSAGING_ICON_OPTIONS = [
   { id: "WHATSAPP", icon: ICONS.WHATSAPP },
   { id: "TELEGRAM", icon: ICONS.TELEGRAM },
+  { id: "MESSENGER", icon: ICONS.MESSENGER },
+  { id: "VIBER", icon: ICONS.VIBER },
+  { id: "SKYPE", icon: ICONS.SKYPE },
+  { id: "DISCORD", icon: ICONS.DISCORD },
+  { id: "LINE", icon: ICONS.LINE },
 ];
 
 const CONTACT_ICON_OPTIONS = [
   { id: "EMAIL", icon: ICONS.EMAIL },
   { id: "PHONE", icon: ICONS.PHONE },
   { id: "SMS", icon: ICONS.SMS },
+  { id: "GMAIL", icon: ICONS.GMAIL },
+  { id: "OUTLOOK", icon: ICONS.OUTLOOK },
 ];
 const PROFESSIONAL_ICON_OPTIONS = [
   { id: "GITHUB", icon: ICONS.GITHUB },
   { id: "BEHANCE", icon: ICONS.BEHANCE },
+  { id: "GITLAB", icon: ICONS.GITLAB },
+  { id: "DRIBBLE", icon: ICONS.DRIBBLE},
+  { id: "STACKOVERFLOW", icon: ICONS.STACKOVERFLOW },
 ];
 const BUSINESS_ICON_OPTIONS = [
   { id: "GOOGLE_MAPS", icon: ICONS.GOOGLE_MAPS },
   { id: "YELP", icon: ICONS.YELP },
+  { id: "TRUSTPILOT", icon: ICONS.TRUSTPILOT },
+  { id: "GOOGLEBUSS", icon: ICONS.GOOGLEBUSS },
+  { id: "TRIPADVISER", icon: ICONS.TRIPADVISER },
 ];
+const OTHER_ICON_OPTIONS = [
+  { id: "WEBSITE", icon: ICONS.WEBSITE },
+  { id: "RSS", icon: ICONS.RSS },
+  { id: "CUSTOM", icon: ICONS.CUSTOM },
+];
+
+
 /** menu tabs */
 /* ================= STYLE DEFAULTS (ADDED) ================= */
 const STYLE_DEFAULTS = {
@@ -300,17 +332,41 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
   };
 
   const updateBuyItemField = (ruleIndex, itemIndex, tab, field, value) => {
-    const list = [...rules[ruleIndex].social_list];
+  const list = [...rules[ruleIndex].social_list];
+  const item = { ...list[itemIndex] };
 
-    if (!list[itemIndex][tab]) {
-      list[itemIndex][tab] = {};
-    }
+  // Ensure tab object exists
+  if (!item[tab]) {
+    item[tab] = {};
+  }
 
-    list[itemIndex][tab] = {
-      ...list[itemIndex][tab],
-      [field]: value,
-    };
+  // Update current tab field
+  item[tab] = {
+    ...item[tab],
+    [field]: value,
+  };
 
+  /**
+   * 🔥 IMPORTANT PART
+   * If user selects an icon → reset all other tabs' selected_icon
+   */
+  if (field === "selected_icon" && value) {
+    const allTabs = ["social", "messaging", "contact", "professional", "business"];
+
+    allTabs.forEach((t) => {
+      if (t !== tab && item[t]) {
+        item[t] = {
+          ...item[t],
+          selected_icon: "",
+        };
+      }
+    });
+
+    // Also update active tab
+    item.itemTab = tab;
+  }
+
+  list[itemIndex] = item;
     updateSocialList(ruleIndex, list);
   };
 
@@ -353,7 +409,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
     return () => {
       window.removeEventListener("storeone:changeSocialStyle", handler);
     };
-  }, [rules]); // yaha dependency rehne do
+  }, [rules]); //
 
   const openMediaLibrary = (callback) => {
     const media = window.wp.media({
@@ -371,10 +427,27 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
   };
 
   const updateItemTab = (ruleIndex, itemIndex, tabId) => {
-    const list = [...rules[ruleIndex].social_list];
-    list[itemIndex].itemTab = tabId;
-    updateSocialList(ruleIndex, list);
-  };
+  const list = [...rules[ruleIndex].social_list];
+  const item = { ...list[itemIndex] };
+
+  // Update tab
+  item.itemTab = tabId;
+
+  // Reset all other tabs so only one stays active
+  const tabs = ["social", "messaging", "contact", "professional", "business","other"];
+
+  tabs.forEach((tab) => {
+    if (tab !== tabId) {
+      item[tab] = {
+        selected_icon: "",
+      };
+    }
+  });
+
+  list[itemIndex] = item;
+
+  updateSocialList(ruleIndex, list);
+};
 
   return (
     <div className="store-one-rules-container">
@@ -634,6 +707,20 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                                         updateBuyItemField={updateBuyItemField}
                                         openMediaLibrary={openMediaLibrary}
                                         ICON_OPTIONS={BUSINESS_ICON_OPTIONS}
+                                        />
+                                    ),
+                                    },
+                                     {
+                                    id: "other",
+                                    label: "Other",
+                                    content: (
+                                        <OtherItemEditor
+                                        item={item}
+                                        ruleIndex={index}
+                                        itemIndex={i}
+                                        updateBuyItemField={updateBuyItemField}
+                                        openMediaLibrary={openMediaLibrary}
+                                        ICON_OPTIONS={OTHER_ICON_OPTIONS}
                                         />
                                     ),
                                     },
