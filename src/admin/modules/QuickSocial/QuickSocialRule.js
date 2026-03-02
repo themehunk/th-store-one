@@ -117,6 +117,11 @@ const newsocialTRule = () => ({
   icon_hvr_clr: "#2563eb",
   icon_size: "18px",
   border_radius: "50%",
+  position_top: "50%",
+  position_bottom: "20px",
+  position_left: "10px",
+  position_right: "10px",
+  original_enabled:true,
 });
 
 const ICON_OPTIONS = [
@@ -447,8 +452,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
   list[itemIndex] = item;
 
   updateSocialList(ruleIndex, list);
-};
-
+  };
   return (
     <div className="store-one-rules-container">
       <h3 className="store-one-section-title">
@@ -776,7 +780,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                       <div className="store-one-rule-body">
                         <S1Field
                           label={__("Display Style", "store-one")}
-                          visible={true}
+                          visible={false}
                         >
                           <SelectControl
                             value={rule.social_style}
@@ -805,6 +809,16 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                             }}
                           />
                         </S1Field>
+                        <S1Field label={__('Enable Original', 'store-one')} classN="s1-toggle-wrpapper">
+                           <ToggleControl
+                            checked={rule.original_enabled}
+                             onChange={(v) =>
+                              updateField(index, "original_enabled", v)
+                            }
+                           />
+                        </S1Field>
+                        {!rule.original_enabled && (
+                         <>
                         <S1FieldGroup title={__("Icon", "store-one")}>
                           <S1Field>
                             <THBackgroundControl
@@ -862,6 +876,9 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                               }}
                             />
                           </S1Field>
+                          </S1FieldGroup>
+                          </>
+                          )}
                           <UniversalRangeControl
                             label={__("Icon Size", "store-one")}
                             responsive={false}
@@ -880,6 +897,56 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                             }
                             defaultValue="50%"
                           />
+                        
+                        <S1FieldGroup title={__("Position", "store-one")}>
+                          {(rule.social_style === 'style1' || rule.social_style === 'style2') && (
+                           <UniversalRangeControl
+                            label={__("Top", "store-one")}
+                            responsive={false}
+                            units={["%","px"]}
+                            value={rule.position_top}
+                            onChange={(v) =>
+                              updateField(index, "position_top", v)
+                            }
+                            defaultValue="50%"
+                          />
+                          )}
+                          {rule.social_style === 'style3' && (
+                          <UniversalRangeControl
+                            label={__("Bottom", "store-one")}
+                            responsive={false}
+                            units={["%","px"]}
+                            value={rule.position_bottom}
+                            onChange={(v) =>
+                              updateField(index, "position_bottom", v)
+                            }
+                            defaultValue="20px"
+                          />
+                           )}
+                           {rule.social_style === 'style1' && (
+                          <UniversalRangeControl
+                            label={__("Left", "store-one")}
+                            responsive={false}
+                            units={["%","px"]}
+                            value={rule.position_left}
+                            onChange={(v) =>
+                              updateField(index, "position_left", v)
+                            }
+                            defaultValue="10px"
+                          />
+                           )}
+                           {rule.social_style === 'style2' && (
+                          <UniversalRangeControl
+                            label={__("Right", "store-one")}
+                            responsive={false}
+                            units={["%","px"]}
+                            value={rule.position_right}
+                            onChange={(v) =>
+                              updateField(index, "position_right", v)
+                            }
+                            defaultValue="10px"
+                          />
+                           )}
                         </S1FieldGroup>
                       </div>
                     ),

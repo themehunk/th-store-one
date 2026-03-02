@@ -63,6 +63,7 @@
     align-items: center;
     justify-content: center;
     color:var(--s1-icon-color);
+    border-radius: var(--s1-border-radius);
 }
 
 .s1-quick-social__icon svg {
@@ -125,7 +126,10 @@ color: var(--s1-icon-hover-color);
     padding: 14px 14px 14px 0;
 }
 
-
+.s1-quick-social__icon svg{
+    width:var(--s1-icon-size);
+    height:var(--s1-icon-size);
+}
 /* ======================================
    STYLE 3 – BOTTOM CENTER BAR
 ====================================== */
@@ -147,6 +151,20 @@ color: var(--s1-icon-hover-color);
 } */
 
 
+
+.s1-quick-social--style1 {
+    left: var(--s1-left);
+    top: var(--s1-top);
+    transform: translateY(calc(-1 * var(--s1-top)));
+}
+.s1-quick-social--style2 {
+    right: var(--s1-right);
+    top: var(--s1-top);
+    transform: translateY(calc(-1 * var(--s1-top)));
+}
+.s1-quick-social--style3 {
+    bottom:var(--s1-bottom);
+}
 /* ======================================
    VISIBILITY CONTROL
 ====================================== */

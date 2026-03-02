@@ -483,25 +483,19 @@ const menuItems = [
                                
                                     {/* BUY LIST GROUP */}
                                 <S1FieldGroup title={__('Featured List Item', 'store-one')}>
-
-                                    <SortableWrapper
+                                        <SortableWrapper
                                         items={rule.buy_list}
                                         onSortEnd={(oldI, newI) =>
                                             reorderBuyList(index, oldI, newI)
                                         }
-                                    >
+                                        >
                                         {rule.buy_list?.map((item, i) => (
                                             <div key={item.id} className="store-one-rule-item inner">
-
                                                 <div className="store-one-rule-header">
                                                     <DragHandleDots2Icon className="drag-handle s1-icon" />
-
                                                     <strong className="s1-rule-title">
                                                     {sprintf(__('Item %d', 'store-one'), i + 1)}
                                                 </strong>
-
-                
-
                                                     <CopyIcon
                                                         className="s1-icon"
                                                         onClick={() => duplicateBuyItem(index, i)}
