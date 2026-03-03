@@ -24,12 +24,16 @@ export default function SocialItemEditor({
     url: "",
     social_choose: "share",
     share_text: "{TITLE}",
+    custom_label: "",
     ...(item.social || {}),
   };
 
   const currentPlatform =
     PLATFORM_CONFIG?.[social.selected_icon?.toUpperCase()];
-
+  const displayLabel =
+  social.custom_label ||
+  currentPlatform?.label ||
+  social.selected_icon;
   /* ================= AUTO FIX PROFILE MODE ================= */
   useEffect(() => {
     if (
@@ -98,8 +102,16 @@ export default function SocialItemEditor({
             social.selected_icon === id ? "active" : ""
           }`}
           onClick={() => handlePlatformSelect(id)}
-          title={PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id}
-          data-label={PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id} // ✅ ADD
+          title={
+            social.selected_icon === id
+              ? displayLabel
+              : PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id
+          }
+          data-label={
+            social.selected_icon === id
+              ? displayLabel
+              : PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id
+          }
         >
           {icon}
         </div>
@@ -210,6 +222,25 @@ export default function SocialItemEditor({
         </S1Field>
       )}
 
+      <S1Field label="Label (Optional)">
+        <TextControl
+          value={
+            social.custom_label ||
+            PLATFORM_CONFIG?.[social.selected_icon?.toUpperCase()]?.label ||
+            social.selected_icon
+          }
+          onChange={(v) =>
+            updateBuyItemField(
+              ruleIndex,
+              itemIndex,
+              "social",
+              "custom_label",
+              v
+            )
+          }
+        />
+      </S1Field>
+
       {/* ================= MODE ================= */}
       {currentPlatform &&
         currentPlatform.share &&
@@ -285,8 +316,7 @@ export default function SocialItemEditor({
           </div>
 
           <div className="s1-social-preview__name">
-            {PLATFORM_CONFIG?.[social.selected_icon?.toUpperCase()]?.label ||
-              social.selected_icon}
+           {displayLabel}
           </div>
 
           <div className="s1-social-preview__url">

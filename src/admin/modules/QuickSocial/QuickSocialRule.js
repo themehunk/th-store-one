@@ -58,6 +58,7 @@ const newsocialTRule = () => ({
         url: "",
         social_choose: "share",
         share_text: "{TITLE}",
+        custom_label: "",
       },
       messaging: {
         selected_icon: "",
@@ -122,6 +123,7 @@ const newsocialTRule = () => ({
   position_left: "10px",
   position_right: "10px",
   original_enabled: true,
+  max_show:"4",
 });
 
 const ICON_OPTIONS = [
@@ -862,6 +864,17 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                             }}
                           />
                         </S1Field>
+                         <UniversalRangeControl
+                              label={__("Max Show On Screen", "store-one")}
+                              responsive={false}
+                              value={rule.max_show}
+                               min={1}
+                               max={10}
+                              onChange={(v) =>
+                                updateField(index, "max_show", v)
+                              }
+                              defaultValue="4"
+                            />
                         <S1Field
                           label={__("Enable Original", "store-one")}
                           classN="s1-toggle-wrpapper"
