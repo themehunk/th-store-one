@@ -23,10 +23,15 @@ export default function ContactItemEditor({
     image_url: "",
     url: "",
     social_choose: "profile",
+     custom_label: "",
   };
 
   const currentPlatform =
     PLATFORM_CONFIG?.[contact.selected_icon?.toLowerCase()];
+    const displayLabel =
+  contact.custom_label ||
+  currentPlatform?.label ||
+  contact.selected_icon;
 
   /* ================= AUTO SET DEFAULT URL ================= */
   useEffect(() => {
@@ -75,8 +80,16 @@ export default function ContactItemEditor({
                 contact.selected_icon === id ? "active" : ""
               }`}
               onClick={() => handlePlatformSelect(id)}
-              title={PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id}
-              data-label={PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id}
+              title={
+            contact.selected_icon === id
+              ? displayLabel
+              : PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id
+          }
+          data-label={
+            contact.selected_icon === id
+              ? displayLabel
+              : PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id
+          }
             >
               {icon}
             </div>
@@ -203,6 +216,24 @@ export default function ContactItemEditor({
           />
         </S1Field>
       )}
+      <S1Field label="Label (Optional)">
+        <TextControl
+          value={
+            contact.custom_label ||
+            PLATFORM_CONFIG?.[contact.selected_icon?.toUpperCase()]?.label ||
+            contact.selected_icon
+          }
+          onChange={(v) =>
+            updateBuyItemField(
+              ruleIndex,
+              itemIndex,
+              "contact",
+              "custom_label",
+              v
+            )
+          }
+        />
+      </S1Field>
 
       {/* URL */}
       {currentPlatform && (
@@ -255,8 +286,7 @@ export default function ContactItemEditor({
 
       {/* PLATFORM NAME */}
       <div className="s1-social-preview__name">
-        {currentPlatform?.label ||
-          contact.selected_icon}
+         {displayLabel}
       </div>
 
       {/* URL PREVIEW */}

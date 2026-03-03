@@ -84,9 +84,9 @@
 ====================================== */
 
 .s1-quick-social--style1 {
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    left:var(--s1-left);
+    top:var(--s1-top, 50%);
+    transform: translateY(calc(-1 * var(--s1-top, 50%)));
 }
 
 .s1-quick-social--style1 .s1-quick-social__inner {
@@ -100,9 +100,9 @@
 ====================================== */
 
 .s1-quick-social--style2 {
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    right: var(--s1-right);
+    top:var(--s1-top, 50%);
+    transform: translateY(calc(-1 * var(--s1-top, 50%)));
 }
 
 .s1-quick-social--style2 .s1-quick-social__inner {
@@ -116,7 +116,7 @@
 ====================================== */
 
 .s1-quick-social--style3 {
-    bottom:20px;
+    bottom:var(--s1-bottom);
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
@@ -136,6 +136,149 @@
     border-radius: 50%;
 }
 
+
+/* ===================================================== */
+/* =============== BASE SOCIAL ITEM ==================== */
+/* ===================================================== */
+
+.s1-popup-icons .s1-quick-social__item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===================================================== */
+/* ===================== TOOLTIP ======================= */
+/* ===================================================== */
+
+/* Hidden by default */
+.s1-quick-social__item::before,
+.s1-quick-social__item::after {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Tooltip Box */
+.s1-quick-social__item[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background: #111;
+  color: #fff;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  opacity: 1;
+  transition: 0.18s ease;
+  z-index: 10000;
+}
+
+/* Tooltip Arrow */
+.s1-quick-social__item[data-tooltip]:hover::before {
+  content: "";
+  position: absolute;
+  bottom: 85%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: #111 transparent transparent transparent;
+  opacity: 1;
+  transition: 0.18s ease;
+  z-index: 10000;
+}
+
+/* Disable tooltip on + trigger */
+.s1-more-trigger::before,
+.s1-more-trigger::after {
+  display: none !important;
+}
+
+/* ===================================================== */
+/* ===================== + ICON ======================== */
+/* ===================================================== */
+
+.s1-more-trigger {
+  cursor: pointer;
+}
+
+/* ===================================================== */
+/* ===================== POPUP ========================= */
+/* ===================================================== */
+
+/* Fullscreen Overlay (Frontend Correct) */
+.s1-popup-overlay {
+  position: fixed;   /* IMPORTANT FIX */
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: none;     /* controlled by JS */
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+}
+
+/* Popup Box */
+.s1-popup-content {
+  position: relative;
+  background: #2a2a2a;
+  color: #fff;
+  padding: 30px;
+  border-radius: 16px;
+  width: 480px;
+  max-width: 95%;
+  overflow: visible; /* tooltip inside popup visible */
+  animation: s1PopupScale 0.25s ease;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* Close Button */
+.s1-popup-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.s1-popup-close:hover {
+  transform: rotate(90deg);
+}
+
+/* Icons Layout */
+.s1-popup-icons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+}
+
+/* ===================================================== */
+/* ===================== ANIMATION ===================== */
+/* ===================================================== */
+
+@keyframes s1PopupScale {
+  from {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
 /* ======================================
    VISIBILITY CONTROL
 ====================================== */

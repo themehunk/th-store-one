@@ -22,12 +22,18 @@ export default function BusinessItemEditor({
     custom_svg: "",
     image_url: "",
     url: "",
+     custom_label: "",
   };
 
   /* ================= SAFE CONFIG ACCESS ================= */
   const currentPlatform =
     PLATFORM_CONFIG?.[business.selected_icon?.toLowerCase()] ||
     PLATFORM_CONFIG?.[business.selected_icon?.toUpperCase()];
+
+    const displayLabel =
+  business.custom_label ||
+  currentPlatform?.label ||
+  business.selected_icon;
 
   /* ================= AUTO FILL URL ON SELECT ================= */
   useEffect(() => {
@@ -81,8 +87,16 @@ export default function BusinessItemEditor({
                 business.selected_icon === id ? "active" : ""
               }`}
               onClick={() => handlePlatformSelect(id)}
-              title={PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id}
-              data-label={PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id}
+             title={
+            business.selected_icon === id
+              ? displayLabel
+              : PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id
+          }
+          data-label={
+            business.selected_icon === id
+              ? displayLabel
+              : PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id
+          }
               >
               {icon}
             </div>
@@ -210,6 +224,25 @@ export default function BusinessItemEditor({
         </S1Field>
       )}
 
+      <S1Field label="Label (Optional)">
+        <TextControl
+          value={
+            business.custom_label ||
+            PLATFORM_CONFIG?.[business.selected_icon?.toUpperCase()]?.label ||
+            business.selected_icon
+          }
+          onChange={(v) =>
+            updateBuyItemField(
+              ruleIndex,
+              itemIndex,
+              "business",
+              "custom_label",
+              v
+            )
+          }
+        />
+      </S1Field>
+
       {/* ================= URL ================= */}
       {business.selected_icon && (
         <S1Field label="URL">
@@ -261,8 +294,7 @@ export default function BusinessItemEditor({
 
       {/* PLATFORM NAME */}
       <div className="s1-social-preview__name">
-        {currentPlatform?.label ||
-          business.selected_icon}
+        {displayLabel}
       </div>
 
       {/* URL PREVIEW */}

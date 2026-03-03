@@ -20,11 +20,17 @@ export default function OtherItemEditor({
     custom_svg: "",
     image_url: "",
     url: "",
+     custom_label: "",
     ...(item.other || {}),
   };
 
   const currentPlatform =
     PLATFORM_CONFIG?.[other.selected_icon?.toLowerCase()];
+
+    const displayLabel =
+  other.custom_label ||
+  currentPlatform?.label ||
+  other.selected_icon;
 
   /* ================= AUTO URL SET ================= */
   useEffect(() => {
@@ -59,8 +65,16 @@ export default function OtherItemEditor({
                 other.selected_icon === id ? "active" : ""
               }`}
               onClick={() => handlePlatformSelect(id)}
-              title={PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id}
-              data-label={PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id}
+              title={
+            other.selected_icon === id
+              ? displayLabel
+              : PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id
+          }
+          data-label={
+            other.selected_icon === id
+              ? displayLabel
+              : PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id
+          }
              >
             {icon}
             </div>
@@ -169,7 +183,24 @@ export default function OtherItemEditor({
           />
         </S1Field>
       )}
-
+<S1Field label="Label (Optional)">
+        <TextControl
+          value={
+            other.custom_label ||
+            PLATFORM_CONFIG?.[other.selected_icon?.toUpperCase()]?.label ||
+            other.selected_icon
+          }
+          onChange={(v) =>
+            updateBuyItemField(
+              ruleIndex,
+              itemIndex,
+              "other",
+              "custom_label",
+              v
+            )
+          }
+        />
+      </S1Field>
       {/* ================= URL FIELD ================= */}
       <S1Field label="URL">
         <TextControl
@@ -220,8 +251,7 @@ export default function OtherItemEditor({
 
       {/* PLATFORM NAME */}
       <div className="s1-social-preview__name">
-        {currentPlatform?.label ||
-          other.selected_icon}
+       {displayLabel}
       </div>
 
       {/* URL PREVIEW */}

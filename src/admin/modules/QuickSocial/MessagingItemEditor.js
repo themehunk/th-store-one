@@ -26,14 +26,19 @@ export default function MessagingItemEditor({
   social_choose: "profile",
     phone: "{phone}",
   message: "{message}",
+  custom_label: "",
   };
 
   /* ================= NORMALIZED KEY ================= */
   const platformKey = messaging.selected_icon
     ? messaging.selected_icon.toLowerCase()
     : "";
-
-  const currentPlatform = PLATFORM_CONFIG?.[platformKey];
+    const currentPlatform = PLATFORM_CONFIG?.[platformKey];
+const displayLabel =
+  messaging.custom_label ||
+  currentPlatform?.label ||
+  messaging.selected_icon;
+  
 
   /* ================= AUTO URL FILL ================= */
   useEffect(() => {
@@ -145,8 +150,16 @@ export default function MessagingItemEditor({
                 messaging.selected_icon === id ? "active" : ""
               }`}
               onClick={() => handlePlatformSelect(id)}
-              title={PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id}
-              data-label={PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id}
+              title={
+            messaging.selected_icon === id
+              ? displayLabel
+              : PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id
+          }
+          data-label={
+            messaging.selected_icon === id
+              ? displayLabel
+              : PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id
+          }
             >
             {icon}
             </div>
@@ -180,7 +193,7 @@ export default function MessagingItemEditor({
           <S1Field>
             {ICONS[messaging.selected_icon?.toUpperCase()]}
           </S1Field>
-        )} */}
+        )} */} 
 
       {/* ================= IMAGE UPLOAD (SOCIAL STYLE) ================= */}
       {messaging.icontype === "image" && (
@@ -272,7 +285,24 @@ export default function MessagingItemEditor({
           />
         </S1Field>
       )}
-
+<S1Field label="Label (Optional)">
+        <TextControl
+          value={
+            messaging.custom_label ||
+            PLATFORM_CONFIG?.[messaging.selected_icon?.toUpperCase()]?.label ||
+            messaging.selected_icon
+          }
+          onChange={(v) =>
+            updateBuyItemField(
+              ruleIndex,
+              itemIndex,
+              "messaging",
+              "custom_label",
+              v
+            )
+          }
+        />
+      </S1Field>
       {/* ================= MODE ================= */}
       {currentPlatform &&
         currentPlatform.share &&
@@ -385,8 +415,7 @@ export default function MessagingItemEditor({
 
           {/* PLATFORM NAME */}
           <div className="s1-social-preview__name">
-            {currentPlatform?.label ||
-              messaging.selected_icon}
+            {displayLabel}
           </div>
 
           {/* URL PREVIEW */}

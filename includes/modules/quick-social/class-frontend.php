@@ -15,6 +15,7 @@ class StoreOne_Quick_Social {
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
         add_action( 'wp_footer', array( $this, 'render_auto' ), 99 );
         add_shortcode( 'storeone_quick_social', array( $this, 'shortcode' ) );
+        
     }
 
     public function enqueue_assets() {
@@ -25,6 +26,13 @@ class StoreOne_Quick_Social {
             array(),
             STORE_ONE_VERSION
         );
+        wp_enqueue_script(
+        'storeone-quick-social-js',
+        STORE_ONE_PLUGIN_URL . 'assets/js/quick-social.js',
+        array(),
+        STORE_ONE_VERSION,
+        true
+    );
     }
 
     public function render_auto() {
@@ -62,35 +70,106 @@ class StoreOne_Quick_Social {
                  style="<?php echo esc_attr( $this->generate_inline_styles( $rule ) ); ?>">
 
                 <div class="s1-quick-social__inner">
+            <?php
+            $social_list = $rule['social_list'] ?? array();
+            $visible_limit = $rule['max_show'] ?? 4;
 
-                    <?php foreach ( $rule['social_list'] ?? array() as $item ) :
+            $visible_items = array_slice( $social_list, 0, $visible_limit );
+            $hidden_items  = array_slice( $social_list, $visible_limit );
+            ?>
+            <?php foreach ( $visible_items as $item ) :
 
-                        $tab  = $item['itemTab'] ?? 'social';
-                        $data = $item[$tab] ?? array();
-                        $url = $this->build_dynamic_url( $data );
-                        if ( empty( $url ) ) continue;
+                $tab  = $item['itemTab'] ?? 'social';
+                $data = $item[$tab] ?? array();
+                $url  = $this->build_dynamic_url( $data );
+                if ( empty( $url ) ) continue;
+
+                $label = ! empty( $data['custom_label'] )
+                    ? $data['custom_label']
+                    : ucfirst( $data['selected_icon'] ?? '' );
+            ?>
+            <?php
+            $brand_style = '';
+
+            if ( ! empty( $rule['original_enabled'] ) ) {
+                $brand_style = $this->get_brand_style( $data['selected_icon'] ?? '' );
+            }
+            ?>
+                <a href="<?php echo esc_url( $url ); ?>"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="s1-quick-social__item"
+                data-tooltip="<?php echo esc_attr( $label ); ?>"
+                style="<?php echo esc_attr( $brand_style ); ?>">
+
+                    <span class="s1-quick-social__icon">
+                        <?php echo $this->get_icon_markup( $data ); ?>
+                    </span>
+
+                </a>
+                <?php endforeach; ?>
+                    <?php if ( ! empty( $hidden_items ) ) : ?>
+                        <span class="s1-quick-social__item s1-more-trigger"
+                            data-tooltip="More">
+
+                            <span class="s1-quick-social__icon">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                            <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                            </span>
+
+                        </span>
+                    <?php endif; ?>
+
+                            </div>
+
+                        </div>
+                    <?php if ( ! empty( $social_list ) ) : ?>
+                <div class="s1-popup-overlay" style="<?php echo esc_attr( $this->generate_inline_styles( $rule ) ); ?>">
+                <div class="s1-popup-content">
+
+                    <div class="s1-popup-header">
+                        <button class="s1-popup-close">&times;</button>
+                    </div>
+
+                    <div class="s1-popup-icons">
+                        <?php foreach ( $social_list as $item ) :
+
+                            $tab  = $item['itemTab'] ?? 'social';
+                            $data = $item[$tab] ?? array();
+                            $url  = $this->build_dynamic_url( $data );
+                            if ( empty( $url ) ) continue;
+
+                            $label = ! empty( $data['custom_label'] )
+                                ? $data['custom_label']
+                                : ucfirst( $data['selected_icon'] ?? '' );
+                                $brand_style = '';
+                            if ( ! empty( $rule['original_enabled'] ) ) {
+                                $brand_style = $this->get_brand_style( $data['selected_icon'] ?? '' );
+                            }
                         ?>
-
-                        <a href="<?php echo esc_url( $url ); ?>"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="s1-quick-social__item">
-
+                            <a href="<?php echo esc_url( $url ); ?>"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="s1-quick-social__item"
+                            data-tooltip="<?php echo esc_attr( $label ); ?>"
+                            style="<?php echo esc_attr( $brand_style ); ?>"
+                            >
                             <span class="s1-quick-social__icon">
                                 <?php echo $this->get_icon_markup( $data ); ?>
                             </span>
-
-                        </a>
-
-                    <?php endforeach; ?>
+                            </a>
+                        <?php endforeach; ?>
+                    </div>
 
                 </div>
             </div>
-            <?php
-        }
+            <?php endif; ?>
+                        <?php
+                    }
 
-        return ob_get_clean();
-    }
+                    return ob_get_clean();
+                }
 
     /* ================= DYNAMIC URL BUILDER ================= */
 
@@ -98,9 +177,39 @@ class StoreOne_Quick_Social {
 
     if ( empty( $data ) ) return '';
 
-    $mode       = $data['social_choose'] ?? 'share';
-    $custom_url = trim( $data['url'] ?? '' );
     $platform   = strtoupper( $data['selected_icon'] ?? '' );
+    $custom_url = trim( $data['url'] ?? '' );
+
+    /* ================= OTHER TAB FIX ================= */
+
+    if ( ! isset( $data['social_choose'] ) ) {
+
+        if ( empty( $custom_url ) || $custom_url === '{CUSTOM_URL}' ) {
+            return '';
+        }
+
+        if ( ! preg_match( '#^(https?|mailto|tel|sms):#', $custom_url ) ) {
+            $custom_url = 'https://' . $custom_url;
+        }
+
+        return esc_url( $custom_url );
+    }
+
+    /* ================= NORMAL FLOW ================= */
+
+    $mode = $data['social_choose'] ?? 'share';
+
+    if ( $mode === 'profile' ) {
+
+        if ( empty( $custom_url ) ) return '';
+
+        if ( ! preg_match( '#^(https?|mailto|tel|sms):#', $custom_url ) ) {
+            $custom_url = 'https://' . $custom_url;
+        }
+
+        return esc_url( $custom_url );
+    }
+
 
     /* ================= PROFILE MODE ================= */
     if ( $mode === 'profile' ) {
@@ -197,7 +306,7 @@ class StoreOne_Quick_Social {
             return ! empty( $custom_url ) ? esc_url( $custom_url ) : '';
 
         default:
-            return '';
+            return esc_url( $custom_url );
     }
    }
 
@@ -205,22 +314,94 @@ class StoreOne_Quick_Social {
 
     private function generate_inline_styles( $rule ) {
 
+    $output = '';
+
+    /* ================= BRAND MODE ================= */
+    if ( ! empty( $rule['original_enabled'] ) ) {
+
+        // Disable custom dynamic colors
+        $output .= '--s1-icon-bg:transparent;';
+        $output .= '--s1-icon-color:inherit;';
+        $output .= '--s1-icon-bg-hover:transparent;';
+        $output .= '--s1-icon-color-hover:inherit;';
+
+    } else {
+
         $styles = array(
             '--s1-icon-color'       => $rule['icon_clr'] ?? '#111',
             '--s1-icon-bg'          => $rule['icon_bg_clr'] ?? '#fff',
             '--s1-icon-bg-hover'    => $rule['icon_bg_hvr_clr'] ?? '#eee',
             '--s1-icon-color-hover' => $rule['icon_hvr_clr'] ?? '#2563eb',
-            '--s1-icon-size'        => $rule['icon_size'] ?? '18px',
-            '--s1-border-radius'    => $rule['border_radius'] ?? '50%',
         );
 
-        $output = '';
         foreach ( $styles as $key => $value ) {
             $output .= $key . ':' . esc_attr( $value ) . ';';
         }
-
-        return $output;
     }
+
+    /* ALWAYS APPLY THESE */
+    $output .= '--s1-icon-size:' . esc_attr( $rule['icon_size'] ?? '18px' ) . ';';
+    $output .= '--s1-border-radius:' . esc_attr( $rule['border_radius'] ?? '50%' ) . ';';
+    $output .= '--s1-top:' . esc_attr( $rule['position_top'] ?? '50%' ) . ';';
+    $output .= '--s1-left:' . esc_attr( $rule['position_left'] ?? '10px' ) . ';';
+    $output .= '--s1-bottom:' . esc_attr( $rule['position_bottom'] ?? '20px' ) . ';';
+    $output .= '--s1-right:' . esc_attr( $rule['position_right'] ?? '10px' ) . ';';
+
+    return $output;
+}
+
+private function get_brand_style( $icon ) {
+
+    $icon = strtoupper( $icon );
+
+    $colors = array(
+    'FACEBOOK'      => '#1877F2',
+    'INSTAGRAM'     => '#E4405F',
+    'TWITTER'       => '#000000',
+    'LINKEDIN'      => '#0A66C2',
+    'YOUTUBE'       => '#FF0000',
+    'PINTEREST'     => '#E60023',
+    'TIKTOK'        => '#000000',
+    'SNAPCHAT'      => '#FFFC00',
+    'TELEGRAM'      => '#0088CC',
+    'WHATSAPP'      => '#25D366',
+    'MESSENGER'     => '#0084FF',
+    'VIBER'         => '#7360F2',
+    'WECHAT'        => '#07C160',
+    'LINE'          => '#00C300',
+    'SKYPE'         => '#00AFF0',
+    'DISCORD'       => '#5865F2',
+    'EMAIL'         => '#EA4335',
+    'GMAIL'         => '#EA4335',
+    'OUTLOOK'       => '#0078D4',
+    'PHONE'         => '#34B7F1',
+    'SMS'           => '#4CAF50',
+    'GITHUB'        => '#181717',
+    'BEHANCE'       => '#1769FF',
+    'GITLAB'        => '#FC6D26',
+    'STACKOVERFLOW' => '#F48024',
+    'DRIBBLE'       => '#EA4C89',
+    'GOOGLE_MAPS'   => '#EA4335',
+    'YELP'          => '#D32323',
+    'GOOGLEBUSS'    => '#4285F4',
+    'TRUSTPILOT'    => '#00B67A',
+    'TRIPADVISER'   => '#34E0A1',
+    'WEBSITE'       => '#2563EB',
+    'RSS'           => '#FF6600',
+    'CUSTOM'        => '#6B7280',
+);
+
+    /* Instagram Special Gradient */
+    if ( $icon === 'INSTAGRAM' ) {
+        return 'background:linear-gradient(45deg,#F58529,#DD2A7B,#8134AF,#515BD4);color:#fff;';
+    }
+
+    if ( isset( $colors[$icon] ) ) {
+        return 'background:' . esc_attr( $colors[$icon] ) . ';color:#fff;';
+    }
+
+    return '';
+}
 
     /* ================= TRIGGER LOGIC FIXED ================= */
 
@@ -312,9 +493,9 @@ class StoreOne_Quick_Social {
   </svg>';
 
             case 'SNAPCHAT':
-                return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-    <path d="M12 2c-3.866 0-7 3.134-7 7 0 1.57.518 3.017 1.393 4.183C5.534 14.11 5 15.49 5 17c0 2.761 3.134 5 7 5s7-2.239 7-5c0-1.51-.534-2.89-1.393-3.817C18.482 12.017 19 10.57 19 9c0-3.866-3.134-7-7-7zm0 2c2.761 0 5 2.239 5 5 0 1.1-.36 2.116-.968 2.937C15.41 12.56 15 13.23 15 14c0 .552.448 1 1 1s1-.448 1-1c0-.403.16-.768.423-1.033C17.785 12.24 18 11.15 18 10c0-3.314-2.686-6-6-6s-6 2.686-6 6c0 1.15.215 2.24.577 3.217C6.84 13.232 7 13.597 7 14c0 .552.448 1 1 1s1-.448 1-1c0-.77-.41-1.44-1.032-2.063C7.36 11.116 7 10.1 7 9c0-2.761 2.239-5 5-5zm0 14c-2.761 0-5-1.343-5-3 0-.414.336-.75.75-.75s.75.336.75.75c0 .828 1.567 1.5 3.5 1.5s3.5-.672 3.5-1.5c0-.414.336-.75.75-.75s.75.336.75.75c0 1.657-2.239 3-5 3z" />
-  </svg>';
+                return '<svg width="18" height="18" fill="currentColor" class="bi bi-snapchat" viewBox="0 0 16 16">
+  <path d="M15.943 11.526c-.111-.303-.323-.465-.564-.599a1 1 0 0 0-.123-.064l-.219-.111c-.752-.399-1.339-.902-1.746-1.498a3.4 3.4 0 0 1-.3-.531c-.034-.1-.032-.156-.008-.207a.3.3 0 0 1 .097-.1c.129-.086.262-.173.352-.231.162-.104.289-.187.371-.245.309-.216.525-.446.66-.702a1.4 1.4 0 0 0 .069-1.16c-.205-.538-.713-.872-1.329-.872a1.8 1.8 0 0 0-.487.065c.006-.368-.002-.757-.035-1.139-.116-1.344-.587-2.048-1.077-2.61a4.3 4.3 0 0 0-1.095-.881C9.764.216 8.92 0 7.999 0s-1.76.216-2.505.641c-.412.232-.782.53-1.097.883-.49.562-.96 1.267-1.077 2.61-.033.382-.04.772-.036 1.138a1.8 1.8 0 0 0-.487-.065c-.615 0-1.124.335-1.328.873a1.4 1.4 0 0 0 .067 1.161c.136.256.352.486.66.701.082.058.21.14.371.246l.339.221a.4.4 0 0 1 .109.11c.026.053.027.11-.012.217a3.4 3.4 0 0 1-.295.52c-.398.583-.968 1.077-1.696 1.472-.385.204-.786.34-.955.8-.128.348-.044.743.28 1.075q.18.189.409.31a4.4 4.4 0 0 0 1 .4.7.7 0 0 1 .202.09c.118.104.102.26.259.488q.12.178.296.3c.33.229.701.243 1.095.258.355.014.758.03 1.217.18.19.064.389.186.618.328.55.338 1.305.802 2.566.802 1.262 0 2.02-.466 2.576-.806.227-.14.424-.26.609-.321.46-.152.863-.168 1.218-.181.393-.015.764-.03 1.095-.258a1.14 1.14 0 0 0 .336-.368c.114-.192.11-.327.217-.42a.6.6 0 0 1 .19-.087 4.5 4.5 0 0 0 1.014-.404c.16-.087.306-.2.429-.336l.004-.005c.304-.325.38-.709.256-1.047m-1.121.602c-.684.378-1.139.337-1.493.565-.3.193-.122.61-.34.76-.269.186-1.061-.012-2.085.326-.845.279-1.384 1.082-2.903 1.082s-2.045-.801-2.904-1.084c-1.022-.338-1.816-.14-2.084-.325-.218-.15-.041-.568-.341-.761-.354-.228-.809-.187-1.492-.563-.436-.24-.189-.39-.044-.46 2.478-1.199 2.873-3.05 2.89-3.188.022-.166.045-.297-.138-.466-.177-.164-.962-.65-1.18-.802-.36-.252-.52-.503-.402-.812.082-.214.281-.295.49-.295a1 1 0 0 1 .197.022c.396.086.78.285 1.002.338q.04.01.082.011c.118 0 .16-.06.152-.195-.026-.433-.087-1.277-.019-2.066.094-1.084.444-1.622.859-2.097.2-.229 1.137-1.22 2.93-1.22 1.792 0 2.732.987 2.931 1.215.416.475.766 1.013.859 2.098.068.788.009 1.632-.019 2.065-.01.142.034.195.152.195a.4.4 0 0 0 .082-.01c.222-.054.607-.253 1.002-.338a1 1 0 0 1 .197-.023c.21 0 .409.082.49.295.117.309-.04.56-.401.812-.218.152-1.003.638-1.18.802-.184.169-.16.3-.139.466.018.14.413 1.991 2.89 3.189.147.073.394.222-.041.464"/>
+</svg>';
   case 'WHATSAPP':
                 return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
       <path d="M12.04 2C6.58 2 2.2 6.38 2.2 11.84c0 1.92.5 3.7 1.46 5.28L2 22l5-1.6a9.79 9.79 0 0 0 5.04 1.36c5.46 0 9.84-4.38 9.84-9.84S17.5 2 12.04 2zm0 17.9c-1.6 0-3.15-.42-4.5-1.22l-.32-.18-2.96.95.97-2.88-.2-.33a7.78 7.78 0 0 1-1.2-4.2c0-4.34 3.53-7.88 7.88-7.88 4.35 0 7.88 3.54 7.88 7.88 0 4.35-3.53 7.88-7.88 7.88zm4.35-5.92c-.24-.12-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.44-1.34-1.68-.14-.24-.02-.36.1-.48.1-.1.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.48-.4-.42-.54-.42h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2 0 1.18.86 2.32.98 2.48.12.16 1.7 2.6 4.12 3.64.58.26 1.04.42 1.4.54.58.18 1.1.16 1.52.1.46-.06 1.42-.58 1.62-1.14.2-.56.2-1.04.14-1.14-.06-.1-.22-.16-.46-.28z" />
@@ -433,11 +614,31 @@ case 'PHONE':
     >
       <path d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 008 10.95c.6.1.82-.25.82-.56v-2.02c-3.26.7-3.95-1.57-3.95-1.57-.55-1.38-1.34-1.75-1.34-1.75-1.1-.75.08-.74.08-.74 1.22.08 1.86 1.25 1.86 1.25 1.08 1.85 2.83 1.32 3.52 1.01.1-.78.42-1.32.76-1.63-2.6-.3-5.33-1.3-5.33-5.77 0-1.27.45-2.3 1.2-3.1-.12-.3-.52-1.52.11-3.17 0 0 .98-.31 3.2 1.18a11.1 11.1 0 015.84 0c2.21-1.5 3.2-1.18 3.2-1.18.63 1.65.23 2.87.11 3.17.75.8 1.2 1.83 1.2 3.1 0 4.48-2.73 5.47-5.34 5.76.43.37.81 1.1.81 2.22v3.3c0 .31.21.67.83.56A11.5 11.5 0 0023.5 12C23.5 5.65 18.35.5 12 .5z" />
     </svg>';
-    case 'GITLAB':
-    return '<svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-      <path d="M22.65 14.39L12 22.5 1.35 14.39a1 1 0 01-.36-1.1L3.3 6.1a.8.8 0 011.5-.08l2.1 6.55h10.2l2.1-6.55a.8.8 0 011.5.08l2.31 7.19a1 1 0 01-.36 1.1z" />
+ case 'VIBER':
+     return '
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path d="M12 2C6.48 2 2 5.58 2 10c0 2.39 1.34 4.55 3.5 6.04V20l3.04-1.67c1.07.3 2.2.47 3.46.47 5.52 0 10-3.58 10-8s-4.48-8-10-8zm3.64 11.27c-.18.51-.94.96-1.29 1.01-.34.05-.77.07-1.24-.08-.29-.1-.66-.22-1.14-.43-2.01-.87-3.32-2.91-3.42-3.05-.09-.14-.82-1.09-.82-2.08 0-.99.52-1.47.7-1.67.18-.2.39-.25.52-.25.13 0 .26 0 .37.01.12 0 .28-.05.44.34.17.41.57 1.42.62 1.53.05.11.08.24.02.38-.06.14-.09.22-.18.34-.09.11-.18.25-.26.33-.09.09-.18.19-.08.38.1.19.46.76.98 1.23.68.6 1.25.79 1.43.88.18.09.29.08.39-.05.1-.13.43-.5.54-.67.11-.17.22-.14.37-.08.15.05.96.45 1.12.53.16.08.27.12.31.19.05.07.05.41-.13.92z" />
     </svg>';
-    
+    case 'SKYPE':
+     return '
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path d="M12 2a7 7 0 00-6.9 8.1A5.5 5.5 0 0012 22a7 7 0 006.9-8.1A5.5 5.5 0 0012 2zm.3 12.7c-2.1 0-3.4-1.2-3.4-2.8h1.8c.1.8.6 1.3 1.6 1.3.8 0 1.3-.3 1.3-.9 0-.6-.5-.8-1.6-1-1.9-.4-3-1-3-2.6 0-1.6 1.3-2.6 3.2-2.6 1.9 0 3.1 1 3.2 2.6h-1.8c-.1-.7-.6-1.1-1.4-1.1-.7 0-1.2.3-1.2.8 0 .6.6.8 1.8 1.1 1.9.4 2.9 1 2.9 2.6 0 1.7-1.4 2.6-3.4 2.6z" />
+    </svg>';
+     case 'DISCORD':
+     return '
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path d="M20.3 4.1A19.8 19.8 0 0016.7 3c-.2.4-.4.9-.6 1.3-1.6-.2-3.2-.2-4.8 0-.2-.4-.4-.9-.6-1.3-1.2.2-2.4.6-3.6 1.1C4.6 8 4 11.8 4.3 15.6c1.5 1.1 3 1.8 4.5 2.2.4-.6.8-1.2 1.1-1.9-.5-.2-1-.5-1.5-.8.1-.1.2-.2.3-.3 2.9 1.4 6 1.4 8.9 0 .1.1.2.2.3.3-.5.3-1 .6-1.5.8.3.7.7 1.3 1.1 1.9 1.5-.4 3-1.1 4.5-2.2.4-4.3-.7-8.1-2.7-11.5zM9.8 13.8c-.8 0-1.4-.8-1.4-1.8s.6-1.8 1.4-1.8c.8 0 1.4.8 1.4 1.8s-.6 1.8-1.4 1.8zm4.4 0c-.8 0-1.4-.8-1.4-1.8s.6-1.8 1.4-1.8c.8 0 1.4.8 1.4 1.8s-.6 1.8-1.4 1.8z" />
+    </svg>';
+    case 'LINE':
+     return '
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path d="M12 2C6.48 2 2 5.58 2 10c0 3.53 3.58 6.39 8 6.39.72 0 1.41-.08 2.07-.22L15 19l-.76-3.03C17.64 14.83 20 12.6 20 10c0-4.42-4.48-8-8-8zm-3 6h2v4H9V8zm3 0h2v4h-2V8z" />
+    </svg>';
+    case 'EMAIL':
+     return '
+    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+      <path d="M2 4h20c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H2c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm10 7L2 6v12h20V6l-10 5z" />
+    </svg>';
 
 default:
     return '';

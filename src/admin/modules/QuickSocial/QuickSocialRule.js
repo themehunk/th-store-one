@@ -69,6 +69,7 @@ const newsocialTRule = () => ({
         social_choose: "profile",
         phone: "",
         message: "",
+         custom_label: "",
       },
       contact: {
         selected_icon: "",
@@ -79,6 +80,7 @@ const newsocialTRule = () => ({
         social_choose: "profile",
         phone: "{PHONE}",
         message: "{MESSAGE}",
+         custom_label: "",
       },
       professional: {
         selected_icon: "",
@@ -87,6 +89,7 @@ const newsocialTRule = () => ({
         image_url: "",
         url: "",
         social_choose: "profile",
+         custom_label: "",
       },
       business: {
         selected_icon: "",
@@ -95,6 +98,7 @@ const newsocialTRule = () => ({
         image_url: "",
         url: "",
         social_choose: "profile",
+         custom_label: "",
       },
       other: {
         selected_icon: "",
@@ -102,6 +106,7 @@ const newsocialTRule = () => ({
         custom_svg: "",
         image_url: "",
         url: "",
+         custom_label: "",
       },
     },
   ],
@@ -353,7 +358,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
     };
 
     /**
-     * 🔥 IMPORTANT PART
+     * IMPORTANT PART
      * If user selects an icon → reset all other tabs' selected_icon
      */
     if (field === "selected_icon" && value) {
@@ -363,6 +368,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
         "contact",
         "professional",
         "business",
+        "other",
       ];
 
       allTabs.forEach((t) => {

@@ -23,12 +23,17 @@ export default function ProfessionalItemEditor({
     image_url: "",
     url: "",
     social_choose: "profile",
+     custom_label: "",
   };
 
   /* ================= SAFE CONFIG ================= */
   const currentPlatform =
     PLATFORM_CONFIG?.[professional.selected_icon?.toLowerCase()] ||
     PLATFORM_CONFIG?.[professional.selected_icon?.toUpperCase()];
+    const displayLabel =
+  professional.custom_label ||
+  currentPlatform?.label ||
+  professional.selected_icon;
 
   /* ================= AUTO PROFILE DEFAULT ================= */
   useEffect(() => {
@@ -78,8 +83,16 @@ export default function ProfessionalItemEditor({
                 professional.selected_icon === id ? "active" : ""
               }`}
               onClick={() => handlePlatformSelect(id)}
-              title={PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id}
-              data-label={PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id}
+              title={
+            professional.selected_icon === id
+              ? displayLabel
+              : PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id
+          }
+          data-label={
+            professional.selected_icon === id
+              ? displayLabel
+              : PLATFORM_CONFIG?.[id?.toUpperCase()]?.label || id
+          }
               >
               {icon}
             </div>
@@ -195,6 +208,24 @@ export default function ProfessionalItemEditor({
           />
         </S1Field>
       )}
+      <S1Field label="Label (Optional)">
+        <TextControl
+          value={
+            professional.custom_label ||
+            PLATFORM_CONFIG?.[professional.selected_icon?.toUpperCase()]?.label ||
+            professional.selected_icon
+          }
+          onChange={(v) =>
+            updateBuyItemField(
+              ruleIndex,
+              itemIndex,
+              "professional",
+              "custom_label",
+              v
+            )
+          }
+        />
+      </S1Field>
 
       {/* ================= URL ================= */}
       <S1Field label="URL">
@@ -245,8 +276,7 @@ export default function ProfessionalItemEditor({
 
       {/* PLATFORM NAME */}
       <div className="s1-social-preview__name">
-        {currentPlatform?.label ||
-          professional.selected_icon}
+        {displayLabel}
       </div>
 
       {/* URL PREVIEW */}
