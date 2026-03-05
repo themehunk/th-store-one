@@ -293,10 +293,8 @@ const Style3 = ({ settings = {} }) => {
             <div className="static-skeleton static-btn"></div>
           </div>
         </div>
-
       </div>
     </div>
   );
 };
-
 export default Style3;

@@ -131,7 +131,7 @@ const newsocialTRule = () => ({
   original_enabled: true,
   max_show:"4",
   onpage_enabled: false,
-  placement: 'after_summary',
+  placement: 'after_add_to_cart',
 });
 
 const ICON_OPTIONS = [

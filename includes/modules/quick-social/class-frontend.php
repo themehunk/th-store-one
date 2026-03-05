@@ -11,10 +11,10 @@ class StoreOne_Quick_Social {
 
         $all_modules = get_option( 'store_one_module_set', array() );
         $this->rules = $all_modules['quick-social']['rules'] ?? array();
-
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
         add_action( 'wp_footer', array( $this, 'render_auto' ), 99 );
         add_shortcode( 'storeone_quick_social', array( $this, 'shortcode' ) );
+        add_action( 'wp', array( $this, 'register_single_hooks' ) );
         
     }
 
@@ -65,8 +65,17 @@ class StoreOne_Quick_Social {
             // Skip trigger check for shortcode usage
             if ( empty( $specific_id ) && ! $this->should_display_rule( $rule ) ) continue;
 
+                $classes = '';
+                
+                if ($rule['trigger_type'] == 'all_single' && $rule['onpage_enabled'] == true) {
+                   $classes = 's1-quick-social s1-quick-social-onpage'; 
+                }else{
+                    $classes = 's1-quick-social s1-quick-social--' . esc_attr($rule['social_style'] ?? 'style1');
+                }
+
             ?>
-            <div class="s1-quick-social s1-quick-social--<?php echo esc_attr( $rule['social_style'] ?? 'style1' ); ?>"
+           
+            <div class="<?php echo esc_attr($classes); ?>"
                  style="<?php echo esc_attr( $this->generate_inline_styles( $rule ) ); ?>">
 
                 <div class="s1-quick-social__inner">
@@ -453,6 +462,68 @@ private function get_brand_style( $icon ) {
         return $this->get_predefined_svg( $data['selected_icon'] ?? '' );
     }
 
+
+  public function register_single_hooks() {
+
+    if ( empty( $this->rules ) ) {
+        return;
+    }
+
+    foreach ( $this->rules as $rule ) {
+
+        if ( ($rule['trigger_type'] ?? '') !== 'all_single' ) {
+            continue;
+        }
+
+        if ( empty( $rule['onpage_enabled'] ) ) {
+            continue;
+        }
+
+        $placement = $rule['placement'] ?? 'after_summary';
+
+        switch ( $placement ) {
+
+            case 'after_title':
+                add_action(
+                    'woocommerce_single_product_summary',
+                    function() use ( $rule ) {
+                        echo $this->generate_output( $rule['flexible_id'] );
+                    },
+                    6
+                );
+                break;
+
+            case 'before_add_to_cart':
+                add_action(
+                    'woocommerce_before_add_to_cart_form',
+                    function() use ( $rule ) {
+                        echo $this->generate_output( $rule['flexible_id'] );
+                    }
+                );
+                break;
+
+            case 'after_add_to_cart':
+                add_action(
+                    'woocommerce_after_add_to_cart_form',
+                    function() use ( $rule ) {
+                        echo $this->generate_output( $rule['flexible_id'] );
+                    }
+                );
+                break;
+
+            case 'after_summary':
+            default:
+                add_action(
+                    'woocommerce_after_single_product_summary',
+                    function() use ( $rule ) {
+                        echo $this->generate_output( $rule['flexible_id'] );
+                    },
+                    5
+                );
+                break;
+        }
+    }
+  }
     private function get_predefined_svg( $icon ) {
 
         switch ( strtoupper( $icon ) ) {
