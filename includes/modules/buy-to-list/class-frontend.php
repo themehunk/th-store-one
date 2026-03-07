@@ -82,13 +82,13 @@ class StoreOne_Buy_To_List_Frontend {
         switch ( $placement ) {
 
             case 'before_add_to_cart':
-                return 'woocommerce_before_add_to_cart_button';
+                return 'woocommerce_before_add_to_cart_form';
 
             case 'after_title':
                 return 'woocommerce_single_product_summary';
 
             case 'after_add_to_cart':
-                return 'woocommerce_after_add_to_cart_button';
+                return 'woocommerce_after_add_to_cart_form';
 
             case 'after_summary':
             default:
@@ -233,7 +233,7 @@ class StoreOne_Buy_To_List_Frontend {
         }
 
         $wrapper_id = 'storeone-btl-' . sanitize_html_class( $rule['flexible_id'] ?? uniqid() );
-        $styleBlt = sanitize_html_class( $rule['display_style'] ?? 'style_1' );
+        $styleBlt = sanitize_html_class( $rule['buy_to_list_style'] ?? 'style_1' );
 
         ob_start();
         ?>

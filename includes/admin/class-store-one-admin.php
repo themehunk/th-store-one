@@ -102,6 +102,7 @@ class Store_One_Admin {
 					'saveError'   => esc_html__( 'Failed to save settings. Please try again.', 'store-one' ),
 				),
 				'homeUrl' => home_url('/'), 
+				'adminUrl' => admin_url(),
 			)
 		);
 

@@ -139,7 +139,7 @@ class Store_One_FBT_Frontend {
                 break;
 
             case 'after_add_to_cart':
-                $hook = 'woocommerce_after_add_to_cart_button';
+                $hook = 'woocommerce_after_add_to_cart_form';
                 break;
 
             default:
@@ -192,7 +192,7 @@ class Store_One_FBT_Frontend {
         if ( empty( $rule['single_enabled'] ) ) {
             return false;
         }
-
+         
         $product_id = $product->get_id();
 
         // User condition
@@ -207,11 +207,12 @@ class Store_One_FBT_Frontend {
         // Trigger
         $trigger_type = $rule['trigger_type'] ?? 'all_products';
 
+       
+
         switch ( $trigger_type ) {
 
             case 'specific_products':
-                $ids = wp_list_pluck( $rule['products'] ?? [], 'id' );
-                $ids = array_map( 'absint', $ids );
+                $ids = $this->get_ids( $rule['products'] ?? [] );
                 if ( ! in_array( $product_id, $ids, true ) ) {
                     return false;
                 }
@@ -219,8 +220,7 @@ class Store_One_FBT_Frontend {
 
             case 'specific_categories':
                 $prod_cats = wp_get_post_terms( $product_id, 'product_cat', [ 'fields' => 'ids' ] );
-                $rule_cats = wp_list_pluck( $rule['categories'] ?? [], 'id' );
-                $rule_cats = array_map( 'absint', $rule_cats );
+                $rule_cats = $this->get_ids( $rule['categories'] ?? [] );
                 if ( empty( array_intersect( $prod_cats, $rule_cats ) ) ) {
                     return false;
                 }
@@ -228,8 +228,7 @@ class Store_One_FBT_Frontend {
 
             case 'specific_tags':
                 $prod_tags = wp_get_post_terms( $product_id, 'product_tag', [ 'fields' => 'ids' ] );
-                $rule_tags = wp_list_pluck( $rule['tags'] ?? [], 'id' );
-                $rule_tags = array_map( 'absint', $rule_tags );
+                $rule_tags = $this->get_ids( $rule['tags'] ?? [] );
                 if ( empty( array_intersect( $prod_tags, $rule_tags ) ) ) {
                     return false;
                 }
@@ -243,8 +242,7 @@ class Store_One_FBT_Frontend {
 
         // Exclude products
         if ( ! empty( $rule['exclude_products_enabled'] ) && ! empty( $rule['exclude_products'] ) ) {
-            $exclude_ids = wp_list_pluck( $rule['exclude_products'], 'id' );
-            $exclude_ids = array_map( 'absint', $exclude_ids );
+            $exclude_ids = $this->get_ids( $rule['exclude_products'] ?? [] );
             if ( in_array( $product_id, $exclude_ids, true ) ) {
                 return false;
             }
@@ -253,8 +251,7 @@ class Store_One_FBT_Frontend {
         // Exclude categories
         if ( ! empty( $rule['exclude_categories_enabled'] ) && ! empty( $rule['exclude_categories'] ) ) {
             $prod_cats    = wp_get_post_terms( $product_id, 'product_cat', [ 'fields' => 'ids' ] );
-            $exclude_cats = wp_list_pluck( $rule['exclude_categories'], 'id' );
-            $exclude_cats = array_map( 'absint', $exclude_cats );
+           $exclude_cats = $this->get_ids( $rule['exclude_categories'] ?? [] );
             if ( ! empty( array_intersect( $prod_cats, $exclude_cats ) ) ) {
                 return false;
             }
@@ -263,8 +260,7 @@ class Store_One_FBT_Frontend {
         // Exclude tags
         if ( ! empty( $rule['exclude_tags_enabled'] ) && ! empty( $rule['exclude_tags'] ) ) {
             $prod_tags    = wp_get_post_terms( $product_id, 'product_tag', [ 'fields' => 'ids' ] );
-            $exclude_tags = wp_list_pluck( $rule['exclude_tags'], 'id' );
-            $exclude_tags = array_map( 'absint', $exclude_tags );
+            $exclude_tags = $this->get_ids( $rule['exclude_tags'] ?? [] );
             if ( ! empty( array_intersect( $prod_tags, $exclude_tags ) ) ) {
                 return false;
             }
@@ -278,8 +274,19 @@ class Store_One_FBT_Frontend {
         return true;
     }
 
-   
+    private function get_ids( $items ) {
 
+    if ( empty( $items ) ) {
+        return [];
+    }
+
+    // Agar structure [{id:18}] hai
+    if ( is_array( $items ) && isset( $items[0]['id'] ) ) {
+        $items = wp_list_pluck( $items, 'id' );
+    }
+
+    return array_map( 'absint', $items );
+}
 /* --------------------------------------------------------------------
  * RENDER — choose style per-rule (store-one / s1- classnames)
  * ------------------------------------------------------------------ */
@@ -362,7 +369,7 @@ private function s1_render_style_1( $product_id, $rule, $bundle_products, $bundl
                 $pid    = $p->get_id();
                 $is_var = $p->is_type( 'variable' );
 
-                // ✅ FIX: price_val properly defined
+                //FIX: price_val properly defined
                 $price_val = '';
                 if ( ! $is_var && $p->is_in_stock() ) {
                     $price_val = wc_get_price_to_display( $p );

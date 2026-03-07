@@ -18,6 +18,7 @@ import { CopyIcon, TrashIcon, DragHandleDots2Icon ,ChevronDownIcon,
     ChevronUpIcon } from "@radix-ui/react-icons";
 import {S1Field, S1FieldGroup} from '@storeone-global/S1Field';
 import { ICONS } from '@storeone-global/icons';
+import ResetModuleButton from "@storeone-global/ResetModuleButton";
 
 /* Default Rule */
 const newFBTRule = () => ({
@@ -725,8 +726,16 @@ const menuItems = [
                 ))}
             </SortableWrapper>
             {/* Add Rule */}
+            <div className="store-one-rules-footer">
             <div className="store-one-add-rule" onClick={addRule}>
                 {__('+ Add New Rule', 'store-one')}
+            </div>
+            <ResetModuleButton
+                    moduleId="frequently-bought"
+                    onReset={() => {
+                      updateAll([newFBTRule()]);
+                    }}
+                  />
             </div>
         </div>
     );

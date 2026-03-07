@@ -129,14 +129,14 @@ const S1FBT_STYLE1 = {
 
     if (!variation || !variation.variation_id) return;
 
-    /* ✅ Parent product id (ALWAYS) */
+    /*Parent product id (ALWAYS) */
     const parentId = parseInt($form.data("product_id"), 10);
     
     if (!parentId) return;
 
     const $wrap = $bundle.find(".s1-fbt-content-wrap");
 
-    /* ✅ Only checkboxes of this parent */
+    /*Only checkboxes of this parent */
     const $checkboxes = $wrap.find(
         `.s1-fbt-checkbox[data-product-id="${parentId}"]`
     );
@@ -160,7 +160,7 @@ const S1FBT_STYLE1 = {
             .attr("data-product-id", parentId)
             .data("product-id", parentId);
 
-        // ✅ THIS IS THE MOST IMPORTANT PART
+        //THIS IS THE MOST IMPORTANT PART
         $cb
             .attr("data-variation-id", variation.variation_id)
             .attr("data-attrs", JSON.stringify(variation.attributes))
@@ -326,7 +326,7 @@ const S1FBT_STYLE1 = {
             const vid   = $(this).attr("data-variation-id");
             const attrs = $(this).attr("data-attrs");
 
-            // ⛔ variable product but variation not selected
+            //variable product but variation not selected
             if ($(this).closest(".s1-fbt-row").find(".variations_form").length && !vid) {
                 return;
             }
@@ -548,21 +548,21 @@ const S1FBT_STYLE2 = {
 
     const $totalBox = $box.find(".s1-fbt-total-box");
 
-    // ✅ BASE PRICE (main product)
+    // BASE PRICE (main product)
     let total = parseFloat($totalBox.data("base-price")) || 0;
 
-    // ✅ ADD-ON PRODUCTS (checkboxes)
+    // ADD-ON PRODUCTS (checkboxes)
     $box.find(".s1-fbt-checkbox:checked:not(:disabled)").each(function () {
         total += parseFloat($(this).val()) || 0;
     });
 
     const currency = StoreOneFBT.currency_symbol || "₹";
 
-    // ✅ UPDATE PRICE
+    //UPDATE PRICE
     $box.find(".s1-fbt-total-final-amount")
         .html(currency + total.toFixed(2));
 
-    // ✅ COUNT (main product + addons)
+    //COUNT (main product + addons)
     let count = 1; // main product always included
 
     count += $box.find(".s1-fbt-checkbox:checked:not(:disabled)").length;
@@ -599,10 +599,10 @@ addToCart($btn) {
         const vid   = $(this).attr("data-variation-id");
         const attrs = $(this).attr("data-attrs");
 
-        // ❌ skip main product checkbox (already added)
+        //skip main product checkbox (already added)
         if (pid == mainId) return;
 
-        // ❌ variable product but no variation selected
+        //variable product but no variation selected
         if (
             $(this)
                 .closest(".s1-title-wrap")
@@ -628,7 +628,7 @@ addToCart($btn) {
         return;
     }
 
-    //console.log("STYLE 2 FINAL ITEMS:", items); // 🔍 debug
+    //console.log("STYLE 2 FINAL ITEMS:", items); // debug
 
     $btn.addClass("loading");
 
@@ -674,7 +674,7 @@ const S1FBT_STYLE3 = {
             this.addToCart($(e.currentTarget));
         });
 
-        // 🔥 variation found
+        //variation found
         $(document).on(
             "found_variation",
             ".style_3 .variations_form",
@@ -737,7 +737,7 @@ const S1FBT_STYLE3 = {
         .attr("data-attrs", JSON.stringify(variation.attributes));
 
     /* ------------------
-     * PRICE (🔥 FIX)
+     * PRICE (FIX)
      * ------------------ */
     const $priceHtml = $box
         .find(".s1-fbt-flex-item")
@@ -752,7 +752,7 @@ const S1FBT_STYLE3 = {
     $priceHtml.html(variation.price_html);
 
     /* ------------------
-     * IMAGE (🔥 FIX)
+     * IMAGE (FIX)
      * ------------------ */
     const $img = $box
         .find(".s1-fbt-flex-item")
@@ -867,7 +867,7 @@ updateTotal($box) {
 
     total += basePrice;
 
-    /* ✅ 2. ADD-ON PRODUCTS */
+    /*  2. ADD-ON PRODUCTS */
     const $checked = $box.find(".s1-fbt-checkbox:checked:not(:disabled)");
 
     $checked.each(function () {
@@ -876,11 +876,11 @@ updateTotal($box) {
 
     const currency = StoreOneFBT.currency_symbol || "₹";
 
-    /* ✅ UPDATE TOTAL PRICE */
+    /*  UPDATE TOTAL PRICE */
     $box.find(".s1-fbt-total-final-amount")
         .html(currency + total.toFixed(2));
 
-    /* ✅ COUNT = main product + addons */
+    /*  COUNT = main product + addons */
     let count = 1; // main product always included
     count += $checked.length;
 
@@ -901,7 +901,7 @@ updateTotal($box) {
     const items = [];
 
     /* =========================
-     * 1️⃣ ADD MAIN PRODUCT (ALWAYS)
+     * 1ADD MAIN PRODUCT (ALWAYS)
      * ========================= */
     const mainId = $btn.data("main-id");
     if (mainId) {
@@ -917,10 +917,10 @@ updateTotal($box) {
         const vid   = $(this).attr("data-variation-id");
         const attrs = $(this).attr("data-attrs");
 
-        // ❌ skip main product checkbox (already added)
+        //  skip main product checkbox (already added)
         if (pid == mainId) return;
 
-        // ❌ variable product but variation not selected
+        // variable product but variation not selected
         if (
             $(this)
                 .closest(".s1-fbt-flex-item")

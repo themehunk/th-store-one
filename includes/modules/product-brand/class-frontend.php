@@ -83,13 +83,13 @@ class StoreOne_Product_Brand_Frontend {
         switch ( $placement ) {
 
             case 'before_add_to_cart':
-                return 'woocommerce_before_add_to_cart_button';
+                return 'woocommerce_before_add_to_cart_form';
 
             case 'after_title':
                 return 'woocommerce_single_product_summary';
 
             case 'after_add_to_cart':
-                return 'woocommerce_after_add_to_cart_button';
+                return 'woocommerce_after_add_to_cart_form';
 
             case 'after_summary':
             default:

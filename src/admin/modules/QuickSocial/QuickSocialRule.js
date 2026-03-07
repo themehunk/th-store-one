@@ -1092,7 +1092,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
           updateAll([newsocialTRule()]);
         }}
       />
-      </div>
+      </div> 
     </div>
   );
 }

@@ -525,16 +525,22 @@ class StoreOne_Bundle_Frontend {
 
     public function storeone_validate_bundle_data( $passed, $product_id, $qty ) {
 
-    if (
-    empty( $_POST['storeone_bundle_data'] ) &&
-    empty( $_REQUEST['action'] )
-    ) {
+    // if (
+    // empty( $_POST['storeone_bundle_data'] ) &&
+    // empty( $_REQUEST['action'] )
+    // ) {
+    //     return $passed;
+    // }
+    $bundle_items = get_post_meta( $product_id, '_storeone_bundle_products', true );
+
+    // NOT A BUNDLE PRODUCT
+    if ( empty( $bundle_items ) ) {
         return $passed;
     }
 
     $bundle = json_decode( wp_unslash( $_POST['storeone_bundle_data'] ), true );
     if ( empty( $bundle['items'] ) ) {
-        wc_add_notice( __( 'Please select bundle items.', 'store-one' ), 'error' );
+        wc_add_notice( __( 'Please select bundle itemssssss.', 'store-one' ), 'error' );
         return false;
     }
 
