@@ -5,7 +5,7 @@ import {
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
-
+import PlacementPriorityControl from "@storeone-global/PlacementPriorityControl";
 
 export default function SingleProductSettings({
     settings,
@@ -18,7 +18,7 @@ export default function SingleProductSettings({
         <div className="store-one-rule-body">
 
             {/* STATUS TOGGLE */}
-            <div className="s1-field-wrapper">
+            {/* <div className="s1-field-wrapper">
                <label className="s1-field-label">
                     {__('Status', 'store-one')}
                </label>
@@ -32,42 +32,19 @@ export default function SingleProductSettings({
                     ]}
                />
                </div>
-               </div>
+               </div> */}
 
             {/* PLACEMENT */}
-            <div className="s1-field-wrapper col-2">
-                <div className="s1-field-col">
-                <label className="s1-field-label">
-                    {__('Placement on product page', 'store-one')}
-                </label>
-                <div className="s1-field-control">
-                <SelectControl
-                    value={settings.placement}
-                    onChange={(v) => updateSetting('placement', v)}
-                    options={[
-                        { label: __('After Product Summary', 'store-one'), value: 'after_summary' },
-                        { label: __('Before Product Summary', 'store-one'), value: 'before_summary' },
-                        { label: __('After Title', 'store-one'), value: 'after_title' },
-                        { label: __('After Add to Cart', 'store-one'), value: 'after_add_to_cart' },
-                    ]}
-                />
-                </div>
-            </div>
-            <div className="s1-field-col">
-             <label className="s1-field-label">{__('Priority', 'store-one')}</label>
-            <div className="s1-field-control">
-                <TextControl
-                    type="number"
-                    value={settings.priority}
-                    onChange={(v) => updateSetting('priority', v)}
-                />
-                </div>
-                </div>
-            </div>
-
+           
+            <PlacementPriorityControl
+                placement={settings.placement}
+                priority={settings.priority}
+                onPlacementChange={(v) => updateSetting('placement', v)}
+                onPriorityChange={(v) => updateSetting('priority', v)}
+            />
             {/* BUNDLE TITLE */}
             <div className="s1-field-wrapper">
-                <label className="s1-field-label">{__('Bundle title', 'store-one')}</label>
+                <label className="s1-field-label">{__('Bundle Title', 'store-one')}</label>
                 <div className="s1-field-control">
                 <TextControl
                     value={settings.bundle_title}
@@ -78,7 +55,7 @@ export default function SingleProductSettings({
 
             {/* PRICE LABELS */}
             <div className="s1-field-wrapper">
-                <label className="s1-field-label">{__('Price label', 'store-one')}</label>
+                <label className="s1-field-label">{__('Price Label', 'store-one')}</label>
                 <div className="s1-field-control">
                 <TextControl
                     value={settings.price_label}
@@ -126,7 +103,7 @@ export default function SingleProductSettings({
             {/* BUTTON TEXT */}
             <div className="s1-field-wrapper">
                 <label className="s1-field-label">
-                    {__('Button text', 'store-one')}
+                    {__('Button Text', 'store-one')}
                 </label>
                 <div className="s1-field-control">
                 <TextControl

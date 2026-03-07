@@ -118,33 +118,7 @@ class Store_One_FBT_Frontend {
         $placement = $rule['placement'] ?? 'after_summary';
         $priority  = isset( $rule['priority'] ) ? absint( $rule['priority'] ) : 10;
 
-        switch ( $placement ) {
-
-            case 'after_title':
-                // Title default priority 5, isliye 6 par
-                $hook     = 'woocommerce_single_product_summary';
-                $priority = 6;
-                break;
-
-            case 'before_summary':
-                $hook = 'woocommerce_before_single_product_summary';
-                break;
-
-            case 'after_summary':
-                $hook = 'woocommerce_after_single_product_summary';
-                break;
-
-            case 'after_tabs':
-                $hook = 'woocommerce_after_single_product';
-                break;
-
-            case 'after_add_to_cart':
-                $hook = 'woocommerce_after_add_to_cart_form';
-                break;
-
-            default:
-                $hook = 'woocommerce_after_single_product_summary';
-        }
+        $hook = store_one_get_fbt_hook_from_placement( $placement );
 
         add_action(
             $hook,
@@ -195,13 +169,78 @@ class Store_One_FBT_Frontend {
          
         $product_id = $product->get_id();
 
-        // User condition
+        // -----------------------------
+        // USER CONDITION
+        // -----------------------------
+
         $user_condition = $rule['user_condition'] ?? 'all';
-        if ( $user_condition === 'logged_in' && ! is_user_logged_in() ) {
-            return false;
+
+        $current_user = wp_get_current_user();
+        $current_id   = get_current_user_id();
+        $user_roles   = (array) $current_user->roles;
+
+        /* =========================
+        * ALL USERS MODE
+        * ========================= */
+
+        if ( $user_condition === 'all' ) {
+
+            if ( ! empty( $rule['exclude_enabled'] ) ) {
+
+                // Exclude roles
+                if ( ! empty( $rule['exclude_roles'] ) ) {
+
+                    if ( array_intersect( $user_roles, $rule['exclude_roles'] ) ) {
+                        return false;
+                    }
+
+                }
+
+                // Exclude users
+                if ( ! empty( $rule['exclude_users'] ) ) {
+
+                    if ( in_array( $current_id, $rule['exclude_users'] ) ) {
+                        return false;
+                    }
+
+                }
+
+            }
+
         }
-        if ( $user_condition === 'guest' && is_user_logged_in() ) {
-            return false;
+
+        /* =========================
+        * ROLE MODE
+        * ========================= */
+
+        if ( $user_condition === 'roles' ) {
+
+            $allowed_roles = $rule['allowed_roles'] ?? [];
+
+            if ( empty( array_intersect( $user_roles, $allowed_roles ) ) ) {
+                return false;
+            }
+
+            // exclude specific users
+            if ( ! empty( $rule['exclude_users_enabled'] ) ) {
+
+                if ( in_array( $current_id, $rule['exclude_users'] ?? [] ) ) {
+                    return false;
+                }
+
+            }
+
+        }
+        /* =========================
+        * USERS MODE
+        * ========================= */
+
+        if ( $user_condition === 'users' ) {
+
+            if ( ! in_array( $current_id, $rule['allowed_users'] ?? [] ) ) {
+                return false;
+            }
+
         }
 
         // Trigger
