@@ -123,7 +123,7 @@ const newFBTRule = () => ({
 
   bundel_btn_txt: "#fff",
   bundel_btn_bg: "#111",
-  bundel_brd_clr: "#e5e7eb",
+  bundel_brd_clr: "#F5F5F5",
 
   prd_tle_clr: "#6C7280",
   prd_tle_clr_auto: true,

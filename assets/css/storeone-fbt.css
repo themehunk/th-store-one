@@ -2,6 +2,9 @@
 
 .s1-fbt-box.style_1, .s1-fbt-box.style_2,.s1-fbt-box.style_3 {
     padding:1.2rem;
+    padding: 1.2rem;
+    width: 80%;
+    margin: 1rem auto;
 }
 .style_1 .s1-fbt-title {
     font-size: 1.125rem;
@@ -28,7 +31,7 @@ align-items: flex-start;
     flex-wrap: wrap;
     position: relative;
     justify-content: start;
-    width: 70%;
+    width:60%;
 }
 .s1-fbt-box.style_1 .s1-fbt-plus-wrap{
 margin-top: 3.5em;
@@ -135,7 +138,7 @@ margin-top: 3.5em;
     gap: 1.5rem;
     flex-wrap: wrap;
     padding: 1.5rem;
-    width: 30%;
+    width:40%;
     background: rgba(255, 255, 255, 0.2);
     border-radius: 0.75rem;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -333,10 +336,10 @@ font-size: 0.875rem;
 
 /* LEFT */
 .style_2 .s1-fbt-style2-left{
-flex:3;
+width:60%;
 }
 .style_2 .s1-fbt-style2-right{
-    flex:1;
+  width:40%;
 }
 /* IMAGE EQUATION */
 .style_2 .s1-fbt-equation {
@@ -753,7 +756,8 @@ font-size: 1.3rem;
     opacity: 1;
     transform: scale(1);
 }
-.style_3 .s1-fbt-checkbox:disabled + .s1-check-icon {
+.s1-fbt-checkbox:disabled + .s1-check-icon,
+.s1-fbt-checkbox:disabled + .s1-fbt-check-ui {
     opacity: 0.6;
     cursor: not-allowed;
 }
@@ -808,7 +812,10 @@ font-size: 1.3rem;
         width: 100%;
         border-left: none;
         padding-left: 0;
-        margin-top: 20px;
+        margin-top: 1rem;
+    }
+    .style_2 .s1-fbt-style2-left{
+        width:100%;
     }
 
     .style_2 .s1-fbt-equation {
@@ -840,4 +847,15 @@ margin-top:0.5rem;
 }
 .style_3 .variations.s1-fbt-variation .select select{
     margin:0;
+}
+
+.s1-fbt-box .added_to_cart{
+    padding:12px 22px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s ease;
+    background: #111;
+    
 }

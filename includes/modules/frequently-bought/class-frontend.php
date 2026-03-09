@@ -1057,6 +1057,40 @@ protected function render_style3_total_wrap( WC_Product $product, $rule, $bundle
         /* =====================================
          * ADD TO CART (SINGLE ENTRY POINT)
          * ===================================== */
+        $bundle_items = get_post_meta( $product_id, '_storeone_bundle_products', true );
+
+        $cart_item_data = [];
+
+        if ( ! empty( $bundle_items ) && is_array( $bundle_items ) ) {
+
+            $items = [];
+
+            foreach ( $bundle_items as $bi ) {
+
+                if ( empty( $bi['id'] ) ) continue;
+
+                $items[] = [
+                    'id'  => absint( $bi['id'] ),
+                    'qty' => max( 1, absint( $bi['qty'] ?? 1 ) ),
+                ];
+            }
+
+            if ( ! empty( $items ) ) {
+
+                $bundle_data = [
+                    'items' => $items,
+                    'scope' => get_post_meta(
+                        $product_id,
+                        '_storeone_discount_scope',
+                        true
+                    ) ?: 'store_bundle',
+                ];
+
+                $cart_item_data['storeone_bundle'] = $bundle_data;
+                $cart_item_data['storeone_bundle_key'] = md5( wp_json_encode( $bundle_data ) );
+            }
+        }
+
         $passed = apply_filters(
             'woocommerce_add_to_cart_validation',
             true,
@@ -1067,11 +1101,13 @@ protected function render_style3_total_wrap( WC_Product $product, $rule, $bundle
         );
 
         if ( $passed ) {
+
             WC()->cart->add_to_cart(
                 $product_id,
                 $quantity,
                 $variation_id,
-                $variation ?? []
+                $variation ?? [],
+                $cart_item_data
             );
         }
     }
@@ -1080,8 +1116,6 @@ protected function render_style3_total_wrap( WC_Product $product, $rule, $bundle
     WC_AJAX::get_refreshed_fragments();
     wp_die();
 }
-
-
 // dynamic css add
 public function add_inline_dynamic_css() {
 
@@ -1204,6 +1238,10 @@ protected function generate_dynamic_css( $rule, $product_id ) {
     }
     .style_2[data-rule-id='{$id}'] .s1-fbt-style2-right{
         border-color: {$bundel_tle_brd_clr};
+    }
+    .style_3[data-rule-id='{$id}'] .s1-fbt-flex-item{
+        border-color: {$border};
+        border-radius: {$radius};
     }";
  }
 

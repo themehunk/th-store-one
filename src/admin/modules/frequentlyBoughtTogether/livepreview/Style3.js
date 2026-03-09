@@ -32,7 +32,7 @@ const Style3 = ({ settings }) => {
             className="s1-fbt-box style_3"
             style={{
                             background: settings?.bundel_bg_clr || undefined,
-                            borderRadius: getRadius(settings?.border_radius),
+                            
                         }}
         >
             {/* TITLE */}
@@ -54,8 +54,9 @@ const Style3 = ({ settings }) => {
                         
                         style={{
                 
-                borderColor: settings?.border_color || undefined,
-            }}
+                borderColor: settings?.bundel_brd_clr || undefined,
+                borderRadius: getRadius(settings?.border_radius),
+                }}
                     >
                         {/* CHECK */}
                         <input

@@ -105,7 +105,7 @@ class StoreOne_Bundle_Frontend {
         );
         add_action( 'wp_ajax_storeone_add_bundle_from_loop', [ $this, 'storeone_add_bundle_from_loop' ] );
         add_action( 'wp_ajax_nopriv_storeone_add_bundle_from_loop', [ $this, 'storeone_add_bundle_from_loop' ] );
-
+        
         
     }
 
@@ -531,12 +531,15 @@ class StoreOne_Bundle_Frontend {
 
     public function storeone_validate_bundle_data( $passed, $product_id, $qty ) {
 
-    // if (
-    // empty( $_POST['storeone_bundle_data'] ) &&
-    // empty( $_REQUEST['action'] )
-    // ) {
-    //     return $passed;
-    // }
+    // Skip validation when product is added from FBT AJAX
+    if (
+        defined('DOING_AJAX') &&
+        ! empty($_POST['action']) &&
+        $_POST['action'] === 'storeone_fbt_add_bundle'
+    ) {
+        return $passed;
+    }
+
     $bundle_items = get_post_meta( $product_id, '_storeone_bundle_products', true );
 
     // NOT A BUNDLE PRODUCT
@@ -544,9 +547,10 @@ class StoreOne_Bundle_Frontend {
         return $passed;
     }
 
-    $bundle = json_decode( wp_unslash( $_POST['storeone_bundle_data'] ), true );
+    $bundle = json_decode( wp_unslash( $_POST['storeone_bundle_data'] ?? '' ), true );
+
     if ( empty( $bundle['items'] ) ) {
-        wc_add_notice( __( 'Please select bundle itemssssss.', 'store-one' ), 'error' );
+        wc_add_notice( __( 'Please select bundle items.', 'store-one' ), 'error' );
         return false;
     }
 
@@ -689,6 +693,11 @@ class StoreOne_Bundle_Frontend {
 
     public function storeone_display_bundle_in_cart( $item_data, $cart_item ) {
 
+    // Mini cart me variation structure disable
+    // if ( wp_doing_ajax() ) {
+    //     return $item_data;
+    // }
+
     $settings = $this->storeone_get_bundle_settings();
 
     if (
@@ -830,10 +839,33 @@ class StoreOne_Bundle_Frontend {
             $price_html = '';
         }
 
+        if ( wp_doing_ajax() ) {
+
+        $row  = '<div class="s1-mini-bundle-row">';
+
+        $row .= '<span class="s1-mini-bundle-name">'
+        . esc_html( $product->get_name() ) . $attrlist . ' × ' . $qty .
+            '</span>';
+
+        // if ( ! empty( $price_html ) ) {
+        //     $row .= '<span class="s1-mini-bundle-price">';
+        //     $row .= wp_kses_post( $price_html );
+        //     $row .= '</span>';
+        // }
+
+    $row .= '</div>';
+
         $item_data[] = [
-            'name'  => $name,
-            'value' => wp_kses_post( $price_html ),
+            'name'  => '',
+            'display' => $row,
         ];
+
+    } else {
+            $item_data[] = [
+                    'name'  => $name,
+                    'value' => wp_kses_post( $price_html ),
+            ];
+    }
     }
 
     return $item_data;
@@ -841,6 +873,7 @@ class StoreOne_Bundle_Frontend {
 
 }
 
+  
    public function storeone_bundle_cart_count( $count ) {
 
     $settings = $this->storeone_get_bundle_settings();

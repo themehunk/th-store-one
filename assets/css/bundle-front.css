@@ -407,3 +407,28 @@ a.s1-bundle-link:hover {
     display:flex;
     justify-content: space-between;
 }
+
+/* mini cart style  */
+/* remove default variation structure */
+
+.woocommerce-mini-cart .variation dt{
+display:none;
+}
+.woocommerce-mini-cart .variation dd{
+padding:0;
+}
+/* remove unwanted links created by theme */
+.woocommerce-mini-cart .variation > a{
+display:none;
+}
+.s1-mini-bundle-row{
+    display:flex;
+}
+/* bundle row layout  for mini cart */
+.taiowc-woocommerce-mini-cart-item dl.variation,
+.taiowcp-woocommerce-mini-cart-item dl.variation  {
+    display: flex;
+    font-size: 0.79rem;
+    margin-top: 0.3rem;
+    gap: 0.5rem;
+}
