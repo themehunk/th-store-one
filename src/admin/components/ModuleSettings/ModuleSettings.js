@@ -6,6 +6,7 @@ import {
     FlexBlock,
     FlexItem,
     ToggleControl,
+    Button 
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
@@ -65,6 +66,22 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                     <FlexBlock className="s1-settings__info">
                         <h2 className="s1-settings__title">{currentModule.label}</h2>
                         <p className="s1-settings__desc">{currentModule.description}</p>
+                        {currentModule.id === 'bundle-product' && (
+                        
+                         <Button
+                         className="s1-settings__redirect-btn"
+                                        onClick={() =>
+                                            window.open(
+                                            `${StoreOneAdmin.adminUrl}post-new.php?post_type=product`,
+                                            "_blank"
+                                            )
+                                        }
+                                        >
+                                        {__("Create Bundle", "store-one")}
+                        </Button>
+                        
+                        )}
+                         
                     </FlexBlock>
 
                     <FlexItem className="s1-settings__toggle">

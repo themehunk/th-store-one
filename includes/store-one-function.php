@@ -34,7 +34,7 @@ function store_one_normalize_color( $value ) {
     return $value; // simple string color
 }
 
-function store_one_get_fbt_hook_from_placement( $placement ) {
+function store_one_get_hook_from_placement( $placement ) {
 
     $allowed_hooks = [
         'woocommerce_single_product_summary',

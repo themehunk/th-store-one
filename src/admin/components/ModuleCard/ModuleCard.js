@@ -5,8 +5,6 @@ const ModuleCard = ({ mod, modulesState, setActiveModule }) => {
     const isActive = modulesState[mod.id];
     const isPremium = mod.premium ?? false;
 
-    console.log(mod);
-
     return (
         <Card className="s1-module-card">
            <CardBody

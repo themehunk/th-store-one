@@ -124,6 +124,7 @@ const newFBTRule = () => ({
   bundel_btn_txt: "#fff",
   bundel_btn_bg: "#111",
   bundel_brd_clr: "#F5F5F5",
+  outer_brd_clr: "#F5F5F5",
 
   prd_tle_clr: "#6C7280",
   prd_tle_clr_auto: true,
@@ -646,6 +647,21 @@ export default function FrequentlyBoughtRulesEditor({
                             }
                             defaultValue="12px"
                           />
+                          <S1Field>
+                              <THBackgroundControl
+                                allowGradient={false}
+                                label={__("Outer Border", "store-one")}
+                                value={rule.outer_brd_clr}
+                                onChange={(v) => {
+                                  const updatedRule = {
+                                    ...rule,
+                                    outer_brd_clr: v,
+                                  };
+                                  updateField(index, "outer_brd_clr", v);
+                                  onLivePreview?.(updatedRule, index);
+                                }}
+                              />
+                            </S1Field>
                         </S1FieldGroup>
 
                         <S1FieldGroup title={__("Product", "store-one")}>

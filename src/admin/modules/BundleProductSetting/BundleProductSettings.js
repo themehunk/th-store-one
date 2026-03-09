@@ -2,7 +2,7 @@ import { useState, useEffect } from "@wordpress/element";
 import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import { S1Field, S1FieldGroup } from "@storeone-global/S1Field";
-import { Spinner, ToggleControl, SelectControl, Button  } from "@wordpress/components";
+import { Spinner, ToggleControl, SelectControl } from "@wordpress/components";
 import ResetModuleButton from "@storeone-global/ResetModuleButton";
 const MODULE_ID = "bundle-product";
  
@@ -166,21 +166,7 @@ export default function BundleProductSettings({
 
           <div className="store-one-content-settings">
             <S1FieldGroup title={__("Product page", "store-one")}>
-             <S1Field
-                label={__("Create New Bundle", "store-one")}
-                classN="s1-toggle-wrpapper s1-create-bundle-button"
-              >
-                <Button
-                onClick={() =>
-                    window.open(
-                    `${StoreOneAdmin.adminUrl}post-new.php?post_type=product`,
-                    "_blank"
-                    )
-                }
-                >
-                {__("Add Bundle", "store-one")}
-                </Button>
-            </S1Field>
+             
               <S1Field
                 label={__("Display bundled product thumbnails", "store-one")}
                 classN="s1-toggle-wrpapper"

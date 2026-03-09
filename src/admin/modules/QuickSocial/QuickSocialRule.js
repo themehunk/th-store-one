@@ -659,7 +659,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                             {rule.social_list?.map((item, i) => (
                               <div
                                 key={item.id}
-                                className="store-one-rule-item inner"
+                                className="store-one-rule-item inner quick-social-item"
                               >
                                 <div className="store-one-rule-header">
                                   <DragHandleDots2Icon className="drag-handle s1-icon" />

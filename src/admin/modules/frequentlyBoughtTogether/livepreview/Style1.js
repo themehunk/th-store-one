@@ -14,7 +14,9 @@ const Style1 = ({ settings }) => {
             className="s1-fbt-box style_1"
             style={{
                 background: settings?.bundel_bg_clr || undefined,
+                border: '1px solid ' + (settings?.outer_brd_clr || "#F5F5F5"),
                 borderRadius: getRadius(settings?.border_radius),
+                
             }}
         >
             <h2

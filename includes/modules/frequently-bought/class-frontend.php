@@ -124,7 +124,7 @@ class Store_One_FBT_Frontend {
         $placement = $rule['placement'] ?? 'after_summary';
         $priority  = isset( $rule['priority'] ) ? absint( $rule['priority'] ) : 10;
 
-        $hook = store_one_get_fbt_hook_from_placement( $placement );
+        $hook = store_one_get_hook_from_placement( $placement );
 
         add_action(
             $hook,
@@ -1153,6 +1153,7 @@ protected function generate_dynamic_css( $rule, $product_id ) {
     $title   = store_one_normalize_color( $rule['bundel_title_clr'] );
     $bg      = store_one_normalize_color( $rule['bundel_bg_clr'] );
     $border  = store_one_normalize_color( $rule['bundel_brd_clr'] );
+    $oborder  = store_one_normalize_color( $rule['outer_brd_clr'] );
     $bundel_tle_brd_clr  = store_one_normalize_color( $rule['bundel_tle_brd_clr']);
     $ptitle  = store_one_normalize_color( $rule['prd_tle_clr']);
     $pprice  = store_one_normalize_color( $rule['prd_prc_clr']);
@@ -1167,9 +1168,10 @@ protected function generate_dynamic_css( $rule, $product_id ) {
     $btntxt  = store_one_normalize_color( $rule['bundel_btn_txt']);
     $radius  = store_one_normalize_radius( $rule['border_radius']);
     return "
-    .s1-fbt-box[data-rule-id='{$id}'],section.s1-fbt-box.style_3[data-rule-id='{$id}'] {
+    .s1-fbt-box[data-rule-id='{$id}'],
+    section.s1-fbt-box.style_3[data-rule-id='{$id}'] {
         background: {$bg};
-        border-color: {$border};
+        border: 1px solid {$oborder};
         border-radius: {$radius};
     }
     .s1-fbt-box[data-rule-id='{$id}'] .s1-fbt-title{

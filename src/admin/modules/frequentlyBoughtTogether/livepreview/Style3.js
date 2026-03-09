@@ -32,9 +32,11 @@ const Style3 = ({ settings }) => {
             className="s1-fbt-box style_3"
             style={{
                             background: settings?.bundel_bg_clr || undefined,
-                            
+                            border: '1px solid ' + (settings?.outer_brd_clr || "#F5F5F5"),
+                            borderRadius: getRadius(settings?.border_radius),
+  
                         }}
-        >
+           >
             {/* TITLE */}
             <h2
                 className="s1-fbt-title"

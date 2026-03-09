@@ -28,7 +28,9 @@ const Style2 = ({ settings }) => {
             className="s1-fbt-box style_2"
             style={{
                 borderRadius: getRadius(settings?.border_radius),
+                border: '1px solid ' + (settings?.outer_brd_clr || "#F5F5F5"),
                 background: settings?.bundel_bg_clr || "#fff",
+                
             }}
         >
             {/* TITLE */}

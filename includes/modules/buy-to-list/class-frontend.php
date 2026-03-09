@@ -55,9 +55,13 @@ class StoreOne_Buy_To_List_Frontend {
 
             if ( empty( $rule['status'] ) || 'active' !== $rule['status'] ) {
                 continue;
-            }
+            } 
 
-            $hook     = $this->get_hook_from_placement( $rule );
+            $placement = isset( $rule['placement'] )
+    ? sanitize_text_field( $rule['placement'] )
+    : '';
+
+        $hook = store_one_get_hook_from_placement( $placement );
             $priority = isset( $rule['priority'] ) ? absint( $rule['priority'] ) : 10;
 
             add_action( $hook, function() use ( $rule ) {

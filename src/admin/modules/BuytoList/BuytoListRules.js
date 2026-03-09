@@ -24,11 +24,12 @@ import {
 import { S1Field, S1FieldGroup } from "@storeone-global/S1Field";
 import { ICONS } from "@storeone-global/icons";
 import ResetModuleButton from "@storeone-global/ResetModuleButton";
+import PlacementPriorityControl from "@storeone-global/PlacementPriorityControl";
 
 /* Default Rule */
 const newBlistTRule = () => ({
   status: "active",
-  list_title: "",
+  list_title: "Featured List",
   trigger_type: "all_products",
   products: [],
   categories: [],
@@ -196,6 +197,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
   const menuItems = [
     { id: "settings", label: "Settings", icon: "SETTINGS" },
     { id: "design", label: "Design", icon: "DESIGN" },
+    { id: "single", label: "Display Page", icon: "DISPLAY" },
   ];
 
   const updateAll = (arr) => onChange([...arr]);
@@ -868,7 +870,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                           </>
                         )}
 
-                        <div className="s1-field-wrapper col-2">
+                        {/* <div className="s1-field-wrapper col-2">
                           <div className="s1-field-col">
                             <label className="s1-field-label">
                               {__("Placement on product page", "store-one")}
@@ -921,7 +923,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                               />
                             </div>
                           </div>
-                        </div>
+                        </div> */}
 
                         <S1Field>
                           <THBackgroundControl
@@ -1048,6 +1050,22 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                       </div>
                     ),
                   },
+
+                  {
+                    id: menuItems[2].id,
+                    label: menuItems[2].label,
+                    icon: ICONS[menuItems[2].icon],
+                    content: (
+                      <div className="store-one-rule-body">
+                        <PlacementPriorityControl
+                        placement={rule.placement}
+                        priority={rule.priority}
+                        onPlacementChange={(v) => updateField(index, "placement", v)}
+                        onPriorityChange={(v) => updateField(index, "priority", v)}
+                    />
+                      </div>
+                    )
+                  }
                 ]}
               />
             )}
