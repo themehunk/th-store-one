@@ -212,29 +212,7 @@ const modulesList = [
   },
 ];
 
-const tabs = [
-  {
-    name: "all",
-    title: __("All Modules", "store-one"),
-    modules: [
-      "frequently-bought",
-      "bundle-product",
-      "buy-to-list",
-      "quick-social",
-      "product-brand",
-    ],
-  },
-  {
-    name: "recommended",
-    title: __("Recommended", "store-one"),
-    modules: ["frequently-bought"],
-  },
-  {
-    name: "trending",
-    title: __("Trending", "store-one"),
-    modules: ["frequently-bought"],
-  },
-];
+
 
 const AdminMain = () => {
   const [livePreviewSettings, setLivePreviewSettings] = useState(null);
@@ -256,6 +234,20 @@ const AdminMain = () => {
     "quick-social": true,
     "product-brand": true,
   });
+  const tabs = [
+  {
+    name: "all",
+    title: __("All Modules", "store-one"),
+    modules: modulesList.map((m) => m.id),
+  },
+  {
+    name: "active",
+    title: __("Active Modules", "store-one"),
+    modules: modulesList
+      .filter((m) => modulesState[m.id])
+      .map((m) => m.id),
+  },
+  ];
   const originalSettings = useRef({});
   const skipFirstChange = useRef(false);
 
