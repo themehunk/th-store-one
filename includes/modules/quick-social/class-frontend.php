@@ -42,7 +42,7 @@ class StoreOne_Quick_Social {
     }
 
     public function render_auto() {
-        echo $this->generate_output();
+$this->generate_output();
     }
 
     public function shortcode( $atts ) {
@@ -61,7 +61,7 @@ class StoreOne_Quick_Social {
 
         if ( empty( $this->rules ) ) return '';
 
-        ob_start();
+        
 
         foreach ( $this->rules as $rule ) {
 
@@ -120,7 +120,42 @@ class StoreOne_Quick_Social {
                 style="<?php echo esc_attr( $brand_style ); ?>">
 
                     <span class="s1-quick-social__icon">
-                        <?php echo $this->get_icon_markup( $data ); ?>
+                        <?php
+$allowed_svg = array(
+    'svg' => array(
+        'xmlns' => true,
+        'viewbox' => true,
+        'viewBox' => true,
+        'width' => true,
+        'height' => true,
+        'fill' => true,
+        'stroke' => true,
+        'class' => true,
+        'role' => true,
+        'aria-hidden' => true,
+    ),
+    'path' => array(
+        'd' => true,
+        'fill' => true,
+        'stroke' => true,
+        'stroke-width' => true,
+        'stroke-linecap' => true,
+        'stroke-linejoin' => true,
+    ),
+    'img' => array(
+        'src' => true,
+        'alt' => true,
+        'class' => true,
+        'width' => true,
+        'height' => true,
+    ),
+);
+
+echo wp_kses(
+    $this->get_icon_markup( $data ),
+    $allowed_svg
+);
+?>
                     </span>
 
                 </a>
@@ -173,7 +208,42 @@ class StoreOne_Quick_Social {
                             style="<?php echo esc_attr( $brand_style ); ?>"
                             >
                             <span class="s1-quick-social__icon">
-                                <?php echo $this->get_icon_markup( $data ); ?>
+                                <?php
+$allowed_svg = array(
+    'svg' => array(
+        'xmlns' => true,
+        'viewbox' => true,
+        'viewBox' => true,
+        'width' => true,
+        'height' => true,
+        'fill' => true,
+        'stroke' => true,
+        'class' => true,
+        'role' => true,
+        'aria-hidden' => true,
+    ),
+    'path' => array(
+        'd' => true,
+        'fill' => true,
+        'stroke' => true,
+        'stroke-width' => true,
+        'stroke-linecap' => true,
+        'stroke-linejoin' => true,
+    ),
+    'img' => array(
+        'src' => true,
+        'alt' => true,
+        'class' => true,
+        'width' => true,
+        'height' => true,
+    ),
+);
+
+echo wp_kses(
+    $this->get_icon_markup( $data ),
+    $allowed_svg
+);
+?>
                             </span>
                             </a>
                         <?php endforeach; ?>
@@ -185,7 +255,7 @@ class StoreOne_Quick_Social {
                         <?php
                     }
 
-                    return ob_get_clean();
+                  
                 }
 
     /* ================= DYNAMIC URL BUILDER ================= */
@@ -470,7 +540,7 @@ private function get_brand_style( $icon ) {
         return $this->get_predefined_svg( $data['selected_icon'] ?? '' );
     }
 
-        public function register_single_hooks() {
+    public function register_single_hooks() {
 
             if ( empty( $this->rules ) ) {
                 return;
@@ -493,7 +563,7 @@ private function get_brand_style( $icon ) {
                 add_action(
                     $hook,
                     function() use ( $rule ) {
-                        echo $this->generate_output( $rule['flexible_id'] );
+                        $this->generate_output( $rule['flexible_id'] );
                     },
                     10
                 );

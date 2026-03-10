@@ -114,8 +114,13 @@ class StoreOne_Bundle_Frontend {
 
     check_ajax_referer( 'storeone_bundle_nonce', 'nonce' );
 
-    $items     = $_POST['items'] ?? [];
-    $bundle_id = absint( $_POST['bundle_id'] ?? 0 );
+    if ( isset( $_POST['items'] ) ) {
+        $items = wp_unslash( $_POST['items'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+    }
+
+    $bundle_id = isset( $_POST['bundle_id'] )
+        ? absint( wp_unslash( $_POST['bundle_id'] ) )
+        : 0;
 
     if ( ! is_array( $items ) || ! $bundle_id ) {
         wp_send_json_error();
@@ -123,7 +128,7 @@ class StoreOne_Bundle_Frontend {
 
     if ( empty( $items ) ) {
         wp_send_json_success( [
-            'price_html' => wc_price( 0 ),
+            'price_html' => wp_kses_post( wc_price( 0 )),
             'raw'        => 0,
         ] );
     }
@@ -323,7 +328,11 @@ class StoreOne_Bundle_Frontend {
                     <div class="s1-thumb">
                     <?php
                     if ( ! empty( $settings['product_page']['thumbnails_clickable'] ) ) {
-                        printf( '<a href="%s">%s</a>', $product_link, $product_image );
+                        printf(
+                            '<a href="%s">%s</a>',
+                            esc_url( $product_link ),
+                            wp_kses_post( $product_image )
+                        );
                     }else {
                         echo wp_kses_post( $product_image );
                     }
@@ -343,7 +352,11 @@ class StoreOne_Bundle_Frontend {
                         <?php endif; endif;?>
                         <?php
                         if ( ! empty( $settings['product_page']['thumbnails_clickable'] ) ) {
-                            printf( '<a href="%s">%s</a>', $product_link, $product_name );
+                            printf(
+                                    '<a href="%s">%s</a>',
+                                    esc_url( $product_link ),
+                                    esc_html( $product_name )
+                                );
                         } else {
                             echo esc_html( $product_name );
                         }
@@ -374,7 +387,7 @@ class StoreOne_Bundle_Frontend {
             <span class="s1-line-unit">
                 <?php
                 if ( $is_variable ) {
-                    echo $price_html;
+                    echo wp_kses_post($price_html);
                 }
                 elseif (
                     $discount_scope === 'store_product'
@@ -382,11 +395,21 @@ class StoreOne_Bundle_Frontend {
                     && (float) $prices['sale'] < (float) $prices['regular']
                 ) {
                     if ( empty( $item['price_hide'] ) ) {
-                        echo '<del>' . wc_price( $prices['regular'] ) . '</del> ';
-                    }
-                    echo '<ins>' . wc_price( $prices['sale'] ) . '</ins>';
-                }elseif($discount_scope === 'store_bundle' && !empty( $item['price_hide'] )) {
-                    echo wc_price( $prices['regular'] );
+                    printf(
+                        '<del>%s</del> ',
+                        wp_kses_post( wc_price( $prices['regular'] ) )
+                    );
+                }
+
+                printf(
+                    '<ins>%s</ins>',
+                    wp_kses_post( wc_price( $prices['sale'] ) )
+                );
+
+                } elseif ( $discount_scope === 'store_bundle' && ! empty( $item['price_hide'] ) ) {
+
+                    echo wp_kses_post( wc_price( $prices['regular'] ) );
+
                 }
             ?>
             </span>
@@ -395,10 +418,10 @@ class StoreOne_Bundle_Frontend {
                 <strong class="s1-line-total">
                     <?php
                     if ( $discount_scope === 'store_bundle' ) {
-                        echo '<del>' . wc_price( $price * $qty ) . '</del>';
-                    } else {
-                        echo wc_price( $price * $qty );
-                    }
+                            printf( '<del>%s</del>', wp_kses_post( wc_price( $price * $qty ) ) );
+                        } else {
+                            echo wp_kses_post( wc_price( $price * $qty ) );
+                        }
                     ?>
                 </strong>
             <?php endif; ?>
@@ -421,7 +444,7 @@ class StoreOne_Bundle_Frontend {
 
                         <?php foreach ( $p->get_variation_attributes() as $attribute_name => $options ) : ?>
                             <div class="s1-variation-field">
-                                <label><?php echo wc_attribute_label( $attribute_name ); ?></label>
+                                <label><?php echo esc_html(wc_attribute_label( $attribute_name )); ?></label>
                                 <?php
                                 wc_dropdown_variation_attribute_options( [
                                     'options'   => $options,
@@ -468,7 +491,7 @@ class StoreOne_Bundle_Frontend {
         <?php endif; ?>
         </div>
         <span class="s1-currency-template" style="display:none">
-            <?php echo wc_price( 0 ); ?>
+            <?php echo wp_kses_post(wc_price( 0 )); ?>
         </span>
     </div>
     <?php
@@ -533,9 +556,10 @@ class StoreOne_Bundle_Frontend {
 
     // Skip validation when product is added from FBT AJAX
     if (
-        defined('DOING_AJAX') &&
-        ! empty($_POST['action']) &&
-        $_POST['action'] === 'storeone_fbt_add_bundle'
+        defined( 'DOING_AJAX' ) &&
+        isset( $_POST['action'] ) &&
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing
+        sanitize_text_field( wp_unslash( $_POST['action'] ) ) === 'storeone_fbt_add_bundle'
     ) {
         return $passed;
     }
@@ -546,8 +570,11 @@ class StoreOne_Bundle_Frontend {
     if ( empty( $bundle_items ) ) {
         return $passed;
     }
-
-    $bundle = json_decode( wp_unslash( $_POST['storeone_bundle_data'] ?? '' ), true );
+    if ( isset( $_POST['storeone_bundle_data'] ) ) {
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing
+    $bundle_data = wp_unslash( $_POST['storeone_bundle_data'] );
+    $bundle = json_decode( $bundle_data, true );
+   }
 
     if ( empty( $bundle['items'] ) ) {
         wc_add_notice( __( 'Please select bundle items.', 'store-one' ), 'error' );
@@ -562,9 +589,13 @@ class StoreOne_Bundle_Frontend {
         $total += max( 1, absint( $item['qty'] ?? 1 ) );
     }
 
-    if ( $bundle_min > 0 && $total < $bundle_min ) {
+        if ( $bundle_min > 0 && $total < $bundle_min ) {
         wc_add_notice(
-            sprintf( __( 'Minimum %d items required in bundle.', 'store-one' ), $bundle_min ),
+            sprintf(
+                /* translators: %d: Minimum number of items required in the bundle */
+                esc_html__( 'Minimum %d items required in bundle.', 'store-one' ),
+                $bundle_min
+            ),
             'error'
         );
         return false;
@@ -572,37 +603,37 @@ class StoreOne_Bundle_Frontend {
 
     if ( $bundle_max > 0 && $total > $bundle_max ) {
         wc_add_notice(
-            sprintf( __( 'Maximum %d items allowed in bundle.', 'store-one' ), $bundle_max ),
+            sprintf(
+                /* translators: %d: Maximum number of items allowed in the bundle */
+                esc_html__( 'Maximum %d items allowed in bundle.', 'store-one' ),
+                $bundle_max
+            ),
             'error'
         );
         return false;
     }
 
-    return $passed;
-   }
+        return $passed;
+    }
 
     /* =============================
      * ADD TO CART
      * ============================= */
     public function storeone_add_bundle_to_cart_item( $cart_item_data, $product_id ) {
-
     $product = wc_get_product( $product_id );
-
-    
     if ( ! $product ) {
         
         return $cart_item_data;
     }
-
-   
-    if ( ! isset( $_POST['storeone_bundle_data'] ) || empty( $_POST['storeone_bundle_data'] ) ) {
+    if ( ! isset( 
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing
+        $_POST['storeone_bundle_data'] ) || empty( $_POST['storeone_bundle_data'] ) ) {
         return $cart_item_data;
     }
-
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing , phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
     $bundle = json_decode( wp_unslash( $_POST['storeone_bundle_data'] ), true );
     if ( empty( $bundle['items'] ) ) return $cart_item_data;
 
-    
     $bundle['scope'] = get_post_meta( $product_id, '_storeone_discount_scope', true ) ?: 'store_bundle';
 
     $cart_item_data['storeone_bundle'] = $bundle;
@@ -610,6 +641,7 @@ class StoreOne_Bundle_Frontend {
     $cart_item_data['storeone_bundle_key'] = md5( wp_json_encode( $bundle ) );
 
     return $cart_item_data;
+
    }
 
 

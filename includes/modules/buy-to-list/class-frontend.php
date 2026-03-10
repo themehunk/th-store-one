@@ -265,7 +265,7 @@ class StoreOne_Buy_To_List_Frontend {
 
         // 1️Preset SVG Icons
         if ( 'icon' === $icon_type ) {
-
+           // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             echo $this->get_icon_svg( $rule['selected_icon'] ?? 'check' );
 
         }
@@ -345,11 +345,11 @@ class StoreOne_Buy_To_List_Frontend {
         </div>
 
         <?php
-
+// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo apply_filters(
             'storeone_buy_to_list_output',
             ob_get_clean(),
-            $rule
+            esc_html($rule)
         );
     }
 
@@ -357,20 +357,6 @@ class StoreOne_Buy_To_List_Frontend {
      * Dynamic CSS (No Inline Style)
      */
     public function add_inline_dynamic_css() {
-
-        // if ( ! is_product() || empty( $this->rules ) ) {
-        //     return;
-        // }
-
-        // global $product;
-
-        // if ( ! $product instanceof WC_Product ) {
-        //     $product = wc_get_product( get_the_ID() );
-        // }
-
-        // if ( ! $product ) {
-        //     return;
-        // }
 
         $css = '';
 

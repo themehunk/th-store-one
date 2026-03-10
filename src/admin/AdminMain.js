@@ -250,15 +250,13 @@ const AdminMain = () => {
   ];
   const originalSettings = useRef({});
   const skipFirstChange = useRef(false);
-
   const currentModule = activeModule
     ? modulesList.find((m) => m.id === activeModule)
     : null;
-
   useEffect(() => {
     if (!currentModule) return;
 
-    skipFirstChange.current = true; // 👈 ignore next change
+    skipFirstChange.current = true; //ignore next change
 
     const currentData = moduleSettings[currentModule.id];
 

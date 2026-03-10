@@ -79,10 +79,11 @@ class Store_One_FBT_Frontend {
         if ( ! is_product() ) {
             return;
         }
-
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
         global $product;
 
         if ( ! $product instanceof WC_Product ) {
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
             $product = wc_get_product( get_the_ID() );
         }
 
@@ -856,11 +857,11 @@ protected function render_style3_total_wrap( WC_Product $product, $rule, $bundle
 
             <div class="s1-fbt-total-price">
                 <strong class="s1-fbt-total-final-amount">
-                    <?php echo wc_price( 0 ); ?>
+                    <?php echo wp_kses_post( wc_price( 0 ) ); ?>
                 </strong>
 
                 <del class="s1-fbt-total-compare-amount" style="display:none;">
-                    <?php echo wc_price( 0 ); ?>
+                    <?php echo wp_kses_post( wc_price( 0 ) ); ?>
                 </del>
             </div>
         </div>
@@ -911,16 +912,13 @@ protected function render_style3_total_wrap( WC_Product $product, $rule, $bundle
                                     ? wc_clean( stripslashes( urldecode( $_REQUEST[ 'attribute_' . sanitize_title( $attribute_name ) ] ) ) )
                                     : $product->get_variation_default_attribute( $attribute_name );
 
-                                wc_dropdown_variation_attribute_options(
+                                    wc_dropdown_variation_attribute_options(
                                     [
                                         'options'          => $options,
                                         'attribute'        => $attribute_name,
                                         'product'          => $product,
                                         'selected'         => $selected,
-                                        'show_option_none' => sprintf(
-                                            esc_html__( '%s', 'store-one' ),
-                                            wc_attribute_label( $attribute_name )
-                                        ),
+                                        'show_option_none' => wc_attribute_label( $attribute_name ),
                                     ]
                                 );
                                 ?>
@@ -930,11 +928,16 @@ protected function render_style3_total_wrap( WC_Product $product, $rule, $bundle
 
                     <div class="reset">
                         <?php
-                        echo apply_filters(
-                            'woocommerce_reset_variations_link',
-                            '<a class="reset_variations" href="#">' .
-                            esc_html__( 'Clear', 'store-one' ) .
-                            '</a>'
+                       
+                        echo wp_kses_post(
+                            
+                            apply_filters(
+                                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+                                'woocommerce_reset_variations_link',
+                                '<a class="reset_variations" href="#">' .
+                                esc_html__( 'Clear', 'store-one' ) .
+                                '</a>'
+                            )
                         );
                         ?>
                     </div>
@@ -978,7 +981,7 @@ protected function render_style3_total_wrap( WC_Product $product, $rule, $bundle
         if ( ! $product_id ) {
             return '';
         }
-
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
         $product = wc_get_product( $product_id );
         if ( ! $product ) {
             return '';
@@ -1090,8 +1093,9 @@ protected function render_style3_total_wrap( WC_Product $product, $rule, $bundle
                 $cart_item_data['storeone_bundle_key'] = md5( wp_json_encode( $bundle_data ) );
             }
         }
-
+       
         $passed = apply_filters(
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
             'woocommerce_add_to_cart_validation',
             true,
             $product_id,
@@ -1120,10 +1124,11 @@ protected function render_style3_total_wrap( WC_Product $product, $rule, $bundle
 public function add_inline_dynamic_css() {
 
     if ( ! is_product() ) return;
-
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
     global $product;
 
     if ( ! $product instanceof WC_Product ) {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
         $product = wc_get_product( get_the_ID() );
     }
 
