@@ -1,7 +1,7 @@
 
 import { __ } from '@wordpress/i18n';
 
-const Header = ({ currentPage, setCurrentPage, setActiveModule }) => {
+const Header = ({ currentPage, setCurrentPage, setActiveModule, proActive }) => {
     return (
     <header className="s1-header">
     
@@ -38,6 +38,25 @@ const Header = ({ currentPage, setCurrentPage, setActiveModule }) => {
             <svg class="w-4 h-4" height="16px" width="16px" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
             <span>{ __('Settings', 'store-one') }</span>
         </button>
+
+        {proActive && (
+<button
+    className={`s1-nav__btn ${currentPage === 'license' ? 'is-active' : ''}`}
+    onClick={() => {
+        setCurrentPage('license');
+        setActiveModule(null);
+    }}
+>
+    <svg class="w-4 h-4" height="16px" width="16px" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M12 11c1.657 0 3-1.343 3-3S13.657 5 12 5 9 6.343 9 8s1.343 3 3 3z"/>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M5 21v-2a7 7 0 0114 0v2"/>
+    </svg>
+
+    <span>{ __('License', 'store-one') }</span>
+</button>
+)}
 
     </nav>
 

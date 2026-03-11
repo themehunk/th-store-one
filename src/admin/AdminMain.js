@@ -7,6 +7,7 @@ import ModuleGrid from "@storeone-modulegrid/ModuleGrid";
 import ModuleSettings from "@storeone-modulesettings/ModuleSettings";
 import PreviewPane from "@storeone-modulepreviewpane/PreviewPane";
 import GlobalSettings from "@storeone-global/GlobalSettings";
+import LicensePage from "@storeone-global/LicensePage";
 
 import { Notice, Spinner, Button } from "@wordpress/components";
 import "./admin.scss";
@@ -223,13 +224,16 @@ const AdminMain = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [currentPage, setCurrentPage] = useState("dashboard");
+  const [proActive, setProActive] = useState(false);
+  const [licenseActive, setLicenseActive] = useState(false);
   const [activeModule, setActiveModule] = useState(null);
   const [saveHandler, setSaveHandler] = useState(null);
   const [isDirty, setIsDirty] = useState(false);
+  
 
   const [modulesState, setModulesState] = useState({
-    "frequently-bought": true,
-    "bundle-product": true,
+    "frequently-bought": false,
+    "bundle-product": false,
     "buy-to-list": true,
     "quick-social": true,
     "product-brand": true,
@@ -413,7 +417,7 @@ const AdminMain = () => {
 
       setSuccess(__("Saved successfully!", "store-one"));
 
-      // ⏳ UX delay
+      // UX delay
       setTimeout(() => {
         setIsDirty(false);
         setSaving(false);
@@ -423,6 +427,39 @@ const AdminMain = () => {
       setSaving(false);
     }
   };
+//************************/
+// for licence pro
+//*********************/
+useEffect(() => {
+  apiFetch({ path: `${StoreOneAdmin.restUrl}pro-status` })
+    .then((res) => {
+      if (res?.pro_active) {
+        setProActive(true);
+      }
+      if (res?.license_active) {
+        setLicenseActive(true);
+      }
+    })
+    .catch(() => {});
+}, []);
+useEffect(() => {
+
+  if (currentPage !== "license") {
+    return;
+  }
+
+  apiFetch({ path: `${StoreOneAdmin.restUrl}license-html` })
+    .then((html) => {
+      const el = document.getElementById("store-one-license-root");
+      if (el) {
+        el.innerHTML = html;
+      }
+    })
+    .catch(() => {
+      console.log("License page load failed");
+  });
+
+}, [currentPage]);
 
   return (
     <div className="store-one-admin">
@@ -446,6 +483,7 @@ const AdminMain = () => {
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
         setActiveModule={setActiveModule}
+        proActive={proActive}
       />
       {/* SAVE BUTTON */}
       {isDirty && saveHandler && (
@@ -471,6 +509,7 @@ const AdminMain = () => {
               modulesState={modulesState}
               tabs={tabs}
               setActiveModule={setActiveModule}
+              licenseActive={licenseActive}
             />
           )}
 
@@ -483,7 +522,7 @@ const AdminMain = () => {
               >
                 ← {__("Go Back", "store-one")}
               </Button>
-              {/* 🔥 FIXED CLASS HERE */}
+              {/*FIXED CLASS HERE */}
               <div className="s1-settings-layout">
                 <ModuleSettings
                   onLivePreview={(rule) => setLivePreviewSettings(rule)}
@@ -492,7 +531,7 @@ const AdminMain = () => {
                   onToggleModule={handleToggleModule}
                   saving={saving}
                   onSettingsChange={(settings) => {
-                    // 🔥 Skip first automatic call
+                    //Skip first automatic call
                     if (skipFirstChange.current) {
                       originalSettings.current[currentModule.id] =
                         JSON.stringify(settings);
@@ -520,6 +559,7 @@ const AdminMain = () => {
                     setIsDirty(newString !== oldString);
                   }}
                   onRegisterSave={setSaveHandler}
+                  licenseActive={licenseActive}
                 />
                 <div className="s1-preview-pane">
                   {/* <PreviewPane currentModule={currentModule} settings={livePreviewSettings || moduleSettings[currentModule.id]?.rules?.[0]}/> */}
@@ -588,6 +628,9 @@ const AdminMain = () => {
           modulesState={modulesState}
           onToggleAllModules={handleToggleAllModules}
         />
+      )}
+      {currentPage === "license" && proActive && (
+        <LicensePage />
       )}
     </div>
   );

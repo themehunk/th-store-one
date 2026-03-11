@@ -17,8 +17,11 @@ import QuickSocialSettings from '../../modules/QuickSocial/QuickSocialSettings';
 import ProductBrandSettings from '../../modules/ProductBrand/ProductBrandSettings';
 
 
-const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, onSettingsChange, onLivePreview,onRegisterSave }) => {
+const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, onSettingsChange, onLivePreview,onRegisterSave ,licenseActive}) => {
     const enabled = !!modulesState[currentModule.id];
+
+    const isPremium = currentModule.premium ?? false;
+    const isLocked = isPremium && !licenseActive;
 
     const renderModuleContent = () => {
         switch (currentModule.id) {
@@ -64,7 +67,11 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                 <Flex justify="space-between" align="center">
 
                     <FlexBlock className="s1-settings__info">
-                        <h2 className="s1-settings__title">{currentModule.label}</h2>
+                        <h2 className="s1-settings__title">{currentModule.label}</h2>{isLocked && (
+            <span className="s1-license-required-badge">
+                {__("License Required", "store-one")}
+            </span>
+        )}
                         <p className="s1-settings__desc">{currentModule.description}</p>
                         {currentModule.id === 'bundle-product' && (
                         
@@ -85,11 +92,19 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                     </FlexBlock>
 
                     <FlexItem className="s1-settings__toggle">
-                        <ToggleControl
+                        {/* <ToggleControl
                             label={enabled ? __('Enabled', 'store-one') : __('Disabled', 'store-one')}
                             checked={enabled}
                             disabled={saving}
                             onChange={(val) => onToggleModule(currentModule.id, val)}
+                        /> */}
+                        <ToggleControl
+                            label={enabled ? __('Enabled', 'store-one') : __('Disabled', 'store-one')}
+                            checked={enabled}
+                            disabled={saving || isLocked}
+                            onChange={(val) => {
+                                onToggleModule(currentModule.id, val);
+                            }}
                         />
                     </FlexItem>
 

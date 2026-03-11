@@ -1,19 +1,21 @@
 import { Card, CardBody, Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
-const ModuleCard = ({ mod, modulesState, setActiveModule }) => {
+const ModuleCard = ({ mod, modulesState, setActiveModule, licenseActive  }) => {
     const isActive = modulesState[mod.id];
     const isPremium = mod.premium ?? false;
+    const isLocked = isPremium && !licenseActive;
 
     return (
         <Card className="s1-module-card">
            <CardBody
-  className={[
-    's1-module-card__body',
-    isPremium ? 'is-premium' : 'is-free',
-    isActive ? 'is-active' : ''
-  ].join(' ')}
->
+            className={[
+                    's1-module-card__body',
+                    isPremium ? 'is-premium' : 'is-free',
+                    isActive ? 'is-active' : '',
+                    isLocked ? 'is-locked' : ''
+                ].join(' ')}
+            >
 
                 <div className="s1-module-card__top"  >
                     <span className="s1-module-card__icon">{mod.icon}</span>
@@ -25,11 +27,11 @@ const ModuleCard = ({ mod, modulesState, setActiveModule }) => {
                         }
                     </span>
                     <span className={`s1-module-card__pro ${isPremium ? 'is-premium' : 'is-free'}`}>
-    {isPremium
-        ? __('Premium', 'store-one')
-        : __('Free', 'store-one')
-    }
-</span>
+                        {isPremium
+                            ? __('Premium', 'store-one')
+                            : __('Free', 'store-one')
+                        }
+                    </span>
                     </div>
                 </div>
 
@@ -42,7 +44,10 @@ const ModuleCard = ({ mod, modulesState, setActiveModule }) => {
                     isPrimary
                     onClick={() => setActiveModule(mod.id)}
                 >
-                    { __('Configure', 'store-one') } →
+                    {isLocked
+                        ? __('Upgrade License', 'store-one')
+                        : __('Configure', 'store-one')
+                    } →
                 </Button>
 
             </CardBody>

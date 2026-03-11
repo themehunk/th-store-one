@@ -35,23 +35,22 @@ class Store_One_Admin {
 			array( $this, 'render_admin_page' )
 		);
 
-	$license_status = true;
-	// // Upgrade menu only when license inactive
-	// if ( false == $license_status ) {
-		add_submenu_page(
-			'store-one',
-			esc_html__( 'Upgrade', 'store-one' ),
-			'<span class="storeone-upgrade-btn">' . esc_html__( 'Upgrade', 'store-one' ) . '</span>',
-			'manage_options',
-			'store-one-upgrade',
-			'__return_false'
-		);
+		$license_status = true;
+		// // Upgrade menu only when license inactive
+		// if ( false == $license_status ) {
+			add_submenu_page(
+				'store-one',
+				esc_html__( 'Upgrade', 'store-one' ),
+				'<span class="storeone-upgrade-btn">' . esc_html__( 'Upgrade', 'store-one' ) . '</span>',
+				'manage_options',
+				'store-one-upgrade',
+				'__return_false'
+			);
 
-	// }
-	}
+		// }
+		}
 
 	public function render_admin_page() {
-
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( esc_html__( 'You do not have permission to access this page.', 'store-one' ) );
 		}
@@ -74,11 +73,9 @@ class Store_One_Admin {
 	}
 
 	public function enqueue_assets( $hook ) {
-
 		if ( ! in_array( $hook, array( 'toplevel_page_store-one', 'store-one_page_store-one' ), true ) ) {
 			return;
 		}
-
 		$js_path  = 'build/admin/index.js';
 		$css_path = 'build/admin/index.css';
 		$css_path_style = 'build/admin/style-index.css';

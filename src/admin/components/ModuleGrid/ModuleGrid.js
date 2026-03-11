@@ -1,7 +1,7 @@
 import { useState } from '@wordpress/element';
 import ModuleCard from '../ModuleCard/ModuleCard';
 import { __ } from '@wordpress/i18n';
-const ModuleGrid = ({ modulesList, modulesState, tabs, setActiveModule }) => {
+const ModuleGrid = ({ modulesList, modulesState, tabs, setActiveModule,licenseActive }) => {
 
     const [activeTab, setActiveTab] = useState(tabs[0].name);
 
@@ -45,6 +45,7 @@ const ModuleGrid = ({ modulesList, modulesState, tabs, setActiveModule }) => {
                             mod={mod}
                             modulesState={modulesState}
                             setActiveModule={setActiveModule}
+                            licenseActive={licenseActive}
                         />
                     ))}
             </div>
