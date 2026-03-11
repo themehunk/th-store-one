@@ -107,6 +107,7 @@
     --s1-box-shadow:0 1px 2px rgba(0, 0, 0, 0.05);
 
 }
+
 .toplevel_page_store-one .wp-menu-image img{
     padding:0!important;
 }
@@ -1143,7 +1144,7 @@ button.is-tertiary,
 }
 
 /* ----------------------------------------
-   ✅ SCREENSHOT STYLE PRODUCT ROW
+SCREENSHOT STYLE PRODUCT ROW
 ---------------------------------------- */
 .s1-product-row,
 .s1-selected-row {
@@ -1153,6 +1154,7 @@ button.is-tertiary,
       padding: 6px 5px;
     border-bottom: 1px solid var(--s1-gray-200);
     cursor: pointer;
+    gap: 0.5rem;
 }
 
 .s1-product-row:last-child {
@@ -1166,7 +1168,7 @@ button.is-tertiary,
     min-width: 0;
 }
 
-/* ✅ Product Image */
+/* Product Image */
 .s1-product-thumb {
   width: 30px;
     height: 30px;
@@ -1178,7 +1180,7 @@ button.is-tertiary,
     border: 1px solid rgb(241 245 249);
 }
 
-/* ✅ Product Text */
+/*Product Text */
 .s1-product-meta {
   display: flex;
     flex-direction: row;
@@ -1204,24 +1206,13 @@ button.is-tertiary,
     border-radius: 5px;
 }
 
-/* ✅ Right Side Type (simple / variable) */
-// .s1-product-type {
-//     font-size: 11px;
-//     color: var(--s1-color-primary);
-//     background: #eef4ff;
-//     border: 1px solid #c7d6f5;
-//     padding: 2px 6px;
-//     border-radius: 4px;
-//     text-transform: capitalize;
-// }
-
-/* ✅ Hover Effect like Woo */
+/* Hover Effect like Woo */
 .s1-product-row:hover {
     background: var(--s1-gray-100);
 }
 
 /* ----------------------------------------
-   ✅ SELECTED PRODUCTS (Screenshot Style)
+   SELECTED PRODUCTS (Screenshot Style)
 ---------------------------------------- */
 .s1-selected-row {
     background: var(--s1-gray-100);
@@ -1255,7 +1246,7 @@ button.is-tertiary,
     justify-content: center;
 }
 /* ----------------------------------------
-   ✅ INPUT WRAPPER (already exists - untouched)
+INPUT WRAPPER (already exists - untouched)
 ---------------------------------------- */
 .s1-field-control .multiwoo-selector {
     border: 1px solid var(--s1-gray-300);
@@ -1313,7 +1304,7 @@ input.components-text-control__input {
     color: var(--s1-input-text) !important;
 }
 /* ----------------------------------------
-   ✅ INPUT
+INPUT
 ---------------------------------------- */
 .s1-field-control .multiwoo-selector input.components-text-control__input {
     flex: 1;
@@ -1326,20 +1317,20 @@ input.components-text-control__input {
     box-shadow: none !important;
 }
 
-/* ✅ Placeholder */
+/*Placeholder */
 .components-base-control__field input.components-text-control__input::placeholder {
     color: var(--s1-input-placeholder) !important;
     opacity: 0.8;
 }
 
-/* ✅ WP Backdrop Fix */
+/*WP Backdrop Fix */
 .multiwoo-selector .components-input-control__backdrop {
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
 }
 
-/* ✅ Tag chips theme match */
+/*Tag chips theme match */
 .multiwoo-tag {
     background: #eef4ff;
     border: 1px solid #c7d6f5;
@@ -1748,12 +1739,10 @@ input.components-text-control__input {
     z-index: 999;
     background: #1d2327;
     animation: s1SavebarSlide 0.25s ease-out;
-
-        margin: 0 auto;
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     padding: 12px 16px;
     color:#fff;
 }

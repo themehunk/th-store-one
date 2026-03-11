@@ -1,7 +1,7 @@
 <?php 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-function store_one_normalize_radius( $value ) {
+function storeone_normalize_radius( $value ) {
 
     if ( empty( $value ) ) {
         return '0px';
@@ -19,7 +19,7 @@ function store_one_normalize_radius( $value ) {
     return $value;
 }
 
-function store_one_normalize_color( $value ) {
+function storeone_normalize_color( $value ) {
 
     // If empty fallback
     if ( empty( $value ) ) {

@@ -40,7 +40,7 @@ const GlobalSettings = ({ modulesList, modulesState, onToggleAllModules }) => {
                         {__('View Docs', 'store-one')}
                     </Button>
 
-                    <Button isSecondary href="#">
+                    <Button isSecondary target="_blank" href="https://themehunk.com/contact-us/">
                         {__('Contact Support', 'store-one')}
                     </Button>
                 </CardBody>

@@ -8,14 +8,16 @@ class Store_One_Admin {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		// global admin css
+	     add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_css' ) );
+		add_action( 'admin_init', array( $this, 'handle_upgrade_redirect' ) );
 	}
 
 	public function register_menu() {
 		
-
 		add_menu_page(
-			__( 'Store One', 'store-one' ),
-			__( 'Store One', 'store-one' ),
+			esc_html__( 'Store One', 'store-one' ),
+			esc_html__( 'Store One', 'store-one' ),
 			'manage_options',
 			'store-one',
 			array( $this, 'render_admin_page' ),
@@ -23,14 +25,29 @@ class Store_One_Admin {
 			56
 		);
 
+		// Dashboard
 		add_submenu_page(
 			'store-one',
-			__( 'Dashboard', 'store-one' ),
-			__( 'Dashboard', 'store-one' ),
+			esc_html__( 'Dashboard', 'store-one' ),
+			esc_html__( 'Dashboard', 'store-one' ),
 			'manage_options',
 			'store-one',
 			array( $this, 'render_admin_page' )
 		);
+
+	$license_status = true;
+	// // Upgrade menu only when license inactive
+	// if ( false == $license_status ) {
+		add_submenu_page(
+			'store-one',
+			esc_html__( 'Upgrade', 'store-one' ),
+			'<span class="storeone-upgrade-btn">' . esc_html__( 'Upgrade', 'store-one' ) . '</span>',
+			'manage_options',
+			'store-one-upgrade',
+			'__return_false'
+		);
+
+	// }
 	}
 
 	public function render_admin_page() {
@@ -46,6 +63,14 @@ class Store_One_Admin {
 			<div id="store-one-admin-app" aria-label="<?php echo esc_attr__( 'Store One Dashboard', 'store-one' ); ?>"></div>
 		</div>
 		<?php
+	}
+
+	public function handle_upgrade_redirect() {
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	if ( isset( $_GET['page'] ) && 'store-one-upgrade' === $_GET['page'] ) {
+		wp_redirect( 'https://themehunk.com' );
+		exit;
+	}
 	}
 
 	public function enqueue_assets( $hook ) {
@@ -73,19 +98,19 @@ class Store_One_Admin {
 		wp_register_style(
 			'store-one-admin',
 			STORE_ONE_PLUGIN_URL . $css_path,
-			array( 'wp-components' ),
+			array(),
 			$css_ver
 		);
 
-			wp_register_style(
+		wp_register_style(
 			'store-one-admin-style',
 			STORE_ONE_PLUGIN_URL . $css_path_style,
 			array( 'wp-components' ),
 			$css_path_style_var
 		);
 
-		// IMPORTANT: apiFetch({ path }) me sirf relative path jata hai,
-		// isliye yahan domain ke bina sirf "namespace/version" de rahe hain.
+		// IMPORTANT: apiFetch({ path })
+		
 		wp_localize_script(
 			'store-one-admin',
 			'StoreOneAdmin',
@@ -110,4 +135,20 @@ class Store_One_Admin {
 		wp_enqueue_style( 'store-one-admin' );
 		wp_enqueue_style( 'store-one-admin-style' );
 	}
+
+	public function enqueue_admin_css() {
+
+	$css_path = 'assets/css/storeone-admin.css';
+
+	$css_ver = file_exists( STORE_ONE_PLUGIN_DIR . $css_path )
+		? filemtime( STORE_ONE_PLUGIN_DIR . $css_path )
+		: STORE_ONE_VERSION;
+
+	wp_enqueue_style(
+		'storeone-admin-menu',
+		STORE_ONE_PLUGIN_URL . $css_path,
+		array(),
+		$css_ver
+	);
+}
 }

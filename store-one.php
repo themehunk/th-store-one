@@ -2,16 +2,18 @@
 /**
  * Plugin Name:       Store One
  * Description:       Central dashboard for Store One modules (Woo Search, Cart, Frequently Bought, etc.)
- * Version:           1.0.3
- * Author:            themehunk
- * Author URI:        https://www.themehunk.com
- * License:           GPLv2 or later
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- * Text Domain:       store-one
- * Requires at least: 6.0
- * Requires PHP:      7.4
- * WC requires at least: 3.0
- * WC tested up to:   8.9
+ * Version:           1.0.0
+ * Author:                  ThemeHunk
+ * License:                 GPL-2.0+
+ * License URI:             http://www.gnu.org/licenses/gpl-2.0.txt
+ * Author URI:              https://themehunk.com
+ * Requires at least:       5.5
+ * Tested up to:            6.9
+ * WC requires at least:    3.2
+ * WC tested up to:         9.9
+ * Domain Path:             /languages
+ * Text Domain:             store-one
+ * Requires Plugins:  woocommerce,
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -19,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // ------------------ Constants ------------------.
-define( 'STORE_ONE_VERSION', '1.0.78' );
+define( 'STORE_ONE_VERSION', '1.0.1' );
 define( 'STORE_ONE_PLUGIN_FILE', __FILE__ );
 define( 'STORE_ONE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'STORE_ONE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -59,9 +61,8 @@ add_action(
 	     require_once STORE_ONE_PLUGIN_DIR . 'includes/modules/quick-social/class-frontend.php';
 		require_once STORE_ONE_PLUGIN_DIR . 'includes/modules/product-brand/class-frontend.php';
 
-		if ( class_exists( 'Store_One_FBT_Frontend' ) ) {
-			
-			new Store_One_FBT_Frontend();
+		if ( class_exists( 'StoreOne_FBT_Frontend' ) ) {
+			new StoreOne_FBT_Frontend();
 		}
 		if ( class_exists( 'StoreOne_Bundle_Frontend' ) ) {
 			StoreOne_Bundle_Frontend::instance();

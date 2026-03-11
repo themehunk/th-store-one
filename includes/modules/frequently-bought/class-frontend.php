@@ -1,7 +1,7 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class Store_One_FBT_Frontend {
+class StoreOne_FBT_Frontend {
 
     protected $option_key        = 'store_one_module_set';
     protected $active_rule       = null;
@@ -908,9 +908,15 @@ protected function render_style3_total_wrap( WC_Product $product, $rule, $bundle
                         <div class="variation">
                             <div class="select">
                                 <?php
-                                $selected = isset( $_REQUEST[ 'attribute_' . sanitize_title( $attribute_name ) ] )
-                                    ? wc_clean( stripslashes( urldecode( $_REQUEST[ 'attribute_' . sanitize_title( $attribute_name ) ] ) ) )
-                                    : $product->get_variation_default_attribute( $attribute_name );
+$attr_key = 'attribute_' . sanitize_title( $attribute_name );
+/**
+ * We are using $_GET for display purposes, not for updating database, 
+ * so we can safely ignore Nonce Verification here.
+ */
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+$request_val = isset( $_GET[ $attr_key ] ) ? sanitize_text_field( wp_unslash( $_GET[ $attr_key ] ) ) : '';
+
+$selected = $request_val ?: $product->get_variation_default_attribute( $attribute_name );
 
                                     wc_dropdown_variation_attribute_options(
                                     [
@@ -1016,11 +1022,13 @@ protected function render_style3_total_wrap( WC_Product $product, $rule, $bundle
     if ( empty($_POST['items']) || ! is_array($_POST['items']) ) {
         wp_send_json_error();
     }
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+    $items = isset($_POST['items']) ? wp_unslash($_POST['items']) : [];
 
-    foreach ( $_POST['items'] as $item ) {
+    foreach ( $items as $item ) {
 
-        $product_id   = absint( $item['product_id'] ?? 0 );
-        $variation_id = absint( $item['variation_id'] ?? 0 );
+        $product_id   = isset($item['product_id']) ? absint($item['product_id']) : 0;
+        $variation_id = isset($item['variation_id']) ? absint($item['variation_id']) : 0;
         $quantity     = 1;
 
         if ( ! $product_id ) {
@@ -1155,23 +1163,23 @@ public function add_inline_dynamic_css() {
 protected function generate_dynamic_css( $rule, $product_id ) {
 
     $id      = $rule['flexible_id'];
-    $title   = store_one_normalize_color( $rule['bundel_title_clr'] );
-    $bg      = store_one_normalize_color( $rule['bundel_bg_clr'] );
-    $border  = store_one_normalize_color( $rule['bundel_brd_clr'] );
-    $oborder  = store_one_normalize_color( $rule['outer_brd_clr'] );
-    $bundel_tle_brd_clr  = store_one_normalize_color( $rule['bundel_tle_brd_clr']);
-    $ptitle  = store_one_normalize_color( $rule['prd_tle_clr']);
-    $pprice  = store_one_normalize_color( $rule['prd_prc_clr']);
+    $title   = storeone_normalize_color( $rule['bundel_title_clr'] );
+    $bg      = storeone_normalize_color( $rule['bundel_bg_clr'] );
+    $border  = storeone_normalize_color( $rule['bundel_brd_clr'] );
+    $oborder  = storeone_normalize_color( $rule['outer_brd_clr'] );
+    $bundel_tle_brd_clr  = storeone_normalize_color( $rule['bundel_tle_brd_clr']);
+    $ptitle  = storeone_normalize_color( $rule['prd_tle_clr']);
+    $pprice  = storeone_normalize_color( $rule['prd_prc_clr']);
     
-    $bundel_chk_clr  = store_one_normalize_color( $rule['bundel_chk_clr']);
-    $bundel_chk_bg_clr  = store_one_normalize_color( $rule['bundel_chk_bg_clr']);
-    $plus    = store_one_normalize_color( $rule['bundel_plus_clr']);
-    $plusbg    = store_one_normalize_color( $rule['bundel_plus_bg_clr']);
-    $content = store_one_normalize_color( $rule['bundel_cnt_clr']);
+    $bundel_chk_clr  = storeone_normalize_color( $rule['bundel_chk_clr']);
+    $bundel_chk_bg_clr  = storeone_normalize_color( $rule['bundel_chk_bg_clr']);
+    $plus    = storeone_normalize_color( $rule['bundel_plus_clr']);
+    $plusbg    = storeone_normalize_color( $rule['bundel_plus_bg_clr']);
+    $content = storeone_normalize_color( $rule['bundel_cnt_clr']);
     
-    $btnbg   = store_one_normalize_color( $rule['bundel_btn_bg']);
-    $btntxt  = store_one_normalize_color( $rule['bundel_btn_txt']);
-    $radius  = store_one_normalize_radius( $rule['border_radius']);
+    $btnbg   = storeone_normalize_color( $rule['bundel_btn_bg']);
+    $btntxt  = storeone_normalize_color( $rule['bundel_btn_txt']);
+    $radius  = storeone_normalize_radius( $rule['border_radius']);
     return "
     .s1-fbt-box[data-rule-id='{$id}'],
     section.s1-fbt-box.style_3[data-rule-id='{$id}'] {

@@ -265,14 +265,44 @@ class StoreOne_Buy_To_List_Frontend {
 
         // 1️Preset SVG Icons
         if ( 'icon' === $icon_type ) {
-           // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-            echo $this->get_icon_svg( $rule['selected_icon'] ?? 'check' );
+           $allowed_svg = array(
+            'svg' => array(
+                'xmlns' => true,
+                'viewbox' => true,
+                'viewBox' => true,
+                'width' => true,
+                'height' => true,
+                'fill' => true,
+                'stroke' => true,
+                'class' => true,
+                'role' => true,
+                'aria-hidden' => true,
+            ),
+            'path' => array(
+                'd' => true,
+                'fill' => true,
+                'stroke' => true,
+                'stroke-width' => true,
+                'stroke-linecap' => true,
+                'stroke-linejoin' => true,
+            ),
+            'img' => array(
+                'src' => true,
+                'alt' => true,
+                'class' => true,
+                'width' => true,
+                'height' => true,
+            ),
+        );
+
+                    echo wp_kses(
+            $this->get_icon_svg( $rule['selected_icon'] ?? 'check' ),
+            $allowed_svg
+        );
 
         }
-
         // 2️Uploaded Image
         elseif ( 'image' === $icon_type && ! empty( $rule['image_url'] ) ) {
-
             printf(
                 '<img src="%s" alt="%s" class="storeone-btl-icon-img" />',
                 esc_url( $rule['image_url'] ),
@@ -385,14 +415,14 @@ class StoreOne_Buy_To_List_Frontend {
 
         $id = 'storeone-btl-' . sanitize_html_class( $rule['flexible_id'] );
 
-        $bg        = store_one_normalize_color( $rule['btl_bg_clr'] ?? '#ffffff' );
-        $title     = store_one_normalize_color( $rule['btl_title_clr'] ?? '#111' );
-        $list      = store_one_normalize_color( $rule['btl_list_clr'] ?? '#111' );
-        $icon_bg   = store_one_normalize_color( $rule['btl_icon_bg_clr'] ?? '#fff' );
-        $icon_clr  = store_one_normalize_color( $rule['btl_icon_clr'] ?? '#2563eb' );
-        $icon_clr  = store_one_normalize_color( $rule['btl_icon_clr'] ?? '#2563eb' );
-        $radius    = store_one_normalize_radius( $rule['btl_border_radius']?? '8px');
-        $border_clr  = store_one_normalize_color( $rule['btl_border_clr'] ?? '#e5e7eb' );
+        $bg        = storeone_normalize_color( $rule['btl_bg_clr'] ?? '#ffffff' );
+        $title     = storeone_normalize_color( $rule['btl_title_clr'] ?? '#111' );
+        $list      = storeone_normalize_color( $rule['btl_list_clr'] ?? '#111' );
+        $icon_bg   = storeone_normalize_color( $rule['btl_icon_bg_clr'] ?? '#fff' );
+        $icon_clr  = storeone_normalize_color( $rule['btl_icon_clr'] ?? '#2563eb' );
+        $icon_clr  = storeone_normalize_color( $rule['btl_icon_clr'] ?? '#2563eb' );
+        $radius    = storeone_normalize_radius( $rule['btl_border_radius']?? '8px');
+        $border_clr  = storeone_normalize_color( $rule['btl_border_clr'] ?? '#e5e7eb' );
 
         if($rule['display_style'] === 'style_4'){
            $css .= "#{$id} { background: #fff; border-color: {$border_clr};border-radius: {$radius};}";

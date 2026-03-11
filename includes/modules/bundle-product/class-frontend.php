@@ -557,6 +557,7 @@ class StoreOne_Bundle_Frontend {
     // Skip validation when product is added from FBT AJAX
     if (
         defined( 'DOING_AJAX' ) &&
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing
         isset( $_POST['action'] ) &&
         // phpcs:ignore WordPress.Security.NonceVerification.Missing
         sanitize_text_field( wp_unslash( $_POST['action'] ) ) === 'storeone_fbt_add_bundle'
@@ -570,11 +571,12 @@ class StoreOne_Bundle_Frontend {
     if ( empty( $bundle_items ) ) {
         return $passed;
     }
+    /* phpcs:disable WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized */
     if ( isset( $_POST['storeone_bundle_data'] ) ) {
-    // phpcs:ignore WordPress.Security.NonceVerification.Missing
-    $bundle_data = wp_unslash( $_POST['storeone_bundle_data'] );
-    $bundle = json_decode( $bundle_data, true );
-   }
+        $bundle_data = wp_unslash( $_POST['storeone_bundle_data'] );
+        $bundle      = json_decode( $bundle_data, true );
+    }
+    /* phpcs:enable */
 
     if ( empty( $bundle['items'] ) ) {
         wc_add_notice( __( 'Please select bundle items.', 'store-one' ), 'error' );
@@ -630,8 +632,12 @@ class StoreOne_Bundle_Frontend {
         $_POST['storeone_bundle_data'] ) || empty( $_POST['storeone_bundle_data'] ) ) {
         return $cart_item_data;
     }
-    // phpcs:ignore WordPress.Security.NonceVerification.Missing , phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-    $bundle = json_decode( wp_unslash( $_POST['storeone_bundle_data'] ), true );
+    /* phpcs:disable WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized */
+    if ( isset( $_POST['storeone_bundle_data'] ) ) {
+        $raw_data = sanitize_text_field( wp_unslash( $_POST['storeone_bundle_data'] ) );
+        $bundle   = json_decode( $raw_data, true );
+    }
+    /* phpcs:enable */
     if ( empty( $bundle['items'] ) ) return $cart_item_data;
 
     $bundle['scope'] = get_post_meta( $product_id, '_storeone_discount_scope', true ) ?: 'store_bundle';

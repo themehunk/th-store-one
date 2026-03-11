@@ -1,12 +1,12 @@
 === Store One ===
 Contributors: themehunk
-Tags: woocommerce, modules, toolkit, product search, ajax search, cart, frequently bought, enhancements
-Requires at least: 6.0
-Tested up to: 6.7
-Requires PHP: 7.4
+Tags: woocommerce,frequently bought together
+Requires at least: 5.5
+Tested up to: 6.9
 Stable tag: 1.0.0
 License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.txt
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Requires Plugins: woocommerce
 
 A central dashboard for Store One modules including Woo Search, Smart Cart, Frequently Bought Together, and more WooCommerce enhancements.
 
