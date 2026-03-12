@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name:       Store One
- * Description:       Store One is a powerful all in one WooCommerce toolkit designed to enhance your online store with conversion focused features and advanced customization options. It helps improve product presentation, optimize the shopping experience, and simplify store management. With lightweight performance and easy setup, Store One provides essential WooCommerce enhancements to increase engagement, improve usability, and boost sales.
- * Version:           1.0.0
+ * Plugin Name:             Store One
+ * Description:             Store One is a powerful all in one WooCommerce toolkit designed to enhance your online store with conversion focused features and advanced customization options. It helps improve product presentation, optimize the shopping experience, and simplify store management. With lightweight performance and easy setup, Store One provides essential WooCommerce enhancements to increase engagement, improve usability, and boost sales.
+ * Version:                 1.0.0
  * Author:                  ThemeHunk
  * License:                 GPL-2.0+
  * License URI:             http://www.gnu.org/licenses/gpl-2.0.txt
@@ -13,7 +13,7 @@
  * WC tested up to:         9.9
  * Domain Path:             /languages
  * Text Domain:             store-one
- * Requires Plugins: woocommerce
+ * Requires Plugins:        woocommerce
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
