@@ -11,6 +11,10 @@ class Store_One_Admin {
 		// global admin css
 	     add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_css' ) );
 		add_action( 'admin_init', array( $this, 'handle_upgrade_redirect' ) );
+		add_filter( 'allowed_redirect_hosts', function( $hosts ) {
+			$hosts[] = 'themehunk.com';
+			return $hosts;
+			});
 	}
 
 	public function register_menu() {
@@ -68,10 +72,10 @@ class Store_One_Admin {
 
 	public function handle_upgrade_redirect() {
 
-	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-	if ( isset( $_GET['page'] ) && 'store-one-upgrade' === $_GET['page'] ) {
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	if ( isset( $_GET['page'] ) && 'store-one-upgrade' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) {
 
-		wp_safe_redirect( 'https://themehunk.com' );
+		wp_safe_redirect( 'https://themehunk.com/storeone/' );
 		exit;
 
 	}
