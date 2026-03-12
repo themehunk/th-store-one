@@ -5,3 +5,7 @@
     border-radius: 4px;
     font-weight: 600;
 }
+.toplevel_page_store-one .wp-submenu-wrap li a{
+    padding-top:10px!important;
+    padding-bottom:10px!important;
+}

@@ -2169,122 +2169,138 @@ button.s1-settings__redirect-btn{
 }
 
 // licence ui style
-/* ================================
-   STORE ONE LICENSE PANEL
-================================ */
+/* License wrapper */
 
-.th-license-wrap{
-    font-family:var(--s1-font-family);
-}
-
-/* Wrapper */
-
-#storeone_pro_license_wrap{
-    padding:var(--s1-space-20);
-}
-
-/* Centered layout */
-
-#storeone_pro_license_wrap .blocks{
-    display:flex;
-    flex-direction:column;
-    gap:var(--s1-space-20);
+#th-storeone-license-active{
     max-width:720px;
 }
 
 /* Card */
 
-#storeone_pro_license_wrap .th-license-status-box,
-#storeone_pro_license_wrap .th-license-activate-box{
+.th-license-status-box{
     background:#fff;
-    border:var(--s1-border);
-    border-radius:var(--s1-radius-xl);
-    box-shadow:var(--s1-shadow-sm);
-    padding:var(--s1-space-20);
-    transition:var(--s1-anim-fast);
-}
-
-#storeone_pro_license_wrap .th-license-status-box:hover,
-#storeone_pro_license_wrap .th-license-activate-box:hover{
-    box-shadow:var(--s1-shadow-md);
-    transform:translateY(-2px);
+    // border:1px solid var(--s1-gray-200);
+    // border-radius:8px;
+    // padding:20px;
+    // box-shadow:0 1px 2px rgba(0,0,0,0.04);
 }
 
 /* Heading */
 
-#storeone_pro_license_wrap .bold-heading{
-    font-size:var(--s1-font-size-lg);
-    font-weight:var(--s1-font-weight-semibold);
-    margin-bottom:var(--s1-space-8);
+.bold-heading{
+    font-size:16px;
+    font-weight:600;
     color:var(--s1-gray-900);
-}
-
-/* Subtitle */
-
-#storeone_pro_license_wrap .th-color-title{
-    font-size:var(--s1-font-size-sm);
-    color:var(--s1-gray-600);
-    margin-bottom:var(--s1-space-12);
 }
 
 /* License info */
 
 .th-license-info{
-    margin-top:var(--s1-space-12);
+    margin-top:16px;
 }
+
+/* Row */
 
 .th-license-row{
     display:flex;
     align-items:center;
-    gap:var(--s1-space-10);
-    margin-bottom:var(--s1-space-10);
+    gap:14px;
+    padding:10px 0;
+    border-bottom:1px solid var(--s1-gray-100);
 }
+
+.th-license-row:last-child{
+    border-bottom:none;
+}
+
+/* Label */
 
 .th-license-label{
-    min-width:150px;
-    font-weight:var(--s1-font-weight-semibold);
-    font-size:var(--s1-font-size-sm);
-    color:var(--s1-gray-700);
+    min-width:160px;
+    font-weight:600;
+    font-size:13px;
+    color:var(--s1-gray-600);
 }
 
+/* Value */
+
 .th-license-value{
-    font-size:var(--s1-font-size-sm);
+    font-size:13px;
     color:var(--s1-gray-900);
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
 /* Masked key */
 
 #th-storeone-masked-key{
-    background:var(--s1-gray-100);
-    padding:4px 8px;
-    border-radius:var(--s1-radius-sm);
+    background:#f8fafc;
+    border:1px solid var(--s1-gray-200);
+    padding:8px 10px;
+    border-radius:5px;
     font-family:monospace;
+    font-size:12px;
+}
+
+/* Reset button */
+
+
+
+/* Status badges */
+
+.th-badge{
+    display:inline-flex;
+    align-items:center;
+    padding:4px 10px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:600;
+}
+
+/* Active */
+
+.th-badge-active{
+    background:#ecfdf5;
+    color:#047857;
+}
+
+/* Expired */
+
+.th-badge-expired{
+    background:#fef2f2;
+    color:#b91c1c;
+}
+
+/* Expiry date */
+
+#th-storeone-expire-date{
+    font-weight:500;
 }
 
 /* Input row */
 
 .th-license-input-row{
     display:flex;
-    gap:var(--s1-space-10);
-    margin:var(--s1-space-12) 0;
+    gap:10px;
+    margin:16px 0;
 }
 
 /* Input */
 
 .th-license-input-row input{
     flex:1;
-    border-radius:var(--s1-radius-sm);
-    padding:8px 10px;
-    font-size:14px;
-    background:var(--s1-input-bg);
-    color:var(--s1-input-text);
+    border-radius:6px;
+    padding:9px 12px;
+    font-size:13px;
+    background:#fff;
     border:1px solid var(--s1-gray-300);
     outline:none;
-    transition:var(--s1-anim-fast);
+    transition:.2s;
 }
 
 .th-license-input-row input:hover{
-    border-color:var(--s1-gray-400);
+    border-color:#94a3b8;
 }
 
 .th-license-input-row input:focus{
@@ -2292,65 +2308,48 @@ button.s1-settings__redirect-btn{
     box-shadow:0 0 0 1px var(--s1-color-primary);
 }
 
-/* Primary button (black like modules) */
+/* Activate button */
 
 .th-license-input-row button{
-    background:#0f172a!important;
-    border:none!important;;
+    background:#0f172a !important;
+    border:none !important;
     color:#fff;
-    padding:0 18px!important;
-    font-size:var(--s1-btn-font-md);
-    border-radius:5px!important;
+    padding:0 18px !important;
+    font-size:13px;
+    border-radius:6px !important;
     cursor:pointer;
-    transition:var(--s1-anim-fast);
+    transition:.2s;
     font-weight:600;
 }
 
 .th-license-input-row button:hover{
-    background:var(--s1-color-primary-dark);
+    background:#1e293b !important;
 }
 
-/* Reset button */
+/* Notice */
 
-.th-license-reset-btn{
-    background:#f1f5f9;
-    border:1px solid var(--s1-gray-300);
-    color:var(--s1-gray-800);
-    border-radius:var(--s1-radius-sm);
-    padding:3px 8px;
-    font-size:11px;
-    cursor:pointer;
-    margin-left:var(--s1-space-8);
+.th-license-notice-box{
+    padding:12px;
+    border-radius:6px;
+    margin-bottom:14px;
+    font-size:13px;
 }
 
-.th-license-reset-btn:hover{
-    background:var(--s1-gray-200);
+.th-notice-success{
+    background:#ecfdf5;
+    border-left:4px solid #22c55e;
 }
 
-/* Badges */
-
-.th-badge{
-    padding:3px 10px;
-    border-radius:var(--s1-radius-full);
-    font-size:11px;
-    font-weight:600;
+.th-notice-error{
+    background:#fef2f2;
+    border-left:4px solid #ef4444;
 }
 
-.th-badge-active{
-    background:#e7f9ed;
-    color:#047857;
-}
-
-.th-badge-expired{
-    background:#fdecea;
-    color:#b91c1c;
-}
-
-/* Expired notice */
+/* Expired message */
 
 .th-license-expired-msg{
-    margin-top:var(--s1-space-10);
-    font-size:var(--s1-font-size-sm);
+    margin-top:12px;
+    font-size:13px;
     color:#dc2626;
 }
 
@@ -2371,21 +2370,37 @@ button.s1-settings__redirect-btn{
     text-decoration:underline;
 }
 
-/* Notice */
-
-.th-license-notice-box{
-    padding:var(--s1-space-10);
-    border-radius:var(--s1-radius-md);
-    margin-bottom:var(--s1-space-14);
-    font-size:var(--s1-font-size-sm);
+/* Responsive */
+.th-license-reset-btn{
+    background:#ef4444;
+    border:none;
+    color:#fff;
+    border-radius:5px;
+    padding:8px 10px;
+    font-size:11px;
+    font-weight:600;
+    cursor:pointer;
+    margin-left:8px;
+    transition:all .2s ease;
 }
 
-.th-notice-success{
-    background:#ecfdf5;
-    border-left:4px solid #22c55e;
+.th-license-reset-btn:hover{
+    background:#dc2626;
 }
 
-.th-notice-error{
-    background:#fef2f2;
-    border-left:4px solid #ef4444;
+.th-license-reset-btn:active{
+    background:#b91c1c;
+}
+
+@media (max-width:600px){
+
+.th-license-row{
+    flex-direction:column;
+    align-items:flex-start;
+}
+
+.th-license-label{
+    min-width:auto;
+}
+
 }

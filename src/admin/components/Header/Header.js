@@ -55,19 +55,17 @@ const Header = ({ currentPage, setCurrentPage, setActiveModule, proActive }) => 
     </svg>
 
     <span>{ __('License', 'store-one') }</span>
-</button>
-)}
+        </button>
+        )}
 
     </nav>
 
     {/* Upgrade CTA */}
-    <a href="#" className="s1-header__upgrade components-button is-secondary">
-        { __('Upgrade', 'store-one') }
+    <a href="https://themehunk.com/storeone/" target= "_blank" className="s1-header__upgrade components-button is-secondary">
+    { __('Upgrade', 'store-one') }
     </a>
     </div>
-    
 </header>
-
     );
 };
 

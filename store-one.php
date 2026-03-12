@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Store One
- * Description:       Central dashboard for Store One modules (Woo Search, Cart, Frequently Bought, etc.)
+ * Description:       Store One is a powerful all in one WooCommerce toolkit designed to enhance your online store with conversion focused features and advanced customization options. It helps improve product presentation, optimize the shopping experience, and simplify store management. With lightweight performance and easy setup, Store One provides essential WooCommerce enhancements to increase engagement, improve usability, and boost sales.
  * Version:           1.0.0
  * Author:                  ThemeHunk
  * License:                 GPL-2.0+
@@ -13,7 +13,7 @@
  * WC tested up to:         9.9
  * Domain Path:             /languages
  * Text Domain:             store-one
- * Requires Plugins:  woocommerce,
+ * Requires Plugins: woocommerce
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // ------------------ Constants ------------------.
-define( 'STORE_ONE_VERSION', '1.0.1' );
+define( 'STORE_ONE_VERSION', '1.0.0' );
 define( 'STORE_ONE_PLUGIN_FILE', __FILE__ );
 define( 'STORE_ONE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'STORE_ONE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -33,7 +33,7 @@ require_once STORE_ONE_PLUGIN_DIR . 'includes/store-one-function.php';
 function store_one_run() {
 	      Store_One::get_instance();
 }
-add_action( 'plugins_loaded', 'store_one_run' );
+add_action( 'plugins_loaded', 'store_one_run');
 
 // ------------------ HPOS Compatibility ------------------.
 add_action(
@@ -54,19 +54,9 @@ add_action(
 	'init',
 	function () {
 		// Frontend class include + init.
-		require_once STORE_ONE_PLUGIN_DIR . 'includes/modules/frequently-bought/class-frontend.php';
-		require_once STORE_ONE_PLUGIN_DIR . 'includes/modules/bundle-product/class-bundle-extended.php';
-		require_once STORE_ONE_PLUGIN_DIR . 'includes/modules/bundle-product/class-frontend.php';
 		require_once STORE_ONE_PLUGIN_DIR . 'includes/modules/buy-to-list/class-frontend.php';
 	     require_once STORE_ONE_PLUGIN_DIR . 'includes/modules/quick-social/class-frontend.php';
 		require_once STORE_ONE_PLUGIN_DIR . 'includes/modules/product-brand/class-frontend.php';
-
-		if ( class_exists( 'StoreOne_FBT_Frontend' ) ) {
-			new StoreOne_FBT_Frontend();
-		}
-		if ( class_exists( 'StoreOne_Bundle_Frontend' ) ) {
-			StoreOne_Bundle_Frontend::instance();
-		}
 		if ( class_exists( 'StoreOne_Buy_To_List_Frontend' ) ) {
 			new StoreOne_Buy_To_List_Frontend();
 		}

@@ -1,11 +1,11 @@
 import { Card, CardHeader, CardBody, ToggleControl, Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
-const GlobalSettings = ({ modulesList, modulesState, onToggleAllModules }) => {
+const GlobalSettings = ({ modulesList, modulesState, onToggleAllModules,licenseActive }) => {
 
-    const allEnabled = modulesList.every(
-        (mod) => !!modulesState[mod.id]
-    );
+    const allEnabled = modulesList
+        .filter((mod) => !mod.premium || licenseActive)
+        .every((mod) => !!modulesState[mod.id]);
 
     return (
        <div className="s1-content-area">
@@ -36,7 +36,7 @@ const GlobalSettings = ({ modulesList, modulesState, onToggleAllModules }) => {
                 <CardBody>
                     <p>{__('Need help? Visit documentation or contact support.', 'store-one')}</p>
 
-                    <Button isSecondary href="#" style={{ marginRight: '8px' }}>
+                    <Button isSecondary href="https://themehunk.com/docs/store-one/" style={{ marginRight: '8px' }}>
                         {__('View Docs', 'store-one')}
                     </Button>
 

@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class StoreOne_Quick_Social {
 
     private $rules = array();
+    private $current_rule = array();
 
     public function __construct() {
 

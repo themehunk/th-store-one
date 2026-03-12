@@ -342,15 +342,24 @@ const AdminMain = () => {
    * Master switch (Enable all / Disable all).
    */
   const handleToggleAllModules = (enableAll) => {
-    setModulesState((prev) => {
-      const next = {};
-      modulesList.forEach((mod) => {
+  setModulesState((prev) => {
+    const next = {};
+
+    modulesList.forEach((mod) => {
+
+      // premium module + license inactive → force disable
+      if (mod.premium && !licenseActive) {
+        next[mod.id] = false;
+      } else {
         next[mod.id] = !!enableAll;
-      });
-      saveModules(next);
-      return next;
+      }
+
     });
-  };
+
+    saveModules(next);
+    return next;
+  });
+};
 
   const [hideToast, setHideToast] = useState(false);
 
@@ -442,22 +451,27 @@ useEffect(() => {
     })
     .catch(() => {});
 }, []);
-useEffect(() => {
 
+// licence page load
+useEffect(() => {
   if (currentPage !== "license") {
     return;
   }
-
+  setLoading(true);
   apiFetch({ path: `${StoreOneAdmin.restUrl}license-html` })
     .then((html) => {
       const el = document.getElementById("store-one-license-root");
+
       if (el) {
         el.innerHTML = html;
       }
     })
     .catch(() => {
       console.log("License page load failed");
-  });
+    })
+    .finally(() => {
+      setLoading(false);
+    });
 
 }, [currentPage]);
 
@@ -627,11 +641,19 @@ useEffect(() => {
           modulesList={modulesList}
           modulesState={modulesState}
           onToggleAllModules={handleToggleAllModules}
+          licenseActive={licenseActive}
         />
       )}
       {currentPage === "license" && proActive && (
+      loading ? (
+        <div className="s1-loader">
+          <Spinner />
+          {__("Loading…", "store-one")}
+        </div>
+      ) : (
         <LicensePage />
-      )}
+      )
+    )}
     </div>
   );
 };

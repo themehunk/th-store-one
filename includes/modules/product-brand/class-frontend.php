@@ -11,7 +11,7 @@ class StoreOne_Product_Brand_Frontend {
 
     $modules = get_option('store_one_module_option', []);
 
-        if ( empty($modules['bundle-product']) ) {
+        if ( empty($modules['product-brand']) ) {
                 return;
         } 
 
@@ -51,16 +51,15 @@ class StoreOne_Product_Brand_Frontend {
             return;
         }
 
-
         foreach ( $this->rules as $rule ) {
 
             if ( empty( $rule['status'] ) || 'active' !== $rule['status'] ) {
                 continue;
             }
 
-            $hook     = $this->get_hook_from_placement( $rule );
+            // $hook     = $this->get_hook_from_placement( $rule );
             $priority = isset( $rule['priority'] ) ? absint( $rule['priority'] ) : 10;
-
+            $hook     = store_one_get_hook_from_placement($priority);
             add_action( $hook, function() use ( $rule ) {
 
                global $product;
@@ -80,28 +79,28 @@ class StoreOne_Product_Brand_Frontend {
     /**
      * Placement → Hook Mapping
      */
-    private function get_hook_from_placement( $rule ) {
+    // private function get_hook_from_placement( $rule ) {
 
-        $placement = isset( $rule['placement'] )
-            ? sanitize_text_field( $rule['placement'] )
-            : 'after_summary';
+    //     $placement = isset( $rule['placement'] )
+    //         ? sanitize_text_field( $rule['placement'] )
+    //         : 'after_summary';
 
-        switch ( $placement ) {
+    //     switch ( $placement ) {
 
-            case 'before_add_to_cart':
-                return 'woocommerce_before_add_to_cart_form';
+    //         case 'before_add_to_cart':
+    //             return 'woocommerce_before_add_to_cart_form';
 
-            case 'after_title':
-                return 'woocommerce_single_product_summary';
+    //         case 'after_title':
+    //             return 'woocommerce_single_product_summary';
 
-            case 'after_add_to_cart':
-                return 'woocommerce_after_add_to_cart_form';
+    //         case 'after_add_to_cart':
+    //             return 'woocommerce_after_add_to_cart_form';
 
-            case 'after_summary':
-            default:
-                return 'woocommerce_after_single_product_summary';
-        }
-    }
+    //         case 'after_summary':
+    //         default:
+    //             return 'woocommerce_after_single_product_summary';
+    //     }
+    // }
 
     private function rule_matches( $rule, $product ) {
 

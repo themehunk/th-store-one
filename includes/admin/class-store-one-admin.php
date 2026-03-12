@@ -35,9 +35,11 @@ class Store_One_Admin {
 			array( $this, 'render_admin_page' )
 		);
 
-		$license_status = true;
-		// // Upgrade menu only when license inactive
-		// if ( false == $license_status ) {
+		$license_status = false;
+	     if ( class_exists( 'StoreOnePro_License' ) ) {
+		$license_status = StoreOnePro_License::is_active();
+		}
+		if ( ! $license_status ) {
 			add_submenu_page(
 				'store-one',
 				esc_html__( 'Upgrade', 'store-one' ),
@@ -47,8 +49,8 @@ class Store_One_Admin {
 				'__return_false'
 			);
 
-		// }
 		}
+	}
 
 	public function render_admin_page() {
 		if ( ! current_user_can( 'manage_options' ) ) {
@@ -65,10 +67,13 @@ class Store_One_Admin {
 	}
 
 	public function handle_upgrade_redirect() {
+
 	// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 	if ( isset( $_GET['page'] ) && 'store-one-upgrade' === $_GET['page'] ) {
-		wp_redirect( 'https://themehunk.com' );
+
+		wp_safe_redirect( 'https://themehunk.com' );
 		exit;
+
 	}
 	}
 

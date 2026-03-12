@@ -375,11 +375,11 @@ class StoreOne_Buy_To_List_Frontend {
         </div>
 
         <?php
-// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
         echo apply_filters(
             'storeone_buy_to_list_output',
             ob_get_clean(),
-            esc_html($rule)
+            $rule
         );
     }
 
@@ -423,15 +423,16 @@ class StoreOne_Buy_To_List_Frontend {
         $icon_clr  = storeone_normalize_color( $rule['btl_icon_clr'] ?? '#2563eb' );
         $radius    = storeone_normalize_radius( $rule['btl_border_radius']?? '8px');
         $border_clr  = storeone_normalize_color( $rule['btl_border_clr'] ?? '#e5e7eb' );
+        $display_style = $rule['display_style'] ?? 'style_1';
 
-        if($rule['display_style'] === 'style_4'){
+        if($display_style === 'style_4'){
            $css .= "#{$id} { background: #fff; border-color: {$border_clr};border-radius: {$radius};}";
            $css .= "#{$id} .storeone-btl-item { background: {$bg}; }";
         }else{
             $css  = "#{$id} { background: {$bg}; border-color: {$border_clr};border-radius: {$radius}; }";
         }
 
-         if($rule['display_style'] === 'style_5'){
+         if($display_style === 'style_5'){
             $css .= "#{$id} .storeone-btl-item{ border-color: {$border_clr};border-radius: {$radius}; }";
          }
         
