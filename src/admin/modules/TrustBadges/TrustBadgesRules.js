@@ -54,19 +54,43 @@ const newBadgesTRule = () => ({
   exclude_roles: [],
   exclude_users: [],
   exclude_users_enabled: false,
+  badgetext: "Text",
   badge_style: {
   background: "#2470FF",
-  opacity: "55",
-  rotateX: "0",
-  rotateY: "1",
-  rotateZ: "0",
-  flipText: false,
-  positionMode: "fixed",
-  position: "top",
-  align: "left",
-  marginTop: "0px",
-  marginLeft: "0px",
-  mobileScale: "1"
+  transform: {
+    opacity: "55",
+    rotateX: "0",
+    rotateY: "1",
+    rotateZ: "0",
+  },
+  flip: {
+   enabled: false,
+   orientation: "horizontal"
+  }, 
+  position:{
+    mode:"custom",
+    unit:"px",
+    anchor:"top-left",
+    top:"0",
+    left:"0",
+    bottom:"",
+    right:"",
+    position:"top",
+    align:"left"
+  },
+  margin: {
+  top: "0px",
+  right: "0px",
+  bottom: "0px",
+  left: "0px"
+},
+padding: {
+  top: "0px",
+  right: "0px",
+  bottom: "0px",
+  left: "0px"
+}
+  
 }
 });
 
@@ -93,8 +117,9 @@ function SortableWrapper({ items, onSortEnd, children }) {
 export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
   const menuItems = [
     { id: "settings", label: "Settings", icon: "SETTINGS" },
-    { id: "design", label: "Badges Design", icon: "DESIGN" },
+    { id: "user", label: "User Condition", icon: "USER" },
     { id: "single", label: "Display Page", icon: "DISPLAY" },
+    { id: "design", label: "Badges Design", icon: "DESIGN" },
   ];
 
   const updateAll = (arr) => onChange([...arr]);
@@ -307,11 +332,7 @@ const TRUST_BADGES_CSS = [
                               }
                               detailedView={true}
                             />
-                       <UserCondition
-                          rule={rule}
-                          index={index}
-                          updateField={updateField}
-                        />
+                       
                         <S1Field label={__("Shortcode", "store-one")}>
                           <p className="s1-shortcode-description">
                             {__(
@@ -343,10 +364,44 @@ const TRUST_BADGES_CSS = [
                     ),
                   },
 
-                  {
+                {
                     id: menuItems[1].id,
                     label: menuItems[1].label,
                     icon: ICONS[menuItems[1].icon],
+                    content: (
+                      <div className="store-one-rule-body">
+                        <UserCondition
+                          rule={rule}
+                          index={index}
+                          updateField={updateField}
+                        />
+                      </div>
+                    ),
+                  },
+
+                  {
+                    id: menuItems[2].id,
+                    label: menuItems[2].label,
+                    icon: ICONS[menuItems[2].icon],
+                    content: (
+                      <div className="store-one-rule-body">
+                        <PlacementPriorityControl
+                          placement={rule.placement}
+                          priority={rule.priority}
+                          onPlacementChange={(v) =>
+                            updateField(index, "placement", v)
+                          }
+                          onPriorityChange={(v) =>
+                            updateField(index, "priority", v)
+                          }
+                        />
+                      </div>
+                    ),
+                  },
+                    {
+                    id: menuItems[3].id,
+                    label: menuItems[3].label,
+                    icon: ICONS[menuItems[3].icon],
                     content: (
                       <div className="store-one-rule-body">
                         <S1Field
@@ -356,6 +411,10 @@ const TRUST_BADGES_CSS = [
                           <SelectControl
                             value={rule.badges_type}
                             options={[
+                              {
+                                label: __("Text", "store-one"),
+                                value: "badges_text",
+                              },
                               {
                                 label: __("Images", "store-one"),
                                 value: "badges_images",
@@ -374,6 +433,14 @@ const TRUST_BADGES_CSS = [
                             }
                           />
                         </S1Field>
+                        {rule.badges_type === "badges_text" && (
+                         <S1Field label={__("Badge Text", "store-one")}>
+                          <TextControl
+                            value={rule.badgetext || ""}
+                            onChange={(v) => updateField(index, "badgetext", v)}
+                          />
+                         </S1Field>
+                         )}
                         {rule.badges_type === "badges_images" && (
                          <S1Field label={__("Badge Images", "store-one")}>
                          <TrustBadgeSelector
@@ -411,26 +478,6 @@ const TRUST_BADGES_CSS = [
                          value={rule.badge_style}
                          onChange={(v) => updateField(index, "badge_style", v)}
                          />
-                      </div>
-                    ),
-                  },
-
-                  {
-                    id: menuItems[2].id,
-                    label: menuItems[2].label,
-                    icon: ICONS[menuItems[2].icon],
-                    content: (
-                      <div className="store-one-rule-body">
-                        <PlacementPriorityControl
-                          placement={rule.placement}
-                          priority={rule.priority}
-                          onPlacementChange={(v) =>
-                            updateField(index, "placement", v)
-                          }
-                          onPriorityChange={(v) =>
-                            updateField(index, "priority", v)
-                          }
-                        />
                       </div>
                     ),
                   },
