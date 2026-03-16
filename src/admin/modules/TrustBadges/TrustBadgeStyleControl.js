@@ -10,6 +10,7 @@ import FlipControl from "@storeone-control/FlipControl";
 import UniversalDimensionControl from "@storeone-control/UniversalDimensionControl";
 import PositionControl from "@storeone-control/PositionControl";
 
+import UniversalBorderControl from "@storeone-control/UniversalBorderControl";
 export default function TrustBadgeStyleControl({ value = {}, badgeType, onChange }) {
   const update = (key, val) => {
     onChange({
@@ -73,6 +74,14 @@ export default function TrustBadgeStyleControl({ value = {}, badgeType, onChange
         responsive={false}
         onChange={(v) => update("padding", v)}
       />
+    {badgeType == "badges_text" && (
+        <UniversalBorderControl
+            value={value?.border}
+            onChange={(v) =>
+            update("border", v)
+            }
+        />
+        )}
     </>
   );
 }

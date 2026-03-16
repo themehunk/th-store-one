@@ -1,13 +1,16 @@
 import "./live-style.css";
 
 const TrustBadges = ({ settings = {} }) => {
-
   const style = settings?.badge_style || {};
-  const position = style?.position || {};
   const padding = style?.padding || {};
   const margin = style?.margin || {};
   const flip = style?.flip || {};
   const transformStyle = style?.transform || {};
+  const pos = style?.position || {};
+  const unit = pos.unit || "px";
+  const border = style?.border || {};
+
+  console.log(border);
 
   const isTextBadge = settings?.badges_type === "badges_text";
 
@@ -39,84 +42,84 @@ const TrustBadges = ({ settings = {} }) => {
   const transform = `${rotateTransform} ${flipTransform}`;
 
   /* ---------------- POSITION ---------------- */
-const pos = style?.position || {};
-const unit = pos.unit || "px";
 
-let positionStyle = { position: "absolute" };
+  let positionStyle = { position: "absolute" };
 
-if (pos.mode === "custom") {
+  if (pos.mode === "custom") {
+    if (pos.anchor === "top-left") {
+      positionStyle = {
+        position: "absolute",
+        top: pos.top ? pos.top + unit : "0px",
+        left: pos.left ? pos.left + unit : "0px",
+      };
+    }
 
-  if (pos.anchor === "top-left") {
-    positionStyle = {
-      position: "absolute",
-      top: pos.top ? pos.top + unit : "0px",
-      left: pos.left ? pos.left + unit : "0px"
-    };
+    if (pos.anchor === "top-right") {
+      positionStyle = {
+        position: "absolute",
+        top: pos.top ? pos.top + unit : "0px",
+        right: pos.right ? pos.right + unit : "0px",
+      };
+    }
+
+    if (pos.anchor === "bottom-left") {
+      positionStyle = {
+        position: "absolute",
+        bottom: pos.bottom ? pos.bottom + unit : "0px",
+        left: pos.left ? pos.left + unit : "0px",
+      };
+    }
+
+    if (pos.anchor === "bottom-right") {
+      positionStyle = {
+        position: "absolute",
+        bottom: pos.bottom ? pos.bottom + unit : "0px",
+        right: pos.right ? pos.right + unit : "0px",
+      };
+    }
   }
+  if (pos.mode === "fixed") {
+    positionStyle.top = undefined;
+    positionStyle.right = undefined;
+    positionStyle.bottom = undefined;
+    positionStyle.left = undefined;
 
-  if (pos.anchor === "top-right") {
-    positionStyle = {
-      position: "absolute",
-      top: pos.top ? pos.top + unit : "0px",
-      right: pos.right ? pos.right + unit : "0px"
-    };
+    if (pos.position === "top") positionStyle.top = "10px";
+    if (pos.position === "middle") positionStyle.top = "50%";
+    if (pos.position === "bottom") positionStyle.bottom = "10px";
+
+    if (pos.align === "left") positionStyle.left = "10px";
+
+    if (pos.align === "center") {
+      positionStyle.left = "50%";
+      positionStyle.transform = "translateX(-50%)";
+    }
+
+    if (pos.align === "right") positionStyle.right = "10px";
   }
-
-  if (pos.anchor === "bottom-left") {
-    positionStyle = {
-      position: "absolute",
-      bottom: pos.bottom ? pos.bottom + unit : "0px",
-      left: pos.left ? pos.left + unit : "0px"
-    };
-  }
-
-  if (pos.anchor === "bottom-right") {
-    positionStyle = {
-      position: "absolute",
-      bottom: pos.bottom ? pos.bottom + unit : "0px",
-      right: pos.right ? pos.right + unit : "0px"
-    };
-  }
-
-}
-if (pos.mode === "fixed") {
-  positionStyle.top = undefined;
-  positionStyle.right = undefined;
-  positionStyle.bottom = undefined;
-  positionStyle.left = undefined;
-
-  if (pos.position === "top") positionStyle.top = "10px";
-  if (pos.position === "middle") positionStyle.top = "50%";
-  if (pos.position === "bottom") positionStyle.bottom = "10px";
-
-  if (pos.align === "left") positionStyle.left = "10px";
-
-  if (pos.align === "center") {
-    positionStyle.left = "50%";
-    positionStyle.transform = "translateX(-50%)";
-  }
-
-  if (pos.align === "right") positionStyle.right = "10px";
-}
 
   /* ---------------- PADDING ---------------- */
 
   const finalPadding = {
-    top: isTextBadge && (!padding.top || padding.top === "0px")
-      ? defaultPadding.top
-      : padding.top,
+    top:
+      isTextBadge && (!padding.top || padding.top === "0px")
+        ? defaultPadding.top
+        : padding.top,
 
-    right: isTextBadge && (!padding.right || padding.right === "0px")
-      ? defaultPadding.right
-      : padding.right,
+    right:
+      isTextBadge && (!padding.right || padding.right === "0px")
+        ? defaultPadding.right
+        : padding.right,
 
-    bottom: isTextBadge && (!padding.bottom || padding.bottom === "0px")
-      ? defaultPadding.bottom
-      : padding.bottom,
+    bottom:
+      isTextBadge && (!padding.bottom || padding.bottom === "0px")
+        ? defaultPadding.bottom
+        : padding.bottom,
 
-    left: isTextBadge && (!padding.left || padding.left === "0px")
-      ? defaultPadding.left
-      : padding.left,
+    left:
+      isTextBadge && (!padding.left || padding.left === "0px")
+        ? defaultPadding.left
+        : padding.left,
   };
 
   /* ---------------- BADGE STYLE ---------------- */
@@ -138,6 +141,22 @@ if (pos.mode === "fixed") {
     marginBottom: margin?.bottom,
     marginLeft: margin?.left,
 
+    // BORDER ONLY FOR TEXT BADGE
+    ...(isTextBadge && {
+  borderStyle: border?.style || "solid",
+  borderColor: border?.color || "#eee",
+
+  borderTopWidth: border?.width?.top || "0px",
+  borderRightWidth: border?.width?.right || "0px",
+  borderBottomWidth: border?.width?.bottom || "0px",
+  borderLeftWidth: border?.width?.left || "0px",
+
+  borderTopLeftRadius: border?.radius?.top || "0px",
+  borderTopRightRadius: border?.radius?.right || "0px",
+  borderBottomRightRadius: border?.radius?.bottom || "0px",
+  borderBottomLeftRadius: border?.radius?.left || "0px",
+}),
+
     ...positionStyle,
   };
 
@@ -146,7 +165,6 @@ if (pos.mode === "fixed") {
   /* ---------------- BADGE RENDER ---------------- */
 
   const renderBadge = () => {
-
     if (settings.badges_type === "badges_text") {
       return (
         <div className="s1-preview-badge s1-text-badge" style={badgeStyle}>
@@ -159,19 +177,38 @@ if (pos.mode === "fixed") {
       return (
         <div className="s1-preview-badge s1-text-images" style={badgeStyle}>
           {settings.badge_image && (
-            <img src={settings.badge_image} style={{ width: imageWidth }} alt="" />
+            <img
+              src={settings.badge_image}
+              style={{ width: imageWidth }}
+              alt=""
+            />
           )}
         </div>
       );
     }
 
     if (settings.badges_type === "badges_css") {
+
+    const type = settings.badge_css_type;
+
+    if (type === "new") {
       return (
-        <div className="s1-preview-badge s1-css-badge" style={badgeStyle}>
-          CSS
+        <div className="s1-preview-badge s1-css-badge-new" style={badgeStyle}>
+          NEW
         </div>
       );
     }
+
+    if (type === "sale") {
+      return (
+        <div className="s1-preview-badge s1-css-badge-sale" style={badgeStyle}>
+          SALE
+        </div>
+      );
+    }
+
+    return null;
+  }
 
     if (settings.badges_type === "badges_advance") {
       return (
@@ -186,9 +223,7 @@ if (pos.mode === "fixed") {
 
   return (
     <div className="s1-product-badges-wrap">
-
       <div className="s1-preview-product s1-trust-badges">
-
         {renderBadge()}
 
         <div className="s1-preview-image-skeleton" />
@@ -199,12 +234,9 @@ if (pos.mode === "fixed") {
         </div>
 
         <div className="s1-preview-price-skeleton" />
-
       </div>
-
     </div>
   );
-
 };
 
 export default TrustBadges;

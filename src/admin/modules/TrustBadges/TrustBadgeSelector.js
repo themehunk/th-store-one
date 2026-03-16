@@ -5,18 +5,36 @@ export default function TrustBadgeSelector({
   index,
   updateField,
   presetBadges = [],
-  allowUpload = true
+  allowUpload = true,
+  badgeType = "image" // image | css | advance
 }) {
 
   const frameRef = useRef(null);
   const uploaded = rule.uploaded_badges || [];
 
-  /* DEFAULT BADGE FIX */
+  /* ---------------- DEFAULT BADGE ---------------- */
+
   useEffect(() => {
-    if (!rule.badge_image && presetBadges.length > 0) {
-      updateField(index, "badge_image", presetBadges[0]);
+    if (presetBadges.length === 0) return;
+      if (badgeType === "image" && !rule.badge_image) {
+      const first = presetBadges[0];
+      const url = typeof first === "string"
+        ? first
+        : (first.url || first.preview);
+      updateField(index, "badge_image", url);
     }
+
+    if (badgeType === "css" && !rule.badge_css_type) {
+      updateField(index, "badge_css_type", presetBadges[0].id);
+    }
+
+    if (badgeType === "advance" && !rule.badge_advance_type) {
+      updateField(index, "badge_advance_type", presetBadges[0].id);
+    }
+
   }, []);
+
+  /* ---------------- UPLOAD ---------------- */
 
   const openUploader = () => {
 
@@ -41,15 +59,34 @@ export default function TrustBadgeSelector({
         const newList = [...urls, ...uploaded];
 
         updateField(index, "uploaded_badges", newList);
+
       });
+
     }
 
     frameRef.current.open();
+
   };
 
-  const selectBadge = (url) => {
-    updateField(index, "badge_image", url);
+  /* ---------------- SELECT BADGE ---------------- */
+
+  const selectBadge = (badge) => {
+
+    if (badgeType === "image") {
+      updateField(index, "badge_image", badge.url || badge);
+    }
+
+    if (badgeType === "css") {
+      updateField(index, "badge_css_type", badge.id);
+    }
+
+    if (badgeType === "advance") {
+      updateField(index, "badge_advance_type", badge.id);
+    }
+
   };
+
+  /* ---------------- REMOVE UPLOADED ---------------- */
 
   const removeBadge = (url) => {
 
@@ -60,18 +97,51 @@ export default function TrustBadgeSelector({
     if (rule.badge_image === url) {
       updateField(index, "badge_image", "");
     }
+
   };
 
-  /* IMPORTANT CHANGE */
+  /* ---------------- BADGE LIST ---------------- */
+
+  const uploadedBadges = uploaded.map((url) => ({
+    id: url,
+    type: "image",
+    url
+  }));
+
   const allBadges = allowUpload
-    ? [...uploaded, ...presetBadges]
+    ? [...uploadedBadges, ...presetBadges]
     : presetBadges;
 
+  /* ---------------- ACTIVE STATE ---------------- */
+
+  const isActive = (badge) => {
+
+    if (badgeType === "image") {
+      return rule.badge_image === (badge.url || badge);
+    }
+
+    if (badgeType === "css") {
+      return rule.badge_css_type === badge.id;
+    }
+
+    if (badgeType === "advance") {
+      return rule.badge_advance_type === badge.id;
+    }
+
+    return false;
+
+  };
+
+  /* ---------------- RENDER ---------------- */
+
   return (
+
     <div className="s1-badge-wrapper-group">
+
       <div className="s1-badge-grid">
 
-        {/* Upload Tile */}
+        {/* Upload */}
+
         {allowUpload && (
           <div
             className="s1-badge-upload"
@@ -82,27 +152,28 @@ export default function TrustBadgeSelector({
           </div>
         )}
 
-        {allBadges.map((url) => {
+        {allBadges.map((badge) => {
 
-          const isUploaded = uploaded.includes(url);
+          const preview = badge.url || badge.preview || badge;
+          const active = isActive(badge);
+          const isUploaded = uploaded.includes(badge.url);
 
           return (
+
             <div
-              key={url}
-              className={`s1-badge-item ${
-                rule.badge_image === url ? "is-active" : ""
-              }`}
-              onClick={() => selectBadge(url)}
+              key={badge.id || badge}
+              className={`s1-badge-item ${active ? "is-active" : ""}`}
+              onClick={() => selectBadge(badge)}
             >
 
-              <img src={url} />
+              <img src={preview} alt="" />
 
               {allowUpload && isUploaded && (
                 <button
                   className="s1-badge-remove"
                   onClick={(e) => {
                     e.stopPropagation();
-                    removeBadge(url);
+                    removeBadge(badge.url);
                   }}
                 >
                   ×
@@ -110,9 +181,15 @@ export default function TrustBadgeSelector({
               )}
 
             </div>
+
           );
+
         })}
+
       </div>
+
     </div>
+
   );
+
 }

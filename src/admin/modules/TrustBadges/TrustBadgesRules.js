@@ -26,6 +26,7 @@ import { ICONS } from "@storeone-global/icons";
 import ResetModuleButton from "@storeone-global/ResetModuleButton";
 import PlacementPriorityControl from "@storeone-global/PlacementPriorityControl";
 import TrustBadgeSelector from "./TrustBadgeSelector";
+import UniversalBorderControl from "@storeone-control/UniversalBorderControl";
 /* Default Rule */
 const newBadgesTRule = () => ({
   open: true,
@@ -38,6 +39,8 @@ const newBadgesTRule = () => ({
   badges_type: "badges_images",
   badge_library: "default",
   badge_image: "",
+  badge_css_type: "",
+  badge_advance_type: "",
   uploaded_badges: [],
 
   placement: "after_summary",
@@ -89,6 +92,22 @@ const newBadgesTRule = () => ({
       bottom:"0px",
       left:"0px",
     },
+    border: {
+    width: {
+      top: "1px",
+      right: "1px",
+      bottom: "1px",
+      left: "1px"
+    },
+    style: "solid",
+    color: "#111",
+    radius: {
+      top: "4px",
+      right: "4px",
+      bottom: "4px",
+      left: "4px"
+    }
+  }
   },
 });
 /* Sortable */
@@ -171,13 +190,35 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
   }, []);
 
   const TRUST_BADGES_IMAGES = [
-    "https://plugins.yithemes.com/yith-woocommerce-badge-management/wp-content/uploads/sites/489237/yith-badge-library-live-demo/image/black-friday-01.svg",
-    "https://plugins.yithemes.com/yith-woocommerce-badge-management/wp-content/uploads/sites/489237/yith-badge-library-live-demo/image/new-year-01.svg",
-    "https://plugins.yithemes.com/yith-woocommerce-badge-management/wp-content/uploads/sites/489237/yith-badge-library-live-demo/image/BOGO-02.svg",
-  ];
+{
+  id: "black_friday",
+  type: "image",
+  url: "https://plugins.yithemes.com/yith-woocommerce-badge-management/wp-content/uploads/sites/489237/yith-badge-library-live-demo/image/black-friday-01.svg"
+},
+{
+  id: "new_year",
+  type: "image",
+  url: "https://plugins.yithemes.com/yith-woocommerce-badge-management/wp-content/uploads/sites/489237/yith-badge-library-live-demo/image/new-year-01.svg"
+},
+{
+  id: "bogo",
+  type: "image",
+  url: "https://plugins.yithemes.com/yith-woocommerce-badge-management/wp-content/uploads/sites/489237/yith-badge-library-live-demo/image/BOGO-02.svg"
+}
+];
+  
+
   const TRUST_BADGES_CSS = [
-    "https://plugins.yithemes.com/dd58b7d04f54d5afda6424614772c9d6/wp-content/plugins/yith-woocommerce-badge-management-premium/assets/images/css-badge-previews/1.svg",
-    "https://plugins.yithemes.com/dd58b7d04f54d5afda6424614772c9d6/wp-content/plugins/yith-woocommerce-badge-management-premium/assets/images/css-badge-previews/4.svg",
+  {
+    id: "new",
+    label: "New",
+    preview: "https://plugins.yithemes.com/dd58b7d04f54d5afda6424614772c9d6/wp-content/plugins/yith-woocommerce-badge-management-premium/assets/images/css-badge-previews/1.svg",
+  },
+  {
+    id: "sale",
+    label: "Sale",
+    preview: "https://plugins.yithemes.com/dd58b7d04f54d5afda6424614772c9d6/wp-content/plugins/yith-woocommerce-badge-management-premium/assets/images/css-badge-previews/4.svg",
+  }
   ];
 
   return (
@@ -515,12 +556,13 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
                             />
                             <S1Field label={__("Badge Images", "store-one")}>
                               <TrustBadgeSelector
-                                rule={rule}
-                                index={index}
-                                updateField={updateField}
-                                presetBadges={TRUST_BADGES_IMAGES}
-                                allowUpload={true}
-                              />
+  rule={rule}
+  index={index}
+  updateField={updateField}
+  presetBadges={TRUST_BADGES_IMAGES}
+  allowUpload={true}
+  badgeType="image"
+/>
                             </S1Field>
                           </>
                         )}
@@ -576,12 +618,13 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
                             </S1Field>
                             <S1Field label={__("Badge CSS", "store-one")}>
                               <TrustBadgeSelector
-                                rule={rule}
-                                index={index}
-                                updateField={updateField}
-                                presetBadges={TRUST_BADGES_CSS}
-                                allowUpload={false}
-                              />
+  rule={rule}
+  index={index}
+  updateField={updateField}
+  presetBadges={TRUST_BADGES_CSS}
+  allowUpload={false}
+  badgeType="css"
+/>
                             </S1Field>
                           </>
                         )}
