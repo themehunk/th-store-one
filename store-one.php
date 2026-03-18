@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 // ------------------ Constants ------------------.
-define( 'STORE_ONE_VERSION', '1.0.0' );
+define( 'STORE_ONE_VERSION', '1.0.2' );
 define( 'STORE_ONE_PLUGIN_FILE', __FILE__ );
 define( 'STORE_ONE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'STORE_ONE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -51,6 +51,7 @@ add_action(
 		require_once STORE_ONE_PLUGIN_DIR . 'includes/modules/buy-to-list/class-frontend.php';
 	     require_once STORE_ONE_PLUGIN_DIR . 'includes/modules/quick-social/class-frontend.php';
 		require_once STORE_ONE_PLUGIN_DIR . 'includes/modules/product-brand/class-frontend.php';
+		require_once STORE_ONE_PLUGIN_DIR . 'includes/modules/trust-badges/class-frontend.php';
 		if ( class_exists( 'StoreOne_Buy_To_List_Frontend' ) ) {
 			new StoreOne_Buy_To_List_Frontend();
 		}
@@ -59,6 +60,9 @@ add_action(
 		}
 		if ( class_exists( 'StoreOne_Product_Brand_Frontend' ) ) {
 			new StoreOne_Product_Brand_Frontend();
+		}
+		if ( class_exists( 'StoreOne_Trust_Badges_Frontend' ) ) {
+			new StoreOne_Trust_Badges_Frontend();
 		}
 	}
 );

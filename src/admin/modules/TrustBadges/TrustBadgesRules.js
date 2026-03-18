@@ -501,7 +501,6 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                             detailedView={true}
                           />
                         )}
-
                         {rule.show_badges === "specific_tags" && (
                           <MultiWooSearchSelector
                             searchType="tag"
@@ -513,7 +512,6 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                             detailedView={true}
                           />
                         )}
-
                         <ExcludeWooCondition
                           label={__("Exclude products", "store-one")}
                           searchType="product"
@@ -527,7 +525,6 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                           }
                           detailedView={true}
                         />
-
                         <ExcludeWooCondition
                           label={__("Exclude categories", "store-one")}
                           searchType="category"
@@ -541,7 +538,6 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                           }
                           detailedView={true}
                         />
-
                         <ExcludeWooCondition
                           label={__("Exclude product tags", "store-one")}
                           searchType="tag"
@@ -555,9 +551,6 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                           }
                           detailedView={true}
                         />
-
-
-                       
                       </div>
                     ),
                   },

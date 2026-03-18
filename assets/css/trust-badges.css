@@ -1,0 +1,108 @@
+.s1-badge-container{
+     z-index:1;
+}
+
+/* ================================
+   SALE BADGE (DIAMOND IMPROVED)
+================================ */
+.s1-css-badge-sale {
+  width: 70px;
+  height: 70px;
+  transform: rotate(45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* shadow */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* INNER TEXT */
+.s1-css-badge-sale .s1-css-badge-inner {
+  transform: rotate(-45deg);
+  text-align: center;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+.s1-css-badge-new {
+  border-radius: 3px;
+}
+.s1-css-badge-sale {
+  border-radius: 2px;
+}
+
+/* advance css style one or two */
+/* ===== ORANGE CIRCLE ===== */
+.s1-adv-circle {
+  width: 70px;
+  height: 70px;
+  background: #f97316;
+  color: #fff;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+/*  MAIN TAIL */
+.s1-adv-circle::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 25px;
+  width: 14px;
+  height: 14px;
+  background: var(--adv-bg); 
+  transform: rotate(45deg);
+}
+
+/*  CUT (important magic) */
+.s1-adv-circle::before {
+  content: "";
+  position: absolute;
+
+  bottom: 0px;
+  left: 25px;
+
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+}
+
+/* ===== PURPLE BURST ===== */
+.s1-adv-burst {
+  width: 70px;
+  height: 70px;
+  background: #d946ef;
+  color: #fff;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 700;
+
+  clip-path: polygon(
+    50% 0%, 60% 10%, 75% 5%, 80% 20%, 95% 25%,
+    85% 40%, 100% 50%, 85% 60%, 95% 75%, 80% 80%,
+    75% 95%, 60% 90%, 50% 100%, 40% 90%, 25% 95%,
+    20% 80%, 5% 75%, 15% 60%, 0% 50%, 15% 40%,
+    5% 25%, 20% 20%, 25% 5%, 40% 10%
+  );
+}
+
+/* text */
+.s1-adv-circle div,
+.s1-adv-burst div {
+  font-size: 16px;
+}
+
+.s1-adv-circle small,
+.s1-adv-burst small {
+  font-size: 10px;
+}
