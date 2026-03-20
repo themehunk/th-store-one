@@ -2472,7 +2472,7 @@ transition:all .2s ease;
 .s1-badge-item:hover,
 .s1-badge-upload:hover{
   border-color:#2271b1;
-  box-shadow:0 0 0 1px #2271b1;
+  box-shadow:none;
 }
 
 /* badge image */
@@ -2513,7 +2513,7 @@ transition:all .2s ease;
 /* selected */
 
 .s1-badge-item.is-active{
-  border:2px solid #2271b1;
+  border:1px solid #2271b1;
   background:#f0f6fc;
 }
 

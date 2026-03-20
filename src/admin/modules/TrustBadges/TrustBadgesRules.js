@@ -238,10 +238,26 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
       url: "https://plugins.yithemes.com/yith-woocommerce-badge-management/wp-content/uploads/sites/489237/yith-badge-library-live-demo/image/new-year-01.svg",
     },
     {
-      id: "bogo",
+      id: "last_minitue",
       type: "image",
-      url: "https://plugins.yithemes.com/yith-woocommerce-badge-management/wp-content/uploads/sites/489237/yith-badge-library-live-demo/image/BOGO-02.svg",
+      url: `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/last_miniute.svg`,
     },
+    {
+      id: "buy_free",
+      type: "image",
+      url: `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/buy_free.svg`,
+    },
+    {
+      id: "buy_get_blue",
+      type: "image",
+      url: `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/buy_get_blue.svg`,
+    },
+    {
+      id: "christmas",
+      type: "image",
+      url: `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/christmas.svg`,
+    },
+    
   ];
 
   const TRUST_BADGES_CSS = [
@@ -262,6 +278,18 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
       label: "NewSale",
       preview:
         "https://plugins.yithemes.com/f08ccb2bd05b3bfbef4dbd0af305e5ef/wp-content/plugins/yith-woocommerce-badge-management-premium/assets/images/css-badge-previews/5.svg",
+    },
+    {
+      id: "sale_badge_pink",
+      label: "sale_badge_pink",
+      preview:
+        `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/sale_badge_pink.svg`,
+    },
+    {
+      id: "saletxt",
+      label: "saletxt",
+      preview:
+        `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/sale.svg`,
     },
     
   ];
@@ -296,6 +324,16 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
       label: "Five",
       preview:
         "https://plugins.yithemes.com/resources/yith-woocommerce-badge-management/badges/previews/css/9.svg",
+    },
+    {
+      id: "daimond",
+      label: "daimond",
+      preview: `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/daimond.svg`,
+    },
+    {
+      id: "circle",
+      label: "cirlce",
+      preview: `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/circle.svg`,
     },
   ];
 
@@ -345,17 +383,31 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
         },
       };
     }
-    if (type === "stealth") {
+    if (type === "sale_badge_pink") {
       return {
         ...rule,
         badge_css_type: type,
         badge_style: {
           ...currentStyle,
-          bgclr: "#0e172b",
+          bgclr: "#d4547e",
           textclr: "#ffffff",
           
         },
       };
+      
+    }
+    if (type === "saletxt") {
+      return {
+        ...rule,
+        badge_css_type: type,
+        badge_style: {
+          ...currentStyle,
+          bgclr: "linear-gradient(90deg, #6366f1, #8b5cf6)",
+          textclr: "#1e293b",
+          
+        },
+      };
+      
     }
 
     return rule;
@@ -421,8 +473,28 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
       },
     };
   }
-
-
+  if (type === "daimond") {
+    return {
+      ...rule,
+      badge_advance_type: type,
+      badge_style: {
+        ...currentStyle,
+        bgclr: "linear-gradient(135deg, #ff7a18, #ff3d00)",
+        textclr: "#ffffff",
+      },
+    };
+  }
+   if (type === "circle") {
+    return {
+      ...rule,
+      badge_advance_type: type,
+      badge_style: {
+        ...currentStyle,
+        bgclr: "radial-gradient(circle, #ff4d6d 0%, #ff0033 100%)",
+        textclr: "#ffffff",
+      },
+    };
+  }
   return rule;
 };
   return (

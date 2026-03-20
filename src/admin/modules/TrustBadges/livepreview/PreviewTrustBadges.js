@@ -234,6 +234,32 @@ const TrustBadges = ({ settings = {} }) => {
         </div>
       );
     }
+    if (type === "sale_badge_pink") {
+      return (
+        <div className="s1-sale_badge_pink" style={wrapperStyle}>
+          <div class="s1-sale-badge" style={{
+              "--badge-salebgcolor": style?.bgclr,
+              "--badge-salebgtxt": style?.textclr,
+            }}>
+          <span> {settings.badgetext || "Sale!"}</span>
+        </div>
+        </div>
+      );
+    }
+    if (type === "saletxt") {
+      return (
+        <div className="s1-sale_txt" style={wrapperStyle}>
+          
+              <div class="s1-sale-underline" style={{
+              "--badge-saletxtbgcolor": style?.bgclr,
+              "--badge-saletxt": style?.textclr,
+            }}>
+            {settings.badgetext || "Sale!"}
+            
+        </div>
+        </div>
+      );
+    }
 
     return null;
   };
@@ -361,6 +387,33 @@ const TrustBadges = ({ settings = {} }) => {
             {"Only 5 availables"}
           </div>
         </div>
+      );
+    }
+    if (type === "daimond") {
+      return (
+        <div className="s1-adv-css-badge s1-daimond" style={wrapperStyle}>
+          <div class="s1-diamond-badge" style={{
+              "--badge-daimondbgcolor": style?.bgclr,
+              "--badge-daimondtxt": style?.textclr,
+            }}>
+           <span>-{value || "50"}</span>
+        </div>
+        </div>
+      );
+    }
+    if (type === "circle") {
+      return (
+        <div className="s1-adv-css-badge s1-circle" style={wrapperStyle}>
+        <div class="s1-off-badge" style={{
+              "--badge-circlebgcolor": style?.bgclr,
+              "--badge-circletxt": style?.textclr,
+            }}>
+        <div class="s1-off-inner">
+          <span class="s1-off-value">50%</span>
+          <span class="s1-off-text">OFF</span>
+        </div>
+        </div>
+      </div>
       );
     }
 
