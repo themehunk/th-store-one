@@ -39,7 +39,6 @@
   z-index:5;
   font-size:12px;
   border-radius:4px;
-  padding:6px 10px;
   display:inline-flex;
   align-items:center;
   justify-content:center;
@@ -76,6 +75,7 @@
   height:170px;
   background:#eee;
   border-radius:4px;
+  position:relative;
 }
 
 /* skeleton title */
@@ -297,7 +297,7 @@
 /* VALUE */
 .s1-3 .s1-badge-text .percent {
   position: absolute;
-  top: 16px;
+ top: 10px;
   left: 0;
   width: 100%;
   text-align: center;
@@ -309,11 +309,10 @@
 /* DISCOUNT */
 .s1-3 .s1-badge-text .label {
   position: absolute;
-  top: 41px;
-    font-size: 7px;
+  top: 35px;
+  font-size: 7px;
   left: 50%;
   transform: translateX(-50%);
- 
   white-space: nowrap;
   letter-spacing: 1px;
 }
@@ -321,7 +320,7 @@
 /* SAVE TEXT */
 .s1-3 .s1-badge-text .save {
   position: absolute;
-  bottom: 16px;
+  bottom: 12px;
     left: 0;
     right: 0;
   width: 100%;
@@ -352,14 +351,11 @@
 /* TEXT CONTAINER (CORE MAGIC) */
 .s1-corner-badge .s1-badge-text {
   position: absolute;
-
   /* EXACT YITH VALUES */
   width: 145px;
-  top: 27px;
-  right: -28px;
-
+  top: 20px;
+  right: -35px;
   transform: rotate(45deg);
-
   text-align: center;
   color: var(--badge-4-txt);
   font-weight: 600;

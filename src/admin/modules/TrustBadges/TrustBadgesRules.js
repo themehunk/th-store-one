@@ -345,6 +345,18 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
         },
       };
     }
+    if (type === "stealth") {
+      return {
+        ...rule,
+        badge_css_type: type,
+        badge_style: {
+          ...currentStyle,
+          bgclr: "#0e172b",
+          textclr: "#ffffff",
+          
+        },
+      };
+    }
 
     return rule;
   };
