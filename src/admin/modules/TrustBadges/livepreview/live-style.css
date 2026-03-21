@@ -467,8 +467,8 @@
 
 /* advance dimond style */
 .s1-diamond-badge {
-  width: 65px;
-  height: 65px;
+  width:55px;
+  height:55px;
   /* Gradient same as SVG */
   background: var(--badge-daimondbgcolor);
   transform: rotate(45deg);

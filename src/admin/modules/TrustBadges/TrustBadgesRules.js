@@ -227,16 +227,7 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
   }, []);
 
   const TRUST_BADGES_IMAGES = [
-    {
-      id: "black_friday",
-      type: "image",
-      url: "https://plugins.yithemes.com/yith-woocommerce-badge-management/wp-content/uploads/sites/489237/yith-badge-library-live-demo/image/black-friday-01.svg",
-    },
-    {
-      id: "new_year",
-      type: "image",
-      url: "https://plugins.yithemes.com/yith-woocommerce-badge-management/wp-content/uploads/sites/489237/yith-badge-library-live-demo/image/new-year-01.svg",
-    },
+    
     {
       id: "last_minitue",
       type: "image",
@@ -265,19 +256,19 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
       id: "new",
       label: "New",
       preview:
-        "https://plugins.yithemes.com/dd58b7d04f54d5afda6424614772c9d6/wp-content/plugins/yith-woocommerce-badge-management-premium/assets/images/css-badge-previews/1.svg",
+        `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/new.svg`,
     },
     {
       id: "sale",
       label: "Sale",
       preview:
-        "https://plugins.yithemes.com/dd58b7d04f54d5afda6424614772c9d6/wp-content/plugins/yith-woocommerce-badge-management-premium/assets/images/css-badge-previews/4.svg",
+        `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/sale1.svg`,
     },
     {
       id: "newsale",
       label: "NewSale",
       preview:
-        "https://plugins.yithemes.com/f08ccb2bd05b3bfbef4dbd0af305e5ef/wp-content/plugins/yith-woocommerce-badge-management-premium/assets/images/css-badge-previews/5.svg",
+        `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/newsale.svg`,
     },
     {
       id: "sale_badge_pink",
@@ -299,31 +290,25 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
       id: "one",
       label: "One",
       preview:
-        "https://plugins.yithemes.com/3829c3a0d57b0af0843e4135c4e81633/wp-content/plugins/yith-woocommerce-badge-management-premium/assets/images/advanced-badge-previews/2.svg",
+        `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/circle1.svg`,
     },
     {
       id: "two",
       label: "Two",
       preview:
-        "https://plugins.yithemes.com/3829c3a0d57b0af0843e4135c4e81633/wp-content/plugins/yith-woocommerce-badge-management-premium/assets/images/advanced-badge-previews/5.svg",
-    },
-    {
-      id: "three",
-      label: "Three",
-      preview:
-        "https://plugins.yithemes.com/f08ccb2bd05b3bfbef4dbd0af305e5ef/wp-content/plugins/yith-woocommerce-badge-management-premium/assets/images/advanced-badge-previews/8.svg",
+        `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/circle2.svg`,
     },
     {
       id: "four",
       label: "Four",
       preview:
-        "https://plugins.yithemes.com/f08ccb2bd05b3bfbef4dbd0af305e5ef/wp-content/plugins/yith-woocommerce-badge-management-premium/assets/images/advanced-badge-previews/4.svg",
+        `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/cornerribbon.svg`,
     },
     {
       id: "five",
       label: "Five",
       preview:
-        "https://plugins.yithemes.com/resources/yith-woocommerce-badge-management/badges/previews/css/9.svg",
+        `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/lastmint.svg`,
     },
     {
       id: "daimond",
@@ -347,11 +332,11 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
         badge_css_type: type,
         badge_style: {
           ...currentStyle,
-          bgclr: "#2563eb",
+          bgclr: "#8BC34A",
           textclr: "#ffffff",
           border: {
             ...currentStyle.border,
-            color: "#1d4ed8",
+            color: "#8BC34A",
           },
         },
       };
@@ -374,11 +359,11 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
         badge_css_type: type,
         badge_style: {
           ...currentStyle,
-          bgclr: "#f97316",
+          bgclr: "#FF5722",
           textclr: "#ffffff",
           border: {
             ...currentStyle.border,
-            color: "#ea580c",
+            color: "#FF5722",
           },
         },
       };
@@ -423,8 +408,21 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
       badge_advance_type: type,
       badge_style: {
         ...currentStyle,
-        bgclr: "#f97316", // orange
+        bgclr: "#673AB7",
         textclr: "#ffffff",
+        margin: {
+        top: "0px",
+        right: "0px",
+        bottom: "0px",
+        left: "0px",
+      },
+      position: {
+        mode: "custom",
+        unit: "px",
+        anchor: "top-left",
+        top: "12",
+        left: "12",
+      },
       },
     };
   }
@@ -437,6 +435,19 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
         ...currentStyle,
         bgclr: "#d946ef",
         textclr: "#ffffff",
+        margin: {
+        top: "0px",
+        right: "0px",
+        bottom: "0px",
+        left: "0px",
+      },
+      position: {
+        mode: "custom",
+        unit: "px",
+        anchor: "top-left",
+        top: "12",
+        left: "12",
+      },
       },
     };
   }
@@ -448,6 +459,20 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
         ...currentStyle,
         bgclr: "#113d7a",
         textclr: "#ffffff",
+        margin: {
+        top: "0px",
+        right: "0px",
+        bottom: "0px",
+        left: "0px",
+      },
+      position: {
+        mode: "custom",
+        unit: "px",
+        anchor: "top-left",
+        top: "12",
+        left: "12",
+      },
+        
       },
     };
   }
@@ -459,6 +484,19 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
         ...currentStyle,
         bgclr: "#47DCBF",
         textclr: "#ffffff",
+        margin: {
+        top: "0px",
+        right: "0px",
+        bottom: "0px",
+        left: "0px",
+       },
+        position: {
+        mode: "custom",
+        unit: "px",
+        anchor: "top-right",
+        top: "0",
+        right: "0",
+       },
       },
     };
   }
@@ -470,6 +508,19 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
         ...currentStyle,
         bgclr: "#da9005",
         textclr: "#ffffff",
+        margin: {
+        top: "0px",
+        right: "0px",
+        bottom: "0px",
+        left: "0px",
+       },
+        position: {
+        mode: "custom",
+        unit: "px",
+        anchor: "top-left",
+        top: "12",
+        left: "12",
+       },
       },
     };
   }
@@ -481,6 +532,20 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
         ...currentStyle,
         bgclr: "linear-gradient(135deg, #ff7a18, #ff3d00)",
         textclr: "#ffffff",
+        margin: {
+        top: "0px",
+        right: "0px",
+        bottom: "0px",
+        left: "0px",
+      },
+      position: {
+        mode: "custom",
+        unit: "px",
+        anchor: "top-left",
+        top: "12",
+        left: "12",
+      },
+        
       },
     };
   }
@@ -492,6 +557,19 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
         ...currentStyle,
         bgclr: "radial-gradient(circle, #ff4d6d 0%, #ff0033 100%)",
         textclr: "#ffffff",
+         margin: {
+        top: "0px",
+        right: "0px",
+        bottom: "0px",
+        left: "0px",
+      },
+        position: {
+        mode: "custom",
+        unit: "px",
+        anchor: "top-left",
+        top: "10",
+        left: "10",
+      },
       },
     };
   }
