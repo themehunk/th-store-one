@@ -17,7 +17,9 @@ class Store_One_REST {
             array(
                 'methods'  => WP_REST_Server::READABLE,
                 'callback' => array($this, 'search_users'),
-                'permission_callback' => '__return_true',
+                'permission_callback' => function() {
+                        return current_user_can( 'manage_options' );
+                    },
             )
         );
     }
