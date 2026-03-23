@@ -2446,3 +2446,344 @@ transition:all .2s ease;
 }
 
 }
+
+// badges image component style
+.s1-badge-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-top:10px;
+}
+
+.s1-badge-item,
+.s1-badge-upload{
+  height:64px;
+  border:1px solid #dcdcde;
+  border-radius:6px;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  cursor:pointer;
+  transition:all .15s ease;
+}
+
+.s1-badge-item:hover,
+.s1-badge-upload:hover{
+  border-color:#2271b1;
+  box-shadow:none;
+}
+
+/* badge image */
+
+.s1-badge-item img{
+  max-width:85%;
+  max-height:38px;
+  object-fit:contain;
+}
+
+/* upload tile */
+
+.s1-plus{
+  font-size:28px;
+  color:#2271b1;
+  font-weight:600;
+}
+
+/* tooltip */
+
+.s1-tooltip{
+  position:absolute;
+  bottom:110%;
+  background:#1e1e1e;
+  color:#fff;
+  font-size:11px;
+  padding:4px 6px;
+  border-radius:4px;
+  opacity:0;
+  pointer-events:none;
+  transition:.15s;
+}
+
+.s1-badge-upload:hover .s1-tooltip{
+  opacity:1;
+}
+
+/* selected */
+
+.s1-badge-item.is-active{
+  border:1px solid #2271b1;
+  background:#f0f6fc;
+}
+
+/* remove button */
+
+.s1-badge-remove{
+  position:absolute;
+  top:-6px;
+  right:-6px;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  background:#d63638;
+  color:#fff;
+  border:none;
+  font-size:14px;
+  line-height:18px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+// roatation component css
+.s1-rotation-grid{
+    display:flex;
+    gap:16px;
+}
+.s1-rotation-item{
+    flex:1;
+}
+.s1-rotation-axis{
+    font-size:11px;
+    font-weight:600;
+    margin-bottom:6px;
+    color:#555;
+}
+.s1-rotation-grid .s1-range-row{
+    display:block;
+    width:100%;
+}
+.s1-rotation-grid .s1-number-area{
+   width:60px; 
+}
+
+// flip orientation
+/* container */
+.s1-flip-orientation{
+    margin-top:10px;
+}
+
+/* label */
+.s1-flip-orientation .s1-flip-orientation-label{
+    font-size:12px;
+    font-weight:500;
+    margin-bottom:6px;
+    color:#555;
+}
+
+/* button group */
+.s1-flip-orientation.s1-flip-orientation-buttons{
+    display:flex;
+    gap:6px;
+}
+
+/* ================================
+   BUTTON GROUP BASE
+================================ */
+.s1-flip-orientation .s1-flip-btn,
+.s1-posiiton-btn button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 34px;
+    padding: 0 10px;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    border: 1px solid #dcdcdc;
+    background: #fff;
+    color: #1e1e1e;
+
+    border-radius: 0;
+    box-shadow: none;
+
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.s1-flip-control .components-button-group.s1-flip-orientation-buttons{
+    display:flex;
+    gap:6px;
+}
+
+/* ================================
+   HOVER
+================================ */
+.s1-flip-orientation .s1-flip-btn:hover,
+.s1-posiiton-btn button:hover {
+    border-color: #524cff;
+    color: #524cff;
+    background: #f6f7ff;
+}
+
+/* ================================
+   ACTIVE STATE
+================================ */
+.s1-flip-orientation .s1-flip-btn.is-pressed,
+.s1-posiiton-btn button.is-pressed {
+    background: #524cff !important;
+    border-color: #524cff !important;
+    color: #fff !important;
+
+    box-shadow: 0 2px 6px rgba(82, 76, 255, 0.25);
+}
+
+/* ================================
+   GROUP SPACING (important)
+================================ */
+.s1-posiiton-btn {
+    display: flex;
+    gap: 6px;
+}
+
+/* ================================
+   OPTIONAL: ICON ALIGN FIX
+================================ */
+.s1-flip-btn svg,
+.s1-posiiton-btn button svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* hover */
+.s1-flip-orientation .s1-flip-btn:hover{
+     border:1px solid #eee;
+}
+
+// position compoennt css
+/* grids */
+
+.s1-anchor-grid,
+.s1-position-grid{
+display:flex;
+gap:12px;
+margin-top:8px;
+}
+
+/* cards */
+
+.s1-anchor-card,
+.s1-pos-card{
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:6px;
+padding:8px;
+width:90px;
+justify-content: center;
+border-radius:6px;
+border:1px solid #ddd;
+background:#fff;
+cursor:pointer;
+font-size:0.65rem;
+}
+
+.s1-anchor-card.is-pressed,
+.s1-pos-card.is-pressed,
+.s1-pos-card:focus{
+border:1px solid #2470FF;
+}
+
+/* preview box */
+
+.preview,
+.anchor-preview{
+width:60px;
+height:50px;
+border:1px solid #ddd;
+border-radius:4px;
+position:relative;
+background:#fafafa;
+}
+
+/* anchor preview */
+
+.anchor-preview::after{
+content:"";
+position:absolute;
+width:10px;
+height:10px;
+background:#2470FF;
+border-radius:50%;
+}
+
+.anchor-preview.tl::after{top:4px;left:4px;}
+.anchor-preview.tr::after{top:4px;right:4px;}
+.anchor-preview.bl::after{bottom:4px;left:4px;}
+.anchor-preview.br::after{bottom:4px;right:4px;}
+
+/* position bars */
+
+.preview-top::after,
+.preview-middle::after,
+.preview-bottom::after{
+content:"";
+position:absolute;
+left:6px;
+right:6px;
+height:8px;
+background:#ddd;
+}
+
+.preview-top::after{top:6px;}
+.preview-middle::after{top:22px;}
+.preview-bottom::after{bottom:6px;}
+
+/* alignment marker */
+
+.preview-left::after,
+.preview-center::after,
+.preview-right::after{
+content:"";
+position:absolute;
+width:10px;
+height:10px;
+background:#2470FF;
+border-radius:2px;
+}
+
+/* horizontal */
+
+.preview-left::after{left:6px;}
+.preview-center::after{left:50%;}
+.preview-right::after{right:6px;}
+
+/* vertical */
+
+.preview.top::after{top:6px;}
+
+.preview.middle::after{
+top:50%;
+transform:translateY(-50%);
+}
+
+.preview.bottom::after{
+bottom:6px;
+}
+
+/* center alignment fix */
+
+.preview-center.middle::after{
+transform:translate(-50%,-50%);
+}
+
+.preview-center.top::after{
+transform:translateX(-50%);
+}
+
+.preview-center.bottom::after{
+transform:translateX(-50%);
+}
+.components-button.s1-pos-card,
+.components-button.s1-anchor-card {
+    height:auto;
+}
+.components-button.s1-pos-card.is-pressed,
+.components-button.s1-anchor-card.is-pressed,.components-button.s1-pos-card:hover{
+    color:#111!important;
+    background:transparent!important;
+}

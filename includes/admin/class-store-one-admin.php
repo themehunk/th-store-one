@@ -140,6 +140,10 @@ class Store_One_Admin {
 		wp_enqueue_script( 'store-one-admin' );
 		wp_enqueue_style( 'store-one-admin' );
 		wp_enqueue_style( 'store-one-admin-style' );
+		// Gutenberg component styles
+wp_enqueue_style( 'wp-components' );
+wp_enqueue_style( 'wp-block-editor' );
+wp_enqueue_style( 'wp-edit-blocks' );
 	}
 
 	public function enqueue_admin_css() {

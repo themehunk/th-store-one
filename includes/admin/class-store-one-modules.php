@@ -41,15 +41,14 @@ class Store_One_Modules {
 	 */
 	public function get_default() {
 		return array(
-			
 			'frequently-bought' => false,
 			'bundle-product' => false,
-			'buy-to-list' => true,
-			'quick-social' => true,
-			'product-brand' => true,
+			'buy-to-list' => false,
+			'quick-social' => false,
+			'product-brand' => false,
+			'trust-badges' => false,
 		);
 	}
-
 	/**
 	 * Register option with sanitization.
 	 */

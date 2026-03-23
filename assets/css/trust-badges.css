@@ -1,0 +1,400 @@
+.s1-badge-container{
+     z-index:1;
+}
+
+/* ================================
+   SALE BADGE (DIAMOND IMPROVED)
+================================ */
+.s1-css-badge-sale {
+  width: 60px;
+  height:60px;
+  transform: rotate(45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* shadow */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* INNER TEXT */
+.s1-css-badge-sale .s1-css-badge-inner {
+  transform: rotate(-45deg);
+  text-align: center;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+.s1-css-badge-new {
+     border-radius: 3px;
+    display: inline-block;
+    font-weight: 700;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    font-size: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    line-height: normal;
+}
+.s1-css-badge-sale {
+  border-radius: 2px;
+}
+
+/* advance css style one or two */
+/* ===== ORANGE CIRCLE ===== */
+.s1-adv-circle {
+  width: 60px;
+  height: 60px;
+  background: #f97316;
+  color: #fff;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
+/*  MAIN TAIL */
+.s1-adv-circle::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 25px;
+  width: 14px;
+  height: 14px;
+  background: var(--adv-bg); 
+  transform: rotate(45deg);
+}
+
+/*  CUT (important magic) */
+.s1-adv-circle::before {
+  content: "";
+  position: absolute;
+
+  bottom: 0px;
+  left: 25px;
+
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+}
+
+/* ===== PURPLE BURST ===== */
+.s1-adv-burst {
+  width: 60px;
+  height: 60px;
+  background: #d946ef;
+  color: #fff;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 700;
+
+  clip-path: polygon(
+    50% 0%, 60% 10%, 75% 5%, 80% 20%, 95% 25%,
+    85% 40%, 100% 50%, 85% 60%, 95% 75%, 80% 80%,
+    75% 95%, 60% 90%, 50% 100%, 40% 90%, 25% 95%,
+    20% 80%, 5% 75%, 15% 60%, 0% 50%, 15% 40%,
+    5% 25%, 20% 20%, 25% 5%, 40% 10%
+  );
+}
+
+/* text */
+.s1-adv-circle div,
+.s1-adv-burst div {
+  font-size: 13px;
+}
+
+.s1-adv-circle small,
+.s1-adv-burst small {
+  font-size: 10px;
+}
+
+/****************/
+/* ribbon css */
+/****************/
+/* WRAPPER */
+.s1-ribbon-wrap {
+  display: flex;
+  align-items: stretch;
+}
+/* LEFT TRIANGLE (MAIN MAGIC) */
+.s1-ribbon-s2 {
+  width: 25px;
+  background: linear-gradient(
+    to top right,
+    transparent 50%,
+    var(--badge-color, #45d0eb) 50%
+  );
+}
+/* MAIN TEXT BOX */
+.s1-ribbon-text {
+  background: var(--badge-color, #45d0eb);
+  color: var(--badge-txt);
+  padding: 6px 12px 6px 6px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  position: relative;
+}
+/* SMALL RIGHT BOTTOM TRIANGLE */
+.s1-ribbon-text::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -6px;
+  border-right: 5px solid transparent;
+  border-left: 2px solid transparent;
+  border-top: 6px solid color-mix(
+    in srgb,
+    var(--badge-color) 70%,
+    black
+  );
+}
+
+/* s1-sale_badge_pink */
+.s1-sale_badge_pink .s1-sale-badge {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  position: relative;
+
+  /* Outer white ring */
+  background: white;
+
+  /* Outer stroke */
+  border: 1px solid var(--badge-salebgcolor);;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* INNER THIN RING */
+
+/* MAIN FILLED CIRCLE */
+.s1-sale_badge_pink .s1-sale-badge::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border-radius: 50%;
+  background: var(--badge-salebgcolor);
+}
+
+/* TEXT */
+.s1-sale_badge_pink .s1-sale-badge span {
+  position: relative;
+  z-index: 2;
+  color: var(--badge-salebgtxt);
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 400;
+
+  font-size: clamp(12px, 18%, 28px);
+}
+/* sale text underline css */
+.s1-sale-underline {
+  font-size: 21px;
+  font-weight: 700;
+  font-family: Arial, sans-serif;
+  color: var(--badge-saletxt);
+
+  position: relative;
+  display: inline-block;
+  line-height: normal;
+}
+
+/* GRADIENT UNDERLINE */
+.s1-sale-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom:-8px;
+  width: 100%;
+  height:4px;
+  background:var(--badge-saletxtbgcolor);
+}
+
+/* four */
+/* WRAPPER */
+.s1-corner-badge {
+  position: relative;
+  width: 92px;
+  height: 92px;
+  overflow: hidden;
+}
+
+/* SVG SHAPE */
+.s1-corner-badge .s1-badge-shape {
+  width: 100%;
+  height: 100%;
+}
+
+.s1-corner-badge .s1-badge-shape svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* TEXT CONTAINER (CORE MAGIC) */
+.s1-corner-badge .s1-badge-text {
+  position: absolute;
+  /* EXACT YITH VALUES */
+  width: 145px;
+  top: 20px;
+  right: -35px;
+  transform: rotate(45deg);
+  text-align: center;
+  color: var(--badge-4-txt);
+  font-weight: 600;
+  line-height: 1;
+}
+.s1-badge-shape svg{
+  fill:var(--badge-4-color);
+}
+/* VALUE TEXT */
+.s1-corner-badge .s1-badge-text .value {
+  font-size: 15px;
+  letter-spacing: 0.5px;
+}
+/* fith style */
+/* WRAPPER */
+.s1-5 {
+  position: relative;
+  display: inline-block;
+}
+
+/* MAIN SHAPE */
+.s1-5 .s1-css-s1 {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  background: var(--badge-5-color, #da9005);
+
+  transform: skewX(-10deg);
+}
+
+/* SHADOW LAYER 1 */
+.s1-5 .s1-css-s1::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: inherit;
+  opacity: 0.5;
+
+  transform: translate(-3%, 7%);
+}
+
+/* SHADOW LAYER 2 */
+.s1-5 .s1-css-s1::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: inherit;
+  opacity: 0.5;
+
+  transform: translate(-6%, 14%);
+}
+
+/* TEXT */
+.s1-5 .s1-css-text {
+  position: relative;
+  padding: 6px 14px;
+
+  color: var(--badge-5-txt);
+  font-weight: 600;
+  font-size: 14px;
+
+  white-space: nowrap;
+}
+
+/* advance dimond style */
+.s1-diamond-badge {
+  width:55px;
+  height:55px;
+  /* Gradient same as SVG */
+  background: var(--badge-daimondbgcolor);
+  transform: rotate(45deg);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* INNER BORDER (SVG stroke jaisa) */
+.s1-diamond-badge::after {
+  content: "";
+  position: absolute;
+  inset: 10px; /* gap from edge */
+  border: 2px solid rgba(255,255,255,0.2);
+  transform: rotate(0deg); /* same orientation */
+}
+/* TEXT */
+.s1-diamond-badge span {
+  transform: rotate(-45deg);
+  color: var(--badge-daimondtxt);
+  font-size: 11px;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+}
+/* advance circle style */
+.s1-circle .s1-off-badge {
+  width: 70px;
+  height: 70px;
+  position: relative;
+
+  /* Radial gradient same as SVG */
+  background: var(--badge-circlebgcolor);
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* TEXT WRAPPER */
+.s1-circle .s1-off-inner {
+  text-align: center;
+  color: var(--badge-circletxt);
+  z-index: 2;
+}
+
+/* 50% */
+.s1-circle .s1-off-value {
+  display: block;
+  font-size:15px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* OFF */
+.s1-circle .s1-off-text {
+  display: block;
+  font-size: 12px;
+  margin-top: 4px;
+  letter-spacing: 1px;
+}
+.s1-circle .s1-off-badge::after {
+  content: "";
+  position: absolute;
+
+  width: 12px;
+  height: 12px;
+
+  background: var(--badge-circlebgcolor);;
+  border-radius: 0px;
+
+  bottom: 0px;
+  left: 5px;
+
+  transform: rotate(-45deg);
+}

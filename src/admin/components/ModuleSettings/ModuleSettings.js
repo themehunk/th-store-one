@@ -15,7 +15,7 @@ import BundleProductSettings from '../../modules/BundleProductSetting/BundleProd
 import BuytoListSettings from '../../modules/BuytoList/BuytoListSettings';
 import QuickSocialSettings from '../../modules/QuickSocial/QuickSocialSettings';
 import ProductBrandSettings from '../../modules/ProductBrand/ProductBrandSettings';
-
+import TrustBadgesSettings from '../../modules/TrustBadges/TrustBadgesSettings';
 
 const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, onSettingsChange, onLivePreview,onRegisterSave ,licenseActive}) => {
     const enabled = !!modulesState[currentModule.id];
@@ -51,6 +51,12 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                 />
             case 'product-brand':
                 return <ProductBrandSettings
+                    onSettingsChange={onSettingsChange}
+                    onLivePreview={onLivePreview}
+                    onRegisterSave={onRegisterSave}
+                />
+            case 'trust-badges':
+                return <TrustBadgesSettings
                     onSettingsChange={onSettingsChange}
                     onLivePreview={onLivePreview}
                     onRegisterSave={onRegisterSave}

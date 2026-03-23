@@ -3,11 +3,11 @@ import apiFetch from '@wordpress/api-fetch';
 import { __ } from '@wordpress/i18n';
 import { Spinner } from '@wordpress/components';
 
-import BuytoListRules from './BuytoListRules';
+import TrustBadgesRules from './TrustBadgesRules';
 
-const MODULE_ID = 'buy-to-list';
+const MODULE_ID = 'trust-badges';
 
-export default function BuytoListSettings({
+export default function TrustBadgesSettings({
     onSettingsChange,
     onLivePreview,
     onRegisterSave,
@@ -96,7 +96,7 @@ export default function BuytoListSettings({
                         </div>
                     )}
                     {/* RULES EDITOR */}
-                    <BuytoListRules
+                    <TrustBadgesRules
                         rules={rules}
                         onChange={setRules}
                         onLivePreview={onLivePreview}

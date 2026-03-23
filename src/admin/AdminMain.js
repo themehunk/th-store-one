@@ -211,10 +211,38 @@ const modulesList = [
     ),
     premium: false,
   },
+  {
+  id: "trust-badges",
+  label: __("Trust Badges", "store-one"),
+  description: __(
+    "Display trust badges like secure checkout, money-back guarantee, and verified payment icons to increase customer confidence and improve conversions.",
+    "store-one"
+  ),
+  icon: (
+    <svg
+      className="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 3L20 6V11C20 16 16.5 20.5 12 22C7.5 20.5 4 16 4 11V6L12 3Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9 12L11 14L15 10"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  premium: false,
+}
 ];
-
-
-
 const AdminMain = () => {
   const [livePreviewSettings, setLivePreviewSettings] = useState(null);
 
@@ -237,6 +265,7 @@ const AdminMain = () => {
     "buy-to-list": true,
     "quick-social": true,
     "product-brand": true,
+    "trust-badges": false,
   });
   const tabs = [
   {
@@ -627,6 +656,15 @@ useEffect(() => {
                     />
                   )}
                   {currentModule?.id === "product-brand" && (
+                    <PreviewPane
+                      currentModule={currentModule}
+                      settings={
+                        livePreviewSettings ||
+                        moduleSettings[currentModule.id]?.rules?.[0]
+                      }
+                    />
+                  )}
+                  {currentModule?.id === "trust-badges" && (
                     <PreviewPane
                       currentModule={currentModule}
                       settings={

@@ -5,10 +5,9 @@ import PreviewBndl from '../../modules/BundleProductSetting/livepreview/PreviewB
 import PreviewBuyToList from '../../modules/BuytoList/livepreview/PreviewBuyToList';
 import PreviewQuickSocial from '../../modules/QuickSocial/livepreview/PreviewQuickSocial';
 import ProductBrand from '../../modules/ProductBrand/livepreview/PreviewProductBrand';
+import TrustBadges from '../../modules/TrustBadges/livepreview/PreviewTrustBadges';
 
 const PreviewPane = ({ currentModule, settings }) => {
-
-
     // `settings` can be either a single rule object (live preview)
     // or a full module settings object with `rules` array (fallback).
     const moduleSettings = settings || {};
@@ -61,6 +60,12 @@ const PreviewPane = ({ currentModule, settings }) => {
                             )}
                              {currentModule?.id === "product-brand" && activeRule && (
                                 <ProductBrand
+                                    key={(activeRule.flexible_id || 'rule') + (activeRule.brand_style || '')}
+                                    settings={activeRule}
+                                />
+                            )}
+                            {currentModule?.id === "trust-badges" && activeRule && (
+                                <TrustBadges
                                     key={(activeRule.flexible_id || 'rule') + (activeRule.brand_style || '')}
                                     settings={activeRule}
                                 />

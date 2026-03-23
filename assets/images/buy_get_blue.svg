@@ -1,0 +1,17 @@
+<svg width="100%" viewBox="0 0 280 140" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#534AB7"/>
+      <stop offset="100%" stop-color="#7F77DD"/>
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(30,24)" style="fill:rgb(0, 0, 0);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto">
+    <polygon points="0,0 190,0 220,46 190,92 0,92" fill="url(#g1)" style="stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <polygon points="6,6 188,6 216,46 188,86 6,86" fill="none" stroke="#AFA9EC" stroke-width="1.5" stroke-dasharray="6 4" style="fill:none;stroke:rgb(175, 169, 236);color:rgb(255, 255, 255);stroke-width:1.5px;stroke-dasharray:6px, 4px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Anthropic Sans&quot;, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;font-size:16px;font-weight:400;text-anchor:start;dominant-baseline:auto"/>
+    <text x="18" y="32" font-family="Arial Black,Arial" font-weight="900" font-size="13" fill="#EEEDFE" letter-spacing="1" style="fill:rgb(238, 237, 254);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Arial Black&quot;, Arial;font-size:13px;font-weight:900;text-anchor:start;dominant-baseline:auto">BUY</text>
+    <text x="18" y="52" font-family="Arial Black,Arial" font-weight="900" font-size="13" fill="#EEEDFE" letter-spacing="1" style="fill:rgb(238, 237, 254);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Arial Black&quot;, Arial;font-size:13px;font-weight:900;text-anchor:start;dominant-baseline:auto">GET</text>
+    <text x="72" y="72" font-family="Arial Black,Arial" font-weight="900" font-size="52" fill="white" dominant-baseline="auto" style="fill:rgb(255, 255, 255);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Arial Black&quot;, Arial;font-size:52px;font-weight:900;text-anchor:start;dominant-baseline:auto">1</text>
+    <text x="100" y="62" font-family="Arial Black,Arial" font-weight="900" font-size="22" fill="white" letter-spacing="2" style="fill:rgb(255, 255, 255);stroke:none;color:rgb(255, 255, 255);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;opacity:1;font-family:&quot;Arial Black&quot;, Arial;font-size:22px;font-weight:900;text-anchor:start;dominant-baseline:auto">FREE</text>
+  </g>
+</svg>
