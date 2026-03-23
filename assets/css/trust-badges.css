@@ -1,7 +1,9 @@
 .s1-badge-container{
      z-index:1;
 }
-
+.s1-product-image-wrap.s1-loop{
+position: relative;
+}
 /* ================================
    SALE BADGE (DIAMOND IMPROVED)
 ================================ */

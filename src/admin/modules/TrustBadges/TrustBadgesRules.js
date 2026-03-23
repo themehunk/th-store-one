@@ -122,6 +122,8 @@ const newBadgesTRule = () => ({
       },
     },
   },
+  enableLoop: true,
+  enableSingle: true,
 });
 /* Sortable */
 function SortableWrapper({ items, onSortEnd, children }) {
@@ -814,6 +816,33 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                             }
                           />
                         </S1Field>
+
+                        
+                            <S1Field
+                                      label={__("Show in Loop", "store-one")}
+                                      classN="s1-toggle-wrpapper"
+                                    >
+                                      <ToggleControl
+                                        checked={rule.enableLoop}
+                                        onChange={(value) =>
+                                            updateField(index, "enableLoop", value)
+                                          }
+                                      />
+                                    </S1Field>
+                        
+                        
+                            <S1Field
+                                      label={__("Show in Single Page", "store-one")}
+                                      classN="s1-toggle-wrpapper"
+                                    >
+                                      <ToggleControl
+                                        checked={rule.enableSingle}
+                                         onChange={(value) =>
+                                          updateField(index, "enableSingle", value)
+                                        }
+                                      />
+                                    </S1Field>
+                        
 
                         {rule.show_badges === "specific_products" && (
                           <MultiWooSearchSelector

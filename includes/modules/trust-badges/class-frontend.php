@@ -12,18 +12,44 @@ class StoreOne_Trust_Badges_Frontend {
         $all_modules   = get_option( 'store_one_module_set', array() );
         $this->rules   = $all_modules['trust-badges']['rules'] ?? array();
 
-        add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'loop_wrap_start' ), 8 );
+        $enable_loop = false;
 
-        add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'render_badges' ), 11 );
+        if ( ! empty( $this->rules ) ) {
+            foreach ( $this->rules as $rule ) {
+                if ( ! empty( $rule['enableLoop'] ) ) {
+                    $enable_loop = true;
+                    break;
+                }
+            }
+        }
 
-        add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'loop_wrap_end' ), 12 );
+        if ( $enable_loop ) {
 
-       add_filter(
-            'woocommerce_single_product_image_thumbnail_html',
-            array( $this, 'wrap_single_image_with_badge' ),
-            10,
-            2
-        );
+            add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'loop_wrap_start' ), 8 );
+
+            add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'render_badges' ), 11 );
+
+            add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'loop_wrap_end' ), 12 );
+        }
+        $enable_single = false;
+
+        if ( ! empty( $this->rules ) ) {
+            foreach ( $this->rules as $rule ) {
+                if ( ! empty( $rule['enableSingle'] ) ) {
+                    $enable_single = true;
+                    break;
+                }
+            }
+        }
+
+        if ( $enable_single ) {
+            add_filter(
+                'woocommerce_single_product_image_thumbnail_html',
+                array( $this, 'wrap_single_image_with_badge' ),
+                10,
+                2
+            );
+        }
 
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
     }
@@ -47,7 +73,7 @@ class StoreOne_Trust_Badges_Frontend {
    public function wrap_single_image_with_badge( $html, $attachment_id ) {
 
     global $product;
-
+    
     if ( ! $product || empty( $this->rules ) ) {
         return $html;
     }
