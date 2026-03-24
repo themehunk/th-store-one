@@ -8,8 +8,7 @@ import ProductBrand from '../../modules/ProductBrand/livepreview/PreviewProductB
 import TrustBadges from '../../modules/TrustBadges/livepreview/PreviewTrustBadges';
 
 const PreviewPane = ({ currentModule, settings }) => {
-    // `settings` can be either a single rule object (live preview)
-    // or a full module settings object with `rules` array (fallback).
+    
     const moduleSettings = settings || {};
     const activeRule = Array.isArray(moduleSettings.rules) && moduleSettings.rules.length > 0
         ? moduleSettings.rules[0]
@@ -18,7 +17,7 @@ const PreviewPane = ({ currentModule, settings }) => {
     return (
         <Card className="preview-card">
             <CardHeader>
-                <h3 className="preview-title">{ __('Preview', 'store-one') }</h3>
+                <h3 className="preview-title">{ __('Preview', 'th-store-one') }</h3>
             </CardHeader>
 
             <CardBody>

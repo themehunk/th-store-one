@@ -29,16 +29,16 @@ export default function UserCondition({
             ============================== */}
             <div className="s1-field-wrapper">
                 <label className="s1-field-label">
-                    {__('User Condition', 'store-one')}
+                    {__('User Condition', 'th-store-one')}
                 </label>
 
                 <div className="s1-field-control">
                     <SelectControl
                         value={userCondition}
                         options={[
-                            { label: __('All Users', 'store-one'), value: 'all' },
-                            { label: __('Selected Roles', 'store-one'), value: 'roles' },
-                            { label: __('Selected Users', 'store-one'), value: 'users' },
+                            { label: __('All Users', 'th-store-one'), value: 'all' },
+                            { label: __('Selected Roles', 'th-store-one'), value: 'roles' },
+                            { label: __('Selected Users', 'th-store-one'), value: 'users' },
                         ]}
                         onChange={(v) => updateField(index, 'user_condition', v)}
                     />
@@ -53,7 +53,7 @@ export default function UserCondition({
                 <>
                     <div className="s1-field-wrapper">
                         <label className="s1-field-label">
-                            {__('Exclude (Users / Roles)', 'store-one')}
+                            {__('Exclude (Users / Roles)', 'th-store-one')}
                         </label>
 
                         <div className="s1-field-control">
@@ -68,7 +68,7 @@ export default function UserCondition({
                         <>
                             <div className="s1-field-wrapper">
                                 <label className="s1-field-label">
-                                    {__('Exclude Roles', 'store-one')}
+                                    {__('Exclude Roles', 'th-store-one')}
                                 </label>
 
                                 <div className="s1-field-control">
@@ -83,7 +83,7 @@ export default function UserCondition({
 
                             <div className="s1-field-wrapper">
                                 <label className="s1-field-label">
-                                    {__('Exclude Users', 'store-one')}
+                                    {__('Exclude Users', 'th-store-one')}
                                 </label>
 
                                 <div className="s1-field-control">
@@ -107,7 +107,7 @@ export default function UserCondition({
                 <>
                     <div className="s1-field-wrapper">
                         <label className="s1-field-label">
-                            {__('Allowed Roles', 'store-one')}
+                            {__('Allowed Roles', 'th-store-one')}
                         </label>
 
                         <div className="s1-field-control">
@@ -122,7 +122,7 @@ export default function UserCondition({
 
                     <div className="s1-field-wrapper">
                         <label className="s1-field-label">
-                            {__('Exclude Users', 'store-one')}
+                            {__('Exclude Users', 'th-store-one')}
                         </label>
 
                         <div className="s1-field-control">
@@ -136,7 +136,7 @@ export default function UserCondition({
                     {rule.exclude_users_enabled && (
                         <div className="s1-field-wrapper">
                             <label className="s1-field-label">
-                                {__('Excluded Users', 'store-one')}
+                                {__('Excluded Users', 'th-store-one')}
                             </label>
 
                             <div className="s1-field-control">
@@ -158,7 +158,7 @@ export default function UserCondition({
             {userCondition === "users" && (
                 <div className="s1-field-wrapper">
                     <label className="s1-field-label">
-                        {__('Allowed Users', 'store-one')}
+                        {__('Allowed Users', 'th-store-one')}
                     </label>
 
                     <div className="s1-field-control">

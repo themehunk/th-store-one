@@ -1,7 +1,6 @@
 import React from 'react';
 import { __ } from '@wordpress/i18n';
-import { getTextStyle, getRadius } from '@storeone/utils/styleHelpers';
-import { ICONS } from '@storeone-global/icons';
+import { ICONS } from '@th-storeone-global/icons';
 
 
 

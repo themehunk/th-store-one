@@ -3,21 +3,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Store_One_Modules {
+class Th_Store_One_Modules {
 
-	const OPTION_NAME = 'store_one_module_option';
+	const OPTION_NAME = 'th_store_one_module_option';
 
 	/**
 	 * Singleton instance.
 	 *
-	 * @var Store_One_Modules|null
+	 * @var Th_Store_One_Modules|null
 	 */
 	private static $instance = null;
 
 	/**
 	 * Get singleton instance.
 	 *
-	 * @return Store_One_Modules
+	 * @return Th_Store_One_Modules
 	 */
 	public static function get_instance() {
 		if ( null === self::$instance ) {
@@ -54,7 +54,7 @@ class Store_One_Modules {
 	 */
 	public function register_settings() {
 		register_setting(
-			'store_one_modules_group',
+			'th_store_one_modules_group',
 			self::OPTION_NAME,
 			array(
 				'type'              => 'array',
@@ -92,7 +92,7 @@ class Store_One_Modules {
 	public function register_rest() {
 
 		register_rest_route(
-			'store-one/v1',
+			'th-store-one/v1',
 			'/modules',
 			array(
 				array(
@@ -116,7 +116,7 @@ class Store_One_Modules {
 
 		/* RESET MODULE ROUTE */
 			register_rest_route(
-				'store-one/v1',
+				'th-store-one/v1',
 				'/module/(?P<module>[a-zA-Z0-9-_]+)/reset',
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
@@ -134,8 +134,8 @@ class Store_One_Modules {
 	public function permissions_check() {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return new WP_Error(
-				'store_one_forbidden',
-				__( 'You do not have permission to manage Store One modules.', 'store-one' ),
+				'th_store_one_forbidden',
+				__( 'You do not have permission to manage Store One modules.', 'th-store-one' ),
 				array( 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -153,7 +153,7 @@ class Store_One_Modules {
 		if ( ! is_array( $value ) ) {
 			return new WP_Error(
 				'store_one_invalid_param',
-				__( 'Modules must be an array.', 'store-one' ),
+				__( 'Modules must be an array.', 'th-store-one' ),
 				array( 'status' => 400 )
 			);
 		}
@@ -177,7 +177,7 @@ class Store_One_Modules {
 	}
 
 	/**
-	 * REST: POST /store-one/v1/modules
+	 * REST: POST /th-store-one/v1/modules
 	 *
 	 * @param WP_REST_Request $request Request.
 	 */
@@ -204,7 +204,7 @@ class Store_One_Modules {
 	if ( ! isset( $defaults[ $module ] ) ) {
 		return new WP_Error(
 			'store_one_invalid_module',
-			__( 'Invalid module.', 'store-one' ),
+			__( 'Invalid module.', 'th-store-one' ),
 			array( 'status' => 400 )
 		);
 	}

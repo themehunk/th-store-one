@@ -63,7 +63,7 @@ export default function MiniColorPicker({
      * DEFAULT COLOR = "#000"
      */
     const normalizeColor = (v) => {
-        if (!v) return "#000"; // ⭐ default fallback
+        if (!v) return "#000"; //default fallback
 
         if (typeof v === "string") return v;
 

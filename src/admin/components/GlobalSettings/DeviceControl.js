@@ -1,6 +1,6 @@
 import { Icon, DropdownMenu, MenuItemsChoice } from '@wordpress/components';
 import { mobile, tablet, desktop } from '@wordpress/icons';
-import useDeviceStore from '@storeone/store/device-store';
+import useDeviceStore from '@th-storeone/store/device-store';
 
 export default function DeviceControl() {
     const device = useDeviceStore((s) => s.device);

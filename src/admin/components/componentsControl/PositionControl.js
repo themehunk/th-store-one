@@ -1,7 +1,7 @@
 import { Button, ButtonGroup } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
-import UniversalRangeControl from "@storeone-global/UniversalRangeControl";
-import { S1Field,S1FieldGroup } from "@storeone-global/S1Field";
+import UniversalRangeControl from "@th-storeone-global/UniversalRangeControl";
+import { S1Field,S1FieldGroup } from "@th-storeone-global/S1Field";
 
 export default function PositionControl({ value = {}, onChange }) {
 

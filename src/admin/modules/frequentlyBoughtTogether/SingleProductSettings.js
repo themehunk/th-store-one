@@ -5,7 +5,7 @@ import {
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
-import PlacementPriorityControl from "@storeone-global/PlacementPriorityControl";
+import PlacementPriorityControl from "@th-storeone-global/PlacementPriorityControl";
 
 export default function SingleProductSettings({
     settings,
@@ -18,24 +18,6 @@ export default function SingleProductSettings({
     return (
         <div className="store-one-rule-body">
 
-            {/* STATUS TOGGLE */}
-            {/* <div className="s1-field-wrapper">
-               <label className="s1-field-label">
-                    {__('Status', 'store-one')}
-               </label>
-              <div className="s1-field-control">
-               <SelectControl
-                    value={settings.single_enabled}
-                    onChange={(v) => updateSetting('single_enabled', v)}
-                    options={[
-                         { label: __('Active', 'store-one'), value: 'active' },
-                         { label: __('Inactive', 'store-one'), value: 'inactive' },
-                    ]}
-               />
-               </div>
-               </div> */}
-
-            {/* PLACEMENT */}
            
             <PlacementPriorityControl
                 placement={settings.placement}
@@ -45,7 +27,7 @@ export default function SingleProductSettings({
             />
             {/* BUNDLE TITLE */}
             <div className="s1-field-wrapper">
-                <label className="s1-field-label">{__('Bundle Title', 'store-one')}</label>
+                <label className="s1-field-label">{__('Bundle Title', 'th-store-one')}</label>
                 <div className="s1-field-control">
                 <TextControl
                     value={settings.bundle_title}
@@ -56,7 +38,7 @@ export default function SingleProductSettings({
 
             {/* PRICE LABELS */}
             <div className="s1-field-wrapper">
-                <label className="s1-field-label">{__('Price Label', 'store-one')}</label>
+                <label className="s1-field-label">{__('Price Label', 'th-store-one')}</label>
                 <div className="s1-field-control">
                 <TextControl
                     value={settings.price_label}
@@ -67,20 +49,20 @@ export default function SingleProductSettings({
 
             <div className="s1-field-wrapper">
                 <label className="s1-field-label">
-                    {__('Price label for one selected product', 'store-one')}
+                    {__('Price label for one selected product', 'th-store-one')}
                 </label>
                 <div className="s1-field-control">
                 <TextControl
                     value={settings.one_price_label}
                     onChange={(v) => updateSetting('one_price_label', v)}
-                    help={__('{count} items selected', 'store-one')}
+                    help={__('{count} items selected', 'th-store-one')}
                 />
                 </div>
             </div>
 
             {/* NO VARIATION SELECTED */}
             <div className="s1-field-wrapper">
-                <label className="s1-field-label">{__('No variation selected text', 'store-one')}</label>
+                <label className="s1-field-label">{__('No variation selected text', 'th-store-one')}</label>
                <div className="s1-field-control">
                 <TextareaControl
                     value={settings.no_variation_text}
@@ -91,7 +73,7 @@ export default function SingleProductSettings({
 
             <div className="s1-field-wrapper">
                 <label className="s1-field-label">
-                    {__('No variation selected (no discount)', 'store-one')}
+                    {__('No variation selected (no discount)', 'th-store-one')}
                 </label>
                 <div className="s1-field-control">
                 <TextareaControl
@@ -104,7 +86,7 @@ export default function SingleProductSettings({
             {/* BUTTON TEXT */}
             <div className="s1-field-wrapper">
                 <label className="s1-field-label">
-                    {__('Button Text', 'store-one')}
+                    {__('Button Text', 'th-store-one')}
                 </label>
                 <div className="s1-field-control">
                 <TextControl

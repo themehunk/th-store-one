@@ -148,8 +148,8 @@ import {
     BaseControl
 } from "@wordpress/components";
 
-import DeviceControl from "@storeone-global/DeviceControl";
-import useDeviceStore from "@storeone/store/device-store";
+import DeviceControl from "@th-storeone-global/DeviceControl";
+import useDeviceStore from "@th-storeone/store/device-store";
 
 export default function UniversalDimensionControl({
 

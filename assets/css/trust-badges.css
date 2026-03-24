@@ -14,7 +14,6 @@ position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-
   /* shadow */
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
@@ -24,7 +23,6 @@ position: relative;
   transform: rotate(-45deg);
   text-align: center;
   font-weight: 700;
-  font-size: 12px;
   letter-spacing: 0.5px;
 }
 .s1-css-badge-new {
@@ -139,8 +137,8 @@ position: relative;
 .s1-ribbon-text {
   background: var(--badge-color, #45d0eb);
   color: var(--badge-txt);
-  padding: 6px 12px 6px 6px;
-  font-size: 13px;
+  padding: var(--badge-padding);
+  font-size: var(--badge-txtsize);
   font-weight: 600;
   white-space: nowrap;
   position: relative;
@@ -176,6 +174,7 @@ position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding:var(--badge-salepadding);
 }
 
 /* INNER THIN RING */
@@ -199,15 +198,15 @@ position: relative;
   font-style: italic;
   font-weight: 400;
 
-  font-size: clamp(12px, 18%, 28px);
+  font-size: var(--badge-saletxtsize)!important;
 }
 /* sale text underline css */
 .s1-sale-underline {
-  font-size: 21px;
+  font-size:var(--badge-saletxtsize1);
   font-weight: 700;
   font-family: Arial, sans-serif;
   color: var(--badge-saletxt);
-
+padding:var(--badge-salepadding1);
   position: relative;
   display: inline-block;
   line-height: normal;

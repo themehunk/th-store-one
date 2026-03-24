@@ -5,13 +5,13 @@ import './live-style.css';
 const bundleItems = [
     {
         id: 1,
-        name: __("Album", "store-one"),
+        name: __("Album", "th-store-one"),
         qty: 1,
         price: "$23.10",
     },
     {
         id: 2,
-        name: __("Cap", "store-one"),
+        name: __("Cap", "th-store-one"),
         qty: 1,
         price: "$25.10",
         old_price: "$30.00",
@@ -24,7 +24,7 @@ const MiniCartWithBundle = ({ settings = {} }) => {
     return (
         <div className="s1-minicart-preview">
             <div className="s1-minicart-header">
-                <span className="s1-minicart-heading">{__("Shopping Cart", "store-one")}</span>
+                <span className="s1-minicart-heading">{__("Shopping Cart", "th-store-one")}</span>
                 <span className="s1-minicart-close">&times;</span>
             </div>
 
@@ -75,7 +75,7 @@ const MiniCartWithBundle = ({ settings = {} }) => {
 
             <div className="s1-minicart-footer">
                 <div className="s1-minicart-subtotal">
-                    <span>{__("Subtotal:", "store-one")}</span>
+                    <span>{__("Subtotal:", "th-store-one")}</span>
                     <span className="s1-minicart-subtotal-price">$48.20</span>
                 </div>
                 <div className="s1-minicart-actions">

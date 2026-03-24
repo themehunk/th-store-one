@@ -1,6 +1,6 @@
 import { ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import MultiWooSearchSelector from '@storeone-global/MultiWooSearchSelector';
+import MultiWooSearchSelector from '@th-storeone-global/MultiWooSearchSelector';
 
 export default function ExcludeCondition({
     label,
@@ -32,13 +32,13 @@ export default function ExcludeCondition({
             {enabled && isSearchable && (
                 <div className="s1-field-wrapper s1-exclude-search">
                     <label className="s1-field-label">
-                        {__('Search', 'store-one')}
+                        {__('Search', 'th-store-one')}
                     </label>
 
                     <div className="s1-field-control">
                         <MultiWooSearchSelector
                             searchType={searchType}
-                            placeholder={__('Search & select…', 'store-one')}
+                            placeholder={__('Search & select…', 'th-store-one')}
                             value={items}
                             onChange={onChangeItems}
                             detailedView={detailedView} 

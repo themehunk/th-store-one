@@ -1,16 +1,11 @@
-import { SelectControl, ToggleControl } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
+import OpacityControl from "@th-storeone-control/OpacityControl";
+import RotationControl from "@th-storeone-control/RotationControl";
+import FlipControl from "@th-storeone-control/FlipControl";
+import UniversalDimensionControl from "@th-storeone-control/UniversalDimensionControl";
+import PositionControl from "@th-storeone-control/PositionControl";
 
-import UniversalRangeControl from "@storeone-global/UniversalRangeControl";
-import THBackgroundControl from "@storeone-control/color";
-import { S1Field } from "@storeone-global/S1Field";
-import OpacityControl from "@storeone-control/OpacityControl";
-import RotationControl from "@storeone-control/RotationControl";
-import FlipControl from "@storeone-control/FlipControl";
-import UniversalDimensionControl from "@storeone-control/UniversalDimensionControl";
-import PositionControl from "@storeone-control/PositionControl";
-
-import UniversalBorderControl from "@storeone-control/UniversalBorderControl";
+import UniversalBorderControl from "@th-storeone-control/UniversalBorderControl";
 export default function TrustBadgeStyleControl({ value = {}, badgeType, onChange }) {
   const update = (key, val) => {
     onChange({

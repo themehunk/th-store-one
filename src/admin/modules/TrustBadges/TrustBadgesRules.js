@@ -7,12 +7,12 @@ import {
 } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
 import Sortable from "sortablejs";
-import UserCondition from "@storeone-global/UserCondition";
-import MultiWooSearchSelector from "@storeone-global/MultiWooSearchSelector";
-import ExcludeWooCondition from "@storeone-global/ExcludeWooCondition";
-import TabSwitcher from "@storeone-global/TabSwitcher";
-import THBackgroundControl from "@storeone-control/color";
-import UniversalRangeControl from "@storeone-global/UniversalRangeControl";
+import UserCondition from "@th-storeone-global/UserCondition";
+import MultiWooSearchSelector from "@th-storeone-global/MultiWooSearchSelector";
+import ExcludeWooCondition from "@th-storeone-global/ExcludeWooCondition";
+import TabSwitcher from "@th-storeone-global/TabSwitcher";
+import THBackgroundControl from "@th-storeone-control/color";
+import UniversalRangeControl from "@th-storeone-global/UniversalRangeControl";
 import TrustBadgeStyleControl from "./TrustBadgeStyleControl";
 import {
   CopyIcon,
@@ -21,12 +21,11 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
 } from "@radix-ui/react-icons";
-import { S1Field, S1FieldGroup } from "@storeone-global/S1Field";
-import { ICONS } from "@storeone-global/icons";
-import ResetModuleButton from "@storeone-global/ResetModuleButton";
-import PlacementPriorityControl from "@storeone-global/PlacementPriorityControl";
+import { S1Field, S1FieldGroup } from "@th-storeone-global/S1Field";
+import { ICONS } from "@th-storeone-global/icons";
+import ResetModuleButton from "@th-storeone-global/ResetModuleButton";
 import TrustBadgeSelector from "./TrustBadgeSelector";
-import UniversalBorderControl from "@storeone-control/UniversalBorderControl";
+
 /* Default Rule */
 const newBadgesTRule = () => ({
   open: true,
@@ -71,7 +70,7 @@ const newBadgesTRule = () => ({
     image_width: "100px",
     bgclr: "#0a70ed",
     textclr: "#fff",
-    text_size: "18px",
+    text_size: "15px",
     transform: {
       opacity: "100",
       rotateX: "0",
@@ -233,22 +232,22 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
     {
       id: "last_minitue",
       type: "image",
-      url: `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/last_miniute.svg`,
+      url: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/last_miniute.svg`,
     },
     {
       id: "buy_free",
       type: "image",
-      url: `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/buy_free.svg`,
+      url: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/buy_free.svg`,
     },
     {
       id: "buy_get_blue",
       type: "image",
-      url: `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/buy_get_blue.svg`,
+      url: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/buy_get_blue.svg`,
     },
     {
       id: "christmas",
       type: "image",
-      url: `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/christmas.svg`,
+      url: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/christmas.svg`,
     },
     
   ];
@@ -258,31 +257,31 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
       id: "new",
       label: "New",
       preview:
-        `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/new.svg`,
+        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/new.svg`,
     },
     {
       id: "sale",
       label: "Sale",
       preview:
-        `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/sale1.svg`,
+        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/sale1.svg`,
     },
     {
       id: "newsale",
       label: "NewSale",
       preview:
-        `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/newsale.svg`,
+        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/newsale.svg`,
     },
     {
       id: "sale_badge_pink",
       label: "sale_badge_pink",
       preview:
-        `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/sale_badge_pink.svg`,
+        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/sale_badge_pink.svg`,
     },
     {
       id: "saletxt",
       label: "saletxt",
       preview:
-        `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/sale.svg`,
+        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/sale.svg`,
     },
     
   ];
@@ -292,35 +291,35 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
       id: "one",
       label: "One",
       preview:
-        `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/circle1.svg`,
+        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/circle1.svg`,
     },
     {
       id: "two",
       label: "Two",
       preview:
-        `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/circle2.svg`,
+        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/circle2.svg`,
     },
     {
       id: "four",
       label: "Four",
       preview:
-        `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/cornerribbon.svg`,
+        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/cornerribbon.svg`,
     },
     {
       id: "five",
       label: "Five",
       preview:
-        `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/lastmint.svg`,
+        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/lastmint.svg`,
     },
     {
       id: "daimond",
       label: "daimond",
-      preview: `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/daimond.svg`,
+      preview: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/daimond.svg`,
     },
     {
       id: "circle",
       label: "cirlce",
-      preview: `${StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/circle.svg`,
+      preview: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/store-one/assets/images/circle.svg`,
     },
   ];
 
@@ -340,12 +339,13 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
             ...currentStyle.border,
             color: "#8BC34A",
           },
-          padding: {
-            top: "6px",
-            right: "12px",
-            bottom: "6px",
-            left: "12px",
-          },
+        
+        padding: {
+          top: "6px",
+          right: "12px",
+          bottom: "6px",
+          left: "12px",
+        },
          margin: {
             top: "0px",
             right: "0px",
@@ -372,11 +372,11 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
           bgclr: "#45d0eb",
           textclr: "#ffffff",
           padding: {
-            top: "0px",
-            right: "0px",
-            bottom: "0px",
-            left: "0px",
-          },
+          top: "6px",
+          right: "12px",
+          bottom: "6px",
+          left: "6px",
+        },
           margin: {
             top: "0px",
             right: "0px",
@@ -443,11 +443,11 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
           bgclr: "#d4547e",
           textclr: "#ffffff",
           padding: {
-            top: "0px",
-            right: "0px",
-            bottom: "0px",
-            left: "0px",
-          },
+          top: "5px",
+          right: "5px",
+          bottom: "5px",
+          left: "5px",
+        },
           margin: {
             top: "0px",
             right: "0px",
@@ -494,6 +494,7 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
            top: "12",
             left: "12",
           },
+          text_size:"21px",
          
           
         },
@@ -684,7 +685,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
   return (
     <div className="store-one-rules-container">
       <h3 className="store-one-section-title">
-        {__("Trust Badges", "store-one")}
+        {__("Trust Badges", "th-store-one")}
       </h3>
       <SortableWrapper items={rules} onSortEnd={reorder}>
         {rules.map((rule, index) => (
@@ -696,9 +697,9 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
 
               <strong className="s1-rule-title">
                 {sprintf(
-                  __("Rule %d: %s", "store-one"),
+                  __("Rule %d: %s", "th-store-one"),
                   index + 1,
-                  rule.badge_title || __("Untitled", "store-one"),
+                  rule.badge_title || __("Untitled", "th-store-one"),
                 )}
               </strong>
 
@@ -734,23 +735,23 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                     icon: ICONS[menuItems[0].icon],
                     content: (
                       <div className="store-one-rule-body">
-                        <S1Field label={__("Status", "store-one")}>
+                        <S1Field label={__("Status", "th-store-one")}>
                           <SelectControl
                             value={rule.status}
                             options={[
                               {
-                                label: __("Active", "store-one"),
+                                label: __("Active", "th-store-one"),
                                 value: "active",
                               },
                               {
-                                label: __("Inactive", "store-one"),
+                                label: __("Inactive", "th-store-one"),
                                 value: "inactive",
                               },
                             ]}
                             onChange={(v) => updateField(index, "status", v)}
                           />
                         </S1Field>
-                        <S1Field label={__("Title", "store-one")}>
+                        <S1Field label={__("Title", "th-store-one")}>
                           <TextControl
                             value={rule.badge_title}
                             onChange={(v) =>
@@ -758,56 +759,56 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                             }
                           />
                         </S1Field>
-                        <S1Field label={__("Show Badges", "store-one")}>
+                        <S1Field label={__("Show Badges", "th-store-one")}>
                           <SelectControl
                             value={rule.show_badges}
                             options={[
                               {
-                                label: __("All Products", "store-one"),
+                                label: __("All Products", "th-store-one"),
                                 value: "all_products",
                               },
                               {
-                                label: __("Only Recent Products", "store-one"),
+                                label: __("Only Recent Products", "th-store-one"),
                                 value: "recent_products",
                               },
                               {
-                                label: __("Sale Products", "store-one"),
+                                label: __("Sale Products", "th-store-one"),
                                 value: "sale_products",
                               },
                               {
-                                label: __("Featured Product", "store-one"),
+                                label: __("Featured Product", "th-store-one"),
                                 value: "featured_products",
                               },
                               {
-                                label: __("In Stock Products", "store-one"),
+                                label: __("In Stock Products", "th-store-one"),
                                 value: "in_stock_products",
                               },
                               {
-                                label: __("Out Of Stock Products", "store-one"),
+                                label: __("Out Of Stock Products", "th-store-one"),
                                 value: "out_stock_products",
                               },
                               {
-                                label: __("Back Order Products", "store-one"),
+                                label: __("Back Order Products", "th-store-one"),
                                 value: "back_order_products",
                               },
                               {
-                                label: __("Low Stock Products", "store-one"),
+                                label: __("Low Stock Products", "th-store-one"),
                                 value: "low_stock_products",
                               },
                               {
-                                label: __("Best Seller", "store-one"),
+                                label: __("Best Seller", "th-store-one"),
                                 value: "best_seller_products",
                               },
                               {
-                                label: __("Specific Product", "store-one"),
+                                label: __("Specific Product", "th-store-one"),
                                 value: "specific_products",
                               },
                               {
-                                label: __("Specific Categories", "store-one"),
+                                label: __("Specific Categories", "th-store-one"),
                                 value: "specific_categories",
                               },
                               {
-                                label: __("Specific Tags", "store-one"),
+                                label: __("Specific Tags", "th-store-one"),
                                 value: "specific_tags",
                               },
                             ]}
@@ -819,7 +820,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
 
                         
                             <S1Field
-                                      label={__("Show in Loop", "store-one")}
+                                      label={__("Show in Loop", "th-store-one")}
                                       classN="s1-toggle-wrpapper"
                                     >
                                       <ToggleControl
@@ -832,7 +833,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                         
                         
                             <S1Field
-                                      label={__("Show in Single Page", "store-one")}
+                                      label={__("Show in Single Page", "th-store-one")}
                                       classN="s1-toggle-wrpapper"
                                     >
                                       <ToggleControl
@@ -847,7 +848,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                         {rule.show_badges === "specific_products" && (
                           <MultiWooSearchSelector
                             searchType="product"
-                            label={__("Select Products", "store-one")}
+                            label={__("Select Products", "th-store-one")}
                             value={rule.products || []}
                             onChange={(items) =>
                               updateField(index, "products", items)
@@ -858,7 +859,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                         {rule.show_badges === "specific_categories" && (
                           <MultiWooSearchSelector
                             searchType="category"
-                            label={__("Select Categories", "store-one")}
+                            label={__("Select Categories", "th-store-one")}
                             value={rule.categories || []}
                             onChange={(items) =>
                               updateField(index, "categories", items)
@@ -869,7 +870,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                         {rule.show_badges === "specific_tags" && (
                           <MultiWooSearchSelector
                             searchType="tag"
-                            label={__("Select Tags", "store-one")}
+                            label={__("Select Tags", "th-store-one")}
                             value={rule.tags || []}
                             onChange={(items) =>
                               updateField(index, "tags", items)
@@ -878,7 +879,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                           />
                         )}
                         <ExcludeWooCondition
-                          label={__("Exclude products", "store-one")}
+                          label={__("Exclude products", "th-store-one")}
                           searchType="product"
                           enabled={rule.exclude_products_enabled}
                           items={rule.exclude_products}
@@ -891,7 +892,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                           detailedView={true}
                         />
                         <ExcludeWooCondition
-                          label={__("Exclude categories", "store-one")}
+                          label={__("Exclude categories", "th-store-one")}
                           searchType="category"
                           enabled={rule.exclude_categories_enabled}
                           items={rule.exclude_categories}
@@ -904,7 +905,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                           detailedView={true}
                         />
                         <ExcludeWooCondition
-                          label={__("Exclude product tags", "store-one")}
+                          label={__("Exclude product tags", "th-store-one")}
                           searchType="tag"
                           enabled={rule.exclude_tags_enabled}
                           items={rule.exclude_tags}
@@ -942,26 +943,26 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                     content: (
                       <div className="store-one-rule-body">
                         <S1Field
-                          label={__("Bagdes Type", "store-one")}
+                          label={__("Bagdes Type", "th-store-one")}
                           visible={true}
                         >
                           <SelectControl
                             value={rule.badges_type}
                             options={[
                               {
-                                label: __("Text", "store-one"),
+                                label: __("Text", "th-store-one"),
                                 value: "badges_text",
                               },
                               {
-                                label: __("Images", "store-one"),
+                                label: __("Images", "th-store-one"),
                                 value: "badges_images",
                               },
                               {
-                                label: __("CSS", "store-one"),
+                                label: __("CSS", "th-store-one"),
                                 value: "badges_css",
                               },
                               {
-                                label: __("Advance", "store-one"),
+                                label: __("Advance", "th-store-one"),
                                 value: "badges_advance",
                               },
                             ]}
@@ -972,7 +973,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                         </S1Field>
                         {rule.badges_type === "badges_text" && (
                           <>
-                            <S1Field label={__("Badge Text", "store-one")}>
+                            <S1Field label={__("Badge Text", "th-store-one")}>
                               <TextControl
                                 value={rule.badgetext || ""}
                                 onChange={(v) =>
@@ -980,9 +981,9 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                                 }
                               />
                             </S1Field>
-                            <S1FieldGroup title={__("Style", "store-one")}>
+                            <S1FieldGroup title={__("Style", "th-store-one")}>
                             <UniversalRangeControl
-                              label={__("Font Size", "store-one")}
+                              label={__("Font Size", "th-store-one")}
                               responsive={false}
                               value={rule.badge_style?.text_size}
                               units={["px"]}
@@ -1005,7 +1006,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                             <S1Field>
                             <THBackgroundControl
                               allowGradient={true}
-                              label={__("Background", "store-one")}
+                              label={__("Background", "th-store-one")}
                               value={rule.badge_style?.bgclr || "#ffffff"}
                               onChange={(v) => {
                                 const updatedBadgeStyle = {
@@ -1030,7 +1031,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                             <S1Field>
                               <THBackgroundControl
                                 allowGradient={true}
-                                label={__("Text", "store-one")}
+                                label={__("Text", "th-store-one")}
                                 value={rule.badge_style?.textclr || "#111"}
                                 onChange={(v) => {
                                   const updatedBadgeStyle = {
@@ -1059,7 +1060,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                         {rule.badges_type === "badges_images" && (
                           <>
                               <TrustBadgeSelector
-                                title={__("Images Badges", "store-one")}
+                                title={__("Images Badges", "th-store-one")}
                                 rule={rule}
                                 index={index}
                                 updateField={updateField}
@@ -1068,7 +1069,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                                 badgeType="image"
                               />
                             <UniversalRangeControl
-                              label={__("Width", "store-one")}
+                              label={__("Width", "th-store-one")}
                               responsive={false}
                               value={rule.badge_style?.image_width}
                               units={["px"]}
@@ -1094,7 +1095,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                           <>
                            
                               <TrustBadgeSelector
-                                title={__("Css Badges", "store-one")}
+                                title={__("Css Badges", "th-store-one")}
                                 rule={rule}
                                 index={index}
                                 updateField={updateField}
@@ -1103,7 +1104,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                                 badgeType="css"
                               />
                            
-                            <S1Field label={__("Badge Text", "store-one")}>
+                            <S1Field label={__("Badge Text", "th-store-one")}>
                               <TextControl
                                 value={rule.badgetext || ""}
                                 onChange={(v) =>
@@ -1112,7 +1113,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                               />
                             </S1Field>
                              <UniversalRangeControl
-                              label={__("Font Size", "store-one")}
+                              label={__("Font Size", "th-store-one")}
                               responsive={false}
                               value={rule.badge_style?.text_size}
                               units={["px"]}
@@ -1134,7 +1135,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                             />
                             <THBackgroundControl
                               allowGradient={true}
-                              label={__("Background", "store-one")}
+                              label={__("Background", "th-store-one")}
                               value={rule.badge_style?.bgclr || "#ffffff"}
                               onChange={(v) => {
                                 const updatedBadgeStyle = {
@@ -1158,7 +1159,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                            
                               <THBackgroundControl
                                 allowGradient={true}
-                                label={__("Text", "store-one")}
+                                label={__("Text", "th-store-one")}
                                 value={rule.badge_style?.textclr || "#111"}
                                 onChange={(v) => {
                                   const updatedBadgeStyle = {
@@ -1185,9 +1186,8 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                         )}
                         {rule.badges_type === "badges_advance" && (
                           <>
-                           
                               <TrustBadgeSelector
-                                 title={__("Advance Badges", "store-one")}
+                                 title={__("Advance Badges", "th-store-one")}
                                 rule={rule}
                                 index={index}
                                 updateField={updateField}
@@ -1195,26 +1195,25 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                                 allowUpload={false}
                                 badgeType="advance"
                               />
-
-                              <S1Field label={__("Display", "store-one")}>
+                              <S1Field label={__("Display", "th-store-one")}>
                               <SelectControl
                                 value={rule.displayBadge}
                                 options={[
                                   {
-                                    label: __("Amount", "store-one"),
+                                    label: __("Amount", "th-store-one"),
                                     value: "s1-amount",
                                   },
                                   {
-                                    label: __("Percentage", "store-one"),
+                                    label: __("Percentage", "th-store-one"),
                                     value: "s1-percent",
                                   },
                                 ]}
                                 onChange={(v) => updateField(index, "displayBadge", v)}
                               />
                             </S1Field>
-                               <THBackgroundControl
+                              <THBackgroundControl
                               allowGradient={true}
-                              label={__("Background", "store-one")}
+                              label={__("Background", "th-store-one")}
                               value={rule.badge_style?.bgclr || "#ffffff"}
                               onChange={(v) => {
                                 const updatedBadgeStyle = {
@@ -1237,7 +1236,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                             />
                             <THBackgroundControl
                                 allowGradient={true}
-                                label={__("Text", "store-one")}
+                                label={__("Text", "th-store-one")}
                                 value={rule.badge_style?.textclr || "#111"}
                                 onChange={(v) => {
                                   const updatedBadgeStyle = {
@@ -1279,7 +1278,7 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
       {/* Add Rule */}
       <div className="store-one-rules-footer">
         <div className="store-one-add-rule" onClick={addRule}>
-          {__("+ Add New Rule", "store-one")}
+          {__("+ Add New Rule", "th-store-one")}
         </div>
         <ResetModuleButton
           moduleId="trust-badges"

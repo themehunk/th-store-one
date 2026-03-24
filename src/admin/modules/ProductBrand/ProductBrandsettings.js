@@ -30,10 +30,10 @@ export default function ProductBrandsettings({
     /* load settings */
     useEffect(() => {
         setLoading(true);
-        apiFetch.use(apiFetch.createNonceMiddleware(StoreOneAdmin.nonce));
+        apiFetch.use(apiFetch.createNonceMiddleware(th_StoreOneAdmin.nonce));
 
         apiFetch({
-            path: `${StoreOneAdmin.restUrl}module/${MODULE_ID}`,
+            path: `${th_StoreOneAdmin.restUrl}module/${MODULE_ID}`,
             method: 'GET',
         })
             .then((res) => {
@@ -42,7 +42,7 @@ export default function ProductBrandsettings({
                     setRules(s.rules);
                 }
             })
-            .catch(() => setError(__('Failed to load settings.', 'store-one')))
+            .catch(() => setError(__('Failed to load settings.', 'th-store-one')))
             .finally(() => setLoading(false));
     }, []);
 
@@ -73,16 +73,16 @@ export default function ProductBrandsettings({
         setError('');
 
         apiFetch({
-            path: `${StoreOneAdmin.restUrl}module/${MODULE_ID}`,
+            path: `${th_StoreOneAdmin.restUrl}module/${MODULE_ID}`,
             method: 'POST',
             data: { settings: { rules } },
         })
-            .then(() => setSuccess(__('Saved successfully!', 'store-one')))
-            .catch(() => setError(__('Failed to save.', 'store-one')))
+            .then(() => setSuccess(__('Saved successfully!', 'th-store-one')))
+            .catch(() => setError(__('Failed to save.', 'th-store-one')))
             .finally(() => setSaving(false));
     };
 
-    /* 🔥 THIS IS THE KEY — AdminMain yahin se save call karta hai */
+    /* THIS IS THE KEY — AdminMain */
     useEffect(() => {
         onRegisterSave?.(() => handleSave);
     }, [rules]);
@@ -91,7 +91,7 @@ export default function ProductBrandsettings({
         <div>
             {loading && (
                 <div className="store-one-loader">
-                    <Spinner /> {__('Loading…', 'store-one')}
+                    <Spinner /> {__('Loading…', 'th-store-one')}
                 </div>
             )}
 

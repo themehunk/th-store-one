@@ -3,17 +3,16 @@ import { useState, useEffect, useRef } from "@wordpress/element";
 import { TextControl, SelectControl } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
 import Sortable from "sortablejs";
-import MultiWooSearchSelector from "@storeone-global/MultiWooSearchSelector";
-import ExcludeWooCondition from "@storeone-global/ExcludeWooCondition";
-import TabSwitcher from "@storeone-global/TabSwitcher";
-import UserCondition from "@storeone-global/UserCondition";
+import MultiWooSearchSelector from "@th-storeone-global/MultiWooSearchSelector";
+import ExcludeWooCondition from "@th-storeone-global/ExcludeWooCondition";
+import TabSwitcher from "@th-storeone-global/TabSwitcher";
+import UserCondition from "@th-storeone-global/UserCondition";
 import SingleProductSettings from "./SingleProductSettings";
-import CartPageSettings from "./cartPageSettings";
-import CheckoutPageSettings from "./CheckoutPageSettings";
-import THBackgroundControl from "@storeone-control/color";
-import UniversalRangeControl from "@storeone-global/UniversalRangeControl";
 
-import S1Accordion from "@storeone-global/S1Accordion";
+import THBackgroundControl from "@th-storeone-control/color";
+import UniversalRangeControl from "@th-storeone-global/UniversalRangeControl";
+
+import S1Accordion from "@th-storeone-global/S1Accordion";
 import {
   CopyIcon,
   TrashIcon,
@@ -21,9 +20,9 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
 } from "@radix-ui/react-icons";
-import { S1Field, S1FieldGroup } from "@storeone-global/S1Field";
-import { ICONS } from "@storeone-global/icons";
-import ResetModuleButton from "@storeone-global/ResetModuleButton";
+import { S1Field, S1FieldGroup } from "@th-storeone-global/S1Field";
+import { ICONS } from "@th-storeone-global/icons";
+import ResetModuleButton from "@th-storeone-global/ResetModuleButton";
 
 /* Default Rule */
 const newFBTRule = () => ({
@@ -264,7 +263,7 @@ export default function FrequentlyBoughtRulesEditor({
   return (
     <div className="store-one-rules-container">
       <h3 className="store-one-section-title">
-        {__("Offer Bundle", "store-one")}
+        {__("Offer Bundle", "th-store-one")}
       </h3>
 
       <SortableWrapper items={rules} onSortEnd={reorder}>
@@ -277,9 +276,9 @@ export default function FrequentlyBoughtRulesEditor({
 
               <strong className="s1-rule-title">
                 {sprintf(
-                  __("Rule %d: %s", "store-one"),
+                  __("Rule %d: %s", "th-store-one"),
                   index + 1,
-                  rule.offer_title || __("Untitled", "store-one"),
+                  rule.offer_title || __("Untitled", "th-store-one"),
                 )}
               </strong>
 
@@ -315,16 +314,16 @@ export default function FrequentlyBoughtRulesEditor({
                     icon: ICONS[menuItems[0].icon],
                     content: (
                       <div className="store-one-rule-body">
-                        <S1Field label={__("Status", "store-one")}>
+                        <S1Field label={__("Status", "th-store-one")}>
                           <SelectControl
                             value={rule.status}
                             options={[
                               {
-                                label: __("Active", "store-one"),
+                                label: __("Active", "th-store-one"),
                                 value: "active",
                               },
                               {
-                                label: __("Inactive", "store-one"),
+                                label: __("Inactive", "th-store-one"),
                                 value: "inactive",
                               },
                             ]}
@@ -332,7 +331,7 @@ export default function FrequentlyBoughtRulesEditor({
                           />
                         </S1Field>
 
-                        <S1Field label={__("Offer Name", "store-one")}>
+                        <S1Field label={__("Offer Name", "th-store-one")}>
                           <TextControl
                             value={rule.offer_title}
                             onChange={(v) =>
@@ -343,7 +342,7 @@ export default function FrequentlyBoughtRulesEditor({
 
                         <MultiWooSearchSelector
                           searchType="product"
-                          label={__("Search Offer products", "store-one")}
+                          label={__("Search Offer products", "th-store-one")}
                           value={rule.offer_products || []}
                           onChange={(items) =>
                             updateField(index, "offer_products", items)
@@ -351,24 +350,24 @@ export default function FrequentlyBoughtRulesEditor({
                           detailedView={true}
                         />
 
-                        <S1Field label={__("Trigger Type", "store-one")}>
+                        <S1Field label={__("Trigger Type", "th-store-one")}>
                           <SelectControl
                             value={rule.trigger_type}
                             options={[
                               {
-                                label: __("All Products", "store-one"),
+                                label: __("All Products", "th-store-one"),
                                 value: "all_products",
                               },
                               {
-                                label: __("Specific Products", "store-one"),
+                                label: __("Specific Products", "th-store-one"),
                                 value: "specific_products",
                               },
                               {
-                                label: __("Specific Categories", "store-one"),
+                                label: __("Specific Categories", "th-store-one"),
                                 value: "specific_categories",
                               },
                               {
-                                label: __("Specific Tags", "store-one"),
+                                label: __("Specific Tags", "th-store-one"),
                                 value: "specific_tags",
                               },
                             ]}
@@ -381,7 +380,7 @@ export default function FrequentlyBoughtRulesEditor({
                         {rule.trigger_type === "specific_products" && (
                           <MultiWooSearchSelector
                             searchType="product"
-                            label={__("Select Products", "store-one")}
+                            label={__("Select Products", "th-store-one")}
                             value={rule.products || []}
                             onChange={(items) =>
                               updateField(index, "products", items)
@@ -393,7 +392,7 @@ export default function FrequentlyBoughtRulesEditor({
                         {rule.trigger_type === "specific_categories" && (
                           <MultiWooSearchSelector
                             searchType="category"
-                            label={__("Select Categories", "store-one")}
+                            label={__("Select Categories", "th-store-one")}
                             value={rule.categories || []}
                             onChange={(items) =>
                               updateField(index, "categories", items)
@@ -405,7 +404,7 @@ export default function FrequentlyBoughtRulesEditor({
                         {rule.trigger_type === "specific_tags" && (
                           <MultiWooSearchSelector
                             searchType="tag"
-                            label={__("Select Tags", "store-one")}
+                            label={__("Select Tags", "th-store-one")}
                             value={rule.tags || []}
                             onChange={(items) =>
                               updateField(index, "tags", items)
@@ -417,7 +416,7 @@ export default function FrequentlyBoughtRulesEditor({
                         {/* ———————— EXCLUDE OPTIONS ————————— */}
 
                         <ExcludeWooCondition
-                          label={__("Exclude products", "store-one")}
+                          label={__("Exclude products", "th-store-one")}
                           searchType="product"
                           enabled={rule.exclude_products_enabled}
                           items={rule.exclude_products}
@@ -431,7 +430,7 @@ export default function FrequentlyBoughtRulesEditor({
                         />
 
                         <ExcludeWooCondition
-                          label={__("Exclude categories", "store-one")}
+                          label={__("Exclude categories", "th-store-one")}
                           searchType="category"
                           enabled={rule.exclude_categories_enabled}
                           items={rule.exclude_categories}
@@ -445,7 +444,7 @@ export default function FrequentlyBoughtRulesEditor({
                         />
 
                         <ExcludeWooCondition
-                          label={__("Exclude product tags", "store-one")}
+                          label={__("Exclude product tags", "th-store-one")}
                           searchType="tag"
                           enabled={rule.exclude_tags_enabled}
                           items={rule.exclude_tags}
@@ -458,17 +457,10 @@ export default function FrequentlyBoughtRulesEditor({
                           detailedView={true}
                         />
 
-                        {/* <ExcludeWooCondition
-                                    label={__('Exclude brands', 'store-one')}
-                                    searchType="brand"
-                                    enabled={rule.exclude_brands_enabled}
-                                    items={rule.exclude_brands}
-                                    onToggle={(v) => updateField(index, 'exclude_brands_enabled', v)}
-                                    onChangeItems={(items) => updateField(index, 'exclude_brands', items)}
-                                /> */}
+                
 
                         <ExcludeWooCondition
-                          label={__("Exclude On-Sale products", "store-one")}
+                          label={__("Exclude On-Sale products", "th-store-one")}
                           searchType="on_sale"
                           enabled={rule.exclude_on_sale_enabled}
                           items={[]} // no search selector for this one
@@ -504,7 +496,7 @@ export default function FrequentlyBoughtRulesEditor({
                         <S1Accordion
                           title={__(
                             "Single Product Page Settings",
-                            "store-one",
+                            "th-store-one",
                           )}
                           status={rule.single_enabled}
                           defaultOpen={true}
@@ -517,19 +509,6 @@ export default function FrequentlyBoughtRulesEditor({
                           />
                         </S1Accordion>
 
-                        {/* <S1Accordion title={__("Cart Page Settings", "store-one")} status={rule.cart_enabled}>
-                                                <CartPageSettings
-                                                settings={rule}
-                                                updateSetting={(key, val) => updateField(index, key, val)}
-                                            />    
-                                            </S1Accordion>
-
-                                            <S1Accordion title={__("Checkout Page Settings", "store-one")} >
-                                                <CheckoutPageSettings
-                                                settings={rule}
-                                                updateSetting={(key, val) => updateField(index, key, val)}
-                                            />    
-                                            </S1Accordion> */}
                       </>
                     ),
                   },
@@ -540,22 +519,22 @@ export default function FrequentlyBoughtRulesEditor({
                     content: (
                       <div className="store-one-rule-body">
                         <S1Field
-                          label={__("Display Style", "store-one")}
+                          label={__("Display Style", "th-store-one")}
                           visible={false}
                         >
                           <SelectControl
                             value={rule.display_style}
                             options={[
                               {
-                                label: __("Style1", "store-one"),
+                                label: __("Style1", "th-store-one"),
                                 value: "style_1",
                               },
                               {
-                                label: __("Style2", "store-one"),
+                                label: __("Style2", "th-store-one"),
                                 value: "style_2",
                               },
                               {
-                                label: __("Style3", "store-one"),
+                                label: __("Style3", "th-store-one"),
                                 value: "style_3",
                               },
                             ]}
@@ -570,11 +549,11 @@ export default function FrequentlyBoughtRulesEditor({
                             }}
                           />
                         </S1Field>
-                        <S1FieldGroup title={__("Bundle", "store-one")}>
+                        <S1FieldGroup title={__("Bundle", "th-store-one")}>
                           <S1Field>
                             <THBackgroundControl
                               allowGradient={true}
-                              label={__("Background", "store-one")}
+                              label={__("Background", "th-store-one")}
                               value={rule.bundel_bg_clr || "#ffffff"}
                               onChange={(v) => {
                                 const updatedRule = {
@@ -589,7 +568,7 @@ export default function FrequentlyBoughtRulesEditor({
                           <S1Field>
                             <THBackgroundControl
                               allowGradient={true}
-                              label={__("Title", "store-one")}
+                              label={__("Title", "th-store-one")}
                               value={rule.bundel_title_clr || "#000"}
                               onChange={(v) => {
                                 const updatedRule = {
@@ -606,7 +585,7 @@ export default function FrequentlyBoughtRulesEditor({
                             <S1Field>
                               <THBackgroundControl
                                 allowGradient={true}
-                                label={__("Horizontal", "store-one")}
+                                label={__("Horizontal", "th-store-one")}
                                 value={rule.bundel_tle_brd_clr}
                                 onChange={(v) => {
                                   const updatedRule = {
@@ -623,7 +602,7 @@ export default function FrequentlyBoughtRulesEditor({
                             <S1Field>
                               <THBackgroundControl
                                 allowGradient={false}
-                                label={__("Border", "store-one")}
+                                label={__("Border", "th-store-one")}
                                 value={rule.bundel_brd_clr}
                                 onChange={(v) => {
                                   const updatedRule = {
@@ -638,7 +617,7 @@ export default function FrequentlyBoughtRulesEditor({
                           )}
                           {/* BORDER RADIUS */}
                           <UniversalRangeControl
-                            label={__("Bundle Border Radius", "store-one")}
+                            label={__("Bundle Border Radius", "th-store-one")}
                             responsive={false}
                             units={["px"]}
                             value={rule.border_radius}
@@ -650,7 +629,7 @@ export default function FrequentlyBoughtRulesEditor({
                           <S1Field>
                               <THBackgroundControl
                                 allowGradient={false}
-                                label={__("Outer Border", "store-one")}
+                                label={__("Outer Border", "th-store-one")}
                                 value={rule.outer_brd_clr}
                                 onChange={(v) => {
                                   const updatedRule = {
@@ -664,11 +643,11 @@ export default function FrequentlyBoughtRulesEditor({
                             </S1Field>
                         </S1FieldGroup>
 
-                        <S1FieldGroup title={__("Product", "store-one")}>
+                        <S1FieldGroup title={__("Product", "th-store-one")}>
                           <S1Field>
                             <THBackgroundControl
                               allowGradient={false}
-                              label={__("Title", "store-one")}
+                              label={__("Title", "th-store-one")}
                               value={rule.prd_tle_clr}
                               onChange={(v) => {
                                 const updatedRule = {
@@ -688,7 +667,7 @@ export default function FrequentlyBoughtRulesEditor({
                           <S1Field>
                             <THBackgroundControl
                               allowGradient={false}
-                              label={__("Price", "store-one")}
+                              label={__("Price", "th-store-one")}
                               value={rule.prd_prc_clr}
                               onChange={(v) => {
                                 const updatedRule = { ...rule, prd_prc_clr: v };
@@ -699,14 +678,14 @@ export default function FrequentlyBoughtRulesEditor({
                           </S1Field>
                         </S1FieldGroup>
 
-                        <S1FieldGroup title={__("Plus Icon", "store-one")}>
+                        <S1FieldGroup title={__("Plus Icon", "th-store-one")}>
                           {(rule.display_style === "style_1" ||
                             rule.display_style === "style_2") && (
                             <>
                               <S1Field>
                                 <THBackgroundControl
                                   allowGradient={false}
-                                  label={__("Background", "store-one")}
+                                  label={__("Background", "th-store-one")}
                                   value={rule.bundel_plus_bg_clr || "#111"}
                                   onChange={(v) => {
                                     const updatedRule = {
@@ -721,7 +700,7 @@ export default function FrequentlyBoughtRulesEditor({
                               <S1Field>
                                 <THBackgroundControl
                                   allowGradient={false}
-                                  label={__("Color", "store-one")}
+                                  label={__("Color", "th-store-one")}
                                   value={rule.bundel_plus_clr || "#fff"}
                                   onChange={(v) => {
                                     const updatedRule = {
@@ -737,11 +716,11 @@ export default function FrequentlyBoughtRulesEditor({
                           )}
                         </S1FieldGroup>
 
-                        <S1FieldGroup title={__("Checkbox", "store-one")}>
+                        <S1FieldGroup title={__("Checkbox", "th-store-one")}>
                           <S1Field>
                             <THBackgroundControl
                               allowGradient={false}
-                              label={__("Color", "store-one")}
+                              label={__("Color", "th-store-one")}
                               value={rule.bundel_chk_clr || "#fff"}
                               onChange={(v) => {
                                 const updatedRule = {
@@ -757,7 +736,7 @@ export default function FrequentlyBoughtRulesEditor({
                           <S1Field>
                             <THBackgroundControl
                               allowGradient={false}
-                              label={__("Background", "store-one")}
+                              label={__("Background", "th-store-one")}
                               value={rule.bundel_chk_bg_clr || "#111"}
                               onChange={(v) => {
                                 const updatedRule = {
@@ -771,11 +750,11 @@ export default function FrequentlyBoughtRulesEditor({
                           </S1Field>
                         </S1FieldGroup>
 
-                        <S1FieldGroup title={__("Summary Box", "store-one")}>
+                        <S1FieldGroup title={__("Summary Box", "th-store-one")}>
                           <S1Field>
                             <THBackgroundControl
                               allowGradient={false}
-                              label={__("Content", "store-one")}
+                              label={__("Content", "th-store-one")}
                               value={rule.bundel_cnt_clr}
                               onChange={(v) => {
                                 const updatedRule = {
@@ -789,11 +768,11 @@ export default function FrequentlyBoughtRulesEditor({
                           </S1Field>
                         </S1FieldGroup>
 
-                        <S1FieldGroup title={__("Button", "store-one")}>
+                        <S1FieldGroup title={__("Button", "th-store-one")}>
                           <S1Field>
                             <THBackgroundControl
                               allowGradient={true}
-                              label={__("Background", "store-one")}
+                              label={__("Background", "th-store-one")}
                               value={rule.bundel_btn_bg}
                               onChange={(v) => {
                                 const updatedRule = {
@@ -808,7 +787,7 @@ export default function FrequentlyBoughtRulesEditor({
                           <S1Field>
                             <THBackgroundControl
                               allowGradient={false}
-                              label={__("Color", "store-one")}
+                              label={__("Color", "th-store-one")}
                               value={rule.bundel_btn_txt}
                               onChange={(v) => {
                                 const updatedRule = {
@@ -833,7 +812,7 @@ export default function FrequentlyBoughtRulesEditor({
       {/* Add Rule */}
       <div className="store-one-rules-footer">
         <div className="store-one-add-rule" onClick={addRule}>
-          {__("+ Add New Rule", "store-one")}
+          {__("+ Add New Rule", "th-store-one")}
         </div>
         <ResetModuleButton
           moduleId="frequently-bought"

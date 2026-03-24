@@ -7,38 +7,28 @@ import {
 } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
 import Sortable from "sortablejs";
-import MultiWooSearchSelector from "@storeone-global/MultiWooSearchSelector";
-import ExcludeWooCondition from "@storeone-global/ExcludeWooCondition";
-import TabSwitcher from "@storeone-global/TabSwitcher";
-import UserCondition from "@storeone-global/UserCondition";
-
-import THBackgroundControl from "@storeone-control/color";
-import UniversalRangeControl from "@storeone-global/UniversalRangeControl";
-
-import S1Accordion from "@storeone-global/S1Accordion";
+import MultiWooSearchSelector from "@th-storeone-global/MultiWooSearchSelector";
+import TabSwitcher from "@th-storeone-global/TabSwitcher";
+import THBackgroundControl from "@th-storeone-control/color";
+import UniversalRangeControl from "@th-storeone-global/UniversalRangeControl";
 import { PLATFORM_CONFIG } from "./platformConfig";
-import ResetModuleButton from "@storeone-global/ResetModuleButton";
+import ResetModuleButton from "@th-storeone-global/ResetModuleButton";
 import {
   CopyIcon,
   TrashIcon,
   DragHandleDots2Icon,
   ChevronDownIcon,
   ChevronUpIcon,
-  CheckIcon,
-  StarIcon,
-  HeartIcon,
-  LightningBoltIcon,
-  RocketIcon,
 } from "@radix-ui/react-icons";
-import { S1Field, S1FieldGroup } from "@storeone-global/S1Field";
-import { ICONS } from "@storeone-global/icons";
+import { S1Field, S1FieldGroup } from "@th-storeone-global/S1Field";
+import { ICONS } from "@th-storeone-global/icons";
 import SocialItemEditor from "./SocialItemEditor";
 import MessagingItemEditor from "./MessagingItemEditor";
 import ContactItemEditor from "./ContactItemEditor";
 import ProfessionalItemEditor from "./ProfessionalItemEditor";
 import BusinessItemEditor from "./BusinessItemEditor";
 import OtherItemEditor from "./OtherItemEditor";
-import PlacementPriorityControl from "@storeone-global/PlacementPriorityControl";
+import PlacementPriorityControl from "@th-storeone-global/PlacementPriorityControl";
 /* Default Rule */
 const newsocialTRule = () => ({
   status: "active",
@@ -480,7 +470,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
   return (
     <div className="store-one-rules-container">
       <h3 className="store-one-section-title">
-        {__("Quick Share", "store-one")}
+        {__("Quick Share", "th-store-one")}
       </h3>
       <SortableWrapper items={rules} onSortEnd={reorder}>
         {rules.map((rule, index) => (
@@ -494,7 +484,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                 {sprintf(
                   __("Rule %d: %s", "store-one"),
                   index + 1,
-                  rule.list_title || __("Untitled", "store-one"),
+                  rule.list_title || __("Untitled", "th-store-one"),
                 )}
               </strong>
 
@@ -530,16 +520,16 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                     icon: ICONS[menuItems[0].icon],
                     content: (
                       <div className="store-one-rule-body">
-                        <S1Field label={__("Status", "store-one")}>
+                        <S1Field label={__("Status", "th-store-one")}>
                           <SelectControl
                             value={rule.status}
                             options={[
                               {
-                                label: __("Active", "store-one"),
+                                label: __("Active", "th-store-one"),
                                 value: "active",
                               },
                               {
-                                label: __("Inactive", "store-one"),
+                                label: __("Inactive", "th-store-one"),
                                 value: "inactive",
                               },
                             ]}
@@ -547,36 +537,36 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                           />
                         </S1Field>
 
-                        <S1Field label={__("Trigger Type", "store-one")}>
+                        <S1Field label={__("Trigger Type", "th-store-one")}>
                           <SelectControl
                             value={rule.trigger_type}
                             options={[
                               {
-                                label: __("All Pages", "store-one"),
+                                label: __("All Pages", "th-store-one"),
                                 value: "all_pages",
                               },
                               {
-                                label: __("Specific Pages", "store-one"),
+                                label: __("Specific Pages", "th-store-one"),
                                 value: "specific_pages",
                               },
                               {
-                                label: __("All Products", "store-one"),
+                                label: __("All Products", "th-store-one"),
                                 value: "all_products",
                               },
                               {
-                                label: __("Specific Products", "store-one"),
+                                label: __("Specific Products", "th-store-one"),
                                 value: "specific_products",
                               },
                               {
-                                label: __("Home Page Only", "store-one"),
+                                label: __("Home Page Only", "th-store-one"),
                                 value: "home_page_only",
                               },
                                {
-                                label: __("All Single", "store-one"),
+                                label: __("All Single", "th-store-one"),
                                 value: "all_single",
                               },
                               {
-                                label: __("Custom Shortcode", "store-one"),
+                                label: __("Custom Shortcode", "th-store-one"),
                                 value: "custom_shrtcd",
                               },
                             ]}
@@ -588,7 +578,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
 
                         {rule.trigger_type === "all_single" && (
                           <S1Field
-                            label={__("On Page", "store-one")}
+                            label={__("On Page", "th-store-one")}
                             classN="s1-toggle-wrpapper"
                           >
                           <ToggleControl
@@ -628,7 +618,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                           rule.trigger_type !== "custom_shrtcd" && (
                             <MultiWooSearchSelector
                               searchType="product"
-                              label={__("Select Products", "store-one")}
+                              label={__("Select Products", "th-store-one")}
                               value={rule.products || []}
                               onChange={(items) =>
                                 updateField(index, "products", items)
@@ -639,7 +629,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
 
                         {/* BUY LIST GROUP */}
                         <S1FieldGroup
-                          title={__("Quick Social List", "store-one")}
+                          title={__("Quick Social List", "th-store-one")}
                         >
                           <SortableWrapper
                             items={rule.social_list}
@@ -664,7 +654,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
 
                                       if (!iconKey) {
                                         return sprintf(
-                                          __("Item %d", "store-one"),
+                                          __("Item %d", "th-store-one"),
                                           i + 1,
                                         );
                                       }
@@ -836,11 +826,11 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                             + Add List Item
                           </div>
                         </S1FieldGroup>
-                        <S1Field label={__("Shortcode", "store-one")}>
+                        <S1Field label={__("Shortcode", "th-store-one")}>
                           <p className="s1-shortcode-description">
                             {__(
                               "Use this shortcode to display this Featured List anywhere on your site (posts, pages, widgets, or page builders).",
-                              "store-one",
+                              "th-store-one",
                             )}
                           </p>
                           <div className="s1-shortcode-wrapper">
@@ -873,22 +863,22 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                     content: (
                       <div className="store-one-rule-body">
                         <S1Field
-                          label={__("Display Style", "store-one")}
+                          label={__("Display Style", "th-store-one")}
                           visible={false}
                         >
                           <SelectControl
                             value={rule.social_style}
                             options={[
                               {
-                                label: __("Style1", "store-one"),
+                                label: __("Style1", "th-store-one"),
                                 value: "style1",
                               },
                               {
-                                label: __("Style2", "store-one"),
+                                label: __("Style2", "th-store-one"),
                                 value: "style2",
                               },
                               {
-                                label: __("Style3", "store-one"),
+                                label: __("Style3", "th-store-one"),
                                 value: "style3",
                               },
                             ]}
@@ -904,7 +894,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                           />
                         </S1Field>
                          <UniversalRangeControl
-                              label={__("Max Show On Screen", "store-one")}
+                              label={__("Max Show On Screen", "th-store-one")}
                               responsive={false}
                               value={rule.max_show}
                                min={1}
@@ -915,7 +905,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                               defaultValue="4"
                             />
                         <S1Field
-                          label={__("Enable Original", "store-one")}
+                          label={__("Enable Original", "th-store-one")}
                           classN="s1-toggle-wrpapper"
                         >
                           <ToggleControl
@@ -927,11 +917,11 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                         </S1Field>
                         {!rule.original_enabled && (
                           <>
-                            <S1FieldGroup title={__("Icon", "store-one")}>
+                            <S1FieldGroup title={__("Icon", "th-store-one")}>
                               <S1Field>
                                 <THBackgroundControl
                                   allowGradient={true}
-                                  label={__("Background", "store-one")}
+                                  label={__("Background", "th-store-one")}
                                   value={rule.icon_bg_clr}
                                   onChange={(v) => {
                                     const updatedRule = {
@@ -946,7 +936,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                               <S1Field>
                                 <THBackgroundControl
                                   allowGradient={true}
-                                  label={__("Color", "store-one")}
+                                  label={__("Color", "th-store-one")}
                                   value={rule.icon_clr}
                                   onChange={(v) => {
                                     const updatedRule = {
@@ -959,11 +949,11 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                                 />
                               </S1Field>
                             </S1FieldGroup>
-                            <S1FieldGroup title={__("Icon Hover", "store-one")}>
+                            <S1FieldGroup title={__("Icon Hover", "th-store-one")}>
                               <S1Field>
                                 <THBackgroundControl
                                   allowGradient={true}
-                                  label={__("Background", "store-one")}
+                                  label={__("Background", "th-store-one")}
                                   value={rule.icon_bg_hvr_clr}
                                   onChange={(v) => {
                                     const updatedRule = {
@@ -978,7 +968,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                               <S1Field>
                                 <THBackgroundControl
                                   allowGradient={true}
-                                  label={__("Color", "store-one")}
+                                  label={__("Color", "th-store-one")}
                                   value={rule.icon_hvr_clr}
                                   onChange={(v) => {
                                     const updatedRule = {
@@ -994,7 +984,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                           </>
                         )}
                         <UniversalRangeControl
-                          label={__("Icon Size", "store-one")}
+                          label={__("Icon Size", "th-store-one")}
                           responsive={false}
                           units={["px"]}
                           value={rule.icon_size}
@@ -1002,7 +992,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                           defaultValue="18px"
                         />
                         <UniversalRangeControl
-                          label={__("Border Radius", "store-one")}
+                          label={__("Border Radius", "th-store-one")}
                           responsive={false}
                           units={["px", "%"]}
                           value={rule.border_radius}
@@ -1012,11 +1002,11 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                           defaultValue="50%"
                         />
 
-                        <S1FieldGroup title={__("Position", "store-one")}>
+                        <S1FieldGroup title={__("Position", "th-store-one")}>
                           {(rule.social_style === "style1" ||
                             rule.social_style === "style2") && (
                             <UniversalRangeControl
-                              label={__("Top", "store-one")}
+                              label={__("Top", "th-store-one")}
                               responsive={false}
                               units={["%", "px"]}
                               value={rule.position_top}
@@ -1028,7 +1018,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                           )}
                           {rule.social_style === "style3" && (
                             <UniversalRangeControl
-                              label={__("Bottom", "store-one")}
+                              label={__("Bottom", "th-store-one")}
                               responsive={false}
                               units={["%", "px"]}
                               value={rule.position_bottom}
@@ -1040,7 +1030,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                           )}
                           {rule.social_style === "style1" && (
                             <UniversalRangeControl
-                              label={__("Left", "store-one")}
+                              label={__("Left", "th-store-one")}
                               responsive={false}
                               units={["%", "px"]}
                               value={rule.position_left}
@@ -1052,7 +1042,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                           )}
                           {rule.social_style === "style2" && (
                             <UniversalRangeControl
-                              label={__("Right", "store-one")}
+                              label={__("Right", "th-store-one")}
                               responsive={false}
                               units={["%", "px"]}
                               value={rule.position_right}
@@ -1075,7 +1065,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
       <div className="store-one-rules-footer">
       {/* Add Rule */}
       <div className="store-one-add-rule" onClick={addRule}>
-        {__("+ Add New Rule", "store-one")}
+        {__("+ Add New Rule", "th-store-one")}
       </div>
       <ResetModuleButton
         moduleId="quick-social"

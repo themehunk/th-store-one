@@ -16,7 +16,7 @@
  * USAGE EXAMPLES
  * ---------------------------------------------------------
  *
- * 1️⃣ SIMPLE NUMBER RANGE (no units, no responsive)
+ * 1SIMPLE NUMBER RANGE (no units, no responsive)
  *
  * <UniversalRangeControl
  *     label="Opacity"
@@ -29,7 +29,7 @@
  *
  * ---------------------------------------------------------
  *
- * 2️⃣ RANGE WITH UNITS (px, %, rem…)
+ * 2️RANGE WITH UNITS (px, %, rem…)
  *
  * <UniversalRangeControl
  *     label="Width"
@@ -44,7 +44,7 @@
  *
  * ---------------------------------------------------------
  *
- * 3️⃣ RESPONSIVE RANGE (Desktop / Tablet / Mobile)
+ * 3️RESPONSIVE RANGE (Desktop / Tablet / Mobile)
  *
  * <UniversalRangeControl
  *     label="Border Radius"
@@ -64,7 +64,7 @@
  *
  * ---------------------------------------------------------
  *
- * 4️⃣ RESPONSIVE WITHOUT UNITS
+ * 4️RESPONSIVE WITHOUT UNITS
  *
  * <UniversalRangeControl
  *     label="Items Per Row"
@@ -99,9 +99,9 @@ import {
     __experimentalNumberControl as NumberControl,
 } from '@wordpress/components';
 
-import DeviceControl from '@storeone-global/DeviceControl';
-import { parseRawValue } from '@storeone/utils';
-import useDeviceStore from '@storeone/store/device-store';
+import DeviceControl from '@th-storeone-global/DeviceControl';
+import { parseRawValue } from '@th-storeone/utils';
+import useDeviceStore from '@th-storeone/store/device-store';
 
 export default function UniversalRangeControl({
     label = "Control",

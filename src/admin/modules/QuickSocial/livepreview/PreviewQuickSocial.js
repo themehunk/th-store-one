@@ -26,21 +26,21 @@ const PreviewQuickSocial = ({ settings = {} }) => {
                     className={`s1-style-tab ${style === 'style1' ? 'active' : ''}`}
                     onClick={() => changeStyle('style1')}
                 >
-                    <span>{__("Left", "store-one")}</span>
+                    <span>{__("Left", "th-store-one")}</span>
                 </button>
 
                 <button
                     className={`s1-style-tab ${style === 'style2' ? 'active' : ''}`}
                     onClick={() => changeStyle('style2')}
                 >
-                    <span>{__("Right", "store-one")}</span>
+                    <span>{__("Right", "th-store-one")}</span>
                 </button>
 
                 <button
                     className={`s1-style-tab ${style === 'style3' ? 'active' : ''}`}
                     onClick={() => changeStyle('style3')}
                 >
-                    <span>{__("Bottom", "store-one")}</span>
+                    <span>{__("Bottom", "th-store-one")}</span>
                 </button>
 
             </div>

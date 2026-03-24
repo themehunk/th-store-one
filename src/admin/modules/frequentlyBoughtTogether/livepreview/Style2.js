@@ -1,22 +1,22 @@
 import { __ } from '@wordpress/i18n';
-import { getTextStyle, getRadius } from '@storeone/utils/styleHelpers';
+import { getTextStyle, getRadius } from '@th-storeone/utils/styleHelpers';
 
 const dummyProducts = [
     {
         id: 1,
-        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd1.png",
+        img: th_StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd1.png",
         name: "Dewleaf Hydration Serum",
         price: "$119.00",
     },
     {
         id: 2,
-        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd2.png",
+        img: th_StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd2.png",
         name: "Rosemist Daily Cream",
         price: "$40.00",
     },
     {
         id: 3,
-        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd3.png",
+        img: th_StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd3.png",
         name: "Greenveil Repair Balm",
         price: "$25.00",
     },
@@ -38,7 +38,7 @@ const Style2 = ({ settings }) => {
                 className="s1-fbt-title"
                 style={getTextStyle(settings?.bundel_title_clr)}
             >
-               {settings?.bundle_title || __("Frequently Bought Together", "store-one")}
+               {settings?.bundle_title || __("Frequently Bought Together", "th-store-one")}
             </h2>
 
             <div className="s1-fbt-style2-wrap">
@@ -125,7 +125,7 @@ const Style2 = ({ settings }) => {
                             <span style={{
     
                                         color: settings?.bundel_cnt_clr || undefined
-                                    }}> {settings?.price_label || __("Bundle Total:", "store-one")}</span>
+                                    }}> {settings?.price_label || __("Bundle Total:", "th-store-one")}</span>
 
                             <del style={{
                                         color: settings?.prd_prc_clr || undefined
@@ -136,7 +136,7 @@ const Style2 = ({ settings }) => {
                             background: settings?.bundel_btn_bg || "#111",
                             color: settings?.bundel_btn_txt || "#fff",
                         }}>
-                           {settings?.button_text || __("Add All to Cart", "store-one")}
+                           {settings?.button_text || __("Add All to Cart", "th-store-one")}
                         </button>
                     </div>
 

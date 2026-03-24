@@ -1,9 +1,9 @@
 import { useState, useEffect } from "@wordpress/element";
 import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
-import { S1Field, S1FieldGroup } from "@storeone-global/S1Field";
+import { S1Field, S1FieldGroup } from "@th-storeone-global/S1Field";
 import { Spinner, ToggleControl, SelectControl } from "@wordpress/components";
-import ResetModuleButton from "@storeone-global/ResetModuleButton";
+import ResetModuleButton from "@th-storeone-global/ResetModuleButton";
 const MODULE_ID = "bundle-product";
  
 /* ---------------------------------
@@ -48,10 +48,10 @@ export default function BundleProductSettings({
    * LOAD SETTINGS
    * --------------------------------- */
   useEffect(() => {
-    apiFetch.use(apiFetch.createNonceMiddleware(StoreOneAdmin.nonce));
+    apiFetch.use(apiFetch.createNonceMiddleware(th_StoreOneAdmin.nonce));
 
     apiFetch({
-      path: `${StoreOneAdmin.restUrl}module/${MODULE_ID}`,
+      path: `${th_StoreOneAdmin.restUrl}module/${MODULE_ID}`,
       method: "GET",
     })
       .then((res) => {
@@ -84,17 +84,17 @@ export default function BundleProductSettings({
     setError("");
 
     apiFetch({
-      path: `${StoreOneAdmin.restUrl}module/${MODULE_ID}`,
+      path: `${th_StoreOneAdmin.restUrl}module/${MODULE_ID}`,
       method: "POST",
       data: { settings },
     })
-      .then(() => setSuccess(__("Saved successfully!", "store-one")))
-      .catch(() => setError(__("Failed to save.", "store-one")))
+      .then(() => setSuccess(__("Saved successfully!", "th-store-one")))
+      .catch(() => setError(__("Failed to save.", "th-store-one")))
       .finally(() => setSaving(false));
   };
 
   /* ---------------------------------
-   * NOTIFY PARENT ON CHANGE 🔥
+   * NOTIFY PARENT ON CHANGE
    * --------------------------------- */
   useEffect(() => {
     onSettingsChange?.(settings);
@@ -134,7 +134,7 @@ export default function BundleProductSettings({
     <div className="storeone-module-settings">
       {loading && (
         <div className="store-one-loader">
-          <Spinner /> {__("Loading…", "store-one")}
+          <Spinner /> {__("Loading…", "th-store-one")}
         </div>
       )}
 
@@ -161,14 +161,14 @@ export default function BundleProductSettings({
            * PRODUCT PAGE SETTINGS
            * --------------------------------- */}
           <h3 className="store-one-section-title">
-            {__("Bundle settings", "store-one")}
+            {__("Bundle settings", "th-store-one")}
           </h3>
 
           <div className="store-one-content-settings">
-            <S1FieldGroup title={__("Product page", "store-one")}>
+            <S1FieldGroup title={__("Product page", "th-store-one")}>
              
               <S1Field
-                label={__("Display bundled product thumbnails", "store-one")}
+                label={__("Display bundled product thumbnails", "th-store-one")}
                 classN="s1-toggle-wrpapper"
               >
                 <ToggleControl
@@ -185,7 +185,7 @@ export default function BundleProductSettings({
                 />
               </S1Field>
               <S1Field
-                label={__("Display bundled product descriptions", "store-one")}
+                label={__("Display bundled product descriptions", "th-store-one")}
                 classN="s1-toggle-wrpapper"
               >
                 <ToggleControl
@@ -202,7 +202,7 @@ export default function BundleProductSettings({
                 />
               </S1Field>
               <S1Field
-                label={__("Display bundled product quantities", "store-one")}
+                label={__("Display bundled product quantities", "th-store-one")}
                 classN="s1-toggle-wrpapper"
               >
                 <ToggleControl
@@ -221,7 +221,7 @@ export default function BundleProductSettings({
               <S1Field
                 label={__(
                   "Make bundled product thumbnails and titles clickable",
-                  "store-one",
+                  "th-store-one",
                 )}
                 classN="s1-toggle-wrpapper"
               >
@@ -239,14 +239,14 @@ export default function BundleProductSettings({
                 />
               </S1Field>
               <S1Field
-                label={__("Display prices of bundled products", "store-one")}
+                label={__("Display prices of bundled products", "th-store-one")}
               >
                 <SelectControl
                   value={settings.product_page.price_display}
                   options={[
-                    { label: __("Price per unit", "store-one"), value: "unit" },
-                    { label: __("Total price", "store-one"), value: "total" },
-                    { label: __("Hide", "store-one"), value: "hide" },
+                    { label: __("Price per unit", "th-store-one"), value: "unit" },
+                    { label: __("Total price", "th-store-one"), value: "total" },
+                    { label: __("Hide", "th-store-one"), value: "hide" },
                   ]}
                   onChange={(v) =>
                     setSettings({
@@ -263,15 +263,15 @@ export default function BundleProductSettings({
               <S1Field
                 label={__(
                   "Calculate the prices of bundled products based on",
-                  "store-one",
+                  "th-store-one",
                 )}
               >
                 <SelectControl
                   value={settings.product_page.price_based_on}
                   options={[
-                    { label: __("Sale price", "store-one"), value: "sale" },
+                    { label: __("Sale price", "th-store-one"), value: "sale" },
                     {
-                      label: __("Regular price", "store-one"),
+                      label: __("Regular price", "th-store-one"),
                       value: "regular",
                     },
                   ]}
@@ -287,17 +287,17 @@ export default function BundleProductSettings({
                 />
               </S1Field>
               <S1Field
-                label={__("Where to display the bundled products", "store-one")}
+                label={__("Where to display the bundled products", "th-store-one")}
               >
                 <SelectControl
                   value={settings.product_page.position}
                   options={[
                     {
-                      label: __("Before add to cart button", "store-one"),
+                      label: __("Before add to cart button", "th-store-one"),
                       value: "before_cart",
                     },
                     {
-                      label: __("After add to cart button", "store-one"),
+                      label: __("After add to cart button", "th-store-one"),
                       value: "after_cart",
                     },
                   ]}
@@ -314,9 +314,9 @@ export default function BundleProductSettings({
               </S1Field>
             </S1FieldGroup>
 
-            <S1FieldGroup title={__("Cart Page", "store-one")}>
+            <S1FieldGroup title={__("Cart Page", "th-store-one")}>
               <S1Field
-                label={__("Hide bundled products in cart", "store-one")}
+                label={__("Hide bundled products in cart", "th-store-one")}
                 classN="s1-toggle-wrpapper"
               >
                 <ToggleControl
@@ -331,7 +331,7 @@ export default function BundleProductSettings({
               </S1Field>
 
               <S1Field
-                label={__("Hide bundled products in Quantity", "store-one")}
+                label={__("Hide bundled products in Quantity", "th-store-one")}
                 classN="s1-toggle-wrpapper"
               >
                 <ToggleControl
@@ -348,7 +348,7 @@ export default function BundleProductSettings({
                 />
               </S1Field>
               <S1Field
-                label={__("Hide bundled products in Price", "store-one")}
+                label={__("Hide bundled products in Price", "th-store-one")}
                 classN="s1-toggle-wrpapper"
               >
                 <ToggleControl
@@ -366,7 +366,7 @@ export default function BundleProductSettings({
               </S1Field>
 
               <S1Field
-                label={__("Include links to bundled products", "store-one")}
+                label={__("Include links to bundled products", "th-store-one")}
                 classN="s1-toggle-wrpapper"
               >
                 <ToggleControl
@@ -381,17 +381,17 @@ export default function BundleProductSettings({
               </S1Field>
 
               <S1Field
-                label={__("Cart contents count will include", "store-one")}
+                label={__("Cart contents count will include", "th-store-one")}
               >
                 <SelectControl
                   value={settings.cart_page.cart_count}
                   options={[
                     {
-                      label: __("Bundle as one product", "store-one"),
+                      label: __("Bundle as one product", "th-store-one"),
                       value: "bundle",
                     },
                     {
-                      label: __("Bundled items separately", "store-one"),
+                      label: __("Bundled items separately", "th-store-one"),
                       value: "items",
                     },
                   ]}

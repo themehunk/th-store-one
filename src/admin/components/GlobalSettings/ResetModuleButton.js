@@ -8,13 +8,13 @@ export default function ResetModuleButton({
 }) {
   const handleReset = () => {
     const confirmReset = window.confirm(
-      __("Are you sure you want to reset all settings?", "store-one")
+      __("Are you sure you want to reset all settings?", "th-store-one")
     );
 
     if (!confirmReset) return;
 
     apiFetch({
-      path: `${StoreOneAdmin.restUrl}module/${moduleId}/reset`,
+      path: `${th_StoreOneAdmin.restUrl}module/${moduleId}/reset`,
       method: "POST",
     })
       .then((res) => {
@@ -23,7 +23,7 @@ export default function ResetModuleButton({
         }
       })
       .catch(() => {
-        alert(__("Reset failed.", "store-one"));
+        alert(__("Reset failed.", "th-store-one"));
       });
   };
 
@@ -32,7 +32,7 @@ export default function ResetModuleButton({
       className="store-one-reset-link"
       onClick={handleReset}
     >
-      {__(label, "store-one")}
+      {__(label, "th-store-one")}
     </div>
   );
 }

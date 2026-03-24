@@ -1,6 +1,6 @@
 import React from 'react';
 import { __ } from '@wordpress/i18n';
-import { ICONS } from '@storeone-global/icons';
+import { ICONS } from '@th-storeone-global/icons';
 
 const Style1 = ({ settings = {} }) => {
 

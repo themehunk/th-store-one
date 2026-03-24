@@ -63,7 +63,7 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                 />
             default:
                 return <p className="s1-settings__placeholder">
-                    {__('More settings will appear here…', 'store-one')}
+                    {__('More settings will appear here…', 'th-store-one')}
                 </p>;
         }
     };
@@ -85,12 +85,12 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                          className="s1-settings__redirect-btn"
                                         onClick={() =>
                                             window.open(
-                                            `${StoreOneAdmin.adminUrl}post-new.php?post_type=product`,
+                                            `${th_StoreOneAdmin.adminUrl}post-new.php?post_type=product`,
                                             "_blank"
                                             )
                                         }
                                         >
-                                        {__("Create Bundle", "store-one")}
+                                        {__("Create Bundle", "th-store-one")}
                         </Button>
                         
                         )}
@@ -98,14 +98,9 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                     </FlexBlock>
 
                     <FlexItem className="s1-settings__toggle">
-                        {/* <ToggleControl
-                            label={enabled ? __('Enabled', 'store-one') : __('Disabled', 'store-one')}
-                            checked={enabled}
-                            disabled={saving}
-                            onChange={(val) => onToggleModule(currentModule.id, val)}
-                        /> */}
+                      
                         <ToggleControl
-                            label={enabled ? __('Enabled', 'store-one') : __('Disabled', 'store-one')}
+                            label={enabled ? __('Enabled', 'th-store-one') : __('Disabled', 'th-store-one')}
                             checked={enabled}
                             disabled={saving || isLocked}
                             onChange={(val) => {

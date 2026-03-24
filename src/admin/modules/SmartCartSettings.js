@@ -30,9 +30,9 @@ const SmartCartSettings = () => {
 
     // Load settings
     useEffect(() => {
-        apiFetch.use(apiFetch.createNonceMiddleware(StoreOneAdmin.nonce));
+        apiFetch.use(apiFetch.createNonceMiddleware(th_StoreOneAdmin.nonce));
 
-        apiFetch({ path: `${StoreOneAdmin.restUrl}module/${MODULE_ID}` })
+        apiFetch({ path: `${th_StoreOneAdmin.restUrl}module/${MODULE_ID}` })
             .then((res) => {
                 const s = res.settings;
 
@@ -52,7 +52,7 @@ const SmartCartSettings = () => {
         setSuccess('');
 
         apiFetch({
-            path: `${StoreOneAdmin.restUrl}module/${MODULE_ID}`,
+            path: `${th_StoreOneAdmin.restUrl}module/${MODULE_ID}`,
             method: 'POST',
             data: {
                 settings: {

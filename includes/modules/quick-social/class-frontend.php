@@ -3,20 +3,20 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class StoreOne_Quick_Social {
+class Th_StoreOne_Quick_Social {
 
     private $rules = array();
     private $current_rule = array();
 
     public function __construct() {
 
-       $modules = get_option('store_one_module_option', []);
+       $modules = get_option('th_store_one_module_option', []);
 
         if ( empty($modules['quick-social']) ) {
                 return;
         } 
 
-        $all_modules = get_option( 'store_one_module_set', array() );
+        $all_modules = get_option( 'th_store_one_module_set', array() );
         $this->rules = $all_modules['quick-social']['rules'] ?? array();
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
         add_action( 'wp_footer', array( $this, 'render_auto' ), 99 );
@@ -28,22 +28,22 @@ class StoreOne_Quick_Social {
     public function enqueue_assets() {
 
         wp_enqueue_style(
-            'storeone-quick-social',
-            STORE_ONE_PLUGIN_URL . 'assets/css/quick-social.css',
+            'th-storeone-quick-social',
+            TH_STORE_ONE_PLUGIN_URL . 'assets/css/quick-social.css',
             array(),
-            STORE_ONE_VERSION
+            TH_STORE_ONE_VERSION
         );
         wp_enqueue_script(
-        'storeone-quick-social-js',
-        STORE_ONE_PLUGIN_URL . 'assets/js/quick-social.js',
+        'th-storeone-quick-social-js',
+        TH_STORE_ONE_PLUGIN_URL . 'assets/js/quick-social.js',
         array(),
-        STORE_ONE_VERSION,
+        TH_STORE_ONE_VERSION,
         true
-    );
+       );
     }
 
     public function render_auto() {
-$this->generate_output();
+        $this->generate_output();
     }
 
     public function shortcode( $atts ) {
@@ -61,8 +61,6 @@ $this->generate_output();
     private function generate_output( $specific_id = '' ) {
 
         if ( empty( $this->rules ) ) return '';
-
-        
 
         foreach ( $this->rules as $rule ) {
 
@@ -559,7 +557,7 @@ private function get_brand_style( $icon ) {
 
                 $placement = $rule['placement'] ?? '';
 
-                $hook = store_one_get_hook_from_placement( $placement );
+                $hook = th_store_one_get_hook_from_placement( $placement );
 
                 add_action(
                     $hook,

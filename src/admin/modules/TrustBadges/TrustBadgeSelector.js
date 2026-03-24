@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "@wordpress/element";
 import { __, sprintf } from "@wordpress/i18n";
-import { S1Field, S1FieldGroup } from "@storeone-global/S1Field";
+import { S1Field, S1FieldGroup } from "@th-storeone-global/S1Field";
 export default function TrustBadgeSelector({
   title,
   rule,
@@ -8,7 +8,7 @@ export default function TrustBadgeSelector({
   updateField,
   presetBadges = [],
   allowUpload = true,
-  badgeType = "image" // image | css | advance
+  badgeType = "image"
 }) {
 
   const frameRef = useRef(null);

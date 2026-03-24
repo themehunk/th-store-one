@@ -1,9 +1,9 @@
 <?php
 if (!defined('ABSPATH')) exit;
 
-class Store_One_REST {
+class Th_Store_One_REST {
 
-    private $namespace = 'store-one/v1';
+    private $namespace = 'th-store-one/v1';
 
     public function __construct() {
         add_action('rest_api_init', array($this, 'register_routes'));

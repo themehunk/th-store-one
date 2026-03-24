@@ -7,7 +7,7 @@ const LicensePage = () => {
 
     useEffect(() => {
 
-        apiFetch({ path: `${StoreOneAdmin.restUrl}license-html` })
+        apiFetch({ path: `${th_StoreOneAdmin.restUrl}license-html` })
         .then((html) => {
 
             const el = document.getElementById("store-one-license-root");
@@ -28,7 +28,7 @@ const LicensePage = () => {
                 <Card className="settings-card">
 
                     <CardHeader>
-                        <h3>{__("License Activation", "store-one")}</h3>
+                        <h3>{__("License Activation", "th-store-one")}</h3>
                     </CardHeader>
 
                     <CardBody>

@@ -12,11 +12,6 @@ import {
     ColorIndicator
 } from '@wordpress/components';
 
-import {
-  __experimentalToolsPanel as ToolsPanel,
-  __experimentalToolsPanelItem as ToolsPanelItem,
-  __experimentalUnitControl as UnitControl
-} from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 import { useState,useRef } from '@wordpress/element';
@@ -29,7 +24,7 @@ const gradients = [
 //  <THBackgroundControl />
 export default function THBackgroundControl({
   allowGradient=true,
-  label=__('Background color', 'store-one'),
+  label=__('Background color', 'th-store-one'),
   value="",
   onChange
 }) {

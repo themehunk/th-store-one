@@ -1,10 +1,10 @@
 import { __ } from "@wordpress/i18n";
-import UniversalRangeControl from "@storeone-global/UniversalRangeControl";
-import { S1Field } from "@storeone-global/S1Field";
+import UniversalRangeControl from "@th-storeone-global/UniversalRangeControl";
+
 
 export default function OpacityControl({
     value = "100",
-    label = __("Opacity (%)", "store-one"),
+    label = __("Opacity (%)", "th-store-one"),
     description = "",
     onChange
 }) {

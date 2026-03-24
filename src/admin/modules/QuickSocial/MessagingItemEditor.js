@@ -1,8 +1,8 @@
 
 import { useEffect } from "@wordpress/element";
 import { SelectControl, TextControl } from "@wordpress/components";
-import { S1Field } from "@storeone-global/S1Field";
-import { ICONS } from "@storeone-global/icons";
+import { S1Field } from "@th-storeone-global/S1Field";
+import { ICONS } from "@th-storeone-global/icons";
 import { usePlatformUrl } from "./usePlatformUrl";
 import { PLATFORM_CONFIG } from "./platformConfig";
 
@@ -187,13 +187,7 @@ const displayLabel =
         />
       </S1Field>
 
-      {/* ================= DEFAULT ICON ================= */}
-      {/* {(messaging.icontype || "icon") === "icon" &&
-        messaging.selected_icon && (
-          <S1Field>
-            {ICONS[messaging.selected_icon?.toUpperCase()]}
-          </S1Field>
-        )} */} 
+ 
 
       {/* ================= IMAGE UPLOAD (SOCIAL STYLE) ================= */}
       {messaging.icontype === "image" && (

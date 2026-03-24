@@ -172,26 +172,45 @@ const TrustBadges = ({ settings = {} }) => {
     </div>
   );
 
+
+const withUnit = (val, unit = "px") => {
+  if (val === undefined || val === null || val === "") return undefined;
+
+  // already has unit
+  if (typeof val === "string" && /[a-z%]+$/i.test(val)) {
+    return val;
+  }
+
+  return `${val}${unit}`;
+};
   // only for css type
   const renderCssBadge = () => {
     const type = settings?.badge_css_type;
 
     const cssinnerStyle = {
-      fontSize: style?.text_size || "18px",
-      background: style?.bgclr || "#0a70ed",
-      color: style?.textclr || "#fff",
-      borderStyle: border?.style || "solid",
-      borderColor: border?.color || "#eee",
-      borderTopWidth: border?.width?.top || "0px",
-      borderRightWidth: border?.width?.right || "0px",
-      borderBottomWidth: border?.width?.bottom || "0px",
-      borderLeftWidth: border?.width?.left || "0px",
-      borderTopLeftRadius: border?.radius?.top || "0px",
-      borderTopRightRadius: border?.radius?.right || "0px",
-      borderBottomRightRadius: border?.radius?.bottom || "0px",
-      borderBottomLeftRadius: border?.radius?.left || "0px",
-    };
+  fontSize: withUnit(style?.text_size || 18),
+  background: style?.bgclr || "#0a70ed",
+  color: style?.textclr || "#fff",
 
+  borderStyle: border?.style || "solid",
+  borderColor: border?.color || "#eee",
+
+  borderTopWidth: withUnit(border?.width?.top || 0),
+  borderRightWidth: withUnit(border?.width?.right || 0),
+  borderBottomWidth: withUnit(border?.width?.bottom || 0),
+  borderLeftWidth: withUnit(border?.width?.left || 0),
+
+  borderTopLeftRadius: withUnit(border?.radius?.top || 0),
+  borderTopRightRadius: withUnit(border?.radius?.right || 0),
+  borderBottomRightRadius: withUnit(border?.radius?.bottom || 0),
+  borderBottomLeftRadius: withUnit(border?.radius?.left || 0),
+
+  paddingTop: withUnit(padding?.top ?? 12),
+  paddingRight: withUnit(padding?.right ?? 15),
+  paddingBottom: withUnit(padding?.bottom ?? 12),
+  paddingLeft: withUnit(padding?.left ?? 15),
+};
+ 
     if (type === "new") {
       return (
         <div className="s1-preview-badge" style={wrapperStyle}>
@@ -224,6 +243,11 @@ const TrustBadges = ({ settings = {} }) => {
             style={{
               "--badge-color": style?.bgclr,
               "--badge-txt": style?.textclr,
+              "--badge-txtsize":withUnit(style?.text_size || 15),
+              "--badge-padding": `${withUnit(padding?.top ?? 6)} 
+                      ${withUnit(padding?.right ?? 12)} 
+                      ${withUnit(padding?.bottom ?? 6)} 
+                      ${withUnit(padding?.left ?? 6)}`
             }}
           >
             <div className="s1-ribbon-s2"></div>
@@ -240,6 +264,11 @@ const TrustBadges = ({ settings = {} }) => {
           <div class="s1-sale-badge" style={{
               "--badge-salebgcolor": style?.bgclr,
               "--badge-salebgtxt": style?.textclr,
+              "--badge-saletxtsize":withUnit(style?.text_size || 15),
+              "--badge-salepadding": `${withUnit(padding?.top ?? 5)} 
+                      ${withUnit(padding?.right ?? 5)} 
+                      ${withUnit(padding?.bottom ?? 5)} 
+                      ${withUnit(padding?.left ?? 5)}`
             }}>
           <span> {settings.badgetext || "Sale!"}</span>
         </div>
@@ -249,10 +278,16 @@ const TrustBadges = ({ settings = {} }) => {
     if (type === "saletxt") {
       return (
         <div className="s1-sale_txt" style={wrapperStyle}>
-          
               <div class="s1-sale-underline" style={{
               "--badge-saletxtbgcolor": style?.bgclr,
               "--badge-saletxt": style?.textclr,
+              "--badge-saletxtsize1":withUnit(style?.text_size || 21),
+              "--badge-salepadding1": `${withUnit(padding?.top ?? 5)} 
+                             ${withUnit(padding?.right ?? 5)} 
+                             ${withUnit(padding?.bottom ?? 5)} 
+                             ${withUnit(padding?.left ?? 5)}`
+              
+              
             }}>
             {settings.badgetext || "Sale!"}
             

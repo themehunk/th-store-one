@@ -29,10 +29,10 @@ const PreOrdersSettings = () => {
     useEffect(() => {
         setLoading(true);
         setError('');
-        apiFetch.use(apiFetch.createNonceMiddleware(StoreOneAdmin.nonce));
+        apiFetch.use(apiFetch.createNonceMiddleware(th_StoreOneAdmin.nonce));
 
         apiFetch({
-            path: `${StoreOneAdmin.restUrl}module/${MODULE_ID}`,
+            path: `${th_StoreOneAdmin.restUrl}module/${MODULE_ID}`,
             method: 'GET',
         })
             .then((res) => {
@@ -55,7 +55,7 @@ const PreOrdersSettings = () => {
         setSuccess('');
 
         apiFetch({
-            path: `${StoreOneAdmin.restUrl}module/${MODULE_ID}`,
+            path: `${th_StoreOneAdmin.restUrl}module/${MODULE_ID}`,
             method: 'POST',
             data: {
                 settings: {

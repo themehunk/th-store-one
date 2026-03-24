@@ -1,11 +1,11 @@
 import { __ } from "@wordpress/i18n";
 import { ToggleControl, Button, ButtonGroup } from "@wordpress/components";
-import { S1Field } from "@storeone-global/S1Field";
+import { S1Field } from "@th-storeone-global/S1Field";
 
 export default function FlipControl({
     value = {},
-    label = __("Flip / Mirror Text", "store-one"),
-    description = __("Enable a mirror effect on the text. You can flip it both horizontally and vertically.", "store-one"),
+    label = __("Flip / Mirror Text", "th-store-one"),
+    description = __("Enable a mirror effect on the text. You can flip it both horizontally and vertically.", "th-store-one"),
     onChange
 }) {
 
@@ -33,7 +33,7 @@ export default function FlipControl({
                     <div className="s1-flip-orientation">
 
                         <div className="s1-flip-orientation-label">
-                            {__("Flip Orientation", "store-one")}
+                            {__("Flip Orientation", "th-store-one")}
                         </div>
 
                       <ButtonGroup className="s1-flip-orientation-buttons">

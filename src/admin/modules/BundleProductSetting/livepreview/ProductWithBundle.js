@@ -3,27 +3,27 @@ import { __ } from '@wordpress/i18n';
 import './live-style.css';
 
 const mainProduct = {
-    img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd1.png",
-    name: __("Sample Bundle Product", "store-one"),
+    img: th_StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd1.png",
+    name: __("Sample Bundle Product", "th-store-one"),
     price: "$30.00",
 };
 
 const bundleItems = [
     {
         id: 1,
-        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd1.png",
-        name: __("Hydration Serum", "store-one"),
+        img: th_StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd1.png",
+        name: __("Hydration Serum", "th-store-one"),
         price: "$12.00",
         old_price: "$15.00",
-        desc: __("A lightweight hydration serum.", "store-one"),
+        desc: __("A lightweight hydration serum.", "th-store-one"),
     },
     {
         id: 2,
-        img: StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd2.png",
-        name: __("Daily Cream", "store-one"),
+        img: th_StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd2.png",
+        name: __("Daily Cream", "th-store-one"),
         price: "$18.00",
         old_price: "$22.00",
-        desc: __("A nourishing daily cream designed to soften skin.", "store-one"),
+        desc: __("A nourishing daily cream designed to soften skin.", "th-store-one"),
     },
 ];
 const BundleSection = ({ productSettings }) => {
@@ -31,17 +31,9 @@ const BundleSection = ({ productSettings }) => {
     return (
     <div className="storeone-bundle-frontend">
         <h3 className="s1-bundle-title">
-            {__("Bundle", "store-one")}
+            {__("Bundle", "th-store-one")}
         </h3>
 
-        {/* <div className="storeone-bundle-above-text">
-            <p>
-                {__(
-                    "A lightweight hydration serum that helps lock in moisture and keeps skin fresh all day.",
-                    "store-one"
-                )}
-            </p>
-        </div> */}
 
         <div className="s1-bundle-items">
             {bundleItems.map((item) => (
@@ -81,7 +73,7 @@ const BundleSection = ({ productSettings }) => {
                         <div className="s1-name">
                             {productSettings.show_quantities && (
                                 <span className="s1-line-qty-prefix">
-                                    {__("1 ×", "store-one")}&nbsp;
+                                    {__("1 ×", "th-store-one")}&nbsp;
                                 </span>
                             )}
 
@@ -126,14 +118,7 @@ const BundleSection = ({ productSettings }) => {
             ))}
         </div>
 
-        {/* <div className="storeone-bundle-below-text">
-            <p>
-                {__(
-                    "A nourishing daily cream designed to soften skin and enhance hydration.",
-                    "store-one"
-                )}
-            </p>
-        </div> */}
+       
     </div>
 );
 };

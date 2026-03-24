@@ -3,19 +3,19 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 } 
 
-class StoreOne_Buy_To_List_Frontend {
+class Th_StoreOne_Buy_To_List_Frontend {
 
     private $rules = array();
 
     public function __construct() {
 
-       $modules = get_option('store_one_module_option', []);
+       $modules = get_option('th_store_one_module_option', []);
 
         if ( empty($modules['buy-to-list']) ) {
                 return;
         }
 
-        $settings = get_option( 'store_one_module_set', array() );
+        $settings = get_option( 'th_store_one_module_set', array() );
 
         if ( isset( $settings['buy-to-list']['rules'] ) ) {
             $this->rules = $settings['buy-to-list']['rules'];
@@ -32,10 +32,10 @@ class StoreOne_Buy_To_List_Frontend {
      * ------------------------------------------------------------------ */
     public function enqueue_assets() {
         wp_enqueue_style(
-            'buy-to-list',
-            STORE_ONE_PLUGIN_URL . 'assets/css/buy-to-list.css',
+            'th-buy-to-list',
+            TH_STORE_ONE_PLUGIN_URL . 'assets/css/buy-to-list.css',
             [],
-            STORE_ONE_VERSION
+            TH_STORE_ONE_VERSION
         );
     }
 
@@ -54,8 +54,8 @@ class StoreOne_Buy_To_List_Frontend {
                 continue;
             } 
 
-            $hook     = $this->get_hook_from_placement( $rule );
             $priority = isset( $rule['priority'] ) ? absint( $rule['priority'] ) : 10;
+            $hook     = th_store_one_get_hook_from_placement($priority);
 
             add_action( $hook, function() use ( $rule ) {
 
@@ -70,32 +70,6 @@ class StoreOne_Buy_To_List_Frontend {
                }
 
                }, $priority );
-        }
-    }
-
-    /**
-     * Placement → Hook Mapping
-     */
-    private function get_hook_from_placement( $rule ) {
-
-        $placement = isset( $rule['placement'] )
-            ? sanitize_text_field( $rule['placement'] )
-            : 'after_summary';
-
-        switch ( $placement ) {
-
-            case 'before_add_to_cart':
-                return 'woocommerce_before_add_to_cart_form';
-
-            case 'after_title':
-                return 'woocommerce_single_product_summary';
-
-            case 'after_add_to_cart':
-                return 'woocommerce_after_add_to_cart_form';
-
-            case 'after_summary':
-            default:
-                return 'woocommerce_after_single_product_summary';
         }
     }
 
@@ -306,7 +280,7 @@ class StoreOne_Buy_To_List_Frontend {
             printf(
                 '<img src="%s" alt="%s" class="storeone-btl-icon-img" />',
                 esc_url( $rule['image_url'] ),
-                esc_attr__( 'List Icon', 'store-one' )
+                esc_attr__( 'List Icon', 'th-store-one' )
             );
 
         }
@@ -400,7 +374,7 @@ class StoreOne_Buy_To_List_Frontend {
         }
 
         if ( ! empty( $css ) ) {
-            wp_add_inline_style( 'buy-to-list', $css );
+            wp_add_inline_style( 'th-buy-to-list', $css );
         }
     }
 
@@ -415,14 +389,14 @@ class StoreOne_Buy_To_List_Frontend {
 
         $id = 'storeone-btl-' . sanitize_html_class( $rule['flexible_id'] );
 
-        $bg        = storeone_normalize_color( $rule['btl_bg_clr'] ?? '#ffffff' );
-        $title     = storeone_normalize_color( $rule['btl_title_clr'] ?? '#111' );
-        $list      = storeone_normalize_color( $rule['btl_list_clr'] ?? '#111' );
-        $icon_bg   = storeone_normalize_color( $rule['btl_icon_bg_clr'] ?? '#fff' );
-        $icon_clr  = storeone_normalize_color( $rule['btl_icon_clr'] ?? '#2563eb' );
-        $icon_clr  = storeone_normalize_color( $rule['btl_icon_clr'] ?? '#2563eb' );
-        $radius    = storeone_normalize_radius( $rule['btl_border_radius']?? '8px');
-        $border_clr  = storeone_normalize_color( $rule['btl_border_clr'] ?? '#e5e7eb' );
+        $bg        = th_store_one_normalize_color( $rule['btl_bg_clr'] ?? '#ffffff' );
+        $title     = th_store_one_normalize_color( $rule['btl_title_clr'] ?? '#111' );
+        $list      = th_store_one_normalize_color( $rule['btl_list_clr'] ?? '#111' );
+        $icon_bg   = th_store_one_normalize_color( $rule['btl_icon_bg_clr'] ?? '#fff' );
+        $icon_clr  = th_store_one_normalize_color( $rule['btl_icon_clr'] ?? '#2563eb' );
+        $icon_clr  = th_store_one_normalize_color( $rule['btl_icon_clr'] ?? '#2563eb' );
+        $radius    = th_store_one_normalize_color( $rule['btl_border_radius']?? '8px');
+        $border_clr  = th_store_one_normalize_color( $rule['btl_border_clr'] ?? '#e5e7eb' );
         $display_style = $rule['display_style'] ?? 'style_1';
 
         if($display_style === 'style_4'){

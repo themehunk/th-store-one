@@ -10,7 +10,7 @@ const MODULE_ID = 'frequently-bought';
 export default function FrequentlyBoughtSettings({
     onSettingsChange,
     onLivePreview,
-    onRegisterSave, // ✅ REQUIRED for AdminMain
+    onRegisterSave, // REQUIRED for AdminMain
 }) {
  
     const [loading, setLoading] = useState(true);
@@ -30,10 +30,10 @@ export default function FrequentlyBoughtSettings({
     /* load settings */
     useEffect(() => {
         setLoading(true);
-        apiFetch.use(apiFetch.createNonceMiddleware(StoreOneAdmin.nonce));
+        apiFetch.use(apiFetch.createNonceMiddleware(th_StoreOneAdmin.nonce));
 
         apiFetch({
-            path: `${StoreOneAdmin.restUrl}module/${MODULE_ID}`,
+            path: `${th_StoreOneAdmin.restUrl}module/${MODULE_ID}`,
             method: 'GET',
         })
             .then((res) => {
@@ -42,7 +42,7 @@ export default function FrequentlyBoughtSettings({
                     setRules(s.rules);
                 }
             })
-            .catch(() => setError(__('Failed to load settings.', 'store-one')))
+            .catch(() => setError(__('Failed to load settings.', 'th-store-one')))
             .finally(() => setLoading(false));
     }, []);
 
@@ -73,12 +73,12 @@ export default function FrequentlyBoughtSettings({
         setError('');
 
         apiFetch({
-            path: `${StoreOneAdmin.restUrl}module/${MODULE_ID}`,
+            path: `${th_StoreOneAdmin.restUrl}module/${MODULE_ID}`,
             method: 'POST',
             data: { settings: { rules } },
         })
-            .then(() => setSuccess(__('Saved successfully!', 'store-one')))
-            .catch(() => setError(__('Failed to save.', 'store-one')))
+            .then(() => setSuccess(__('Saved successfully!', 'th-store-one')))
+            .catch(() => setError(__('Failed to save.', 'th-store-one')))
             .finally(() => setSaving(false));
     };
 
@@ -91,7 +91,7 @@ export default function FrequentlyBoughtSettings({
         <div>
             {loading && (
                 <div className="store-one-loader">
-                    <Spinner /> {__('Loading…', 'store-one')}
+                    <Spinner /> {__('Loading…', 'th-store-one')}
                 </div>
             )}
 

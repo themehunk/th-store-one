@@ -1,10 +1,10 @@
 import { __ } from "@wordpress/i18n";
-import UniversalRangeControl from "@storeone-global/UniversalRangeControl";
-import { S1Field,S1FieldGroup } from "@storeone-global/S1Field";
+import UniversalRangeControl from "@th-storeone-global/UniversalRangeControl";
+import { S1Field,S1FieldGroup } from "@th-storeone-global/S1Field";
 
 export default function RotationControl({
     value = {},
-    label = __("Rotation", "store-one"),
+    label = __("Rotation", "th-store-one"),
     description = "",
     onChange
 }) {

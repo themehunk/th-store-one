@@ -23,7 +23,7 @@ export default function PlacementPriorityControl({
 
             <div className="s1-field-col">
                 <label className="s1-field-label">
-                    {__('Placement on product page', 'store-one')}
+                    {__('Placement on product page', 'th-store-one')}
                 </label>
 
                 <div className="s1-field-control">
@@ -38,7 +38,7 @@ export default function PlacementPriorityControl({
             {showPriority && (
                 <div className="s1-field-col">
                     <label className="s1-field-label">
-                        {__('Priority', 'store-one')}
+                        {__('Priority', 'th-store-one')}
                     </label>
 
                     <div className="s1-field-control">

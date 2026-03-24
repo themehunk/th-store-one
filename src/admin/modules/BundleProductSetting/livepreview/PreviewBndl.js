@@ -57,7 +57,7 @@ const PreviewBndl = ({ settings = {} }) => {
                         <path d="M8 12h8" />
                         <path d="M12 8v8" />
                     </svg>
-                    <span>{__("Cart Page", "store-one")}</span>
+                    <span>{__("Cart Page", "th-store-one")}</span>
                 </button>
             </div>
 

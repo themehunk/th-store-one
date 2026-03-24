@@ -22,14 +22,14 @@ const ModuleCard = ({ mod, modulesState, setActiveModule, licenseActive  }) => {
                     <div className="s1-module-card__right">
                     <span className={`s1-module-card__badge ${isActive ? 'is-on' : 'is-off'}`}>
                         { isActive
-                            ? __('Active', 'store-one')
-                            : __('Inactive', 'store-one')
+                            ? __('Active', 'th-store-one')
+                            : __('Inactive', 'th-store-one')
                         }
                     </span>
                     <span className={`s1-module-card__pro ${isPremium ? 'is-premium' : 'is-free'}`}>
                         {isPremium
-                            ? __('Premium', 'store-one')
-                            : __('Free', 'store-one')
+                            ? __('Premium', 'th-store-one')
+                            : __('Free', 'th-store-one')
                         }
                     </span>
                     </div>
@@ -45,8 +45,8 @@ const ModuleCard = ({ mod, modulesState, setActiveModule, licenseActive  }) => {
                     onClick={() => setActiveModule(mod.id)}
                 >
                     {isLocked
-                        ? __('Upgrade License', 'store-one')
-                        : __('Configure', 'store-one')
+                        ? __('Upgrade License', 'th-store-one')
+                        : __('Configure', 'th-store-one')
                     } →
                 </Button>
 

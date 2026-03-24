@@ -12,18 +12,18 @@ const GlobalSettings = ({ modulesList, modulesState, onToggleAllModules,licenseA
         <div className="settings-global-wrap">
             <Card className="settings-card">
                 <CardHeader>
-                    <h3>{__('Plugin Status', 'store-one')}</h3>
+                    <h3>{__('Plugin Status', 'th-store-one')}</h3>
                 </CardHeader>
 
                 <CardBody>
                     <ToggleControl
-                        label={__('Enable all modules (master switch)', 'store-one')}
+                        label={__('Enable all modules (master switch)', 'th-store-one')}
                         checked={allEnabled}
                         onChange={(enableAll) => onToggleAllModules(enableAll)}
                     />
 
                     <p style={{ marginTop: '12px' }}>
-                        {__('This switch quickly turns all modules on or off.', 'store-one')}
+                        {__('This switch quickly turns all modules on or off.', 'th-store-one')}
                     </p>
                 </CardBody>
             </Card>
@@ -34,14 +34,14 @@ const GlobalSettings = ({ modulesList, modulesState, onToggleAllModules,licenseA
                 </CardHeader>
 
                 <CardBody>
-                    <p>{__('Need help? Visit documentation or contact support.', 'store-one')}</p>
+                    <p>{__('Need help? Visit documentation or contact support.', 'th-store-one')}</p>
 
                     <Button isSecondary href="https://themehunk.com/docs/store-one/" style={{ marginRight: '8px' }}>
-                        {__('View Docs', 'store-one')}
+                        {__('View Docs', 'th-store-one')}
                     </Button>
 
                     <Button isSecondary target="_blank" href="https://themehunk.com/contact-us/">
-                        {__('Contact Support', 'store-one')}
+                        {__('Contact Support', 'th-store-one')}
                     </Button>
                 </CardBody>
             </Card>

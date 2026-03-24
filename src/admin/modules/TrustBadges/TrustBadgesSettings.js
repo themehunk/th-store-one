@@ -25,9 +25,9 @@ export default function TrustBadgesSettings({
     /* load settings */
     useEffect(() => {
         setLoading(true);
-        apiFetch.use(apiFetch.createNonceMiddleware(StoreOneAdmin.nonce));
+        apiFetch.use(apiFetch.createNonceMiddleware(th_StoreOneAdmin.nonce));
         apiFetch({
-            path: `${StoreOneAdmin.restUrl}module/${MODULE_ID}`,
+            path: `${th_StoreOneAdmin.restUrl}module/${MODULE_ID}`,
             method: 'GET',
         })
             .then((res) => {
@@ -36,7 +36,7 @@ export default function TrustBadgesSettings({
                     setRules(s.rules);
                 }
             })
-            .catch(() => setError(__('Failed to load settings.', 'store-one')))
+            .catch(() => setError(__('Failed to load settings.', 'th-store-one')))
             .finally(() => setLoading(false));
     }, []);
     /* auto hide toast */
@@ -61,15 +61,15 @@ export default function TrustBadgesSettings({
         setSuccess('');
         setError('');
         apiFetch({
-            path: `${StoreOneAdmin.restUrl}module/${MODULE_ID}`,
+            path: `${th_StoreOneAdmin.restUrl}module/${MODULE_ID}`,
             method: 'POST',
             data: { settings: { rules } },
         })
-            .then(() => setSuccess(__('Saved successfully!', 'store-one')))
-            .catch(() => setError(__('Failed to save.', 'store-one')))
+            .then(() => setSuccess(__('Saved successfully!', 'th-store-one')))
+            .catch(() => setError(__('Failed to save.', 'th-th-store-one')))
             .finally(() => setSaving(false));
     };
-    /* THIS IS THE KEY — AdminMain yahin se save call karta hai */
+    
     useEffect(() => {
         onRegisterSave?.(() => handleSave);
     }, [rules]);
@@ -77,7 +77,7 @@ export default function TrustBadgesSettings({
         <div>
             {loading && (
                 <div className="store-one-loader">
-                    <Spinner /> {__('Loading…', 'store-one')}
+                    <Spinner /> {__('Loading…', 'th-store-one')}
                 </div>
             )}
             {!loading && (

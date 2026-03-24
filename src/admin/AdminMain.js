@@ -2,12 +2,12 @@ import { useState, useEffect, useRef } from "@wordpress/element";
 import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 
-import Header from "@storeone-header/Header";
-import ModuleGrid from "@storeone-modulegrid/ModuleGrid";
-import ModuleSettings from "@storeone-modulesettings/ModuleSettings";
-import PreviewPane from "@storeone-modulepreviewpane/PreviewPane";
-import GlobalSettings from "@storeone-global/GlobalSettings";
-import LicensePage from "@storeone-global/LicensePage";
+import Header from "@th-storeone-header/Header";
+import ModuleGrid from "@th-storeone-modulegrid/ModuleGrid";
+import ModuleSettings from "@th-storeone-modulesettings/ModuleSettings";
+import PreviewPane from "@th-storeone-modulepreviewpane/PreviewPane";
+import GlobalSettings from "@th-storeone-global/GlobalSettings";
+import LicensePage from "@th-storeone-global/LicensePage";
 
 import { Notice, Spinner, Button } from "@wordpress/components";
 import "./admin.scss";
@@ -15,10 +15,10 @@ import "./admin.scss";
 const modulesList = [ 
   {
     id: "frequently-bought",
-    label: __("Frequently Bought Together", "store-one"),
+    label: __("Frequently Bought Together", "th-store-one"),
     description: __(
       "Displays related products often purchased together, allowing customers to add multiple complementary items to their cart with one click.",
-      "store-one",
+      "th-store-one",
     ),
     icon: (
       <svg
@@ -61,10 +61,10 @@ const modulesList = [
   },
   {
     id: "bundle-product",
-    label: __("Bundle Product", "store-one"),
+    label: __("Bundle Product", "th-store-one"),
     description: __(
       "Create customizable product bundles that combine multiple items into one offer, increasing average order value and improving the shopping experience.",
-      "store-one",
+      "th-store-one",
     ),
     icon: (
       <svg
@@ -114,10 +114,10 @@ const modulesList = [
   },
   {
     id: "buy-to-list",
-    label: __("Featured List", "store-one"),
+    label: __("Featured List", "th-store-one"),
     description: __(
       "Showcase selected products in a dedicated list to highlight promotions, bestsellers, or priority items and drive more customer attention and sales.",
-      "store-one",
+      "th-store-one",
     ),
     icon: (
       <svg
@@ -139,10 +139,10 @@ const modulesList = [
   },
   {
     id: "quick-social",
-    label: __("Quick Social Link", "store-one"),
+    label: __("Quick Social Link", "th-store-one"),
     description: __(
       "Adds social media profile links to your store and lets customers share products instantly, increasing brand visibility and engagement across platforms.",
-      "store-one",
+      "th-store-one",
     ),
     icon: (
       <svg
@@ -178,10 +178,10 @@ const modulesList = [
   },
   {
     id: "product-brand",
-    label: __("Product Brand", "store-one"),
+    label: __("Product Brand", "th-store-one"),
     description: __(
       "Assign and display product brands to organize items, improve filtering options, and help customers quickly identify trusted manufacturers.",
-      "store-one",
+      "th-store-one",
     ),
     icon: (
       <svg
@@ -213,10 +213,10 @@ const modulesList = [
   },
   {
   id: "trust-badges",
-  label: __("Trust Badges", "store-one"),
+  label: __("Trust Badges", "th-store-one"),
   description: __(
     "Display trust badges like secure checkout, money-back guarantee, and verified payment icons to increase customer confidence and improve conversions.",
-    "store-one"
+    "th-store-one"
   ),
   icon: (
     <svg
@@ -270,12 +270,12 @@ const AdminMain = () => {
   const tabs = [
   {
     name: "all",
-    title: __("All Modules", "store-one"),
+    title: __("All Modules", "th-store-one"),
     modules: modulesList.map((m) => m.id),
   },
   {
     name: "active",
-    title: __("Active Modules", "store-one"),
+    title: __("Active Modules", "th-store-one"),
     modules: modulesList
       .filter((m) => modulesState[m.id])
       .map((m) => m.id),
@@ -302,7 +302,7 @@ const AdminMain = () => {
 
   // Attach nonce middleware.
   useEffect(() => {
-    apiFetch.use(apiFetch.createNonceMiddleware(StoreOneAdmin.nonce));
+    apiFetch.use(apiFetch.createNonceMiddleware(th_StoreOneAdmin.nonce));
   }, []);
 
   /**
@@ -311,7 +311,7 @@ const AdminMain = () => {
   useEffect(() => {
     setLoading(true);
 
-    apiFetch({ path: `${StoreOneAdmin.restUrl}modules` })
+    apiFetch({ path: `${th_StoreOneAdmin.restUrl}modules` })
       .then((res) => {
         if (res?.modules) {
           const newState = { ...modulesState };
@@ -325,10 +325,10 @@ const AdminMain = () => {
         }
       })
       .catch(() => {
-        setError(__("Failed to load settings.", "store-one"));
+        setError(__("Failed to load settings.", "th-store-one"));
       })
       .finally(() => setLoading(false));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, []);
 
   /**
@@ -340,15 +340,15 @@ const AdminMain = () => {
     setSuccess("");
 
     apiFetch({
-      path: `${StoreOneAdmin.restUrl}modules`,
+      path: `${th_StoreOneAdmin.restUrl}modules`,
       method: "POST",
       data: { modules: nextState },
     })
       .then(() => {
-        setSuccess(__("Saved successfully!", "store-one"));
+        setSuccess(__("Saved successfully!", "th-store-one"));
       })
       .catch(() => {
-        setError(__("Failed to save settings.", "store-one"));
+        setError(__("Failed to save settings.", "th-store-one"));
       })
       .finally(() => setSaving(false));
   };
@@ -453,7 +453,7 @@ const AdminMain = () => {
 
       await saveHandler();
 
-      setSuccess(__("Saved successfully!", "store-one"));
+      setSuccess(__("Saved successfully!", "th-store-one"));
 
       // UX delay
       setTimeout(() => {
@@ -461,7 +461,7 @@ const AdminMain = () => {
         setSaving(false);
       }, 1200); // 1.2 sec
     } catch (e) {
-      setError(__("Failed to save settings.", "store-one"));
+      setError(__("Failed to save settings.", "th-store-one"));
       setSaving(false);
     }
   };
@@ -469,7 +469,7 @@ const AdminMain = () => {
 // for licence pro
 //*********************/
 useEffect(() => {
-  apiFetch({ path: `${StoreOneAdmin.restUrl}pro-status` })
+  apiFetch({ path: `${th_StoreOneAdmin.restUrl}pro-status` })
     .then((res) => {
       if (res?.pro_active) {
         setProActive(true);
@@ -490,7 +490,7 @@ useEffect(() => {
     return;
   }
   setLoading(true);
-  apiFetch({ path: `${StoreOneAdmin.restUrl}license-html` })
+  apiFetch({ path: `${th_StoreOneAdmin.restUrl}license-html` })
     .then((html) => {
       const el = document.getElementById("store-one-license-root");
 
@@ -529,7 +529,7 @@ useEffect(() => {
           <div className="store-one-admin">
             <div className="s1-loader">
               <Spinner />
-              {__("Loading…", "store-one")}
+              {__("Loading…", "th-store-one")}
             </div>
           </div>
         
@@ -544,15 +544,15 @@ useEffect(() => {
       {/* SAVE BUTTON */}
       {isDirty && saveHandler && (
         <div className="s1-top-savebar">
-          <span>{__("Your settings have been modified. Save?")}</span>
+          <span>{__("Your settings have been modified. Save?","th-store-one")}</span>
           <Button disabled={saving} onClick={handleTopSave}>
             {saving ? (
               <>
-                {__("Saving", "store-one")}
+                {__("Saving", "th-store-one")}
                 <Spinner style={{ marginLeft: 8 }} />
               </>
             ) : (
-              __("Save", "store-one")
+              __("Save", "th-store-one")
             )}
           </Button>
         </div>
@@ -576,7 +576,7 @@ useEffect(() => {
                 className="back-btn"
                 onClick={() => setActiveModule(null)}
               >
-                ← {__("Go Back", "store-one")}
+                ← {__("Go Back", "th-store-one")}
               </Button>
               {/*FIXED CLASS HERE */}
               <div className="s1-settings-layout">
@@ -681,7 +681,7 @@ useEffect(() => {
           {loading && (
             <div className="s1-loader">
               <Spinner />
-              {__("Loading…", "store-one")}
+              {__("Loading…", "th-store-one")}
             </div>
           )}
         </>
@@ -699,7 +699,7 @@ useEffect(() => {
       loading ? (
         <div className="s1-loader">
           <Spinner />
-          {__("Loading…", "store-one")}
+          {__("Loading…", "th-store-one")}
         </div>
       ) : (
         <LicensePage />

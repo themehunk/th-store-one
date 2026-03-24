@@ -3,12 +3,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Store_One_Module_Settings {
+class Th_Store_One_Module_Settings {
 
-	const OPTION_NAME = 'store_one_module_set';
+	const OPTION_NAME = 'th_store_one_module_set';
 
 	private static $instance = null;
-	private $namespace = 'store-one/v1';
+	private $namespace = 'th-store-one/v1';
 
 	/**
 	 * Singleton instance
@@ -77,7 +77,7 @@ class Store_One_Module_Settings {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return new WP_Error(
 				'store_one_forbidden',
-				__( 'You do not have permission to manage Store One settings.', 'store-one' ),
+				__( 'You do not have permission to manage Store One settings.', 'th-store-one' ),
 				array( 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -114,7 +114,7 @@ class Store_One_Module_Settings {
 		if ( ! is_array( $payload ) ) {
 			return new WP_Error(
 				'invalid_format',
-				__( 'Settings must be an array.', 'store-one' ),
+				__( 'Settings must be an array.', 'th-store-one' ),
 				array( 'status' => 400 )
 			);
 		}

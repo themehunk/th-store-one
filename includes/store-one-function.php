@@ -1,7 +1,7 @@
 <?php 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-function storeone_normalize_radius( $value ) {
+function th_store_one_normalize_radius( $value ) {
 
     if ( empty( $value ) ) {
         return '0px';
@@ -19,7 +19,7 @@ function storeone_normalize_radius( $value ) {
     return $value;
 }
 
-function storeone_normalize_color( $value ) {
+function th_store_one_normalize_color( $value ) {
 
     // If empty fallback
     if ( empty( $value ) ) {
@@ -34,7 +34,7 @@ function storeone_normalize_color( $value ) {
     return $value; // simple string color
 }
 
-function store_one_get_hook_from_placement( $placement ) {
+function th_store_one_get_hook_from_placement( $placement ) {
 
     $allowed_hooks = [
         'woocommerce_single_product_summary',
@@ -51,4 +51,18 @@ function store_one_get_hook_from_placement( $placement ) {
 
     // fallback
     return 'woocommerce_after_single_product_summary';
+}
+
+function th_store_one_with_unit( $val, $unit = 'px' ) {
+
+    if ( $val === null || $val === '' ) {
+        return null;
+    }
+
+    // already has unit (px, %, em, rem etc.)
+    if ( is_string($val) && preg_match('/[a-z%]+$/i', $val) ) {
+        return $val;
+    }
+
+    return $val . $unit;
 }

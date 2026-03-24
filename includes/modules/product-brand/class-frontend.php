@@ -3,19 +3,19 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class StoreOne_Product_Brand_Frontend {
+class Th_StoreOne_Product_Brand_Frontend {
 
     private $rules = array();
 
     public function __construct() {
 
-    $modules = get_option('store_one_module_option', []);
+    $modules = get_option('th_store_one_module_option', []);
 
         if ( empty($modules['product-brand']) ) {
                 return;
         } 
 
-        $settings = get_option( 'store_one_module_set', array() );
+        $settings = get_option( 'th_store_one_module_set', array() );
 
         if ( isset( $settings['product-brand']['rules'] ) ) {
             $this->rules = $settings['product-brand']['rules'];
@@ -33,10 +33,10 @@ class StoreOne_Product_Brand_Frontend {
     public function enqueue_assets() {
 
         wp_enqueue_style( 
-            'product-brand',
-            STORE_ONE_PLUGIN_URL . 'assets/css/product-brand.css',
+            'th-product-brand',
+            TH_STORE_ONE_PLUGIN_URL . 'assets/css/product-brand.css',
             [],
-            STORE_ONE_VERSION
+            TH_STORE_ONE_VERSION
         );
 
        
@@ -57,9 +57,8 @@ class StoreOne_Product_Brand_Frontend {
                 continue;
             }
 
-            // $hook     = $this->get_hook_from_placement( $rule );
             $priority = isset( $rule['priority'] ) ? absint( $rule['priority'] ) : 10;
-            $hook     = store_one_get_hook_from_placement($priority);
+            $hook     = th_store_one_get_hook_from_placement($priority);
             add_action( $hook, function() use ( $rule ) {
 
                global $product;
@@ -76,32 +75,7 @@ class StoreOne_Product_Brand_Frontend {
         }
     }
 
-    /**
-     * Placement → Hook Mapping
-     */
-    // private function get_hook_from_placement( $rule ) {
-
-    //     $placement = isset( $rule['placement'] )
-    //         ? sanitize_text_field( $rule['placement'] )
-    //         : 'after_summary';
-
-    //     switch ( $placement ) {
-
-    //         case 'before_add_to_cart':
-    //             return 'woocommerce_before_add_to_cart_form';
-
-    //         case 'after_title':
-    //             return 'woocommerce_single_product_summary';
-
-    //         case 'after_add_to_cart':
-    //             return 'woocommerce_after_add_to_cart_form';
-
-    //         case 'after_summary':
-    //         default:
-    //             return 'woocommerce_after_single_product_summary';
-    //     }
-    // }
-
+  
     private function rule_matches( $rule, $product ) {
 
     $product_id = $product->get_id();
@@ -288,26 +262,12 @@ class StoreOne_Product_Brand_Frontend {
 
     </div>
     <?php
-}
+   }
 
     /**
      * Dynamic CSS (No Inline Style)
      */
     public function add_inline_dynamic_css() {
-
-        // if ( ! is_product() || empty( $this->rules ) ) {
-        //     return;
-        // }
-
-        // global $product;
-
-        // if ( ! $product instanceof WC_Product ) {
-        //     $product = wc_get_product( get_the_ID() );
-        // }
-
-        // if ( ! $product ) {
-        //     return;
-        // }
 
         $css = '';
 
@@ -321,7 +281,7 @@ class StoreOne_Product_Brand_Frontend {
         }
 
         if ( ! empty( $css ) ) {
-            wp_add_inline_style( 'product-brand', $css );
+            wp_add_inline_style( 'th-product-brand', $css );
         }
     }
 
@@ -349,7 +309,5 @@ class StoreOne_Product_Brand_Frontend {
 
     return $css;
 }
-
-
-    
+ 
 }

@@ -31,10 +31,10 @@ export default function QuickSocialSettings({
     /* load settings */
     useEffect(() => {
         setLoading(true);
-        apiFetch.use(apiFetch.createNonceMiddleware(StoreOneAdmin.nonce));
+        apiFetch.use(apiFetch.createNonceMiddleware(th_StoreOneAdmin.nonce));
 
         apiFetch({
-            path: `${StoreOneAdmin.restUrl}module/${MODULE_ID}`,
+            path: `${th_StoreOneAdmin.restUrl}module/${MODULE_ID}`,
             method: 'GET',
         })
             .then((res) => {
@@ -74,12 +74,12 @@ export default function QuickSocialSettings({
         setError('');
 
         apiFetch({
-            path: `${StoreOneAdmin.restUrl}module/${MODULE_ID}`,
+            path: `${th_StoreOneAdmin.restUrl}module/${MODULE_ID}`,
             method: 'POST',
             data: { settings: { rules } },
         })
-            .then(() => setSuccess(__('Saved successfully!', 'store-one')))
-            .catch(() => setError(__('Failed to save.', 'store-one')))
+            .then(() => setSuccess(__('Saved successfully!', 'th-store-one')))
+            .catch(() => setError(__('Failed to save.', 'th-store-one')))
             .finally(() => setSaving(false));
     };
 
@@ -93,7 +93,7 @@ export default function QuickSocialSettings({
         <div>
             {loading && (
                 <div className="store-one-loader">
-                    <Spinner /> {__('Loading…', 'store-one')}
+                    <Spinner /> {__('Loading…', 'th-store-one')}
                 </div>
             )}
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ICONS } from "@storeone-global/icons";
+import { ICONS } from "@th-storeone-global/icons";
 import { PLATFORM_CONFIG } from "../platformConfig";
 
 /* ================= BRAND COLORS ================= */

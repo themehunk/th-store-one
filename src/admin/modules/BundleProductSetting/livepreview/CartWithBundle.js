@@ -5,13 +5,13 @@ import './live-style.css';
 const bundleItems = [
     {
         id: 1,
-        name: __("Album", "store-one"),
+        name: __("Album", "th-store-one"),
         qty: 1,
         price: "$23.10",
     },
     {
         id: 2,
-        name: __("Cap", "store-one"),
+        name: __("Cap", "th-store-one"),
         qty: 1,
         price: "$25.10",
         old_price: "$30.00",

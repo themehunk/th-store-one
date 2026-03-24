@@ -16,8 +16,8 @@ const ModuleGrid = ({ modulesList, modulesState, tabs, setActiveModule,licenseAc
             <div className="s1-top-section">
 
                 <div className="s1-modules__header">
-                    <h2>{__('Store', 'store-one')} <span>{__('Intelligence', 'store-one')}</span></h2>
-                    <p>{__('Activate high-conversion modules powered by machine learning and real-time behavioral analysis.', 'store-one')}</p>
+                    <h2>{__('Store', 'store-one')} <span>{__('Intelligence', 'th-store-one')}</span></h2>
+                    <p>{__('Activate high-conversion modules powered by machine learning and real-time behavioral analysis.', 'th-store-one')}</p>
                 </div>
                 <div className="s1-tabs">
                 <div className="s1-tabs-list components-tab-panel__tabs">

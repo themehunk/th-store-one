@@ -3,13 +3,13 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class StoreOne_Trust_Badges_Frontend {
+class Th_StoreOne_Trust_Badges_Frontend {
 
     private $rules = array();
 
     public function __construct() {
 
-        $all_modules   = get_option( 'store_one_module_set', array() );
+        $all_modules   = get_option( 'th_store_one_module_set', array() );
         $this->rules   = $all_modules['trust-badges']['rules'] ?? array();
 
         $enable_loop = false;
@@ -24,10 +24,9 @@ class StoreOne_Trust_Badges_Frontend {
         }
 
         if ( $enable_loop ) {
-
             add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'loop_wrap_start' ), 8 );
 
-            add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'render_badges' ), 11 );
+            add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'wrap_product_image_with_badge' ), 11 );
 
             add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'loop_wrap_end' ), 12 );
         }
@@ -56,46 +55,24 @@ class StoreOne_Trust_Badges_Frontend {
 
     public function enqueue_assets() {
         wp_enqueue_style(
-            'storeone-trust-badges',
-            STORE_ONE_PLUGIN_URL . 'assets/css/trust-badges.css',
+            'th-store-one-trust-badges',
+            TH_STORE_ONE_PLUGIN_URL . 'assets/css/trust-badges.css',
             array(),
-            STORE_ONE_VERSION
+            TH_STORE_ONE_VERSION
         );
     }
-    public function loop_wrap_start() {
-    echo '<div class="s1-product-image-wrap s1-loop">';
-    }
 
-    public function loop_wrap_end() {
-        echo '</div>';
-    }
+    public function loop_wrap_start(){?>
+    <div class="s1-product-image-wrap s1-loop">
+    <?php }
 
-   public function wrap_single_image_with_badge( $html, $attachment_id ) {
+    public function loop_wrap_end(){?>
+    </div>
+    <?php }
 
-    global $product;
+    public function wrap_product_image_with_badge() {
     
-    if ( ! $product || empty( $this->rules ) ) {
-        return $html;
-    }
-
-    $badges = $this->render_badges( $product );
-
-    if ( empty( $badges ) ) {
-        return $html;
-    }
-
-    return sprintf(
-        '<div class="s1-image-inner-wrap">%s<div class="s1-badges-wrap">%s</div></div>',
-        $html,
-        $badges
-    );
-}
-    /* =========================
-       MAIN RENDER
-    ========================= */
-    public function render_badges() {
-
-        global $product;
+       global $product;
 
         if ( ! $product || empty( $this->rules ) ) {
             return;
@@ -107,9 +84,53 @@ class StoreOne_Trust_Badges_Frontend {
                 continue;
             }
 
-            echo $this->render_single_badge( $rule );
+            $this->render_single_badge( $rule );
         }
+   }
+
+   public function wrap_single_image_with_badge( $html, $attachment_id ) {
+
+    global $product;
+
+    if ( ! $product || empty( $this->rules ) ) {
+        return $html;
     }
+
+    if ( $attachment_id !== $product->get_image_id() ) {
+        return $html;
+    }
+
+    ob_start();
+
+    foreach ( $this->rules as $rule ) {
+
+        if ( ! $this->is_rule_valid( $rule, $product ) ) {
+            continue;
+        }
+
+        $this->render_single_badge( $rule ); 
+    }
+
+    $badges = ob_get_clean();
+
+    if ( empty( $badges ) ) {
+        return $html;
+    }
+
+    $pos = strrpos( $html, '</div>' );
+
+    if ( $pos !== false ) {
+        $html = substr_replace(
+            $html,
+            '<div class="s1-badges-wrap">' . $badges . '</div></div>',
+            $pos,
+            6
+        );
+    }
+
+    return $html;
+
+   }
 
     /* =========================
        RULE VALIDATION
@@ -211,213 +232,299 @@ class StoreOne_Trust_Badges_Frontend {
     ========================= */
     private function render_single_badge( $rule ) {
 
-        $style  = $rule['badge_style'] ?? array();
-        $type   = $rule['badges_type'] ?? 'badges_text';
-        $rule_id = $rule['flexible_id'] ?? '';
+    $style   = $rule['badge_style'] ?? array();
+    $type    = $rule['badges_type'] ?? 'badges_text';
+    $rule_id = $rule['flexible_id'] ?? '';
 
-        $wrapper_style = $this->get_wrapper_style( $style );
+    $wrapper_style = $this->get_wrapper_style( $style );
+    ?>
 
-        $html = '<div class="s1-badge-container" data-rule-id="'.esc_attr($rule_id).'" style="'.esc_attr($wrapper_style).'">';
+    <div 
+        class="s1-badge-container" 
+        data-rule-id="<?php echo esc_attr( $rule_id ); ?>" 
+        style="<?php echo esc_attr( $wrapper_style ); ?>"
+    >
+        <?php
+        if ( $type === 'badges_images' ) {
 
-        switch ( $type ) {
+        $this->render_image_badge( $rule );
 
-        case 'badges_images':
-            $html .= $this->render_image_badge( $rule );
-            break;
+        } elseif($type === 'badges_css'){
 
-        case 'badges_css':
-            $html .= $this->render_css_badge( $rule );
-            break;
+        $this->render_css_badge( $rule );
+            
+        }elseif($type === 'badges_advance'){
 
-        case 'badges_advance':
-            $html .= $this->render_advance_badge( $rule );
-            break;
+        $this->render_advance_badge( $rule );
+            
+        }else {
 
-        case 'badges_text':
-        default:
-            $html .= $this->render_text_badge( $rule );
-            break;
-    }
+        $this->render_text_badge( $rule );
 
-        $html .= '</div>';
+        }
+        ?>
+        </div>
 
-        return $html;
+        <?php
     }
 
     private function render_text_badge( $rule ) {
 
-        $style = $this->get_inner_style( $rule['badge_style'] ?? array(), true );
+    $style = $this->get_inner_style( $rule['badge_style'] ?? array(), true );
 
-        return '<div class="s1-badge s1-badge-text" style="'.esc_attr($style).'">'
-            . esc_html( $rule['badgetext'] ?? 'Badge' ) .
-        '</div>';
-    }
+    ?>
+    <div class="s1-badge s1-badge-text" style="<?php echo esc_attr( $style ); ?>">
+        <?php echo esc_html( $rule['badgetext'] ?? 'Badge' ); ?>
+    </div>
+    <?php
+   }
 
     private function render_image_badge( $rule ) {
 
-        if ( empty( $rule['badge_image'] ) ) return '';
-        $style = $rule['badge_style'] ?? array();
-        return '<img class="s1-badge-image" src="'.esc_url($rule['badge_image']).'" style="width:'.esc_attr($style['image_width'] ?? '100px').';" />';
+    if ( empty( $rule['badge_image'] ) ) {
+        return;
+    }
+
+    $style = $rule['badge_style'] ?? array();
+    $width = $style['image_width'] ?? '100px';
+    ?>
+
+    <img 
+        class="s1-badge-image" 
+        src="<?php echo esc_url( $rule['badge_image'] ); ?>" 
+        style="width:<?php echo esc_attr( $width ); ?>;"
+    />
+
+    <?php
     }
 
     private function render_css_badge( $rule ) {
 
-    $type  = $rule['badge_css_type'] ?? 'new';
-    $text  = $rule['badgetext'] ?? 'NEW';
-
-    $style = $this->get_inner_style( $rule['badge_style'] ?? array(), true );
+    $type   = $rule['badge_css_type'] ?? 'new';
+    $text   = $rule['badgetext'] ?? 'NEW';
+    $style  = $this->get_inner_style( $rule['badge_style'] ?? array(), true );
+    $stylee = $rule['badge_style'] ?? array();
 
     if ( $type === 'sale' ) {
-        return '<div class="s1-css-badge-sale" style="'.esc_attr($style).'">
-                    <div class="s1-css-badge-inner">'.esc_html($text).'</div>
-                </div>';
-    }elseif($type === 'newsale'){
-        $stylec = sprintf(
-                '--badge-color:%s;--badge-txt:%s;',
-                $style['bgclr'] ?? '#45d0eb',
-                $style['textclr'] ?? '#ffffff'
-            );
-        return '<div class="s1-ribbon-wrap-s2" style="'.esc_attr($stylec).'">
-          <div
-            class="s1-ribbon-wrap">
-            <div class="s1-ribbon-s2"></div>
-            <div class="s1-ribbon-text">
-             '.esc_html($text).'
-            </div>
-          </div>
-        </div>';
-    }
-    elseif($type === "sale_badge_pink") {
-        $stylec = sprintf(
-                '--badge-salebgcolor:%s;--badge-salebgtxt:%s;',
-                $style['bgclr'] ?? '#d4547e',
-                $style['textclr'] ?? '#ffffff'
-            );
-    return '<div class="s1-sale_badge_pink">
-          <div class="s1-sale-badge" style="'.esc_attr($stylec).'">
-          <span> '.esc_html($text).'</span>
+        ?>
+        <div class="s1-css-badge-sale" style="<?php echo esc_attr($style); ?>">
+            <div class="s1-css-badge-inner"><?php echo esc_html($text); ?></div>
         </div>
-        </div>';
-    }
-    elseif ($type === "saletxt") {
-        $stylec = sprintf(
-                '--badge-saletxtbgcolor:%s;--badge-saletxt:%s;',
-                $style['bgclr'] ?? 'linear-gradient(90deg, #6366f1, #8b5cf6)',
-                $style['textclr'] ?? '#1e293b'
-            );
-      return 
-        '<div class="s1-sale_txt">
-          
-              <div class="s1-sale-underline" style="'.esc_attr($stylec).'">
-           '.esc_html($text).'
-            
-        </div>
-        </div>';
-      
+        <?php
     }
 
-    // default NEW
-    return '<div class="s1-css-badge-new" style="'.esc_attr($style).'">
-                <div class="s1-css-badge-inner">'.esc_html($text).'</div>
-            </div>';
+    elseif ( $type === 'newsale' ) {
+
+        $padding = $stylee['padding'] ?? array();
+
+        $padding_css = sprintf(
+            '%s %s %s %s',
+            th_store_one_with_unit($padding['top'] ?? 6),
+           th_store_one_with_unit($padding['right'] ?? 12),
+            th_store_one_with_unit($padding['bottom'] ?? 6),
+            th_store_one_with_unit($padding['left'] ?? 6)
+        );
+
+        $stylec = sprintf(
+            '--badge-color:%s;
+             --badge-txt:%s;
+             --badge-txtsize:%s;
+             --badge-padding:%s;',
+            $stylee['bgclr'] ?? '#45d0eb',
+            $stylee['textclr'] ?? '#ffffff',
+            th_store_one_with_unit($stylee['text_size'] ?? 15),
+            $padding_css
+        );
+        ?>
+        <div class="s1-ribbon-wrap-s2" style="<?php echo esc_attr($stylec); ?>">
+            <div class="s1-ribbon-wrap">
+                <div class="s1-ribbon-s2"></div>
+                <div class="s1-ribbon-text">
+                    <?php echo esc_html($text); ?>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+
+    elseif ( $type === "sale_badge_pink" ) {
+
+        $style   = $rule['badge_style'] ?? array();
+        $padding = $style['padding'] ?? array();
+
+        $padding_css = sprintf(
+            '%s %s %s %s',
+            th_store_one_with_unit($padding['top'] ?? 5),
+            th_store_one_with_unit($padding['right'] ?? 5),
+            th_store_one_with_unit($padding['bottom'] ?? 5),
+            th_store_one_with_unit($padding['left'] ?? 5)
+        );
+
+        $stylec = sprintf(
+            '--badge-salebgcolor:%s;
+             --badge-salebgtxt:%s;
+             --badge-saletxtsize:%s;
+             --badge-salepadding:%s;',
+            $style['bgclr'] ?? '#d4547e',
+            $style['textclr'] ?? '#ffffff',
+            th_store_one_with_unit($style['text_size'] ?? 15),
+            $padding_css
+        );
+        ?>
+        <div class="s1-sale_badge_pink">
+            <div class="s1-sale-badge" style="<?php echo esc_attr($stylec); ?>">
+                <span><?php echo esc_html($text); ?></span>
+            </div>
+        </div>
+        <?php
+    }
+
+    elseif ( $type === "saletxt" ) {
+
+        $style   = $rule['badge_style'] ?? array();
+        $padding = $style['padding'] ?? array();
+
+        $padding_css = sprintf(
+            '%s %s %s %s',
+            th_store_one_with_unit($padding['top'] ?? 5),
+            th_store_one_with_unit($padding['right'] ?? 5),
+            th_store_one_with_unit($padding['bottom'] ?? 5),
+            th_store_one_with_unit($padding['left'] ?? 5)
+        );
+
+        $stylec = sprintf(
+            '--badge-saletxtbgcolor:%s;
+             --badge-saletxt:%s;
+             --badge-saletxtsize1:%s;
+             --badge-salepadding1:%s;',
+            $style['bgclr'] ?? 'linear-gradient(90deg, #6366f1, #8b5cf6)',
+            $style['textclr'] ?? '#1e293b',
+            th_store_one_with_unit($style['text_size'] ?? 21),
+            $padding_css
+        );
+        ?>
+        <div class="s1-sale_txt">
+            <div class="s1-sale-underline" style="<?php echo esc_attr($stylec); ?>">
+                <?php echo esc_html($text); ?>
+            </div>
+        </div>
+        <?php
+    }
+
+    else {
+        ?>
+        <div class="s1-css-badge-new" style="<?php echo esc_attr($style); ?>">
+            <div class="s1-css-badge-inner"><?php echo esc_html($text); ?></div>
+        </div>
+        <?php
+    }
    }
 
    private function render_advance_badge( $rule ) {
 
     global $product;
 
-   if ( ! $product || ! $product->is_on_sale() ) {
-        return '';
+    if ( ! $product || ! $product->is_on_sale() ) {
+        return;
     }
 
     $style = $this->get_advance_inner_style( $rule['badge_style'] ?? array(), true );
     $type  = $rule['badge_advance_type'] ?? 'one';
-
     $value = $this->get_discount_value( $rule );
 
     if ( $type === 'two' ) {
-    return '<div class="s1-adv-burst" style="'.esc_attr($style).'">
-                <div>'.$value.'</div><small>OFF</small>
-            </div>';
-    }
-    elseif($type === "four") {
-
-    $stylec = sprintf(
-        '--badge-4-color:%s; --badge-4-txt:%s;',
-        $style['bgclr'] ?? '#47DCBF',
-        $style['textclr'] ?? '#ffffff',
-    );
-
-    return 
-    '<div class="s1-preview-badge s1-corner-badge">
-        <div class="s1-badge-shape" style="'.esc_attr($stylec).'">
-            <svg viewBox="0 0 91.333 91">
-                <polygon points="53.666,0 91.333,38.385 91.333,91 0,0" />
-            </svg>
+        ?>
+        <div class="s1-adv-burst" style="<?php echo esc_attr($style); ?>">
+            <div><?php echo esc_html($value); ?></div>
+            <small><?php echo esc_html__( 'OFF', 'th-store-one' ); ?></small>
         </div>
-
-        <div class="s1-badge-text" style="'.esc_attr($stylec).'">
-            <div class="value">-'.$value.'</div>
-        </div>
-    </div>';
-}
-elseif ($type === "five") {
-    $stylec = sprintf(
-        '--badge-5-color:%s; --badge-5-txt:%s;',
-        $style['bgclr'] ?? '#da9005',
-        $style['textclr'] ?? '#ffffff',
-    );
-    
-      return 
-        '<div class="s1-adv-css-badge s1-5">
-          <div
-            class="s1-css-s1"
-            style="'.esc_attr($stylec).'"
-          ></div>
-
-          <div
-            class="s1-css-text"
-            style="'.esc_attr($stylec).'"
-          >
-            '.esc_html( $product->get_stock_quantity() ).' Only available
-          </div>
-        </div>';
-      
+        <?php
     }
-     elseif ($type === "daimond") {
-         $stylec = sprintf(
-        '--badge-daimondbgcolor:%s; --badge-daimondtxt:%s;',
-        $style['bgclr'] ?? 'linear-gradient(135deg, #ff7a18, #ff3d00)',
-        $style['textclr'] ?? '#ffffff',
-    );
-      return 
-        '<div class="s1-adv-css-badge s1-daimond">
-          <div class="s1-diamond-badge"  style="'.esc_attr($stylec).'">
-           <span>-'.$value.'</span>
-        </div>
-        </div>';
-    }
-    elseif ($type === "circle") {
+
+    elseif ( $type === "four" ) {
+
         $stylec = sprintf(
-        '--badge-circlebgcolor:%s; --badge-circletxt:%s;',
-        $style['bgclr'] ?? 'radial-gradient(circle, #ff4d6d 0%, #ff0033 100%)',
-        $style['textclr'] ?? '#ffffff',
-    );
-      return'
-        <div class="s1-adv-css-badge s1-circle">
-        <div class="s1-off-badge" style="'.esc_attr($stylec).'">
-        <div class="s1-off-inner">
-          <span class="s1-off-value">'.$value.'</span>
-          <span class="s1-off-text">OFF</span>
+            '--badge-4-color:%s; --badge-4-txt:%s;',
+            $style['bgclr'] ?? '#47DCBF',
+            $style['textclr'] ?? '#ffffff'
+        );
+        ?>
+        <div class="s1-preview-badge s1-corner-badge">
+            <div class="s1-badge-shape" style="<?php echo esc_attr($stylec); ?>">
+                <svg viewBox="0 0 91.333 91">
+                    <polygon points="53.666,0 91.333,38.385 91.333,91 0,0" />
+                </svg>
+            </div>
+
+            <div class="s1-badge-text" style="<?php echo esc_attr($stylec); ?>">
+                <div class="value">-<?php echo esc_html($value); ?></div>
+            </div>
         </div>
-        </div>
-      </div>';
+        <?php
     }
 
-    return '<div class="s1-adv-circle" style="'.esc_attr($style).'">
-                <div>'.$value.'</div><small>OFF</small>
-            </div>';
+    elseif ( $type === "five" ) {
+
+        $stylec = sprintf(
+            '--badge-5-color:%s; --badge-5-txt:%s;',
+            $style['bgclr'] ?? '#da9005',
+            $style['textclr'] ?? '#ffffff'
+        );
+        ?>
+        <div class="s1-adv-css-badge s1-5">
+            <div class="s1-css-s1" style="<?php echo esc_attr($stylec); ?>"></div>
+
+            <div class="s1-css-text" style="<?php echo esc_attr($stylec); ?>">
+                <?php echo esc_html( $product->get_stock_quantity() ); ?> <?php echo esc_html__( 'Only available', 'th-store-one' ); ?>
+            </div>
+        </div>
+        <?php
     }
+
+    elseif ( $type === "daimond" ) {
+
+        $stylec = sprintf(
+            '--badge-daimondbgcolor:%s; --badge-daimondtxt:%s;',
+            $style['bgclr'] ?? 'linear-gradient(135deg, #ff7a18, #ff3d00)',
+            $style['textclr'] ?? '#ffffff'
+        );
+        ?>
+        <div class="s1-adv-css-badge s1-daimond">
+            <div class="s1-diamond-badge" style="<?php echo esc_attr($stylec); ?>">
+                <span>-<?php echo esc_html($value); ?></span>
+            </div>
+        </div>
+        <?php
+    }
+
+    elseif ( $type === "circle" ) {
+
+        $stylec = sprintf(
+            '--badge-circlebgcolor:%s; --badge-circletxt:%s;',
+            $style['bgclr'] ?? 'radial-gradient(circle, #ff4d6d 0%, #ff0033 100%)',
+            $style['textclr'] ?? '#ffffff'
+        );
+        ?>
+        <div class="s1-adv-css-badge s1-circle">
+            <div class="s1-off-badge" style="<?php echo esc_attr($stylec); ?>">
+                <div class="s1-off-inner">
+                    <span class="s1-off-value"><?php echo esc_html($value); ?></span>
+                    <span class="s1-off-text"><?php echo esc_html__( 'OFF', 'th-store-one' ); ?></span>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+
+    else {
+        ?>
+        <div class="s1-adv-circle" style="<?php echo esc_attr($style); ?>">
+            <div><?php echo esc_html($value); ?></div>
+            <small><?php echo esc_html__( 'OFF', 'th-store-one' ); ?></small>
+        </div>
+        <?php
+    }
+  }
 
    private function get_discount_value( $rule ) {
 
@@ -434,14 +541,21 @@ elseif ($type === "five") {
 
     $discount = $regular - $sale;
 
+    // Percentage
     if ( ($rule['displayBadge'] ?? '') === 's1-percent' ) {
         return round( ( $discount / $regular ) * 100 ) . '%';
     }
 
-    return wc_price( $discount );
+    // Remove trailing .00
+    $decimals = wc_get_price_decimals();
 
-   }
+    if ( $decimals > 0 ) {
+        $discount = number_format( $discount, $decimals, '.', '' );
+        $discount = rtrim( rtrim( $discount, '0' ), '.' ); 
+    }
 
+    return get_woocommerce_currency_symbol() . $discount;
+    }
     /* =========================
        STYLE ENGINE
     ========================= */
@@ -538,12 +652,23 @@ elseif ($type === "five") {
 
     // Default padding fix (same as JS)
     if ( $is_text ) {
-        $padding['top']    = ($padding['top'] ?? '0px') === '0px' ? '12px' : $padding['top'];
-        $padding['right']  = ($padding['right'] ?? '0px') === '0px' ? '15px' : $padding['right'];
-        $padding['bottom'] = ($padding['bottom'] ?? '0px') === '0px' ? '12px' : $padding['bottom'];
-        $padding['left']   = ($padding['left'] ?? '0px') === '0px' ? '15px' : $padding['left'];
-    }
 
+    $padding['top']    = ! empty($padding['top']) && $padding['top'] !== '0'
+        ? th_store_one_with_unit($padding['top'])
+        : '12px';
+
+    $padding['right']  = ! empty($padding['right']) && $padding['right'] !== '0'
+        ? th_store_one_with_unit($padding['right'])
+        : '15px';
+
+    $padding['bottom'] = ! empty($padding['bottom']) && $padding['bottom'] !== '0'
+        ? th_store_one_with_unit($padding['bottom'])
+        : '12px';
+
+    $padding['left']   = ! empty($padding['left']) && $padding['left'] !== '0'
+        ? th_store_one_with_unit($padding['left'])
+        : '15px';
+    }
     return sprintf(
         'background:%s;color:%s;font-size:%s;padding:%s %s %s %s;border-style:%s;border-color:%s;border-width:%s %s %s %s;border-radius:%s %s %s %s;',
         $style['bgclr'] ?? '#000',
