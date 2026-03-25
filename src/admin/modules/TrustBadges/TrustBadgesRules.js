@@ -14,6 +14,7 @@ import TabSwitcher from "@th-storeone-global/TabSwitcher";
 import THBackgroundControl from "@th-storeone-control/color";
 import UniversalRangeControl from "@th-storeone-global/UniversalRangeControl";
 import TrustBadgeStyleControl from "./TrustBadgeStyleControl";
+import UniversalDimensionControl from "@th-storeone-control/UniversalDimensionControl";
 import {
   CopyIcon,
   TrashIcon,
@@ -554,8 +555,6 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
             left: "5",
           },
           text_size:"12px",
-         
-          
         },
       };
       
@@ -790,11 +789,20 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
         top: "3",
         left: "3",
       },
+      border: {
+            radius: {
+            top: "4px",
+            right: "4px",
+            bottom: "4px",
+            left: "4px",
+             },
+          },
       },
     };
   }
   return rule;
 };
+
   return (
     <div className="store-one-rules-container">
       <h3 className="store-one-section-title">
@@ -1377,8 +1385,28 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
                         <TrustBadgeStyleControl
                           value={rule.badge_style}
                           badgeType={rule.badges_type}
+                          badgeCssType={rule.badge_css_type} 
                           onChange={(v) => updateField(index, "badge_style", v)}
                         />
+                      {rule.badges_type === "badges_advance" &&
+                        rule?.badge_advance_type === "simplenew" && ( 
+                        <UniversalDimensionControl
+                          label={__("Border Radius", "th-store-one")}
+                          value={rule.badge_style?.border?.radius}
+                          responsive={false}
+                          onChange={(v) => {
+                            const updatedBadgeStyle = {
+                              ...rule.badge_style,
+                              border: {
+                                ...rule.badge_style?.border,
+                                radius: v,
+                              },
+                            };
+
+                            updateField(index, "badge_style", updatedBadgeStyle);
+                          }}
+                        />
+                    )}
                       </div>
                     ),
                   },
