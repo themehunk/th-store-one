@@ -338,6 +338,11 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
       label: "simplenew",
       preview: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/simplenew.svg`,
     },
+    {
+      id: "simpleaval",
+      label: "simpleaval",
+      preview: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/simpleavl.svg`,
+    },
   ];
 
   const applyTextBadgeDefaults = (rule, type) => {
@@ -774,6 +779,39 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
       badge_style: {
         ...currentStyle,
         bgclr:"linear-gradient(90deg, #f59e0b, #f97316)",
+        textclr: "#ffffff",
+        
+        margin: {
+        top: "0px",
+        right: "0px",
+        bottom: "0px",
+        left: "0px",
+      },
+      position: {
+        mode: "custom",
+        unit: "px",
+        anchor: "top-left",
+        top: "3",
+        left: "3",
+      },
+      border: {
+            radius: {
+            top: "4px",
+            right: "4px",
+            bottom: "4px",
+            left: "4px",
+             },
+          },
+      },
+    };
+  }
+  if (type === "simpleaval") {
+    return {
+      ...rule,
+      badge_advance_type: type,
+      badge_style: {
+        ...currentStyle,
+        bgclr:"#00cfb0",
         textclr: "#ffffff",
         
         margin: {

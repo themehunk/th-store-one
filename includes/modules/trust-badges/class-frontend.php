@@ -590,6 +590,40 @@ if ( ! $product || ! $product->is_on_sale() ) {
         </div>
         <?php
     }
+    elseif ( $type === "simpleaval" ) {
+       if($product->get_stock_quantity() ==''){
+            return;
+        }
+
+       $radius = $stylee['border']['radius'] ?? [];
+
+        $stylec = sprintf(
+            '--badge-simpleavalbgcolor:%s; --badge-simpleavaltxt:%s; border-radius:%s %s %s %s;',
+            $stylee['bgclr'] ?? '#00cfb0',
+            $stylee['textclr'] ?? '#ffffff',
+            $radius['top'] ?? '0px',
+            $radius['right'] ?? '0px',
+            $radius['bottom'] ?? '0px',
+            $radius['left'] ?? '0px'
+        );
+        
+        ?>
+        <div class="s1-preview-badge">
+          <div class="s1-css-badge-simple-available"  style="<?php echo esc_attr($stylec); ?>">
+            <div class="s1-css-badge-inner">
+              <span class="s1-off-value"><?php
+                echo esc_html(
+                    sprintf(
+                        __( 'Only %d available', 'th-store-one' ),
+                        $product->get_stock_quantity()
+                    )
+                );
+                ?></span>
+            </div>
+          </div>
+        </div>
+        <?php
+    }
 
     else {
         $stylec = sprintf(
