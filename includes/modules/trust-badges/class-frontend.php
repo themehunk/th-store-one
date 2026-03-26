@@ -436,6 +436,8 @@ class Th_StoreOne_Trust_Badges_Frontend {
     }
 
     $style = $this->get_advance_inner_style( $rule['badge_style'] ?? array(), true );
+    $stylee = $rule['badge_style'] ?? array();
+
     $type  = $rule['badge_advance_type'] ?? 'one';
     $value = $this->get_discount_value( $rule );
 
@@ -457,8 +459,8 @@ if ( ! $product || ! $product->is_on_sale() ) {
        }
         $stylec = sprintf(
             '--badge-4-color:%s; --badge-4-txt:%s;',
-            $style['bgclr'] ?? '#47DCBF',
-            $style['textclr'] ?? '#ffffff'
+            $stylee['bgclr'] ?? '#47DCBF',
+            $stylee['textclr'] ?? '#ffffff'
         );
         ?>
         <div class="s1-preview-badge s1-corner-badge">
@@ -483,8 +485,8 @@ if ( ! $product || ! $product->is_on_sale() ) {
 
         $stylec = sprintf(
             '--badge-5-color:%s; --badge-5-txt:%s;',
-            $style['bgclr'] ?? '#da9005',
-            $style['textclr'] ?? '#ffffff'
+            $stylee['bgclr'] ?? '#da9005',
+            $stylee['textclr'] ?? '#ffffff'
         );
         ?>
         <div class="s1-adv-css-badge s1-5">
@@ -503,15 +505,14 @@ if ( ! $product || ! $product->is_on_sale() ) {
         </div>
         <?php
     }
-
     elseif ( $type === "daimond" ) {
-if ( ! $product || ! $product->is_on_sale() ) {
+    if ( ! $product || ! $product->is_on_sale() ) {
         return;
        }
         $stylec = sprintf(
             '--badge-daimondbgcolor:%s; --badge-daimondtxt:%s;',
-            $style['bgclr'] ?? 'linear-gradient(135deg, #ff7a18, #ff3d00)',
-            $style['textclr'] ?? '#ffffff'
+            $stylee['bgclr'] ?? 'linear-gradient(135deg, #ff7a18, #ff3d00)',
+            $stylee['textclr'] ?? '#ffffff'
         );
         ?>
         <div class="s1-adv-css-badge s1-daimond">
@@ -528,8 +529,8 @@ if ( ! $product || ! $product->is_on_sale() ) {
        }
         $stylec = sprintf(
             '--badge-circlebgcolor:%s; --badge-circletxt:%s;',
-            $style['bgclr'] ?? 'radial-gradient(circle, #ff4d6d 0%, #ff0033 100%)',
-            $style['textclr'] ?? '#ffffff'
+            $stylee['bgclr'] ?? 'radial-gradient(circle, #ff4d6d 0%, #ff0033 100%)',
+            $stylee['textclr'] ?? '#ffffff'
         );
         ?>
         <div class="s1-adv-css-badge s1-circle">
@@ -549,8 +550,8 @@ if ( ! $product || ! $product->is_on_sale() ) {
        }
         $stylec = sprintf(
             '--badge-simplecirclebgcolor:%s; --badge-simplecircletxt:%s;',
-            $style['bgclr'] ?? '#8BC34A',
-            $style['textclr'] ?? '#ffffff'
+            $stylee['bgclr'] ?? '#8BC34A',
+            $stylee['textclr'] ?? '#ffffff'
         );
         ?>
         <div class="s1-adv-css-badge s1-simple-circle">
@@ -567,11 +568,18 @@ if ( ! $product || ! $product->is_on_sale() ) {
         if ( ! $product || ! $product->is_on_sale() ) {
         return;
        }
+       $radius = $stylee['border']['radius'] ?? [];
+
         $stylec = sprintf(
-            '--badge-simplenewbgcolor:%s; --badge-simplenewtxt:%s;',
-            $style['bgclr'] ?? 'linear-gradient(90deg, #f59e0b, #f97316)',
-            $style['textclr'] ?? '#ffffff'
+            '--badge-simplenewbgcolor:%s; --badge-simplenewtxt:%s; border-radius:%s %s %s %s;',
+            $stylee['bgclr'] ?? 'linear-gradient(90deg, #f59e0b, #f97316)',
+            $stylee['textclr'] ?? '#ffffff',
+            $radius['top'] ?? '0px',
+            $radius['right'] ?? '0px',
+            $radius['bottom'] ?? '0px',
+            $radius['left'] ?? '0px'
         );
+        
         ?>
         <div class="s1-preview-badge">
           <div class="s1-css-badge-simple"  style="<?php echo esc_attr($stylec); ?>">
@@ -586,8 +594,8 @@ if ( ! $product || ! $product->is_on_sale() ) {
     else {
         $stylec = sprintf(
             '--adv-bg:%s; --adv-txt:%s;',
-            esc_attr( $style['bgclr'] ?? '#673ab7' ),
-            esc_attr( $style['textclr'] ?? '#fff' )
+            esc_attr( $stylee['bgclr'] ?? '#673ab7' ),
+            esc_attr( $stylee['textclr'] ?? '#fff' )
         );
         ?>
         <div class="s1-adv-circle" style="<?php echo esc_attr($stylec); ?>">
@@ -670,36 +678,51 @@ if ( ! $product || ! $product->is_on_sale() ) {
     }
 
     /* ---------- FIXED MODE ---------- */
-    if ( ($pos['mode'] ?? '') === 'fixed' ) {
+$translate = '';
 
-        if ( ($pos['position'] ?? '') === 'top' ) $css .= 'top:0px;';
-        if ( ($pos['position'] ?? '') === 'middle' ) $css .= 'top:50%;';
-        if ( ($pos['position'] ?? '') === 'bottom' ) $css .= 'bottom:0px;';
+if ( ($pos['mode'] ?? '') === 'fixed' ) {
 
-        if ( ($pos['align'] ?? '') === 'left' ) $css .= 'left:0px;';
-        if ( ($pos['align'] ?? '') === 'right' ) $css .= 'right:0px;';
-        if ( ($pos['align'] ?? '') === 'center' ) {
-            $css .= 'left:50%;transform:translate(-50%, -50%);';
-        }
+    if ( ($pos['position'] ?? '') === 'top' ) $css .= 'top:0px;';
+    
+    if ( ($pos['position'] ?? '') === 'middle' ) {
+        $css .= 'top:50%;';
+        $translate .= 'translateY(-50%) ';
     }
 
-    /* ---------- ROTATE ---------- */
-    $rotate = sprintf(
-        'rotateX(%sdeg) rotateY(%sdeg) rotateZ(%sdeg)',
-        $transform['rotateX'] ?? 0,
-        $transform['rotateY'] ?? 0,
-        $transform['rotateZ'] ?? 0
-    );
+    if ( ($pos['position'] ?? '') === 'bottom' ) $css .= 'bottom:0px;';
 
-    /* ---------- FLIP ---------- */
-    $flip_css = '';
-    if ( ! empty($flip['enabled']) ) {
-        if ( $flip['orientation'] === 'horizontal' ) $flip_css = 'scaleX(-1)';
-        elseif ( $flip['orientation'] === 'vertical' ) $flip_css = 'scaleY(-1)';
-        elseif ( $flip['orientation'] === 'both' ) $flip_css = 'scale(-1,-1)';
+    if ( ($pos['align'] ?? '') === 'left' ) $css .= 'left:0px;';
+
+    if ( ($pos['align'] ?? '') === 'right' ) $css .= 'right:0px;';
+
+    if ( ($pos['align'] ?? '') === 'center' ) {
+        $css .= 'left:50%;';
+        $translate .= 'translateX(-50%) ';
     }
+}
 
-    $css .= 'transform:' . trim($rotate . ' ' . $flip_css) . ';';
+/* ---------- ROTATE ---------- */
+$rotate = sprintf(
+    'rotateX(%sdeg) rotateY(%sdeg) rotateZ(%sdeg)',
+    $transform['rotateX'] ?? 0,
+    $transform['rotateY'] ?? 0,
+    $transform['rotateZ'] ?? 0
+);
+
+/* ---------- FLIP ---------- */
+$flip_css = '';
+if ( ! empty($flip['enabled']) ) {
+    if ( $flip['orientation'] === 'horizontal' ) $flip_css = 'scaleX(-1)';
+    elseif ( $flip['orientation'] === 'vertical' ) $flip_css = 'scaleY(-1)';
+    elseif ( $flip['orientation'] === 'both' ) $flip_css = 'scale(-1,-1)';
+}
+
+/* ---------- FINAL TRANSFORM (SINGLE) ---------- */
+$final_transform = trim($rotate . ' ' . $flip_css . ' ' . $translate);
+
+if ( ! empty($final_transform) ) {
+    $css .= 'transform:' . $final_transform . ';';
+}
 
     /* ---------- OPACITY ---------- */
     $opacity = isset($transform['opacity']) ? ($transform['opacity'] / 100) : 1;

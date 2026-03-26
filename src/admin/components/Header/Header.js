@@ -6,7 +6,7 @@ const Header = ({ currentPage, setCurrentPage, setActiveModule, proActive,licens
     <div className="s1-header-wrap">
     <div className="s1-header__left">
     <span className="s1-header__logo"><img
-    src={th_StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/storeonemain.png"}
+    src={th_StoreOneAdmin.homeUrl + "wp-content/plugins/th-store-one/assets/images/storeonemain.png"}
     alt="Store One"
     className="s1-header__logo"
     /></span>

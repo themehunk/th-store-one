@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 import './live-style.css';
 
 const mainProduct = {
-    img: th_StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd1.png",
+    img: th_StoreOneAdmin.homeUrl + "wp-content/plugins/th-store-one/assets/images/prd1.png",
     name: __("Sample Bundle Product", "th-store-one"),
     price: "$30.00",
 };
@@ -11,7 +11,7 @@ const mainProduct = {
 const bundleItems = [
     {
         id: 1,
-        img: th_StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd1.png",
+        img: th_StoreOneAdmin.homeUrl + "wp-content/plugins/th-store-one/assets/images/prd1.png",
         name: __("Hydration Serum", "th-store-one"),
         price: "$12.00",
         old_price: "$15.00",
@@ -19,7 +19,7 @@ const bundleItems = [
     },
     {
         id: 2,
-        img: th_StoreOneAdmin.homeUrl + "wp-content/plugins/store-one/assets/images/prd2.png",
+        img: th_StoreOneAdmin.homeUrl + "wp-content/plugins/th-store-one/assets/images/prd2.png",
         name: __("Daily Cream", "th-store-one"),
         price: "$18.00",
         old_price: "$22.00",

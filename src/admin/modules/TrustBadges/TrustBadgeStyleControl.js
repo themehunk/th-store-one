@@ -6,14 +6,16 @@ import UniversalDimensionControl from "@th-storeone-control/UniversalDimensionCo
 import PositionControl from "@th-storeone-control/PositionControl";
 
 import UniversalBorderControl from "@th-storeone-control/UniversalBorderControl";
-export default function TrustBadgeStyleControl({ value = {}, badgeType, onChange }) {
+export default function TrustBadgeStyleControl({ value = {}, badgeType, badgeCssType, onChange }) {
   const update = (key, val) => {
     onChange({
       ...value,
       [key]: val,
     });
   };
-  
+  const hideBorderForCss =
+  badgeType === "badges_css" &&
+  ["newsale", "sale_badge_pink","saletxt"].includes(badgeCssType);
   return (
     <>
       {/* Opacity */}
@@ -70,7 +72,7 @@ export default function TrustBadgeStyleControl({ value = {}, badgeType, onChange
         onChange={(v) => update("padding", v)}
       />
       )}
-      {["badges_text", "badges_css"].includes(badgeType) && (
+      {["badges_text", "badges_css"].includes(badgeType) && !hideBorderForCss && (
       <UniversalBorderControl
         value={value?.border}
         onChange={(v) => update("border", v)}
@@ -78,4 +80,4 @@ export default function TrustBadgeStyleControl({ value = {}, badgeType, onChange
     )}
     </>
   );
-}
+} 

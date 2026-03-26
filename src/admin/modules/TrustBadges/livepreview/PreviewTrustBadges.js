@@ -72,20 +72,36 @@ const TrustBadges = ({ settings = {} }) => {
   }
 
   if (pos.mode === "fixed") {
-    if (pos.position === "top") positionStyle.top = "0px";
-    if (pos.position === "middle") positionStyle.top = "50%";
-    if (pos.position === "bottom") positionStyle.bottom = "0px";
+  let translate = "";
 
-    if (pos.align === "left") positionStyle.left = "0px";
-
-    if (pos.align === "center") {
-      positionStyle.left = "50%";
-      positionStyle.transform = "translate(-50%, -50%)";
-    }
-
-    if (pos.align === "right") positionStyle.right = "0px";
+  if (pos.position === "top") {
+    positionStyle.top = "0px";
   }
 
+  if (pos.position === "middle") {
+    positionStyle.top = "50%";
+    translate += " translateY(-50%)";
+  }
+
+  if (pos.position === "bottom") {
+    positionStyle.bottom = "0px";
+  }
+
+  if (pos.align === "left") {
+    positionStyle.left = "0px";
+  }
+
+  if (pos.align === "center") {
+    positionStyle.left = "50%";
+    translate += " translateX(-50%)";
+  }
+
+  if (pos.align === "right") {
+    positionStyle.right = "0px";
+  }
+
+  positionStyle.transform = translate.trim();
+}
   /* ---------------- FINAL TRANSFORM ---------------- */
   const finalTransform = `     ${rotateTransform}
     ${flipTransform}
@@ -470,9 +486,14 @@ const withUnit = (val, unit = "px") => {
       return (
         <div className="s1-preview-badge" style={wrapperStyle}>
           <div className="s1-css-badge-simple"  style={{
-              "--badge-simplenewbgcolor": style?.bgclr,
-              "--badge-simplenewtxt": style?.textclr,
-            }}>
+  "--badge-simplenewbgcolor": style?.bgclr,
+  "--badge-simplenewtxt": style?.textclr,
+
+  borderTopLeftRadius: border?.radius?.top || "0px",
+  borderTopRightRadius: border?.radius?.right || "0px",
+  borderBottomRightRadius: border?.radius?.bottom || "0px",
+  borderBottomLeftRadius: border?.radius?.left || "0px",
+}}>
             <div className="s1-css-badge-inner">
               <span class="s1-off-value">50% OFF</span>
             </div>
