@@ -6,6 +6,7 @@ import PreviewBuyToList from '../../modules/BuytoList/livepreview/PreviewBuyToLi
 import PreviewQuickSocial from '../../modules/QuickSocial/livepreview/PreviewQuickSocial';
 import ProductBrand from '../../modules/ProductBrand/livepreview/PreviewProductBrand';
 import TrustBadges from '../../modules/TrustBadges/livepreview/PreviewTrustBadges';
+import ProductVideo from '../../modules/ProductVideo/livepreview/PreviewProductVideo';
 
 const PreviewPane = ({ currentModule, settings }) => {
     
@@ -67,6 +68,12 @@ const PreviewPane = ({ currentModule, settings }) => {
                                 <TrustBadges
                                     key={(activeRule.flexible_id || 'rule') + (activeRule.brand_style || '')}
                                     settings={activeRule}
+                                />
+                            )}
+                            {currentModule?.id === "product-video" && activeRule && (
+                                <ProductVideo
+                                    key={(activeRule.flexible_id || 'rule') + (activeRule.bundle_style || '')}
+                                    settings={settings}
                                 />
                             )}
                         </div>

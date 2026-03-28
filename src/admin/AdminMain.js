@@ -178,9 +178,9 @@ const modulesList = [
   },
   {
     id: "product-brand",
-    label: __("Product Brand", "th-store-one"),
+    label: __("Trust Badges", "th-store-one"),
     description: __(
-      "Assign and display product brands to organize items, improve filtering options, and help customers quickly identify trusted manufacturers.",
+      "Assign and display Trust Badges to organize items, improve filtering options, and help customers quickly identify trusted manufacturers.",
       "th-store-one",
     ),
     icon: (
@@ -213,9 +213,9 @@ const modulesList = [
   },
   {
     id: "trust-badges",
-    label: __("Trust Badges", "th-store-one"),
+    label: __("Badge Management", "th-store-one"),
     description: __(
-      "Display trust badges like secure checkout, money-back guarantee, and verified payment icons to increase customer confidence and improve conversions.",
+      "Display Badge Management like secure checkout, money-back guarantee, and verified payment icons to increase customer confidence and improve conversions.",
       "th-store-one",
     ),
     icon: (
@@ -240,6 +240,40 @@ const modulesList = [
         />
       </svg>
     ),
+    premium: false,
+  },
+  {
+    id: "product-video",
+    label: __("Product Video", "th-store-one"),
+    description: __(
+      "Display Badge Management like secure checkout, money-back guarantee, and verified payment icons to increase customer confidence and improve conversions.",
+      "th-store-one",
+    ),
+    icon: (
+  <svg
+    className="w-6 h-6"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    {/* Screen */}
+    <rect
+      x="3"
+      y="5"
+      width="18"
+      height="14"
+      rx="2"
+      stroke="currentColor"
+      strokeWidth="2"
+    />
+
+    {/* Play Button */}
+    <path
+      d="M10 9L15 12L10 15V9Z"
+      fill="currentColor"
+    />
+  </svg>
+),
     premium: false,
   },
 ];
@@ -659,6 +693,15 @@ const AdminMain = () => {
                     />
                   )}
                   {currentModule?.id === "trust-badges" && (
+                    <PreviewPane
+                      currentModule={currentModule}
+                      settings={
+                        livePreviewSettings ||
+                        moduleSettings[currentModule.id]?.rules?.[0]
+                      }
+                    />
+                  )}
+                  {currentModule?.id === "product-video" && (
                     <PreviewPane
                       currentModule={currentModule}
                       settings={
