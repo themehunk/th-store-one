@@ -1,7 +1,7 @@
 === TH Store One ===
 Contributors: ThemeHunk
 Author URI: : https://www.themehunk.com/
-Tags: product , quick social,product brand
+Tags: trust badges, quick social, badge management
 Requires at least: 5.5 
 Tested up to: 6.9
 Stable tag: 1.0.2
@@ -109,7 +109,8 @@ Yes, the plugin is translation-ready and supports multiple languages.
 == Changelog ==
 
 = 1.0.2 =
-Fix: licence and security issue fixed.
+Fix: Resolved license and security issues.
+Fix: Corrected prefix issue.
 
 = 1.0.1 =
 Fix: Slug and permission issue fixed.
