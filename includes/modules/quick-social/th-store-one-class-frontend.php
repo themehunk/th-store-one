@@ -555,7 +555,8 @@ private function get_brand_style( $icon ) {
                     continue;
                 }
 
-                $placement = $rule['placement'] ?? '';
+                $placement = $rule['placement'] ?? 'after_summary';
+                $priority  = isset( $rule['priority'] ) ? absint( $rule['priority'] ) : 10;
 
                 $hook = th_store_one_get_hook_from_placement( $placement );
 
@@ -564,7 +565,7 @@ private function get_brand_style( $icon ) {
                     function() use ( $rule ) {
                         $this->generate_output( $rule['flexible_id'] );
                     },
-                    10
+                    $priority
                 );
             }
     }

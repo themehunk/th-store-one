@@ -54,8 +54,11 @@ class Th_StoreOne_Buy_To_List_Frontend {
                 continue;
             } 
 
-            $priority = isset( $rule['priority'] ) ? absint( $rule['priority'] ) : 10;
-            $hook     = th_store_one_get_hook_from_placement($priority);
+            $placement = $rule['placement'] ?? 'after_summary';
+            $priority  = isset( $rule['priority'] ) ? absint( $rule['priority'] ) : 10;
+
+            $hook = th_store_one_get_hook_from_placement( $placement );
+
 
             add_action( $hook, function() use ( $rule ) {
 

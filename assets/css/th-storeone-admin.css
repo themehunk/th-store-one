@@ -12,3 +12,6 @@ transition:all .2s ease;
     padding-top:10px!important;
     padding-bottom:10px!important;
 }
+#toplevel_page_th-store-one a.toplevel_page_th-store-one img{
+    padding-top:3px;
+}

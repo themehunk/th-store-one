@@ -10,7 +10,7 @@ class Th_Store_One_Admin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 		// global admin css
 	     add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_css' ) );
-		add_action( 'admin_init', array( $this, 'handle_upgrade_redirect' ) );
+		
 		add_filter( 'allowed_redirect_hosts', function( $hosts ) {
 			$hosts[] = 'themehunk.com';
 			return $hosts;
@@ -28,32 +28,7 @@ class Th_Store_One_Admin {
 			TH_STORE_ONE_PLUGIN_URL . 'assets/images/storeone-icon.svg',
 			56
 		);
-
-		// Dashboard
-		add_submenu_page(
-			'th-store-one',
-			esc_html__( 'Dashboard', 'th-store-one' ),
-			esc_html__( 'Dashboard', 'th-store-one' ),
-			'manage_options',
-			'th-store-one',
-			array( $this, 'render_admin_page' )
-		);
-
-		$license_status = false;
-	     if ( class_exists( 'Th_StoreOnePro_License' ) ) {
-		$license_status = Th_StoreOnePro_License::is_active();
-		}
-		if ( ! $license_status ) {
-			add_submenu_page(
-				'th-store-one',
-				esc_html__( 'Upgrade', 'th-store-one' ),
-				'<span class="storeone-upgrade-btn">' . esc_html__( 'Upgrade', 'th-store-one' ) . '</span>',
-				'manage_options',
-				'th-store-one-upgrade',
-				'__return_false'
-			);
-
-		}
+		
 	}
 
 	public function render_admin_page() {
@@ -68,17 +43,6 @@ class Th_Store_One_Admin {
 			<div id="store-one-admin-app" aria-label="<?php echo esc_attr__( 'Th Store One Dashboard', 'th-store-one' ); ?>"></div>
 		</div>
 		<?php
-	}
-
-	public function handle_upgrade_redirect() {
-
-    // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-	if ( isset( $_GET['page'] ) && 'th-store-one-upgrade' === sanitize_text_field( wp_unslash( $_GET['page'] ) ) ) {
-
-		wp_safe_redirect( 'https://themehunk.com/storeone/' );
-		exit;
-
-	}
 	}
 
 	public function enqueue_assets( $hook ) {

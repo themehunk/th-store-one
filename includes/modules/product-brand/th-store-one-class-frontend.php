@@ -57,8 +57,10 @@ class Th_StoreOne_Product_Brand_Frontend {
                 continue;
             }
 
-            $priority = isset( $rule['priority'] ) ? absint( $rule['priority'] ) : 10;
-            $hook     = th_store_one_get_hook_from_placement($priority);
+            $placement = $rule['placement'] ?? 'after_summary';
+            $priority  = isset( $rule['priority'] ) ? absint( $rule['priority'] ) : 10;
+
+            $hook = th_store_one_get_hook_from_placement( $placement );
             add_action( $hook, function() use ( $rule ) {
 
                global $product;
@@ -238,18 +240,16 @@ class Th_StoreOne_Product_Brand_Frontend {
                            target="_blank" 
                            rel="noopener noreferrer">
                             <?php echo sprintf(
-                        '<img src="%s" alt="" style="max-width:%spx;height:auto;object-fit:contain;" />',
+                        '<img src="%s" alt="trust badge" style="max-width:%dpx;height:auto;object-fit:contain;" />',
                         esc_url( $item['image_url'] ),
-                        esc_attr( $rule['max_width'] ?? 100 )
-                    ); ?>
+                        intval( $rule['max_width'] ?? 100 )
+                        ); ?>
                         </a>
-
                     <?php else : ?>
-
                         <?php echo sprintf(
-                        '<img src="%s" alt="" style="max-width:%spx;height:auto;object-fit:contain;" />',
+                        '<img src="%s" alt="trust badge" style="max-width:%dpx;height:auto;object-fit:contain;" />',
                         esc_url( $item['image_url'] ),
-                        esc_attr( $rule['max_width'] ?? 100 )
+                        intval( $rule['max_width'] ?? 100 )
                     ); ?>
 
                     <?php endif; ?>

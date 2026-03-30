@@ -684,6 +684,10 @@ if ( ! $product || ! $product->is_on_sale() ) {
     }
 
     else {
+
+    if ( ! $product || ! $product->is_on_sale() ) {
+        return;
+       }
         $stylec = sprintf(
             '--adv-bg:%s; --adv-txt:%s;',
             esc_attr( $stylee['bgclr'] ?? '#673ab7' ),

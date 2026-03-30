@@ -58,24 +58,8 @@ const Header = ({ currentPage, setCurrentPage, setActiveModule, proActive,licens
 
     </nav>
 
-    {/* Upgrade CTA */}
-    {licenseActive ? (
-    <div className="s1-header__active">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"/>
-        </svg>
-        <span>{__('Activated', 'th-store-one')}</span>
+    <div className="s1-header__right">
     </div>
-    ) : (
-    <a
-        href="https://themehunk.com/storeone/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="s1-header__upgrade components-button is-secondary"
-    >
-        {__('Upgrade', 'th-store-one')}
-    </a>
-    )}
     </div>
 </header>
     );
