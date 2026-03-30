@@ -305,7 +305,7 @@ class Th_StoreOne_Product_Brand_Frontend {
     $css  = "#".esc_attr($id)." { margin-top: ".esc_attr($margin_t)."px; margin-bottom: ".esc_attr($margin_b)."px; }";
     $css .= "#".esc_attr($id).".storeone-product-brand-wrapper { background: ".esc_attr($bg)."; }";
     $css .= "#".esc_attr($id)." .storeone-product-brand-title { color: ".esc_attr($title)."; }";
-    $css .= "#".esc_attr($id)." .storeone-product-brand-list { gap: ".esc_attr($gap)."px; }";
+    $css .= "#".esc_attr($id)." .storeone-product-brand-list { gap: ".esc_attr($gap)."; }";
 
     return $css;
 }
