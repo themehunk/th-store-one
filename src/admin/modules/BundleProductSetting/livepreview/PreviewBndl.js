@@ -1,4 +1,4 @@
-import { useState } from '@wordpress/element';
+import { useState ,useEffect} from '@wordpress/element';
 import Product from "./ProductWithBundle";
 import Cart from "./CartWithBundle";
 
@@ -6,7 +6,28 @@ import './live-style.css';
 import { __ } from '@wordpress/i18n';
 
 const PreviewBndl = ({ settings = {} }) => {
+
+    const [loading, setLoading] = useState(true);
+
+    // 2 sec delay
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 150);
+
+        return () => clearTimeout(timer);
+    }, []);
+
+    //loader
     const [style, setStyle] = useState('product');
+    if (loading ) {
+        return (
+            <div className="s1-fbt-preview-loader">
+                <div className="s1-spinner"></div>
+            </div>
+        );
+    }
+
     return (
         <div className="s1-preview-wrap">
             {/* ================= STYLE TABS ================= */}

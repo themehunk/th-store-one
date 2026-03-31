@@ -20,7 +20,7 @@ class Th_StoreOne_Quick_Social {
         $this->rules = $all_modules['quick-social']['rules'] ?? array();
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
         add_action( 'wp_footer', array( $this, 'render_auto' ), 99 );
-        add_shortcode( 'storeone_quick_social', array( $this, 'shortcode' ) );
+        add_shortcode( 'th_store_one_quick_social', array( $this, 'shortcode' ) );
         add_action( 'wp', array( $this, 'register_single_hooks' ) );
         
     }
@@ -100,9 +100,22 @@ class Th_StoreOne_Quick_Social {
                 $url  = $this->build_dynamic_url( $data );
                 if ( empty( $url ) ) continue;
 
+                // $label = ! empty( $data['custom_label'] )
+                //     ? $data['custom_label']
+                //     : ucfirst( $data['selected_icon'] ?? '' );
+                $icon = strtolower( $data['selected_icon'] ?? '' );
+
+                /* default label */
+                $default_label = ucfirst( $icon );
+
+                /* override cases */
+                if ( $icon === 'twitter' ) {
+                    $default_label = 'X';
+                }
+
                 $label = ! empty( $data['custom_label'] )
                     ? $data['custom_label']
-                    : ucfirst( $data['selected_icon'] ?? '' );
+                    : $default_label;
             ?>
             <?php
             $brand_style = '';
@@ -363,6 +376,9 @@ echo wp_kses(
 
     $encoded_url  = urlencode( $page_url );
     $share_text   = ! empty( $data['share_text'] ) ? $data['share_text'] : $page_title;
+    /* ===== REPLACE PLACEHOLDERS ===== */
+    $share_text = str_replace('[TITLE]', $page_title, $share_text);
+    $share_text = str_replace('{TITLE}', $page_title, $share_text);
     $encoded_text = urlencode( $share_text );
 
     switch ( $platform ) {
@@ -555,16 +571,17 @@ private function get_brand_style( $icon ) {
                     continue;
                 }
 
-                $placement = $rule['placement'] ?? '';
+                $placement = $rule['placement'] ?? 'after_summary';
+        $priority  = isset( $rule['priority'] ) ? absint( $rule['priority'] ) : 10;
 
-                $hook = th_store_one_get_hook_from_placement( $placement );
+        $hook = th_store_one_get_hook_from_placement( $placement );
 
                 add_action(
                     $hook,
                     function() use ( $rule ) {
                         $this->generate_output( $rule['flexible_id'] );
                     },
-                    10
+                    $priority
                 );
             }
     }

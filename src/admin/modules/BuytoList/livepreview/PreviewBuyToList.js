@@ -7,7 +7,7 @@ import './live-style.css';
 import { __ } from '@wordpress/i18n';
 
 const PreviewBuyToList = ({ settings = {} }) => {
-    const style = settings?.buy_to_list_style;
+    const style = settings?.buy_to_list_style || 'style_1';
 
     //Tab click → Design SelectControl change
     const changeStyle = (value) => {

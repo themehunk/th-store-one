@@ -27,6 +27,7 @@ const bundleItems = [
     },
 ];
 const BundleSection = ({ productSettings }) => {
+
     const productUrl = '#';
     return (
     <div className="storeone-bundle-frontend">

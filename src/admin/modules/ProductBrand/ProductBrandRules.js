@@ -673,7 +673,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                           <div className="s1-shortcode-wrapper">
                             <textarea
                               readOnly
-                              value={`[storeone_product_brand id="${rule.flexible_id}"]`}
+                              value={`[th_store_one_product_brand id="${rule.flexible_id}"]`}
                               className="s1-shortcode-textarea"
                             />
 
@@ -682,7 +682,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                               className="s1-shortcode-copy"
                               onClick={() => {
                                 navigator.clipboard.writeText(
-                                  `[storeone_product_brand id="${rule.flexible_id}"]`,
+                                  `[th_store_one_product_brand id="${rule.flexible_id}"]`,
                                 );
                               }}
                             >

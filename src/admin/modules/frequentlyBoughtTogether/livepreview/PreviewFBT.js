@@ -3,9 +3,30 @@ import Style2 from "./Style2";
 import Style3 from "./Style3";
 import './live-style.css';
 import { __ } from '@wordpress/i18n';
+import { useState ,useEffect} from '@wordpress/element';
 
 const PreviewFBT = ({ settings = {} }) => {
-    const style = settings?.display_style;
+    const style = settings?.display_style || 'style_1';
+
+    const [loading, setLoading] = useState(true);
+    
+        // 2 sec delay
+        useEffect(() => {
+            const timer = setTimeout(() => {
+                setLoading(false);
+            }, 150);
+    
+            return () => clearTimeout(timer);
+        }, []);
+    
+        //loader
+        if (loading ) {
+            return (
+                <div className="s1-fbt-preview-loader">
+                    <div className="s1-spinner"></div>
+                </div>
+            );
+        }
 
     //Tab click → Design SelectControl change
     const changeStyle = (value) => {

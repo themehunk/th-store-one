@@ -24,7 +24,9 @@ export default function FrequentlyBoughtSettings({
 
     /* notify parent on change */
     useEffect(() => {
+    if (rules.length > 0) {
         onSettingsChange?.({ rules });
+    }
     }, [rules]);
 
     /* load settings */
@@ -37,10 +39,13 @@ export default function FrequentlyBoughtSettings({
             method: 'GET',
         })
             .then((res) => {
-                const s = res?.settings || {};
-                if (Array.isArray(s.rules)) {
-                    setRules(s.rules);
-                }
+            const s = res?.settings || {};
+
+            if (Array.isArray(s.rules) && s.rules.length > 0) {
+                setRules(s.rules);
+            } else {
+                setRules([newFBTRule()]);
+            }
             })
             .catch(() => setError(__('Failed to load settings.', 'th-store-one')))
             .finally(() => setLoading(false));

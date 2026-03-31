@@ -231,16 +231,6 @@ export default function FrequentlyBoughtRulesEditor({
   };
 
   useEffect(() => {
-    if (rules.length === 0) {
-      updateAll([newFBTRule()]);
-    } else {
-      const arr = [...rules];
-      arr[0].open = true;
-      updateAll(arr);
-    }
-  }, []);
-
-  useEffect(() => {
     const handler = (e) => {
       const { style } = e.detail;
       if (!style) return;
@@ -259,6 +249,21 @@ export default function FrequentlyBoughtRulesEditor({
     return () =>
       window.removeEventListener("storeone:changeDisplayStyle", handler);
   }, [rules]);
+
+
+  const hasInitialized = useRef(false);
+
+  useEffect(() => {
+    if (hasInitialized.current) return;
+
+    if (rules.length > 0) {
+      const arr = [...rules];
+      arr[0].open = true;
+      updateAll(arr);
+    }
+
+    hasInitialized.current = true;
+  }, []);
 
   return (
     <div className="store-one-rules-container">

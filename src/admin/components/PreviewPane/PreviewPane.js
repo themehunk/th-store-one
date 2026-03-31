@@ -35,38 +35,38 @@ const PreviewPane = ({ currentModule, settings }) => {
 
                             {currentModule?.id === "frequently-bought" && activeRule && (
                                 <PreviewFBT
-                                    key={(activeRule.flexible_id || 'rule') + (activeRule.display_style || '')}
+                                     key={currentModule.id}
                                     settings={activeRule}
                                 />
                             )}
-
                             {currentModule?.id === "bundle-product" && activeRule && (
                                 <PreviewBndl
-                                    key={(activeRule.flexible_id || 'rule') + (activeRule.bundle_style || '')}
+                                    key={currentModule.id}
                                     settings={settings}
                                 />
                             )}
+                            
                             {currentModule?.id === "buy-to-list" && activeRule && (
                                 <PreviewBuyToList
-                                    key={(activeRule.flexible_id || 'rule') + (activeRule.buy_to_list_style || '')}
+                                    key={currentModule.id}
                                     settings={activeRule}
                                 />
                             )}
                             {currentModule?.id === "quick-social" && activeRule && (
                                  <PreviewQuickSocial
-                                    key={(activeRule.flexible_id || 'rule') + (activeRule.social_style || '')}
+                                     key={currentModule.id}
                                     settings={activeRule}
                                 />
                             )}
                              {currentModule?.id === "product-brand" && activeRule && (
                                 <ProductBrand
-                                    key={(activeRule.flexible_id || 'rule') + (activeRule.brand_style || '')}
+                                     key={currentModule.id}
                                     settings={activeRule}
                                 />
                             )}
                             {currentModule?.id === "trust-badges" && activeRule && (
                                 <TrustBadges
-                                    key={(activeRule.flexible_id || 'rule') + (activeRule.brand_style || '')}
+                                     key={currentModule.id}
                                     settings={activeRule}
                                 />
                             )}
@@ -75,6 +75,7 @@ const PreviewPane = ({ currentModule, settings }) => {
                                     key={(activeRule.flexible_id || 'rule') + (activeRule.bundle_style || '')}
                                     settings={settings}
                                 />
+                                // key={(activeRule.flexible_id || 'rule') + (activeRule.bundle_style || '')}
                             )}
                         </div>
                     </div>

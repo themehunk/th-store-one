@@ -278,7 +278,7 @@ const modulesList = [
   },
 ];
 const AdminMain = () => {
-  const [livePreviewSettings, setLivePreviewSettings] = useState(null);
+  const [livePreviewSettings, setLivePreviewSettings] = useState({});
 
   const [moduleSettings, setModuleSettings] = useState({});
   const [loading, setLoading] = useState(true);
@@ -609,7 +609,12 @@ const AdminMain = () => {
               {/*FIXED CLASS HERE */}
               <div className="s1-settings-layout">
                 <ModuleSettings
-                  onLivePreview={(rule) => setLivePreviewSettings(rule)}
+                  onLivePreview={(rule) =>
+                    setLivePreviewSettings(prev => ({
+                      ...prev,
+                      [currentModule.id]: rule
+                    }))
+                  }
                   currentModule={currentModule}
                   modulesState={modulesState}
                   onToggleModule={handleToggleModule}
@@ -651,8 +656,9 @@ const AdminMain = () => {
                     <PreviewPane
                       currentModule={currentModule}
                       settings={
-                        livePreviewSettings ||
-                        moduleSettings[currentModule.id]?.rules?.[0]
+                        livePreviewSettings[currentModule.id] ||
+                        moduleSettings[currentModule.id]?.rules?.[0] ||
+                        moduleSettings[currentModule.id]
                       }
                     />
                   )}
@@ -661,7 +667,9 @@ const AdminMain = () => {
                     <PreviewPane
                       currentModule={currentModule}
                       settings={
-                        livePreviewSettings || moduleSettings[currentModule.id]
+                        livePreviewSettings[currentModule.id] ||
+                        moduleSettings[currentModule.id]?.rules?.[0] ||
+                        moduleSettings[currentModule.id]
                       }
                     />
                   )}
@@ -670,8 +678,9 @@ const AdminMain = () => {
                     <PreviewPane
                       currentModule={currentModule}
                       settings={
-                        livePreviewSettings ||
-                        moduleSettings[currentModule.id]?.rules?.[0]
+                        livePreviewSettings[currentModule.id] ||
+                        moduleSettings[currentModule.id]?.rules?.[0] ||
+                        moduleSettings[currentModule.id]
                       }
                     />
                   )}
@@ -679,7 +688,9 @@ const AdminMain = () => {
                     <PreviewPane
                       currentModule={currentModule}
                       settings={
-                        livePreviewSettings || moduleSettings[currentModule.id]
+                        livePreviewSettings[currentModule.id] ||
+                        moduleSettings[currentModule.id]?.rules?.[0] ||
+                        moduleSettings[currentModule.id]
                       }
                     />
                   )}
@@ -687,8 +698,9 @@ const AdminMain = () => {
                     <PreviewPane
                       currentModule={currentModule}
                       settings={
-                        livePreviewSettings ||
-                        moduleSettings[currentModule.id]?.rules?.[0]
+                        livePreviewSettings[currentModule.id] ||
+                        moduleSettings[currentModule.id]?.rules?.[0] ||
+                        moduleSettings[currentModule.id]
                       }
                     />
                   )}
@@ -696,8 +708,9 @@ const AdminMain = () => {
                     <PreviewPane
                       currentModule={currentModule}
                       settings={
-                        livePreviewSettings ||
-                        moduleSettings[currentModule.id]?.rules?.[0]
+                        livePreviewSettings[currentModule.id] ||
+                        moduleSettings[currentModule.id]?.rules?.[0] ||
+                        moduleSettings[currentModule.id]
                       }
                     />
                   )}
@@ -705,8 +718,9 @@ const AdminMain = () => {
                     <PreviewPane
                       currentModule={currentModule}
                       settings={
-                        livePreviewSettings ||
-                        moduleSettings[currentModule.id]?.rules?.[0]
+                        livePreviewSettings[currentModule.id] ||
+                        moduleSettings[currentModule.id]?.rules?.[0] ||
+                        moduleSettings[currentModule.id]
                       }
                     />
                   )}
