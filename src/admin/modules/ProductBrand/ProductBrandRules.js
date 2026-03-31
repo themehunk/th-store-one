@@ -143,8 +143,8 @@ function SortableWrapper({ items, onSortEnd, children }) {
 export default function BuytoListRules({ rules, onChange, onLivePreview }) {
   const menuItems = [
     { id: "settings", label: "Settings", icon: "SETTINGS" },
-    { id: "design", label: "Design", icon: "DESIGN" },
     { id: "display", label: "Display Page", icon: "DISPLAY" },
+    { id: "design", label: "Design", icon: "DESIGN" },
   ];
 
   const updateAll = (arr) => onChange([...arr]);
@@ -745,11 +745,30 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                       </div>
                     ),
                   },
-
-                  {
+                    {
                     id: menuItems[1].id,
                     label: menuItems[1].label,
                     icon: ICONS[menuItems[1].icon],
+                    content: (
+                      <div className="store-one-rule-body">
+                        <PlacementPriorityControl
+                          placement={rule.placement}
+                          priority={rule.priority}
+                          onPlacementChange={(v) =>
+                            updateField(index, "placement", v)
+                          }
+                          onPriorityChange={(v) =>
+                            updateField(index, "priority", v)
+                          }
+                        />
+                      </div>
+                    ),
+                  },
+
+                  {
+                    id: menuItems[2].id,
+                    label: menuItems[2].label,
+                    icon: ICONS[menuItems[2].icon],
                     content: (
                       <div className="store-one-rule-body">
                        
@@ -818,25 +837,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                       </div>
                     ),
                   },
-                  {
-                    id: menuItems[2].id,
-                    label: menuItems[2].label,
-                    icon: ICONS[menuItems[2].icon],
-                    content: (
-                      <div className="store-one-rule-body">
-                        <PlacementPriorityControl
-                          placement={rule.placement}
-                          priority={rule.priority}
-                          onPlacementChange={(v) =>
-                            updateField(index, "placement", v)
-                          }
-                          onPriorityChange={(v) =>
-                            updateField(index, "priority", v)
-                          }
-                        />
-                      </div>
-                    ),
-                  },
+                
                 ]}
               />
             )}

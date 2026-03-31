@@ -180,7 +180,7 @@ const modulesList = [
     id: "product-brand",
     label: __("Trust Badges", "th-store-one"),
     description: __(
-      "Assign and display Trust Badges to organize items, improve filtering options, and help customers quickly identify trusted manufacturers.",
+      "Display trust badges on your store to build customer confidence and increase conversions.",
       "th-store-one",
     ),
     icon: (
@@ -215,7 +215,7 @@ const modulesList = [
     id: "trust-badges",
     label: __("Badge Management", "th-store-one"),
     description: __(
-      "Display Badge Management like secure checkout, money-back guarantee, and verified payment icons to increase customer confidence and improve conversions.",
+      "Easily create, customize, and manage badges across your store with full control.",
       "th-store-one",
     ),
     icon: (
