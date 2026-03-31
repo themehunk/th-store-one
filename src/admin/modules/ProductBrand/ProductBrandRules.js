@@ -25,7 +25,7 @@ import {
 import { S1Field, S1FieldGroup } from "@th-storeone-global/S1Field";
 import { ICONS } from "@th-storeone-global/icons";
 import ResetModuleButton from "@th-storeone-global/ResetModuleButton";
-
+import PresetImageSelector from "./PresetImageSelector.js";
 /* Default Rule */
 const newBrlistTRule = () => ({
   status: "active",
@@ -42,6 +42,7 @@ const newBrlistTRule = () => ({
       link_enabled: false,
       link_url: "https://example.com",
       open: true,
+      badegs_type: "preset",
       image_url: "",
     },
   ],
@@ -272,6 +273,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
     media.open();
   };
 
+  const [presetModalOpen, setPresetModalOpen] = useState(false);
   return (
     <div className="store-one-rules-container">
       <h3 className="store-one-section-title">
@@ -535,6 +537,25 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
 
                                 {item.open && (
                                   <div className="store-one-rule-body">
+
+                                    <S1Field label={__("Choose Badges", "th-store-one")}>
+                                    <SelectControl
+                                      value={item.badegs_type || "preset"}
+                                      options={[
+                                        {
+                                          label: __("Preset", "th-store-one"),
+                                          value: "preset",
+                                        },
+                                        {
+                                          label: __("Custom", "th-store-one"),
+                                          value: "custom",
+                                        },
+                                      ]}
+                                      onChange={(v) => updateBuyItemField(index,i, "badegs_type", v)}
+                                    />
+                                  </S1Field>
+
+                                  {item.badegs_type === "custom" && (
                                     <S1Field label="Upload Image">
                                       <div className="s1-image-upload-wrapper">
                                         {item.image_url ? (
@@ -615,6 +636,20 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                                         )}
                                       </div>
                                     </S1Field>
+                                  )}
+
+                                    {item.badegs_type === "preset" && (
+                                    
+                                    <S1Field label="Trust Badge">
+                                    <PresetImageSelector
+                                        value={item.image_url}
+                                        onChange={(url) =>
+                                            updateBuyItemField(index, i, "image_url", url)
+                                        }
+                                    />
+                                    </S1Field>
+      
+                                    )}
 
                                     <S1Field
                                       label={__("Enable Link", "th-store-one")}
