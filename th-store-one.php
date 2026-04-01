@@ -52,6 +52,7 @@ add_action(
 	     require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/quick-social/class-frontend.php';
 		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/product-brand/class-frontend.php';
 		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/trust-badges/class-frontend.php';
+		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/product-video/th-store-one-class-frontend.php';
 		if ( class_exists( 'Th_StoreOne_Buy_To_List_Frontend' ) ) {
 			new Th_StoreOne_Buy_To_List_Frontend();
 		}
@@ -63,6 +64,9 @@ add_action(
 		}
 		if ( class_exists( 'Th_StoreOne_Trust_Badges_Frontend' ) ) {
 			new Th_StoreOne_Trust_Badges_Frontend();
+		}
+		if ( class_exists( 'TH_Store_One_Product_Video_Frontend' ) ) {
+			new TH_Store_One_Product_Video_Frontend();
 		}
 	}
 );

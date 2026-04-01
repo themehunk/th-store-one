@@ -33,6 +33,8 @@ class Th_Store_One {
 		if ( is_admin() ) {
 			require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/admin/class-store-one-admin.php';
 			new Th_Store_One_Admin();
+			require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/product-video/product-video-admin.php';
+			new TH_Store_One_Product_Video_Admin();
 		}
 		// Modules manager (option + REST).
 		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/admin/class-store-one-modules.php';
