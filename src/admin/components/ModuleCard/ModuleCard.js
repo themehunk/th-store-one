@@ -28,7 +28,7 @@ const ModuleCard = ({ mod, modulesState, setActiveModule, licenseActive  }) => {
                     </span>
                     <span className={`s1-module-card__pro ${isPremium ? 'is-premium' : 'is-free'}`}>
                         {isPremium
-                            ? __('Premium', 'th-store-one')
+                            ? __('PRO', 'th-store-one')
                             : __('Free', 'th-store-one')
                         }
                     </span>

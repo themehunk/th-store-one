@@ -284,18 +284,21 @@ display: flex;
     padding: 6px 14px !important;
 }
 .s1-module-card__pro.is-premium{
-display:inline-flex;
-align-items:center;
-gap:4px;
-font-size:11px;
-font-weight:600;
-padding:4px 8px;
-border-radius:20px;
-background:linear-gradient(135deg,#f59e0b,#f97316);
-color:#fff;
-letter-spacing:.2px;
-box-shadow:0 2px 6px rgba(249,115,22,0.25);
-transition:all .2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 6px;
+    color: #fff;
+    letter-spacing: 0.2px;
+    transition: all 0.2s ease;
+    background-image: linear-gradient(to right, #ff3131, #ffbfc3);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    border: 1px solid #ffbfc3;;
 }
 .s1-header__active{
 display:inline-flex;
@@ -2195,18 +2198,16 @@ button.s1-settings__redirect-btn{
 }
 .s1-license-required-badge{
     border-radius:20px;
-background:linear-gradient(135deg,#f59e0b,#f97316);
-color:#fff;
-letter-spacing:.2px;
-box-shadow:0 2px 6px rgba(249,115,22,0.25);
-transition:all .2s ease;
-   
-    font-size:11px;
-    font-weight:600;
-    padding:3px 8px;
-    border-radius:4px;
-   display:inline-block;
-   margin:0.5rem 0;
+    // background: linear-gradient(170deg, #ff3131, #fe6a70ab);
+    color:#fff;
+    transition:all .2s ease;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 6px;
+    display:inline-block;
+    margin:0.5rem 0;
+    background: var(--s1-color-primary-dark);
 }
 
 // licence ui style

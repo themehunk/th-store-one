@@ -82,7 +82,7 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                     <FlexBlock className="s1-settings__info">
                         <h2 className="s1-settings__title">{currentModule.label}</h2>{isLocked && (
             <span className="s1-license-required-badge">
-                {__("License Required", "store-one")}
+                {__("Buy Pro", "th-store-one")}
             </span>
         )}
                         <p className="s1-settings__desc">{currentModule.description}</p>
