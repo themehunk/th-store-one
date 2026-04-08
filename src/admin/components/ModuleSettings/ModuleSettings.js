@@ -107,7 +107,7 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                          className="s1-settings__redirect-btn"
                                         onClick={() =>
                                             window.open(
-                                            `${th_StoreOneAdmin.adminUrl}post-new.php?post_type=product`,
+                                            `${th_StoreOneAdmin.adminUrl}edit.php?post_type=product`,
                                             "_blank"
                                             )
                                         }

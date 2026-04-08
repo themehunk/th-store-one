@@ -110,7 +110,7 @@
 .th-video-play svg {
     width: 30px;
     height: 30px;
-    fill: #fff;
+    
 }
 .th-has-video .woocommerce-LoopProduct-link::before {
     display: none !important;

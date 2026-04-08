@@ -69,7 +69,7 @@ class Th_Store_One_Admin {
 			'th-store-one-admin',
 			TH_STORE_ONE_PLUGIN_URL . $css_path,
 			array(),
-			$css_ver
+			'$css_ver'
 		);
 
 		wp_register_style(

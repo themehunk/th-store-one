@@ -1,3 +1,6 @@
+.wp-theme-storefront #wpcontent,.theme-storefront #wpcontent{
+    padding-left:0;
+}
 #adminmenu .storeone-upgrade-btn {
    background: linear-gradient(135deg, #f59e0b, #f97316);
     color: #fff;

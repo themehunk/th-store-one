@@ -12,3 +12,6 @@ transition:all .2s ease;
     padding-top:10px!important;
     padding-bottom:10px!important;
 }
+.wp-theme-storefront #wpcontent,.theme-storefront #wpcontent{
+    padding-left:0;
+}
