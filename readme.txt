@@ -1,10 +1,10 @@
 === TH Store One ===
 Contributors: ThemeHunk
 Author URI: : https://www.themehunk.com/
-Tags: product , quick social,product brand
+Tags: trust badges, quick social, badge management
 Requires at least: 5.5 
 Tested up to: 6.9
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 Requires PHP: 7.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -34,8 +34,10 @@ We are continuously improving the plugin with new features and enhancements.
 ### Pro Features:-
 
 * Frequently bought together
-* Bundle products
+Suggest related products that are commonly purchased together to increase average order value and improve the shopping experience.
 
+* Bundle products
+Group multiple products into a single bundle, allowing customers to purchase them together easily, often with added convenience or value.
 
 ### Theme Compatibility:-
 
@@ -105,6 +107,10 @@ It is compatible with all [ThemeHunk themes](https://themehunk.com/free-themes/)
 Yes, the plugin is translation-ready and supports multiple languages.
 
 == Changelog ==
+
+= 1.0.2 =
+Fix: Resolved license and security issues.
+Fix: Corrected prefix issue.
 
 = 1.0.1 =
 Fix: Slug and permission issue fixed.
