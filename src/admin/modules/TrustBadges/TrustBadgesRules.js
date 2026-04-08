@@ -239,22 +239,22 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
     {
       id: "last_minitue",
       type: "image",
-      url: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/last_miniute.svg`,
+      url: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/badgesM/last_miniute.svg`,
     },
     {
       id: "buy_free",
       type: "image",
-      url: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/buy_free.svg`,
+      url: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/badgesM/buy_free.svg`,
     },
     {
       id: "buy_get_blue",
       type: "image",
-      url: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/buy_get_blue.svg`,
+      url: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/badgesM/buy_get_blue.svg`,
     },
     {
       id: "christmas",
       type: "image",
-      url: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/christmas.svg`,
+      url: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/badgesM/christmas.svg`,
     },
     
   ];
@@ -264,31 +264,31 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
       id: "new",
       label: "New",
       preview:
-        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/new.svg`,
+        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/badgesM/new.svg`,
     },
     {
       id: "sale",
       label: "Sale",
       preview:
-        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/sale1.svg`,
+        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/badgesM/sale1.svg`,
     },
     {
       id: "newsale",
       label: "NewSale",
       preview:
-        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/newsale.svg`,
+        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/badgesM/newsale.svg`,
     },
     {
       id: "sale_badge_pink",
       label: "sale_badge_pink",
       preview:
-        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/sale_badge_pink.svg`,
+        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/badgesM/sale_badge_pink.svg`,
     },
     {
       id: "saletxt",
       label: "saletxt",
       preview:
-        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/sale.svg`,
+        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/badgesM/sale.svg`,
     },
     
   ];
@@ -298,50 +298,50 @@ export default function TrustBadgesRules({ rules, onChange, onLivePreview }) {
       id: "one",
       label: "One",
       preview:
-        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/circle1.svg`,
+        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/badgesM/circle1.svg`,
     },
     {
       id: "two",
       label: "Two",
       preview:
-        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/circle2.svg`,
+        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/badgesM/circle2.svg`,
     },
     {
       id: "four",
       label: "Four",
       preview:
-        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/cornerribbon.svg`,
+        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/badgesM/cornerribbon.svg`,
     },
     {
       id: "five",
       label: "Five",
       preview:
-        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/lastmint.svg`,
+        `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/badgesM/lastmint.svg`,
     },
     {
       id: "daimond",
       label: "daimond",
-      preview: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/daimond.svg`,
+      preview: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/badgesM/daimond.svg`,
     },
     {
       id: "circle",
       label: "cirlce",
-      preview: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/circle.svg`,
+      preview: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/badgesM/circle.svg`,
     },
     {
       id: "simplecircle",
       label: "simplecircle",
-      preview: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/simplecircle.svg`,
+      preview: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/badgesM/simplecircle.svg`,
     },
     {
       id: "simplenew",
       label: "simplenew",
-      preview: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/simplenew.svg`,
+      preview: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/badgesM/simplenew.svg`,
     },
     {
       id: "simpleaval",
       label: "simpleaval",
-      preview: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/simpleavl.svg`,
+      preview: `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/badgesM/simpleavl.svg`,
     },
   ];
 

@@ -1,0 +1,29 @@
+<svg width="150" height="120" viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Yellow/Orange top-right tab -->
+  <rect x="110" y="0" width="60" height="22" rx="4" fill="#EF9F27"/>
+
+  <!-- Main Navy rectangle -->
+  <rect x="0" y="18" width="170" height="110" rx="6" fill="#0C447C"/>
+
+  <!-- Folded corner bottom-right -->
+  <polygon points="170,128 150,128 170,108" fill="#042C53"/>
+
+  <!-- Clock outer ring (orange) -->
+  <circle cx="30" cy="18" r="26" fill="#EF9F27"/>
+  <!-- Clock face (white) -->
+  <circle cx="30" cy="18" r="22" fill="white"/>
+  <!-- Clock center dot -->
+  <circle cx="30" cy="18" r="3" fill="#333"/>
+  <!-- Clock hands -->
+  <line x1="30" y1="18" x2="30" y2="5"  stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="30" y1="18" x2="41" y2="22" stroke="#333" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Clock center pin -->
+  <circle cx="30" cy="18" r="2" fill="#0C447C"/>
+
+  <!-- Text -->
+  <text x="90" y="62"  text-anchor="middle" font-family="Arial Black,Arial" font-weight="900" font-size="22" fill="white"   letter-spacing="1">LAST</text>
+  <text x="90" y="90"  text-anchor="middle" font-family="Arial Black,Arial" font-weight="900" font-size="22" fill="white"   letter-spacing="1">MINUTE</text>
+  <text x="90" y="118" text-anchor="middle" font-family="Arial Black,Arial" font-weight="900" font-size="22" fill="#EF9F27" letter-spacing="1">OFFER!</text>
+
+</svg>

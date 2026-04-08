@@ -14,7 +14,9 @@ import TabSwitcher from "@th-storeone-global/TabSwitcher";
 import THBackgroundControl from "@th-storeone-control/color";
 import UniversalRangeControl from "@th-storeone-global/UniversalRangeControl";
 import PlacementPriorityControl from "@th-storeone-global/PlacementPriorityControl";
+import SliderControl from "@th-storeone-global/SliderControl";
 
+import UniversalBorderControl from "@th-storeone-control/UniversalBorderControl";
 import {
   CopyIcon,
   TrashIcon,
@@ -25,8 +27,9 @@ import {
 import { S1Field, S1FieldGroup } from "@th-storeone-global/S1Field";
 import { ICONS } from "@th-storeone-global/icons";
 import ResetModuleButton from "@th-storeone-global/ResetModuleButton";
-
+import PresetImageSelector from "./PresetImageSelector.js";
 /* Default Rule */
+const DEFAULT_BADGE = `${th_StoreOneAdmin.homeUrl}wp-content/plugins/th-store-one/assets/images/trustbadges/visa.svg`;
 const newBrlistTRule = () => ({
   status: "active",
   list_title: "",
@@ -42,9 +45,17 @@ const newBrlistTRule = () => ({
       link_enabled: false,
       link_url: "https://example.com",
       open: true,
-      image_url: "",
+      badegs_type: "preset",
+      image_url: DEFAULT_BADGE,
     },
   ],
+  slider: {
+  enabled: false,
+  slides: 4,
+  autoplay: false,
+  navigation: true,
+  },
+  black_image_enabled: false,
   placement: "after_summary",
   priority: 10,
   margin_top: "10",
@@ -77,6 +88,22 @@ const newBrlistTRule = () => ({
   btl_icon_bg_clr: "#fff",
   btl_icon_clr: "#2563eb",
   btl_bg_clr: "#fff",
+  border: {
+      width: {
+        top: "1px",
+        right: "1px",
+        bottom: "1px",
+        left: "1px",
+      },
+      style: "solid",
+      color: "#eee",
+      radius: {
+        top: "4px",
+        right: "4px",
+        bottom: "4px",
+        left: "4px",
+      },
+    },
 });
 
 /** menu tabs */
@@ -125,8 +152,8 @@ function SortableWrapper({ items, onSortEnd, children }) {
 export default function BuytoListRules({ rules, onChange, onLivePreview }) {
   const menuItems = [
     { id: "settings", label: "Settings", icon: "SETTINGS" },
-    { id: "design", label: "Design", icon: "DESIGN" },
     { id: "display", label: "Display Page", icon: "DISPLAY" },
+    { id: "design", label: "Design", icon: "DESIGN" },
   ];
 
   const updateAll = (arr) => onChange([...arr]);
@@ -272,6 +299,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
     media.open();
   };
 
+  const [presetModalOpen, setPresetModalOpen] = useState(false);
   return (
     <div className="store-one-rules-container">
       <h3 className="store-one-section-title">
@@ -535,6 +563,25 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
 
                                 {item.open && (
                                   <div className="store-one-rule-body">
+
+                                    <S1Field label={__("Choose Badges", "th-store-one")}>
+                                    <SelectControl
+                                      value={item.badegs_type || "preset"}
+                                      options={[
+                                        {
+                                          label: __("Preset", "th-store-one"),
+                                          value: "preset",
+                                        },
+                                        {
+                                          label: __("Custom", "th-store-one"),
+                                          value: "custom",
+                                        },
+                                      ]}
+                                      onChange={(v) => updateBuyItemField(index,i, "badegs_type", v)}
+                                    />
+                                  </S1Field>
+
+                                  {item.badegs_type === "custom" && (
                                     <S1Field label="Upload Image">
                                       <div className="s1-image-upload-wrapper">
                                         {item.image_url ? (
@@ -615,6 +662,20 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                                         )}
                                       </div>
                                     </S1Field>
+                                  )}
+
+                                    {(item.badegs_type || "preset") === "preset" && (
+                                    
+                                    <S1Field label="Trust Badge">
+                                    <PresetImageSelector
+                                        value={item.image_url}
+                                        onChange={(url) =>
+                                            updateBuyItemField(index, i, "image_url", url)
+                                        }
+                                    />
+                                    </S1Field>
+      
+                                    )}
 
                                     <S1Field
                                       label={__("Enable Link", "th-store-one")}
@@ -693,11 +754,50 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                       </div>
                     ),
                   },
-
-                  {
+                    {
                     id: menuItems[1].id,
                     label: menuItems[1].label,
                     icon: ICONS[menuItems[1].icon],
+                    content: (
+                      <div className="store-one-rule-body">
+
+                        <SliderControl
+                            value={rule.slider || {}}
+                            onChange={(val) => updateField(index, "slider", val)}
+
+                            labels={{
+                                enable: __("Display Trust in Slider", "th-store-one"),
+                                slides: __("Slides to Show", "th-store-one"),
+                                autoplay: __("Auto Play", "th-store-one"),
+                                navigation: __("Show Navigation", "th-store-one"),
+                            }}
+
+                            fields={{
+                                enable: true,
+                                slides: true,
+                                autoplay: true,
+                                navigation: true,
+                            }}
+                        />
+                       
+                        <PlacementPriorityControl
+                          placement={rule.placement}
+                          priority={rule.priority}
+                          onPlacementChange={(v) =>
+                            updateField(index, "placement", v)
+                          }
+                          onPriorityChange={(v) =>
+                            updateField(index, "priority", v)
+                          }
+                        />
+                      </div>
+                    ),
+                  },
+
+                  {
+                    id: menuItems[2].id,
+                    label: menuItems[2].label,
+                    icon: ICONS[menuItems[2].icon],
                     content: (
                       <div className="store-one-rule-body">
                        
@@ -734,6 +834,13 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                           max={100}
                         />
 
+                        <S1Field label={__("EnableBlack/White Images", "th-store-one")}>
+                          <ToggleControl
+                              checked={rule.black_image_enabled}
+                              onChange={(v) => updateField(index, "black_image_enabled", v)}
+                          />
+                      </S1Field>
+
                         <S1Field>
                           <THBackgroundControl
                             allowGradient={true}
@@ -758,28 +865,15 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                             }}
                           />
                         </S1Field>
-                      </div>
-                    ),
-                  },
-                  {
-                    id: menuItems[2].id,
-                    label: menuItems[2].label,
-                    icon: ICONS[menuItems[2].icon],
-                    content: (
-                      <div className="store-one-rule-body">
-                        <PlacementPriorityControl
-                          placement={rule.placement}
-                          priority={rule.priority}
-                          onPlacementChange={(v) =>
-                            updateField(index, "placement", v)
-                          }
-                          onPriorityChange={(v) =>
-                            updateField(index, "priority", v)
-                          }
+
+                        <UniversalBorderControl
+                          value={rule.border}
+                          onChange={(v) => updateField(index, "border", v)}
                         />
                       </div>
                     ),
                   },
+                
                 ]}
               />
             )}

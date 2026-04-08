@@ -1,0 +1,176 @@
+
+/* Slide container fix */
+.woocommerce-product-gallery__image.th-video-slide{
+    position: relative;
+    overflow: hidden;
+    background: #000;
+}
+
+/* Remove any gap */
+.th-video-slide iframe,
+.th-video-slide video{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    border: 0 !important;
+    display: block;
+}
+
+/* Remove inline spacing issue */
+.th-video-slide iframe{
+    vertical-align: top;
+}
+
+/* Prevent white edges */
+.th-video-slide{
+    line-height: 0;
+    font-size: 0;
+}
+
+/* Fix flexslider weird spacing */
+.flex-viewport{
+    overflow: hidden !important;
+}
+.th-video-thumb-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    z-index: 10;
+    pointer-events: none;
+}
+/* Default */
+.th-aspect-default{
+    aspect-ratio: 1/1;
+}
+
+.th-aspect-1-1{ aspect-ratio: 1/1; }
+.th-aspect-16-9{ aspect-ratio: 16/9; }
+.th-aspect-9-16{ aspect-ratio: 9/16; }
+.th-aspect-4-3{ aspect-ratio: 4/3; }
+.th-aspect-3-2{ aspect-ratio: 3/2; }
+.th-aspect-auto{ aspect-ratio: auto; }
+.th-aspect-default{ aspect-ratio: 16/9; }
+
+/* Important for video/image fit */
+.woocommerce-product-gallery__image.th-video-slide{
+    overflow: hidden;
+    position: relative;
+    background: #fff;
+}
+
+.woocommerce-product-gallery__image.th-video-slide img,
+.woocommerce-product-gallery__image.th-video-slide iframe,
+.woocommerce-product-gallery__image.th-video-slide video{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* video shop page  */
+.th-video-wrap {
+    position: relative;
+}
+.th-loop-video{
+    margin-bottom:1rem;
+}
+.th-video-wrap video {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.th-video-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.th-video-play svg {
+    width: 30px;
+    height: 30px;
+    fill: #fff;
+}
+.th-has-video .woocommerce-LoopProduct-link::before {
+    display: none !important;
+}
+
+.th-video-play {
+    z-index: 9999;
+}
+
+.th-video-wrap {
+    z-index: 10;
+}
+.th-video-play:hover{
+    cursor:poinet;
+}
+
+
+/* 1. Thumbnails ko Square (1:1) banane ke liye */
+.flex-control-thumbs li {
+    aspect-ratio: 1 / 1; /* Force Square Ratio */
+    overflow: hidden;
+    position: relative;
+}
+
+.flex-control-thumbs li img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover; 
+}
+
+
+.th-video-thumb-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.th-video-slide img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+.th-loop-video iframe,
+.th-loop-video video{
+    border: 0 !important;
+    display: block;
+}
+.th-loop-video {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+/* KEY FIX */
+.th-loop-video iframe,
+.th-loop-video video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

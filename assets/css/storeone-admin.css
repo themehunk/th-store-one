@@ -1,0 +1,14 @@
+#adminmenu .storeone-upgrade-btn {
+   background: linear-gradient(135deg, #f59e0b, #f97316);
+    color: #fff;
+    padding:0.3rem 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing:.2px;
+box-shadow:0 2px 6px rgba(249,115,22,0.25);
+transition:all .2s ease;
+}
+#toplevel_page_th-store-one .wp-submenu-wrap li a{
+    padding-top:10px!important;
+    padding-bottom:10px!important;
+}

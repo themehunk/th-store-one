@@ -1,10 +1,15 @@
 import { Card, CardHeader, CardBody } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import PreviewFBT from '../../modules/frequentlyBoughtTogether/livepreview/PreviewFBT';
+import PreviewBndl from '../../modules/BundleProductSetting/livepreview/PreviewBndl';
 import PreviewBuyToList from '../../modules/BuytoList/livepreview/PreviewBuyToList';
 import PreviewQuickSocial from '../../modules/QuickSocial/livepreview/PreviewQuickSocial';
-import ProductBrand from '../../modules/ProductBrand/livepreview/PreviewProductBrand';
+import PreviewProductBrand from '../../modules/ProductBrand/livepreview/PreviewProductBrand';
 import TrustBadges from '../../modules/TrustBadges/livepreview/PreviewTrustBadges';
+import ProductVideo from '../../modules/ProductVideo/livepreview/PreviewProductVideo';
+import { useSelect } from '@wordpress/data';
 
+import { STORE_NAME } from '@th-storeone/store/productVideoStore';
 const PreviewPane = ({ currentModule, settings }) => {
     
     const moduleSettings = settings || {};
@@ -12,46 +17,77 @@ const PreviewPane = ({ currentModule, settings }) => {
         ? moduleSettings.rules[0]
         : moduleSettings;
 
+    const activeTab = useSelect(
+  (select) => select(STORE_NAME)?.getActiveTab(),
+  []
+);
+
     return (
         <Card className="preview-card">
             <CardHeader>
                 <h3 className="preview-title">{ __('Preview', 'th-store-one') }</h3>
             </CardHeader>
+
             <CardBody>
                 <div className="preview-box">
+
                     <div className="preview-browser-bar">
                         <span className="dot" />
                         <span className="dot" />
                         <span className="dot" />
                     </div>
+
                     <div className="preview-content">
                         <div className="preview-pane-box">
+
+                            {currentModule?.id === "frequently-bought" && activeRule && (
+                                <PreviewFBT
+                                     key={currentModule.id}
+                                    settings={activeRule}
+                                />
+                            )}
+                            {currentModule?.id === "bundle-product" && activeRule && (
+                                <PreviewBndl
+                                    key={currentModule.id}
+                                    settings={settings}
+                                />
+                            )}
+                            
                             {currentModule?.id === "buy-to-list" && activeRule && (
                                 <PreviewBuyToList
-                                    key={(activeRule.flexible_id || 'rule') + (activeRule.buy_to_list_style || '')}
+                                    key={currentModule.id}
                                     settings={activeRule}
                                 />
                             )}
                             {currentModule?.id === "quick-social" && activeRule && (
                                  <PreviewQuickSocial
-                                    key={(activeRule.flexible_id || 'rule') + (activeRule.social_style || '')}
+                                     key={currentModule.id}
                                     settings={activeRule}
                                 />
                             )}
                              {currentModule?.id === "product-brand" && activeRule && (
-                                <ProductBrand
-                                    key={(activeRule.flexible_id || 'rule') + (activeRule.brand_style || '')}
+                                <PreviewProductBrand
+                                     key={currentModule.id}
                                     settings={activeRule}
                                 />
                             )}
                             {currentModule?.id === "trust-badges" && activeRule && (
                                 <TrustBadges
-                                    key={(activeRule.flexible_id || 'rule') + (activeRule.brand_style || '')}
+                                     key={currentModule.id}
                                     settings={activeRule}
                                 />
                             )}
+                            {currentModule?.id === "product-video" && activeRule && (
+                                <ProductVideo
+                                    key={currentModule.id}
+                                    settings={settings}
+                                    activeTab={activeTab}
+                                />
+            
+                            )}
                         </div>
                     </div>
+
                 </div>
             </CardBody>
         </Card>

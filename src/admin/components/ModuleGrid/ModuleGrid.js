@@ -49,8 +49,11 @@ const ModuleGrid = ({ modulesList, modulesState, tabs, setActiveModule,licenseAc
                         />
                     ))}
             </div>
+
             </div>
+
         </div>
     );
 };
+
 export default ModuleGrid;

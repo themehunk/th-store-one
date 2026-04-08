@@ -68,3 +68,85 @@
     gap:15px;
     flex-wrap: wrap;
 }
+.product-brand .s1-btl-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom:0;
+    border: 1px solid #eee;
+    padding: 0.3rem;
+    justify-content: center;
+}
+
+/* ================= NAVIGATION WRAPPER ================= */
+.s1-trust-preview .swiper {
+    --swiper-navigation-color: #000; /* icon color */
+}
+
+/* ================= BUTTON BASE ================= */
+.s1-trust-preview .swiper-button-prev,
+.s1-trust-preview .swiper-button-next {
+
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    margin-top: 0 !important;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: auto !important;
+    height: auto !important;
+
+    /* UI */
+    background: rgba(255, 255, 255, 0.9);
+    padding: 6px;
+    border-radius: 6px;
+
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+
+    border: none;
+}
+
+/* ================= ICON CONTROL ================= */
+.s1-trust-preview .swiper-button-prev::after,.s1-trust-preview .swiper-button-prev,
+.s1-trust-preview .swiper-button-next::after ,.s1-trust-preview .swiper-button-next{
+    font-size: 12px !important;
+    line-height: 1;
+    height: 12px !important;
+    width: 12px !important;
+}
+
+/* ================= POSITION ================= */
+.s1-trust-preview .swiper-button-prev {
+    left: 5px;
+}
+
+.s1-trust-preview .swiper-button-next {
+    right: 5px;
+}
+
+/* ================= HOVER ================= */
+.s1-trust-preview .swiper-button-prev:hover,
+.s1-trust-preview .swiper-button-next:hover {
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+/* ================= DISABLED ================= */
+.s1-trust-preview .swiper-button-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Black & White Mode */
+.s1-bw-mode img {
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+/* optional hover color back */
+.s1-bw-mode img:hover {
+    filter: grayscale(0%);
+}

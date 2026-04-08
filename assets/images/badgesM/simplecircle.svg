@@ -1,0 +1,16 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Circle Background -->
+  <circle cx="60" cy="60" r="55" fill="#8BC34A" />
+
+  <!-- 50% Text -->
+  <text x="50%" y="45%" text-anchor="middle" fill="#ffffff"
+        font-size="28" font-weight="700" font-family="Arial, sans-serif">
+    50%
+  </text>
+
+  <!-- OFF Text -->
+  <text x="50%" y="65%" text-anchor="middle" fill="#ffffff"
+        font-size="18" font-weight="600" font-family="Arial, sans-serif">
+    OFF
+  </text>
+</svg>
