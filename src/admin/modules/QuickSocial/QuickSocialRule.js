@@ -482,7 +482,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
 
               <strong className="s1-rule-title">
                 {sprintf(
-                  __("Rule %d: %s", "store-one"),
+                  __("Rule %d: %s", "th-store-one"),
                   index + 1,
                   rule.list_title || __("Untitled", "th-store-one"),
                 )}

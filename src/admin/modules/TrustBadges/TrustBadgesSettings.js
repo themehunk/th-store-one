@@ -66,7 +66,7 @@ export default function TrustBadgesSettings({
             data: { settings: { rules } },
         })
             .then(() => setSuccess(__('Saved successfully!', 'th-store-one')))
-            .catch(() => setError(__('Failed to save.', 'th-th-store-one')))
+            .catch(() => setError(__('Failed to save.', 'th-store-one')))
             .finally(() => setSaving(false));
     };
     

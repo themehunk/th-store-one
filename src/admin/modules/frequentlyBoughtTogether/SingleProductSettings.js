@@ -97,26 +97,7 @@ export default function SingleProductSettings({
                 </div>
             </div>
 
-            {/* <div className="s1-field-wrapper">
-                    <THRangeControl  label={__('Bundle border radius', 'store-one')} defaultValue={10} value={20} onChange={(v) => updateSetting("border_radius", v)}/>
-            </div> */}
-            {/* BORDER RADIUS */}
-            {/* <div className="s1-field-wrapper">
-               <label className="s1-field-label">
-                    {__('Bundle border radius', 'store-one')}
-               </label>
-                <div className="s1-field-control"> */}
-                {/* RESPONSIVE RANGE */}
-                {/* <UniversalRangeControl
-                    label="Border Radius"
-                    responsive={true}
-                    units={['px', '%','rem']}
-                    value={settings.border_radius}
-                    onChange={(v) => updateSetting("border_radius", v)}
-                    defaultValue="10px"
-                /> */}
-                {/* </div>
-               </div> */}
+            
 
         </div>
     );

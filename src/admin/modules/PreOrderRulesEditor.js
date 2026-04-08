@@ -106,7 +106,7 @@ export default function PreOrderRulesEditor({ rules, onChange }) {
         <div className="store-one-rules-container" style={{ marginTop: 30 }}>
             
             <h3 style={{ marginBottom: 15 }}>
-                {__('Rules', 'store-one')}
+                {__('Rules', 'th-store-one')}
             </h3>
 
             <SortableWrapper
@@ -153,11 +153,11 @@ export default function PreOrderRulesEditor({ rules, onChange }) {
                             {/* RULE TITLE */}
                             <strong style={{ flex: 1, fontSize: 15 }}>
                                 {sprintf(
-                                    __('Rule %d: %s', 'store-one'),
+                                    __('Rule %d: %s', 'th-store-one'),
                                     index + 1,
                                     rule.offer_title
                                         ? rule.offer_title
-                                        : __('Untitled', 'store-one')
+                                        : __('Untitled', 'th-store-one')
                                 )}
                             </strong>
                            {/* Duplicate */}
@@ -212,50 +212,50 @@ export default function PreOrderRulesEditor({ rules, onChange }) {
             tabs={[
                 {
                     id: 'settings',
-                    label: __('Settings', 'store-one'),
+                    label: __('Settings', 'th-store-one'),
                     icon: 'dashicons-admin-generic',
                     content: (
                         <div>
 
                             <TextControl
-                                label={__('Offer Title', 'store-one')}
+                                label={__('Offer Title', 'th-store-one')}
                                 value={rule.offer_title}
                                 onChange={(v) => updateField(index, 'offer_title', v)}
                             />
 
                             <SelectControl
-                                label={__('Campaign Status', 'store-one')}
+                                label={__('Campaign Status', 'th-store-one')}
                                 value={rule.campaign_status}
                                 options={[
-                                    { label: __('Active', 'store-one'), value: 'active' },
-                                    { label: __('Inactive', 'store-one'), value: 'inactive' },
+                                    { label: __('Active', 'th-store-one'), value: 'active' },
+                                    { label: __('Inactive', 'th-store-one'), value: 'inactive' },
                                 ]}
                                 onChange={(v) => updateField(index, 'campaign_status', v)}
                             />
 
                             <TextControl
-                                label={__('Discount Amount', 'store-one')}
+                                label={__('Discount Amount', 'th-store-one')}
                                 type="number"
                                 value={rule.discount_amount}
                                 onChange={(v) => updateField(index, 'discount_amount', v)}
                             />
 
                             <TextControl
-                                label={__('Shipping Date', 'store-one')}
+                                label={__('Shipping Date', 'th-store-one')}
                                 type="datetime-local"
                                 value={rule.shipping_date}
                                 onChange={(v) => updateField(index, 'shipping_date', v)}
                             />
 
                             <TextControl
-                                label={__('Start Date', 'store-one')}
+                                label={__('Start Date', 'th-store-one')}
                                 type="datetime-local"
                                 value={rule.pre_order_start}
                                 onChange={(v) => updateField(index, 'pre_order_start', v)}
                             />
 
                             <TextControl
-                                label={__('End Date', 'store-one')}
+                                label={__('End Date', 'th-store-one')}
                                 type="datetime-local"
                                 value={rule.pre_order_end}
                                 onChange={(v) => updateField(index, 'pre_order_end', v)}
@@ -267,43 +267,43 @@ export default function PreOrderRulesEditor({ rules, onChange }) {
 
                 {
                     id: 'style',
-                    label: __('Style', 'store-one'),
+                    label: __('Style', 'th-store-one'),
                     icon: 'dashicons-art',
                     content: (
                         <div>
 
                             <MiniColorPicker
-                                label={__('Text Color', 'store-one')}
+                                label={__('Text Color', 'th-store-one')}
                                 value={rule.text_color}
                                 onChange={(v) => updateField(index, 'text_color', v)}
                             />
 
                             <MiniColorPicker
-                                label={__('Text Hover Color', 'store-one')}
+                                label={__('Text Hover Color', 'th-store-one')}
                                 value={rule.text_hover_color}
                                 onChange={(v) => updateField(index, 'text_hover_color', v)}
                             />
 
                             <MiniColorPicker
-                                label={__('Background Color', 'store-one')}
+                                label={__('Background Color', 'th-store-one')}
                                 value={rule.bg_color}
                                 onChange={(v) => updateField(index, 'bg_color', v)}
                             />
 
                             <MiniColorPicker
-                                label={__('Background Hover Color', 'store-one')}
+                                label={__('Background Hover Color', 'th-store-one')}
                                 value={rule.bg_hover_color}
                                 onChange={(v) => updateField(index, 'bg_hover_color', v)}
                             />
 
                             <MiniColorPicker
-                                label={__('Border Color', 'store-one')}
+                                label={__('Border Color', 'th-store-one')}
                                 value={rule.border_color}
                                 onChange={(v) => updateField(index, 'border_color', v)}
                             />
 
                             <MiniColorPicker
-                                label={__('Border Hover Color', 'store-one')}
+                                label={__('Border Hover Color', 'th-store-one')}
                                 value={rule.border_hover_color}
                                 onChange={(v) => updateField(index, 'border_hover_color', v)}
                             />
@@ -332,7 +332,7 @@ export default function PreOrderRulesEditor({ rules, onChange }) {
         display: 'inline-block'
     }}
 >
-{__('+ Add New Rule', 'store-one')}
+{__('+ Add New Rule', 'th-store-one')}
 </div>
 
         </div>

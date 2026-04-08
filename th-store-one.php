@@ -2,7 +2,7 @@
 /**
  * Plugin Name:             TH Store One
  * Description:             Store One is a powerful all in one WooCommerce toolkit designed to enhance your online store with conversion focused features and advanced customization options. It helps improve product presentation, optimize the shopping experience, and simplify store management. With lightweight performance and easy setup, Store One provides essential WooCommerce enhancements to increase engagement, improve usability, and boost sales.
- * Version:                 1.0.1
+ * Version:                 1.0.3
  * Author:                  ThemeHunk
  * License:                 GPLv3 or later
  * License URI:             http://www.gnu.org/licenses/gpl-3.0.html
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 // ------------------ Constants ------------------.
-define( 'TH_STORE_ONE_VERSION', '1.0.47' );
+define( 'TH_STORE_ONE_VERSION', '1.0.3' );
 define( 'TH_STORE_ONE_PLUGIN_FILE', __FILE__ );
 define( 'TH_STORE_ONE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'TH_STORE_ONE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -48,10 +48,10 @@ add_action(
 	'init',
 	function () {
 		// Frontend class include + init.
-		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/buy-to-list/class-frontend.php';
-	     require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/quick-social/class-frontend.php';
-		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/product-brand/class-frontend.php';
-		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/trust-badges/class-frontend.php';
+		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/buy-to-list/th-store-one-class-frontend.php';
+	     require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/quick-social/th-store-one-class-frontend.php';
+		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/product-brand/th-store-one-class-frontend.php';
+		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/trust-badges/th-store-one-class-frontend.php';
 		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/product-video/th-store-one-class-frontend.php';
 		if ( class_exists( 'Th_StoreOne_Buy_To_List_Frontend' ) ) {
 			new Th_StoreOne_Buy_To_List_Frontend();

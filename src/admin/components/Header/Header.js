@@ -68,7 +68,7 @@ const Header = ({ currentPage, setCurrentPage, setActiveModule, proActive,licens
     </div>
     ) : (
     <a
-        href="https://themehunk.com/storeone/"
+        href="https://themehunk.com/storeone/?utm_campaign=free_plugin&utm_source=dashboard&utm_medium=upgrade_button"
         target="_blank"
         rel="noopener noreferrer"
         className="s1-header__upgrade components-button is-secondary"

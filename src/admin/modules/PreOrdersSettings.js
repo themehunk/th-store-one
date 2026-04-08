@@ -43,7 +43,7 @@ const PreOrdersSettings = () => {
                 Array.isArray(s.rules) && setRules(s.rules);
             })
             .catch(() => {
-                setError(__('Failed to load pre-order settings.', 'store-one'));
+                setError(__('Failed to load pre-order settings.', 'th-store-one'));
             })
             .finally(() => setLoading(false));
     }, []);
@@ -65,8 +65,8 @@ const PreOrdersSettings = () => {
                 },
             },
         })
-            .then(() => setSuccess(__('Settings saved successfully.', 'store-one')))
-            .catch(() => setError(__('Failed to save settings.', 'store-one')))
+            .then(() => setSuccess(__('Settings saved successfully.', 'th-store-one')))
+            .catch(() => setError(__('Failed to save settings.', 'th-store-one')))
             .finally(() => setSaving(false));
     };
 
@@ -74,13 +74,13 @@ const PreOrdersSettings = () => {
         <>
         <Card>
             <CardHeader>
-                <h2>{__('Pre Orders Settings', 'store-one')}</h2>
+                <h2>{__('Pre Orders Settings', 'th-store-one')}</h2>
             </CardHeader>
 
             <CardBody>
                 {loading && (
                     <div className="store-loader-inline">
-                        <Spinner /> {__('Loading…', 'store-one')}
+                        <Spinner /> {__('Loading…', 'th-store-one')}
                     </div>
                 )}
 
@@ -90,7 +90,7 @@ const PreOrdersSettings = () => {
                         {success && <div className="storeone-toast toast-success">{success}</div>}
 
                         <SelectControl
-                            label={__('Pre-order Mode', 'store-one')}
+                            label={__('Pre-order Mode', 'th-store-one')}
                             value={mode}
                             onChange={setMode}
                             options={[
@@ -101,7 +101,7 @@ const PreOrdersSettings = () => {
                         />
 
                         <TextControl
-                            label={__('Customer Instruction', 'store-one')}
+                            label={__('Customer Instruction', 'th-store-one')}
                             value={instructions}
                             onChange={setInstructions}
                         />
@@ -122,7 +122,7 @@ const PreOrdersSettings = () => {
                             onClick={handleSave}
                             style={{ marginTop: 20 }}
                         >
-                            {saving ? __('Saving…', 'store-one') : __('Save Settings', 'store-one')}
+                            {saving ? __('Saving…', 'th-store-one') : __('Save Settings', 'th-store-one')}
                         </Button>
                         </div>
                         </>

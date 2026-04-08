@@ -30,7 +30,7 @@ const GlobalSettings = ({ modulesList, modulesState, onToggleAllModules,licenseA
 
             <Card className="settings-card" style={{ marginTop: 16 }}>
                 <CardHeader>
-                    <h3>{__('Support & Documentation', 'store-one')}</h3>
+                    <h3>{__('Support & Documentation', 'th-store-one')}</h3>
                 </CardHeader>
 
                 <CardBody>

@@ -41,10 +41,13 @@ class Th_Store_One_Modules {
 	 */
 	public function get_default() {
 		return array(
-			'buy-to-list' => false,
-			'quick-social' => false,
-			'product-brand' => false,
-			'trust-badges' => false,
+			'frequently-bought' => false,
+			'bundle-product'    => false,
+			'buy-to-list'       => false,
+			'quick-social'      => false,
+			'product-brand'     => false,
+			'trust-badges'      => false,
+			'product-video'     => false,
 		);
 	}
 	/**
@@ -159,7 +162,7 @@ class Th_Store_One_Modules {
 	}
 
 	/**
-	 * REST: GET /th-store-one/v1/modules
+	 * REST: GET /store-one/v1/modules
 	 */
 	public function rest_get() {
 		$modules = get_option( self::OPTION_NAME, $this->get_default() );

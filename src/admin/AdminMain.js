@@ -523,7 +523,6 @@ const AdminMain = () => {
     apiFetch({ path: `${th_StoreOneAdmin.restUrl}license-html` })
       .then((html) => {
         const el = document.getElementById("store-one-license-root");
-
         if (el) {
           el.innerHTML = html;
         }
@@ -597,7 +596,6 @@ const AdminMain = () => {
               licenseActive={licenseActive}
             />
           )}
-
           {!loading && activeModule && currentModule && (
             <div className="store-module-wrap">
               <Button

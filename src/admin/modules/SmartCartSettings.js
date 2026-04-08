@@ -41,7 +41,7 @@ const SmartCartSettings = () => {
                 setShowSubtotal(!!s.show_subtotal);
                 setButtonText(s.button_text ?? 'Checkout Now');
             })
-            .catch(() => setError(__('Failed to load Smart Cart settings.', 'store-one')))
+            .catch(() => setError(__('Failed to load Smart Cart settings.', 'th-store-one')))
             .finally(() => setLoading(false));
     }, []);
 
@@ -63,23 +63,23 @@ const SmartCartSettings = () => {
                 },
             },
         })
-            .then(() => setSuccess(__('Settings saved successfully!', 'store-one')))
-            .catch(() => setError(__('Failed to save settings.', 'store-one')))
+            .then(() => setSuccess(__('Settings saved successfully!', 'th-store-one')))
+            .catch(() => setError(__('Failed to save settings.', 'th-store-one')))
             .finally(() => setSaving(false));
     };
 
     return (
         <Card className="settings-card">
             <CardHeader>
-                <h2>{__('Smart Cart Settings', 'store-one')}</h2>
-                <p>{__('Configure the behavior and style of the Smart Cart.', 'store-one')}</p>
+                <h2>{__('Smart Cart Settings', 'th-store-one')}</h2>
+                <p>{__('Configure the behavior and style of the Smart Cart.', 'th-store-one')}</p>
             </CardHeader>
 
             <CardBody>
                 {loading && (
                     <div className="store-loader-inline">
                         <Spinner />
-                        {__('Loading…', 'store-one')}
+                        {__('Loading…', 'th-store-one')}
                     </div>
                 )}
 
@@ -89,34 +89,34 @@ const SmartCartSettings = () => {
                         {success && <div className="storeone-toast toast-success">{success}</div>}
 
                         <SelectControl
-                            label={__('Cart Position', 'store-one')}
+                            label={__('Cart Position', 'th-store-one')}
                             value={cartPosition}
                             onChange={setCartPosition}
                             options={[
-                                { label: __('Right', 'store-one'), value: 'right' },
-                                { label: __('Left', 'store-one'), value: 'left' },
+                                { label: __('Right', 'th-store-one'), value: 'right' },
+                                { label: __('Left', 'th-store-one'), value: 'left' },
                             ]}
                         />
 
                         <SelectControl
-                            label={__('Open Animation', 'store-one')}
+                            label={__('Open Animation', 'th-store-one')}
                             value={animation}
                             onChange={setAnimation}
                             options={[
-                                { label: __('Slide', 'store-one'), value: 'slide' },
-                                { label: __('Fade', 'store-one'), value: 'fade' },
-                                { label: __('Zoom', 'store-one'), value: 'zoom' },
+                                { label: __('Slide', 'th-store-one'), value: 'slide' },
+                                { label: __('Fade', 'th-store-one'), value: 'fade' },
+                                { label: __('Zoom', 'th-store-one'), value: 'zoom' },
                             ]}
                         />
 
                         <ToggleControl
-                            label={__('Show Subtotal', 'store-one')}
+                            label={__('Show Subtotal', 'th-store-one')}
                             checked={showSubtotal}
                             onChange={setShowSubtotal}
                         />
 
                         <TextControl
-                            label={__('Checkout Button Text', 'store-one')}
+                            label={__('Checkout Button Text', 'th-store-one')}
                             value={buttonText}
                             onChange={setButtonText}
                         />
@@ -127,7 +127,7 @@ const SmartCartSettings = () => {
                             onClick={handleSave}
                             style={{ marginTop: 16 }}
                         >
-                            {saving ? __('Saving…', 'store-one') : __('Save Settings', 'store-one')}
+                            {saving ? __('Saving…', 'th-store-one') : __('Save Settings', 'th-store-one')}
                         </Button>
                     </>
                 )}

@@ -48,12 +48,17 @@ class Th_StoreOne_Trust_Badges_Frontend {
 
             } else {
 
-               
+               if($text_domain == 'th-shop-mania'){
+
+               add_action( 'woocommerce_before_shop_loop_item', array( $this, 'shopmania_start_buffer' ), 0 );
+               add_action( 'woocommerce_after_shop_loop_item', array( $this, 'shopmania_end_buffer' ), 999 );
+
+               }else{
                 //Classic theme (tumhara existing code)
                 add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'loop_wrap_start' ), 8 );
                 add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'wrap_product_image_with_badge' ), 11 );
                 add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'loop_wrap_end' ), 12 );
-                
+                }
             }
         }
 
@@ -69,14 +74,21 @@ class Th_StoreOne_Trust_Badges_Frontend {
         }
 
         if ( $enable_single ) {
-            
+            if($text_domain == 'blocksy'){
+            add_filter(
+                    'woocommerce_single_product_image_thumbnail_html',
+                    array( $this, 'blockcy_wrap_single_image_with_badge' ),
+                    10,
+                    2
+                );
+            }else{
                 add_filter(
                     'woocommerce_single_product_image_thumbnail_html',
                     array( $this, 'wrap_single_image_with_badge' ),
                     10,
                     2
                 );
-                
+                }
                 
             }
 
@@ -392,8 +404,8 @@ class Th_StoreOne_Trust_Badges_Frontend {
              --badge-txt:%s;
              --badge-txtsize:%s;
              --badge-padding:%s;',
-            esc_attr($stylee['bgclr']) ?? '#45d0eb',
-            esc_attr($stylee['textclr']) ?? '#ffffff',
+            $stylee['bgclr'] ?? '#45d0eb',
+            $stylee['textclr'] ?? '#ffffff',
             th_store_one_with_unit($stylee['text_size'] ?? 15),
             $padding_css
         );
@@ -427,8 +439,8 @@ class Th_StoreOne_Trust_Badges_Frontend {
              --badge-salebgtxt:%s;
              --badge-saletxtsize:%s;
              --badge-salepadding:%s;',
-            esc_attr($style['bgclr']) ?? '#d4547e',
-            esc_attr($style['textclr']) ?? '#ffffff',
+            $style['bgclr'] ?? '#d4547e',
+            $style['textclr'] ?? '#ffffff',
             th_store_one_with_unit($style['text_size'] ?? 15),
             $padding_css
         );
@@ -459,8 +471,8 @@ class Th_StoreOne_Trust_Badges_Frontend {
              --badge-saletxt:%s;
              --badge-saletxtsize1:%s;
              --badge-salepadding1:%s;',
-            esc_attr($style['bgclr']) ?? 'linear-gradient(90deg, #6366f1, #8b5cf6)',
-            esc_attr($style['textclr']) ?? '#1e293b',
+            $style['bgclr'] ?? 'linear-gradient(90deg, #6366f1, #8b5cf6)',
+            $style['textclr'] ?? '#1e293b',
             th_store_one_with_unit($style['text_size'] ?? 21),
             $padding_css
         );
@@ -514,8 +526,8 @@ if ( ! $product || ! $product->is_on_sale() ) {
        }
         $stylec = sprintf(
             '--badge-4-color:%s; --badge-4-txt:%s;',
-            esc_attr($stylee['bgclr']) ?? '#47DCBF',
-            esc_attr($stylee['textclr']) ?? '#ffffff'
+            $stylee['bgclr'] ?? '#47DCBF',
+            $stylee['textclr'] ?? '#ffffff'
         );
         ?>
         <div class="s1-preview-badge s1-corner-badge">
@@ -540,8 +552,8 @@ if ( ! $product || ! $product->is_on_sale() ) {
 
         $stylec = sprintf(
             '--badge-5-color:%s; --badge-5-txt:%s;',
-            esc_attr($stylee['bgclr']) ?? '#da9005',
-            esc_attr($stylee['textclr']) ?? '#ffffff'
+            $stylee['bgclr'] ?? '#da9005',
+            $stylee['textclr'] ?? '#ffffff'
         );
         ?>
         <div class="s1-adv-css-badge s1-5">
@@ -549,14 +561,12 @@ if ( ! $product || ! $product->is_on_sale() ) {
 
             <div class="s1-css-text" style="<?php echo esc_attr($stylec); ?>">
                <?php
-                
-                $text = sprintf(
-                    /* translators: %d: available stock quantity */
-                    __( 'Only %d available', 'th-store-one' ),
-                    intval( $product->get_stock_quantity() )
+                echo esc_html(
+                    sprintf(
+                        __( 'Only %d available', 'th-store-one' ),
+                        $product->get_stock_quantity()
+                    )
                 );
-
-                echo esc_html( $text );
                 ?>
             </div>
         </div>
@@ -568,8 +578,8 @@ if ( ! $product || ! $product->is_on_sale() ) {
        }
         $stylec = sprintf(
             '--badge-daimondbgcolor:%s; --badge-daimondtxt:%s;',
-            esc_attr($stylee['bgclr']) ?? 'linear-gradient(135deg, #ff7a18, #ff3d00)',
-            esc_attr($stylee['textclr']) ?? '#ffffff'
+            $stylee['bgclr'] ?? 'linear-gradient(135deg, #ff7a18, #ff3d00)',
+            $stylee['textclr'] ?? '#ffffff'
         );
         ?>
         <div class="s1-adv-css-badge s1-daimond">
@@ -586,8 +596,8 @@ if ( ! $product || ! $product->is_on_sale() ) {
        }
         $stylec = sprintf(
             '--badge-circlebgcolor:%s; --badge-circletxt:%s;',
-            esc_attr($stylee['bgclr']) ?? 'radial-gradient(circle, #ff4d6d 0%, #ff0033 100%)',
-            esc_attr($stylee['textclr']) ?? '#ffffff'
+            $stylee['bgclr'] ?? 'radial-gradient(circle, #ff4d6d 0%, #ff0033 100%)',
+            $stylee['textclr'] ?? '#ffffff'
         );
         ?>
         <div class="s1-adv-css-badge s1-circle">
@@ -607,8 +617,8 @@ if ( ! $product || ! $product->is_on_sale() ) {
        }
         $stylec = sprintf(
             '--badge-simplecirclebgcolor:%s; --badge-simplecircletxt:%s;',
-            esc_attr($stylee['bgclr']) ?? '#8BC34A',
-            esc_attr($stylee['textclr']) ?? '#ffffff'
+            $stylee['bgclr'] ?? '#8BC34A',
+            $stylee['textclr'] ?? '#ffffff'
         );
         ?>
         <div class="s1-adv-css-badge s1-simple-circle">
@@ -629,12 +639,12 @@ if ( ! $product || ! $product->is_on_sale() ) {
 
         $stylec = sprintf(
             '--badge-simplenewbgcolor:%s; --badge-simplenewtxt:%s; border-radius:%s %s %s %s;',
-            esc_attr($stylee['bgclr']) ?? 'linear-gradient(90deg, #f59e0b, #f97316)',
-            esc_attr($stylee['textclr']) ?? '#ffffff',
-            esc_attr($radius['top']) ?? '0px',
-            esc_attr($radius['right']) ?? '0px',
-            esc_attr($radius['bottom']) ?? '0px',
-            esc_attr($radius['left']) ?? '0px'
+            $stylee['bgclr'] ?? 'linear-gradient(90deg, #f59e0b, #f97316)',
+            $stylee['textclr'] ?? '#ffffff',
+            $radius['top'] ?? '0px',
+            $radius['right'] ?? '0px',
+            $radius['bottom'] ?? '0px',
+            $radius['left'] ?? '0px'
         );
         
         ?>
@@ -656,27 +666,26 @@ if ( ! $product || ! $product->is_on_sale() ) {
 
         $stylec = sprintf(
             '--badge-simpleavalbgcolor:%s; --badge-simpleavaltxt:%s; border-radius:%s %s %s %s;',
-            esc_attr($stylee['bgclr']) ?? '#00cfb0',
-            esc_attr($stylee['textclr']) ?? '#ffffff',
-            esc_attr($radius['top']) ?? '0px',
-            esc_attr($radius['right']) ?? '0px',
-            esc_attr($radius['bottom']) ?? '0px',
-            esc_attr($radius['left']) ?? '0px'
+            $stylee['bgclr'] ?? '#00cfb0',
+            $stylee['textclr'] ?? '#ffffff',
+            $radius['top'] ?? '0px',
+            $radius['right'] ?? '0px',
+            $radius['bottom'] ?? '0px',
+            $radius['left'] ?? '0px'
         );
         
         ?>
         <div class="s1-preview-badge">
           <div class="s1-css-badge-simple-available"  style="<?php echo esc_attr($stylec); ?>">
             <div class="s1-css-badge-inner">
-              <span class="s1-off-value">
-                <?php 
-                    $text = sprintf(
-                        /* translators: %d: available stock quantity */
+              <span class="s1-off-value"><?php
+                echo esc_html(
+                    sprintf(
                         __( 'Only %d available', 'th-store-one' ),
-                        intval( $product->get_stock_quantity() )
-                    );
-                    echo esc_html( $text );?>
-                    </span>
+                        $product->get_stock_quantity()
+                    )
+                );
+                ?></span>
             </div>
           </div>
         </div>
@@ -684,10 +693,6 @@ if ( ! $product || ! $product->is_on_sale() ) {
     }
 
     else {
-
-    if ( ! $product || ! $product->is_on_sale() ) {
-        return;
-       }
         $stylec = sprintf(
             '--adv-bg:%s; --adv-txt:%s;',
             esc_attr( $stylee['bgclr'] ?? '#673ab7' ),
@@ -886,9 +891,9 @@ private function get_advance_inner_style( $style ) {
 
     return sprintf(
         'background:%s;color:%s;font-size:%s;',
-        esc_attr($style['bgclr']) ?? '#0a70ed',
-        esc_attr($style['textclr']) ?? '#fff',
-        esc_attr($style['text_size']) ?? '18px',
+        $style['bgclr'] ?? '#0a70ed',
+        $style['textclr'] ?? '#fff',
+        $style['text_size'] ?? '18px',
         
     );
 }
@@ -902,7 +907,7 @@ private function get_advance_inner_style( $style ) {
 
     if ( $recent_ids === null ) {
 
-        $limit = apply_filters( 'th_store_one_recent_products_limit', 10 );
+        $limit = apply_filters( 'storeone_recent_products_limit', 10 );
 
         $args = array(
             'post_type'      => 'product',
@@ -981,5 +986,96 @@ private function get_advance_inner_style( $style ) {
     return in_array( $product->get_id(), $top_ids, true );
 }
 
+
+//*****************************/
+// Theme competiblity code
+//*****************************/
+    public function shopmania_start_buffer() {
+        ob_start();
+    }
+
+    public function shopmania_end_buffer() {
+
+        $html = ob_get_clean();
+
+        global $product;
+
+        if ( ! $product || empty( $this->rules ) ) {
+            echo $html;
+            return;
+        }
+        ob_start();
+        foreach ( $this->rules as $rule ) {
+
+            if ( ! $this->is_rule_valid( $rule, $product ) ) {
+                continue;
+            }
+
+            $this->render_single_badge( $rule );
+        }
+        $badges = ob_get_clean();
+
+        if ( empty( $badges ) ) {
+            echo $html;
+            return;
+        }
+
+        //inject inside thunk-product-image
+        if (
+        strpos( $html, 'thunk-product-image' ) !== false &&
+        strpos( $html, 's1-badge-container' ) === false
+        ) {
+            $html = preg_replace(
+                '/(<div class="thunk-product-image[^"]*">)/',
+                '$1' . $badges,
+                $html,
+                1
+            );
+        }
+
+        echo $html;
+    }
+
+    public function blockcy_wrap_single_image_with_badge( $html, $attachment_id ) {
+
+    global $product;
+
+    if ( ! $product || empty( $this->rules ) ) {
+        return $html;
+    }
+
+    // if ( $attachment_id !== $product->get_image_id() ) {
+    //     return $html;
+    // }
+
+    ob_start();
+
+    foreach ( $this->rules as $rule ) {
+
+        if ( ! $this->is_rule_valid( $rule, $product ) ) {
+            continue;
+        }
+
+        $this->render_single_badge( $rule ); 
+    }
+
+    $badges = ob_get_clean();
+
+    if ( empty( $badges ) ) {
+        return $html;
+    }
+
+    if ( strpos( $html, 'ct-media-container' ) !== false ) {
+
+    $html = preg_replace(
+        '/(<figure[^>]*class="[^"]*ct-media-container[^"]*"[^>]*>)/',
+        '$1<div class="s1-badges-wrap">' . $badges . '</div>',
+        $html,
+        1
+    );
+}
+
+    return $html;
+    }
 
 }
