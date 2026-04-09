@@ -48,17 +48,11 @@ class Th_StoreOne_Trust_Badges_Frontend {
 
             } else {
 
-               if($text_domain == 'th-shop-mania'){
-
-               add_action( 'woocommerce_before_shop_loop_item', array( $this, 'shopmania_start_buffer' ), 0 );
-               add_action( 'woocommerce_after_shop_loop_item', array( $this, 'shopmania_end_buffer' ), 999 );
-
-               }else{
                 //Classic theme (tumhara existing code)
                 add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'loop_wrap_start' ), 8 );
                 add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'wrap_product_image_with_badge' ), 11 );
                 add_action( 'woocommerce_before_shop_loop_item_title', array( $this, 'loop_wrap_end' ), 12 );
-                }
+                
             }
         }
 
@@ -74,22 +68,14 @@ class Th_StoreOne_Trust_Badges_Frontend {
         }
 
         if ( $enable_single ) {
-            if($text_domain == 'blocksy'){
-            add_filter(
-                    'woocommerce_single_product_image_thumbnail_html',
-                    array( $this, 'blockcy_wrap_single_image_with_badge' ),
-                    10,
-                    2
-                );
-            }else{
+            
                 add_filter(
                     'woocommerce_single_product_image_thumbnail_html',
                     array( $this, 'wrap_single_image_with_badge' ),
                     10,
                     2
                 );
-                }
-                
+ 
             }
 
         
@@ -562,7 +548,9 @@ if ( ! $product || ! $product->is_on_sale() ) {
             <div class="s1-css-text" style="<?php echo esc_attr($stylec); ?>">
                <?php
                 echo esc_html(
+                    
                     sprintf(
+                        /* translators: %d: available stock quantity */
                         __( 'Only %d available', 'th-store-one' ),
                         $product->get_stock_quantity()
                     )
@@ -680,7 +668,9 @@ if ( ! $product || ! $product->is_on_sale() ) {
             <div class="s1-css-badge-inner">
               <span class="s1-off-value"><?php
                 echo esc_html(
+                     
                     sprintf(
+                        /* translators: %d: available stock quantity */
                         __( 'Only %d available', 'th-store-one' ),
                         $product->get_stock_quantity()
                     )
@@ -985,97 +975,5 @@ private function get_advance_inner_style( $style ) {
 
     return in_array( $product->get_id(), $top_ids, true );
 }
-
-
-//*****************************/
-// Theme competiblity code
-//*****************************/
-    public function shopmania_start_buffer() {
-        ob_start();
-    }
-
-    public function shopmania_end_buffer() {
-
-        $html = ob_get_clean();
-
-        global $product;
-
-        if ( ! $product || empty( $this->rules ) ) {
-            echo $html;
-            return;
-        }
-        ob_start();
-        foreach ( $this->rules as $rule ) {
-
-            if ( ! $this->is_rule_valid( $rule, $product ) ) {
-                continue;
-            }
-
-            $this->render_single_badge( $rule );
-        }
-        $badges = ob_get_clean();
-
-        if ( empty( $badges ) ) {
-            echo $html;
-            return;
-        }
-
-        //inject inside thunk-product-image
-        if (
-        strpos( $html, 'thunk-product-image' ) !== false &&
-        strpos( $html, 's1-badge-container' ) === false
-        ) {
-            $html = preg_replace(
-                '/(<div class="thunk-product-image[^"]*">)/',
-                '$1' . $badges,
-                $html,
-                1
-            );
-        }
-
-        echo $html;
-    }
-
-    public function blockcy_wrap_single_image_with_badge( $html, $attachment_id ) {
-
-    global $product;
-
-    if ( ! $product || empty( $this->rules ) ) {
-        return $html;
-    }
-
-    // if ( $attachment_id !== $product->get_image_id() ) {
-    //     return $html;
-    // }
-
-    ob_start();
-
-    foreach ( $this->rules as $rule ) {
-
-        if ( ! $this->is_rule_valid( $rule, $product ) ) {
-            continue;
-        }
-
-        $this->render_single_badge( $rule ); 
-    }
-
-    $badges = ob_get_clean();
-
-    if ( empty( $badges ) ) {
-        return $html;
-    }
-
-    if ( strpos( $html, 'ct-media-container' ) !== false ) {
-
-    $html = preg_replace(
-        '/(<figure[^>]*class="[^"]*ct-media-container[^"]*"[^>]*>)/',
-        '$1<div class="s1-badges-wrap">' . $badges . '</div>',
-        $html,
-        1
-    );
-}
-
-    return $html;
-    }
 
 }

@@ -499,6 +499,12 @@ const AdminMain = () => {
   // for licence pro
   //*********************/
   useEffect(() => {
+    if (!th_StoreOneAdmin.proActive) {
+    setProActive(false);
+    setLicenseActive(false);
+    setLicenseLoading(false);
+    return;
+  }
     apiFetch({ path: `${th_StoreOneAdmin.restUrl}pro-status` })
       .then((res) => {
         if (res?.pro_active) {
@@ -516,7 +522,7 @@ const AdminMain = () => {
 
   // licence page load
   useEffect(() => {
-    if (currentPage !== "license") {
+    if (currentPage !== "license" || !th_StoreOneAdmin.proActive) {
       return;
     }
     setLoading(true);

@@ -114,7 +114,11 @@ class Th_Store_One_Admin {
 			$css_path_style_var
 		);
 
-		// IMPORTANT: apiFetch({ path })
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
+		$pro_active = is_plugin_active('store-one-pro/store-one-pro.php');
 		
 		wp_localize_script(
 			'th-store-one-admin',
@@ -133,6 +137,7 @@ class Th_Store_One_Admin {
 				),
 				'homeUrl' => home_url('/'), 
 				'adminUrl' => admin_url(),
+				'proActive'  => $pro_active,
 			)
 		);
 

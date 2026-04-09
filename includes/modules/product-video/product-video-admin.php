@@ -287,8 +287,11 @@ if (!is_array($gallery_types)) $gallery_types = [];
 public function save($post_id) {
 
     if (
-        !isset($_POST['th_store_one_nonce']) ||
-        !wp_verify_nonce($_POST['th_store_one_nonce'],'th_store_one_save')
+    ! isset($_POST['th_store_one_nonce']) ||
+    ! wp_verify_nonce(
+        sanitize_text_field( wp_unslash($_POST['th_store_one_nonce']) ),
+        'th_store_one_save'
+    )
     ) return;
 
     update_post_meta($post_id,'_th_enable_video', isset($_POST['th_enable_video'])?'yes':'no');
@@ -296,27 +299,27 @@ public function save($post_id) {
     update_post_meta($post_id,'_th_enable_gallery', isset($_POST['th_enable_gallery'])?'yes':'no');
     
 
-    update_post_meta($post_id,'_th_video_url', esc_url_raw($_POST['th_video_url'] ?? ''));
-    update_post_meta($post_id,'_th_source', sanitize_text_field($_POST['th_source'] ?? ''));
+    update_post_meta($post_id,'_th_video_url', esc_url_raw(wp_unslash($_POST['th_video_url'] ?? '')));
+    update_post_meta($post_id,'_th_source', sanitize_text_field(wp_unslash($_POST['th_source'] ?? '')));
 
     /* ================= GALLERY URL ================= */
-    $gallery = array_map('esc_url_raw', $_POST['th_gallery'] ?? []);
+    $gallery = array_map('esc_url_raw', wp_unslash($_POST['th_gallery'] ?? []));
     update_post_meta($post_id,'_th_gallery', $gallery);
 
     /* =================FIX: GALLERY TYPE SAVE ================= */
-    $gallery_type = array_map('sanitize_text_field', $_POST['th_gallery_type'] ?? []);
+    $gallery_type = array_map('sanitize_text_field', wp_unslash($_POST['th_gallery_type'] ?? []));
     update_post_meta($post_id,'_th_gallery_type', $gallery_type);
     
     /* ================= GALLERY THUMB ================= */
-    $gallery_thumb = array_map('esc_url_raw', $_POST['th_gallery_thumb'] ?? []);
+    $gallery_thumb = array_map('esc_url_raw', wp_unslash($_POST['th_gallery_thumb'] ?? []));
     update_post_meta($post_id,'_th_gallery_thumb', $gallery_thumb);
 
-    $th_enable_custom_poster = array_map('sanitize_text_field', $_POST['th_enable_custom_poster'] ?? []);
+    $th_enable_custom_poster = array_map('sanitize_text_field', wp_unslash($_POST['th_enable_custom_poster'] ?? []));
     update_post_meta($post_id, '_th_enable_custom_poster', $th_enable_custom_poster);
 
     /* ================= OTHER ================= */
-    update_post_meta($post_id,'_th_position', sanitize_text_field($_POST['th_position'] ?? 'before'));
-    update_post_meta($post_id,'_th_aspect', sanitize_text_field($_POST['th_aspect'] ?? 'default'));
+    update_post_meta($post_id,'_th_position', sanitize_text_field(wp_unslash($_POST['th_position'] ?? 'before')));
+    update_post_meta($post_id,'_th_aspect', sanitize_text_field(wp_unslash($_POST['th_aspect'] ?? 'default')));
     }
 
      public function scripts($hook){

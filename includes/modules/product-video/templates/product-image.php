@@ -56,14 +56,14 @@ if ( $enable === 'yes' && ! empty( $videos ) && is_array( $videos ) ) {
     $id = '';
 
     // watch?v=
-    parse_str( parse_url( $video, PHP_URL_QUERY ), $vars );
+    parse_str( wp_parse_url( $video, PHP_URL_QUERY ), $vars );
     if ( ! empty( $vars['v'] ) ) {
         $id = $vars['v'];
     }
 
     // youtu.be/
     if ( empty( $id ) && strpos($video, 'youtu.be') !== false ) {
-        $id = trim( parse_url( $video, PHP_URL_PATH ), '/' );
+        $id = trim( wp_parse_url( $video, PHP_URL_PATH ), '/' );
     }
 
     // embed/
@@ -91,7 +91,7 @@ if ( $enable === 'yes' && ! empty( $videos ) && is_array( $videos ) ) {
         /* VIMEO */
         elseif ( $type === 'vimeo' ) {
 
-            $id = trim( parse_url( $video, PHP_URL_PATH ), '/' );
+            $id = trim( wp_parse_url( $video, PHP_URL_PATH ), '/' );
 
             if ( ! empty( $id ) ) {
                 $thumb = 'https://vumbnail.com/' . $id . '.jpg';
@@ -168,8 +168,47 @@ if ( $enable === 'yes' && ! empty( $videos ) && is_array( $videos ) ) {
                 <a href="<?php echo esc_url($thumb); ?>" class="th-video-trigger">
                     <img src="<?php echo esc_url( $thumb ); ?>" class="wp-post-image" />
                     <span class="th-video-thumb-icon">
-                      <?php echo 
-                        storeone_get_video_icon($global_icon, $icon_color);?>
+                     <?php
+$allowed_svg = array(
+    'svg' => array(
+        'viewBox' => true,
+        'width' => true,
+        'height' => true,
+        'fill' => true,
+        'stroke' => true,
+        'stroke-width' => true,
+        'xmlns' => true,
+    ),
+    'g' => array(),
+    'path' => array(
+        'd' => true,
+        'fill' => true,
+    ),
+    'polygon' => array(
+        'points' => true,
+        'fill' => true,
+    ),
+    'rect' => array(
+        'x' => true,
+        'y' => true,
+        'width' => true,
+        'height' => true,
+        'rx' => true,
+        'fill' => true,
+    ),
+    'circle' => array(
+        'cx' => true,
+        'cy' => true,
+        'r' => true,
+        'fill' => true,
+    ),
+);
+
+echo wp_kses(
+    storeone_get_video_icon($global_icon, $icon_color),
+    $allowed_svg
+);
+?>
                         </span>
                 </a>
             </div>
@@ -186,24 +225,24 @@ if ( $enable === 'yes' && ! empty( $videos ) && is_array( $videos ) ) {
         <?php
         /* ================= BEFORE ================= */
         if ( $position === 'before' ) {
-            echo $video_html;
+           echo wp_kses_post($video_html);
         }
 
         /* FEATURED */
         if ( $post_thumbnail_id ) {
-            echo wc_get_gallery_image_html( $post_thumbnail_id, true );
+            echo wp_kses_post(wc_get_gallery_image_html( $post_thumbnail_id, true ));
         }
 
         /* GALLERY */
         if ( $attachment_ids ) {
             foreach ( $attachment_ids as $attachment_id ) {
-                echo wc_get_gallery_image_html( $attachment_id );
+                echo wp_kses_post(wc_get_gallery_image_html( $attachment_id ));
             }
         }
 
         /* ================= AFTER ================= */
         if ( $position === 'after' ) {
-            echo $video_html;
+            echo wp_kses_post($video_html);
         }
         ?>
     </div>
