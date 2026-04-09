@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class Th_StoreOne_Product_Brand_Frontend {
+class Th_Store_One_Product_Brand_Frontend {
 
     private $rules = array();
 

@@ -21,8 +21,8 @@ export default function TrustBadgeStyleControl({ value = {}, badgeType, badgeCss
       {/* Opacity */}
       <OpacityControl
         value={value?.transform?.opacity ?? "100"}
-        label={__("Badge Opacity")}
-        description={__("Control the badge transparency")}
+        label={__("Badge Opacity",'th-store-one')}
+        description={__("Control the badge transparency",'th-store-one')}
         onChange={(v) =>
           update("transform", {
             ...value?.transform,
@@ -37,8 +37,8 @@ export default function TrustBadgeStyleControl({ value = {}, badgeType, badgeCss
           rotateY: value?.transform?.rotateY,
           rotateZ: value?.transform?.rotateZ,
         }}
-        label={__("Badge Rotation")}
-        description={__("Rotate the badge in 3D space")}
+        label={__("Badge Rotation",'th-store-one')}
+        description={__("Rotate the badge in 3D space",'th-store-one')}
         onChange={(v) => {
           update("transform", {
             ...value?.transform,

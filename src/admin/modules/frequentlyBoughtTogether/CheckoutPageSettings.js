@@ -29,7 +29,7 @@ export default function CheckoutPageSettings({
                     onChange={(v) => updateSetting('checkout_enabled', v)}
                     options={[
                          { label: __('Active', 'th-store-one'), value: 'active' },
-                         { label: __('Inactive', 'store-one'), value: 'inactive' },
+                         { label: __('Inactive', 'th-store-one'), value: 'inactive' },
                     ]}
                />
                </div>

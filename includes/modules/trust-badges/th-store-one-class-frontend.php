@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class Th_StoreOne_Trust_Badges_Frontend {
+class Th_Store_One_Trust_Badges_Frontend {
 
     private $rules = array();
 

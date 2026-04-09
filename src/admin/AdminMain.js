@@ -245,9 +245,9 @@ const modulesList = [
   },
   {
     id: "product-video",
-    label: __("Product Video", "th-store-one"),
+    label: __("Product Video Gallery", "th-store-one"),
     description: __(
-      "Display Badge Management like secure checkout, money-back guarantee, and verified payment icons to increase customer confidence and improve conversions.",
+      "Display product videos in the gallery using YouTube, Vimeo, or custom video URLs, along with featured video support.",
       "th-store-one",
     ),
     icon: (

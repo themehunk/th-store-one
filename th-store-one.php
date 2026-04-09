@@ -53,17 +53,17 @@ add_action(
 		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/product-brand/th-store-one-class-frontend.php';
 		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/trust-badges/th-store-one-class-frontend.php';
 		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/product-video/th-store-one-class-frontend.php';
-		if ( class_exists( 'Th_StoreOne_Buy_To_List_Frontend' ) ) {
-			new Th_StoreOne_Buy_To_List_Frontend();
+		if ( class_exists( 'Th_Store_One_Buy_To_List_Frontend' ) ) {
+			new Th_Store_One_Buy_To_List_Frontend();
 		}
-		if ( class_exists( 'Th_StoreOne_Quick_Social' ) ) {
-			new Th_StoreOne_Quick_Social();
+		if ( class_exists( 'Th_Store_One_Quick_Social' ) ) {
+			new Th_Store_One_Quick_Social();
 		}
-		if ( class_exists( 'Th_StoreOne_Product_Brand_Frontend' ) ) {
-			new Th_StoreOne_Product_Brand_Frontend();
+		if ( class_exists( 'Th_Store_One_Product_Brand_Frontend' ) ) {
+			new Th_Store_One_Product_Brand_Frontend();
 		}
-		if ( class_exists( 'Th_StoreOne_Trust_Badges_Frontend' ) ) {
-			new Th_StoreOne_Trust_Badges_Frontend();
+		if ( class_exists( 'Th_Store_One_Trust_Badges_Frontend' ) ) {
+			new Th_Store_One_Trust_Badges_Frontend();
 		}
 		if ( class_exists( 'TH_Store_One_Product_Video_Frontend' ) ) {
 			new TH_Store_One_Product_Video_Frontend();

@@ -17,7 +17,7 @@ const anchor = value?.anchor || "top-left";
 const position = value?.position || "top";
 
 return(
-<S1FieldGroup title={__("Position Mode")}>
+<S1FieldGroup title={__("Position Mode",'th-store-one')}>
 <div className="s1-position-control">
 
 {/* MODE */}
@@ -52,8 +52,8 @@ Fixed
 <>
 
 <S1Field
-label={__("Anchor Point")}
-description={__("Set the badge anchor point.")}
+label={__("Anchor Point",'th-store-one')}
+description={__("Set the badge anchor point.", 'th-store-one')}
 >
 
 <div className="s1-anchor-grid">
@@ -155,7 +155,7 @@ units={['px', '%']}
 
 <>
 
-<S1Field label={__("Position")}>
+<S1Field label={__("Position","th-store-one")}>
 
 <div className="s1-position-grid">
 
@@ -197,7 +197,7 @@ onClick={()=>update("position","bottom")}
 </S1Field>
 
 
-<S1Field label={__("Alignment")}>
+<S1Field label={__("Alignment","th-store-one")}>
 
 <div className="s1-position-grid">
 

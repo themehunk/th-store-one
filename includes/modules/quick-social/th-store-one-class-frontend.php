@@ -3,7 +3,7 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class Th_StoreOne_Quick_Social {
+class Th_Store_One_Quick_Social {
 
     private $rules = array();
     private $current_rule = array();

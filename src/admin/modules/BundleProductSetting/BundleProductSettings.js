@@ -69,7 +69,7 @@ export default function BundleProductSettings({
           },
         });
       })
-      .catch(() => setError(__("Failed to load settings.", "store-one")))
+      .catch(() => setError(__("Failed to load settings.", "th-store-one")))
       .finally(() => setLoading(false));
   }, []);
 

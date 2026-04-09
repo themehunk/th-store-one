@@ -21,7 +21,7 @@ export default function CartPageSettings({
             {/* STATUS TOGGLE */}
             <div className="s1-field-control">
                <label className="s1-field-label">
-                    {__('Status', 'store-one')}
+                    {__('Status', 'th-store-one')}
                </label>
 
                <SelectControl
