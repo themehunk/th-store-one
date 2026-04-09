@@ -72,7 +72,7 @@ class TH_Store_One_Product_Video_Frontend {
             TH_STORE_ONE_VERSION
         );
 
-        $settings = storeone_get_video_settings();
+        $settings = th_store_one_get_video_settings();
 
         wp_localize_script(
             'th-store-onevideo-gallery',
@@ -139,7 +139,7 @@ class TH_Store_One_Product_Video_Frontend {
     }
 
     
-    $settings      = storeone_get_video_settings();
+    $settings      = th_store_one_get_video_settings();
     $global_icon   = $settings['ficon'];
     $icon_color    = $settings['ficon_clr'];
     $aspect_shop   = $settings['aspectShop'] ?? 'default';
@@ -284,7 +284,7 @@ $allowed_svg = array(
 );
 
 echo wp_kses(
-    storeone_get_video_icon($global_icon, $icon_color),
+    th_store_one_get_video_icon($global_icon, $icon_color),
     $allowed_svg
 );
 ?>
@@ -311,7 +311,7 @@ echo wp_kses(
         return; 
     }
 
-    $settings      = storeone_get_video_settings();
+    $settings      = th_store_one_get_video_settings();
     $global_icon   = $settings['ficon'];
     $icon_color    = $settings['ficon_clr'];
     $aspect_shop   = $settings['aspectShop'] ?? 'default';
@@ -461,7 +461,7 @@ $allowed_svg = array(
 );
 
 echo wp_kses(
-    storeone_get_video_icon($global_icon, $icon_color),
+    th_store_one_get_video_icon($global_icon, $icon_color),
     $allowed_svg
 );
 ?>
@@ -505,7 +505,7 @@ echo wp_kses(
 }
 
 
-function storeone_get_video_settings() {
+function th_store_one_get_video_settings() {
 
     $modules = get_option( 'th_store_one_module_set', [] );
     $video   = $modules['product-video'] ?? [];
@@ -544,7 +544,7 @@ function storeone_get_video_settings() {
     return $merged;
 }
 
-function storeone_get_video_icon($type = 'outline', $color = '#e3e3e3') {
+function th_store_one_get_video_icon($type = 'outline', $color = '#e3e3e3') {
 
     switch ($type) {
 

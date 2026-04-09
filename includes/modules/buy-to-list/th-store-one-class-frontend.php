@@ -351,12 +351,7 @@ class Th_Store_One_Buy_To_List_Frontend {
         </div>
 
         <?php
-        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-        echo apply_filters(
-            'storeone_buy_to_list_output',
-            ob_get_clean(),
-            $rule
-        );
+        
     }
 
     /**

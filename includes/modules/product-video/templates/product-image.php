@@ -7,7 +7,7 @@ if ( ! function_exists( 'wc_get_gallery_image_html' ) ) {
     return;
 }
 
-$settings = storeone_get_video_settings();
+$settings = th_store_one_get_video_settings();
 
 $global_thumb  = $settings['image_url'];
 $global_icon   = $settings['icon'];
@@ -205,7 +205,7 @@ $allowed_svg = array(
 );
 
 echo wp_kses(
-    storeone_get_video_icon($global_icon, $icon_color),
+    th_store_one_get_video_icon($global_icon, $icon_color),
     $allowed_svg
 );
 ?>

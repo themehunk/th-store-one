@@ -897,7 +897,7 @@ private function get_advance_inner_style( $style ) {
 
     if ( $recent_ids === null ) {
 
-        $limit = apply_filters( 'storeone_recent_products_limit', 10 );
+        $limit = apply_filters( 'th_store_one_recent_products_limit', 10 );
 
         $args = array(
             'post_type'      => 'product',
