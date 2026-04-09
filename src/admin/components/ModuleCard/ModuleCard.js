@@ -45,7 +45,7 @@ const ModuleCard = ({ mod, modulesState, setActiveModule, licenseActive  }) => {
                     onClick={() => setActiveModule(mod.id)}
                 >
                     {isLocked
-                        ? __('Upgrade License', 'th-store-one')
+                        ? __('Upgrade', 'th-store-one')
                         : __('Configure', 'th-store-one')
                     } →
                 </Button>

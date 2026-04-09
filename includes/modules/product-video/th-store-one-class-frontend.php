@@ -187,14 +187,14 @@ class TH_Store_One_Product_Video_Frontend {
             <?php if ( $source === 'youtube' ) :
 
                             // watch?v=
-                parse_str( parse_url( $url, PHP_URL_QUERY ), $vars );
+                parse_str( wp_parse_url( $url, PHP_URL_QUERY ), $vars );
                 if ( ! empty( $vars['v'] ) ) {
                     $id = $vars['v'];
                 }
 
                 // youtu.be/
                 if ( empty($id) && strpos($url, 'youtu.be') !== false ) {
-                    $id = trim( parse_url( $url, PHP_URL_PATH ), '/' );
+                    $id = trim( wp_parse_url( $url, PHP_URL_PATH ), '/' );
                 }
 
                 // embed/
@@ -223,7 +223,7 @@ class TH_Store_One_Product_Video_Frontend {
                 <?php endif; ?>
                <?php elseif ( $source === 'vimeo' ) :
 
-                $id = trim( parse_url( $url, PHP_URL_PATH ), '/' );
+                $id = trim( wp_parse_url( $url, PHP_URL_PATH ), '/' );
 
                 if ( $id ) : ?>
                    <iframe 
@@ -247,7 +247,47 @@ class TH_Store_One_Product_Video_Frontend {
                     </video>
 
                     <span class="th-video-play">
-                       <?php echo storeone_get_video_icon($global_icon, $icon_color); ?>
+                       <?php
+$allowed_svg = array(
+    'svg' => array(
+        'viewBox' => true,
+        'width' => true,
+        'height' => true,
+        'fill' => true,
+        'stroke' => true,
+        'stroke-width' => true,
+        'xmlns' => true,
+    ),
+    'g' => array(),
+    'path' => array(
+        'd' => true,
+        'fill' => true,
+    ),
+    'polygon' => array(
+        'points' => true,
+        'fill' => true,
+    ),
+    'rect' => array(
+        'x' => true,
+        'y' => true,
+        'width' => true,
+        'height' => true,
+        'rx' => true,
+        'fill' => true,
+    ),
+    'circle' => array(
+        'cx' => true,
+        'cy' => true,
+        'r' => true,
+        'fill' => true,
+    ),
+);
+
+echo wp_kses(
+    storeone_get_video_icon($global_icon, $icon_color),
+    $allowed_svg
+);
+?>
                     </span>
 
                 </div>
@@ -312,7 +352,7 @@ class TH_Store_One_Product_Video_Frontend {
 
         // NO VIDEO → DEFAULT IMAGE
         if ( $enable !== 'yes' || empty($url) ) {
-            echo woocommerce_get_product_thumbnail();
+            echo wp_kses_post(woocommerce_get_product_thumbnail());
             return;
         }
         ?>
@@ -324,14 +364,14 @@ class TH_Store_One_Product_Video_Frontend {
                 $id = '';
 
                 // watch?v=
-                parse_str( parse_url( $url, PHP_URL_QUERY ), $vars );
+                parse_str( wp_parse_url( $url, PHP_URL_QUERY ), $vars );
                 if ( ! empty( $vars['v'] ) ) {
                     $id = $vars['v'];
                 }
 
                 // youtu.be/
                 if ( empty($id) && strpos($url, 'youtu.be') !== false ) {
-                    $id = trim( parse_url( $url, PHP_URL_PATH ), '/' );
+                    $id = trim( wp_parse_url( $url, PHP_URL_PATH ), '/' );
                 }
 
                 // embed/
@@ -360,7 +400,7 @@ class TH_Store_One_Product_Video_Frontend {
                 <?php endif; ?>
                <?php elseif ( $source === 'vimeo' ) :
 
-                $id = trim( parse_url( $url, PHP_URL_PATH ), '/' );
+                $id = trim(  wp_parse_url( $url, PHP_URL_PATH ), '/' );
 
                 if ( $id ) : ?>
                    <iframe 
@@ -384,7 +424,47 @@ class TH_Store_One_Product_Video_Frontend {
                     </video>
 
                     <span class="th-video-play">
-                       <?php echo storeone_get_video_icon($global_icon, $icon_color); ?>
+                       <?php
+$allowed_svg = array(
+    'svg' => array(
+        'viewBox' => true,
+        'width' => true,
+        'height' => true,
+        'fill' => true,
+        'stroke' => true,
+        'stroke-width' => true,
+        'xmlns' => true,
+    ),
+    'g' => array(),
+    'path' => array(
+        'd' => true,
+        'fill' => true,
+    ),
+    'polygon' => array(
+        'points' => true,
+        'fill' => true,
+    ),
+    'rect' => array(
+        'x' => true,
+        'y' => true,
+        'width' => true,
+        'height' => true,
+        'rx' => true,
+        'fill' => true,
+    ),
+    'circle' => array(
+        'cx' => true,
+        'cy' => true,
+        'r' => true,
+        'fill' => true,
+    ),
+);
+
+echo wp_kses(
+    storeone_get_video_icon($global_icon, $icon_color),
+    $allowed_svg
+);
+?>
                     </span>
 
                 </div>

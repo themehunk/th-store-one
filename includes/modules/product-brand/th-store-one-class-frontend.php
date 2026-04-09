@@ -24,7 +24,7 @@ class Th_StoreOne_Product_Brand_Frontend {
         add_action( 'wp', array( $this, 'register_hooks' ) );
         add_action( 'wp_enqueue_scripts', array( $this, 'add_inline_dynamic_css' ), 20 );
         add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_assets' ] );
-        add_shortcode( 'th_store_one_featured_brand', array( $this, 'shortcode_render' ) );
+        add_shortcode( 'th_store_one_featured_list', array( $this, 'shortcode_render' ) );
     }
 
     /* --------------------------------------------------------------------
@@ -38,7 +38,27 @@ class Th_StoreOne_Product_Brand_Frontend {
             [],
             TH_STORE_ONE_VERSION
         );
+        wp_enqueue_style(
+            'swiper-css',
+            TH_STORE_ONE_PLUGIN_URL . 'assets/css/swiper/swiper-bundle.min.css',
+            array(),
+            '11'
+        );
 
+        wp_enqueue_script(
+            'swiper-js',
+           TH_STORE_ONE_PLUGIN_URL . 'assets/js/swiper/swiper-bundle.min.js',
+            array(),
+            '11',
+            true
+        );
+        wp_enqueue_script(
+            'th-store-trust-badges',
+           TH_STORE_ONE_PLUGIN_URL . 'assets/js/th-store-trust-badges.js',
+            array(),
+            TH_STORE_ONE_VERSION,
+            false
+        );
        
     }
 
@@ -57,10 +77,10 @@ class Th_StoreOne_Product_Brand_Frontend {
                 continue;
             }
 
-            $placement = $rule['placement'] ?? 'after_summary';
-            $priority  = isset( $rule['priority'] ) ? absint( $rule['priority'] ) : 10;
+        $placement = $rule['placement'] ?? 'after_summary';
+        $priority  = isset( $rule['priority'] ) ? absint( $rule['priority'] ) : 10;
 
-            $hook = th_store_one_get_hook_from_placement( $placement );
+        $hook = th_store_one_get_hook_from_placement( $placement );
             add_action( $hook, function() use ( $rule ) {
 
                global $product;
@@ -218,13 +238,63 @@ class Th_StoreOne_Product_Brand_Frontend {
 
     ?>
     <div id="<?php echo esc_attr( $wrapper_id ); ?>" 
-         class="storeone-product-brand-wrapper">
+         class="storeone-product-brand-wrapper <?php echo ! empty($rule['black_image_enabled']) ? 's1-bw-mode' : ''; ?>"">
 
         <?php if ( ! empty( $rule['list_title'] ) ) : ?>
             <h3 class="storeone-product-brand-title">
                 <?php echo esc_html( $rule['list_title'] ); ?>
             </h3>
         <?php endif; ?>
+
+        <?php if ( ! empty( $rule['slider']['enabled'] ) ) : ?>
+
+<div 
+    class="storeone-product-brand-swiper swiper"
+    data-slides="<?php echo esc_attr( $rule['slider']['slides'] ?? 4 ); ?>"
+    data-autoplay="<?php echo ! empty($rule['slider']['autoplay']) ? 'true' : 'false'; ?>"
+    data-nav="<?php echo ! empty($rule['slider']['navigation']) ? 'true' : 'false'; ?>"
+    data-gap="<?php echo esc_attr( $rule['image_gap'] ?? 15 ); ?>"
+>
+
+    <div class="swiper-wrapper">
+
+        <?php foreach ( $rule['brand_list'] as $item ) : ?>
+
+            <?php if ( empty( $item['image_url'] ) ) continue; ?>
+
+            <div class="swiper-slide">
+
+                <div class="storeone-product-brand-item">
+
+                    <?php if ( ! empty( $item['link_enabled'] ) && ! empty( $item['link_url'] ) ) : ?>
+                        <a href="<?php echo esc_url( $item['link_url'] ); ?>" target="_blank">
+                    <?php endif; ?>
+
+                    <img 
+                        src="<?php echo esc_url( $item['image_url'] ); ?>" 
+                        style="max-width:<?php echo esc_attr( $rule['max_width'] ?? 100 ); ?>px;"
+                    />
+
+                    <?php if ( ! empty( $item['link_enabled'] ) ) : ?>
+                        </a>
+                    <?php endif; ?>
+
+                </div>
+
+            </div>
+
+        <?php endforeach; ?>
+
+    </div>
+
+    <?php if ( ! empty( $rule['slider']['navigation'] ) ) : ?>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    <?php endif; ?>
+
+</div>
+
+<?php else : ?>
 
         <ul class="storeone-product-brand-list">
 
@@ -240,16 +310,18 @@ class Th_StoreOne_Product_Brand_Frontend {
                            target="_blank" 
                            rel="noopener noreferrer">
                             <?php echo sprintf(
-                        '<img src="%s" alt="trust badge" style="max-width:%dpx;height:auto;object-fit:contain;" />',
+                        '<img src="%s" alt="" style="max-width:%spx;height:auto;object-fit:contain;" />',
                         esc_url( $item['image_url'] ),
-                        intval( $rule['max_width'] ?? 100 )
-                        ); ?>
+                        esc_attr( $rule['max_width'] ?? 100 )
+                    ); ?>
                         </a>
+
                     <?php else : ?>
+
                         <?php echo sprintf(
-                        '<img src="%s" alt="trust badge" style="max-width:%dpx;height:auto;object-fit:contain;" />',
+                        '<img src="%s" alt="" style="max-width:%spx;height:auto;object-fit:contain;" />',
                         esc_url( $item['image_url'] ),
-                        intval( $rule['max_width'] ?? 100 )
+                        esc_attr( $rule['max_width'] ?? 100 )
                     ); ?>
 
                     <?php endif; ?>
@@ -259,7 +331,7 @@ class Th_StoreOne_Product_Brand_Frontend {
             <?php endforeach; ?>
 
         </ul>
-
+<?php  endif;?>
     </div>
     <?php
    }
@@ -302,11 +374,27 @@ class Th_StoreOne_Product_Brand_Frontend {
     $margin_t  = $rule['margin_top'] ?? 10;
     $margin_b  = $rule['margin_bottom'] ?? 10;
 
-    $css  = "#".esc_attr($id)." { margin-top: ".esc_attr($margin_t)."px; margin-bottom: ".esc_attr($margin_b)."px; }";
-    $css .= "#".esc_attr($id).".storeone-product-brand-wrapper { background: ".esc_attr($bg)."; }";
-    $css .= "#".esc_attr($id)." .storeone-product-brand-title { color: ".esc_attr($title)."; }";
-    $css .= "#".esc_attr($id)." .storeone-product-brand-list { gap: ".esc_attr($gap)."; }";
-
+    $border = $rule['border'] ?? [];
+    $bw = $border['width'] ?? [];
+    $br = $border['radius'] ?? [];
+    $border_style = $border['style'] ?? 'solid';
+    $border_color = $border['color'] ?? '#eee';
+    $css  = "#{$id} { margin-top: {$margin_t}px; margin-bottom: {$margin_b}px; }";
+    $css .= "#{$id}.storeone-product-brand-wrapper .swiper-slide .storeone-product-brand-item,#{$id}.storeone-product-brand-wrapper .storeone-product-brand-item{ background: {$bg}; }";
+    $css .= "#{$id} .storeone-product-brand-title { color: {$title}; }";
+    $css .= "#{$id} .storeone-product-brand-list { gap: {$gap}; }";
+    $css .= "#{$id} .storeone-product-brand-list .storeone-product-brand-item,#{$id}.storeone-product-brand-wrapper .swiper-slide .storeone-product-brand-item{
+        border-style: {$border_style};
+        border-color: {$border_color};
+        border-top-width: " . ($bw['top'] ?? '0px') . ";
+        border-right-width: " . ($bw['right'] ?? '0px') . ";
+        border-bottom-width: " . ($bw['bottom'] ?? '0px') . ";
+        border-left-width: " . ($bw['left'] ?? '0px') . ";
+        border-top-left-radius: " . ($br['top'] ?? '0px') . ";
+        border-top-right-radius: " . ($br['right'] ?? '0px') . ";
+        border-bottom-right-radius: " . ($br['bottom'] ?? '0px') . ";
+        border-bottom-left-radius: " . ($br['left'] ?? '0px') . ";
+    }";
     return $css;
 }
  

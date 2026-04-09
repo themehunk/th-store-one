@@ -16,7 +16,7 @@ const ModuleGrid = ({ modulesList, modulesState, tabs, setActiveModule,licenseAc
             <div className="s1-top-section">
 
                 <div className="s1-modules__header">
-                    <h2>{__('Store', 'store-one')} <span>{__('Enhancer', 'th-store-one')}</span></h2>
+                    <h2>{__('Store', 'th-store-one')} <span>{__('Enhancer', 'th-store-one')}</span></h2>
                     <p>{__('A lightweight solution that boosts store performance and user experience, with easy setup, smooth functionality, and powerful add-ons to extend features as needed.', 'th-store-one')}</p>
                 </div>
                 <div className="s1-tabs">

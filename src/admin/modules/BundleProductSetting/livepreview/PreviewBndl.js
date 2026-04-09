@@ -54,7 +54,7 @@ const PreviewBndl = ({ settings = {} }) => {
                         <rect width="7" height="7" x="14" y="14" rx="1" />
                         <rect width="7" height="7" x="3" y="14" rx="1" />
                     </svg>
-                    <span>{__("Product Page", "store-one")}</span>
+                    <span>{__("Product Page", "th-store-one")}</span>
                 </button>
 
                 <button

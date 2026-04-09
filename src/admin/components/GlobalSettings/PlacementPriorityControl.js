@@ -3,12 +3,12 @@ import { __ } from "@wordpress/i18n";
 
 
 const PLACEMENTS = [
-    { label: __('Before Product Summary', 'store-one'), value: 'woocommerce_single_product_summary' },
-    { label: __('Before Add to Cart Form', 'store-one'), value: 'woocommerce_before_add_to_cart_form' },
-    { label: __('After Add to Cart Form', 'store-one'), value: 'woocommerce_after_add_to_cart_form' },
-    { label: __('Before Product Meta', 'store-one'), value: 'woocommerce_product_meta_start' },
-    { label: __('After Product Meta', 'store-one'), value: 'woocommerce_product_meta_end' },
-    { label: __('After Product Summary', 'store-one'), value: 'woocommerce_after_single_product_summary' },
+    { label: __('Before Product Summary', 'th-store-one'), value: 'woocommerce_single_product_summary' },
+    { label: __('Before Add to Cart Form', 'th-store-one'), value: 'woocommerce_before_add_to_cart_form' },
+    { label: __('After Add to Cart Form', 'th-store-one'), value: 'woocommerce_after_add_to_cart_form' },
+    { label: __('Before Product Meta', 'th-store-one'), value: 'woocommerce_product_meta_start' },
+    { label: __('After Product Meta', 'th-store-one'), value: 'woocommerce_product_meta_end' },
+    { label: __('After Product Summary', 'th-store-one'), value: 'woocommerce_after_single_product_summary' },
 ];
 
 export default function PlacementPriorityControl({

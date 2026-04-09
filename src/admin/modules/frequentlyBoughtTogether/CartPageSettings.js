@@ -28,15 +28,15 @@ export default function CartPageSettings({
                     value={settings.cart_enabled}
                     onChange={(v) => updateSetting('cart_enabled', v)}
                     options={[
-                         { label: __('Active', 'store-one'), value: 'active' },
-                         { label: __('Inactive', 'store-one'), value: 'inactive' },
+                         { label: __('Active', 'th-store-one'), value: 'active' },
+                         { label: __('Inactive', 'th-store-one'), value: 'inactive' },
                     ]}
                />
                </div>
 
             {/* BUNDLE TITLE */}
             <div className="s1-field-control">
-                <label className="s1-field-label">{__('Bundle title', 'store-one')}</label>
+                <label className="s1-field-label">{__('Bundle title', 'th-store-one')}</label>
                 <TextControl
                     value={settings.cart_bundle_title}
                     onChange={(v) => updateSetting('cart_bundle_title', v)}
@@ -44,14 +44,14 @@ export default function CartPageSettings({
             </div>
 
            <div className="s1-field-control">
-                <label className="s1-field-label">{__('You save label', 'store-one')}</label>
+                <label className="s1-field-label">{__('You save label', 'th-store-one')}</label>
                 <TextControl
                     value={settings.cart_you_save_label}
                     onChange={(v) => updateSetting('cart_you_save_label', v)}
                 />
             </div>
             <div className="s1-field-control">
-                <label className="s1-field-label">{__('Button Text', 'store-one')}</label>
+                <label className="s1-field-label">{__('Button Text', 'th-store-one')}</label>
                 <TextControl
                     value={settings.cart_button_text}
                     onChange={(v) => updateSetting('cart_button_text', v)}

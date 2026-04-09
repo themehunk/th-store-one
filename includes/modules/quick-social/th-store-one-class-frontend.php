@@ -100,9 +100,22 @@ class Th_StoreOne_Quick_Social {
                 $url  = $this->build_dynamic_url( $data );
                 if ( empty( $url ) ) continue;
 
+                // $label = ! empty( $data['custom_label'] )
+                //     ? $data['custom_label']
+                //     : ucfirst( $data['selected_icon'] ?? '' );
+                $icon = strtolower( $data['selected_icon'] ?? '' );
+
+                /* default label */
+                $default_label = ucfirst( $icon );
+
+                /* override cases */
+                if ( $icon === 'twitter' ) {
+                    $default_label = 'X';
+                }
+
                 $label = ! empty( $data['custom_label'] )
                     ? $data['custom_label']
-                    : ucfirst( $data['selected_icon'] ?? '' );
+                    : $default_label;
             ?>
             <?php
             $brand_style = '';
@@ -363,6 +376,9 @@ echo wp_kses(
 
     $encoded_url  = urlencode( $page_url );
     $share_text   = ! empty( $data['share_text'] ) ? $data['share_text'] : $page_title;
+    /* ===== REPLACE PLACEHOLDERS ===== */
+    $share_text = str_replace('[TITLE]', $page_title, $share_text);
+    $share_text = str_replace('{TITLE}', $page_title, $share_text);
     $encoded_text = urlencode( $share_text );
 
     switch ( $platform ) {
@@ -414,10 +430,10 @@ echo wp_kses(
     } else {
 
         $styles = array(
-            '--s1-icon-color'       => esc_attr($rule['icon_clr']) ?? '#111',
-            '--s1-icon-bg'          => esc_attr($rule['icon_bg_clr']) ?? '#fff',
-            '--s1-icon-bg-hover'    => esc_attr($rule['icon_bg_hvr_clr']) ?? '#eee',
-            '--s1-icon-color-hover' => esc_attr($rule['icon_hvr_clr']) ?? '#2563eb',
+            '--s1-icon-color'       => $rule['icon_clr'] ?? '#111',
+            '--s1-icon-bg'          => $rule['icon_bg_clr'] ?? '#fff',
+            '--s1-icon-bg-hover'    => $rule['icon_bg_hvr_clr'] ?? '#eee',
+            '--s1-icon-color-hover' => $rule['icon_hvr_clr'] ?? '#2563eb',
         );
 
         foreach ( $styles as $key => $value ) {
@@ -556,9 +572,9 @@ private function get_brand_style( $icon ) {
                 }
 
                 $placement = $rule['placement'] ?? 'after_summary';
-                $priority  = isset( $rule['priority'] ) ? absint( $rule['priority'] ) : 10;
+        $priority  = isset( $rule['priority'] ) ? absint( $rule['priority'] ) : 10;
 
-                $hook = th_store_one_get_hook_from_placement( $placement );
+        $hook = th_store_one_get_hook_from_placement( $placement );
 
                 add_action(
                     $hook,

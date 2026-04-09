@@ -43,7 +43,7 @@ export default function FlipControl({
         isPressed={orientation === "horizontal"}
         onClick={() => update("orientation", "horizontal")}
     >
-        {__("Horizontal", "store-one")}
+        {__("Horizontal", "th-store-one")}
     </Button>
 
     <Button
@@ -51,7 +51,7 @@ export default function FlipControl({
         isPressed={orientation === "vertical"}
         onClick={() => update("orientation", "vertical")}
     >
-        {__("Vertical", "store-one")}
+        {__("Vertical", "th-store-one")}
     </Button>
 
     <Button
@@ -59,7 +59,7 @@ export default function FlipControl({
         isPressed={orientation === "both"}
         onClick={() => update("orientation", "both")}
     >
-        {__("Both", "store-one")}
+        {__("Both", "th-store-one")}
     </Button>
 
 </ButtonGroup>

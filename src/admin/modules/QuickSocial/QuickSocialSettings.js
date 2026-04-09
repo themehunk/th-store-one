@@ -43,7 +43,7 @@ export default function QuickSocialSettings({
                     setRules(s.rules);
                 }
             })
-            .catch(() => setError(__('Failed to load settings.', 'store-one')))
+            .catch(() => setError(__('Failed to load settings.', 'th-store-one')))
             .finally(() => setLoading(false));
     }, []);
 
