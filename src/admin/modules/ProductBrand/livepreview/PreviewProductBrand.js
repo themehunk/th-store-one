@@ -27,7 +27,7 @@ const PreviewProductBrand = ({ settings = {} }) => {
     borderBottomRightRadius: border?.radius?.bottom || "4px",
     borderBottomLeftRadius: border?.radius?.left || "4px",
   });
-console.log("PreviewProductBrand settings:", settings);
+
   return (
     <div className="s1-product-preview product-brand ">
       <div className="s1-main-product">

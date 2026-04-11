@@ -46,21 +46,23 @@ const newSaleRule = () => ({
       id: crypto.randomUUID(),
       fakeCustomerName: "",
       fakeCustomerAddress: "{city}, {state}, {country}, {address}",
+      fakeTime:"1 Week ago",
       fakePrductSrc: "store_product",
       fakeProductList: [],
-      fakeCustomProduct: "{Product Name}, {Price}, {Sku}, {address}",
+      fakeCustomProduct: "{Product Name}, {Price}, {Sku}",
       fakeprd_image_url: "",
       open: true,
     },
   ],
-  display_notification: "{customer name} from {city} purchase, {product name}",
-  display_duration: 5,
-  delay_between: 10,
+  display_notification: "{customer name} from {city} ",
+  display_notification_n:"purchase, {product name} {sku}",
+  display_duration: 4,
+  delay_between: 5,
   position: "bottom_right",
   devices: ["desktop"],
-  initial_delay: 3,
+  initial_delay: "2",
   random_delay: true,
-  random_delay_range: 10,
+  random_delay_range: "4",
   animation: "slide",
   loop: true,
   productsInclude: [],
@@ -248,10 +250,19 @@ export default function SaleNotificationRule({
   };
 
   const updateFakeItemField = (ruleIndex, itemIndex, field, value) => {
-    const list = [...rules[ruleIndex].fake_orders];
-    list[itemIndex][field] = value;
-    updateFakeList(ruleIndex, list);
-  };
+
+  const list = rules[ruleIndex].fake_orders.map((item, i) => {
+    if (i === itemIndex) {
+      return {
+        ...item,
+        [field]: value,
+      };
+    }
+    return item;
+  });
+
+  updateFakeList(ruleIndex, list);
+};
 
   const toggleFakeItem = (ruleIndex, itemIndex) => {
     const list = [...rules[ruleIndex].fake_orders];
@@ -561,8 +572,29 @@ export default function SaleNotificationRule({
                                               v,
                                             )
                                           }
-                                          placeholder="{name}, {city}, {state}, {country}, {address}"
+                                          placeholder="{customer_name}, {city}, {state}, {country}, {address}"
                                         />
+                                        
+                                      </S1Field>
+                                      <S1Field
+                                        label={__(
+                                          "Time to Sold",
+                                          "th-store-one",
+                                        )}
+                                      >
+                                        <TextControl
+                                          value={item.fakeTime}
+                                          onChange={(v) =>
+                                            updateFakeItemField(
+                                              index,
+                                              i,
+                                              "fakeTime",
+                                              v,
+                                            )
+                                          }
+                                          placeholder="1 week ago"
+                                        />
+                                        
                                       </S1Field>
 
                                       <S1Field
@@ -606,12 +638,8 @@ export default function SaleNotificationRule({
                                           label="Select Product"
                                           value={rule.fakeProductList || []}
                                           onChange={(items) =>
-                                            updateField(
-                                              index,
-                                              "fakeProductList",
-                                              items,
-                                            )
-                                          }
+    updateFakeItemField(index, i, "fakeProductList", items)
+  }
                                           detailedView={true}
                                           isSingle={true}
                                         />
@@ -633,8 +661,14 @@ export default function SaleNotificationRule({
                                                   v,
                                                 )
                                               }
-                                              placeholder="{Product Name}, {Price}, {Sku}, {address}"
+                                              placeholder="{Product Name}, {Price}, {Sku}"
                                             />
+                                            <p className="s1-help-text">
+                                              Available Tags:{" "}
+                                              {
+                                                "{order}, {invoice}, {ref}"
+                                              }
+                                            </p>
                                           </S1Field>
                                           <S1Field
                                             label={__(
@@ -755,7 +789,7 @@ export default function SaleNotificationRule({
                       <div className="store-one-rule-body">
                         <S1Field
                           label={__(
-                            "Display Notification Format",
+                            "Display Notification Format (Bold)",
                             "th-store-one",
                           )}
                         >
@@ -764,7 +798,27 @@ export default function SaleNotificationRule({
                             onChange={(items) =>
                               updateField(index, "display_notification", items)
                             }
-                            placeholder="{customer name} from {city} purchase, {product name}"
+                            placeholder="{customer name} from {city}"
+                          />
+                          <p className="s1-help-text">
+                            Available Tags:{" "}
+                            {
+                              "{customer_name}, {city}, {state}, {country}, {product_name}, {order}, {invoice}, {ref}"
+                            }
+                          </p>
+                        </S1Field>
+                        <S1Field
+                          label={__(
+                            "Display Notification Format",
+                            "th-store-one",
+                          )}
+                        >
+                          <TextControl
+                            value={rule.display_notification_n}
+                            onChange={(items) =>
+                              updateField(index, "display_notification_n", items)
+                            }
+                            placeholder="purchase {product_name} {sku}"
                           />
                           <p className="s1-help-text">
                             Available Tags:{" "}
@@ -784,7 +838,7 @@ export default function SaleNotificationRule({
                           >
                             <TextControl
                               type="number"
-                              value={rule.display_duration || 5}
+                              value={rule.display_duration || 4}
                               onChange={(v) =>
                                 updateField(
                                   index,
@@ -805,7 +859,7 @@ export default function SaleNotificationRule({
                           >
                             <TextControl
                               type="number"
-                              value={rule.delay_between || 10}
+                              value={rule.delay_between || 5}
                               onChange={(v) =>
                                 updateField(
                                   index,
@@ -849,7 +903,7 @@ export default function SaleNotificationRule({
                               label={__("Initial Delay", "th-store-one")}
                             >
                               <UniversalRangeControl
-                                value={rule.initial_delay || "10"}
+                                value={String(rule.initial_delay ?? 2)}
                                 min={1}
                                 max={30}
                                 step={1}
@@ -876,7 +930,7 @@ export default function SaleNotificationRule({
                                 label={__("Random Delay Range", "th-store-one")}
                               >
                                 <UniversalRangeControl
-                                  value={rule.random_delay_range || "10"}
+                                  value={String(rule.random_delay_range ?? 4)}
                                   min={1}
                                   max={30}
                                   step={1}
@@ -933,7 +987,7 @@ export default function SaleNotificationRule({
                           <SelectControl
                             value={rule.trigger_type}
                             options={[
-                              { label: "All Products", value: "all_products" },
+                              { label: "All Pages", value: "all_products" },
                               {
                                 label: "Specific Products",
                                 value: "specific_products",

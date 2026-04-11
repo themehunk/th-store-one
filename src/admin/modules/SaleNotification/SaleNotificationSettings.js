@@ -66,7 +66,7 @@ export default function SaleNotificationSettings({
             .catch(() => setError(__('Failed to save.', 'th-store-one')))
             .finally(() => setSaving(false));
     };
-    /* THIS IS THE KEY — AdminMain yahin se save call karta hai */
+    /* THIS IS THE KEY */
     useEffect(() => {
         onRegisterSave?.(() => handleSave);
     }, [rules]);
