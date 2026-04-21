@@ -30,7 +30,7 @@ const MODULE_ID = "buynow-button";
  * --------------------------------- */
 const DEFAULT_SETTINGS = {
   enable_shop_page: true,
-  archive_position: "before_add_to_cart",
+  archive_position: "after_add_to_cart",
   archive_btn_text: __("Buy Now", "th-store-one"),
   hide_shop_add_to_cart_button: false,
   archive_default_quantity: 1,
@@ -50,7 +50,7 @@ const DEFAULT_SETTINGS = {
   exclude_enabled: false,
 
   enable_single_page: false,
-  single_placement: "after_summary",
+  single_placement: "woocommerce_after_add_to_cart_form",
   single_priority: 10,
   hide_single_add_to_cart_button: false,
   single_btn_text: __("Buy Now", "th-store-one"),
@@ -72,7 +72,7 @@ const DEFAULT_SETTINGS = {
   custom_page_url: "https://",
   reset_cart_before_buy_now: false,
   product_types: ["simple", "variable"],
-
+  btn_style: "default_btn_style",
   btn_bg_clr: "#111",
   btn_text_clr: "#ffffff",
 
@@ -237,9 +237,9 @@ export default function BuyNowButtonSettings({
                   icon: ICONS.SETTINGS,
                   content: (
                     <>
-                      <S1FieldGroup title={__("Shop page", "th-store-one")}>
+                      <S1FieldGroup title={__("Archive page", "th-store-one")}>
                         <S1Field
-                          label={__("Enable on Shop Page", "th-store-one")}
+                          label={__("Enable on Archive Page", "th-store-one")}
                           classN="s1-toggle-wrpapper"
                         >
                           <ToggleControl

@@ -29,18 +29,21 @@
  display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 34px;
+  padding: 0.8rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .s1-offer-time{
     margin-left:0rem;
 }
 .s1-offer-banner{
-text-align: center;
+    text-align: center;
     padding: 10px 14px;
     background: #f3f4f6;
     color: #111;
-    font-size: 0.82rem;
+    font-size: 1rem;
     font-weight:normal;
 }
 /* ===============================
@@ -141,7 +144,7 @@ text-align: center;
 
 /* TITLE */
 .th-sticky-cart .th-title {
- font-size: 0.89rem;
+ font-size: 1.1rem;
   font-weight: 600;
   color: #111827;
   line-height: 1.2;
@@ -149,7 +152,7 @@ text-align: center;
 
 /* PRICE */
 .th-sticky-cart .th-price {
-      font-size: 0.88rem;
+  font-size: 0.90rem;
   font-weight: 500;
   color: #16a34a;
 }
@@ -161,12 +164,13 @@ text-align: center;
   display: flex;
   align-items: center;
   gap: 10px;
+  
 }
 
 /* QTY */
 .th-sticky-cart .th-qty {
   width: 60px;
- height: 31px;
+ height:41px;
  opacity:0.5;
   border-radius: 8px;
   border: none;
@@ -176,18 +180,16 @@ text-align: center;
 
 /* BUTTON */
 .th-sticky-cart .th-btn {
-  padding: 8px 16px;
-  font-size: 12px;
+  padding:0;
+ height: 42px;
+    width: 120px;
   font-weight: 600;
   border-radius: 8px;
-
   background: linear-gradient(135deg, #facc15, #fbbf24);
   color: #111;
   border: none;
-
   cursor: pointer;
   transition: all 0.25s ease;
-
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
 }
 
@@ -270,7 +272,7 @@ text-align: center;
 }
 
 .th-sticky-cart .th-var-select {
-  padding: 5px 8px;
+  height: 41px;
   font-size: 12px;
 }
 
@@ -297,4 +299,29 @@ text-align: center;
   align-items: center;
   padding: 10px 14px;
 }
+.th-sticky-cart .th-qty {
+    width: 40px;
+    height: 32px;
+  }
+  .th-sticky-cart .th-var-select {
+    height: 32px;
+    font-size: 12px;
+  }
+  .th-sticky-cart .th-btn {
+    padding: 0;
+    height: 32px;
+    width: 100px;
+    font-weight: 600;
+    font-size: 14px;}
+    .th-sticky-cart .th-title {
+    font-size: 0.89rem;}
+    .th-sticky-cart .th-price {
+    font-size: 0.78rem;}
+    .th-sticky-cart .th-thumb img {
+    width: 55px;
+    height: 55px;
+    }
+    .s1-offer-banner {
+    font-size: 0.89rem;
+    }
 }

@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 // ------------------ Constants ------------------.
-define( 'TH_STORE_ONE_VERSION', '1.0.17' );
+define( 'TH_STORE_ONE_VERSION', '1.0.16' );
 define( 'TH_STORE_ONE_PLUGIN_FILE', __FILE__ );
 define( 'TH_STORE_ONE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'TH_STORE_ONE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -55,6 +55,8 @@ add_action(
 		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/product-video/th-store-one-class-frontend.php';
 		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/sale-notification/th-store-one-class-frontend.php';
 		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/sticky-cart/th-store-one-class-frontend.php';
+		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/buynow-button/th-store-one-class-frontend.php';
+
 		if ( class_exists( 'Th_Store_One_Buy_To_List_Frontend' ) ) {
 			new Th_Store_One_Buy_To_List_Frontend();
 		}
@@ -75,6 +77,9 @@ add_action(
 		}
 		if ( class_exists( 'Th_Store_One_Sticky_Cart_Frontend' ) ) {
 			new Th_Store_One_Sticky_Cart_Frontend();
+		}
+		if ( class_exists( 'Th_Store_One_Buy_Now_Frontend' ) ) {
+			new Th_Store_One_Buy_Now_Frontend();
 		}
 	}
 );
