@@ -35,7 +35,8 @@ const AdminMain = () => {
     "trust-badges": false,
     "sale-notification": false,
     "sticky-cart": false,
-    "buynow-button":false
+    "buynow-button":false,
+    "inactive-tab": false
   });
   const tabs = [
     {
@@ -494,6 +495,18 @@ const AdminMain = () => {
                       }
                     />
                   )}
+                  
+                  {currentModule?.id === "inactive-tab" && (
+                    <PreviewPane
+                      currentModule={currentModule}
+                      settings={
+                        livePreviewSettings[currentModule.id] ||
+                        moduleSettings[currentModule.id]?.rules?.[0] ||
+                        moduleSettings[currentModule.id]
+                      }
+                    />
+                  )}
+
                 </div>
               </div>
             </div>

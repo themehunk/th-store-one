@@ -51,6 +51,7 @@ class Th_Store_One_Modules {
 			'sale-notification' => false,
 			'sticky-cart'       => false,
 			'buynow-button'     => false,
+			'inactive-tab'      => false,
 		);
 	}
 	/**

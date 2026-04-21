@@ -10,6 +10,7 @@ import ProductVideo from '../../modules/ProductVideo/livepreview/PreviewProductV
 import SaleNotification from '../../modules/SaleNotification/livepreview/PreviewSaleNotification';
 import PreviewStickyCart from '../../modules/StickyCart/livepreview/PreviewStickyCart';
 import PreviewBuyNow from '../../modules/BuyNowButton/livepreview/PreviewBuyNow';
+import previewInactiveTab from '../../modules/InactiveTab/livepreview/previewInactiveTab';
 import { useSelect } from '@wordpress/data';
 
 import { STORE_NAME } from '@th-storeone/store/productVideoStore';
@@ -102,6 +103,12 @@ const PreviewPane = ({ currentModule, settings }) => {
                             )}
                              {currentModule?.id === "buynow-button" && activeRule && (
                                 <PreviewBuyNow
+                                    key={currentModule.id}
+                                    settings={activeRule}
+                                />
+                            )}
+                            {currentModule?.id === "inactive-tab" && activeRule && (
+                                <previewInactiveTab
                                     key={currentModule.id}
                                     settings={activeRule}
                                 />

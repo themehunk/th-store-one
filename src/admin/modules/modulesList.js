@@ -378,5 +378,56 @@ export const modulesList = [
 </svg>
   ),
   premium: false,
+},
+{
+  id: "inactive-tab-message",
+  label: __("Inactive Tab Message", "th-store-one"),
+  description: __(
+    "Modify the browser tab title when visitors switch away from your store to grab attention and encourage them to return.",
+    "th-store-one"
+  ),
+  icon: (
+    <svg
+      className="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Browser tab */}
+      <rect
+        x="3"
+        y="5"
+        width="18"
+        height="14"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+
+      {/* Tab header */}
+      <path
+        d="M3 8H21"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+
+      {/* Alert / attention indicator */}
+      <circle
+        cx="17"
+        cy="6.5"
+        r="1"
+        fill="currentColor"
+      />
+
+      {/* Text lines */}
+      <path
+        d="M7 12H13M7 15H11"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
+  premium: false,
 }
 ];

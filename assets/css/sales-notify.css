@@ -229,8 +229,13 @@ color:#fff;
     font-size: 12px;
     
 }
-.th-bottom_right { bottom: 20px; right: 10px; }
-.th-bottom_left { bottom: 20px; left: 10px; }
-.th-top_right { top: 20px; right: 10px; }
-.th-top_left { top: 20px; left: 10px; }
+.th-bottom_right { bottom: 20px; right: 0px; }
+.th-bottom_left { bottom: 20px; left: 0px; }
+.th-top_right { top: 20px; right: 0px; }
+.th-top_left { top: 20px; left: 0px; }
+.th-sale-group .th-notification {
+        left: 0!important;
+        right: 0!important;
+        margin: auto!important;
+    }
 }
