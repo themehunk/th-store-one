@@ -380,7 +380,7 @@ export const modulesList = [
   premium: false,
 },
 {
-  id: "inactive-tab-message",
+  id: "inactive-tab",
   label: __("Inactive Tab Message", "th-store-one"),
   description: __(
     "Modify the browser tab title when visitors switch away from your store to grab attention and encourage them to return.",

@@ -1,0 +1,39 @@
+.s1-inactive-preview-wrap {
+  padding: 12px;
+  background: #f3f4f6;
+  border-radius: 10px;
+}
+
+.s1-browser-tab {
+display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    padding:12px 17px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    font-size: 13px;
+    max-width: 280px;
+    justify-content: space-between;
+    margin: auto;
+}
+.s1-browser-msg{
+     display: flex;
+    gap: 5px;
+    align-items: anchor-center;
+}
+.s1-tab-favicon span{
+    font-size:28px;
+}
+.s1-tab-favicon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.s1-tab-title {
+  font-weight: 500;
+  color: #111827;
+}

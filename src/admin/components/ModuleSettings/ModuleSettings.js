@@ -20,6 +20,7 @@ import ProductVideoSettings from '../../modules/ProductVideo/ProductVideoSetting
 import SaleNotificationSettings from '../../modules/SaleNotification/SaleNotificationSettings';
 import StickyCartSettings from '../../modules/StickyCart/StickyCartSettings';
 import BuyNowButtonSettings from '../../modules/BuyNowButton/BuyNowButtonSettings';
+import InactiveTabSettings from '../../modules/InactiveTab/InactiveTabSettings';
 
 const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, onSettingsChange, onLivePreview,onRegisterSave ,licenseActive}) => {
     const enabled = !!modulesState[currentModule.id];
@@ -89,6 +90,14 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                     onLivePreview={onLivePreview}
                     onRegisterSave={onRegisterSave}
                 />
+            case 'inactive-tab':
+                return <InactiveTabSettings
+                    onSettingsChange={onSettingsChange}
+                    onLivePreview={onLivePreview}
+                    onRegisterSave={onRegisterSave}
+                />
+
+                
             default:
                 return <p className="s1-settings__placeholder">
                     {__('More settings will appear here…', 'th-store-one')}
