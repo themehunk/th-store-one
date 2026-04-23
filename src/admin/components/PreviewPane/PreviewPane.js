@@ -11,6 +11,7 @@ import SaleNotification from '../../modules/SaleNotification/livepreview/Preview
 import PreviewStickyCart from '../../modules/StickyCart/livepreview/PreviewStickyCart';
 import PreviewBuyNow from '../../modules/BuyNowButton/livepreview/PreviewBuyNow';
 import PreviewInactiveTab from '../../modules/InactiveTab/livepreview/PreviewInactiveTab';
+import PreviewStockScarcity from '../../modules/StockScarcity/livepreview/PreviewStockScarcity';
 import { useSelect } from '@wordpress/data';
 
 import { STORE_NAME } from '@th-storeone/store/productVideoStore';
@@ -113,6 +114,15 @@ const PreviewPane = ({ currentModule, settings }) => {
                                     settings={activeRule}
                                 />
                             )}
+
+                            {currentModule?.id === "stock-scarcity" && activeRule && (
+                                <PreviewStockScarcity
+                                    key={currentModule.id}
+                                    settings={activeRule}
+                                />
+                            )}
+
+                             
 
                            
                             

@@ -36,7 +36,9 @@ const AdminMain = () => {
     "sale-notification": false,
     "sticky-cart": false,
     "buynow-button":false,
-    "inactive-tab": false
+    "inactive-tab": false,
+    "stock-scarcity": false,
+    "product-video": false,
   });
   const tabs = [
     {
@@ -497,6 +499,17 @@ const AdminMain = () => {
                   )}
                   
                   {currentModule?.id === "inactive-tab" && (
+                    <PreviewPane
+                      currentModule={currentModule}
+                      settings={
+                        livePreviewSettings[currentModule.id] ||
+                        moduleSettings[currentModule.id]?.rules?.[0] ||
+                        moduleSettings[currentModule.id]
+                      }
+                    />
+                  )}
+
+                  {currentModule?.id === "stock-scarcity" && (
                     <PreviewPane
                       currentModule={currentModule}
                       settings={
