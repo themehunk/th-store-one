@@ -1,0 +1,150 @@
+/* =========================
+   MAIN WRAPPER
+========================= */
+.s1-ntf-preview-wrap {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+
+
+/* =========================
+   PREVIEW AREA
+========================= */
+.s1-ntf-preview-wrap .s1-preview-area {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 20px;
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =========================
+   POPUP BASE
+========================= */
+.s1-ntf-preview-wrap .s1-sale-popup {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  max-width: 320px;
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 10px;
+  animation: s1FadeIn 0.3s ease;
+}
+
+/* image */
+.s1-ntf-preview-wrap .s1-sale-img {
+  width: 65px;
+  height: 65px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* content */
+.s1-ntf-preview-wrap .s1-sale-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.s1-ntf-preview-wrap .s1-sale-content strong {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.s1-ntf-preview-wrap .s1-sale-content p {
+  margin: 0;
+  font-size: 0.88rem;
+  margin-bottom: 0.2rem;
+}
+
+.s1-ntf-preview-wrap .s1-sale-content span {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+/* =========================
+   STYLE 1 - CLASSIC
+========================= */
+.s1-ntf-preview-wrap .s1-sale-popup.style1 {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+}
+
+/* =========================
+   STYLE 2 - MODERN
+========================= */
+.s1-ntf-preview-wrap .s1-sale-popup.style2 {
+  background: #111827;
+  color: #ffffff;
+  border-radius: 12px;
+}
+
+.s1-ntf-preview-wrap .s1-sale-popup.style2 span {
+  color: #9ca3af;
+}
+
+/* =========================
+   STYLE 3 - MINIMAL
+========================= */
+.s1-ntf-preview-wrap .s1-sale-popup.style3 {
+  background: transparent;
+  border: 1px dashed #cbd5e1;
+}
+
+.s1-ntf-preview-wrap .s1-sale-popup.style3 span {
+  color: #94a3b8;
+}
+
+/* =========================
+   STYLE 4 - ELEGANT
+========================= */
+.s1-ntf-preview-wrap .s1-sale-popup.style4 {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.s1-ntf-preview-wrap .s1-sale-popup.style4 span {
+  color: rgba(255,255,255,0.7);
+}
+
+/* =========================
+   ANIMATION
+========================= */
+@keyframes s1FadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* make popup relative */
+.s1-ntf-preview-wrap .s1-sale-popup {
+  position: relative;
+}
+
+/* close button */
+.s1-ntf-preview-wrap .s1-close-btn {
+  position: absolute;
+      top: 6px;
+    right: 9px;
+  font-size: 16px;
+  cursor: pointer;
+  color: #9ca3af;
+  transition: all 0.2s ease;
+}
+
+/* hover */
+.s1-ntf-preview-wrap .s1-close-btn:hover {
+  color: #111827;
+}

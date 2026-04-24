@@ -1,0 +1,241 @@
+/* ROOT */
+#th-sale-notify-root{
+    position: fixed;
+    z-index: 9999;
+}
+
+/* MAIN BOX */
+.th-notification {
+    position: fixed;
+    width: 320px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+        padding: 15px;
+
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+
+    opacity: 0;
+    visibility: hidden;
+    transform: none;
+
+    transition: all 0.4s ease;
+}
+
+/* SHOW */
+.th-notification.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* HIDE */
+.th-notification.hide {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* INNER */
+.th-notification .th-inner {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+    align-items: center;
+    position: relative;
+}
+.s1-sale-prd-link{
+    position:absolute;
+    top:0;
+    bottom:0;
+    right:0;
+    left:0;
+}
+
+/* IMAGE */
+.th-notification .th-inner img {
+    width: 65px;
+  height: 65px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* CONTENT */
+.th-notification .th-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.th-notification .th-line-1 {
+   font-size: 1rem;
+  font-weight: 600;
+}
+
+.th-notification .th-line-2 {
+      margin: 0;
+  font-size: 0.88rem;
+    margin-bottom: 0.2rem;
+}
+
+.th-notification .th-time {
+   font-size: 0.75rem;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+/* POSITIONS */
+.th-bottom_right { bottom: 20px; right: 20px; }
+.th-bottom_left { bottom: 20px; left: 20px; }
+.th-top_right { top: 20px; right: 20px; }
+.th-top_left { top: 20px; left: 20px; }
+
+/* CLOSE BUTTON */
+.th-notification .th-close-btn {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    font-size: 16px;
+   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    z-index: 9999;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.th-notification .th-close-btn:hover {
+    background:transparent;
+    color: #111;
+    transform: scale(1.1) rotate(90deg);
+}
+.s1-sale-prd-link:focus{
+    outline:none;
+}
+/* ================= STYLE ================= */
+.th-notification.style1 {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+}
+
+.th-notification.style2 {
+    background: #111827;
+    color: #fff;
+}
+.th-notification.style2 .th-close-btn,.th-notification.style4 .th-close-btn {
+color:#fff;
+}
+.th-notification.style2 .th-time {
+    color: #9ca3af;
+}
+
+.th-notification.style3 {
+    background: transparent;
+    border: 1px dashed #cbd5e1;
+}
+.th-notification.style3 .th-time {
+    color: #94a3b8;
+}
+
+.th-notification.style4 {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    color: #fff;
+}
+.th-notification.style4 .th-time {
+    color: rgba(255,255,255,0.7);
+}
+
+/* ================= ANIMATION ================= */
+
+/* SLIDE */
+.th-notification.slide {
+    transform: translateY(20px);
+}
+.th-notification.slide.show {
+    transform: translateY(0);
+}
+.th-notification.slide.hide {
+    transform: translateY(20px);
+}
+
+/* FADE */
+.th-notification.fade {
+    transform: none;
+}
+.th-notification.fade.show {
+    opacity: 1;
+}
+.th-notification.fade.hide {
+    opacity: 0;
+}
+
+/* ZOOM */
+.th-notification.zoom {
+    transform: scale(0.8);
+}
+.th-notification.zoom.show {
+    transform: scale(1);
+}
+.th-notification.zoom.hide {
+    transform: scale(0.8);
+}
+
+
+
+@media (max-width: 767px) {
+ .th-sale-group .th-notification .th-content {
+    display: flex;
+    flex-direction: row;
+    white-space: nowrap;
+    gap:5px;
+}
+.th-sale-group .th-notification .th-inner{
+    gap:8px;
+}
+
+.th-sale-group .th-notification .th-line-1 {
+    font-size:0.78rem;
+    font-weight: 600;
+    margin-bottom:0;
+}
+
+.th-sale-group .th-notification .th-line-2{
+    font-size:0.70rem;
+     margin-bottom:0;
+}
+
+.th-sale-group  .th-notification .th-inner img {
+    width: 25px;
+    height: 25px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+.th-sale-group .th-notification{
+    padding:10px!important;
+}
+.th-sale-group .th-notification {
+  
+    width: 360px;
+    
+}
+.th-sale-group .th-notification .th-close-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+     width: 22px;
+    height: 22px;
+    font-size: 12px;
+    
+}
+.th-bottom_right { bottom: 20px; right: 0px; }
+.th-bottom_left { bottom: 20px; left: 0px; }
+.th-top_right { top: 20px; right: 0px; }
+.th-top_left { top: 20px; left: 0px; }
+.th-sale-group .th-notification {
+        left: 0!important;
+        right: 0!important;
+        margin: auto!important;
+    }
+}

@@ -7,6 +7,11 @@ import PreviewQuickSocial from '../../modules/QuickSocial/livepreview/PreviewQui
 import PreviewProductBrand from '../../modules/ProductBrand/livepreview/PreviewProductBrand';
 import TrustBadges from '../../modules/TrustBadges/livepreview/PreviewTrustBadges';
 import ProductVideo from '../../modules/ProductVideo/livepreview/PreviewProductVideo';
+import SaleNotification from '../../modules/SaleNotification/livepreview/PreviewSaleNotification';
+import PreviewStickyCart from '../../modules/StickyCart/livepreview/PreviewStickyCart';
+import PreviewBuyNow from '../../modules/BuyNowButton/livepreview/PreviewBuyNow';
+import PreviewInactiveTab from '../../modules/InactiveTab/livepreview/PreviewInactiveTab';
+import PreviewStockScarcity from '../../modules/StockScarcity/livepreview/PreviewStockScarcity';
 import { useSelect } from '@wordpress/data';
 
 import { STORE_NAME } from '@th-storeone/store/productVideoStore';
@@ -85,6 +90,42 @@ const PreviewPane = ({ currentModule, settings }) => {
                                 />
             
                             )}
+                            {currentModule?.id === "sale-notification" && activeRule && (
+                                <SaleNotification
+                                    key={currentModule.id}
+                                    settings={activeRule}
+                                />
+                            )}
+                            {currentModule?.id === "sticky-cart" && activeRule && (
+                                <PreviewStickyCart
+                                    key={currentModule.id}
+                                    settings={activeRule}
+                                />
+                            )}
+                             {currentModule?.id === "buynow-button" && activeRule && (
+                                <PreviewBuyNow
+                                    key={currentModule.id}
+                                    settings={activeRule}
+                                />
+                            )}
+                            {currentModule?.id === "inactive-tab" && activeRule && (
+                                <PreviewInactiveTab
+                                    key={currentModule.id}
+                                    settings={activeRule}
+                                />
+                            )}
+
+                            {currentModule?.id === "stock-scarcity" && activeRule && (
+                                <PreviewStockScarcity
+                                    key={currentModule.id}
+                                    settings={activeRule}
+                                />
+                            )}
+
+                             
+
+                           
+                            
                         </div>
                     </div>
 
@@ -93,5 +134,4 @@ const PreviewPane = ({ currentModule, settings }) => {
         </Card>
     );
 };
-
 export default PreviewPane;

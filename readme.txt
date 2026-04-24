@@ -107,13 +107,13 @@ It is compatible with all [ThemeHunk themes](https://themehunk.com/free-themes/)
 Yes, the plugin is translation-ready and supports multiple languages.
 
 == Changelog ==
-
 = 1.0.5 =
 New: Added Product Video Gallery addon.
 Update: Updated dashboard style and design.
 Fix: Fixed style and frontend issues.
 
 = 1.0.4 =
+Update: Sales Notification addon added.
 Fix: Updated plugin name and content to resolve trademark issues.
 
 = 1.0.3 =

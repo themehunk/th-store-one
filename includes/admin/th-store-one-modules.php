@@ -48,6 +48,11 @@ class Th_Store_One_Modules {
 			'product-brand'     => false,
 			'trust-badges'      => false,
 			'product-video'     => false,
+			'sale-notification' => false,
+			'sticky-cart'       => false,
+			'buynow-button'     => false,
+			'inactive-tab'      => false,
+			'stock-scarcity'    => false,
 		);
 	}
 	/**

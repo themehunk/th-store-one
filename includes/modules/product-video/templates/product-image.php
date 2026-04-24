@@ -1,4 +1,5 @@
 <?php
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals
 defined( 'ABSPATH' ) || exit;
 
 global $product;
@@ -7,13 +8,17 @@ if ( ! function_exists( 'wc_get_gallery_image_html' ) ) {
     return;
 }
 
-$settings = th_store_one_get_video_settings();
+// for compatible to badges managemnt
+$th_store_one_badge_instance = null;
+if ( class_exists('Th_Store_One_Trust_Badges_Frontend') ) {
+  $th_store_one_badge_instance = new Th_Store_One_Trust_Badges_Frontend();
+}
 
+$settings = th_store_one_get_video_settings();
 $global_thumb  = $settings['image_url'];
 $global_icon   = $settings['icon'];
 $icon_color    = $settings['icon_clr'];
 $global_aspect = $settings['aspect'];
-
 $post_thumbnail_id = $product->get_image_id();
 $attachment_ids    = $product->get_gallery_image_ids();
 $product_id        = $product->get_id();
@@ -221,25 +226,30 @@ echo wp_kses(
      data-columns="4"
      style="opacity:0; transition:opacity .25s ease;">
     <div class="woocommerce-product-gallery__wrapper">
-
         <?php
         /* ================= BEFORE ================= */
         if ( $position === 'before' ) {
            echo wp_kses_post($video_html);
         }
-
         /* FEATURED */
         if ( $post_thumbnail_id ) {
             echo wp_kses_post(wc_get_gallery_image_html( $post_thumbnail_id, true ));
         }
-
         /* GALLERY */
         if ( $attachment_ids ) {
             foreach ( $attachment_ids as $attachment_id ) {
-                echo wp_kses_post(wc_get_gallery_image_html( $attachment_id ));
+                $html = wc_get_gallery_image_html( $attachment_id );
+
+                if ( $th_store_one_badge_instance ) {
+                    $html = $th_store_one_badge_instance->wrap_single_image_with_badge(
+                        $html,
+                        $attachment_id
+                    );
+                }
+
+                echo wp_kses_post( $html );
             }
         }
-
         /* ================= AFTER ================= */
         if ( $position === 'after' ) {
             echo wp_kses_post($video_html);
@@ -247,3 +257,6 @@ echo wp_kses(
         ?>
     </div>
 </div>
+
+<?php
+// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals

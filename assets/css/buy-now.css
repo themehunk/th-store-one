@@ -1,0 +1,32 @@
+.th-buy-now-btn {
+  display: inline-block;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.th-buy-now-btn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+.th-buy-now-btn.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.th-buy-now-form {
+  margin-top: 10px;
+}
+
+.th-buy-now-form.s1-single{
+    display:flex;
+    margin:0;
+}
+.th-buy-now-form.s1-archive{
+  text-align:center;
+}
+
+.s1-single .th-buy-now-btn,.th-buy-now-btn.button.th-buy-now-single {
+    width: 100%;
+}

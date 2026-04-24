@@ -56,7 +56,6 @@ class Th_Store_One_Trust_Badges_Frontend {
             }
         }
 
-        $enable_single = false;
 
         if ( ! empty( $this->rules ) ) {
             foreach ( $this->rules as $rule ) {
@@ -72,7 +71,7 @@ class Th_Store_One_Trust_Badges_Frontend {
                 add_filter(
                     'woocommerce_single_product_image_thumbnail_html',
                     array( $this, 'wrap_single_image_with_badge' ),
-                    10,
+                    999,
                     2
                 );
  
@@ -128,10 +127,6 @@ class Th_Store_One_Trust_Badges_Frontend {
     if ( ! $product || empty( $this->rules ) ) {
         return $html;
     }
-
-    // if ( $attachment_id !== $product->get_image_id() ) {
-    //     return $html;
-    // }
 
     ob_start();
 

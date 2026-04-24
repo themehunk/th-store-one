@@ -4,6 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 class TH_Store_One_Product_Video_Frontend {
 
     public function __construct() {
+
          $modules = get_option('th_store_one_module_option', []);
         if ( empty($modules['product-video']) ) {
                 return;
@@ -42,10 +43,19 @@ class TH_Store_One_Product_Video_Frontend {
 
         if ( $template_name === 'single-product/product-image.php' ) {
 
-            $plugin_template = plugin_dir_path( __FILE__ ) . 'templates/product-image.php';
+        global $product;
 
-            if ( file_exists( $plugin_template ) ) {
-                return $plugin_template;
+        if ( ! $product ) return $located;
+
+        $product_id = $product->get_id();
+
+        $enable_video = get_post_meta( $product_id, '_th_enable_gallery', true );
+        $videos       = get_post_meta( $product_id, '_th_gallery', true );
+            if ( $enable_video === 'yes' && ! empty( $videos ) ) {
+            $plugin_template = plugin_dir_path( __FILE__ ) . 'templates/product-image.php';
+              if ( file_exists( $plugin_template ) ) {
+                 return $plugin_template;
+              }
             }
         }
 

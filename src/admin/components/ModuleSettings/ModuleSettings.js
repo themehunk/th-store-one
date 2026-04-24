@@ -17,6 +17,11 @@ import QuickSocialSettings from '../../modules/QuickSocial/QuickSocialSettings';
 import ProductBrandSettings from '../../modules/ProductBrand/ProductBrandSettings';
 import TrustBadgesSettings from '../../modules/TrustBadges/TrustBadgesSettings';
 import ProductVideoSettings from '../../modules/ProductVideo/ProductVideoSettings';
+import SaleNotificationSettings from '../../modules/SaleNotification/SaleNotificationSettings';
+import StickyCartSettings from '../../modules/StickyCart/StickyCartSettings';
+import BuyNowButtonSettings from '../../modules/BuyNowButton/BuyNowButtonSettings';
+import InactiveTabSettings from '../../modules/InactiveTab/InactiveTabSettings';
+import StockScarcitySettings from '../../modules/StockScarcity/StockScarcitySettings';
 
 const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, onSettingsChange, onLivePreview,onRegisterSave ,licenseActive}) => {
     const enabled = !!modulesState[currentModule.id];
@@ -68,6 +73,37 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                     onLivePreview={onLivePreview}
                     onRegisterSave={onRegisterSave}
                 />
+            case 'sale-notification':
+                return <SaleNotificationSettings
+                    onSettingsChange={onSettingsChange}
+                    onLivePreview={onLivePreview}
+                    onRegisterSave={onRegisterSave}
+                />
+            case 'sticky-cart':
+                return <StickyCartSettings
+                    onSettingsChange={onSettingsChange}
+                    onLivePreview={onLivePreview}
+                    onRegisterSave={onRegisterSave}
+                />
+            case 'buynow-button':
+                return <BuyNowButtonSettings
+                    onSettingsChange={onSettingsChange}
+                    onLivePreview={onLivePreview}
+                    onRegisterSave={onRegisterSave}
+                />
+            case 'inactive-tab':
+                return <InactiveTabSettings
+                    onSettingsChange={onSettingsChange}
+                    onLivePreview={onLivePreview}
+                    onRegisterSave={onRegisterSave}
+                />
+            case 'stock-scarcity':
+                return <StockScarcitySettings
+                    onSettingsChange={onSettingsChange}
+                    onLivePreview={onLivePreview}
+                    onRegisterSave={onRegisterSave}
+                />
+
             default:
                 return <p className="s1-settings__placeholder">
                     {__('More settings will appear here…', 'th-store-one')}
