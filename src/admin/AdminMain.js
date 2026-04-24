@@ -39,6 +39,7 @@ const AdminMain = () => {
     "inactive-tab": false,
     "stock-scarcity": false,
     "product-video": false,
+    "sale-countdown": false,
   });
   const tabs = [
     {
@@ -510,6 +511,17 @@ const AdminMain = () => {
                   )}
 
                   {currentModule?.id === "stock-scarcity" && (
+                    <PreviewPane
+                      currentModule={currentModule}
+                      settings={
+                        livePreviewSettings[currentModule.id] ||
+                        moduleSettings[currentModule.id]?.rules?.[0] ||
+                        moduleSettings[currentModule.id]
+                      }
+                    />
+                  )}
+
+                  {currentModule?.id === "sale-countdown" && (
                     <PreviewPane
                       currentModule={currentModule}
                       settings={

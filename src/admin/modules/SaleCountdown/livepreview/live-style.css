@@ -1,0 +1,147 @@
+/* COMMON */
+.s1-style {
+  border-radius: 10px;
+  padding: 14px;
+  font-family: system-ui;
+  text-align: center;
+}
+
+/* STYLE 1 */
+.s1-default {
+  background: #111;
+  color: #fff;
+}
+.s1-default .s1-header {
+  font-size: 13px;
+  margin-bottom: 8px;
+  opacity: 0.8;
+}
+.s1-default .s1-timer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.s1-default .s1-timer div {
+  background: #222;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+.s1-default span {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* STYLE 2 */
+.s1-minimal {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(8px);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* STYLE 3 */
+.s1-boxed {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+.s1-boxed .box {
+  background: #111;
+  color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  width: 60px;
+}
+.s1-boxed span {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* STYLE 4 */
+.s1-urgency {
+  background: #fff5f5;
+  border: 1px solid #fecaca;
+}
+.s1-urgency .s1-top {
+  color: #dc2626;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.s1-urgency .s1-timer span {
+  margin: 0 5px;
+  font-weight: bold;
+}
+.s1-stock-bar {
+  height: 6px;
+  background: #eee;
+  margin-top: 8px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.s1-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #ef4444, #f97316);
+}
+.s1-default-pro {
+  background: #111;
+  color: #fff;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+/* TOP TEXT */
+.s1-default-pro .s1-top {
+  font-size: 13px;
+  margin-bottom: 8px;
+  color: #facc15;
+  font-weight: 500;
+}
+
+/* TIMER */
+.s1-default-pro .s1-timer {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.s1-default-pro .s1-timer div {
+  background: #222;
+  padding: 8px 10px;
+  border-radius: 8px;
+  min-width: 55px;
+}
+
+.s1-default-pro .s1-timer span {
+  font-size: 18px;
+  font-weight: bold;
+  display: block;
+}
+
+.s1-default-pro small {
+  font-size: 10px;
+  opacity: 0.6;
+}
+
+/* STOCK TEXT */
+.s1-stock-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 6px;
+  opacity: 0.8;
+}
+
+/* PROGRESS BAR */
+.s1-stock-bar {
+  height: 6px;
+  background: #2a2a2a;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.s1-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #22c55e, #f97316);
+  transition: width 0.4s ease;
+}

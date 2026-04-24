@@ -53,6 +53,7 @@ class Th_Store_One_Modules {
 			'buynow-button'     => false,
 			'inactive-tab'      => false,
 			'stock-scarcity'    => false,
+			'sale-countdown'    => false,
 		);
 	}
 	/**

@@ -482,5 +482,43 @@ export const modulesList = [
 </svg>
   ),
   premium: false,
-}
+},
+{
+  id: "sale-countdown",
+  label: __("Sale Countdown", "th-store-one"),
+  description: __(
+    "Display a countdown timer for limited-time offers along with stock urgency like sold and discount quantity to boost conversions.",
+    "th-store-one"
+  ),
+  icon: (
+    <svg
+      className="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Clock */}
+      <circle
+        cx="12"
+        cy="12"
+        r="9"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+
+      {/* Clock hands */}
+      <path
+        d="M12 7V12L15 14"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      {/* Sale dot */}
+      <circle cx="18" cy="6" r="2" fill="currentColor" />
+    </svg>
+  ),
+  premium: false,
+},
 ];

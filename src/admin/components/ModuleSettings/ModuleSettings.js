@@ -22,13 +22,11 @@ import StickyCartSettings from '../../modules/StickyCart/StickyCartSettings';
 import BuyNowButtonSettings from '../../modules/BuyNowButton/BuyNowButtonSettings';
 import InactiveTabSettings from '../../modules/InactiveTab/InactiveTabSettings';
 import StockScarcitySettings from '../../modules/StockScarcity/StockScarcitySettings';
-
+import SaleCountdownSettings from '../../modules/SaleCountdown/SaleCountdownSettings';
 const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, onSettingsChange, onLivePreview,onRegisterSave ,licenseActive}) => {
     const enabled = !!modulesState[currentModule.id];
-
     const isPremium = currentModule.premium ?? false;
     const isLocked = isPremium && !licenseActive;
-
     const renderModuleContent = () => {
         switch (currentModule.id) {
             case 'frequently-bought':
@@ -103,7 +101,12 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                     onLivePreview={onLivePreview}
                     onRegisterSave={onRegisterSave}
                 />
-
+            case 'sale-countdown':
+                return <SaleCountdownSettings
+                    onSettingsChange={onSettingsChange}
+                    onLivePreview={onLivePreview}
+                    onRegisterSave={onRegisterSave}
+                />
             default:
                 return <p className="s1-settings__placeholder">
                     {__('More settings will appear here…', 'th-store-one')}
@@ -168,7 +171,6 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                             }}
                         />
                     </FlexItem>
-
                 </Flex>
             </CardHeader>
 
