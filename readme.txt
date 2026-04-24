@@ -1,43 +1,43 @@
-=== TH Store One ===
+=== TH Store One — Product Features List & Badge Manager for WooCommerce ===
 Contributors: ThemeHunk
 Author URI: : https://www.themehunk.com/
-Tags: trust badges, quick social, badge management
+Tags: trust badges, product video, product labels
 Requires at least: 5.5 
 Tested up to: 6.9
-Stable tag: 1.0.4
+Stable tag: 1.0.5
 Requires PHP: 7.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires Plugins: woocommerce
 
-Add powerful WooCommerce features like product brands, featured lists, and social links to enhance store experience and boost conversions.
+ThemeHunk Store One is designed for use with eCommerce stores, offering product badges, feature lists, and social sharing tools to boost engagement and sales.
 
 == Description ==
-Store One is a powerful all in one WooCommerce toolkit designed to enhance your online store with conversion focused features and advanced customization options. 
-It helps improve product presentation, optimize the shopping experience, and simplify store management. With lightweight performance and easy setup, Store One provides essential WooCommerce enhancements to increase engagement, improve usability, and boost sales.
+ThemeHunk Store One is a powerful all-in-one toolkit for WooCommerce, designed to enhance your online store with conversion-focused features and advanced customization options.
+It improves product presentation, optimizes the shopping experience, and simplifies store management. With lightweight performance and easy setup, Store One delivers essential enhancements to increase engagement, improve usability, and boost sales.
+
 [More Details](https://themehunk.com/store-one/)| [Live Demo](https://wpthemes.themehunk.com/store-one/) | [Docs](https://themehunk.com/docs/store-one/) | [support](https://themehunk.com/contact-us/).
 
 ### Key Features:-
 
-* Featured list for single product pages 
-Display key product highlights in a clear, structured list to help customers quickly understand important details.
+- **Featured list for single product pages** - Display key product highlights in a clear, structured list to help customers quickly understand important details.
 
-* Quick social links
-Allow users to easily share products across social platforms, increasing visibility and engagement.
+- **Quick social links** - Adds social media profile links to your store and lets customers share products instantly, increasing brand visibility and engagement across platforms.
 
-* Product brands
-Showcase the product’s brand to build trust and improve brand recognition on your store.
+- **Trust Badges** – Show security and trust badges on your store to reassure customers about safe payments and reliable service, helping build confidence and increase conversions.
+
+- **Badge Management** - Easily create, customize, and manage badges across your store with full control.
+
+- **Product Video Gallery** - Display product videos in the gallery using YouTube, Vimeo, or custom video URLs, with featured video support for WooCommerce products.
 
 * More features coming soon
 We are continuously improving the plugin with new features and enhancements.
 
 ### Pro Features:-
 
-* Frequently bought together
-Suggest related products that are commonly purchased together to increase average order value and improve the shopping experience.
+- **Frequently bought together** - Suggest related products that are commonly purchased together to increase average order value and improve the shopping experience.
 
-* Bundle products
-Group multiple products into a single bundle, allowing customers to purchase them together easily, often with added convenience or value.
+- **Bundle products** - Group multiple products into a single bundle, allowing customers to purchase them together easily, often with added convenience or value.
 
 ### Theme Compatibility:-
 
@@ -107,12 +107,17 @@ It is compatible with all [ThemeHunk themes](https://themehunk.com/free-themes/)
 Yes, the plugin is translation-ready and supports multiple languages.
 
 == Changelog ==
+= 1.0.5 =
+New: Added Product Video Gallery addon.
+Update: Updated dashboard style and design.
+Fix: Fixed style and frontend issues.
 
 = 1.0.4 =
 Update: Sales Notification addon added.
+Fix: Updated plugin name and content to resolve trademark issues.
 
 = 1.0.3 =
-Fix: Issue Fixed.
+Fix: style issue fixed.
 
 = 1.0.2 =
 Fix: Resolved license and security issues.
@@ -122,11 +127,10 @@ Fix: Corrected prefix issue.
 Fix: Slug and permission issue fixed.
 
 = 1.0.0 =
-
 == Upgrade Notice ==
 
 = 1.0.0 =
 * Initial release.
 
-Thanks for using our plugin, We're sure you will create a great WooCommerce website using this Plugin. If you have any query then you can contact at our forum : https://themehunk.com/contact-us/
+Thank you for using ThemeHunk Store One. We are confident you can build a great WooCommerce store with this plugin. If you have any questions, feel free to contact us via our support forum: https://themehunk.com/contact-us/
 Thank You!

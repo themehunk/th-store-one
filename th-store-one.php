@@ -2,7 +2,7 @@
 /**
  * Plugin Name:             TH Store One
  * Description:             Store One is a powerful all in one WooCommerce toolkit designed to enhance your online store with conversion focused features and advanced customization options. It helps improve product presentation, optimize the shopping experience, and simplify store management. With lightweight performance and easy setup, Store One provides essential WooCommerce enhancements to increase engagement, improve usability, and boost sales.
- * Version:                 1.0.4
+ * Version:                 1.0.5
  * Author:                  ThemeHunk
  * License:                 GPLv3 or later
  * License URI:             http://www.gnu.org/licenses/gpl-3.0.html
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 // ------------------ Constants ------------------.
-define( 'TH_STORE_ONE_VERSION', '1.0.22' );
+define( 'TH_STORE_ONE_VERSION', '1.0.5' );
 define( 'TH_STORE_ONE_PLUGIN_FILE', __FILE__ );
 define( 'TH_STORE_ONE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'TH_STORE_ONE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
