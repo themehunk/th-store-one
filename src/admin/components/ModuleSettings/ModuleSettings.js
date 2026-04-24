@@ -157,6 +157,21 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                         </Button>
                         
                         )}
+                        {currentModule.id === 'sale-countdown' && (
+                        
+                         <Button
+                         className="s1-settings__redirect-btn"
+                                        onClick={() =>
+                                            window.open(
+                                            `${th_StoreOneAdmin.adminUrl}edit.php?post_type=product`,
+                                            "_blank"
+                                            )
+                                        }
+                                        >
+                                        {__("Add Sale Countdown", "th-store-one")}
+                        </Button>
+                        
+                        )}
                          
                     </FlexBlock>
 
