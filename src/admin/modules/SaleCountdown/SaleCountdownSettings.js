@@ -30,6 +30,10 @@ const MODULE_ID = "sale-countdown";
  * --------------------------------- */
 const DEFAULT_SETTINGS = {
   enable_countdown: true,
+  start_countdown_datetime: "",
+  end_countdown_datetime: "",
+  show_on_discounted:false,
+  sale_message:'Hurry! Offer ends soon',
 
   show_on_archive: false,
   show_on_single: true,
@@ -44,6 +48,7 @@ const DEFAULT_SETTINGS = {
   expire_message: "Offer expired",
 
   sale_countdown_style: "style1",
+  sale_countdown_archive_style: "style3",
   time_format: "dhms",
 
   show_message: true,
@@ -212,7 +217,7 @@ export default function SaleCountdownSettings({
            * PRODUCT PAGE SETTINGS
            * --------------------------------- */}
           <h3 className="store-one-section-title">
-            {__("Buy Now Button", "th-store-one")}
+            {__("Sale Countdown", "th-store-one")}
           </h3>
           <div className="store-one-rule-item">
             <TabSwitcher
@@ -224,6 +229,59 @@ export default function SaleCountdownSettings({
                   icon: ICONS.SETTINGS,
                   content: (
   <>
+  <S1FieldGroup title={__("Set Countdown", "th-store-one")} >
+    <p className="s1-field-description">
+    This setting allows you to configure a <strong>global sale countdown timer</strong> that will apply across all products in your store. 
+    Select the start and end date & time to control when the countdown is displayed.
+    
+    If you want to set a <strong>custom countdown for a specific product</strong>, please edit the product individually.
+    <a 
+      href="YOUR_DOC_LINK_HERE" 
+      target="_blank" 
+      rel="noopener noreferrer"
+      style={{ color: "#007cba", textDecoration: "underline" }}
+    >
+       View Doc
+    </a>
+  </p>
+  <S1DateTimePicker
+                                  label="Start Date & Time"
+                                  value={settings.start_datetime}
+                                   onChange={(v) =>
+                                  setSettings({ ...settings, start_datetime: v })
+                                }
+                                />
+                                <S1DateTimePicker
+                                  label="End Date & Time"
+                                  value={settings.end_datetime}
+                                 onChange={(v) =>
+                                  setSettings({ ...settings, end_datetime: v })
+                                }
+                                />
+                                <S1Field
+    label={__("Sale Message", "th-store-one")}
+    description={__("This message will appear along with the countdown timer.", "th-store-one")}
+  >
+    <TextControl
+      value={settings.sale_message || ""}
+      placeholder="Hurry! Offer ends soon"
+      onChange={(v) =>
+        setSettings({ ...settings, sale_message: v })
+      }
+    />
+  </S1Field>
+                                <S1Field
+      label={__("Enable Show only Discounted Products", "th-store-one")}
+      classN="s1-toggle-wrpapper"
+    >
+      <ToggleControl
+        checked={settings.show_on_discounted}
+        onChange={(v) =>
+          setSettings({ ...settings, show_on_discounted: v })
+        }
+      />
+    </S1Field>
+                                </S1FieldGroup>
   {/* SINGLE PAGE */}
   <S1FieldGroup title={__("Single page", "th-store-one")}>
     <S1Field
@@ -368,7 +426,7 @@ export default function SaleCountdownSettings({
                   icon: ICONS.DESIGN,
                   content: (
   <>
-    <S1Field label="Template">
+    <S1Field label="Template Choose on Single Page">
       <SelectControl
         value={settings.sale_countdown_style}
         options={[
@@ -379,6 +437,20 @@ export default function SaleCountdownSettings({
         ]}
         onChange={(v) =>
           setSettings({ ...settings, sale_countdown_style: v })
+        }
+      />
+    </S1Field>
+    <S1Field label="Template Choose on Archive Page">
+      <SelectControl
+        value={settings.sale_countdown_archive_style}
+        options={[
+          { label: "style1", value: "style1" },
+          { label: "style2", value: "style2" },
+          { label: "style3", value: "style3" },
+          { label: "style4", value: "style4" },
+        ]}
+        onChange={(v) =>
+          setSettings({ ...settings, sale_countdown_archive_style: v })
         }
       />
     </S1Field>

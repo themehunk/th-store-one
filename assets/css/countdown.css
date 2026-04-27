@@ -1,0 +1,223 @@
+.th-style1 {
+  background: #0b0b0b;
+  padding: 20px;
+  border-radius: 16px;
+  color: #fff;
+  text-align: center;
+  margin-top: 12px;
+}
+
+/* MESSAGE */
+.th-style1 .th-msg {
+  font-size: 18px;
+  font-weight: 600;
+  color: #facc15;
+  margin-bottom: 16px;
+}
+
+/* TIMER */
+.th-timer-box {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.th-style1 .t-item {
+  background: #1f1f1f;
+  padding: 12px 14px;
+  border-radius: 12px;
+  min-width: 70px;
+}
+
+.th-style1 .t-item span {
+  display: block;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.th-style1 .t-item small {
+  font-size: 11px;
+  color: #aaa;
+}
+
+/* STOCK ROW */
+.th-stock-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #ccc;
+}
+
+/* BAR */
+.th-bar {
+  height: 8px;
+  background: #2a2a2a;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.th-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #22c55e, #f97316);
+  transition: width 0.5s ease;
+}
+
+
+/* STYLE 2 WRAP */
+.th-style2 {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 0;
+}
+
+/* INLINE ROW */
+.th-style2 .th-inline-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* MESSAGE */
+.th-style2 .th-msg {
+  color: #e11d48;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* TIMER */
+.th-style2 .th-timer-inline {
+  display: flex;
+  gap: 4px;
+  font-size: 20px;
+  font-weight: 700;
+  color: #111;
+}
+
+.th-style2 .sep {
+  color: #888;
+}
+
+/* STOCK ROW */
+.th-style2 .th-stock-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #666;
+}
+
+/* BAR */
+.th-style2 .th-bar {
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.th-style2 .th-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #22c55e, #f97316);
+  transition: width 0.4s ease;
+}
+
+/* STYLE3 WRAPPER */
+.th-style3 {
+  display: flex;
+  flex-direction: column;
+ align-items: flex-start;
+}
+
+/* MESSAGE */
+.th-style3 .th-msg {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333; /* normal color (NOT red) */
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+/* TIMER WRAP */
+.th-style3 .th-box-timer {
+  display: flex;
+  gap: 12px;
+}
+
+/* CARD */
+.th-style3 .t-card {
+  background: #0a0a0a;
+  border-radius: 12px;
+
+  width: 80px;
+  height: 55px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+/* NUMBER */
+.th-style3 .t-card span {
+  font-size: 22px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* LABEL */
+.th-style3 .t-card .label {
+  font-size: 10px;
+  color: #ccc;
+}
+
+
+/* FULL WIDTH WRAPPER */
+.th-style4 {
+  width: 100%;
+}
+
+/* INNER BOX FULL WIDTH */
+.th-style4 .th-inner {
+  width: 100%;              /* 👈 key */
+  box-sizing: border-box;   /* padding included */
+  
+  background: #f8f8f8;
+  border: 1px solid #f1b5b5;
+  border-radius: 16px;
+
+  padding: 16px 20px;
+  text-align: center;
+}
+
+/* MESSAGE */
+.th-style4 .th-msg {
+  font-size: 18px;
+  font-weight: 600;
+  color: #dc2626;
+  margin-bottom: 6px;
+}
+
+/* TIMER */
+.th-style4 .th-timer-inline {
+  font-size: 20px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+/* BAR */
+.th-style4 .th-bar {
+  width: 100%; /* 👈 ensure full */
+  height: 6px;
+  background: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.th-style4 .th-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #22c55e, #f97316);
+}
