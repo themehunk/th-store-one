@@ -38,7 +38,15 @@
   font-size: 20px;
   font-weight: 600;
 }
-
+.s1-minimal .th-msg {
+    color: #e11d48;
+    font-weight: 600;
+    font-size: 14px;
+}
+.s1-minimal .th-inline-wrap{
+display: inline-flex;
+    gap: 8px;
+}
 /* STYLE 3 */
 .s1-boxed {
   display: flex;
@@ -144,4 +152,202 @@
   height: 100%;
   background: linear-gradient(90deg, #22c55e, #f97316);
   transition: width 0.4s ease;
+}
+
+/* archive styles */
+.s1-ac-style1 {
+  text-align: center;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+/* MESSAGE */
+.s1-ac-msg {
+  font-weight: 600;
+  color: #d63638;
+  margin-bottom: 4px;
+}
+
+/* SIMPLE TIMER */
+.s1-ac-timer {
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  color: #111;
+}
+
+/* STOCK */
+.s1-ac-stock {
+  font-size: 11px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+/* BAR (FIXED WIDTH, NOT FULL) */
+.s1-ac-bar {
+  width: 80px;     
+  height: 4px;
+  background: #eee;
+  border-radius: 6px;
+  margin: 0 auto;        
+  overflow: hidden;
+}
+
+.s1-ac-fill {
+  height: 100%;
+  background: #ff4d4f;
+  transition: width 0.3s ease;
+}
+
+/* MAIN WRAPPER */
+.s1-ac-style2 {
+  text-align: center;
+  font-size: 11px; /* 🔥 slightly smaller */
+  margin-top: 8px;
+}
+
+/* MESSAGE */
+.s1-ac2-msg {
+  font-weight: 600;
+  color: #d63638;
+  margin-bottom: 10px; 
+}
+
+/* TIMER WRAP */
+.s1-ac2-timer {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 8px;  
+}
+
+/* EACH CIRCLE */
+.s1-ac2-box {
+  width: 30px;       
+  height: 30px;
+
+  border-radius: 50%;
+  background: #111;
+  color: #fff;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* NUMBER */
+.s1-ac2-box span {
+  font-size: 10px;    
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* LABEL */
+.s1-ac2-box small {
+  font-size: 7px;    
+  opacity: 0.7;
+  line-height: 1;
+}
+
+/* STOCK */
+.s1-ac2-stock {
+  font-size: 10px;   
+  color: #666;
+  margin-bottom: 6px;
+}
+
+/* BAR */
+.s1-ac2-bar {
+  width: 70px;      
+  height: 3px;       
+  background: #eee;
+  border-radius: 6px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.s1-ac2-fill {
+  height: 100%;
+  background: #ff4d4f;
+}
+
+.s1-ac-style3 {
+  text-align: center;
+  font-size: 11px;
+  margin-top: 8px;
+}
+
+/* MESSAGE */
+.s1-ac3-msg {
+  font-weight: 600;
+  color: #d63638;
+  margin-bottom: 10px;
+}
+
+/* TIMER WRAP */
+.s1-ac3-timer {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+/* BOX (FIXED SIZE + LIGHT UI) */
+.s1-ac3-box {
+  width: 32px;           /* 🔥 fixed width */
+  height: 32px;          /* 🔥 fixed height */
+
+  border-radius: 6px;
+  background: #f5f6f8;   /* 🔥 light bg instead of black */
+  border: 1px solid #e5e7eb;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* NUMBER */
+.s1-ac3-box span {
+  font-size: 10px;
+  font-weight: 600;
+  color: #111;           /* dark text */
+  line-height: 1;
+}
+
+/* LABEL */
+.s1-ac3-box small {
+  font-size: 7px;
+  color: #666;
+  line-height: 1;
+}
+
+/* LABEL */
+.s1-ac3-box small {
+  font-size: 7px;
+  opacity: 0.7;
+  line-height: 1;
+}
+
+/* STOCK */
+.s1-ac3-stock {
+  font-size: 10px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+/* BAR */
+.s1-ac3-bar {
+  width: 70px;
+  height: 3px;
+  background: #eee;
+  border-radius: 6px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.s1-ac3-fill {
+  height: 100%;
+  background: #ff4d4f;
 }

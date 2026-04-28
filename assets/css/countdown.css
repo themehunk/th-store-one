@@ -181,7 +181,7 @@
 
 /* INNER BOX FULL WIDTH */
 .th-style4 .th-inner {
-  width: 100%;              /* 👈 key */
+  width: 100%;              /*key */
   box-sizing: border-box;   /* padding included */
   
   background: #f8f8f8;
@@ -220,4 +220,114 @@
 .th-style4 .th-fill {
   height: 100%;
   background: linear-gradient(90deg, #22c55e, #f97316);
+}
+
+
+.th-cd.th-ac {
+  text-align: center;
+  font-size: 11px;
+  margin-top: 8px;
+      margin-bottom: 8px;
+}
+
+.th-cd .th-msg {
+  font-weight: 600;
+  color: #d63638;
+  margin-bottom: 8px;
+}
+
+.th-ac .th-stock-row {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  font-size: 10px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+.th-ac .th-bar {
+  width: 70px;
+  height: 3px;
+  background: #eee;
+  border-radius: 6px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.th-ac .th-fill {
+  height: 100%;
+  background: #ff4d4f;
+  transition: width 0.3s ease;
+}
+
+.th-ac1 .th-timer-inline {
+  font-size: 13px;
+  font-weight: 500;
+  color: #111;
+  margin-bottom: 6px;
+}
+.th-ac2 .th-timer-circles {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.th-ac2 .t-box {
+  width: 30px;
+  height: 30px;
+
+  border-radius: 50%;
+  background: #111;
+  color: #fff;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.th-ac2 .t-box span {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.th-ac2 .t-box small {
+  font-size: 7px;
+  opacity: 0.7;
+  line-height: 1;
+}
+.th-ac3 .th-timer-boxes {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.th-ac3 .t-box {
+  width: 30px;
+  height: 30px;
+
+  border-radius: 6px;
+  background: #f5f6f8;
+  border: 1px solid #e5e7eb;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.th-ac3 .t-box span {
+  font-size: 11px;
+  font-weight: 600;
+  color: #111;
+  line-height: 1;
+}
+
+.th-ac3 .t-box small {
+  font-size: 7px;
+  color: #666;
+  line-height: 1;
 }

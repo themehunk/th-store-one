@@ -32,8 +32,8 @@ const DEFAULT_SETTINGS = {
   enable_countdown: true,
   start_countdown_datetime: "",
   end_countdown_datetime: "",
-  show_on_discounted:false,
-  sale_message:'Hurry! Offer ends soon',
+  show_on_discounted: false,
+  sale_message: "Hurry! Offer ends soon",
 
   show_on_archive: false,
   show_on_single: true,
@@ -48,27 +48,31 @@ const DEFAULT_SETTINGS = {
   expire_message: "Offer expired",
 
   sale_countdown_style: "style1",
-  sale_countdown_archive_style: "style3",
+  sale_countdown_archive_style: "acstyle1",
   time_format: "dhms",
 
   show_message: true,
   show_stock_bar: true,
   show_timer_labels: true,
 
-  bg_color: "#111",
-  text_color: "#fff",
-  timer_color: "#ff0000",
-
   border_radius: 6,
   padding: 10,
 
   enable_stock_bar: true,
-  stock_bar_color: "#22c55e",
-  low_stock_color: "#ef4444",
+
   stock_threshold: 10,
 
   hide_if_expired: true,
   hide_if_no_stock: true,
+  single_bg_color: "#111",
+  single_text_color: "#fff",
+  single_timer_color: "#ff0000",
+  single_font_size: '14px',
+
+  archive_bg_color: "#f5f6f8",
+  archive_text_color: "#111",
+  archive_timer_color: "#ff4d4f",
+  archive_font_size: '11px',
 };
 
 export default function SaleCountdownSettings({
@@ -161,25 +165,52 @@ export default function SaleCountdownSettings({
   }, [success, error]);
 
   useEffect(() => {
-  const handler = (e) => {
-    const { style } = e.detail;
-    if (!style) return;
+    const handler = (e) => {
+      const { type, value } = e.detail || {};
 
-    const updated = {
-      ...settings,
-      sale_countdown_style: style,
+      if (!value) return;
+
+      let updated = { ...settings };
+
+      if (type === "single") {
+        updated.sale_countdown_style = value;
+      } else if (type === "archive") {
+        updated.sale_countdown_archive_style = value;
+      }
+
+      setSettings(updated);
+      onSettingsChange?.(updated); // live preview
     };
 
-    setSettings(updated);
-    onSettingsChange?.(updated); //live preview trigger
-  };
+    window.addEventListener("storeone:updateSaleCountdownStyle", handler);
 
-  window.addEventListener('storeone:changeSaleCountdownStyle', handler);
+    return () => {
+      window.removeEventListener("storeone:updateSaleCountdownStyle", handler);
+    };
+  }, [settings]);
+  useEffect(() => {
+    const handler = (e) => {
+      const { type } = e.detail || {};
+      if (!type) return;
 
-  return () => {
-    window.removeEventListener('storeone:changeSaleCountdownStyle', handler);
-  };
-}, [settings]);
+      const updated = {
+        ...settings,
+        sale_countdown_preview_type: type,
+      };
+
+      setSettings(updated);
+      onSettingsChange?.(updated);
+    };
+
+    window.addEventListener("storeone:changeSaleCountdownPreviewType", handler);
+
+    return () => {
+      window.removeEventListener(
+        "storeone:changeSaleCountdownPreviewType",
+        handler,
+      );
+    };
+  }, [settings]);
 
   /* ---------------------------------
    * RENDER
@@ -228,196 +259,232 @@ export default function SaleCountdownSettings({
                   label: "Settings",
                   icon: ICONS.SETTINGS,
                   content: (
-  <>
-  <S1FieldGroup title={__("Set Countdown", "th-store-one")} >
-    <p className="s1-field-description">
-    This setting allows you to configure a <strong>global sale countdown timer</strong> that will apply across all products in your store. 
-    Select the start and end date & time to control when the countdown is displayed.
-    
-    If you want to set a <strong>custom countdown for a specific product</strong>, please edit the product individually.
-    <a 
-      href="YOUR_DOC_LINK_HERE" 
-      target="_blank" 
-      rel="noopener noreferrer"
-      style={{ color: "#007cba", textDecoration: "underline" }}
-    >
-       View Doc
-    </a>
-  </p>
-  <S1DateTimePicker
-                                  label="Start Date & Time"
-                                  value={settings.start_datetime}
-                                   onChange={(v) =>
-                                  setSettings({ ...settings, start_datetime: v })
+                    <>
+                      <S1FieldGroup title={__("Set Countdown", "th-store-one")}>
+                        <p className="s1-field-description">
+                          This setting allows you to configure a{" "}
+                          <strong>global sale countdown timer</strong> that will
+                          apply across all products in your store. Select the
+                          start and end date & time to control when the
+                          countdown is displayed. If you want to set a{" "}
+                          <strong>
+                            custom countdown for a specific product
+                          </strong>
+                          , please edit the product individually.
+                          <a
+                            href="YOUR_DOC_LINK_HERE"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              color: "#007cba",
+                              textDecoration: "underline",
+                            }}
+                          >
+                            View Doc
+                          </a>
+                        </p>
+                        <S1DateTimePicker
+                          label="Start Date & Time"
+                          value={settings.start_datetime}
+                          onChange={(v) =>
+                            setSettings({ ...settings, start_datetime: v })
+                          }
+                        />
+                        <S1DateTimePicker
+                          label="End Date & Time"
+                          value={settings.end_datetime}
+                          onChange={(v) =>
+                            setSettings({ ...settings, end_datetime: v })
+                          }
+                        />
+                        <S1Field
+                          label={__("Sale Message", "th-store-one")}
+                          description={__(
+                            "This message will appear along with the countdown timer.",
+                            "th-store-one",
+                          )}
+                        >
+                          <TextControl
+                            value={settings.sale_message || ""}
+                            placeholder="Hurry! Offer ends soon"
+                            onChange={(v) =>
+                              setSettings({ ...settings, sale_message: v })
+                            }
+                          />
+                        </S1Field>
+                        <S1Field
+                          label={__(
+                            "Enable Show only Discounted Products",
+                            "th-store-one",
+                          )}
+                          classN="s1-toggle-wrpapper"
+                        >
+                          <ToggleControl
+                            checked={settings.show_on_discounted}
+                            onChange={(v) =>
+                              setSettings({
+                                ...settings,
+                                show_on_discounted: v,
+                              })
+                            }
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+                      {/* SINGLE PAGE */}
+                      <S1FieldGroup title={__("Single page", "th-store-one")}>
+                        <S1Field
+                          label={__("Enable on Single Page", "th-store-one")}
+                          classN="s1-toggle-wrpapper"
+                        >
+                          <ToggleControl
+                            checked={settings.show_on_single}
+                            onChange={(v) =>
+                              setSettings({ ...settings, show_on_single: v })
+                            }
+                          />
+                        </S1Field>
+
+                        {settings.show_on_single && (
+                          <>
+                            <PlacementPriorityControl
+                              placement={settings.single_placement}
+                              priority={settings.single_priority}
+                              onPlacementChange={(v) =>
+                                setSettings({
+                                  ...settings,
+                                  single_placement: v,
+                                })
+                              }
+                              onPriorityChange={(v) =>
+                                setSettings({ ...settings, single_priority: v })
+                              }
+                            />
+                          </>
+                        )}
+                      </S1FieldGroup>
+
+                      {/* ARCHIVE PAGE */}
+                      <S1FieldGroup title={__("Archive page", "th-store-one")}>
+                        <S1Field
+                          label={__("Enable on Archive Page", "th-store-one")}
+                          classN="s1-toggle-wrpapper"
+                        >
+                          <ToggleControl
+                            checked={settings.show_on_archive}
+                            onChange={(v) =>
+                              setSettings({ ...settings, show_on_archive: v })
+                            }
+                          />
+                        </S1Field>
+
+                        {settings.show_on_archive && (
+                          <>
+                            <S1Field
+                              label={__("Archive Position", "th-store-one")}
+                            >
+                              <SelectControl
+                                value={settings.archive_position}
+                                options={[
+                                  {
+                                    label: "after title",
+                                    value: "after_title",
+                                  },
+                                  {
+                                    label: "after rating",
+                                    value: "after_rating",
+                                  },
+                                  {
+                                    label: "after price",
+                                    value: "after_price",
+                                  },
+                                  {
+                                    label: "before add to cart",
+                                    value: "before_add_to_cart",
+                                  },
+                                  {
+                                    label: "after add to cart",
+                                    value: "after_add_to_cart",
+                                  },
+                                ]}
+                                onChange={(v) =>
+                                  setSettings({
+                                    ...settings,
+                                    archive_position: v,
+                                  })
                                 }
-                                />
-                                <S1DateTimePicker
-                                  label="End Date & Time"
-                                  value={settings.end_datetime}
-                                 onChange={(v) =>
-                                  setSettings({ ...settings, end_datetime: v })
-                                }
-                                />
-                                <S1Field
-    label={__("Sale Message", "th-store-one")}
-    description={__("This message will appear along with the countdown timer.", "th-store-one")}
-  >
-    <TextControl
-      value={settings.sale_message || ""}
-      placeholder="Hurry! Offer ends soon"
-      onChange={(v) =>
-        setSettings({ ...settings, sale_message: v })
-      }
-    />
-  </S1Field>
-                                <S1Field
-      label={__("Enable Show only Discounted Products", "th-store-one")}
-      classN="s1-toggle-wrpapper"
-    >
-      <ToggleControl
-        checked={settings.show_on_discounted}
-        onChange={(v) =>
-          setSettings({ ...settings, show_on_discounted: v })
-        }
-      />
-    </S1Field>
-                                </S1FieldGroup>
-  {/* SINGLE PAGE */}
-  <S1FieldGroup title={__("Single page", "th-store-one")}>
-    <S1Field
-      label={__("Enable on Single Page", "th-store-one")}
-      classN="s1-toggle-wrpapper"
-    >
-      <ToggleControl
-        checked={settings.show_on_single}
-        onChange={(v) =>
-          setSettings({ ...settings, show_on_single: v })
-        }
-      />
-    </S1Field>
-
-    {settings.show_on_single && (
-      <>
-        <PlacementPriorityControl
-          placement={settings.single_placement}
-          priority={settings.single_priority}
-          onPlacementChange={(v) =>
-            setSettings({ ...settings, single_placement: v })
-          }
-          onPriorityChange={(v) =>
-            setSettings({ ...settings, single_priority: v })
-          }
-        />
-      </>
-    )}
-  </S1FieldGroup>
-
-  {/* ARCHIVE PAGE */}
-  <S1FieldGroup title={__("Archive page", "th-store-one")}>
-    <S1Field
-      label={__("Enable on Archive Page", "th-store-one")}
-      classN="s1-toggle-wrpapper"
-    >
-      <ToggleControl
-        checked={settings.show_on_archive}
-        onChange={(v) =>
-          setSettings({ ...settings, show_on_archive: v })
-        }
-      />
-    </S1Field>
-
-    {settings.show_on_archive && (
-      <>
-        <S1Field label={__("Archive Position", "th-store-one")}>
-          <SelectControl
-            value={settings.archive_position}
-            options={[
-              { label: "after title", value: "after_title" },
-              { label: "after rating", value: "after_rating" },
-              { label: "after price", value: "after_price" },
-              { label: "before add to cart", value: "before_add_to_cart" },
-              { label: "after add to cart", value: "after_add_to_cart" },
-            ]}
-            onChange={(v) =>
-              setSettings({ ...settings, archive_position: v })
-            }
-          />
-        </S1Field>
-      </>
-    )}
-  </S1FieldGroup>
-
-
-     
-  
-  </>
-)
+                              />
+                            </S1Field>
+                          </>
+                        )}
+                      </S1FieldGroup>
+                    </>
+                  ),
                 },
                 {
                   id: "visibility",
                   label: "Action & Behavior",
                   icon: ICONS.DISPLAY,
                   content: (
-  <>
-    <S1Field label="Expire Action">
-      <SelectControl
-        value={settings.countdown_expire_action}
-        options={[
-          { label: "Hide Countdown", value: "hide" },
-          { label: "Show Message", value: "show_message" },
-        ]}
-        onChange={(v) =>
-          setSettings({
-            ...settings,
-            countdown_expire_action: v,
-          })
-        }
-      />
-    </S1Field>
+                    <>
+                      <S1Field label="Expire Action">
+                        <SelectControl
+                          value={settings.countdown_expire_action}
+                          options={[
+                            { label: "Hide Countdown", value: "hide" },
+                            { label: "Show Message", value: "show_message" },
+                          ]}
+                          onChange={(v) =>
+                            setSettings({
+                              ...settings,
+                              countdown_expire_action: v,
+                            })
+                          }
+                        />
+                      </S1Field>
 
-    {settings.countdown_expire_action === "show_message" && (
-      <S1Field label="Expire Message">
-        <TextControl
-          value={settings.expire_message}
-          onChange={(v) =>
-            setSettings({ ...settings, expire_message: v })
-          }
-        />
-      </S1Field>
-    )}
+                      {settings.countdown_expire_action === "show_message" && (
+                        <S1Field label="Expire Message">
+                          <TextControl
+                            value={settings.expire_message}
+                            onChange={(v) =>
+                              setSettings({ ...settings, expire_message: v })
+                            }
+                          />
+                        </S1Field>
+                      )}
 
-    <S1Field label="Time Format">
-      <SelectControl
-        value={settings.time_format}
-        options={[
-          { label: "DHMS", value: "dhms" },
-          { label: "HMS", value: "hms" },
-        ]}
-        onChange={(v) =>
-          setSettings({ ...settings, time_format: v })
-        }
-      />
-    </S1Field>
+                      <S1Field label="Time Format">
+                        <SelectControl
+                          value={settings.time_format}
+                          options={[
+                            { label: "DHMS", value: "dhms" },
+                            { label: "HMS", value: "hms" },
+                          ]}
+                          onChange={(v) =>
+                            setSettings({ ...settings, time_format: v })
+                          }
+                        />
+                      </S1Field>
 
-    <S1Field label="Show Message">
-      <ToggleControl
-        checked={settings.show_message}
-        onChange={(v) =>
-          setSettings({ ...settings, show_message: v })
-        }
-      />
-    </S1Field>
+                      <S1Field label="Show Message">
+                        <ToggleControl
+                          checked={settings.show_message}
+                          onChange={(v) =>
+                            setSettings({ ...settings, show_message: v })
+                          }
+                        />
+                      </S1Field>
 
-    <S1Field label="Show Stock Bar">
-      <ToggleControl
-        checked={settings.show_stock_bar}
-        onChange={(v) =>
-          setSettings({ ...settings, show_stock_bar: v })
-        }
-      />
-    </S1Field>
-  </>
-)
+                      <S1Field label="Show Stock Bar">
+                        <ToggleControl
+                          checked={settings.show_stock_bar}
+                          onChange={(v) =>
+                            setSettings({ ...settings, show_stock_bar: v })
+                          }
+                        />
+                      </S1Field>
+                    </>
+                  ),
                 },
 
                 {
@@ -425,38 +492,141 @@ export default function SaleCountdownSettings({
                   label: "Style",
                   icon: ICONS.DESIGN,
                   content: (
-  <>
-    <S1Field label="Template Choose on Single Page">
-      <SelectControl
-        value={settings.sale_countdown_style}
-        options={[
-          { label: "style1", value: "style1" },
-          { label: "style2", value: "style2" },
-          { label: "style3", value: "style3" },
-          { label: "style4", value: "style4" },
-        ]}
-        onChange={(v) =>
-          setSettings({ ...settings, sale_countdown_style: v })
-        }
-      />
-    </S1Field>
-    <S1Field label="Template Choose on Archive Page">
-      <SelectControl
-        value={settings.sale_countdown_archive_style}
-        options={[
-          { label: "style1", value: "style1" },
-          { label: "style2", value: "style2" },
-          { label: "style3", value: "style3" },
-          { label: "style4", value: "style4" },
-        ]}
-        onChange={(v) =>
-          setSettings({ ...settings, sale_countdown_archive_style: v })
-        }
-      />
-    </S1Field>
+                    <>
+                      <S1Field label="Template Choose on Single Page">
+                        <SelectControl
+                          value={settings.sale_countdown_style}
+                          options={[
+                            { label: "style1", value: "style1" },
+                            { label: "style2", value: "style2" },
+                            { label: "style3", value: "style3" },
+                            { label: "style4", value: "style4" },
+                          ]}
+                          onChange={(v) =>
+                            setSettings({
+                              ...settings,
+                              sale_countdown_style: v,
+                            })
+                          }
+                        />
+                      </S1Field>
+                      <S1FieldGroup title="Single Style">
+                        <S1Field >
+                          <THBackgroundControl
+                          label="Background"
+                            value={settings.single_bg_color}
+                            onChange={(v) =>
+                              setSettings({ ...settings, single_bg_color: v })
+                            }
+                          />
+                        </S1Field>
 
-  </>
-)
+                        <S1Field >
+                          <THBackgroundControl
+                          label="Text Color"
+                            value={settings.single_text_color}
+                            onChange={(v) =>
+                              setSettings({ ...settings, single_text_color: v })
+                            }
+                          />
+                        </S1Field>
+
+                        <S1Field >
+                          <THBackgroundControl
+                          label="Timer Color"
+                            value={settings.single_timer_color}
+                            onChange={(v) =>
+                              setSettings({
+                                ...settings,
+                                single_timer_color: v,
+                              })
+                            }
+                          />
+                        </S1Field>
+
+                        <S1Field >
+                          <UniversalRangeControl
+                          label="Font Size"
+                          responsive={false}
+                            units={["px"]}
+                            value={settings.single_font_size || 14}
+                            onChange={(v) =>
+                              setSettings({ ...settings, single_font_size: v })
+                            }
+                            min={10}
+                            max={30}
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+                      <S1Field label="Template Choose on Archive Page">
+                        <SelectControl
+                          value={settings.sale_countdown_archive_style}
+                          options={[
+                            { label: "style1", value: "acstyle1" },
+                            { label: "style2", value: "acstyle2" },
+                            { label: "style3", value: "acstyle3" },
+                          ]}
+                          onChange={(v) =>
+                            setSettings({
+                              ...settings,
+                              sale_countdown_archive_style: v,
+                            })
+                          }
+                        />
+                      </S1Field>
+                      <S1FieldGroup title="Archive Style">
+                        <S1Field >
+                          <THBackgroundControl
+                          label="Background"
+                            value={settings.archive_bg_color}
+                            onChange={(v) =>
+                              setSettings({ ...settings, archive_bg_color: v })
+                            }
+                          />
+                        </S1Field>
+
+                        <S1Field >
+                          <THBackgroundControl
+                          label="Text Color"
+                            value={settings.archive_text_color}
+                            onChange={(v) =>
+                              setSettings({
+                                ...settings,
+                                archive_text_color: v,
+                              })
+                            }
+                          />
+                        </S1Field>
+
+                        <S1Field >
+                          <THBackgroundControl
+                          label="Timer Color"
+                            value={settings.archive_timer_color}
+                            onChange={(v) =>
+                              setSettings({
+                                ...settings,
+                                archive_timer_color: v,
+                              })
+                            }
+                          />
+                        </S1Field>
+
+                        <S1Field>
+                          <UniversalRangeControl
+                          label="Font Size"
+                            value={settings.archive_font_size || 11}
+                            responsive={false}
+                            units={["px"]}
+                            onChange={(v) =>
+                              setSettings({ ...settings, archive_font_size: v })
+                            }
+                            min={8}
+                            max={20}
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+                    </>
+                  ),
                 },
               ]}
             ></TabSwitcher>
