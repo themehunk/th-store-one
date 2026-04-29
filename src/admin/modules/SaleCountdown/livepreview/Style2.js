@@ -1,23 +1,103 @@
-const Style2 = ({ settings }) => {
+import { useEffect, useRef, useState } from "@wordpress/element";
+
+const Style2 = ({ settings = {} }) => {
+
+  const bg = settings?.single_bg_color || "#ffffff";
+  const text = settings?.single_text_color || "#111";
+
+  const timerColor = settings?.single_timer_color || "#111";
+  const barColor = settings?.single_sold_bar_bg_color || "#ef4444";
+
+  // FIXED END TIME (won't reset on re-render)
+  const endRef = useRef(Date.now() + 2 * 60 * 60 * 1000); // 2 hours
+
+  const [time, setTime] = useState(getTime());
+
+  function getTime() {
+    const diff = endRef.current - Date.now();
+
+    return {
+      h: Math.floor((diff / (1000 * 60 * 60)) % 24),
+      m: Math.floor((diff / (1000 * 60)) % 60),
+      s: Math.floor((diff / 1000) % 60),
+    };
+  }
+
+  useEffect(() => {
+    const i = setInterval(() => setTime(getTime()), 1000);
+    return () => clearInterval(i);
+  }, []);
+
+  //dummy stock
+  const sold = 32;
+  const total = 50;
+  const percent = (sold / total) * 100;
+
   return (
-    <div className="s1-style s1-minimal">
-      <div class="th-inline-wrap">
+    <div
+      className="s1-style s1-minimal"
+      style={{
+        color: text,
+        background: bg,
+        padding: "30px",
+        borderRadius: "6px",
+      }}
+    >
+      {/* INLINE ROW */}
+      <div className="th-inline-wrap">
 
-          <span class="th-msg">
-            Hurry! Only few left in stock
+        {/* MESSAGE + ICON */}
+        <span className="th-msg" style={{ color: text }}>
+          <span className="th-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke={text} strokeWidth="2"/>
+              <path d="M12 6v6l4 2" stroke={text} strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </span>
+          Hurry! Only few left in stock
         </span>
-    
-    <span class="th-timer-inline">
 
-      
-      <span class="h">25</span>
-      <span class="sep">:</span>
-      <span class="m">47</span>
-      <span class="sep">:</span>
-      <span class="s">47</span>
-    </span>
+        {/* TIMER */}
+        <span className="th-timer-inline" style={{color: timerColor }}>
+          <span className="h">{String(time.h).padStart(2, "0")}</span>
+          <span className="sep">:</span>
+          <span className="m">{String(time.m).padStart(2, "0")}</span>
+          <span className="sep">:</span>
+          <span className="s">{String(time.s).padStart(2, "0")}</span>
+        </span>
 
-  </div>
+      </div>
+
+      {/* STOCK BAR */}
+      <div
+        className="s1-stock-bar"
+        style={{
+          
+          height: "6px",
+          
+          borderRadius: "6px",
+          overflow: "hidden",
+          width: "200px",
+          margin: "auto",
+        }}
+      >
+        <div
+          className="s1-progress"
+          style={{
+            width: `${percent}%`,
+            height: "100%",
+            background: barColor,
+            borderRadius: "6px",
+            transition: "width 0.4s ease",
+            
+          }}
+        />
+      </div>
+
+      {/* STOCK TEXT */}
+      <div style={{ fontSize: "11px", marginTop: "3px", opacity: 0.7 }}>
+        {sold} sold • {total - sold} left
+      </div>
     </div>
   );
 };

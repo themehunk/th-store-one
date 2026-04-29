@@ -87,12 +87,12 @@ const PreviewSaleCountdown = ({ settings = {} }) => {
                             {__("Boxed", "th-store-one")}
                         </button>
 
-                        <button
+                        {/* <button
                             className={`s1-style-tab ${style === 'style4' ? 'active' : ''}`}
                             onClick={() => changeStyle('style4')}
                         >
                             {__("Urgency", "th-store-one")}
-                        </button>
+                        </button> */}
                     </>
                 )}
 
@@ -134,7 +134,7 @@ const PreviewSaleCountdown = ({ settings = {} }) => {
                         {style === 'style1' && <Style1 settings={settings} />}
                         {style === 'style2' && <Style2 settings={settings} />}
                         {style === 'style3' && <Style3 settings={settings} />}
-                        {style === 'style4' && <Style4 settings={settings} />}
+                        {/* {style === 'style4' && <Style4 settings={settings} />} */}
                     </>
                 )}
 

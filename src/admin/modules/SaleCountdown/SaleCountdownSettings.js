@@ -64,17 +64,84 @@ const DEFAULT_SETTINGS = {
 
   hide_if_expired: true,
   hide_if_no_stock: true,
+
   single_bg_color: "#111",
-  single_text_color: "#fff",
-  single_timer_color: "#ff0000",
-  single_font_size: '14px',
+  single_text_color: "#facc15",
+  single_timer_bg_color: "#222",
+  single_timer_color: "#fff",
+  single_sold_bar_bg_color: "linear-gradient(90deg, #22c55e, #f97316)",
+  single_font_size: "14px",
 
   archive_bg_color: "#f5f6f8",
-  archive_text_color: "#111",
-  archive_timer_color: "#ff4d4f",
-  archive_font_size: '11px',
+  archive_text_color: "#d63638",
+  archive_timer_bg_color: "#f5f6f8",
+  archive_timer_color: "#111",
+  archive_sold_bar_bg_color: "#d63638",
+  archive_font_size: "11px",
 };
 
+const STYLE_DEFAULTS = {
+  // SINGLE STYLES
+  style1: {
+    single_bg_color: "#111",
+  single_text_color: "#facc15",
+  single_timer_bg_color: "#222",
+  single_timer_color: "#fff",
+  single_sold_bar_bg_color: "linear-gradient(90deg, #22c55e, #f97316)",
+  },
+  style2: {
+    single_bg_color: "#ffffff",
+    single_text_color: "#111",
+    single_timer_bg_color: "#111",
+    single_timer_color: "#111",
+    single_sold_bar_bg_color: "#ef4444",
+  },
+  style3: {
+    single_bg_color: "#ffffff",
+    single_text_color: "#111",
+    single_timer_bg_color: "#111",
+    single_timer_color: "#fff",
+    single_sold_bar_bg_color: "#ef4444",
+  },
+
+  // ARCHIVE STYLES
+  acstyle1: {
+    archive_bg_color: "#fff",
+    archive_text_color: "#d63638",
+    archive_timer_bg_color: "#f5f6f8",
+    archive_timer_color: "#111",
+    archive_sold_bar_bg_color: "#d63638",
+  },
+  acstyle2: {
+    archive_bg_color: "#fff",
+    archive_text_color: "#111",
+    archive_timer_bg_color: "#222",
+    archive_timer_color: "#fff",
+    archive_sold_bar_bg_color: "#ef4444",
+  },
+  acstyle3: {
+    archive_bg_color: "#fff",
+    archive_text_color: "#d63638",
+    archive_timer_bg_color: "#f5f6f8",
+    archive_timer_color: "#111",
+    archive_sold_bar_bg_color: "#ef4444",
+  },
+};
+const applyStyleDefaults = (settings, style, type) => {
+  const defaults = STYLE_DEFAULTS[style] || {};
+  let updated = { ...settings };
+
+  Object.keys(defaults).forEach((key) => {
+    const autoKey = `${key}_auto`;
+
+    if (settings[autoKey] !== false) {
+      updated[key] = defaults[key];
+      updated[autoKey] = true;
+    }
+  });
+
+  return updated;
+};
 export default function SaleCountdownSettings({
   onSettingsChange,
   onRegisterSave,
@@ -174,12 +241,20 @@ export default function SaleCountdownSettings({
 
       if (type === "single") {
         updated.sale_countdown_style = value;
-      } else if (type === "archive") {
+
+        //APPLY DEFAULTS
+        updated = applyStyleDefaults(updated, value, "single");
+      }
+
+      if (type === "archive") {
         updated.sale_countdown_archive_style = value;
+
+        //APPLY DEFAULTS
+        updated = applyStyleDefaults(updated, value, "archive");
       }
 
       setSettings(updated);
-      onSettingsChange?.(updated); // live preview
+      onSettingsChange?.(updated);
     };
 
     window.addEventListener("storeone:updateSaleCountdownStyle", handler);
@@ -188,6 +263,7 @@ export default function SaleCountdownSettings({
       window.removeEventListener("storeone:updateSaleCountdownStyle", handler);
     };
   }, [settings]);
+
   useEffect(() => {
     const handler = (e) => {
       const { type } = e.detail || {};
@@ -386,23 +462,23 @@ export default function SaleCountdownSettings({
                                 value={settings.archive_position}
                                 options={[
                                   {
-                                    label: "after title",
+                                    label: "After Title",
                                     value: "after_title",
                                   },
                                   {
-                                    label: "after rating",
+                                    label: "After Rating",
                                     value: "after_rating",
                                   },
                                   {
-                                    label: "after price",
+                                    label: "After Price",
                                     value: "after_price",
                                   },
                                   {
-                                    label: "before add to cart",
+                                    label: "Before Add to Cart",
                                     value: "before_add_to_cart",
                                   },
                                   {
-                                    label: "after add to cart",
+                                    label: "After Add to Cart",
                                     value: "after_add_to_cart",
                                   },
                                 ]}
@@ -500,55 +576,95 @@ export default function SaleCountdownSettings({
                             { label: "style1", value: "style1" },
                             { label: "style2", value: "style2" },
                             { label: "style3", value: "style3" },
-                            { label: "style4", value: "style4" },
+                            // { label: "style4", value: "style4" },
                           ]}
-                          onChange={(v) =>
-                            setSettings({
+                          onChange={(v) => {
+                            let updated = {
                               ...settings,
                               sale_countdown_style: v,
-                            })
-                          }
+                            };
+
+                            updated = applyStyleDefaults(updated, v, "single");
+
+                            setSettings(updated);
+                          }}
                         />
                       </S1Field>
-                      <S1FieldGroup title="Single Style">
-                        <S1Field >
-                          <THBackgroundControl
-                          label="Background"
-                            value={settings.single_bg_color}
-                            onChange={(v) =>
-                              setSettings({ ...settings, single_bg_color: v })
-                            }
-                          />
-                        </S1Field>
+                      {settings.show_on_single && (
+                        <S1FieldGroup title="Single Style">
+                          <S1Field>
+                            <THBackgroundControl
+                              label="Background"
+                              value={settings.single_bg_color}
+                              onChange={(v) =>
+                                setSettings({
+                                  ...settings,
+                                  single_bg_color: v,
+                                  single_bg_color_auto: false,
+                                })
+                              }
+                            />
+                          </S1Field>
 
-                        <S1Field >
-                          <THBackgroundControl
-                          label="Text Color"
-                            value={settings.single_text_color}
-                            onChange={(v) =>
-                              setSettings({ ...settings, single_text_color: v })
-                            }
-                          />
-                        </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              label="Massage Color"
+                              value={settings.single_text_color}
+                              onChange={(v) =>
+                                setSettings({
+                                  ...settings,
+                                  single_text_color: v,
+                                  single_text_color_auto: false,
+                                })
+                              }
+                            />
+                          </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              label="Timer Background Color"
+                              value={settings.single_timer_bg_color}
+                              onChange={(v) =>
+                                setSettings({
+                                  ...settings,
+                                  single_timer_bg_color: v,
+                                  single_timer_bg_color_auto: false,
+                                })
+                              }
+                            />
+                          </S1Field>
 
-                        <S1Field >
-                          <THBackgroundControl
-                          label="Timer Color"
-                            value={settings.single_timer_color}
-                            onChange={(v) =>
-                              setSettings({
-                                ...settings,
-                                single_timer_color: v,
-                              })
-                            }
-                          />
-                        </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              label="Timer Color"
+                              value={settings.single_timer_color}
+                              onChange={(v) =>
+                                setSettings({
+                                  ...settings,
+                                  single_timer_color: v,
+                                  single_timer_color_auto: false,
+                                })
+                              }
+                            />
+                          </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              label="Sold Bar Color"
+                              value={settings.single_sold_bar_bg_color}
+                              onChange={(v) =>
+                                setSettings({
+                                  ...settings,
+                                  single_sold_bar_bg_color: v,
+                                  single_sold_bar_bg_color_auto: false,
+                                })
+                              }
+                            />
+                          </S1Field>
 
-                        <S1Field >
+                          {/* <S1Field >
                           <UniversalRangeControl
                           label="Font Size"
                           responsive={false}
-                            units={["px"]}
+                            
                             value={settings.single_font_size || 14}
                             onChange={(v) =>
                               setSettings({ ...settings, single_font_size: v })
@@ -556,75 +672,122 @@ export default function SaleCountdownSettings({
                             min={10}
                             max={30}
                           />
-                        </S1Field>
-                      </S1FieldGroup>
-                      <S1Field label="Template Choose on Archive Page">
-                        <SelectControl
-                          value={settings.sale_countdown_archive_style}
-                          options={[
-                            { label: "style1", value: "acstyle1" },
-                            { label: "style2", value: "acstyle2" },
-                            { label: "style3", value: "acstyle3" },
-                          ]}
-                          onChange={(v) =>
-                            setSettings({
-                              ...settings,
-                              sale_countdown_archive_style: v,
-                            })
-                          }
-                        />
-                      </S1Field>
-                      <S1FieldGroup title="Archive Style">
-                        <S1Field >
-                          <THBackgroundControl
-                          label="Background"
-                            value={settings.archive_bg_color}
-                            onChange={(v) =>
-                              setSettings({ ...settings, archive_bg_color: v })
-                            }
-                          />
-                        </S1Field>
+                        </S1Field> */}
+                        </S1FieldGroup>
+                      )}
+                      {settings.show_on_archive && (
+                        <>
+                          <S1Field label="Template Choose on Archive Page">
+                            <SelectControl
+                              value={settings.sale_countdown_archive_style}
+                              options={[
+                                { label: "style1", value: "acstyle1" },
+                                { label: "style2", value: "acstyle2" },
+                                { label: "style3", value: "acstyle3" },
+                              ]}
+                              onChange={(v) => {
+                                let updated = {
+                                  ...settings,
+                                  sale_countdown_archive_style: v,
+                                  
+                                };
 
-                        <S1Field >
-                          <THBackgroundControl
-                          label="Text Color"
-                            value={settings.archive_text_color}
-                            onChange={(v) =>
-                              setSettings({
-                                ...settings,
-                                archive_text_color: v,
-                              })
-                            }
-                          />
-                        </S1Field>
+                                updated = applyStyleDefaults(
+                                  updated,
+                                  v,
+                                  "archive",
+                                );
 
-                        <S1Field >
-                          <THBackgroundControl
-                          label="Timer Color"
-                            value={settings.archive_timer_color}
-                            onChange={(v) =>
-                              setSettings({
-                                ...settings,
-                                archive_timer_color: v,
-                              })
-                            }
-                          />
-                        </S1Field>
+                                setSettings(updated);
+                              }}
+                            />
+                          </S1Field>
+                          <S1FieldGroup title="Archive Style">
+                            <S1Field>
+                              <THBackgroundControl
+                                label="Background"
+                                value={settings.archive_bg_color}
+                                onChange={(v) =>
+                                  setSettings({
+                                    ...settings,
+                                    archive_bg_color: v,
+                                    archive_bg_color_auto: false,
+                                  })
+                                }
+                              />
+                            </S1Field>
 
-                        <S1Field>
+                            <S1Field>
+                              <THBackgroundControl
+                                label="Massage Color"
+                                value={settings.archive_text_color}
+                                onChange={(v) =>
+                                  setSettings({
+                                    ...settings,
+                                    archive_text_color: v,
+                                    archive_text_color_auto: false,
+                                  })
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field>
+                              <THBackgroundControl
+                                label="Timer Background Color"
+                                value={settings.archive_timer_bg_color}
+                                onChange={(v) =>
+                                  setSettings({
+                                    ...settings,
+                                    archive_timer_bg_color: v,
+                                    archive_timer_bg_color_auto: false,
+                                  })
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field>
+                              <THBackgroundControl
+                                label="Timer Color"
+                                value={settings.archive_timer_color}
+                                onChange={(v) =>
+                                  setSettings({
+                                    ...settings,
+                                    archive_timer_color: v,
+                                    archive_timer_color_auto: false,
+                                  })
+                                }
+                              />
+                            </S1Field>
+                            <S1Field>
+                              <THBackgroundControl
+                                label="Sold Bar Color"
+                                value={settings.archive_sold_bar_bg_color}
+                                onChange={(v) =>
+                                  setSettings({
+                                    ...settings,
+                                    archive_sold_bar_bg_color: v,
+                                    archive_sold_bar_bg_color_auto: false,
+                                  })
+                                }
+                              />
+                            </S1Field>
+
+                            {/* <S1Field>
                           <UniversalRangeControl
                           label="Font Size"
                             value={settings.archive_font_size || 11}
                             responsive={false}
-                            units={["px"]}
+                            
                             onChange={(v) =>
                               setSettings({ ...settings, archive_font_size: v })
                             }
                             min={8}
                             max={20}
                           />
-                        </S1Field>
-                      </S1FieldGroup>
+                        </S1Field> */}
+                          </S1FieldGroup>
+                        </>
+                      )}
                     </>
                   ),
                 },
