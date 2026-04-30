@@ -13,6 +13,8 @@ import PreviewBuyNow from '../../modules/BuyNowButton/livepreview/PreviewBuyNow'
 import PreviewInactiveTab from '../../modules/InactiveTab/livepreview/PreviewInactiveTab';
 import PreviewStockScarcity from '../../modules/StockScarcity/livepreview/PreviewStockScarcity';
 import PreviewSaleCountdown from '../../modules/SaleCountdown/livepreview/PreviewSaleCountdown';
+import PreviewRecentView from '../../modules/RecentView/livepreview/PreviewRecentView';
+
 import { useSelect } from '@wordpress/data';
 
 import { STORE_NAME } from '@th-storeone/store/productVideoStore';
@@ -124,6 +126,12 @@ const PreviewPane = ({ currentModule, settings }) => {
                             )}
                             {currentModule?.id === "sale-countdown" && activeRule && (
                                 <PreviewSaleCountdown
+                                    key={currentModule.id}
+                                    settings={activeRule}
+                                />
+                            )}
+                            {currentModule?.id === "recent-view" && activeRule && (
+                                <PreviewRecentView
                                     key={currentModule.id}
                                     settings={activeRule}
                                 />

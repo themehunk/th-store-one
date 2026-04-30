@@ -23,6 +23,8 @@ import BuyNowButtonSettings from '../../modules/BuyNowButton/BuyNowButtonSetting
 import InactiveTabSettings from '../../modules/InactiveTab/InactiveTabSettings';
 import StockScarcitySettings from '../../modules/StockScarcity/StockScarcitySettings';
 import SaleCountdownSettings from '../../modules/SaleCountdown/SaleCountdownSettings';
+import RecentViewSettings from '../../modules/RecentView/RecentViewSettings';
+
 const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, onSettingsChange, onLivePreview,onRegisterSave ,licenseActive}) => {
     const enabled = !!modulesState[currentModule.id];
     const isPremium = currentModule.premium ?? false;
@@ -103,6 +105,12 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                 />
             case 'sale-countdown':
                 return <SaleCountdownSettings
+                    onSettingsChange={onSettingsChange}
+                    onLivePreview={onLivePreview}
+                    onRegisterSave={onRegisterSave}
+                />
+            case 'recent-view':
+                return <RecentViewSettings
                     onSettingsChange={onSettingsChange}
                     onLivePreview={onLivePreview}
                     onRegisterSave={onRegisterSave}

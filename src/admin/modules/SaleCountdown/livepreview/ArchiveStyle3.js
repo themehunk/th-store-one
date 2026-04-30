@@ -39,7 +39,7 @@ const ArchiveStyle3 = ({ settings = {} }) => {
       style={{
         background: bg,
         color: text,
-        padding: "30px",
+        padding: "20px",
         borderRadius: "8px",
       }}
     >

@@ -11,7 +11,7 @@ const ArchiveStyle1 = ({ settings = {} }) => {
   const total = 50;
   const percent = (sold / total) * 100;
 
-  // 🔥 fixed end time (no reset)
+  // fixed end time (no reset)
   const endRef = useRef(Date.now() + 2 * 24 * 60 * 60 * 1000); // 2 days
 
   const [time, setTime] = useState(getTime());
@@ -38,7 +38,7 @@ const ArchiveStyle1 = ({ settings = {} }) => {
       style={{
         background: bg,
         color: text,
-        padding: "8px",
+        padding: "20px",
         borderRadius: "6px",
       }}
     >

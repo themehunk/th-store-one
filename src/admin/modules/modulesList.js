@@ -521,4 +521,47 @@ export const modulesList = [
   ),
   premium: false,
 },
+{
+  id: "recent-view",
+  label: __("Recently Viewed", "th-store-one"),
+  description: __(
+    "Display products that users have recently viewed to improve engagement and increase chances of conversion.",
+    "th-store-one"
+  ),
+  icon: (
+    <svg
+      className="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Eye */}
+      <path
+        d="M2 12C4.5 7.5 8 5 12 5C16 5 19.5 7.5 22 12C19.5 16.5 16 19 12 19C8 19 4.5 16.5 2 12Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      {/* Eye center */}
+      <circle
+        cx="12"
+        cy="12"
+        r="3"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+
+      {/* Clock (recent indicator) */}
+      <path
+        d="M17 4V7M17 7H20"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
+  premium: false,
+},
 ];
