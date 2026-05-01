@@ -65,7 +65,7 @@ class TH_Store_One_Product_Video_Frontend {
     /* ================= ENQUEUE ================= */
     public function enqueue() {
 
-        if ( ! is_product() && ! is_shop() && ! is_product_category() ) return;
+        
 
         wp_enqueue_script(
             'th-store-onevideo-gallery',

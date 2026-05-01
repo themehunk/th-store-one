@@ -68,3 +68,7 @@
   opacity: 0.35;
   pointer-events: none;
 }
+
+.th-has-video img.attachment-woocommerce_thumbnail{
+    display:none!important;
+}

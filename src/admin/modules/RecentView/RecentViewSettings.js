@@ -30,10 +30,10 @@ const DEFAULT_SETTINGS = {
   hide_title: false,
 
   slider: {
-  enabled: false,
-  slides: 4,
-  autoplay: false,
-  navigation: true,
+    enabled: false,
+    slides: 4,
+    autoplay: false,
+    navigation: true,
   },
 
   products: "6",
@@ -219,10 +219,10 @@ export default function RecentViewSettings({
                       </S1FieldGroup>
                       {/* LOGIC */}
                       <S1FieldGroup title="Logic">
-                          <S1Field
+                        <S1Field
                           label={__("Order by", "th-store-one")}
                           classN="s1-toggle-wrpapper"
-                          >
+                        >
                           <SelectControl
                             value={settings.order_by}
                             options={[
@@ -247,7 +247,7 @@ export default function RecentViewSettings({
                   id: "display",
                   label: "Display",
                   icon: ICONS.DISPLAY,
-                  content:(
+                  content: (
                     <>
                       {/* PAGES */}
                       <S1FieldGroup title="Show on pages">
@@ -303,21 +303,22 @@ export default function RecentViewSettings({
                           />
                         </S1Field>
                         {/* PRIORITY */}
-                      <S1FieldGroup title="Placement">
-                        <UniversalRangeControl
-                          label="Loading priority"
-                          value={settings.priority}
-                          min={1}
-                          max={50}
-                          onChange={(v) =>
-                            setSettings({ ...settings, priority: v })
-                          }
-                        />
+                        <S1FieldGroup title="Placement">
+                          <UniversalRangeControl
+                            label="Loading priority"
+                            value={settings.priority}
+                            min={1}
+                            max={50}
+                            onChange={(v) =>
+                              setSettings({ ...settings, priority: v })
+                            }
+                          />
 
-                        <p className="s1-note">
-                          Lower number = higher priority (shows higher on page)
-                        </p>
-                      </S1FieldGroup>
+                          <p className="s1-note">
+                            Lower number = higher priority (shows higher on
+                            page)
+                          </p>
+                        </S1FieldGroup>
                       </S1FieldGroup>
                       {/* SHORTCODE */}
                       <S1FieldGroup title="Shortcode">
@@ -353,44 +354,42 @@ export default function RecentViewSettings({
                   ),
                 },
 
-                 {
+                {
                   id: "style",
                   label: "Design",
                   icon: ICONS.DESIGN,
                   content: (
                     <>
-                   
-                        <SliderControl
-                            value={settings.slider || {}}
-                             onChange={(v) =>
-                            setSettings({ ...settings, slider: v })
+                      <SliderControl
+                        value={settings.slider || {}}
+                        onChange={(v) =>
+                          setSettings({ ...settings, slider: v })
+                        }
+                        labels={{
+                          enable: __("Display in Slider", "th-store-one"),
+                          slides: __("Slides to Show", "th-store-one"),
+                          autoplay: __("Auto Play", "th-store-one"),
+                          navigation: __("Show Navigation", "th-store-one"),
+                        }}
+                        fields={{
+                          enable: true,
+                          slides: true,
+                          autoplay: true,
+                          navigation: true,
+                        }}
+                      />
+                      <S1Field label={__("Title color", "th-store-one")}>
+                        <THBackgroundControl
+                          label=""
+                          value={settings.title_color}
+                          onChange={(v) =>
+                            setSettings({ ...settings, title_color: v })
                           }
-
-                            labels={{
-                                enable: __("Display in Slider", "th-store-one"),
-                                slides: __("Slides to Show", "th-store-one"),
-                                autoplay: __("Auto Play", "th-store-one"),
-                                navigation: __("Show Navigation", "th-store-one"),
-                            }}
-
-                            fields={{
-                                enable: true,
-                                slides: true,
-                                autoplay: true,
-                                navigation: true,
-                            }}
                         />
-                    <S1Field label={__("Title color", "th-store-one")}>
-                         <THBackgroundControl
-                              label=""
-                              value={settings.title_color}
-                              onChange={(v) =>
-                              setSettings({ ...settings, title_color: v })
-                              }
-                         />
-                        </S1Field>
+                      </S1Field>
                     </>
-                  )}
+                  ),
+                },
               ]}
             />
           </div>
