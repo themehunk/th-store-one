@@ -22,7 +22,7 @@ import { CopyIcon } from "@radix-ui/react-icons";
 import UniversalRangeControl from "@th-storeone-global/UniversalRangeControl";
 import UniversalBorderControl from "@th-storeone-control/UniversalBorderControl";
 import UniversalDimensionControl from "@th-storeone-control/UniversalDimensionControl";
-
+import AlignmentControl from "@th-storeone-control/AlignmentControl";
 const MODULE_ID = "sale-countdown";
 
 /* ---------------------------------
@@ -78,6 +78,8 @@ const DEFAULT_SETTINGS = {
   archive_timer_color: "#111",
   archive_sold_bar_bg_color: "#d63638",
   archive_font_size: "11px",
+  alignmentArchive: "center",
+  alignmentSingle: "center",
 };
 
 const STYLE_DEFAULTS = {
@@ -590,6 +592,7 @@ export default function SaleCountdownSettings({
                           }}
                         />
                       </S1Field>
+                      <AlignmentControl value={settings.alignmentSingle} onChange={(v) => setSettings({ ...settings, alignmentSingle: v })} />
                       {settings.show_on_single && (
                         <S1FieldGroup title="Single Style">
                           <S1Field>
@@ -702,6 +705,7 @@ export default function SaleCountdownSettings({
                               }}
                             />
                           </S1Field>
+                          <AlignmentControl value={settings.alignmentArchive} onChange={(v) => setSettings({ ...settings, alignmentArchive: v })} />
                           <S1FieldGroup title="Archive Style">
                             <S1Field>
                               <THBackgroundControl

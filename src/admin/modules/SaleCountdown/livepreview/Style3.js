@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "@wordpress/element";
 
 const Style3 = ({ settings = {} }) => {
-
+ const alignment = settings?.alignmentSingle || "center";
  const bg = settings?.single_bg_color || "#ffffff";
   const text = settings?.single_text_color || "#111";
 const timerBg = settings?.single_timer_bg_color || "#222";
@@ -35,7 +35,7 @@ const timerBg = settings?.single_timer_bg_color || "#222";
 
   return (
     <div
-      className="s1-style s1-boxed"
+       className={`s1-style s1-boxed s1-align-${alignment}`}
       style={{
         color: text,
         background: bg,

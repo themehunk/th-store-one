@@ -8,6 +8,7 @@ $remaining  = $args['remaining'] ?? null;
 $percent    = floatval($args['percent'] ?? 0);
 $settings   = $args['settings'] ?? [];
 $format = $settings['time_format'] ?? 'dhms';
+ $align    = $settings['alignmentArchive'] ?? 'center';
 
 /* ================= DETECT PRODUCT DATA ================= */
 $has_product_data  = ! empty($end) || ! empty($msg);
@@ -55,7 +56,7 @@ if ( $percent <= 0 && $has_product_stock && ($sold + $remaining) > 0 ) {
 }
 ?>
 
-<div class="th-cd th-ac th-ac3"
+<div class="th-cd th-ac th-ac3 s1-align-<?php echo esc_attr($align); ?>"
      style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>; padding:8px; border-radius:8px;"
      data-end="<?php echo esc_attr($end); ?>"
      data-expire-action="<?php echo esc_attr($settings['countdown_expire_action'] ?? 'hide'); ?>"
@@ -73,7 +74,7 @@ if ( $percent <= 0 && $has_product_stock && ($sold + $remaining) > 0 ) {
   <!-- TIMER -->
   <?php if ( ! empty($end) ) : ?>
     <div class="th-timer-boxes"
-         style="display:flex; justify-content:center; gap:12px; margin-bottom:8px;">
+         style="display:flex; justify-content:<?php echo esc_attr($align); ?>; gap:12px; margin-bottom:8px;">
 <?php if ($format === 'dhms') : ?>
       <div class="t-box" style="background:<?php echo esc_attr($timer_bg); ?>; color:<?php echo esc_attr($timer_color); ?>;">
         <span class="d">00</span><small><?php esc_html_e('D', 'th-store-one'); ?></small>

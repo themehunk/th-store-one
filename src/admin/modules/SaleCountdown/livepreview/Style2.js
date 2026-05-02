@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "@wordpress/element";
 
 const Style2 = ({ settings = {} }) => {
-
+  const alignment = settings?.alignmentSingle || "center";
   const bg = settings?.single_bg_color || "#ffffff";
   const text = settings?.single_text_color || "#111";
 
@@ -35,7 +35,7 @@ const Style2 = ({ settings = {} }) => {
 
   return (
     <div
-      className="s1-style s1-minimal"
+      className={`s1-style s1-minimal s1-align-${alignment}`}
       style={{
         color: text,
         background: bg,

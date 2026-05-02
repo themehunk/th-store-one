@@ -8,6 +8,7 @@ $remaining = intval($args['remaining'] ?? 0);
 $percent = floatval($args['percent'] ?? 0);
 $settings = $args['settings'] ?? [];
  $format = $settings['time_format'] ?? 'dhms';
+ $align    = $settings['alignmentArchive'] ?? 'center';
 
 /* ================= DETECT SOURCE ================= */
 $has_product_data = !empty($end) || !empty($msg);
@@ -44,7 +45,7 @@ if ($percent <= 0 && ($sold + $remaining) > 0) {
 }
 ?>
 
-<div class="th-cd th-ac th-ac1"
+<div class="th-cd th-ac th-ac1 s1-align-<?php echo esc_attr($align); ?>"
      style="background: <?php echo esc_attr($bg); ?>;  ; padding:8px; border-radius:6px;"
      data-end="<?php echo esc_attr($end); ?>"
      data-expire-action="<?php echo esc_attr($settings['countdown_expire_action'] ?? 'hide'); ?>"
@@ -54,7 +55,7 @@ if ($percent <= 0 && ($sold + $remaining) > 0) {
 
   <!-- MESSAGE -->
   <?php if ($show_msg) : ?>
-    <div class="th-msg" style="font-size:14px;display:flex; justify-content: center; align-items:center; gap:6px; color: <?php echo esc_attr($text); ?>;">
+    <div class="th-msg" style="font-size:14px;display:flex; justify-content:<?php echo esc_attr($align); ?>; align-items:center; gap:6px; color: <?php echo esc_attr($text); ?>;">
 
       <!-- ICON -->
       <span class="th-icon">

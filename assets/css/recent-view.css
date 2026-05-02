@@ -11,8 +11,8 @@
 /* ================= NAV BUTTON ================= */
 .th-recent-slider .swiper-button-prev,
 .th-recent-slider .swiper-button-next {
-  top: 50% !important;
-  transform: translateY(-50%) !important;
+  top: 40% !important;
+  transform: translateY(-40%) !important;
   margin-top: 0 !important;
 
   display: flex;
@@ -71,4 +71,20 @@
 
 .th-has-video img.attachment-woocommerce_thumbnail{
     display:none!important;
+}
+/*DEFAULT HIDE */
+.th-recent-slider .swiper-button-prev,
+.th-recent-slider .swiper-button-next {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+/*SHOW ON HOVER */
+.th-recent-slider:hover .swiper-button-prev,
+.th-recent-slider:hover .swiper-button-next {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }

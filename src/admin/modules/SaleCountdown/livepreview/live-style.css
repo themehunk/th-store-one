@@ -381,3 +381,123 @@ display: inline-flex;
   height: 100%;
   background: #ff4d4f;
 }
+
+/* alignment classes  */
+.s1-style.s1-default-pro.s1-align-left{
+    text-align: left;
+}
+
+.s1-default-pro.s1-align-left .s1-timer {
+    display: flex;
+    justify-content: left;
+}
+.s1-style.s1-default-pro.s1-align-right{
+    text-align: right;
+}
+
+.s1-default-pro.s1-align-right .s1-timer {
+    display: flex;
+    justify-content: right;
+}
+
+.s1-style.s1-minimal.s1-align-left{
+    text-align: left;
+}
+
+.s1-style.s1-minimal.s1-align-left .s1-stock-bar{
+    margin: inherit!important;
+}
+
+.s1-style.s1-minimal.s1-align-right{
+    text-align: right;
+}
+
+.s1-style.s1-minimal.s1-align-right .s1-stock-bar{
+   margin-right:0!important;
+}
+.s1-style.s1-boxed.s1-align-left{
+    text-align: left;
+}
+.s1-style.s1-boxed.s1-align-right{
+    text-align:right;
+} 
+
+.s1-style.s1-boxed.s1-align-right div{
+  justify-content: end!important;
+}
+
+.s1-style.s1-boxed.s1-align-left div{
+  justify-content: start!important;
+}
+
+.s1-style.s1-boxed.s1-align-left .s1-stock-bar{
+    margin: inherit!important;
+}
+
+.s1-style.s1-boxed.s1-align-right .s1-stock-bar{
+   margin-right:0!important;
+}
+.s1-ac-style3.s1-align-left {
+    text-align: left;
+}
+.s1-ac-style3.s1-align-left .s1-ac3-timer {
+    display: flex;
+    justify-content: left;
+}
+.s1-ac-style3.s1-align-left  .s1-ac3-bar{
+    margin-left:0;
+}
+.s1-ac-style3.s1-align-right {
+    text-align: right;
+}
+.s1-ac-style3.s1-align-right .s1-ac3-timer {
+    display: flex;
+    justify-content:right;
+}
+.s1-ac-style3.s1-align-right  .s1-ac3-bar{
+    margin-right:0;
+}
+
+.s1-ac-style1.s1-align-left {
+    text-align: left;
+}
+.s1-ac-style1.s1-align-left .s1-ac-timer {
+    display: flex;
+    justify-content: left;
+}
+.s1-ac-style1.s1-align-left .s1-ac-bar{
+    margin-left:0;
+}
+
+.s1-ac-style1.s1-align-right {
+    text-align: right;
+}
+.s1-ac-style1.s1-align-right .s1-ac-timer {
+    display: flex;
+    justify-content:right;
+}
+.s1-ac-style1.s1-align-right .s1-ac-bar{
+    margin-right:0;
+}
+
+.s1-ac-style2.s1-align-left {
+    text-align: left;
+}
+.s1-ac-style2.s1-align-left .s1-ac2-timer {
+    display: flex;
+    justify-content: left;
+}
+.s1-ac-style2.s1-align-left .s1-ac2-bar{
+    margin-left:0;
+}
+
+.s1-ac-style2.s1-align-right {
+    text-align: right;
+}
+.s1-ac-style2.s1-align-right .s1-ac2-timer {
+    display: flex;
+    justify-content:right;
+}
+.s1-ac-style2.s1-align-right .s1-ac2-bar{
+    margin-right:0;
+}

@@ -5,7 +5,7 @@ const Style1 = ({ settings }) => {
   const sold = 32;
   const total = 50;
   const percent = (sold / total) * 100;
-
+  const alignment = settings?.alignmentSingle || "center";
   const bg = settings?.single_bg_color || "#111";
   const text = settings?.single_text_color || "#facc15";
   const timerBg = settings?.single_timer_bg_color || "#222";
@@ -34,7 +34,7 @@ const Style1 = ({ settings }) => {
 
   return (
     <div
-      className="s1-style s1-default-pro"
+      className={`s1-style s1-default-pro s1-align-${alignment}`}
       style={{
         background: bg,
         color: text,

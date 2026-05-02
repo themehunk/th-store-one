@@ -9,10 +9,12 @@ $percent = floatval($args['percent'] ?? 0);
 $settings = $args['settings'] ?? [];
 
 /* SETTINGS FLAGS */
+$align    = $settings['alignmentSingle'] ?? 'center';
 $show_msg = !empty($settings['show_message']);
 $show_bar = !empty($settings['show_stock_bar']);
 
 /*COLORS (same as React) */
+
 $bg          = $settings['single_bg_color'] ?? '#111';
 $text        = $settings['single_text_color'] ?? '#facc15';
 $timer_bg    = $settings['single_timer_bg_color'] ?? '#222';
@@ -26,7 +28,7 @@ if ($percent <= 0 && ($sold + $remaining) > 0) {
 }
 ?>
 
-<div class="th-cd th-style1" class="th-cd th-style1"
+<div class="th-cd th-style1 s1-align-<?php echo esc_attr($align); ?>"
      data-end="<?php echo esc_attr($end); ?>"
      data-expire-action="<?php echo esc_attr($settings['countdown_expire_action'] ?? 'hide'); ?>"
      data-expire-msg="<?php echo esc_attr($settings['expire_message'] ?? 'Offer expired'); ?>"

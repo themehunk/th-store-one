@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "@wordpress/element";
 
 const ArchiveStyle3 = ({ settings = {} }) => {
-
+const alignment = settings?.alignmentArchive || "center";
   const bg = settings?.archive_bg_color || "#fff";
   const text = settings?.archive_text_color || "#d63638";
   const timerBg = settings?.archive_timer_bg_color || "#f5f6f8";
@@ -35,7 +35,7 @@ const ArchiveStyle3 = ({ settings = {} }) => {
 
   return (
     <div
-      className="s1-ac-style3"
+      className={`s1-ac-style3 s1-align-${alignment}`}
       style={{
         background: bg,
         color: text,

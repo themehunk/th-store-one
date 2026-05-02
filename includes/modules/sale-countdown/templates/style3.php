@@ -9,6 +9,7 @@ $percent = floatval($args['percent'] ?? 0);
 $settings = $args['settings'] ?? [];
 
 /* SETTINGS */
+$align          = $settings['alignmentSingle'] ?? 'center';
 $show_msg = !empty($settings['show_message']);
 $show_bar = !empty($settings['show_stock_bar']);
 $expire_action = $settings['countdown_expire_action'] ?? 'hide';
@@ -34,7 +35,7 @@ if ($percent <= 0 && $has_stock_data) {
 }
 ?>
 
-<div class="th-cd th-style3"
+<div class="th-cd th-style3 s1-align-<?php echo esc_attr($align); ?>"
      style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>; padding:20px; border-radius:8px;"
      data-end="<?php echo esc_attr($end); ?>"
      data-expire-action="<?php echo esc_attr($expire_action); ?>"
@@ -87,7 +88,7 @@ if ($percent <= 0 && $has_stock_data) {
     </div>
 
     <!-- STOCK TEXT -->
-    <div style="font-size:14px; margin-top:4px; opacity:0.7; text-align:center;font-weight: 500; color: <?php echo esc_attr($text); ?>">
+    <div style="font-size:14px; margin-top:4px; opacity:0.7; text-align:<?php echo esc_attr($align); ?>;font-weight: 500; color: <?php echo esc_attr($text); ?>">
       <?php echo esc_html($sold); ?> sold • <?php echo esc_html($remaining); ?> left
     </div>
 

@@ -147,112 +147,103 @@ class Th_Store_One_Recent_View {
     public function render() {
 
     $page = 'default';
-    if (is_product()) $page = 'single';
-    if (is_cart()) $page = 'cart';
-    if (is_checkout()) $page = 'checkout';
+    if(is_product()) $page = 'single';
+    if(is_cart()) $page = 'cart';
+    if(is_checkout()) $page = 'checkout';
 
     if (isset(self::$rendered[$page])) return;
     self::$rendered[$page] = true;
 
     $products = $this->get_products();
-    if (empty($products)) return;
+        if (empty($products)) return;
 
-    $s = $this->settings;
-    $is_slider = !empty($s['slider']['enabled']);
-    $gap = intval($s['columns_gap'] ?? 15);
+        $s = $this->settings;
 
-    ?>
+        $is_slider = !empty($s['slider']['enabled']);
+        $gap       = intval($s['columns_gap'] ?? 15);
 
-    <div class="th-recent-view-wrap <?php echo $is_slider ? 'is-slider' : 'is-grid'; ?>"
-         style="--th-gap:<?php echo $gap; ?>px;">
+        ?>
 
-        <?php if (empty($s['hide_title'])) : 
-            $tag = esc_attr($s['title_tag'] ?? 'h2'); ?>
-            <<?php echo $tag; ?> class="th-recent-title"
-                style="color:<?php echo esc_attr($s['title_color'] ?? '#111'); ?>">
-                <?php echo esc_html($s['title'] ?? 'Recently Viewed'); ?>
-            </<?php echo $tag; ?>>
-        <?php endif; ?>
+        <div class="th-recent-view-wrap <?php echo $is_slider ? 'is-slider' : 'is-grid'; ?>"
+             style="--th-gap:<?php echo $gap; ?>px;">
 
+            <?php if (empty($s['hide_title'])) : ?>
+                <<?php echo esc_attr($s['title_tag'] ?? 'h2'); ?>
+                    class="th-recent-title"
+                    style="color:<?php echo esc_attr($s['title_color'] ?? '#111'); ?>">
+                    <?php echo esc_html($s['title'] ?? 'Recently Viewed'); ?>
+                </<?php echo esc_attr($s['title_tag'] ?? 'h2'); ?>>
+            <?php endif; ?>
+            <?php if ($is_slider) : ?>
+                <!-- SLIDER -->
+                <div class="swiper th-recent-slider"
+     data-slides="<?php echo esc_attr($s['slider']['slides'] ?? 3); ?>"
+     data-autoplay="<?php echo !empty($s['slider']['autoplay']) ? 'true' : 'false'; ?>"
+     data-nav="<?php echo !empty($s['slider']['navigation']) ? 'true' : 'false'; ?>"
+     data-gap="<?php echo esc_attr($s['columns_gap'] ?? 15); ?>">
 
-        <?php if ($is_slider) : ?>
+    <div class="swiper-wrapper">
 
-            <!-- 🔥 SLIDER -->
-            <div class="swiper th-recent-slider"
-                 data-slides="<?php echo esc_attr($s['slider']['slides'] ?? 3); ?>"
-                 data-autoplay="<?php echo !empty($s['slider']['autoplay']) ? 'true' : 'false'; ?>"
-                 data-nav="<?php echo !empty($s['slider']['navigation']) ? 'true' : 'false'; ?>"
-                 data-gap="<?php echo esc_attr($gap); ?>">
+        <?php foreach ($products as $product) :
 
-                <div class="swiper-wrapper">
-
-                    <?php foreach ($products as $product) :
-
-                        $post_object = get_post($product->get_id());
-                        $GLOBALS['post'] = $post_object;
-
-                        setup_postdata($post_object);
-                        wc_setup_product_data($post_object);
-
-                        global $woocommerce_loop;
-                        $woocommerce_loop = [
-                            'loop' => 0,
-                            'columns' => 1,
-                        ];
+            global $post;
+            $post_object = get_post($product->get_id());
+            $GLOBALS['post'] = $post_object;
+            setup_postdata($post_object);
+            wc_setup_product_data($post_object); 
                     ?>
 
-                        <div class="swiper-slide">
-                            <?php wc_get_template_part('content', 'product'); ?>
-                        </div>
-
-                    <?php endforeach; ?>
-
-                </div>
-
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
-
+            <div class="swiper-slide">
+                <ul class="products columns-1">
+                    <?php wc_get_template_part('content', 'product'); ?>
+                </ul>
             </div>
 
-        <?php else : ?>
-
-            <!-- 🔥 GRID -->
-            <div class="th-recent-products">
-
-                <?php
-                global $woocommerce_loop;
-                $woocommerce_loop = [
-                    'loop' => 0,
-                    'columns' => intval($this->settings['columns'] ?? 3),
-                ];
-
-                woocommerce_product_loop_start();
-
-                foreach ($products as $product) :
-
-                    $post_object = get_post($product->get_id());
-                    $GLOBALS['post'] = $post_object;
-
-                    setup_postdata($post_object);
-                    wc_setup_product_data($post_object); // 🔥 FIX
-
-                    wc_get_template_part('content', 'product');
-
-                endforeach;
-
-                woocommerce_product_loop_end();
-
-                wp_reset_postdata();
-                ?>
-
-            </div>
-
-        <?php endif; ?>
+        <?php endforeach; wp_reset_postdata(); ?>
 
     </div>
 
-    <?php
-}
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+
+</div>
+            <?php else : ?>
+                <!-- GRID -->
+                <div class="th-recent-products">
+               <?php
+               global $woocommerce_loop;
+               //FORCE CORRECT COLUMNS
+               $woocommerce_loop = [
+               'loop' => 0,
+               'columns' => intval($this->settings['columns'] ?? 3),
+               ];
+
+               woocommerce_product_loop_start();
+
+               foreach ($products as $product) :
+
+               $post_object = get_post($product->get_id());
+                $GLOBALS['post'] = $post_object;
+                setup_postdata($post_object);
+
+               wc_get_template_part('content', 'product');
+
+               endforeach;
+
+               wp_reset_postdata();
+
+               woocommerce_product_loop_end();
+               ?>
+
+               </div>
+
+            <?php endif; ?>
+
+        </div>
+
+        <?php
+    }
+
     /* -------------------------
      * SHORTCODE
      * ------------------------- */
