@@ -686,6 +686,12 @@ data-delay="<?php echo esc_attr($delay); ?>"
         </div>
 
     </div>
+    <div class="th-progress-bar">
+  <div 
+    class="th-progress-fill"
+    style="background: <?php echo esc_attr($rule['delay_bar_clr'] ?? '#F56E28'); ?>;"
+  ></div>
+</div>
 </div>
 
 <?php

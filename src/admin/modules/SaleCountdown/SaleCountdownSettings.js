@@ -23,6 +23,7 @@ import UniversalRangeControl from "@th-storeone-global/UniversalRangeControl";
 import UniversalBorderControl from "@th-storeone-control/UniversalBorderControl";
 import UniversalDimensionControl from "@th-storeone-control/UniversalDimensionControl";
 import AlignmentControl from "@th-storeone-control/AlignmentControl";
+
 const MODULE_ID = "sale-countdown";
 
 /* ---------------------------------
@@ -80,6 +81,23 @@ const DEFAULT_SETTINGS = {
   archive_font_size: "11px",
   alignmentArchive: "center",
   alignmentSingle: "center",
+
+  border: {
+      width: {
+        top: "0px", 
+        right: "0px",
+        bottom: "0px",
+        left: "0px",
+      },
+      style: "solid",
+      color: "",
+      radius: {
+        top: "0px",
+        right: "0px",
+        bottom: "0px",
+        left: "0px",
+      },
+    },
 };
 
 const STYLE_DEFAULTS = {
@@ -676,6 +694,10 @@ export default function SaleCountdownSettings({
                             max={30}
                           />
                         </S1Field> */}
+                        <UniversalBorderControl
+                          value={settings.border}
+                          onChange={(v) => setSettings({ ...settings, border: v })}
+                        />
                         </S1FieldGroup>
                       )}
                       {settings.show_on_archive && (

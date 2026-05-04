@@ -33,10 +33,42 @@ if ($percent <= 0 && $has_stock_data) {
         $percent = ($sold / $total) * 100;
     }
 }
+$border = $settings['border'] ?? [];
+$bw = $border['width'] ?? [];
+$br = $border['radius'] ?? [];
+
+$border_style = $border['style'] ?? 'solid';
+$border_color = $border['color'] ?? 'transparent';
+
+$border_css = sprintf(
+    'border-style:%s;
+     border-color:%s;
+     border-top-width:%s;
+     border-right-width:%s;
+     border-bottom-width:%s;
+     border-left-width:%s;
+     border-top-left-radius:%s;
+     border-top-right-radius:%s;
+     border-bottom-right-radius:%s;
+     border-bottom-left-radius:%s;',
+     
+    esc_attr($border_style),
+    esc_attr($border_color),
+
+    esc_attr($bw['top'] ?? '0px'),
+    esc_attr($bw['right'] ?? '0px'),
+    esc_attr($bw['bottom'] ?? '0px'),
+    esc_attr($bw['left'] ?? '0px'),
+
+    esc_attr($br['top'] ?? '0px'),
+    esc_attr($br['right'] ?? '0px'),
+    esc_attr($br['bottom'] ?? '0px'),
+    esc_attr($br['left'] ?? '0px')
+);
 ?>
 
 <div class="th-cd th-style3 s1-align-<?php echo esc_attr($align); ?>"
-     style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>; padding:20px; border-radius:8px;"
+     style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>; padding:20px; border-radius:8px; <?php echo $border_css; ?>;"
      data-end="<?php echo esc_attr($end); ?>"
      data-expire-action="<?php echo esc_attr($expire_action); ?>"
      data-expire-msg="<?php echo esc_attr($expire_msg); ?>"

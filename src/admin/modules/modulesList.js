@@ -564,4 +564,46 @@ export const modulesList = [
   ),
   premium: false,
 },
+{
+  id: "smart-offers",
+  label: __("Smart Offers", "th-store-one"),
+  description: __(
+    "Create powerful Buy X Get Y deals, discounts, and automated offers to boost conversions and increase average order value.",
+    "th-store-one"
+  ),
+  icon: (
+    <svg
+      className="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Tag shape (offer icon) */}
+      <path
+        d="M3 12L12 3L21 12L12 21L3 12Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+
+      {/* Discount circle */}
+      <circle
+        cx="12"
+        cy="12"
+        r="2"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+
+      {/* Small spark (smart effect) */}
+      <path
+        d="M18 4V7M18 7H21"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
+  premium: false,
+}
 ];

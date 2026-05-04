@@ -8,6 +8,22 @@ const Style2 = ({ settings = {} }) => {
   const timerColor = settings?.single_timer_color || "#111";
   const barColor = settings?.single_sold_bar_bg_color || "#ef4444";
 
+  const getBorderStyle = (border = {}) => ({
+    borderStyle: border.style || "",
+    borderColor: border.color || "",
+
+    borderTopWidth: border?.width?.top || "",
+    borderRightWidth: border?.width?.right || "",
+    borderBottomWidth: border?.width?.bottom || "",
+    borderLeftWidth: border?.width?.left || "",
+
+    borderTopLeftRadius: border?.radius?.top || "",
+    borderTopRightRadius: border?.radius?.right || "",
+    borderBottomRightRadius: border?.radius?.bottom || "",
+    borderBottomLeftRadius: border?.radius?.left || "",
+  });
+
+
   // FIXED END TIME (won't reset on re-render)
   const endRef = useRef(Date.now() + 2 * 60 * 60 * 1000); // 2 hours
 
@@ -40,7 +56,7 @@ const Style2 = ({ settings = {} }) => {
         color: text,
         background: bg,
         padding: "30px",
-        borderRadius: "6px",
+        ...getBorderStyle(settings.border),
       }}
     >
       {/* INLINE ROW */}

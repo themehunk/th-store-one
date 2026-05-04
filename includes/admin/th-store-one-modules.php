@@ -55,6 +55,7 @@ class Th_Store_One_Modules {
 			'stock-scarcity'    => false,
 			'sale-countdown'    => false,
 			'recent-view'       => false,
+			'smart-offers'	    => false,
 		);
 	}
 	/**

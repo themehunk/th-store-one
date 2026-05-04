@@ -180,9 +180,9 @@
 
 /* BUTTON */
 .th-sticky-cart .th-btn {
-  padding:0;
+  padding:0px 15px;
  height: 42px;
-    width: 120px;
+  
   font-weight: 600;
   border-radius: 8px;
   background: linear-gradient(135deg, #facc15, #fbbf24);

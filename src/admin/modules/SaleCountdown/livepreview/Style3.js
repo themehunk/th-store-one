@@ -8,6 +8,21 @@ const timerBg = settings?.single_timer_bg_color || "#222";
   const timerColor = settings?.single_timer_color || "#fff";
   const barColor = settings?.single_sold_bar_bg_color || "#ef4444";
 
+   const getBorderStyle = (border = {}) => ({
+    borderStyle: border.style || "",
+    borderColor: border.color || "",
+
+    borderTopWidth: border?.width?.top || "",
+    borderRightWidth: border?.width?.right || "",
+    borderBottomWidth: border?.width?.bottom || "",
+    borderLeftWidth: border?.width?.left || "",
+
+    borderTopLeftRadius: border?.radius?.top || "",
+    borderTopRightRadius: border?.radius?.right || "",
+    borderBottomRightRadius: border?.radius?.bottom || "",
+    borderBottomLeftRadius: border?.radius?.left || "",
+  });
+
   //fixed end time
   const endRef = useRef(Date.now() + 3 * 60 * 60 * 1000);
 
@@ -41,6 +56,7 @@ const timerBg = settings?.single_timer_bg_color || "#222";
         background: bg,
         padding: "30px",
         borderRadius: "8px",
+        ...getBorderStyle(settings.border),
       }}
     >
 

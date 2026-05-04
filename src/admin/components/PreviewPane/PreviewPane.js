@@ -14,6 +14,7 @@ import PreviewInactiveTab from '../../modules/InactiveTab/livepreview/PreviewIna
 import PreviewStockScarcity from '../../modules/StockScarcity/livepreview/PreviewStockScarcity';
 import PreviewSaleCountdown from '../../modules/SaleCountdown/livepreview/PreviewSaleCountdown';
 import PreviewRecentView from '../../modules/RecentView/livepreview/PreviewRecentView';
+import PreviewSmartOffers from '../../modules/SmartOffers/livepreview/PreviewSmartOffers';
 
 import { useSelect } from '@wordpress/data';
 
@@ -136,11 +137,12 @@ const PreviewPane = ({ currentModule, settings }) => {
                                     settings={activeRule}
                                 />
                             )}
-
-                             
-
-                           
-                            
+                            {currentModule?.id === "smart-offers" && activeRule && (
+                                <PreviewSmartOffers
+                                    key={currentModule.id}
+                                    settings={activeRule}
+                                />
+                            )}
                         </div>
                     </div>
 
