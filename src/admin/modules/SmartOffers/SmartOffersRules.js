@@ -18,6 +18,8 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
 } from "@radix-ui/react-icons";
+import { ICONS } from "@th-storeone-global/icons";
+import ResetModuleButton from "@th-storeone-global/ResetModuleButton";
 
 /* ---------------- DEFAULT RULE ---------------- */
 const newSmartOfferRule = () => ({
@@ -26,30 +28,41 @@ const newSmartOfferRule = () => ({
   status: "active",
   title: "Smart Offer",
 
-  /* TRIGGER */
   trigger_type: "specific_products",
   products: [],
   categories: [],
+  exclude_products: [],
   min_qty: 2,
   min_amount: 0,
 
-  /* REWARD */
+  offer_type: "bxgy",
+  x_qty: 2,
+  y_qty: 1,
+  apply_mode: "step",
+
   reward_type: "free_product",
   reward_products: [],
   discount_value: 100,
   max_qty: 1,
+  apply_on: "cheapest",
 
-  /* BEHAVIOR */
   auto_add: true,
   repeat: true,
   remove_if_invalid: true,
   priority: 10,
+  stackable: false,
+  limit_per_order: 10,
 
-  /* DISPLAY */
+  user_role: "all",
+  first_order_only: false,
+  start_date: "",
+  end_date: "",
+
   message: "Buy {remaining} more to get FREE gift",
+  success_message: "🎉 Free gift added!",
   show_progress: true,
+  show_badge: true,
 
-  /* VISIBILITY */
   devices: ["desktop"],
 });
 
@@ -130,7 +143,6 @@ export default function SmartOffersRules({ rules, onChange }) {
         {rules.map((rule, index) => (
           <div key={rule.flexible_id} className="store-one-rule-item">
 
-            {/* HEADER */}
             <div className="store-one-rule-header">
               <DragHandleDots2Icon className="drag-handle s1-icon" />
 
@@ -148,123 +160,182 @@ export default function SmartOffersRules({ rules, onChange }) {
               )}
             </div>
 
-            {/* BODY */}
             {rule.open && (
               <TabSwitcher
                 defaultTab="settings"
                 tabs={[
 
-                  /* ================= SETTINGS ================= */
+                  /* SETTINGS */
                   {
                     id: "settings",
                     label: "Settings",
+                    icon: ICONS.SETTINGS,
                     content: (
                       <div className="store-one-rule-body">
-                        <S1Field label="Status">
-                          <SelectControl
-                            value={rule.status}
-                            options={[
-                              { label: "Active", value: "active" },
-                              { label: "Inactive", value: "inactive" },
-                            ]}
-                            onChange={(v) => updateField(index, "status", v)}
-                          />
-                        </S1Field>
 
-                        <S1Field label="Priority">
-                          <TextControl
-                            type="number"
-                            value={rule.priority}
-                            onChange={(v) =>
-                              updateField(index, "priority", parseInt(v))
-                            }
-                          />
-                        </S1Field>
+                        <S1FieldGroup title="Basic">
+                          <S1Field label="Status" description="Enable or disable this offer rule">
+                            <SelectControl
+                              value={rule.status}
+                              options={[
+                                { label: "Active", value: "active" },
+                                { label: "Inactive", value: "inactive" },
+                              ]}
+                              onChange={(v) => updateField(index, "status", v)}
+                            />
+                          </S1Field>
+
+                          <S1Field label="Title" description="Internal name used to identify this rule">
+                            <TextControl
+                              value={rule.title}
+                              onChange={(v) => updateField(index, "title", v)}
+                            />
+                          </S1Field>
+                        </S1FieldGroup>
+
+                        <S1FieldGroup title="BOGO Logic">
+                          <S1Field label="Buy Quantity (X)" description="Minimum number of items a customer must purchase to activate the offer">
+                            <TextControl
+                              type="number"
+                              value={rule.x_qty}
+                              onChange={(v) => updateField(index, "x_qty", parseInt(v))}
+                            />
+                          </S1Field>
+
+                          <S1Field label="Get Quantity (Y)" description="Number of items the customer will receive as free or discounted">
+                            <TextControl
+                              type="number"
+                              value={rule.y_qty}
+                              onChange={(v) => updateField(index, "y_qty", parseInt(v))}
+                            />
+                          </S1Field>
+
+                          <S1Field label="Apply Mode" description="Repeat: offer applies multiple times based on quantity. Once: offer applies only once per order">
+                            <SelectControl
+                              value={rule.apply_mode}
+                              options={[
+                                { label: "Repeat", value: "step" },
+                                { label: "Once Only", value: "once" },
+                              ]}
+                              onChange={(v) => updateField(index, "apply_mode", v)}
+                            />
+                          </S1Field>
+                        </S1FieldGroup>
+
+                        <S1FieldGroup title="Reward">
+                          <S1Field label="Reward Type" description="Choose whether the customer receives a free product or a discount">
+                            <SelectControl
+                              value={rule.reward_type}
+                              options={[
+                                { label: "Free Product", value: "free_product" },
+                                { label: "Percentage Discount", value: "discount_percent" },
+                                { label: "Fixed Discount", value: "discount_fixed" },
+                              ]}
+                              onChange={(v) => updateField(index, "reward_type", v)}
+                            />
+                          </S1Field>
+
+                          {rule.reward_type === "free_product" && (
+                            <MultiWooSearchSelector
+                              searchType="product"
+                              label="Select Free Product (This item will be automatically added to the cart)"
+                              value={rule.reward_products}
+                              onChange={(v) => updateField(index, "reward_products", v)}
+                              detailedView={true}
+                            />
+                          )}
+
+                          {rule.reward_type !== "free_product" && (
+                            <>
+                              <S1Field label="Discount Value" description="Enter discount amount. Use percentage or fixed value based on selected type">
+                                <TextControl
+                                  type="number"
+                                  value={rule.discount_value}
+                                  onChange={(v) =>
+                                    updateField(index, "discount_value", parseFloat(v))
+                                  }
+                                />
+                              </S1Field>
+
+                              <S1Field label="Apply Discount On" description="Select which product should receive the discount">
+                                <SelectControl
+                                  value={rule.apply_on}
+                                  options={[
+                                    { label: "Cheapest Product in Cart", value: "cheapest" },
+                                    { label: "Highest Price Product", value: "highest" },
+                                    { label: "Specific Product", value: "specific" },
+                                  ]}
+                                  onChange={(v) => updateField(index, "apply_on", v)}
+                                />
+                              </S1Field>
+
+                              {rule.apply_on === "specific" && (
+                                <MultiWooSearchSelector
+                                  searchType="product"
+                                  label="Select Discount Product (Discount will be applied only to this product)"
+                                  value={rule.reward_products}
+                                  onChange={(v) => updateField(index, "reward_products", v)}
+                                  detailedView={true}
+                                />
+                              )}
+                            </>
+                          )}
+                        </S1FieldGroup>
+
+                        <S1FieldGroup title="Advanced">
+                          <S1Field label="Auto Add Free Product" description="Automatically add the free product to the cart when conditions are met">
+                            <ToggleControl
+                              checked={rule.auto_add}
+                              onChange={(v) => updateField(index, "auto_add", v)}
+                              
+                            />
+                          </S1Field>
+
+                          <S1Field label="Limit Per Order" description="Maximum number of times this offer can be applied in a single order">
+                            <TextControl
+                              type="number"
+                              value={rule.limit_per_order}
+                              onChange={(v) =>
+                                updateField(index, "limit_per_order", parseInt(v))
+                              }
+                              
+                            />
+                          </S1Field>
+                        </S1FieldGroup>
+
                       </div>
                     ),
                   },
 
-                  /* ================= TRIGGER ================= */
+                  /* TRIGGER */
                   {
                     id: "trigger",
                     label: "Trigger",
+                    icon: ICONS.SETTINGS,
                     content: (
                       <div className="store-one-rule-body">
-
-                        <S1Field label="Trigger Type">
-                          <SelectControl
-                            value={rule.trigger_type}
-                            options={[
-                              { label: "Products", value: "specific_products" },
-                              { label: "Categories", value: "specific_categories" },
-                              { label: "Cart Total", value: "cart_total" },
-                            ]}
-                            onChange={(v) =>
-                              updateField(index, "trigger_type", v)
-                            }
-                          />
-                        </S1Field>
-
-                        {rule.trigger_type === "specific_products" && (
-                          <MultiWooSearchSelector
-                            searchType="product"
-                            label="Select Products"
-                            value={rule.products}
-                            onChange={(v) => updateField(index, "products", v)}
-                          />
-                        )}
-
-                        <S1Field label="Minimum Quantity">
-                          <TextControl
-                            type="number"
-                            value={rule.min_qty}
-                            onChange={(v) =>
-                              updateField(index, "min_qty", parseInt(v))
-                            }
-                          />
-                        </S1Field>
-
-                      </div>
-                    ),
-                  },
-
-                  /* ================= REWARD ================= */
-                  {
-                    id: "reward",
-                    label: "Reward",
-                    content: (
-                      <div className="store-one-rule-body">
-
-                        <S1Field label="Reward Type">
-                          <SelectControl
-                            value={rule.reward_type}
-                            options={[
-                              { label: "Free Product", value: "free_product" },
-                              { label: "Discount %", value: "discount_percent" },
-                              { label: "Fixed Discount", value: "discount_fixed" },
-                            ]}
-                            onChange={(v) =>
-                              updateField(index, "reward_type", v)
-                            }
-                          />
-                        </S1Field>
 
                         <MultiWooSearchSelector
                           searchType="product"
-                          label="Reward Products"
-                          value={rule.reward_products}
-                          onChange={(v) =>
-                            updateField(index, "reward_products", v)
-                          }
+                          label="Trigger Products (Customer must purchase these products)"
+                          value={rule.products}
+                          onChange={(v) => updateField(index, "products", v)}
+                          detailedView={true}
                         />
 
-                        <S1Field label="Max Quantity">
+                        <MultiWooSearchSelector
+                          searchType="product"
+                          label="Exclude Products (Offer will not apply if these are in cart)"
+                          value={rule.exclude_products}
+                          onChange={(v) => updateField(index, "exclude_products", v)}
+                          detailedView={true}
+                        />
+
+                        <S1Field label="Minimum Quantity" description="Minimum quantity required in cart to activate the offer">
                           <TextControl
                             type="number"
-                            value={rule.max_qty}
-                            onChange={(v) =>
-                              updateField(index, "max_qty", parseInt(v))
-                            }
+                            value={rule.min_qty}
+                            onChange={(v) => updateField(index, "min_qty", parseInt(v))}
                           />
                         </S1Field>
 
@@ -272,88 +343,43 @@ export default function SmartOffersRules({ rules, onChange }) {
                     ),
                   },
 
-                  /* ================= BEHAVIOR ================= */
-                  {
-                    id: "behavior",
-                    label: "Behavior",
-                    content: (
-                      <div className="store-one-rule-body">
-
-                        <S1Field label="Auto Add Reward">
-                          <ToggleControl
-                            checked={rule.auto_add}
-                            onChange={(v) =>
-                              updateField(index, "auto_add", v)
-                            }
-                          />
-                        </S1Field>
-
-                        <S1Field label="Repeat Rule">
-                          <ToggleControl
-                            checked={rule.repeat}
-                            onChange={(v) =>
-                              updateField(index, "repeat", v)
-                            }
-                          />
-                        </S1Field>
-
-                        <S1Field label="Remove if Condition Fails">
-                          <ToggleControl
-                            checked={rule.remove_if_invalid}
-                            onChange={(v) =>
-                              updateField(index, "remove_if_invalid", v)
-                            }
-                          />
-                        </S1Field>
-
-                      </div>
-                    ),
-                  },
-
-                  /* ================= DISPLAY ================= */
+                  /* DISPLAY */
                   {
                     id: "display",
                     label: "Display",
+                    icon: ICONS.DISPLAY,
                     content: (
                       <div className="store-one-rule-body">
 
-                        <S1Field label="Message">
+                        <S1Field label="Offer Message" description="Message shown before the offer is unlocked">
                           <TextControl
                             value={rule.message}
-                            onChange={(v) =>
-                              updateField(index, "message", v)
-                            }
+                            onChange={(v) => updateField(index, "message", v)}
                           />
                         </S1Field>
 
-                        <S1Field label="Show Progress Bar">
+                        <S1Field label="Success Message" description="Message shown after the offer has been successfully applied">
+                          <TextControl
+                            value={rule.success_message}
+                            onChange={(v) => updateField(index, "success_message", v)}
+                          />
+                        </S1Field>
+
+                        <S1Field label="Show Progress Bar" description="Display a progress bar indicating how close the customer is to unlocking the offer">
                           <ToggleControl
                             checked={rule.show_progress}
-                            onChange={(v) =>
-                              updateField(index, "show_progress", v)
-                            }
+                            onChange={(v) => updateField(index, "show_progress", v)}
                           />
                         </S1Field>
 
-                      </div>
-                    ),
-                  },
-
-                  /* ================= VISIBILITY ================= */
-                  {
-                    id: "visibility",
-                    label: "Visibility",
-                    content: (
-                      <div className="store-one-rule-body">
                         <DeviceSelector
                           value={rule.devices}
-                          onChange={(v) =>
-                            updateField(index, "devices", v)
-                          }
+                          onChange={(v) => updateField(index, "devices", v)}
                         />
+
                       </div>
                     ),
-                  },
+                  }
 
                 ]}
               />
@@ -362,10 +388,18 @@ export default function SmartOffersRules({ rules, onChange }) {
         ))}
       </SortableWrapper>
 
-      {/* ADD RULE */}
-      <div className="store-one-add-rule" onClick={addRule}>
+     
+
+      <div className="store-one-rules-footer">
+               <div className="store-one-add-rule" onClick={addRule}>
         + Add Smart Offer Rule
       </div>
+      
+              <ResetModuleButton
+                moduleId="smart-offers"
+                onReset={() => updateAll([newSmartOfferRule()])}
+              />
+            </div>
     </div>
   );
 }

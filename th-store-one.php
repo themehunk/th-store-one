@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 // ------------------ Constants ------------------.
-define( 'TH_STORE_ONE_VERSION', '1.0.28' );
+define( 'TH_STORE_ONE_VERSION', '1.0.34' );
 define( 'TH_STORE_ONE_PLUGIN_FILE', __FILE__ );
 define( 'TH_STORE_ONE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'TH_STORE_ONE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -60,6 +60,8 @@ add_action(
 		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/stock-scarcity/th-store-one-class-frontend.php';
 		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/sale-countdown/th-store-one-class-frontend.php';
           require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/recent-view/th-store-one-class-frontend.php';
+		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/smart-offers/th-store-one-class-frontend.php';
+
 		if ( class_exists( 'Th_Store_One_Buy_To_List_Frontend' ) ) {
 			new Th_Store_One_Buy_To_List_Frontend();
 		}
@@ -95,6 +97,9 @@ add_action(
 		}
 		if ( class_exists( 'Th_Store_One_Recent_View' ) ) {
 			new Th_Store_One_Recent_View();
+		}
+		if ( class_exists( 'Th_Store_One_Smart_Offers' ) ) {
+			new Th_Store_One_Smart_Offers();
 		}
 	}
 );

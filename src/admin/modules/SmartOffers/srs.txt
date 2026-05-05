@@ -1,0 +1,330 @@
+SMART OFFERS (BOGO MODULE) – SRS DOCUMENT
+
+1. OVERVIEW
+This system is used to create Buy X Get Y (BOGO) offers in WooCommerce.
+The admin can easily create offers such as:
+- Buy 2 → Get 1 Free
+- Buy Shoes → Get Socks Free
+- Buy 3 → Get 20% Discount
+
+
+2. BASIC SETTINGS
+
+Status:
+- Used to enable or disable the offer
+- Active → Offer will be applied
+- Inactive → Offer will not be applied
+
+Title:
+- Name of the offer (for admin use only)
+- Not displayed on the frontend
+
+
+3. BOGO LOGIC
+
+Buy Quantity (X):
+- Minimum quantity the customer must purchase
+- Example: 2 → Customer must buy at least 2 items
+
+Get Quantity (Y):
+- Quantity the customer will receive as free or discounted
+- Example: Buy 2 → Get 1
+
+Apply Mode:
+
+Repeat Mode:
+- Offer will be applied multiple times based on quantity
+- Example:
+  Buy 2 → Get 1
+  Buy 4 → Get 2
+  Buy 6 → Get 3
+
+Once Mode:
+- Offer will be applied only once
+- Example:
+  Buy 2 → Get 1
+  Buy 10 → Still get only 1
+
+
+4. REWARD SETTINGS
+
+Reward Type:
+
+Free Product:
+- Customer receives a product for free
+
+Percentage Discount:
+- Customer receives a percentage (%) discount
+
+Fixed Discount:
+- Customer receives a fixed amount discount (₹)
+
+Select Free Product:
+- The product that will be given for free
+
+Discount Value:
+- The value of the discount
+- Example:
+  20 → 20%
+  100 → ₹100
+
+Apply Discount On:
+
+Cheapest Product:
+- The cheapest product in the cart
+
+Highest Price Product:
+- The most expensive product in the cart
+
+Specific Product:
+- Admin manually selects which product gets the discount
+
+Select Discount Product:
+- (Only for specific option)
+- The product on which the discount will be applied
+
+
+5. ADVANCED SETTINGS
+
+Auto Add Free Product:
+- ON → System automatically adds the free product to the cart
+- OFF → User must manually add the product
+
+Limit Per Order:
+- Maximum number of times the offer can be applied in one order
+- Example:
+  Limit = 2 → Offer applies only 2 times
+
+
+6. TRIGGER SETTINGS
+
+Trigger Products:
+- Products that must be purchased to activate the offer
+- Example:
+  Buying Shoes will trigger the offer
+
+Exclude Products:
+- Offer will not apply if these products are present in the cart
+
+Minimum Quantity:
+- Minimum quantity required in the cart to activate the offer
+
+
+7. DISPLAY SETTINGS
+
+Offer Message:
+- Message shown before the offer is unlocked
+- Example:
+  "Add 1 more item to get FREE gift"
+
+Success Message:
+- Message shown after the offer is applied
+- Example:
+  "Free gift added successfully"
+
+Show Progress Bar:
+- Displays progress to the user
+- Example:
+  70% complete
+
+Device Control:
+- Control visibility on mobile or desktop devices
+
+
+8. SYSTEM FLOW
+
+User adds product to cart
+↓
+System checks trigger conditions
+↓
+If conditions are met
+↓
+Reward is applied (Free / Discount)
+↓
+Cart is updated
+
+
+9. EXAMPLE
+
+Setup:
+- Buy Quantity = 2
+- Get Quantity = 1
+- Reward = Free Product (Socks)
+- Trigger Product = Shoes
+
+Result:
+- Customer buys 2 Shoes
+- Customer receives 1 Socks for free
+
+
+10. IMPORTANT NOTES
+
+- Reward product must be selected
+- Discount value must be set correctly
+- Apply mode must be selected properly
+- Backend logic must be implemented for the offer to work
+
+
+SMART OFFERS (BOGO MODULE) – SRS DOCUMENT
+
+1. OVERVIEW
+यह सिस्टम WooCommerce में Buy X Get Y (BOGO) offers बनाने के लिए उपयोग किया जाएगा।
+Admin आसानी से offers बना सकता है जैसे:
+- 2 खरीदो → 1 फ्री पाओ
+- Shoes खरीदो → Socks फ्री
+- 3 खरीदो → 20% discount पाओ
+
+
+2. BASIC SETTINGS
+
+Status:
+- Offer को ON / OFF करता है
+- Active → Offer लागू होगा
+- Inactive → Offer लागू नहीं होगा
+
+Title:
+- Offer का नाम (सिर्फ admin के लिए)
+- Frontend पर दिखाई नहीं देता
+
+
+3. BOGO LOGIC
+
+Buy Quantity (X):
+- ग्राहक को कितनी quantity खरीदनी होगी
+- Example: 2 → ग्राहक को 2 item खरीदने होंगे
+
+Get Quantity (Y):
+- ग्राहक को कितनी quantity free या discount में मिलेगी
+- Example: Buy 2 → Get 1
+
+Apply Mode:
+
+Repeat Mode:
+- Offer बार-बार लागू होगा
+- Example:
+  Buy 2 → Get 1
+  Buy 4 → Get 2
+  Buy 6 → Get 3
+
+Once Mode:
+- Offer सिर्फ एक बार लागू होगा
+- Example:
+  Buy 2 → Get 1
+  Buy 10 → फिर भी सिर्फ 1 मिलेगा
+
+
+4. REWARD SETTINGS
+
+Reward Type:
+
+Free Product:
+- ग्राहक को एक product free मिलेगा
+
+Percentage Discount:
+- ग्राहक को प्रतिशत (%) में discount मिलेगा
+
+Fixed Discount:
+- ग्राहक को निश्चित राशि (₹) का discount मिलेगा
+
+Select Free Product:
+- यह वह product है जो customer को free मिलेगा
+
+Discount Value:
+- कितना discount देना है
+- Example:
+  20 → 20%
+  100 → ₹100
+
+Apply Discount On:
+
+Cheapest Product:
+- Cart का सबसे सस्ता product
+
+Highest Price Product:
+- Cart का सबसे महंगा product
+
+Specific Product:
+- Admin खुद select करेगा कि discount किस product पर लगे
+
+Select Discount Product:
+- (Specific option चुनने पर)
+- जिस product पर discount लगेगा
+
+
+5. ADVANCED SETTINGS
+
+Auto Add Free Product:
+- ON → System खुद free product cart में add करेगा
+- OFF → User manually add करेगा
+
+Limit Per Order:
+- एक order में maximum कितनी बार offer लागू होगा
+- Example:
+  Limit = 2 → केवल 2 बार offer मिलेगा
+
+
+6. TRIGGER SETTINGS
+
+Trigger Products:
+- कौन सा product खरीदने पर offer लागू होगा
+- Example:
+  Shoes खरीदने पर offer trigger होगा
+
+Exclude Products:
+- ये product cart में होने पर offer लागू नहीं होगा
+
+Minimum Quantity:
+- Offer activate होने के लिए minimum quantity required
+
+
+7. DISPLAY SETTINGS
+
+Offer Message:
+- Offer activate होने से पहले दिखाया जाने वाला message
+- Example:
+  "Add 1 more item to get FREE gift"
+
+Success Message:
+- Offer apply होने के बाद दिखाया जाने वाला message
+- Example:
+  "Free gift added successfully"
+
+Show Progress Bar:
+- User को progress दिखाने के लिए
+- Example:
+  70% complete
+
+Device Control:
+- Offer को mobile या desktop पर दिखाना या छिपाना
+
+
+8. SYSTEM FLOW
+
+User product add करता है
+↓
+System trigger condition check करता है
+↓
+Condition match होने पर reward apply होता है
+↓
+Cart update हो जाता है
+
+
+9. EXAMPLE
+
+Setup:
+- Buy Quantity = 2
+- Get Quantity = 1
+- Reward = Free Product (Socks)
+- Trigger Product = Shoes
+
+Result:
+- Customer 2 Shoes खरीदेगा
+- उसे 1 Socks free मिलेगा
+
+
+10. IMPORTANT NOTES
+
+- Reward product select करना जरूरी है
+- Discount value सही देना जरूरी है
+- Apply mode सही चुनना जरूरी है
+- Backend logic लागू होना जरूरी है तभी offer काम करेगा
