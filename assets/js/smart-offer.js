@@ -2,64 +2,225 @@ jQuery(function ($) {
 
     function updateUI() {
 
-        const selected = $("input[name='th_offer_select']:checked");
-        if (!selected.length) return;
+    const wrapper = $(".th-offer-wrapper");
 
-        const card = selected.closest(".th-offer-card");
-        const wrapper = card.closest(".th-offer-wrapper");
+    const selected = $("input[name='th_offer_select']:checked");
 
-        const base = parseFloat(wrapper.data("base")) || 0;
-        const qty = parseInt($("input.qty").val()) || 1;
+    /* =====================================================
+       NO SELECTION
+    ===================================================== */
 
-        const discount = parseFloat(card.data("discount")) || 0;
-        const type = card.data("type");
-        const min = parseInt(card.data("x")) || 1;
+    if (!selected.length) {
 
-        let final = base;
-
-        //discount logic safe
-        if (type === "discount_percent" && discount > 0) {
-            final = base - (base * discount / 100);
-        }
-
-        if (type === "discount_fixed" && discount > 0) {
-            final = base - discount;
-        }
-
-        // reset only inside wrapper (safe)
         wrapper.find(".th-price").html("");
 
-        // update selected only
-        card.find(".th-price").html(
-            `<del>${base.toFixed(2)}</del> <strong>${final.toFixed(2)}</strong>`
+        $(".single_add_to_cart_button").text(
+            "Select Offer"
         );
+
+        return;
+    }
+
+    const card = selected.closest(".th-offer-card");
+
+    const base = parseFloat(
+        wrapper.data("base")
+    ) || 0;
+
+    const qty = parseInt(
+        $("input.qty").val()
+    ) || 1;
+
+    const discount = parseFloat(
+        card.data("discount")
+    ) || 0;
+
+    const type = card.data("type");
+
+    const applyOn = card.data("apply-on");
+
+    const rewardType = card.data(
+        "reward-type"
+    );
+
+    const min = parseInt(
+        card.data("x")
+    ) || 1;
+
+    let final = base;
+
+    /* =====================================================
+       SAME PRODUCT DISCOUNT
+    ===================================================== */
+
+    if (
+        applyOn === "same_product"
+    ) {
+
+        /* PERCENT */
+
+        if (
+            type === "discount_percent"
+            && discount > 0
+        ) {
+
+            final = base - (
+                base * discount / 100
+            );
+        }
+
+        /* FIXED */
+
+        if (
+            type === "discount_fixed"
+            && discount > 0
+        ) {
+
+            final = Math.max(
+                0,
+                base - discount
+            );
+        }
+    }
+
+    /* =====================================================
+       RESET PRICES
+    ===================================================== */
+
+    wrapper.find(".th-price").html("");
+
+    /* =====================================================
+       PRICE UI
+    ===================================================== */
+
+    if (
+        rewardType !== "free_product"
+    ) {
+
+        card.find(".th-price").html(
+
+            `
+            <del>
+                ${base.toFixed(2)}
+            </del>
+
+            <strong>
+                ${final.toFixed(2)}
+            </strong>
+            `
+        );
+    }
+
+    /* =====================================================
+       BUTTON TEXT
+    ===================================================== */
+
+    if (
+        rewardType === "free_product"
+    ) {
 
         $(".single_add_to_cart_button").text(
-            `Add to cart - ${ (final * qty).toFixed(2) }`
+            "Add Offer To Cart"
         );
 
-        //progress safe
-        const percent = Math.min((qty / min) * 100, 100);
-        card.find(".th-bar").css("width", percent + "%");
+    } else {
 
-        updateMessage(card, qty, min);
+        let total = final * qty;
+
+        $(".single_add_to_cart_button").text(
+
+            `Add to cart - ${total.toFixed(2)}`
+        );
     }
+
+    /* =====================================================
+       PROGRESS
+    ===================================================== */
+
+    const percent = Math.min(
+        (qty / min) * 100,
+        100
+    );
+
+    card.find(".th-bar").css(
+        "width",
+        percent + "%"
+    );
+
+    /* =====================================================
+       MESSAGE
+    ===================================================== */
+
+    updateMessage(
+        card,
+        qty,
+        min
+    );
+}
 
     /* ================= SELECT ================= */
 
-    $(document).on("change", "input[name='th_offer_select']", function () {
+   $(document).on(
+    "change",
+    "input[name='th_offer_select']",
+    function () {
 
-        const all = $("input[name='th_offer_select']");
-        all.not(this).prop("checked", false);
+        const all = $(
+            "input[name='th_offer_select']"
+        );
 
-        const card = $(this).closest(".th-offer-card");
-        const min = parseInt(card.data("x")) || 1;
+        all.not(this).prop(
+            "checked",
+            false
+        );
 
-        $("input.qty").val(min).trigger("change");
+        const card = $(this).closest(
+            ".th-offer-card"
+        );
+
+        const min = parseInt(
+            card.data("x")
+        ) || 1;
+
+        $("input.qty")
+            .val(min)
+            .trigger("change");
 
         updateUI();
-    });
+    }
+);
 
+$(document).on(
+    "click",
+    "input[name='th_offer_select']",
+    function () {
+
+        if ($(this).data("waschecked")) {
+
+            $(this).prop(
+                "checked",
+                false
+            );
+
+            $(this).data(
+                "waschecked",
+                false
+            );
+
+            updateUI();
+
+            return;
+        }
+
+        $("input[name='th_offer_select']")
+        .data("waschecked", false);
+
+        $(this).data(
+            "waschecked",
+            true
+        );
+    }
+);
     /* ================= QTY ================= */
 
     $(document).on("change keyup", "input.qty", function () {
@@ -71,15 +232,18 @@ jQuery(function ($) {
     $(document).on("submit", "form.cart", function () {
 
         const selected = $("input[name='th_offer_select']:checked");
-        if (!selected.length) return;
+
+        const card = selected.closest(".th-offer-card");
 
         const reward = selected.val();
         const rule = selected.data("rule");
+        const applyOn = card.data("apply-on");
 
         const form = $(this);
 
-        //remove old hidden fields (important fix)
-        form.find("input[name='th_reward'], input[name='th_rule']").remove();
+        form.find(
+            "input[name='th_reward'], input[name='th_rule'], input[name='th_apply_on']"
+        ).remove();
 
         $("<input>", {
             type: "hidden",
@@ -92,32 +256,47 @@ jQuery(function ($) {
             name: "th_rule",
             value: rule
         }).appendTo(form);
+
+        $("<input>", {
+            type: "hidden",
+            name: "th_apply_on",
+            value: applyOn
+        }).appendTo(form);
     });
 
-    /* ================= INIT (AUTO RUN) ================= */
+    /* ================= INIT ================= */
 
     setTimeout(() => {
+
         const first = $("input[name='th_offer_select']:checked");
+
         if (first.length) {
             updateUI();
         }
+
     }, 200);
+
+    /* ================= CART PROGRESS ================= */
 
     function updateCartOffer() {
 
         let totalQty = 0;
 
         $(".cart_item").each(function () {
+
             const qty = parseInt($(this).find(".qty").val()) || 0;
+
             totalQty += qty;
         });
 
         $(".th-offer-cart").each(function () {
 
             const x = parseInt($(this).data("x")) || 1;
+
             const bar = $(this).find(".th-bar");
 
             const percent = Math.min((totalQty / x) * 100, 100);
+
             bar.css("width", percent + "%");
         });
     }
@@ -126,25 +305,27 @@ jQuery(function ($) {
         setTimeout(updateCartOffer, 300);
     });
 
+    /* ================= MESSAGE ================= */
+
     function updateMessage(card, qty, min) {
 
-    const msgTemplate = card.data("msg") || "";
-    const successMsg = card.data("success") || "";
-    const msgBox = card.find(".th-msg");
+        const msgTemplate = card.data("msg") || "";
+        const successMsg = card.data("success") || "";
 
-    if (qty < min) {
+        const msgBox = card.find(".th-msg");
 
-        const remaining = min - qty;
+        if (qty < min) {
 
-        //replace {remaining}
-        const msg = msgTemplate.replace("{remaining}", remaining);
+            const remaining = min - qty;
 
-        msgBox.html(msg);
+            const msg = msgTemplate.replace("{remaining}", remaining);
 
-    } else {
+            msgBox.html(msg);
 
-        msgBox.html(successMsg);
+        } else {
+
+            msgBox.html(successMsg);
+        }
     }
-}
 
 });
