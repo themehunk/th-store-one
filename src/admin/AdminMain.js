@@ -39,6 +39,9 @@ const AdminMain = () => {
     "inactive-tab": false,
     "stock-scarcity": false,
     "product-video": false,
+    "sale-countdown": false,
+    "recent-view": false,
+    "smart-offers": false,
   });
   const tabs = [
     {
@@ -519,6 +522,38 @@ const AdminMain = () => {
                       }
                     />
                   )}
+
+                  {currentModule?.id === "sale-countdown" && (
+                    <PreviewPane
+                      currentModule={currentModule}
+                      settings={
+                        livePreviewSettings[currentModule.id] ||
+                        moduleSettings[currentModule.id]?.rules?.[0] ||
+                        moduleSettings[currentModule.id]
+                      }
+                    />
+                  )}
+                  {currentModule?.id === "recent-view" && (
+                    <PreviewPane
+                      currentModule={currentModule}
+                      settings={
+                        livePreviewSettings[currentModule.id] ||
+                        moduleSettings[currentModule.id]?.rules?.[0] ||
+                        moduleSettings[currentModule.id]
+                      }
+                    />
+                  )}
+                  {currentModule?.id === "smart-offers" && (
+                    <PreviewPane
+                      currentModule={currentModule}
+                      settings={
+                        livePreviewSettings[currentModule.id] ||
+                        moduleSettings[currentModule.id]?.rules?.[0] ||
+                        moduleSettings[currentModule.id]
+                      }
+                    />
+                  )}
+
 
                 </div>
               </div>

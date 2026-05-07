@@ -90,7 +90,7 @@ const newBrlistTRule = () => ({
   btl_bg_clr: "#fff",
   border: {
       width: {
-        top: "1px",
+        top: "1px", 
         right: "1px",
         bottom: "1px",
         left: "1px",

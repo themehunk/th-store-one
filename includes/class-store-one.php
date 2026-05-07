@@ -31,10 +31,12 @@ class Th_Store_One {
 	private function __construct() {
 		// Admin UI.
 		if ( is_admin() ) {
+			require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/admin/class-th-store-one-tabs.php';
 			require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/admin/th-store-one-admin.php';
 			new Th_Store_One_Admin();
 			require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/product-video/product-video-admin.php';
 			new TH_Store_One_Product_Video_Admin();
+			require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/sale-countdown/sale-countdown-admin.php';
 		}
 		// Modules manager (option + REST).
 		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/admin/th-store-one-modules.php';

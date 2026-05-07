@@ -482,5 +482,128 @@ export const modulesList = [
 </svg>
   ),
   premium: false,
+},
+{
+  id: "sale-countdown",
+  label: __("Sale Countdown", "th-store-one"),
+  description: __(
+    "Display a countdown timer for limited-time offers along with stock urgency like sold and discount quantity to boost conversions.",
+    "th-store-one"
+  ),
+  icon: (
+    <svg
+      className="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Clock */}
+      <circle
+        cx="12"
+        cy="12"
+        r="9"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+
+      {/* Clock hands */}
+      <path
+        d="M12 7V12L15 14"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      {/* Sale dot */}
+      <circle cx="18" cy="6" r="2" fill="currentColor" />
+    </svg>
+  ),
+  premium: false,
+},
+{
+  id: "recent-view",
+  label: __("Recently Viewed", "th-store-one"),
+  description: __(
+    "Display products that users have recently viewed to improve engagement and increase chances of conversion.",
+    "th-store-one"
+  ),
+  icon: (
+    <svg
+      className="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Eye */}
+      <path
+        d="M2 12C4.5 7.5 8 5 12 5C16 5 19.5 7.5 22 12C19.5 16.5 16 19 12 19C8 19 4.5 16.5 2 12Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      {/* Eye center */}
+      <circle
+        cx="12"
+        cy="12"
+        r="3"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+
+      {/* Clock (recent indicator) */}
+      <path
+        d="M17 4V7M17 7H20"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
+  premium: false,
+},
+{
+  id: "smart-offers",
+  label: __("Smart Offers", "th-store-one"),
+  description: __(
+    "Create powerful Buy X Get Y deals, discounts, and automated offers to boost conversions and increase average order value.",
+    "th-store-one"
+  ),
+  icon: (
+    <svg
+      className="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Tag shape (offer icon) */}
+      <path
+        d="M3 12L12 3L21 12L12 21L3 12Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+
+      {/* Discount circle */}
+      <circle
+        cx="12"
+        cy="12"
+        r="2"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+
+      {/* Small spark (smart effect) */}
+      <path
+        d="M18 4V7M18 7H21"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
+  premium: false,
 }
 ];

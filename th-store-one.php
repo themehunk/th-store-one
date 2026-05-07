@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name:             TH Store One
  * Description:             Store One is a powerful all in one WooCommerce toolkit designed to enhance your online store with conversion focused features and advanced customization options. It helps improve product presentation, optimize the shopping experience, and simplify store management. With lightweight performance and easy setup, Store One provides essential WooCommerce enhancements to increase engagement, improve usability, and boost sales.
@@ -15,81 +16,94 @@
  * Text Domain:             th-store-one
  * Requires Plugins:        woocommerce
  */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (! defined('ABSPATH')) {
+    exit;
 }
 // ------------------ Constants ------------------.
-define( 'TH_STORE_ONE_VERSION', '1.0.5' );
-define( 'TH_STORE_ONE_PLUGIN_FILE', __FILE__ );
-define( 'TH_STORE_ONE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'TH_STORE_ONE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define('TH_STORE_ONE_VERSION', '1.0.42');
+define('TH_STORE_ONE_PLUGIN_FILE', __FILE__);
+define('TH_STORE_ONE_PLUGIN_DIR', plugin_dir_path(__FILE__));
+define('TH_STORE_ONE_PLUGIN_URL', plugin_dir_url(__FILE__));
 // ------------------ Core Loader ------------------.
 require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/class-store-one.php';
 require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/store-one-function.php';
-function th_store_one_run(){
-	Th_Store_One::get_instance();
+function th_store_one_run()
+{
+    Th_Store_One::get_instance();
 }
 add_action('plugins_loaded', 'th_store_one_run');
 // ------------------ HPOS Compatibility ------------------.
 add_action(
-	'before_woocommerce_init',
-	function () {
-		if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
-			\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility(
-				'custom_order_tables',
-				__FILE__,
-				true
-			);
-		}
-	}
+    'before_woocommerce_init',
+    function () {
+        if (class_exists(\Automattic\WooCommerce\Utilities\FeaturesUtil::class)) {
+            \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility(
+                'custom_order_tables',
+                __FILE__,
+                true
+            );
+        }
+    }
 );
 // ------------------ FBT Frontend Loader ------------------.
 add_action(
-	'init',
-	function () {
-		// Frontend class include + init.
-		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/buy-to-list/th-store-one-class-frontend.php';
-	     require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/quick-social/th-store-one-class-frontend.php';
-		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/product-brand/th-store-one-class-frontend.php';
-		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/trust-badges/th-store-one-class-frontend.php';
-		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/product-video/th-store-one-class-frontend.php';
-		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/sale-notification/th-store-one-class-frontend.php';
-		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/sticky-cart/th-store-one-class-frontend.php';
-		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/buynow-button/th-store-one-class-frontend.php';
-		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/Inactive-tab/th-store-one-class-frontend.php';
-		require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/stock-scarcity/th-store-one-class-frontend.php';
+    'init',
+    function () {
+        // Frontend class include + init.
+        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/buy-to-list/th-store-one-class-frontend.php';
+        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/quick-social/th-store-one-class-frontend.php';
+        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/product-brand/th-store-one-class-frontend.php';
+        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/trust-badges/th-store-one-class-frontend.php';
+        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/product-video/th-store-one-class-frontend.php';
+        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/sale-notification/th-store-one-class-frontend.php';
+        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/sticky-cart/th-store-one-class-frontend.php';
+        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/buynow-button/th-store-one-class-frontend.php';
+        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/Inactive-tab/th-store-one-class-frontend.php';
+        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/stock-scarcity/th-store-one-class-frontend.php';
+        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/sale-countdown/th-store-one-class-frontend.php';
+        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/recent-view/th-store-one-class-frontend.php';
+        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/smart-offers/th-store-one-class-frontend.php';
 
-		if ( class_exists( 'Th_Store_One_Buy_To_List_Frontend' ) ) {
-			new Th_Store_One_Buy_To_List_Frontend();
-		}
-		if ( class_exists( 'Th_Store_One_Quick_Social' ) ) {
-			new Th_Store_One_Quick_Social();
-		}
-		if ( class_exists( 'Th_Store_One_Product_Brand_Frontend' ) ) {
-			new Th_Store_One_Product_Brand_Frontend();
-		}
-		if ( class_exists( 'Th_Store_One_Trust_Badges_Frontend' ) ) {
-			new Th_Store_One_Trust_Badges_Frontend();
-		}
-		if ( class_exists( 'TH_Store_One_Product_Video_Frontend' ) ) {
-			new TH_Store_One_Product_Video_Frontend();
-		}
-		if ( class_exists( 'Th_Store_One_Sale_Notification_Frontend' ) ) {
-			new Th_Store_One_Sale_Notification_Frontend();
-		}
-		if ( class_exists( 'Th_Store_One_Sticky_Cart_Frontend' ) ) {
-			new Th_Store_One_Sticky_Cart_Frontend();
-		}
-		if ( class_exists( 'Th_Store_One_Buy_Now_Frontend' ) ) {
-			new Th_Store_One_Buy_Now_Frontend();
-		}
-		if ( class_exists( 'Th_Store_One_Inactive_Tab_Frontend' ) ) {
-			new Th_Store_One_Inactive_Tab_Frontend();
-		}
-		if ( class_exists( 'Th_Store_One_Stock_Scarcity_Frontend' ) ) {
-			new Th_Store_One_Stock_Scarcity_Frontend();
-		}
-	}
+        if (class_exists('Th_Store_One_Buy_To_List_Frontend')) {
+            new Th_Store_One_Buy_To_List_Frontend();
+        }
+        if (class_exists('Th_Store_One_Quick_Social')) {
+            new Th_Store_One_Quick_Social();
+        }
+        if (class_exists('Th_Store_One_Product_Brand_Frontend')) {
+            new Th_Store_One_Product_Brand_Frontend();
+        }
+        if (class_exists('Th_Store_One_Trust_Badges_Frontend')) {
+            new Th_Store_One_Trust_Badges_Frontend();
+        }
+        if (class_exists('TH_Store_One_Product_Video_Frontend')) {
+            new TH_Store_One_Product_Video_Frontend();
+        }
+        if (class_exists('Th_Store_One_Sale_Notification_Frontend')) {
+            new Th_Store_One_Sale_Notification_Frontend();
+        }
+        if (class_exists('Th_Store_One_Sticky_Cart_Frontend')) {
+            new Th_Store_One_Sticky_Cart_Frontend();
+        }
+        if (class_exists('Th_Store_One_Buy_Now_Frontend')) {
+            new Th_Store_One_Buy_Now_Frontend();
+        }
+        if (class_exists('Th_Store_One_Inactive_Tab_Frontend')) {
+            new Th_Store_One_Inactive_Tab_Frontend();
+        }
+        if (class_exists('Th_Store_One_Stock_Scarcity_Frontend')) {
+            new Th_Store_One_Stock_Scarcity_Frontend();
+        }
+        if (class_exists('Th_Store_One_Sale_Countdown_Frontend')) {
+            new Th_Store_One_Sale_Countdown_Frontend();
+        }
+        if (class_exists('Th_Store_One_Recent_View')) {
+            new Th_Store_One_Recent_View();
+        }
+        if (class_exists('Th_Store_One_Smart_Offers')) {
+            new Th_Store_One_Smart_Offers();
+        }
+    }
 );
 add_action('admin_enqueue_scripts', function () {
     wp_enqueue_media();

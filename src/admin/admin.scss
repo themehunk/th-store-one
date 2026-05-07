@@ -3093,3 +3093,52 @@ transform:translateX(-50%);
 .s1-device-label {
   font-weight: 500;
 }
+
+
+// main tabs style
+/* ===== MAIN TABS WRAPPER ===== */
+.s1-main-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+    padding: 4px;
+
+    background: #f5f6f8;
+    border-radius: 10px;
+}
+
+/* ===== TAB BUTTON ===== */
+.s1-main-tab {
+    flex: 1;
+    padding: 8px 12px;
+
+    font-size: 13px;
+    font-weight: 500;
+    color: #555;
+
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+/* ===== HOVER ===== */
+.s1-main-tab:hover {
+    background: rgba(0,0,0,0.04);
+    color: #111;
+}
+
+/* ===== ACTIVE TAB ===== */
+.s1-main-tab.active {
+    background: #ffffff;
+    color: #111;
+
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+
+/* ===== CLICK EFFECT ===== */
+.s1-main-tab:active {
+    transform: scale(0.97);
+}

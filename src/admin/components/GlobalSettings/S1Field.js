@@ -1,7 +1,7 @@
 /* ---------------------------------
  * Single Field Wrapper
  * --------------------------------- */
-export const S1Field = ({ label, children, classN, visible = true }) => {
+export const S1Field = ({ label, description, children, classN, visible = true }) => {
     if (!visible) return null;
 
     return (
@@ -11,6 +11,11 @@ export const S1Field = ({ label, children, classN, visible = true }) => {
                     {label}
                 </label>
             )}
+            {description && (
+        <p className="s1-field-description">
+          {description}
+        </p>
+      )}
             <div className="s1-field-control">
                 {children}
             </div>

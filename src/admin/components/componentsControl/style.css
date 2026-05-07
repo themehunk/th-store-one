@@ -88,3 +88,52 @@ width: 100%;
 /* .th-bg-control{
     margin:15px 0
 } */
+
+/* BASE */
+.s1-align-btn {
+  min-width: 42px;
+  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #fff;
+  border: 1px solid #dcdcde;
+  border-radius: 6px;
+
+  color: #555;
+  transition: all 0.25s ease;
+}
+
+/* ICON */
+.s1-align-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+/* HOVER */
+.s1-align-btn:hover {
+  border-color: #524cff;
+  color: #524cff;
+  background: #f5f5ff;
+}
+
+/* ACTIVE */
+.s1-align-btn.is-pressed {
+  background: #524cff !important;
+  border-color: #524cff !important;
+  color: #fff !important;
+  box-shadow: 0 2px 6px rgba(82, 76, 255, 0.25);
+}
+
+/* ACTIVE ICON */
+.s1-align-btn.is-pressed svg {
+  fill: #fff;
+}
+.s1-alignment-buttons .components-button.is-pressed {
+  background: #524cff !important;
+  border-color: #524cff !important;
+  color: #fff !important;
+}

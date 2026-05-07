@@ -1,0 +1,503 @@
+/* COMMON */
+.s1-style {
+  border-radius: 10px;
+  padding: 14px;
+  font-family: system-ui;
+  text-align: center;
+}
+
+/* STYLE 1 */
+.s1-default {
+  background: #111;
+  color: #fff;
+}
+.s1-default .s1-header {
+  font-size: 13px;
+  margin-bottom: 8px;
+  opacity: 0.8;
+}
+.s1-default .s1-timer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.s1-default .s1-timer div {
+  background: #222;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+.s1-default span {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* STYLE 2 */
+.s1-minimal {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(8px);
+  font-size: 20px;
+  font-weight: 600;
+
+}
+.s1-minimal .th-msg {
+    color: #e11d48;
+    font-weight: 600;
+    font-size: 14px;
+}
+.s1-minimal .th-inline-wrap{
+display: inline-flex;
+    gap: 8px;
+}
+.s1-minimal .th-inline-wrap {
+ 
+  font-size: 13px;
+  line-height: 1;
+  margin-bottom:10px;
+}
+
+.s1-minimal .th-msg {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.s1-minimal .th-icon {
+  display: flex;
+  align-items: center;
+}
+
+.s1-minimal .th-timer-inline {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.s1-minimal .th-timer-inline .sep {
+  opacity: 0.6;
+}
+/* STYLE 3 */
+
+.s1-boxed .box {
+  background: #111;
+  color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  width: 60px;
+}
+.s1-boxed span {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* STYLE 4 */
+.s1-urgency {
+  background: #fff5f5;
+  border: 1px solid #fecaca;
+}
+.s1-urgency .s1-top {
+  color: #dc2626;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.s1-urgency .s1-timer span {
+  margin: 0 5px;
+  font-weight: bold;
+}
+.s1-stock-bar {
+  height: 6px;
+  background: #eee;
+  margin-top: 8px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.s1-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #ef4444, #f97316);
+}
+.s1-default-pro {
+  background: #111;
+  color: #fff;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+/* TOP TEXT */
+.s1-default-pro .s1-top {
+  font-size: 13px;
+  margin-bottom: 8px;
+  color: #facc15;
+  font-weight: 500;
+}
+
+/* TIMER */
+.s1-default-pro .s1-timer {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.s1-default-pro .s1-timer div {
+  background: #222;
+  padding: 8px 10px;
+  border-radius: 8px;
+  min-width: 55px;
+}
+
+.s1-default-pro .s1-timer span {
+  font-size: 18px;
+  font-weight: bold;
+  display: block;
+}
+
+.s1-default-pro small {
+  font-size: 10px;
+  opacity: 0.6;
+}
+
+/* STOCK TEXT */
+.s1-stock-info {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 6px;
+  opacity: 0.8;
+}
+
+/* PROGRESS BAR */
+.s1-stock-bar {
+  height: 6px;
+  background: rgb(225 224 224 / 31%);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.s1-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #22c55e, #f97316);
+  transition: width 0.4s ease;
+}
+
+/* archive styles */
+.s1-ac-style1 {
+  text-align: center;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+/* MESSAGE */
+.s1-ac-msg {
+  font-weight: 600;
+  color: #d63638;
+  margin-bottom: 4px;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+
+/* SIMPLE TIMER */
+.s1-ac-timer {
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  color: #111;
+}
+
+/* STOCK */
+.s1-ac-stock {
+  font-size: 11px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+/* BAR (FIXED WIDTH, NOT FULL) */
+.s1-ac-bar {
+  width: 80px;     
+  height: 4px;
+  background: #eee;
+  border-radius: 6px;
+  margin: 0 auto;        
+  overflow: hidden;
+}
+
+.s1-ac-fill {
+  height: 100%;
+  background: #ff4d4f;
+  transition: width 0.3s ease;
+}
+
+/* MAIN WRAPPER */
+.s1-ac-style2 {
+  text-align: center;
+  font-size: 11px; /* 🔥 slightly smaller */
+  margin-top: 8px;
+}
+
+/* MESSAGE */
+.s1-ac2-msg {
+  font-weight: 600;
+  color: #d63638;
+  margin-bottom: 10px; 
+}
+
+/* TIMER WRAP */
+.s1-ac2-timer {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 8px;  
+}
+
+/* EACH CIRCLE */
+.s1-ac2-box {
+  width: 40px;
+    height: 40px;
+
+  border-radius: 50%;
+  background: #111;
+  color: #fff;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* NUMBER */
+.s1-ac2-box span {
+  font-size: 12px;    
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* LABEL */
+.s1-ac2-box small {
+  font-size: 9px;    
+  opacity: 0.7;
+  line-height: 1;
+}
+
+/* STOCK */
+.s1-ac2-stock {
+  font-size: 12px;   
+  color: #666;
+  margin-bottom: 6px;
+}
+
+/* BAR */
+.s1-ac2-bar {
+  width: 70px;      
+  height: 3px;       
+  background: #eee;
+  border-radius: 6px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.s1-ac2-fill {
+  height: 100%;
+  background: #ff4d4f;
+}
+
+.s1-ac-style3 {
+  text-align: center;
+  font-size: 11px;
+  margin-top: 8px;
+}
+
+/* MESSAGE */
+.s1-ac3-msg {
+  font-weight: 600;
+  color: #d63638;
+  margin-bottom: 10px;
+}
+
+/* TIMER WRAP */
+.s1-ac3-timer {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+/* BOX (FIXED SIZE + LIGHT UI) */
+.s1-ac3-box {
+  width: 32px;           /* fixed width */
+  height: 32px;          /* fixed height */
+  border-radius: 6px;
+  background: #f5f6f8;   /*light bg instead of black */
+  border: 1px solid rgb(229 231 235 / 27%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* NUMBER */
+.s1-ac3-box span {
+  font-size: 12px;
+  font-weight: 600;
+  
+  line-height: 1.5;
+}
+
+/* LABEL */
+.s1-ac3-box small {
+  font-size: 10px;
+  
+  line-height: 1;
+}
+
+/* LABEL */
+.s1-ac3-box small {
+
+  opacity: 0.7;
+  line-height: 1;
+}
+
+/* STOCK */
+.s1-ac3-stock {
+  font-size: 10px;
+  color: #666;
+  margin-bottom: 6px;
+}
+
+/* BAR */
+.s1-ac3-bar {
+  width: 70px;
+  height: 3px;
+  background: #eee;
+  border-radius: 6px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.s1-ac3-fill {
+  height: 100%;
+  background: #ff4d4f;
+}
+
+/* alignment classes  */
+.s1-style.s1-default-pro.s1-align-left{
+    text-align: left;
+}
+
+.s1-default-pro.s1-align-left .s1-timer {
+    display: flex;
+    justify-content: left;
+}
+.s1-style.s1-default-pro.s1-align-right{
+    text-align: right;
+}
+
+.s1-default-pro.s1-align-right .s1-timer {
+    display: flex;
+    justify-content: right;
+}
+
+.s1-style.s1-minimal.s1-align-left{
+    text-align: left;
+}
+
+.s1-style.s1-minimal.s1-align-left .s1-stock-bar{
+    margin: inherit!important;
+}
+
+.s1-style.s1-minimal.s1-align-right{
+    text-align: right;
+}
+
+.s1-style.s1-minimal.s1-align-right .s1-stock-bar{
+   margin-right:0!important;
+}
+.s1-style.s1-boxed.s1-align-left{
+    text-align: left;
+}
+.s1-style.s1-boxed.s1-align-right{
+    text-align:right;
+} 
+
+.s1-style.s1-boxed.s1-align-right div{
+  justify-content: end!important;
+}
+
+.s1-style.s1-boxed.s1-align-left div{
+  justify-content: start!important;
+}
+
+.s1-style.s1-boxed.s1-align-left .s1-stock-bar{
+    margin: inherit!important;
+}
+
+.s1-style.s1-boxed.s1-align-right .s1-stock-bar{
+   margin-right:0!important;
+}
+.s1-ac-style3.s1-align-left {
+    text-align: left;
+}
+.s1-ac-style3.s1-align-left .s1-ac3-timer {
+    display: flex;
+    justify-content: left;
+}
+.s1-ac-style3.s1-align-left  .s1-ac3-bar{
+    margin-left:0;
+}
+.s1-ac-style3.s1-align-right {
+    text-align: right;
+}
+.s1-ac-style3.s1-align-right .s1-ac3-timer {
+    display: flex;
+    justify-content:right;
+}
+.s1-ac-style3.s1-align-right  .s1-ac3-bar{
+    margin-right:0;
+}
+
+.s1-ac-style1.s1-align-left {
+    text-align: left;
+}
+.s1-ac-style1.s1-align-left .s1-ac-timer {
+    display: flex;
+    justify-content: left;
+}
+.s1-ac-style1.s1-align-left .s1-ac-bar{
+    margin-left:0;
+}
+
+.s1-ac-style1.s1-align-right {
+    text-align: right;
+}
+.s1-ac-style1.s1-align-right .s1-ac-timer {
+    display: flex;
+    justify-content:right;
+}
+.s1-ac-style1.s1-align-right .s1-ac-bar{
+    margin-right:0;
+}
+
+.s1-ac-style2.s1-align-left {
+    text-align: left;
+}
+.s1-ac-style2.s1-align-left .s1-ac2-timer {
+    display: flex;
+    justify-content: left;
+}
+.s1-ac-style2.s1-align-left .s1-ac2-bar{
+    margin-left:0;
+}
+
+.s1-ac-style2.s1-align-right {
+    text-align: right;
+}
+.s1-ac-style2.s1-align-right .s1-ac2-timer {
+    display: flex;
+    justify-content:right;
+}
+.s1-ac-style2.s1-align-right .s1-ac2-bar{
+    margin-right:0;
+}

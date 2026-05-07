@@ -13,3 +13,7 @@
 #toplevel_page_th-store-one a.toplevel_page_th-store-one img{
     padding-top:3px;
 }
+.th-box.th-s1-countdown{
+    border: none!important;
+    width: 50%;
+}

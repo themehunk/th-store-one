@@ -8,8 +8,9 @@
   padding: 16px;
 }
 
-
-
+   .s1-sticky-content .s1-thumb{
+    animation:none!important;
+}
 /* =========================
    PREVIEW AREA
 ========================= */
@@ -147,4 +148,30 @@
 /* hover */
 .s1-ntf-preview-wrap .s1-close-btn:hover {
   color: #111827;
+}
+
+.s1-sale-popup .s1-progress-bar {
+  position: absolute;
+ padding: 0;
+    bottom: 5px;
+    left: 15px;
+    right: 15px;
+    width: auto;
+  height: 3px;
+  background: rgba(0,0,0,0.08);
+  overflow: hidden;
+  border-radius: 0;
+}
+
+.s1-progress-fill {
+  height: 100%;
+  width: 0%;
+  animation-name: s1-progress-anim;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+@keyframes s1-progress-anim {
+  from { width: 0%; }
+  to { width: 100%; }
 }

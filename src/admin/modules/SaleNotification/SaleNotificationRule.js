@@ -73,6 +73,7 @@ const newSaleRule = () => ({
   noti_title_clr: "#000000",
   noti_text_clr:"#1e1e1e",
   noti_bg_clr: "#fff",
+  delay_bar_clr:"#F56E28",
   noti_border: {
     width: {
       top: "1px",
@@ -1239,6 +1240,23 @@ export default function SaleNotificationRule({
                               };
                               updateField(index, "noti_text_clr", v);
                               updateField(index, "noti_text_clr_auto", false);
+                              onLivePreview?.(updatedRule, index);
+                            }}
+                          />
+                        </S1Field>
+                        <S1Field>
+                          <THBackgroundControl
+                            allowGradient={true}
+                            label={__("Delay Bar Color", "th-store-one")}
+                            value={rule.delay_bar_clr}
+                            onChange={(v) => {
+                              const updatedRule = {
+                                ...rule,
+                                delay_bar_clr: v,
+                                delay_bar_clr_auto: false,
+                              };
+                              updateField(index, "delay_bar_clr", v);
+                              updateField(index, "delay_bar_clr_auto", false);
                               onLivePreview?.(updatedRule, index);
                             }}
                           />

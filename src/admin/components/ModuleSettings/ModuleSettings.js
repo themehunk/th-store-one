@@ -22,13 +22,14 @@ import StickyCartSettings from '../../modules/StickyCart/StickyCartSettings';
 import BuyNowButtonSettings from '../../modules/BuyNowButton/BuyNowButtonSettings';
 import InactiveTabSettings from '../../modules/InactiveTab/InactiveTabSettings';
 import StockScarcitySettings from '../../modules/StockScarcity/StockScarcitySettings';
+import SaleCountdownSettings from '../../modules/SaleCountdown/SaleCountdownSettings';
+import RecentViewSettings from '../../modules/RecentView/RecentViewSettings';
+import SmartOffersSettings from '../../modules/SmartOffers/SmartOffersSettings';
 
 const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, onSettingsChange, onLivePreview,onRegisterSave ,licenseActive}) => {
     const enabled = !!modulesState[currentModule.id];
-
     const isPremium = currentModule.premium ?? false;
     const isLocked = isPremium && !licenseActive;
-
     const renderModuleContent = () => {
         switch (currentModule.id) {
             case 'frequently-bought':
@@ -103,7 +104,24 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                     onLivePreview={onLivePreview}
                     onRegisterSave={onRegisterSave}
                 />
-
+            case 'sale-countdown':
+                return <SaleCountdownSettings
+                    onSettingsChange={onSettingsChange}
+                    onLivePreview={onLivePreview}
+                    onRegisterSave={onRegisterSave}
+                />
+            case 'recent-view':
+                return <RecentViewSettings
+                    onSettingsChange={onSettingsChange}
+                    onLivePreview={onLivePreview}
+                    onRegisterSave={onRegisterSave}
+                />
+            case 'smart-offers':
+                return <SmartOffersSettings
+                    onSettingsChange={onSettingsChange}
+                    onLivePreview={onLivePreview}
+                    onRegisterSave={onRegisterSave}
+                />
             default:
                 return <p className="s1-settings__placeholder">
                     {__('More settings will appear here…', 'th-store-one')}
@@ -154,6 +172,21 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                         </Button>
                         
                         )}
+                        {currentModule.id === 'sale-countdown' && (
+                        
+                         <Button
+                         className="s1-settings__redirect-btn"
+                                        onClick={() =>
+                                            window.open(
+                                            `${th_StoreOneAdmin.adminUrl}edit.php?post_type=product`,
+                                            "_blank"
+                                            )
+                                        }
+                                        >
+                                        {__("Add Sale Countdown", "th-store-one")}
+                        </Button>
+                        
+                        )}
                          
                     </FlexBlock>
 
@@ -168,7 +201,6 @@ const ModuleSettings = ({ currentModule, modulesState, onToggleModule, saving, o
                             }}
                         />
                     </FlexItem>
-
                 </Flex>
             </CardHeader>
 

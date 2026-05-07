@@ -1,31 +1,29 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class TH_Store_One_Product_Video_Admin {
+/* ================= REGISTER MODULE ================= */
+add_filter('th_store_one_modules', 'th_store_one_register_video_module', 10, 2);
 
-    public function __construct() {
-        add_action('add_meta_boxes', [$this, 'add_metabox']);
-        add_action('save_post_product', [$this, 'save']);
-        add_action('admin_enqueue_scripts', [$this, 'scripts']);
-    }
+function th_store_one_register_video_module($modules, $post){
 
-    public function add_metabox() {
-        add_meta_box(
-            'th_store_one_media',
-            esc_html__('Store One Product Media', 'th-store-one'),
-            [$this, 'render'],
-            'product',
-            'normal',
-            'low'
-        );
-    }
+    
+$modules['product-video'] = [
+        'title' => esc_html__('Product Video', 'th-store-one'),
+        'render' => function($post){
+            do_action('th_store_one_video_panel', $post);
+        }
+    ];
 
-public function render($post) {
+    return $modules;
+}
 
-    wp_nonce_field('th_store_one_save', 'th_store_one_nonce');
+/* ================= VIDEO UI ================= */
+add_action('th_store_one_video_panel', function($post){
 
     $enable  = get_post_meta($post->ID, '_th_enable_video', true);
     $enable_gallery = get_post_meta($post->ID, '_th_enable_gallery', true);
+    $enable_video_auto_play = get_post_meta($post->ID, '_th_enable_video_auto_play', true);
+
     $url     = get_post_meta($post->ID, '_th_video_url', true);
     $source  = get_post_meta($post->ID, '_th_source', true);
     $gallery = get_post_meta($post->ID, '_th_gallery', true);
@@ -33,23 +31,10 @@ public function render($post) {
     $aspect   = get_post_meta($post->ID, '_th_aspect', true);
 
     if (!is_array($gallery)) $gallery = [];
-?>
 
-<div class="th-s1-wrapper">
+    ?>
 
-    <!-- SIDEBAR -->
-    <div class="th-sidebar">
-        <div class="th-tab active" data-tab="video">
-            <?php echo esc_html__('Product Video', 'th-store-one'); ?>
-        </div>
-    </div>
-
-    <div class="th-content">
-
-        <!-- VIDEO -->
-        <div class="th-panel active" id="th-panel-video">
-
-            <!-- FEATURED -->
+       <!-- FEATURED -->
             <div class="th-box th-s1-featured">
 
                 <div class="th-row">
@@ -268,23 +253,23 @@ if (!is_array($gallery_types)) $gallery_types = [];
                 <option value="3:2" <?php selected($aspect,'3:2');?>>3:2</option>
                 <option value="auto" <?php selected($aspect,'auto');?>>auto</option>
             </select>
-                </div>
-
             </div>
+     </div>
+    <?php
+});
 
-        </div>
 
-        <!-- AUDIO -->
-        <div class="th-panel" id="th-panel-audio">
-            <p><?php echo esc_html__('Coming soon...','th-store-one'); ?></p>
-        </div>
+class TH_Store_One_Product_Video_Admin {
 
-    </div>
-</div>
-<?php
-}
+    public function __construct() {
+       
+        add_action('save_post_product', [$this, 'save']);
+        add_action('admin_enqueue_scripts', [$this, 'scripts']);
+    }
 
-public function save($post_id) {
+    
+
+    public function save($post_id) {
 
     if (
     ! isset($_POST['th_store_one_nonce']) ||
@@ -322,7 +307,7 @@ public function save($post_id) {
     update_post_meta($post_id,'_th_aspect', sanitize_text_field(wp_unslash($_POST['th_aspect'] ?? 'default')));
     }
 
-     public function scripts($hook){
+    public function scripts($hook){
 
      global $post;
 
@@ -359,5 +344,4 @@ public function save($post_id) {
           'nonce' => wp_create_nonce('th_store_one_save')
      ]);
      }
-
 }
