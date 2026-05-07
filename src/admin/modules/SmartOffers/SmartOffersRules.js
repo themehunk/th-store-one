@@ -329,6 +329,10 @@ export default function SmartOffersRules({ rules, onChange }) {
                                   label: "Fixed Discount",
                                   value: "discount_fixed",
                                 },
+                                {
+                                  label: "Fixed Cart Discount",
+                                  value: "discount_fixed_cart",
+                                },
                               ]}
                               onChange={(v) => {
                                 updateField(index, "reward_type", v);
@@ -465,7 +469,7 @@ export default function SmartOffersRules({ rules, onChange }) {
 
                         <MultiWooSearchSelector
                           searchType="product"
-                          label="Exclude Products (Offer will not apply if these are in cart)"
+                          label="Exclude Products (Offer will not apply)"
                           value={rule.exclude_products}
                           onChange={(v) =>
                             updateField(index, "exclude_products", v)

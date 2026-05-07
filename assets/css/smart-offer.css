@@ -23,7 +23,7 @@
   cursor:pointer;
 }
 
-.th-offer-card:hover{
+.th-offer-card.offer_select , .th-offer-card:hover{
   border-color:#22c55e;
   transform:translateY(-2px);
   box-shadow:
@@ -194,7 +194,7 @@
 }
 
 .th-offer-meta{
-  display:inline-flex;
+
   align-items:center;
   gap:6px;
   padding:4px 10px;
@@ -314,6 +314,35 @@
 .th-offer-card input:checked + .th-card-inner .th-msg{
   color:#16a34a;
   font-weight:600;
+}
+
+.th-variation-pending .th-card-inner{
+    opacity:0.15;
+    pointer-events:none;
+}
+
+.th-variation-only-msg{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    z-index:20;
+
+    font-size:14px;
+    font-weight:600;
+    text-align:center;
+
+    color:#111827;
+
+    background:#fff;
+    padding:14px 20px;
+    border-radius:12px;
+
+    box-shadow:0 4px 20px rgba(0,0,0,.08);
+}
+
+.th-offer-card{
+    position:relative;
 }
 /* =========================================================
    MOBILE

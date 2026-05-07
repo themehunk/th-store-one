@@ -120,7 +120,7 @@ class Th_Store_One_Smart_Offers
             'woocommerce_add_cart_item_data',
             [$this, 'add_cart_item_data'],
             10,
-            2
+            3
         );
 
         /* =====================================================
@@ -164,6 +164,27 @@ class Th_Store_One_Smart_Offers
             TH_STORE_ONE_VERSION,
             true
         );
+        wp_localize_script(
+            'th-smart-offer',
+            'thSmartOffer',
+            [
+        'currency_symbol' => get_woocommerce_currency_symbol(),
+        'currency'        => get_woocommerce_currency(),
+        'price_format'    => get_woocommerce_price_format(),
+        'decimals'        => wc_get_price_decimals(),
+        'decimal_sep'     => wc_get_price_decimal_separator(),
+        'thousand_sep'    => wc_get_price_thousand_separator(),
+        'select_variation_text' => __(
+            'Choose variation options to view this offer',
+            'th-store-one'
+        ),
+
+        'select_options_text' => __(
+            'Select Options',
+            'th-store-one'
+        ),
+    ]
+        );
     }
 
     /* =====================================================
@@ -180,10 +201,29 @@ class Th_Store_One_Smart_Offers
             $rule['products'] ?? []
         );
 
-        return (
-            empty($products)
-            || in_array($pid, $products)
-        );
+        if (empty($products)) {
+            return true;
+        }
+
+        /* SIMPLE */
+
+        if (in_array($pid, $products)) {
+            return true;
+        }
+
+        /* VARIATION PARENT */
+
+        $parent_id = wp_get_post_parent_id($pid);
+
+        if (
+            $parent_id
+            && in_array($parent_id, $products)
+        ) {
+
+            return true;
+        }
+
+        return false;
     }
 
     /* =====================================================
@@ -285,7 +325,8 @@ class Th_Store_One_Smart_Offers
 
     public function add_cart_item_data(
         $data,
-        $product_id
+        $product_id,
+        $variation_id = 0
     ) {
 
         if (isset($_POST['th_reward'])) {
@@ -305,13 +346,20 @@ class Th_Store_One_Smart_Offers
                     ?? ''
                 );
 
+            /* VARIABLE SUPPORT */
+
+            $data['th_variation_id'] =
+                intval($variation_id);
+
             $data['unique_key'] =
-                md5(microtime());
+                md5(
+                    microtime() .
+                    rand()
+                );
         }
 
         return $data;
     }
-
     /* =====================================================
        MAIN ENGINE
     ===================================================== */
@@ -351,7 +399,7 @@ class Th_Store_One_Smart_Offers
             $product = $item['data'];
 
             $product->set_price(
-                $product->get_price()
+                $product->get_regular_price()
             );
         }
 
@@ -575,28 +623,6 @@ class Th_Store_One_Smart_Offers
                     $reward_products[0]
                 );
 
-                /* =====================================================
-                   AUTO ADD
-                ===================================================== */
-
-                $auto_add = !empty(
-                    $rule['auto_add']
-                );
-
-                /*
-                IF AUTO ADD OFF
-                REMOVE EXISTING FREE PRODUCT
-                */
-
-                if (!$auto_add) {
-
-                    $this->remove_reward(
-                        $cart,
-                        $rule_id
-                    );
-
-                    continue;
-                }
 
                 /* =====================================================
                    APPLY FREE PRODUCT
@@ -816,6 +842,39 @@ class Th_Store_One_Smart_Offers
         }
 
         /* =====================================================
+           FIXED CART DISCOUNT
+        ===================================================== */
+
+        if (
+            $reward_type
+            === 'discount_fixed_cart'
+        ) {
+
+            $discount = $discount_value * $times;
+
+            $label = !empty($rule['offer_heading'])
+    ? wp_strip_all_tags($rule['offer_heading'])
+    : __('Smart Offer Discount', 'th-store-one');
+
+            $label = str_replace(
+                ['{x}', '{y}', '{discount}'],
+                [
+                    intval($rule['x_qty'] ?? 1),
+                    intval($rule['y_qty'] ?? 1),
+                    wc_price($discount_value)
+                ],
+                $label
+            );
+
+            $cart->add_fee(
+                $label,
+                -$discount
+            );
+
+            return;
+        }
+
+        /* =====================================================
            APPLY DISCOUNT
         ===================================================== */
 
@@ -865,8 +924,17 @@ class Th_Store_One_Smart_Offers
             $product = $item['data'];
 
             $price = floatval(
-                $product->get_price()
+                $product->get_sale_price()
+        ? $product->get_sale_price()
+        : $product->get_regular_price()
             );
+
+            if (!$price) {
+
+                $price = floatval(
+                    $product->get_price()
+                );
+            }
 
             $new_price = $price;
 
@@ -886,7 +954,7 @@ class Th_Store_One_Smart_Offers
             }
 
             /* =====================================================
-               FIXED
+               FIXED PRODUCT
             ===================================================== */
 
             if (
@@ -937,8 +1005,8 @@ class Th_Store_One_Smart_Offers
     }
 
     /* =====================================================
-   OFFER NOTICE
-===================================================== */
+       OFFER NOTICE
+    ===================================================== */
 
     public function offer_notice(
         $message,
@@ -997,6 +1065,45 @@ class Th_Store_One_Smart_Offers
         $offer_message = '';
 
         /* =====================================================
+       VALIDATE OFFER
+    ===================================================== */
+
+        $buy_qty = max(
+            1,
+            intval(
+                $matched_rule['x_qty']
+                ?? 1
+            )
+        );
+
+        $cart_qty = 0;
+
+        foreach (
+            WC()->cart->get_cart() as $item
+        ) {
+
+            if (
+
+                ($item['th_rule'] ?? '')
+
+                ===
+
+                $rule_id
+
+            ) {
+
+                $cart_qty +=
+                    $item['quantity'];
+            }
+        }
+
+        /* OFFER NOT QUALIFIED */
+
+        if ($cart_qty < $buy_qty) {
+            return $message;
+        }
+
+        /* =====================================================
            FREE PRODUCT
         ===================================================== */
 
@@ -1043,6 +1150,17 @@ class Th_Store_One_Smart_Offers
 
             $reward_type
             === 'discount_fixed'
+
+        ) {
+
+            $offer_message = sprintf(
+                'Offer Applied: %s discount activated!',
+                wc_price($discount)
+            );
+        } elseif (
+
+            $reward_type
+            === 'discount_fixed_cart'
 
         ) {
 

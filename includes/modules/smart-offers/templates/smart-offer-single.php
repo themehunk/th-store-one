@@ -6,6 +6,61 @@ if (!defined('ABSPATH')) {
 $product = wc_get_product(get_the_ID());
 
 $price = wc_get_price_to_display($product);
+
+/* VARIABLE PRODUCT */
+
+if ($product->is_type('variable')) {
+
+    $default_attributes =
+        $product->get_default_attributes();
+
+    $variation_id = 0;
+
+    if (!empty($default_attributes)) {
+
+        $variation_data =
+            wc_get_matching_product_variation(
+                $product,
+                $default_attributes
+            );
+
+        if ($variation_data) {
+
+            $variation_id =
+                $variation_data;
+        }
+    }
+
+    /* USE DEFAULT VARIATION PRICE */
+
+    if ($variation_id) {
+
+        $variation =
+            wc_get_product($variation_id);
+
+        if ($variation) {
+
+            $price =
+                wc_get_price_to_display(
+                    $variation
+                );
+        }
+    }
+
+    /* FALLBACK */
+
+    if (!$price) {
+
+        $prices =
+            $product->get_variation_prices(true);
+
+        if (!empty($prices['price'])) {
+
+            $price =
+                current($prices['price']);
+        }
+    }
+}
 ?>
 
 <div class="th-offer-wrapper"
@@ -158,25 +213,69 @@ foreach ($rules as $rule):
 
                     <div class="th-offer-meta">
 
-                        <?php
+    <?php
 
-                                if ($type === 'discount_percent') {
+    $offer_meta = '';
 
-                                    echo esc_html($discount) . '% OFF Same Product';
+        if ($type === 'discount_percent') {
 
-                                } elseif ($type === 'discount_fixed') {
+            $offer_meta = sprintf(
+                /* translators: %s: discount percentage */
+                __('%s%% OFF Same Product', 'th-store-one'),
+                esc_html($discount)
+            );
 
-                                    echo wc_price($discount) . ' OFF Same Product';
+        } elseif (
+            $type === 'discount_fixed'
+            ||
+            $type === 'discount_fixed_cart'
+        ) {
 
-                                } elseif ($type === 'free_product') {
+            if ($type === 'discount_fixed_cart') {
 
-                                    echo 'Free Product Offer';
+                /* VARIABLE PRODUCT */
 
-                                }
+                if ($product->is_type('variable')) {
+
+                    $offer_meta = sprintf(
+                        /* translators: %s: discount amount */
+                        __('%s OFF', 'th-store-one'),
+                        wp_kses_post(wc_price($discount))
+                    );
+
+                } else {
+
+                    $total = $price * $x;
+
+                    $final = $total - $discount;
+
+                    $offer_meta = sprintf(
+                        /* translators: 1: quantity, 2: final bundle price */
+                        __('Buy %1$s for %2$s', 'th-store-one'),
+                        esc_html($x),
+                        wp_kses_post(wc_price($final))
+                    );
+                }
+
+            } else {
+
+                $offer_meta = sprintf(
+                    /* translators: %s: fixed discount amount */
+                    __('%s OFF Same Product', 'th-store-one'),
+                    wp_kses_post(wc_price($discount))
+                );
+            }
+
+        } elseif ($type === 'free_product') {
+
+            $offer_meta = __('Free Product Offer', 'th-store-one');
+        }
+
+        echo wp_kses_post($offer_meta);
 
         ?>
 
-                    </div>
+</div>
 
                 </div>
 
@@ -326,27 +425,71 @@ foreach ($rules as $rule):
 
                     <?php endif; ?>
 
-                    <div class="th-offer-meta">
+                   <div class="th-offer-meta">
 
-                        <?php
+    <?php
 
-                                    if ($type === 'free_product') {
+    $offer_meta = '';
 
-                                        echo 'Get ' . esc_html($r->get_name()) . ' FREE';
+            if ($type === 'discount_percent') {
 
-                                    } elseif ($type === 'discount_percent') {
+                $offer_meta = sprintf(
+                    /* translators: %s: discount percentage */
+                    __('%s%% OFF Same Product', 'th-store-one'),
+                    esc_html($discount)
+                );
 
-                                        echo esc_html($discount) . '% OFF';
+            } elseif (
+                $type === 'discount_fixed'
+                ||
+                $type === 'discount_fixed_cart'
+            ) {
 
-                                    } elseif ($type === 'discount_fixed') {
+                if ($type === 'discount_fixed_cart') {
 
-                                        echo wc_price($discount) . ' OFF';
+                    /* VARIABLE PRODUCT */
 
-                                    }
+                    if ($product->is_type('variable')) {
+
+                        $offer_meta = sprintf(
+                            /* translators: %s: discount amount */
+                            __('%s OFF', 'th-store-one'),
+                            wp_kses_post(wc_price($discount))
+                        );
+
+                    } else {
+
+                        $total = $price * $x;
+
+                        $final = $total - $discount;
+
+                        $offer_meta = sprintf(
+                            /* translators: 1: quantity, 2: final bundle price */
+                            __('Buy %1$s for %2$s', 'th-store-one'),
+                            esc_html($x),
+                            wp_kses_post(wc_price($final))
+                        );
+                    }
+
+                } else {
+
+                    $offer_meta = sprintf(
+                        /* translators: %s: fixed discount amount */
+                        __('%s OFF Same Product', 'th-store-one'),
+                        wp_kses_post(wc_price($discount))
+                    );
+                }
+
+            } elseif ($type === 'free_product') {
+
+                $offer_meta = __('Free Product Offer', 'th-store-one');
+            }
+
+            echo wp_kses_post($offer_meta);
 
             ?>
 
-                    </div>
+</div>
 
                 </div>
 

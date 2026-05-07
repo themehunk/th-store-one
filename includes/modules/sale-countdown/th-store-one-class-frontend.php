@@ -1,11 +1,24 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
 
-class Th_Store_One_Sale_Countdown_Frontend {
+if (! defined('ABSPATH')) {
+    exit;
+}
 
+class Th_Store_One_Sale_Countdown_Frontend
+{
     private $settings = [];
 
-    public function __construct() {
+    public function __construct()
+    {
+
+        $modules = get_option(
+            'th_store_one_module_option',
+            []
+        );
+
+        if (empty($modules['sale-countdown'])) {
+            return;
+        }
 
         $all = get_option('th_store_one_module_set', []);
         $this->settings = $all['sale-countdown'] ?? [];
@@ -14,27 +27,31 @@ class Th_Store_One_Sale_Countdown_Frontend {
         add_action('wp_enqueue_scripts', [$this, 'assets']);
     }
 
-    public function assets() {
+    public function assets()
+    {
 
-    wp_enqueue_style(
-        'th-countdown',
-        TH_STORE_ONE_PLUGIN_URL . 'assets/css/countdown.css',
-        [],
-        TH_STORE_ONE_VERSION
-    );
+        wp_enqueue_style(
+            'th-countdown',
+            TH_STORE_ONE_PLUGIN_URL . 'assets/css/countdown.css',
+            [],
+            TH_STORE_ONE_VERSION
+        );
 
-    wp_enqueue_script(
-        'th-countdown',
-        TH_STORE_ONE_PLUGIN_URL . 'assets/js/countdown.js',
-        [],
-        TH_STORE_ONE_VERSION,
-        true
-    );
-}
+        wp_enqueue_script(
+            'th-countdown',
+            TH_STORE_ONE_PLUGIN_URL . 'assets/js/countdown.js',
+            [],
+            TH_STORE_ONE_VERSION,
+            true
+        );
+    }
 
-    public function init() {
+    public function init()
+    {
 
-        if (empty($this->settings)) return;
+        if (empty($this->settings)) {
+            return;
+        }
 
         if (!empty($this->settings['show_on_single'])) {
             add_action(
@@ -53,51 +70,62 @@ class Th_Store_One_Sale_Countdown_Frontend {
         }
     }
 
-    public function render() {
+    public function render()
+    {
 
-    global $product;
-    if (!$product) return;
+        global $product;
+        if (!$product) {
+            return;
+        }
 
-    $data = $this->get_data($product);
-    if (!$data['enable']) return;
+        $data = $this->get_data($product);
+        if (!$data['enable']) {
+            return;
+        }
 
-    $is_single  = is_product();
-    $is_archive = is_shop() || is_product_category() || is_product_tag();
+        $is_single  = is_product();
+        $is_archive = is_shop() || is_product_category() || is_product_tag();
 
-    $is_loop = function_exists('wc_get_loop_prop') && wc_get_loop_prop('name');
+        $is_loop = function_exists('wc_get_loop_prop') && wc_get_loop_prop('name');
 
-    /*STOP loop items using single logic */
-    if ($is_single && $is_loop) {
-        $style = $this->settings['sale_countdown_archive_style'] ?? 'acstyle1';
-    } else {
-        $style = $this->get_style();
+        /*STOP loop items using single logic */
+        if ($is_single && $is_loop) {
+            $style = $this->settings['sale_countdown_archive_style'] ?? 'acstyle1';
+        } else {
+            $style = $this->get_style();
+        }
+
+        /* SETTINGS VISIBILITY */
+        if ($is_single && !$is_loop && empty($this->settings['show_on_single'])) {
+            return;
+        }
+
+        if (($is_archive || $is_loop) && empty($this->settings['show_on_archive'])) {
+            return;
+        }
+
+        wc_get_template(
+            "{$style}.php",
+            $data,
+            '',
+            TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/sale-countdown/templates/'
+        );
     }
 
-    /* SETTINGS VISIBILITY */
-    if ($is_single && !$is_loop && empty($this->settings['show_on_single'])) return;
+    private function get_style()
+    {
 
-    if (($is_archive || $is_loop) && empty($this->settings['show_on_archive'])) return;
+        // only main single product
+        if (is_product()) {
+            return $this->settings['sale_countdown_style'] ?? 'style1';
+        }
 
-    wc_get_template(
-        "{$style}.php",
-        $data,
-        '',
-        TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/sale-countdown/templates/'
-    );
-}
-
-    private function get_style() {
-
-    // only main single product
-    if (is_product()) {
-        return $this->settings['sale_countdown_style'] ?? 'style1';
+        // everything else = archive
+        return $this->settings['sale_countdown_archive_style'] ?? 'acstyle1';
     }
 
-    // everything else = archive
-    return $this->settings['sale_countdown_archive_style'] ?? 'acstyle1';
-    }
-
-    private function get_data($product) {
+    private function get_data($product)
+    {
 
         $global = $this->settings;
         $pid = $product->get_id();
@@ -121,8 +149,8 @@ class Th_Store_One_Sale_Countdown_Frontend {
 
         /* GLOBAL */
         $start = $start ?: strtotime($global['start_datetime'] ?? '');
-        $end   = $end   ?: strtotime($global['end_datetime'] ?? '');
-        $msg   = $msg   ?: ($global['sale_message'] ?? '');
+        $end   = $end ?: strtotime($global['end_datetime'] ?? '');
+        $msg   = $msg ?: ($global['sale_message'] ?? '');
 
         /* ENABLE */
         $enable = ($enable === 'yes') || !empty($global['enable_countdown']);
@@ -148,7 +176,8 @@ class Th_Store_One_Sale_Countdown_Frontend {
         ];
     }
 
-    private function map_archive($pos) {
+    private function map_archive($pos)
+    {
 
         return [
             'after_title' => 'woocommerce_shop_loop_item_title',
