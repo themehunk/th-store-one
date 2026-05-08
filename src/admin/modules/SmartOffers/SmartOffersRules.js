@@ -123,6 +123,7 @@ const newSmartOfferRule = () => ({
   card_radius: 16,
   card_padding: 18,
   image_radius: 12,
+  layout_style: "detailed",
 });
 
 /* ---------------- SORTABLE ---------------- */
@@ -312,7 +313,7 @@ export default function SmartOffersRules({ rules, onChange }) {
                         <S1FieldGroup title="Reward">
                           <S1Field
                             label="Reward Type"
-                            description="Choose whether the customer receives a free product or a discount"
+                            description="Choose the type of reward customers will receive after qualifying for the offer"
                           >
                             <SelectControl
                               value={rule.reward_type}
@@ -366,7 +367,13 @@ export default function SmartOffersRules({ rules, onChange }) {
                             <>
                               <S1Field
                                 label="Discount Value"
-                                description="Enter discount amount. Use percentage or fixed value based on selected type"
+                                description={
+                                  rule.reward_type === "discount_percent"
+                                    ? "Enter the discount percentage customers will receive (example: 10 = 10% OFF)"
+                                    : rule.reward_type === "discount_fixed"
+                                    ? "Enter the fixed discount amount applied to each rewarded product"
+                                    : "Enter the fixed cart discount amount applied to the entire cart total"
+                                }
                               >
                                 <TextControl
                                   type="number"
@@ -383,7 +390,13 @@ export default function SmartOffersRules({ rules, onChange }) {
 
                               <S1Field
                                 label="Apply Discount On"
-                                description="Select which product should receive the discount"
+                                description={
+                                  rule.reward_type === "discount_percent"
+                                    ? "Choose which product should receive the percentage (%) discount"
+                                    : rule.reward_type === "discount_fixed"
+                                    ? "Choose which product should receive the fixed amount discount"
+                                    : "Choose how the fixed cart discount should be triggered"
+                                }
                               >
                                 <SelectControl
                                   value={rule.apply_on}
@@ -632,6 +645,30 @@ export default function SmartOffersRules({ rules, onChange }) {
                     content: (
                       <div className="store-one-rule-body">
                         {/* CARD */}
+
+                        {/* <S1FieldGroup title="Layout Style">
+                          <S1Field
+                            label="Offer Layout"
+                            description="Choose how the offer box should appear on the product page"
+                          >
+                            <SelectControl
+                              value={rule.layout_style || "detailed"}
+                              options={[
+                                {
+                                  label: "Detailed Layout",
+                                  value: "detailed",
+                                },
+                                {
+                                  label: "Minimal Layout",
+                                  value: "minimal",
+                                },
+                              ]}
+                              onChange={(v) =>
+                                updateField(index, "layout_style", v)
+                              }
+                            />
+                          </S1Field>
+                        </S1FieldGroup> */}
 
                         <S1FieldGroup title="Card">
                           <S1Field>
