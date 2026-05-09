@@ -31,6 +31,7 @@ import UniversalRangeControl from "@th-storeone-global/UniversalRangeControl";
 
 import SliderControl from "@th-storeone-global/SliderControl";
 import UniversalBorderControl from "@th-storeone-control/UniversalBorderControl";
+import UniversalDimensionControl from "@th-storeone-control/UniversalDimensionControl";
 
 /* ---------------- DEFAULT RULE ---------------- */
 const newSmartOfferRule = () => ({
@@ -114,7 +115,7 @@ const newSmartOfferRule = () => ({
   badge_bg: "linear-gradient(135deg, #22c55e, #16a34a);",
   badge_color: "#ffffff",
 
-  progress_bg: "#e5e7eb",
+  progress_bg: "#e5e7eb4d",
   progress_fill: "#22c55e",
 
   message_color: "#6b7280",
@@ -124,6 +125,13 @@ const newSmartOfferRule = () => ({
   card_padding: 18,
   image_radius: 12,
   layout_style: "detailed",
+  highlight_color: "#22c55e",
+  padding: {
+    top: "14px",
+    right: "14px",
+    bottom: "14px",
+    left: "14px",
+  },
 });
 
 /* ---------------- SORTABLE ---------------- */
@@ -679,7 +687,6 @@ export default function SmartOffersRules({ rules, onChange }) {
                               onChange={(v) => {
                                 const updatedRule = { ...rule, card_bg: v };
                                 updateField(index, "card_bg", v);
-                                onLivePreview?.(updatedRule, index);
                               }}
                             />
                           </S1Field>
@@ -705,10 +712,15 @@ export default function SmartOffersRules({ rules, onChange }) {
                                   card_active_bg: v,
                                 };
                                 updateField(index, "card_active_bg", v);
-                                onLivePreview?.(updatedRule, index);
                               }}
                             />
                           </S1Field>
+                          <UniversalDimensionControl
+                            label="Padding"
+                            value={rule.padding}
+                            responsive={false}
+                            onChange={(v) => updateField(index, "padding", v)}
+                          />
                         </S1FieldGroup>
 
                         {/* TEXT */}
@@ -725,7 +737,6 @@ export default function SmartOffersRules({ rules, onChange }) {
                                   heading_color: v,
                                 };
                                 updateField(index, "heading_color", v);
-                                onLivePreview?.(updatedRule, index);
                               }}
                             />
                           </S1Field>
@@ -738,7 +749,6 @@ export default function SmartOffersRules({ rules, onChange }) {
                               onChange={(v) => {
                                 const updatedRule = { ...rule, text_color: v };
                                 updateField(index, "text_color", v);
-                                onLivePreview?.(updatedRule, index);
                               }}
                             />
                           </S1Field>
@@ -750,7 +760,20 @@ export default function SmartOffersRules({ rules, onChange }) {
                               onChange={(v) => {
                                 const updatedRule = { ...rule, price_color: v };
                                 updateField(index, "price_color", v);
-                                onLivePreview?.(updatedRule, index);
+                              }}
+                            />
+                          </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              allowGradient={true}
+                              label={__("Hightlight Color", "th-store-one")}
+                              value={rule.highlight_color}
+                              onChange={(v) => {
+                                const updatedRule = {
+                                  ...rule,
+                                  highlight_color: v,
+                                };
+                                updateField(index, "highlight_color", v);
                               }}
                             />
                           </S1Field>
@@ -767,7 +790,6 @@ export default function SmartOffersRules({ rules, onChange }) {
                               onChange={(v) => {
                                 const updatedRule = { ...rule, badge_bg: v };
                                 updateField(index, "badge_bg", v);
-                                onLivePreview?.(updatedRule, index);
                               }}
                             />
                           </S1Field>
@@ -780,7 +802,6 @@ export default function SmartOffersRules({ rules, onChange }) {
                               onChange={(v) => {
                                 const updatedRule = { ...rule, badge_color: v };
                                 updateField(index, "badge_color", v);
-                                onLivePreview?.(updatedRule, index);
                               }}
                             />
                           </S1Field>
@@ -800,7 +821,6 @@ export default function SmartOffersRules({ rules, onChange }) {
                                   progress_fill: v,
                                 };
                                 updateField(index, "progress_fill", v);
-                                onLivePreview?.(updatedRule, index);
                               }}
                             />
                           </S1Field>
@@ -820,7 +840,6 @@ export default function SmartOffersRules({ rules, onChange }) {
                                   message_color: v,
                                 };
                                 updateField(index, "message_color", v);
-                                onLivePreview?.(updatedRule, index);
                               }}
                             />
                           </S1Field>
@@ -836,7 +855,6 @@ export default function SmartOffersRules({ rules, onChange }) {
                                   success_color: v,
                                 };
                                 updateField(index, "success_color", v);
-                                onLivePreview?.(updatedRule, index);
                               }}
                             />
                           </S1Field>
