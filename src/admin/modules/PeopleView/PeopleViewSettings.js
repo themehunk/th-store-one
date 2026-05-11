@@ -2,9 +2,9 @@ import { useState, useEffect } from "@wordpress/element";
 import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import { Spinner } from "@wordpress/components";
-import StockScarcityRule from "./StockScarcityRule";
-const MODULE_ID = "stock-scarcity";
-export default function StockScarcitySettings({
+import PeopleViewRules from "./PeopleViewRules";
+const MODULE_ID = "people-view";
+export default function PeopleViewSettings({
   onSettingsChange,
   onLivePreview,
   onRegisterSave,
@@ -99,7 +99,7 @@ export default function StockScarcitySettings({
             </div>
           )}
           {/* RULES EDITOR */}
-          <StockScarcityRule
+          <PeopleViewRules
             rules={rules}
             onChange={setRules}
             onLivePreview={onLivePreview}
