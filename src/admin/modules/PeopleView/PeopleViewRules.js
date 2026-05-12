@@ -66,7 +66,7 @@ const newPeopleViewRule = () => ({
   },
 
   /* DISPLAY */
-  message: "{count} people are viewing this product",
+  message: "{count} People are viewing this right now",
 
   icon_enable: true,
   icon_type: "eye",
@@ -109,16 +109,16 @@ const newPeopleViewRule = () => ({
   /* STYLE */
   layout_style: "pill",
 
-  bg_color: "#FFF7D6",
-  border_color: "#FACC15",
+  bg_color: "#9e9e9e00",
+  border_color: "#9e9e9e00",
   text_color: "#111827",
   icon_color: "#D97706",
 
   font_size: 14,
-  border_radius: 30,
+  border_radius: 0,
 
-  padding_y: 10,
-  padding_x: 14,
+  padding_y: 0,
+  padding_x: 0,
 });
 /* ================= ICON SELECT ================= */
 const ICON_OPTIONS = [
@@ -136,7 +136,6 @@ const ICON_OPTIONS = [
       </svg>
     ),
   },
-
   {
     id: "users",
     icon: (
@@ -158,7 +157,6 @@ const ICON_OPTIONS = [
       </svg>
     ),
   },
-
   {
     id: "fire",
     icon: (
@@ -172,7 +170,6 @@ const ICON_OPTIONS = [
       </svg>
     ),
   },
-
   {
     id: "live",
     icon: (
@@ -304,7 +301,6 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
                 />
               )}
             </div>
-
             {/* BODY */}
             {rule.open && (
               <TabSwitcher
@@ -342,7 +338,6 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
                             />
                           </S1Field>
                         </S1FieldGroup>
-
                         {/* REAL VIEWERS */}
                         {rule.view_mode === "real" && (
                           <S1FieldGroup title="Real Viewer Settings">
@@ -392,7 +387,8 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
                             </S1Field>
 
                             <UniversalRangeControl
-                              label="Session Timeout"
+                              label="Session Timeout (Minutes) "
+                              description="Viewer will be removed from live count after being inactive for selected minutes."
                               value={String(rule.real_view.session_timeout)}
                               min={1}
                               max={10}
@@ -405,7 +401,8 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
                             />
 
                             <UniversalRangeControl
-                              label="Refresh Rate"
+                              label="Refresh Rate (Seconds)"
+                              description="Controls how often real viewer count updates automatically in seconds using AJAX. Lower values provide faster updates but may increase server requests."
                               value={String(rule.real_view.refresh_rate)}
                               min={5}
                               max={60}
@@ -424,6 +421,7 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
                           <S1FieldGroup title="Fake Viewer Settings">
                             <UniversalRangeControl
                               label="Minimum Viewers"
+                              description="Minimum fake viewers count that can appear."
                               value={String(rule.fake_view.min)}
                               min={1}
                               max={50}
@@ -437,6 +435,7 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
 
                             <UniversalRangeControl
                               label="Maximum Viewers"
+                              description="Maximum fake viewers count that can appear."
                               value={String(rule.fake_view.max)}
                               min={1}
                               max={100}
@@ -450,6 +449,7 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
 
                             <UniversalRangeControl
                               label="Default Count"
+                              description="Initial viewer count shown before automatic fluctuations start."
                               value={String(rule.fake_view.default_count)}
                               min={1}
                               max={50}
@@ -463,6 +463,7 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
 
                             <UniversalRangeControl
                               label="Update Interval"
+                              description="Update fake viewer count every selected seconds."
                               value={String(rule.fake_view.update_interval)}
                               min={5}
                               max={60}
@@ -476,7 +477,7 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
 
                             <S1Field
                               label="Smooth Fluctuation"
-                              description="Gradually change viewers naturally."
+                              description="Gradually increase or decrease viewers naturally instead of sudden jumps."
                             >
                               <ToggleControl
                                 checked={rule.fake_view.smooth_fluctuation}
@@ -491,7 +492,7 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
 
                             <S1Field
                               label="Enable Spike Effect"
-                              description="Randomly increase viewers for urgency."
+                              description="Occasionally create sudden viewer increases to build urgency."
                             >
                               <ToggleControl
                                 checked={rule.fake_view.spike_enable}
@@ -507,6 +508,7 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
                             {rule.fake_view.spike_enable && (
                               <UniversalRangeControl
                                 label="Spike Chance"
+                                description="Percentage chance of triggering a sudden viewer spike."
                                 value={String(rule.fake_view.spike_chance)}
                                 min={1}
                                 max={100}
@@ -532,7 +534,7 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
                       <div className="store-one-rule-body">
                         <S1Field
                           label="Message"
-                          description="Use {count} dynamic tag."
+                          description="Use {count} placeholder to dynamically display live viewer count."
                         >
                           <TextControl
                             value={rule.message}
@@ -581,7 +583,7 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
                         <S1FieldGroup title="Dynamic Messages">
                           <S1Field
                             label="Enable Dynamic Messages"
-                            description="Automatically change message based on viewer count."
+                            description="Automatically switch messages based on current viewer count."
                           >
                             <ToggleControl
                               checked={rule.dynamic_message_enable}
@@ -605,7 +607,10 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
                                 />
                               </S1Field>
 
-                              <S1Field label="Low Threshold">
+                              <S1Field
+                                label="Low Threshold"
+                                description="Apply low viewer message when count is below this value."
+                              >
                                 <TextControl
                                   value={rule.dynamic_message.low_threshold}
                                   onChange={(v) =>
@@ -617,7 +622,10 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
                                 />
                               </S1Field>
 
-                              <S1Field label="Medium Viewer Message">
+                              <S1Field
+                                label="Medium Viewer Message"
+                                description="Apply medium viewer message when count reaches this value."
+                              >
                                 <TextControl
                                   value={rule.dynamic_message.medium_msg}
                                   onChange={(v) =>
@@ -856,7 +864,7 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
                     content: (
                       <div className="store-one-rule-body">
                         {/* LAYOUT */}
-                        <S1Field
+                        {/* <S1Field
                           label="Layout Style"
                           description="Choose viewer notification style."
                         >
@@ -880,7 +888,7 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
                               updateField(index, "layout_style", v)
                             }
                           />
-                        </S1Field>
+                        </S1Field> */}
 
                         {/* BACKGROUND */}
                         <S1Field>
@@ -931,6 +939,7 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
                         {/* FONT SIZE */}
                         <UniversalRangeControl
                           label="Font Size"
+                          description="Adjust viewer message text size in pixels."
                           value={String(rule.font_size)}
                           min={10}
                           max={30}

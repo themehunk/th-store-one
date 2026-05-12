@@ -44,21 +44,15 @@
 
 .s1-people-preview-box.layout-pill {
   background:
-    linear-gradient(
-      135deg,
-      #fffdf6 0%,
-      #fff7d6 100%
-    );
+    transparent;
 
-  border: 1px solid #facc15;
+  border: 1px solid transparent;
 
   border-radius: 999px;
 
   padding: 11px 18px 11px 34px;
 
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.03),
-    0 10px 30px rgba(250, 204, 21, 0.12);
+  
 }
 
 
@@ -207,11 +201,7 @@
 }
 
 /* Pill Hover */
-.s1-people-preview-box.layout-pill:hover {
-  box-shadow:
-    0 6px 18px rgba(250, 204, 21, 0.16),
-    0 18px 36px rgba(250, 204, 21, 0.14);
-}
+
 
 /* =====================================================
    DARK MODE SUPPORT

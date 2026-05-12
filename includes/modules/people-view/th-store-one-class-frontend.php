@@ -39,6 +39,16 @@ class Th_Store_One_People_View_Frontend
             'th_store_one_people_view',
             array( $this, 'shortcode_render' )
         );
+
+        add_action(
+            'wp_ajax_th_update_people_view',
+            array( $this, 'ajax_update_people_view' )
+        );
+
+        add_action(
+            'wp_ajax_nopriv_th_update_people_view',
+            array( $this, 'ajax_update_people_view' )
+        );
     }
 
     /* =====================================================
@@ -53,6 +63,22 @@ class Th_Store_One_People_View_Frontend
             TH_STORE_ONE_PLUGIN_URL . 'assets/css/people-view.css',
             array(),
             TH_STORE_ONE_VERSION
+        );
+
+        wp_enqueue_script(
+            'th-people-view',
+            TH_STORE_ONE_PLUGIN_URL . 'assets/js/people-view.js',
+            array( 'jquery' ),
+            TH_STORE_ONE_VERSION,
+            true
+        );
+
+        wp_localize_script(
+            'th-people-view',
+            'thPeopleView',
+            array(
+                'ajaxurl' => admin_url('admin-ajax.php'),
+            )
         );
     }
 
@@ -223,6 +249,24 @@ class Th_Store_One_People_View_Frontend
             $rule['flexible_id'] ?? uniqid()
         );
 
+        $interval = 15;
+
+        if (
+            isset($rule['view_mode']) &&
+            'fake' === $rule['view_mode']
+        ) {
+
+            $interval = absint(
+                $rule['fake_view']['update_interval'] ?? 20
+            );
+
+        } else {
+
+            $interval = absint(
+                $rule['real_view']['refresh_rate'] ?? 15
+            );
+        }
+
         $count = $this->generate_viewer_count($rule, $product);
 
         $message = $this->generate_message($rule, $count);
@@ -232,6 +276,9 @@ class Th_Store_One_People_View_Frontend
         <div
             id="<?php echo esc_attr($wrapper_id); ?>"
             class="th-people-view-wrapper layout-<?php echo esc_attr($rule['layout_style'] ?? 'pill'); ?>"
+            data-product-id="<?php echo esc_attr($product->get_id()); ?>"
+    data-rule-id="<?php echo esc_attr($rule['flexible_id']); ?>"
+    data-interval="<?php echo esc_attr($interval); ?>"
         >
 
             <?php if (! empty($rule['icon_enable'])) : ?>
@@ -252,35 +299,230 @@ class Th_Store_One_People_View_Frontend
     }
 
     /* =====================================================
-     * Generate Viewer Count
-    ===================================================== */
+ * Generate Viewer Count
+===================================================== */
 
     private function generate_viewer_count($rule, $product)
     {
 
         $mode = $rule['view_mode'] ?? 'real';
 
-        if ('fake' === $mode) {
-
-            $min = absint($rule['fake_view']['min'] ?? 3);
-            $max = absint($rule['fake_view']['max'] ?? 15);
-
-            return rand($min, $max);
-        }
-
-        /* Real Viewer Logic */
-
+        /* =====================================================
+         * PRODUCT ID
+        ===================================================== */
         $product_id = $product->get_id();
 
-        $transient_key = 'th_people_view_' . $product_id;
+        /* =====================================================
+         * REAL VIEWER MODE
+        ===================================================== */
+        if ('real' === $mode) {
 
-        $count = get_transient($transient_key);
+            $real_settings = $rule['real_view'] ?? [];
 
-        if (false === $count) {
-            $count = rand(1, 8);
+            $enable_guest     = ! empty($real_settings['enable_guest']);
+            $enable_loggedin  = ! empty($real_settings['enable_loggedin']);
+            $session_timeout  = absint($real_settings['session_timeout'] ?? 3);
+            $refresh_rate     = absint($real_settings['refresh_rate'] ?? 15);
+            $bot_filter       = ! empty($real_settings['bot_filter']);
+
+            /* ------------------------------
+             * BOT FILTER
+            ------------------------------ */
+            if ($bot_filter) {
+
+                $user_agent = isset($_SERVER['HTTP_USER_AGENT'])
+                    ? strtolower(wp_unslash($_SERVER['HTTP_USER_AGENT']))
+                    : '';
+
+                $bots = array(
+                    'bot',
+                    'crawl',
+                    'slurp',
+                    'spider',
+                    'facebook',
+                    'google',
+                    'bing',
+                    'yandex',
+                );
+
+                foreach ($bots as $bot) {
+
+                    if (false !== strpos($user_agent, $bot)) {
+                        return 0;
+                    }
+                }
+            }
+
+            /* ------------------------------
+             * USER TYPE CHECK
+            ------------------------------ */
+            $is_logged_in = is_user_logged_in();
+
+            if ($is_logged_in && ! $enable_loggedin) {
+                return 0;
+            }
+
+            if (! $is_logged_in && ! $enable_guest) {
+                return 0;
+            }
+
+            /* ------------------------------
+             * VIEWER SESSION
+            ------------------------------ */
+            $user_key = '';
+
+            if ($is_logged_in) {
+
+                $user_key = 'user_' . get_current_user_id();
+
+            } else {
+
+                $user_ip = isset($_SERVER['REMOTE_ADDR'])
+                    ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR']))
+                    : 'guest';
+
+                $user_key = 'guest_' . md5($user_ip);
+            }
+
+            $viewer_key = 'th_people_viewer_' . $product_id . '_' . $user_key;
+
+            /* ------------------------------
+             * ACTIVE VIEWERS
+            ------------------------------ */
+            $active_viewers = get_transient('th_people_view_' . $product_id);
+
+            if (! is_array($active_viewers)) {
+                $active_viewers = array();
+            }
+
+            /* ------------------------------
+             * ADD / REFRESH VIEWER
+            ------------------------------ */
+            $active_viewers[ $viewer_key ] = time();
+
+            /* ------------------------------
+             * REMOVE EXPIRED VIEWERS
+            ------------------------------ */
+            foreach ($active_viewers as $key => $timestamp) {
+
+                if ((time() - $timestamp) > ($session_timeout * 60)) {
+                    unset($active_viewers[ $key ]);
+                }
+            }
+
+            /* ------------------------------
+             * SAVE VIEWERS
+            ------------------------------ */
+            set_transient(
+                'th_people_view_' . $product_id,
+                $active_viewers,
+                $refresh_rate
+            );
+
+            return count($active_viewers);
         }
 
-        return absint($count);
+        /* =====================================================
+         * FAKE VIEWER MODE
+        ===================================================== */
+        if ('fake' === $mode) {
+
+            $fake_settings = $rule['fake_view'] ?? [];
+
+            $min                  = absint($fake_settings['min'] ?? 3);
+            $max                  = absint($fake_settings['max'] ?? 18);
+            $default_count        = absint($fake_settings['default_count'] ?? 8);
+            $randomize            = $fake_settings['randomize'] ?? 'session';
+            $update_interval      = absint($fake_settings['update_interval'] ?? 20);
+            $smooth_fluctuation   = ! empty($fake_settings['smooth_fluctuation']);
+            $spike_enable         = ! empty($fake_settings['spike_enable']);
+            $spike_chance         = absint($fake_settings['spike_chance'] ?? 20);
+
+            /* SAFETY */
+            if ($min > $max) {
+                $temp = $min;
+                $min  = $max;
+                $max  = $temp;
+            }
+
+            $transient_key = 'th_fake_people_view_' . $product_id;
+
+            $count = get_transient($transient_key);
+
+            /* ------------------------------
+             * DEFAULT VALUE
+            ------------------------------ */
+            if (false === $count) {
+
+                if ($default_count >= $min && $default_count <= $max) {
+
+                    $count = $default_count;
+
+                } else {
+
+                    $count = rand($min, $max);
+                }
+            }
+
+            /* ------------------------------
+             * RANDOMIZE MODE
+            ------------------------------ */
+
+            if ('page_load' === $randomize) {
+
+                $count = rand($min, $max);
+            }
+
+            /* ------------------------------
+             * SMOOTH FLUCTUATION
+            ------------------------------ */
+            if ($smooth_fluctuation) {
+
+                $change = rand(-2, 2);
+
+                $count = $count + $change;
+
+                if ($count < $min) {
+                    $count = $min;
+                }
+
+                if ($count > $max) {
+                    $count = $max;
+                }
+            }
+
+            /* ------------------------------
+             * SPIKE EFFECT
+            ------------------------------ */
+            if ($spike_enable) {
+
+                $chance = rand(1, 100);
+
+                if ($chance <= $spike_chance) {
+
+                    $spike = rand(3, 10);
+
+                    $count = $count + $spike;
+
+                    if ($count > $max) {
+                        $count = $max;
+                    }
+                }
+            }
+
+            /* ------------------------------
+             * SAVE COUNT
+            ------------------------------ */
+            set_transient(
+                $transient_key,
+                $count,
+                $update_interval
+            );
+
+            return absint($count);
+        }
+
+        return 0;
     }
 
     /* =====================================================
@@ -513,5 +755,72 @@ class Th_Store_One_People_View_Frontend
         <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
       </svg>';
         }
+    }
+
+    /* =====================================================
+ * AJAX UPDATE
+===================================================== */
+
+    public function ajax_update_people_view()
+    {
+
+        $product_id = absint($_POST['product_id'] ?? 0);
+        $rule_id    = sanitize_text_field($_POST['rule_id'] ?? '');
+
+        if (! $product_id || empty($rule_id)) {
+            wp_send_json_error();
+        }
+
+        $product = wc_get_product($product_id);
+
+        if (! $product) {
+            wp_send_json_error();
+        }
+
+        foreach ($this->rules as $rule) {
+
+            if (
+                isset($rule['flexible_id']) &&
+                $rule['flexible_id'] === $rule_id
+            ) {
+
+                $interval = 15;
+
+                if (
+                    isset($rule['view_mode']) &&
+                    'fake' === $rule['view_mode']
+                ) {
+
+                    $interval = absint(
+                        $rule['fake_view']['update_interval'] ?? 20
+                    );
+
+                } else {
+
+                    $interval = absint(
+                        $rule['real_view']['refresh_rate'] ?? 15
+                    );
+                }
+
+                $count = $this->generate_viewer_count(
+                    $rule,
+                    $product
+                );
+
+                $message = $this->generate_message(
+                    $rule,
+                    $count
+                );
+
+                wp_send_json_success(
+                    array(
+                        'count'   => $count,
+                        'message' => $message,
+                    )
+                );
+            }
+        }
+
+        wp_send_json_error();
     }
 }

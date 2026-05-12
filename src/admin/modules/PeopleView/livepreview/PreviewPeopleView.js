@@ -160,6 +160,7 @@ const PreviewPeopleView = ({ settings = {} }) => {
           className="s1-people-message"
           style={{
             fontSize: `${rule.font_size || 14}px`,
+            color: rule.text_color || "#111827",
           }}
         >
           <span
