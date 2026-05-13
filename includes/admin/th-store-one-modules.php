@@ -61,6 +61,7 @@ class Th_Store_One_Modules
             'recent-view'       => false,
             'smart-offers'	    => false,
             'people-view'	    => false,
+            'pre-order'         => false,
         );
     }
     /**

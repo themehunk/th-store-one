@@ -26,6 +26,7 @@ import SaleCountdownSettings from "../../modules/SaleCountdown/SaleCountdownSett
 import RecentViewSettings from "../../modules/RecentView/RecentViewSettings";
 import SmartOffersSettings from "../../modules/SmartOffers/SmartOffersSettings";
 import PeopleViewSettings from "../../modules/PeopleView/PeopleViewSettings";
+import PreOrderSettings from "../../modules/PreOrder/PreOrderSettings";
 
 const ModuleSettings = ({
   currentModule,
@@ -170,6 +171,14 @@ const ModuleSettings = ({
             onRegisterSave={onRegisterSave}
           />
         );
+      case "pre-order":
+        return (
+          <PreOrderSettings
+            onSettingsChange={onSettingsChange}
+            onLivePreview={onLivePreview}
+            onRegisterSave={onRegisterSave}
+          />
+        );
       default:
         return (
           <p className="s1-settings__placeholder">
@@ -233,6 +242,19 @@ const ModuleSettings = ({
                 }
               >
                 {__("Add Sale Countdown", "th-store-one")}
+              </Button>
+            )}
+            {currentModule.id === "pre-order" && (
+              <Button
+                className="s1-settings__redirect-btn"
+                onClick={() =>
+                  window.open(
+                    `${th_StoreOneAdmin.adminUrl}edit.php?post_type=product`,
+                    "_blank",
+                  )
+                }
+              >
+                {__("Add Pre order", "th-store-one")}
               </Button>
             )}
           </FlexBlock>

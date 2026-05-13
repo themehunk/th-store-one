@@ -42,6 +42,8 @@ const AdminMain = () => {
     "sale-countdown": false,
     "recent-view": false,
     "smart-offers": false,
+    "people-view": false,
+    "pre-order": false,
   });
   const tabs = [
     {
@@ -549,6 +551,16 @@ const AdminMain = () => {
                     />
                   )}
                   {currentModule?.id === "people-view" && (
+                    <PreviewPane
+                      currentModule={currentModule}
+                      settings={
+                        livePreviewSettings[currentModule.id] ||
+                        moduleSettings[currentModule.id]?.rules?.[0] ||
+                        moduleSettings[currentModule.id]
+                      }
+                    />
+                  )}
+                  {currentModule?.id === "pre-order" && (
                     <PreviewPane
                       currentModule={currentModule}
                       settings={

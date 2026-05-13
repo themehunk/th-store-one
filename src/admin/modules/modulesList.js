@@ -616,4 +616,55 @@ export const modulesList = [
     ),
     premium: false,
   },
+  {
+    id: "pre-order",
+    label: __("Pre Order", "th-store-one"),
+    description: __(
+      "Allow customers to pre-order upcoming or out-of-stock products with custom availability dates, preorder messages, and advanced rule controls.",
+      "th-store-one",
+    ),
+    icon: (
+      <svg
+        className="w-6 h-6"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {/* Product Box */}
+        <rect
+          x="3"
+          y="5"
+          width="18"
+          height="14"
+          rx="3"
+          stroke="currentColor"
+          strokeWidth="2"
+        />
+
+        {/* Clock */}
+        <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" />
+
+        {/* Clock Hands */}
+        <path
+          d="M12 10V12.5L13.8 13.5"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+
+        {/* Preorder Badge */}
+        <path
+          d="M7 18H17"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+        />
+
+        {/* Live / Active Dot */}
+        <circle cx="18" cy="8" r="1.2" fill="currentColor" />
+      </svg>
+    ),
+    premium: false,
+  },
 ];

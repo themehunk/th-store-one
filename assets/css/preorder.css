@@ -1,0 +1,152 @@
+/* =========================
+ * PREORDER BOX
+ * ========================= */
+
+.th-preorder-box{
+	margin-top:20px;
+	padding:18px;
+	border-radius:12px;
+	position:relative;
+	overflow:hidden;
+}
+
+/* =========================
+ * MESSAGE
+ * ========================= */
+
+.th-preorder-message{
+	font-size:14px;
+	line-height:1.7;
+	font-weight:500;
+	margin-bottom:12px;
+	color:inherit;
+}
+
+/* =========================
+ * DATE
+ * ========================= */
+
+.th-preorder-date{
+	display:flex;
+	align-items:center;
+	gap:8px;
+	font-size:14px;
+	line-height:1.5;
+	color:inherit;
+	margin-bottom:12px;
+}
+
+.th-preorder-date strong{
+	font-weight:600;
+}
+
+/* =========================
+ * COUNTDOWN
+ * ========================= */
+
+.th-preorder-countdown{
+	display:flex;
+	flex-wrap:wrap;
+	gap:12px;
+	margin-top:18px;
+}
+
+.th-preorder-time{
+	min-width:70px;
+	padding:12px;
+	border-radius:10px;
+	background:rgba(0,0,0,0.04);
+	text-align:center;
+}
+
+.th-preorder-number{
+	display:block;
+	font-size:22px;
+	font-weight:700;
+	line-height:1;
+	margin-bottom:6px;
+}
+
+.th-preorder-label{
+	display:block;
+	font-size:12px;
+	font-weight:500;
+	text-transform:uppercase;
+	letter-spacing:.5px;
+	opacity:.7;
+}
+
+/* =========================
+ * COMING SOON
+ * ========================= */
+
+.th-preorder-coming-soon{
+	margin-top:15px;
+	padding:12px 16px;
+	border-radius:8px;
+	font-size:14px;
+	font-weight:600;
+	background:#f3f4f6;
+	color:#111827;
+	display:inline-flex;
+	align-items:center;
+	gap:8px;
+}
+
+/* =========================
+ * BUTTON
+ * ========================= */
+
+.single-product .th-preorder-button{
+	width:100%;
+	margin-top:15px;
+	border:none;
+	cursor:pointer;
+	font-size:15px;
+	font-weight:600;
+	line-height:1.4;
+	border-radius:10px;
+	transition:all .2s ease;
+}
+
+.single-product .th-preorder-button:hover{
+	transform:translateY(-1px);
+	opacity:.95;
+}
+
+/* =========================
+ * SHOP LOOP
+ * ========================= */
+
+.th-preorder-loop-wrap{
+	margin-top:12px;
+}
+
+.th-preorder-loop-wrap .th-preorder-box{
+	padding:14px;
+	border-radius:10px;
+}
+
+/* =========================
+ * MOBILE
+ * ========================= */
+
+@media (max-width:767px){
+
+	.th-preorder-box{
+		padding:15px;
+	}
+
+	.th-preorder-countdown{
+		gap:10px;
+	}
+
+	.th-preorder-time{
+		min-width:62px;
+		padding:10px;
+	}
+
+	.th-preorder-number{
+		font-size:18px;
+	}
+}

@@ -16,6 +16,7 @@ import PreviewSaleCountdown from "../../modules/SaleCountdown/livepreview/Previe
 import PreviewRecentView from "../../modules/RecentView/livepreview/PreviewRecentView";
 import PreviewSmartOffers from "../../modules/SmartOffers/livepreview/PreviewSmartOffers";
 import PreviewPeopleView from "../../modules/PeopleView/livepreview/PreviewPeopleView";
+import PreviewPreOrder from "../../modules/PreOrder/livepreview/PreviewPreOrder";
 
 import { useSelect } from "@wordpress/data";
 
@@ -134,6 +135,9 @@ const PreviewPane = ({ currentModule, settings }) => {
                   key={currentModule.id}
                   settings={activeRule}
                 />
+              )}
+              {currentModule?.id === "pre-order" && activeRule && (
+                <PreviewPreOrder key={currentModule.id} settings={activeRule} />
               )}
             </div>
           </div>

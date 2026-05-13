@@ -34,6 +34,7 @@ const newPeopleViewRule = () => ({
   flexible_id: crypto.randomUUID(),
   open: true,
   status: "active",
+  title: "Vistor Rule",
 
   /* VIEW MODE */
   view_mode: "real",
@@ -276,7 +277,7 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
               <DragHandleDots2Icon className="drag-handle s1-icon" />
 
               <strong className="s1-rule-title">
-                {sprintf("Rule %d: Vistor View", index + 1)}
+                {sprintf("Rule %d: %s", index + 1, rule.title)}
               </strong>
 
               <CopyIcon
@@ -314,6 +315,29 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
 
                     content: (
                       <div className="store-one-rule-body">
+                        <S1Field
+                          label="Status"
+                          description="Enable or disable this offer rule"
+                        >
+                          <SelectControl
+                            value={rule.status}
+                            options={[
+                              { label: "Active", value: "active" },
+                              { label: "Inactive", value: "inactive" },
+                            ]}
+                            onChange={(v) => updateField(index, "status", v)}
+                          />
+                        </S1Field>
+
+                        <S1Field
+                          label="Title"
+                          description="Internal name used to identify this rule"
+                        >
+                          <TextControl
+                            value={rule.title}
+                            onChange={(v) => updateField(index, "title", v)}
+                          />
+                        </S1Field>
                         {/* VIEWER SOURCE */}
                         <S1FieldGroup title="Viewer Source">
                           <S1Field
