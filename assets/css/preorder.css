@@ -33,7 +33,7 @@
 	font-size:14px;
 	line-height:1.5;
 	color:inherit;
-	margin-bottom:12px;
+	
 }
 
 .th-preorder-date strong{
@@ -113,7 +113,32 @@
 	transform:translateY(-1px);
 	opacity:.95;
 }
+.price.th-preorder-price-html{
+    display: flex;
+    align-items: center;
+}
 
+.th-preorder-price-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.th-preorder-inline-badge{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:7px 16px;
+    border-radius:30px;
+    background:#333;
+    color:#fff;
+    font-size:14px;
+    font-weight:500;
+    line-height:1;
+    white-space:nowrap;
+    margin-left:10px;
+}
 /* =========================
  * SHOP LOOP
  * ========================= */

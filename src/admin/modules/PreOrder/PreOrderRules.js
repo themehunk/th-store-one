@@ -17,6 +17,8 @@ import { S1Field, S1FieldGroup } from "@th-storeone-global/S1Field";
 import PlacementPriorityControl from "@th-storeone-global/PlacementPriorityControl";
 import THBackgroundControl from "@th-storeone-control/color";
 import UserCondition from "@th-storeone-global/UserCondition";
+import UniversalBorderControl from "@th-storeone-control/UniversalBorderControl";
+import UniversalDimensionControl from "@th-storeone-control/UniversalDimensionControl";
 
 import {
   CopyIcon,
@@ -101,23 +103,42 @@ const newPreOrderRule = () => ({
   devices: ["desktop", "tablet", "mobile"],
 
   /* STYLE */
-  bg_color: "#ffffff",
+  btn_style: "default_btn_style",
 
-  border_color: "#e5e7eb",
+  btn_bg_clr: "#111111",
 
-  text_color: "#111827",
+  btn_text_clr: "#ffffff",
 
-  button_bg: "#111827",
+  btn_padding: {
+    top: "12",
+    right: "18",
+    bottom: "12",
+    left: "18",
+    unit: "px",
+  },
 
-  button_color: "#ffffff",
-
-  font_size: 14,
-
-  border_radius: 10,
-
-  padding_y: 12,
-
-  padding_x: 18,
+  btn_border: {
+    width: {
+      top: "1",
+      right: "1",
+      bottom: "1",
+      left: "1",
+    },
+    radius: {
+      top: "6",
+      right: "6",
+      bottom: "6",
+      left: "6",
+    },
+    style: "solid",
+    color: "#111111",
+  },
+  badges_text: "Pre Order",
+  badges_coming_text: "Coming Soon",
+  btn_bdge_bg_clr: "#111",
+  btn_clr: "#fff",
+  msg_bg_clr: "#fff",
+  msg_clr: "#111",
 });
 
 /* ---------------- Sortable ---------------- */
@@ -289,6 +310,26 @@ export default function PreOrderRules({ rules, onChange, onLivePreview }) {
                               }
                             />
                           </S1Field>
+                          {rule.preorder_mode === "preorder" && (
+                            <S1Field label="Badges Text">
+                              <TextControl
+                                value={rule.badges_text}
+                                onChange={(v) =>
+                                  updateField(index, "badges_text", v)
+                                }
+                              />
+                            </S1Field>
+                          )}
+                          {rule.preorder_mode === "coming_soon" && (
+                            <S1Field label="Badges Text">
+                              <TextControl
+                                value={rule.badges_coming_text}
+                                onChange={(v) =>
+                                  updateField(index, "badges_coming_text", v)
+                                }
+                              />
+                            </S1Field>
+                          )}
 
                           <S1Field
                             label="Date Mode"
@@ -700,96 +741,140 @@ export default function PreOrderRules({ rules, onChange, onLivePreview }) {
 
                     content: (
                       <div className="store-one-rule-body">
-                        <S1Field>
-                          <THBackgroundControl
-                            allowGradient={true}
-                            label={__("Background Color", "th-store-one")}
-                            value={rule.bg_color}
-                            onChange={(v) => updateField(index, "bg_color", v)}
+                        <S1FieldGroup title="Badges">
+                          <S1Field>
+                            <THBackgroundControl
+                              allowGradient={true}
+                              label={__("Background", "th-store-one")}
+                              value={rule.btn_bdge_bg_clr || "#111"}
+                              onChange={(v) =>
+                                updateField(index, "btn_bdge_bg_clr", v)
+                              }
+                            />
+                          </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              allowGradient={true}
+                              label={__("Color", "th-store-one")}
+                              value={rule.btn_bdge_clr || "#fff"}
+                              onChange={(v) =>
+                                updateField(index, "btn_bdge_clr", v)
+                              }
+                            />
+                          </S1Field>
+                        </S1FieldGroup>
+                        <S1FieldGroup title="Message">
+                          <S1Field>
+                            <THBackgroundControl
+                              allowGradient={true}
+                              label={__("Background", "th-store-one")}
+                              value={rule.msg_bg_clr || "#fff"}
+                              onChange={(v) =>
+                                updateField(index, "msg_bg_clr", v)
+                              }
+                            />
+                          </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              allowGradient={true}
+                              label={__("Color", "th-store-one")}
+                              value={rule.msg_clr || "#111"}
+                              onChange={(v) => updateField(index, "msg_clr", v)}
+                            />
+                          </S1Field>
+                        </S1FieldGroup>
+                        <S1FieldGroup
+                          title={__("Button Style", "th-store-one")}
+                          description={__(
+                            "Choose between theme default button style or fully custom button design.",
+                            "th-store-one",
+                          )}
+                        >
+                          <SelectControl
+                            value={rule.btn_style || "default_btn_style"}
+                            options={[
+                              {
+                                label: __(
+                                  "Theme Style (Default)",
+                                  "th-store-one",
+                                ),
+                                value: "default_btn_style",
+                              },
+                              {
+                                label: __("Custom Style", "th-store-one"),
+                                value: "custom_btn_style",
+                              },
+                            ]}
+                            onChange={(v) => updateField(index, "btn_style", v)}
                           />
-                        </S1Field>
+                        </S1FieldGroup>
 
-                        <S1Field>
-                          <THBackgroundControl
-                            allowGradient={true}
-                            label={__("Border Color", "th-store-one")}
-                            value={rule.border_color}
-                            onChange={(v) =>
-                              updateField(index, "border_color", v)
-                            }
-                          />
-                        </S1Field>
+                        {rule.btn_style === "custom_btn_style" && (
+                          <S1FieldGroup title="Button Style Settings">
+                            <S1Field>
+                              <THBackgroundControl
+                                allowGradient={true}
+                                label={__("Button Background", "th-store-one")}
+                                value={rule.btn_bg_clr || "#111"}
+                                onChange={(v) =>
+                                  updateField(index, "btn_bg_clr", v)
+                                }
+                              />
+                            </S1Field>
 
-                        <S1Field>
-                          <THBackgroundControl
-                            allowGradient={true}
-                            label={__("Text Color", "th-store-one")}
-                            value={rule.text_color}
-                            onChange={(v) =>
-                              updateField(index, "text_color", v)
-                            }
-                          />
-                        </S1Field>
+                            <S1Field>
+                              <THBackgroundControl
+                                allowGradient={true}
+                                label={__("Button Text Color", "th-store-one")}
+                                value={rule.btn_text_clr || "#fff"}
+                                onChange={(v) =>
+                                  updateField(index, "btn_text_clr", v)
+                                }
+                              />
+                            </S1Field>
 
-                        <S1Field>
-                          <THBackgroundControl
-                            allowGradient={true}
-                            label={__("Button Background", "th-store-one")}
-                            value={rule.button_bg}
-                            onChange={(v) => updateField(index, "button_bg", v)}
-                          />
-                        </S1Field>
+                            <UniversalDimensionControl
+                              label={__("Button Padding", "th-store-one")}
+                              value={
+                                rule.btn_padding || {
+                                  top: "12",
+                                  right: "18",
+                                  bottom: "12",
+                                  left: "18",
+                                  unit: "px",
+                                }
+                              }
+                              responsive={false}
+                              onChange={(v) =>
+                                updateField(index, "btn_padding", v)
+                              }
+                            />
 
-                        <S1Field>
-                          <THBackgroundControl
-                            allowGradient={true}
-                            label={__("Button Text Color", "th-store-one")}
-                            value={rule.button_color}
-                            onChange={(v) =>
-                              updateField(index, "button_color", v)
-                            }
-                          />
-                        </S1Field>
-
-                        <UniversalRangeControl
-                          label="Font Size"
-                          value={String(rule.font_size)}
-                          min={10}
-                          max={30}
-                          onChange={(v) =>
-                            updateField(index, "font_size", parseInt(v))
-                          }
-                        />
-
-                        <UniversalRangeControl
-                          label="Border Radius"
-                          value={String(rule.border_radius)}
-                          min={0}
-                          max={50}
-                          onChange={(v) =>
-                            updateField(index, "border_radius", parseInt(v))
-                          }
-                        />
-
-                        <UniversalRangeControl
-                          label="Vertical Padding"
-                          value={String(rule.padding_y)}
-                          min={0}
-                          max={40}
-                          onChange={(v) =>
-                            updateField(index, "padding_y", parseInt(v))
-                          }
-                        />
-
-                        <UniversalRangeControl
-                          label="Horizontal Padding"
-                          value={String(rule.padding_x)}
-                          min={0}
-                          max={50}
-                          onChange={(v) =>
-                            updateField(index, "padding_x", parseInt(v))
-                          }
-                        />
+                            <UniversalBorderControl
+                              value={
+                                rule.btn_border || {
+                                  width: {
+                                    top: "1",
+                                    right: "1",
+                                    bottom: "1",
+                                    left: "1",
+                                  },
+                                  radius: {
+                                    top: "6",
+                                    right: "6",
+                                    bottom: "6",
+                                    left: "6",
+                                  },
+                                  style: "solid",
+                                  color: "#111111",
+                                }
+                              }
+                              onChange={(v) =>
+                                updateField(index, "btn_border", v)
+                              }
+                            />
+                          </S1FieldGroup>
+                        )}
                       </div>
                     ),
                   },

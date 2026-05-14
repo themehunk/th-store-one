@@ -139,6 +139,40 @@ class TH_Store_One_Pre_Order
             'wp',
             [ $this, 'coming_soon_mode' ]
         );
+
+        add_action(
+            'woocommerce_before_calculate_totals',
+            [ $this, 'modify_price' ],
+            999
+        );
+
+        add_filter(
+            'woocommerce_get_price_html',
+            [ $this, 'price_html' ],
+            999,
+            2
+        );
+
+        add_filter(
+            'woocommerce_cart_item_price',
+            [ $this, 'cart_price_html' ],
+            999,
+            3
+        );
+
+        add_filter(
+            'woocommerce_cart_item_subtotal',
+            [ $this, 'cart_subtotal_html' ],
+            999,
+            3
+        );
+
+        add_filter(
+            'woocommerce_get_item_data',
+            [ $this, 'cart_item_display' ],
+            10,
+            2
+        );
     }
 
     /* =========================
@@ -814,6 +848,9 @@ class TH_Store_One_Pre_Order
      * CART DATA
      * ========================= */
 
+    /**
+ * Add Cart Data
+ */
     public function add_cart_item_data(
         $cart_item_data,
         $product_id,
@@ -839,38 +876,69 @@ class TH_Store_One_Pre_Order
                     $rule
                 );
 
+            $product =
+                wc_get_product(
+                    $variation_id ?: $product_id
+                );
+
+            if (! $product) {
+                continue;
+            }
+
+            $base_price =
+                (float)
+                $product->get_regular_price();
+
+            if (! $base_price) {
+
+                $base_price =
+                    (float)
+                    $product->get_price();
+            }
+
+            $new_price =
+                $this->calculate_preorder_price(
+                    $base_price,
+                    $settings
+                );
+
             $cart_item_data[
-                'th_preorder'
-            ] = [
-                'enabled' => true,
+    'th_preorder'
+] = [
+    'enabled' => true,
 
-                'mode' =>
-                    $settings[
-                        'preorder_mode'
-                    ] ?? 'preorder',
+    'mode' =>
+        $settings['preorder_mode']
+        ?? 'preorder',
 
-                'date_mode' =>
-                    $settings[
-                        'date_mode'
-                    ] ?? 'manual',
+    'price_type' =>
+        $settings['price_type']
+        ?? 'product_price',
 
-                'date' =>
-                    $settings[
-                        'availability_date'
-                    ] ?? '',
+    'date_mode' =>
+        $settings['date_mode']
+        ?? 'manual',
 
-                'message' =>
-                    $settings[
-                        'preorder_message'
-                    ] ?? '',
-            ];
+    'date' =>
+        $settings['availability_date']
+        ?? '',
+
+    'original_price' =>
+        $base_price,
+
+    'preorder_price' =>
+        $new_price,
+
+    'message' =>
+        $settings['preorder_message']
+        ?? '',
+];
 
             return $cart_item_data;
         }
 
         return $cart_item_data;
     }
-
     /* =========================
      * CART DISPLAY
      * ========================= */
@@ -891,56 +959,47 @@ class TH_Store_One_Pre_Order
         $preorder =
             $cart_item['th_preorder'];
 
-        $value = '';
+        /* =========================
+         * ONLY PREORDER PRICE
+         * ========================= */
 
         if (
-            'calendar'
-            === $preorder['date_mode']
-            &&
             ! empty(
-                $preorder['date']
+                $preorder['price_type']
             )
+            &&
+            'product_price'
+            !== $preorder['price_type']
         ) {
 
-            $value =
-                sprintf(
-                    __(
-                        'Available On: %s',
-                        'th-store-one'
-                    ),
-                    date_i18n(
-                        get_option(
-                            'date_format'
-                        ),
-                        strtotime(
-                            $preorder['date']
-                        )
+            $item_data[] = [
+                'key' => '',
+
+                'display' => sprintf(
+                    '
+                <div class="th-preorder-cart-price-wrap">
+
+                    <span class="th-preorder-price-label">
+                        Pre-order Price
+                    </span>
+
+                    <div class="th-preorder-cart-price">
+
+                        <ins>%s</ins>
+
+                    </div>
+
+                </div>
+                ',
+                    wc_price(
+                        $preorder['preorder_price']
                     )
-                );
-
-        } else {
-
-            $value =
-                __(
-                    'Release date will be announced soon',
-                    'th-store-one'
-                );
+                ),
+            ];
         }
-
-        $item_data[] = [
-            'key' => __(
-                'Pre-Order',
-                'th-store-one'
-            ),
-
-            'value' => wp_kses_post(
-                $value
-            ),
-        ];
 
         return $item_data;
     }
-
     /* =========================
      * ORDER META
      * ========================= */
@@ -963,20 +1022,49 @@ class TH_Store_One_Pre_Order
         $preorder =
             $values['th_preorder'];
 
-        $text =
-            __(
+        $mode =
+            $preorder['mode']
+            ?? 'preorder';
+
+        $label =
+            'coming_soon' === $mode
+            ? __(
+                'Coming Soon Product',
+                'th-store-one'
+            )
+            : __(
                 'Pre-Order Product',
                 'th-store-one'
             );
 
+        $text = $label;
+
+        $date_mode =
+            $preorder['date_mode']
+            ?? 'manual';
+
+        $date =
+            $preorder['date']
+            ?? '';
+
         if (
             'calendar'
-            === $preorder['date_mode']
+            === $date_mode
             &&
-            ! empty(
-                $preorder['date']
-            )
+            ! empty($date)
         ) {
+
+            $formatted_date =
+                wp_date(
+                    get_option(
+                        'date_format'
+                    ) .
+                    ' ' .
+                    get_option(
+                        'time_format'
+                    ),
+                    strtotime($date)
+                );
 
             $text .=
                 ' | ' .
@@ -985,14 +1073,7 @@ class TH_Store_One_Pre_Order
                         'Available On: %s',
                         'th-store-one'
                     ),
-                    date_i18n(
-                        get_option(
-                            'date_format'
-                        ),
-                        strtotime(
-                            $preorder['date']
-                        )
-                    )
+                    $formatted_date
                 );
 
         } else {
@@ -1013,11 +1094,13 @@ class TH_Store_One_Pre_Order
             $text
         );
     }
-
     /* =========================
      * PRICE
      * ========================= */
 
+    /**
+ * Modify Cart Price
+ */
     public function modify_price(
         $cart
     ) {
@@ -1038,124 +1121,34 @@ class TH_Store_One_Pre_Order
         }
 
         foreach (
-            $cart->get_cart() as $cart_item_key => $item
+            $cart->get_cart() as $cart_item_key => &$cart_item
         ) {
 
             if (
-                ! empty(
-                    $item[
-                        'th_preorder_price_applied'
-                    ]
+                empty(
+                    $cart_item['th_preorder']
                 )
             ) {
                 continue;
             }
 
-            $product =
-                $item['data'];
+            $preorder =
+                $cart_item['th_preorder'];
 
-            $product_id =
-                $item['product_id'];
-
-            foreach (
-                $this->rules as $rule
+            if (
+                empty(
+                    $preorder['preorder_price']
+                )
             ) {
-
-                if (
-                    ! $this->match_rule(
-                        $rule,
-                        $product_id
-                    )
-                ) {
-                    continue;
-                }
-
-                $settings =
-                    $this->get_settings(
-                        $product_id,
-                        $rule
-                    );
-
-                $price_type =
-                    $settings['price_type']
-                    ?? 'product_price';
-
-                $value = floatval(
-                    $settings['price_value']
-                    ?? 0
-                );
-
-                $price = floatval(
-                    $product->get_price()
-                );
-
-                $new_price = $price;
-
-                if (
-                    'fixed_price'
-                    === $price_type
-                ) {
-
-                    $new_price = $value;
-
-                } elseif (
-                    'discount_percentage'
-                    === $price_type
-                ) {
-
-                    $new_price =
-                        $price -
-                        (
-                            (
-                                $price *
-                                $value
-                            ) / 100
-                        );
-
-                } elseif (
-                    'discount_fixed'
-                    === $price_type
-                ) {
-
-                    $new_price =
-                        $price - $value;
-
-                } elseif (
-                    'increase_percentage'
-                    === $price_type
-                ) {
-
-                    $new_price =
-                        $price +
-                        (
-                            (
-                                $price *
-                                $value
-                            ) / 100
-                        );
-
-                } elseif (
-                    'increase_fixed'
-                    === $price_type
-                ) {
-
-                    $new_price =
-                        $price + $value;
-                }
-
-                $product->set_price(
-                    $new_price
-                );
-
-                $cart->cart_contents[
-                    $cart_item_key
-                ][
-                    'th_preorder_price_applied'
-                ] = true;
+                continue;
             }
+
+            $cart_item['data']->set_price(
+                (float)
+                $preorder['preorder_price']
+            );
         }
     }
-
     /* =========================
      * COMING SOON MODE
      * ========================= */
@@ -1272,95 +1265,442 @@ class TH_Store_One_Pre_Order
                 'border_color'
             ] ?? '#e5e7eb';
 
+        $price_type =
+            $settings[
+                'price_type'
+            ] ?? 'product_price';
+
+        $product_price =
+            (float)
+            $product->get_regular_price();
+
+        if (! $product_price) {
+
+            $product_price =
+                (float)
+                $product->get_price();
+        }
+
+        $new_price =
+            $this->calculate_preorder_price(
+                $product_price,
+                $settings
+            );
+
         ?>
 
-		<div
-			class="th-preorder-box"
-			style="
-				background:
-					<?php echo esc_attr($bg); ?>;
-				color:
-					<?php echo esc_attr($text); ?>;
-				border:1px solid
-					<?php echo esc_attr($border); ?>;
-			"
-		>
+	<div
+		class="th-preorder-box"
+		style="
+			background:
+				<?php echo esc_attr($bg); ?>;
+			color:
+				<?php echo esc_attr($text); ?>;
+			border:1px solid
+				<?php echo esc_attr($border); ?>;
+		"
+	>
 
-			<?php if (! empty($message)) : ?>
+		<?php if (! empty($message)) : ?>
 
-				<div class="th-preorder-message">
+			<div class="th-preorder-message">
 
-					<?php
-                    echo wp_kses_post(
-                        $message
-                    );
-			    ?>
+				<?php
+                            echo wp_kses_post(
+                                $message
+                            );
+		    ?>
 
-				</div>
+			</div>
 
-			<?php endif; ?>
+		<?php endif; ?>
 
-			<?php if (
-			    'manual'
-			    === $date_mode
-			) : ?>
+		<?php if (
+		    'calendar'
+		    === $date_mode
+		    &&
+		    ! empty($date)
+		) : ?>
 
-				<div class="th-preorder-badge">
+			<div class="th-preorder-date">
+
+				<strong>
 
 					<?php esc_html_e(
-					    'Pre-Order Available',
+					    'Available On:',
 					    'th-store-one'
 					); ?>
 
-				</div>
+				</strong>
 
-			<?php endif; ?>
+				<span>
 
-			<?php if (
-			    'calendar'
-			    === $date_mode
-			    &&
-			    ! empty($date)
-			) : ?>
+					<?php
+					echo esc_html(
+					    date_i18n(
+					        get_option(
+					            'date_format'
+					        ) .
+					        ' ' .
+					        get_option(
+					            'time_format'
+					        ),
+					        strtotime(
+					            $date
+					        )
+					    )
+					);
+		    ?>
 
-				<div class="th-preorder-date">
+				</span>
 
-					<strong>
+			</div>
 
-						<?php esc_html_e(
-						    'Available On:',
-						    'th-store-one'
-						); ?>
+		<?php endif; ?>
 
-					</strong>
+		<?php if (
+		    'product_price'
+		    !== $price_type
+		) : ?>
 
-					<span>
+			<!-- <div class="th-preorder-price-wrap">
+
+				<span class="th-preorder-price-label">
+
+					<?php esc_html_e(
+					    'Pre-order Price',
+					    'th-store-one'
+					); ?>
+
+				</span>
+
+				<div class="th-preorder-price">
+
+					<?php if (
+					    $new_price < $product_price
+					) : ?>
+
+						<del>
+
+							<?php
+					        echo wc_price(
+					            $product_price
+					        );
+					    ?>
+
+						</del>
+
+					<?php endif; ?>
+
+					<ins>
 
 						<?php
-						echo esc_html(
-						    date_i18n(
-						        get_option(
-						            'date_format'
-						        ) .
-						        ' ' .
-						        get_option(
-						            'time_format'
-						        ),
-						        strtotime(
-						            $date
-						        )
-						    )
-						);
-			    ?>
+					    echo wc_price(
+					        $new_price
+					    );
+		    ?>
 
-					</span>
+					</ins>
 
 				</div>
 
-			<?php endif; ?>
+			</div> -->
 
-		</div>
+		<?php endif; ?>
 
-		<?php
+	</div>
+
+	<?php
     }
+
+    /**
+ * Calculate Preorder Price
+ */
+    private function calculate_preorder_price(
+        $price,
+        $settings
+    ) {
+
+        $price_type =
+            $settings['price_type']
+            ?? 'product_price';
+
+        $value = floatval(
+            $settings['price_value']
+            ?? 0
+        );
+
+        $new_price = $price;
+
+        switch ($price_type) {
+
+            case 'fixed_price':
+
+                $new_price = $value;
+
+                break;
+
+            case 'discount_percentage':
+
+                $new_price =
+                    $price -
+                    (
+                        (
+                            $price * $value
+                        ) / 100
+                    );
+
+                break;
+
+            case 'discount_fixed':
+
+                $new_price =
+                    $price - $value;
+
+                break;
+
+            case 'increase_percentage':
+
+                $new_price =
+                    $price +
+                    (
+                        (
+                            $price * $value
+                        ) / 100
+                    );
+
+                break;
+
+            case 'increase_fixed':
+
+                $new_price =
+                    $price + $value;
+
+                break;
+        }
+
+        return max(
+            0,
+            $new_price
+        );
+    }
+    /**
+     * Product Price HTML
+     */
+    public function price_html(
+        $price_html,
+        $product
+    ) {
+
+        global $wp_query;
+
+        if (
+            ! $product instanceof WC_Product
+        ) {
+            return $price_html;
+        }
+
+        foreach (
+            $this->rules as $rule
+        ) {
+
+            if (
+                ! $this->match_rule(
+                    $rule,
+                    $product->get_id()
+                )
+            ) {
+                continue;
+            }
+
+            $settings =
+                $this->get_settings(
+                    $product->get_id(),
+                    $rule
+                );
+
+            $original_price =
+                (float)
+                $product->get_regular_price();
+
+            if (! $original_price) {
+
+                $original_price =
+                    (float)
+                    $product->get_price();
+            }
+
+            $new_price =
+                $this->calculate_preorder_price(
+                    $original_price,
+                    $settings
+                );
+
+            if (
+                $new_price == $original_price
+            ) {
+
+                return wc_price(
+                    $original_price
+                );
+            }
+
+            $is_main_single_price =
+    is_product()
+    &&
+    isset($wp_query->queried_object_id)
+    &&
+    $wp_query->queried_object_id
+    === $product->get_id();
+
+            if (
+                $is_main_single_price
+            ) {
+
+                return sprintf(
+                    '
+        <span class="price th-preorder-price-html">
+
+            <del>%s</del>
+
+            <ins>%s</ins>
+
+            %s
+
+        </span>
+        ',
+                    wc_price($original_price),
+                    wc_price($new_price),
+                    $this->render_top_badge(
+                        $settings
+                    )
+                );
+            }
+
+            return sprintf(
+                '
+    <span class="price th-preorder-price-html">
+
+        <del>%s</del>
+
+        <ins>%s</ins>
+
+    </span>
+    ',
+                wc_price($original_price),
+                wc_price($new_price)
+            );
+        }
+
+        return $price_html;
+    }
+    /**
+     * Cart Price HTML
+     */
+    public function cart_price_html(
+        $price_html,
+        $cart_item,
+        $cart_item_key
+    ) {
+
+        if (
+            empty(
+                $cart_item['th_preorder']
+            )
+        ) {
+            return $price_html;
+        }
+
+        $preorder =
+            $cart_item['th_preorder'];
+
+        $original =
+            (float)
+            $preorder['original_price'];
+
+        $new =
+            (float)
+            $preorder['preorder_price'];
+
+        if (
+            $original === $new
+        ) {
+
+            return wc_price($new);
+        }
+
+        return sprintf(
+            '<span class="th-preorder-cart-price">
+            <del>%s</del>
+            <ins>%s</ins>
+        </span>',
+            wc_price($original),
+            wc_price($new)
+        );
+    }
+    /**
+ * Cart Subtotal
+ */
+    public function cart_subtotal_html(
+        $subtotal,
+        $cart_item,
+        $cart_item_key
+    ) {
+
+        if (
+            empty(
+                $cart_item['th_preorder']
+            )
+        ) {
+            return $subtotal;
+        }
+
+        $preorder =
+            $cart_item['th_preorder'];
+
+        $new =
+            (float)
+            $preorder['preorder_price'];
+
+        return wc_price(
+            $new *
+            $cart_item['quantity']
+        );
+    }
+
+    private function render_top_badge(
+        $settings
+    ) {
+
+        $mode =
+    $settings['preorder_mode']
+    ?? 'preorder';
+
+        $badge =
+            'coming_soon' === $mode
+            ? (
+                $settings['badges_coming_text']
+                ?? __(
+                    'Coming Soon',
+                    'th-store-one'
+                )
+            )
+            : (
+                $settings['badges_text']
+                ?? __(
+                    'Pre Order',
+                    'th-store-one'
+                )
+            );
+
+        return sprintf(
+            '
+        <span class="th-preorder-inline-badge">
+            %s
+        </span>
+        ',
+            esc_html($badge)
+        );
+    }
+
 }
