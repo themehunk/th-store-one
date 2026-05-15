@@ -31,6 +31,7 @@ import UniversalRangeControl from "@th-storeone-global/UniversalRangeControl";
 
 import SliderControl from "@th-storeone-global/SliderControl";
 import UniversalBorderControl from "@th-storeone-control/UniversalBorderControl";
+import UniversalDimensionControl from "@th-storeone-control/UniversalDimensionControl";
 
 /* ---------------- DEFAULT RULE ---------------- */
 const newSmartOfferRule = () => ({
@@ -114,7 +115,7 @@ const newSmartOfferRule = () => ({
   badge_bg: "linear-gradient(135deg, #22c55e, #16a34a);",
   badge_color: "#ffffff",
 
-  progress_bg: "#e5e7eb",
+  progress_bg: "#e5e7eb4d",
   progress_fill: "#22c55e",
 
   message_color: "#6b7280",
@@ -123,6 +124,14 @@ const newSmartOfferRule = () => ({
   card_radius: 16,
   card_padding: 18,
   image_radius: 12,
+  layout_style: "detailed",
+  highlight_color: "#22c55e",
+  padding: {
+    top: "14px",
+    right: "14px",
+    bottom: "14px",
+    left: "14px",
+  },
 });
 
 /* ---------------- SORTABLE ---------------- */
@@ -312,7 +321,7 @@ export default function SmartOffersRules({ rules, onChange }) {
                         <S1FieldGroup title="Reward">
                           <S1Field
                             label="Reward Type"
-                            description="Choose whether the customer receives a free product or a discount"
+                            description="Choose the type of reward customers will receive after qualifying for the offer"
                           >
                             <SelectControl
                               value={rule.reward_type}
@@ -366,7 +375,13 @@ export default function SmartOffersRules({ rules, onChange }) {
                             <>
                               <S1Field
                                 label="Discount Value"
-                                description="Enter discount amount. Use percentage or fixed value based on selected type"
+                                description={
+                                  rule.reward_type === "discount_percent"
+                                    ? "Enter the discount percentage customers will receive (example: 10 = 10% OFF)"
+                                    : rule.reward_type === "discount_fixed"
+                                    ? "Enter the fixed discount amount applied to each rewarded product"
+                                    : "Enter the fixed cart discount amount applied to the entire cart total"
+                                }
                               >
                                 <TextControl
                                   type="number"
@@ -383,7 +398,13 @@ export default function SmartOffersRules({ rules, onChange }) {
 
                               <S1Field
                                 label="Apply Discount On"
-                                description="Select which product should receive the discount"
+                                description={
+                                  rule.reward_type === "discount_percent"
+                                    ? "Choose which product should receive the percentage (%) discount"
+                                    : rule.reward_type === "discount_fixed"
+                                    ? "Choose which product should receive the fixed amount discount"
+                                    : "Choose how the fixed cart discount should be triggered"
+                                }
                               >
                                 <SelectControl
                                   value={rule.apply_on}
@@ -633,6 +654,30 @@ export default function SmartOffersRules({ rules, onChange }) {
                       <div className="store-one-rule-body">
                         {/* CARD */}
 
+                        {/* <S1FieldGroup title="Layout Style">
+                          <S1Field
+                            label="Offer Layout"
+                            description="Choose how the offer box should appear on the product page"
+                          >
+                            <SelectControl
+                              value={rule.layout_style || "detailed"}
+                              options={[
+                                {
+                                  label: "Detailed Layout",
+                                  value: "detailed",
+                                },
+                                {
+                                  label: "Minimal Layout",
+                                  value: "minimal",
+                                },
+                              ]}
+                              onChange={(v) =>
+                                updateField(index, "layout_style", v)
+                              }
+                            />
+                          </S1Field>
+                        </S1FieldGroup> */}
+
                         <S1FieldGroup title="Card">
                           <S1Field>
                             <THBackgroundControl
@@ -642,7 +687,6 @@ export default function SmartOffersRules({ rules, onChange }) {
                               onChange={(v) => {
                                 const updatedRule = { ...rule, card_bg: v };
                                 updateField(index, "card_bg", v);
-                                onLivePreview?.(updatedRule, index);
                               }}
                             />
                           </S1Field>
@@ -668,10 +712,15 @@ export default function SmartOffersRules({ rules, onChange }) {
                                   card_active_bg: v,
                                 };
                                 updateField(index, "card_active_bg", v);
-                                onLivePreview?.(updatedRule, index);
                               }}
                             />
                           </S1Field>
+                          <UniversalDimensionControl
+                            label="Padding"
+                            value={rule.padding}
+                            responsive={false}
+                            onChange={(v) => updateField(index, "padding", v)}
+                          />
                         </S1FieldGroup>
 
                         {/* TEXT */}
@@ -688,7 +737,6 @@ export default function SmartOffersRules({ rules, onChange }) {
                                   heading_color: v,
                                 };
                                 updateField(index, "heading_color", v);
-                                onLivePreview?.(updatedRule, index);
                               }}
                             />
                           </S1Field>
@@ -701,7 +749,6 @@ export default function SmartOffersRules({ rules, onChange }) {
                               onChange={(v) => {
                                 const updatedRule = { ...rule, text_color: v };
                                 updateField(index, "text_color", v);
-                                onLivePreview?.(updatedRule, index);
                               }}
                             />
                           </S1Field>
@@ -713,7 +760,20 @@ export default function SmartOffersRules({ rules, onChange }) {
                               onChange={(v) => {
                                 const updatedRule = { ...rule, price_color: v };
                                 updateField(index, "price_color", v);
-                                onLivePreview?.(updatedRule, index);
+                              }}
+                            />
+                          </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              allowGradient={true}
+                              label={__("Hightlight Color", "th-store-one")}
+                              value={rule.highlight_color}
+                              onChange={(v) => {
+                                const updatedRule = {
+                                  ...rule,
+                                  highlight_color: v,
+                                };
+                                updateField(index, "highlight_color", v);
                               }}
                             />
                           </S1Field>
@@ -730,7 +790,6 @@ export default function SmartOffersRules({ rules, onChange }) {
                               onChange={(v) => {
                                 const updatedRule = { ...rule, badge_bg: v };
                                 updateField(index, "badge_bg", v);
-                                onLivePreview?.(updatedRule, index);
                               }}
                             />
                           </S1Field>
@@ -743,7 +802,6 @@ export default function SmartOffersRules({ rules, onChange }) {
                               onChange={(v) => {
                                 const updatedRule = { ...rule, badge_color: v };
                                 updateField(index, "badge_color", v);
-                                onLivePreview?.(updatedRule, index);
                               }}
                             />
                           </S1Field>
@@ -763,7 +821,6 @@ export default function SmartOffersRules({ rules, onChange }) {
                                   progress_fill: v,
                                 };
                                 updateField(index, "progress_fill", v);
-                                onLivePreview?.(updatedRule, index);
                               }}
                             />
                           </S1Field>
@@ -783,7 +840,6 @@ export default function SmartOffersRules({ rules, onChange }) {
                                   message_color: v,
                                 };
                                 updateField(index, "message_color", v);
-                                onLivePreview?.(updatedRule, index);
                               }}
                             />
                           </S1Field>
@@ -799,7 +855,6 @@ export default function SmartOffersRules({ rules, onChange }) {
                                   success_color: v,
                                 };
                                 updateField(index, "success_color", v);
-                                onLivePreview?.(updatedRule, index);
                               }}
                             />
                           </S1Field>

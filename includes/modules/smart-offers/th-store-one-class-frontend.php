@@ -399,7 +399,7 @@ class Th_Store_One_Smart_Offers
             $product = $item['data'];
 
             $product->set_price(
-                $product->get_regular_price()
+                $product->get_price()
             );
         }
 
@@ -727,8 +727,8 @@ class Th_Store_One_Smart_Offers
     }
 
     /* =====================================================
-       DISCOUNT
-    ===================================================== */
+   DISCOUNT
+===================================================== */
 
     private function apply_discount(
         $cart,
@@ -748,6 +748,11 @@ class Th_Store_One_Smart_Offers
         $apply_on =
             $rule['apply_on']
             ?? 'same_product';
+
+        $get_qty = max(
+            1,
+            intval($rule['y_qty'] ?? 1)
+        );
 
         /* =====================================================
            TARGET PRODUCTS
@@ -853,8 +858,13 @@ class Th_Store_One_Smart_Offers
             $discount = $discount_value * $times;
 
             $label = !empty($rule['offer_heading'])
-    ? wp_strip_all_tags($rule['offer_heading'])
-    : __('Smart Offer Discount', 'th-store-one');
+                ? wp_strip_all_tags(
+                    $rule['offer_heading']
+                )
+                : __(
+                    'Smart Offer Discount',
+                    'th-store-one'
+                );
 
             $label = str_replace(
                 ['{x}', '{y}', '{discount}'],
@@ -875,8 +885,15 @@ class Th_Store_One_Smart_Offers
         }
 
         /* =====================================================
-           APPLY DISCOUNT
+           PRODUCT DISCOUNT
         ===================================================== */
+
+        $total_discount_qty =
+            $times * $get_qty;
+
+        $discounted_qty = 0;
+
+        $total_discount_amount = 0;
 
         foreach (
             $cart->get_cart() as $item
@@ -924,52 +941,84 @@ class Th_Store_One_Smart_Offers
             $product = $item['data'];
 
             $price = floatval(
-                $product->get_sale_price()
-        ? $product->get_sale_price()
-        : $product->get_regular_price()
+                $product->get_price()
             );
 
-            if (!$price) {
+            $qty = intval(
+                $item['quantity']
+            );
 
-                $price = floatval(
-                    $product->get_price()
-                );
+            for ($i = 0; $i < $qty; $i++) {
+
+                if (
+                    $discounted_qty
+                    >=
+                    $total_discount_qty
+                ) {
+
+                    break 2;
+                }
+
+                /* =====================================================
+                   PERCENT
+                ===================================================== */
+
+                if (
+                    $reward_type
+                    === 'discount_percent'
+                ) {
+
+                    $total_discount_amount += (
+                        ($price * $discount_value)
+                        / 100
+                    );
+                }
+
+                /* =====================================================
+                   FIXED PRODUCT
+                ===================================================== */
+
+                if (
+                    $reward_type
+                    === 'discount_fixed'
+                ) {
+
+                    $total_discount_amount +=
+                        $discount_value;
+                }
+
+                $discounted_qty++;
             }
+        }
 
-            $new_price = $price;
+        /* =====================================================
+           APPLY NEGATIVE FEE
+        ===================================================== */
 
-            /* =====================================================
-               PERCENT
-            ===================================================== */
+        if ($total_discount_amount > 0) {
 
-            if (
-                $reward_type
-                === 'discount_percent'
-            ) {
-
-                $new_price = $price - (
-                    ($price * $discount_value)
-                    / 100
+            $label = !empty($rule['offer_heading'])
+                ? wp_strip_all_tags(
+                    $rule['offer_heading']
+                )
+                : __(
+                    'Smart Offer Discount',
+                    'th-store-one'
                 );
-            }
 
-            /* =====================================================
-               FIXED PRODUCT
-            ===================================================== */
+            $label = str_replace(
+                ['{x}', '{y}', '{discount}'],
+                [
+                    intval($rule['x_qty'] ?? 1),
+                    intval($rule['y_qty'] ?? 1),
+                    wc_price($discount_value)
+                ],
+                $label
+            );
 
-            if (
-                $reward_type
-                === 'discount_fixed'
-            ) {
-
-                $new_price = max(
-                    0,
-                    $price - $discount_value
-                );
-            }
-
-            $product->set_price(
-                $new_price
+            $cart->add_fee(
+                $label,
+                -$total_discount_amount
             );
         }
     }

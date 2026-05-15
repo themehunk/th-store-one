@@ -20,7 +20,7 @@ if (! defined('ABSPATH')) {
     exit;
 }
 // ------------------ Constants ------------------.
-define('TH_STORE_ONE_VERSION', '1.0.42');
+define('TH_STORE_ONE_VERSION', '1.0.53');
 define('TH_STORE_ONE_PLUGIN_FILE', __FILE__);
 define('TH_STORE_ONE_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('TH_STORE_ONE_PLUGIN_URL', plugin_dir_url(__FILE__));
@@ -63,6 +63,8 @@ add_action(
         require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/sale-countdown/th-store-one-class-frontend.php';
         require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/recent-view/th-store-one-class-frontend.php';
         require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/smart-offers/th-store-one-class-frontend.php';
+        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/people-view/th-store-one-class-frontend.php';
+        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/pre-order/th-store-one-class-frontend.php';
 
         if (class_exists('Th_Store_One_Buy_To_List_Frontend')) {
             new Th_Store_One_Buy_To_List_Frontend();
@@ -102,6 +104,12 @@ add_action(
         }
         if (class_exists('Th_Store_One_Smart_Offers')) {
             new Th_Store_One_Smart_Offers();
+        }
+        if (class_exists('Th_Store_One_People_View_Frontend')) {
+            new Th_Store_One_People_View_Frontend();
+        }
+        if (class_exists('TH_Store_One_Pre_Order')) {
+            new TH_Store_One_Pre_Order();
         }
     }
 );

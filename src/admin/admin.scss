@@ -2056,9 +2056,9 @@ INPUT
 }
 
 /* Active icon white */
-.s1-icon-option.active svg {
-  fill: #fff;
-}
+// .s1-icon-option.active svg {
+//   fill: #fff;
+// }
 
 /* Optional: smooth press effect */
 .s1-icon-option:active {
@@ -3141,4 +3141,81 @@ transform:translateX(-50%);
 /* ===== CLICK EFFECT ===== */
 .s1-main-tab:active {
     transform: scale(0.97);
+}
+
+// people view
+/* =========================
+   ICON TOOLTIP
+========================= */
+
+.s1-view .s1-icon-option {
+  position: relative;
+  cursor: pointer;
+}
+
+/* Tooltip */
+.s1-view .s1-icon-option::after {
+  content: attr(data-tooltip);
+
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(6px);
+
+  background: #111827;
+  color: #fff;
+
+  padding: 6px 10px;
+
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+
+  border-radius: 8px;
+
+  white-space: nowrap;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: all 0.18s ease;
+
+  pointer-events: none;
+
+  z-index: 999;
+}
+
+/* Arrow */
+.s1-view .s1-icon-option::before {
+  content: "";
+
+  position: absolute;
+
+  bottom: calc(100% + 4px);
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  border-width: 6px;
+  border-style: solid;
+
+  border-color: #111827 transparent transparent transparent;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transition: all 0.18s ease;
+
+  pointer-events: none;
+
+  z-index: 999;
+}
+
+/* Hover */
+.s1-view .s1-icon-option:hover::after,
+.s1-view .s1-icon-option:hover::before {
+  opacity: 1;
+  visibility: visible;
+
+  transform: translateX(-50%) translateY(0);
 }

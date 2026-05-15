@@ -46,10 +46,10 @@
     margin-bottom:4px
 }
 
-#th_store_one_media select,
+/* #th_store_one_media select,
 #th_store_one_media input{
     width:100%
-}
+} */
 
 #th_store_one_media .th-item-inner{
     display:grid;

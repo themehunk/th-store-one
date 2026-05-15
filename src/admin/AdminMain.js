@@ -35,13 +35,15 @@ const AdminMain = () => {
     "trust-badges": false,
     "sale-notification": false,
     "sticky-cart": false,
-    "buynow-button":false,
+    "buynow-button": false,
     "inactive-tab": false,
     "stock-scarcity": false,
     "product-video": false,
     "sale-countdown": false,
     "recent-view": false,
     "smart-offers": false,
+    "people-view": false,
+    "pre-order": false,
   });
   const tabs = [
     {
@@ -241,11 +243,11 @@ const AdminMain = () => {
   //*********************/
   useEffect(() => {
     if (!th_StoreOneAdmin.proActive) {
-    setProActive(false);
-    setLicenseActive(false);
-    setLicenseLoading(false);
-    return;
-  }
+      setProActive(false);
+      setLicenseActive(false);
+      setLicenseLoading(false);
+      return;
+    }
     apiFetch({ path: `${th_StoreOneAdmin.restUrl}pro-status` })
       .then((res) => {
         if (res?.pro_active) {
@@ -356,9 +358,9 @@ const AdminMain = () => {
               <div className="s1-settings-layout">
                 <ModuleSettings
                   onLivePreview={(rule) =>
-                    setLivePreviewSettings(prev => ({
+                    setLivePreviewSettings((prev) => ({
                       ...prev,
-                      [currentModule.id]: rule
+                      [currentModule.id]: rule,
                     }))
                   }
                   currentModule={currentModule}
@@ -408,7 +410,6 @@ const AdminMain = () => {
                       }
                     />
                   )}
-
                   {currentModule?.id === "bundle-product" && (
                     <PreviewPane
                       currentModule={currentModule}
@@ -419,7 +420,6 @@ const AdminMain = () => {
                       }
                     />
                   )}
-
                   {currentModule?.id === "buy-to-list" && (
                     <PreviewPane
                       currentModule={currentModule}
@@ -500,7 +500,6 @@ const AdminMain = () => {
                       }
                     />
                   )}
-                  
                   {currentModule?.id === "inactive-tab" && (
                     <PreviewPane
                       currentModule={currentModule}
@@ -511,7 +510,6 @@ const AdminMain = () => {
                       }
                     />
                   )}
-
                   {currentModule?.id === "stock-scarcity" && (
                     <PreviewPane
                       currentModule={currentModule}
@@ -522,7 +520,6 @@ const AdminMain = () => {
                       }
                     />
                   )}
-
                   {currentModule?.id === "sale-countdown" && (
                     <PreviewPane
                       currentModule={currentModule}
@@ -553,8 +550,26 @@ const AdminMain = () => {
                       }
                     />
                   )}
-
-
+                  {currentModule?.id === "people-view" && (
+                    <PreviewPane
+                      currentModule={currentModule}
+                      settings={
+                        livePreviewSettings[currentModule.id] ||
+                        moduleSettings[currentModule.id]?.rules?.[0] ||
+                        moduleSettings[currentModule.id]
+                      }
+                    />
+                  )}
+                  {currentModule?.id === "pre-order" && (
+                    <PreviewPane
+                      currentModule={currentModule}
+                      settings={
+                        livePreviewSettings[currentModule.id] ||
+                        moduleSettings[currentModule.id]?.rules?.[0] ||
+                        moduleSettings[currentModule.id]
+                      }
+                    />
+                  )}
                 </div>
               </div>
             </div>

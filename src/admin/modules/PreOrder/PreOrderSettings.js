@@ -2,9 +2,9 @@ import { useState, useEffect } from "@wordpress/element";
 import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import { Spinner } from "@wordpress/components";
-import StockScarcityRule from "./StockScarcityRule";
-const MODULE_ID = "stock-scarcity";
-export default function StockScarcitySettings({
+import PreOrderRules from "./PreOrderRules";
+const MODULE_ID = "pre-order";
+export default function PreOrderSettings({
   onSettingsChange,
   onLivePreview,
   onRegisterSave,
@@ -99,7 +99,7 @@ export default function StockScarcitySettings({
             </div>
           )}
           {/* RULES EDITOR */}
-          <StockScarcityRule
+          <PreOrderRules
             rules={rules}
             onChange={setRules}
             onLivePreview={onLivePreview}
