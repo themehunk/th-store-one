@@ -91,11 +91,12 @@ class Th_Store_One_Admin
         }
         $js_path  = 'build/index.js';
         $css_path = 'build/index.css';
+        $css_style_path = 'build/style-index.css';
 
 
         $js_ver  = file_exists(TH_STORE_ONE_PLUGIN_DIR . $js_path) ? filemtime(TH_STORE_ONE_PLUGIN_DIR . $js_path) : TH_STORE_ONE_VERSION;
         $css_ver = file_exists(TH_STORE_ONE_PLUGIN_DIR . $css_path) ? filemtime(TH_STORE_ONE_PLUGIN_DIR . $css_path) : TH_STORE_ONE_VERSION;
-
+        $css_path_style_var = file_exists(TH_STORE_ONE_PLUGIN_DIR . $css_style_path) ? filemtime(TH_STORE_ONE_PLUGIN_DIR . $css_style_path) : TH_STORE_ONE_VERSION;
 
         wp_register_script(
             'th-store-one-admin',
@@ -112,12 +113,12 @@ class Th_Store_One_Admin
             $css_ver
         );
 
-        // wp_register_style(
-        //     'th-store-one-admin-style',
-        //     TH_STORE_ONE_PLUGIN_URL . $css_path_style,
-        //     array( 'wp-components' ),
-        //     $css_path_style_var
-        // );
+        wp_register_style(
+            'th-store-one-admin-style',
+            TH_STORE_ONE_PLUGIN_URL . $css_style_path,
+            array( 'wp-components' ),
+            $css_path_style_var
+        );
 
         if (! function_exists('is_plugin_active')) {
             require_once ABSPATH . 'wp-admin/includes/plugin.php';

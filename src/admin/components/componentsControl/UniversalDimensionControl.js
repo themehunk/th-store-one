@@ -144,82 +144,64 @@
  */
 
 import {
-    __experimentalBoxControl as BoxControl,
-    BaseControl
+  __experimentalBoxControl as BoxControl,
+  BaseControl,
 } from "@wordpress/components";
 
 import DeviceControl from "@th-storeone-global/DeviceControl";
 import useDeviceStore from "@th-storeone/store/device-store";
 
 export default function UniversalDimensionControl({
+  label = "Dimension",
+  description = "",
+  value = {},
+  onChange,
 
-    label = "Dimension",
-    description = "",
-    value = {},
-    onChange,
+  responsive = false,
+  sides = ["top", "right", "bottom", "left"],
+}) {
+  const device = useDeviceStore((s) => s.device);
 
-    responsive = false,
-    sides = ["top","right","bottom","left"]
+  const current = responsive ? value?.[device] ?? {} : value ?? {};
 
-}){
+  /**
+   * Filter sides for UI
+   */
+  const filteredValues = {};
 
-    const device = useDeviceStore((s)=>s.device);
+  sides.forEach((side) => {
+    filteredValues[side] = current?.[side] ?? "";
+  });
 
-    const current = responsive
-        ? (value?.[device] ?? {})
-        : (value ?? {});
-
-    /**
-     * Filter sides for UI
-     */
-    const filteredValues = {};
-
-    sides.forEach((side)=>{
-        filteredValues[side] = current?.[side] ?? "";
-    });
-
-    /**
-     * Handle update
-     */
-    const update = (newValues)=>{
-
-        const merged = {
-            ...current,
-            ...newValues
-        };
-
-        if(responsive){
-
-            onChange({
-                ...value,
-                [device]: merged
-            });
-
-        }else{
-
-            onChange(merged);
-
-        }
-
+  /**
+   * Handle update
+   */
+  const update = (newValues) => {
+    const merged = {
+      ...current,
+      ...newValues,
     };
 
-    return (
+    if (responsive) {
+      onChange({
+        ...value,
+        [device]: merged,
+      });
+    } else {
+      onChange(merged);
+    }
+  };
 
-        <BaseControl
-            label={responsive ? `${label} (${device})` : label}
-            help={description}
-        >
+  return (
+    <div className="s1-field-wrapper">
+      <BaseControl
+        label={responsive ? `${label} (${device})` : label}
+        help={description}
+      >
+        {responsive && <DeviceControl />}
 
-            {responsive && <DeviceControl />}
-
-            <BoxControl
-            label={false}
-                values={filteredValues}
-                onChange={update}
-            />
-
-        </BaseControl>
-
-    );
-
+        <BoxControl label={false} values={filteredValues} onChange={update} />
+      </BaseControl>
+    </div>
+  );
 }

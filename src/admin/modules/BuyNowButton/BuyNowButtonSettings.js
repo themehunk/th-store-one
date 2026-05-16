@@ -103,7 +103,7 @@ const DEFAULT_SETTINGS = {
 export default function BuyNowButtonSettings({
   onSettingsChange,
   onRegisterSave,
-    onModuleReady,
+  onModuleReady,
 }) {
   const [loading, setLoading] = useState(true);
 
@@ -840,8 +840,9 @@ export default function BuyNowButtonSettings({
                   id: "style",
                   label: "Style",
                   icon: ICONS.DESIGN,
-                  content: (<>
-                  <S1Field label={__("Button Style", "th-store-one")}>
+                  content: (
+                    <>
+                      <S1Field label={__("Button Style", "th-store-one")}>
                         <SelectControl
                           value={settings.btn_style}
                           options={[
@@ -853,13 +854,9 @@ export default function BuyNowButtonSettings({
                               value: "default_btn_style",
                             },
                             {
-                              label: __(
-                                "Custom Style",
-                                "th-store-one",
-                              ),
+                              label: __("Custom Style", "th-store-one"),
                               value: "custom_btn_style",
                             },
-                            
                           ]}
                           onChange={(v) =>
                             setSettings({
@@ -870,59 +867,57 @@ export default function BuyNowButtonSettings({
                         />
                       </S1Field>
 
-{settings.btn_style === "custom_btn_style" && (
-  <>
-                      <S1Field>
-                          <THBackgroundControl
-                            allowGradient={true}
-                            label={__("Background", "th-store-one")}
-                            value={settings.btn_bg_clr || "#111"}
+                      {settings.btn_style === "custom_btn_style" && (
+                        <>
+                          <S1Field>
+                            <THBackgroundControl
+                              allowGradient={true}
+                              label={__("Background", "th-store-one")}
+                              value={settings.btn_bg_clr || "#111"}
+                              onChange={(v) =>
+                                setSettings({
+                                  ...settings,
+                                  btn_bg_clr: v,
+                                })
+                              }
+                            />
+                          </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              allowGradient={true}
+                              label={__("Text Color", "th-store-one")}
+                              value={settings.btn_text_clr || "#fff"}
+                              onChange={(v) =>
+                                setSettings({
+                                  ...settings,
+                                  btn_text_clr: v,
+                                })
+                              }
+                            />
+                          </S1Field>
+                          <UniversalDimensionControl
+                            label="Padding"
+                            value={settings.btn_padding}
+                            responsive={false}
                             onChange={(v) =>
-                            setSettings({
-                              ...settings,
-                              btn_bg_clr: v,
-                            })
-                          }
+                              setSettings({
+                                ...settings,
+                                btn_padding: v,
+                              })
+                            }
                           />
-                        </S1Field>
-                        <S1Field>
-                          <THBackgroundControl
-                            allowGradient={true}
-                            label={__("Text Color", "th-store-one")}
-                            value={settings.btn_text_clr || "#fff"}
+                          <UniversalBorderControl
+                            value={settings.btn_border}
                             onChange={(v) =>
-                            setSettings({
-                              ...settings,
-                              btn_text_clr: v,
-                            })
-                          }
+                              setSettings({
+                                ...settings,
+                                btn_border: v,
+                              })
+                            }
                           />
-                        </S1Field>
-                        <UniversalDimensionControl
-                          label="Padding"
-                          value={settings.btn_padding}
-                          responsive={false}
-                          onChange={(v) =>
-                            setSettings({
-                              ...settings,
-                              btn_padding: v,
-                            })
-                          }
-                        />
-                        <UniversalBorderControl
-                          value={settings.btn_border}
-                          onChange={(v) =>
-                            setSettings({
-                              ...settings,
-                              btn_border: v,
-                            })
-                          }
-                        />
-                          
-                       
-  </>
-)}
-                  </>
+                        </>
+                      )}
+                    </>
                   ),
                 },
               ]}

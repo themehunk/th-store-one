@@ -22,10 +22,6 @@ module.exports = {
 
     filename: "[name].js",
 
-    chunkFilename: "[name].chunk.js",
-
-    publicPath: "auto",
-
     clean: true,
   },
 
@@ -70,12 +66,6 @@ module.exports = {
         "src/admin/components/PreviewPane",
       ),
     },
-  },
-
-  optimization: {
-    ...defaultConfig.optimization,
-
-    splitChunks: false,
   },
 
   performance: {
