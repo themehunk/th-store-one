@@ -1467,7 +1467,9 @@ const applyAdvanceBadgeDefaults = (rule, type) => {
         <ResetModuleButton
           moduleId="trust-badges"
           onReset={() => {
-            updateAll([newBadgesTRule()]);
+            const resetRules = [newBadgesTRule()];
+            updateAll(resetRules);
+            return { rules: resetRules };
           }}
         />
       </div>

@@ -163,9 +163,15 @@ export const ICONS = {
     </svg>
   ),
   SNAPCHAT: (
-    <svg  width="16" height="16" fill="currentColor" class="bi bi-snapchat" viewBox="0 0 16 16">
-  <path d="M15.943 11.526c-.111-.303-.323-.465-.564-.599a1 1 0 0 0-.123-.064l-.219-.111c-.752-.399-1.339-.902-1.746-1.498a3.4 3.4 0 0 1-.3-.531c-.034-.1-.032-.156-.008-.207a.3.3 0 0 1 .097-.1c.129-.086.262-.173.352-.231.162-.104.289-.187.371-.245.309-.216.525-.446.66-.702a1.4 1.4 0 0 0 .069-1.16c-.205-.538-.713-.872-1.329-.872a1.8 1.8 0 0 0-.487.065c.006-.368-.002-.757-.035-1.139-.116-1.344-.587-2.048-1.077-2.61a4.3 4.3 0 0 0-1.095-.881C9.764.216 8.92 0 7.999 0s-1.76.216-2.505.641c-.412.232-.782.53-1.097.883-.49.562-.96 1.267-1.077 2.61-.033.382-.04.772-.036 1.138a1.8 1.8 0 0 0-.487-.065c-.615 0-1.124.335-1.328.873a1.4 1.4 0 0 0 .067 1.161c.136.256.352.486.66.701.082.058.21.14.371.246l.339.221a.4.4 0 0 1 .109.11c.026.053.027.11-.012.217a3.4 3.4 0 0 1-.295.52c-.398.583-.968 1.077-1.696 1.472-.385.204-.786.34-.955.8-.128.348-.044.743.28 1.075q.18.189.409.31a4.4 4.4 0 0 0 1 .4.7.7 0 0 1 .202.09c.118.104.102.26.259.488q.12.178.296.3c.33.229.701.243 1.095.258.355.014.758.03 1.217.18.19.064.389.186.618.328.55.338 1.305.802 2.566.802 1.262 0 2.02-.466 2.576-.806.227-.14.424-.26.609-.321.46-.152.863-.168 1.218-.181.393-.015.764-.03 1.095-.258a1.14 1.14 0 0 0 .336-.368c.114-.192.11-.327.217-.42a.6.6 0 0 1 .19-.087 4.5 4.5 0 0 0 1.014-.404c.16-.087.306-.2.429-.336l.004-.005c.304-.325.38-.709.256-1.047m-1.121.602c-.684.378-1.139.337-1.493.565-.3.193-.122.61-.34.76-.269.186-1.061-.012-2.085.326-.845.279-1.384 1.082-2.903 1.082s-2.045-.801-2.904-1.084c-1.022-.338-1.816-.14-2.084-.325-.218-.15-.041-.568-.341-.761-.354-.228-.809-.187-1.492-.563-.436-.24-.189-.39-.044-.46 2.478-1.199 2.873-3.05 2.89-3.188.022-.166.045-.297-.138-.466-.177-.164-.962-.65-1.18-.802-.36-.252-.52-.503-.402-.812.082-.214.281-.295.49-.295a1 1 0 0 1 .197.022c.396.086.78.285 1.002.338q.04.01.082.011c.118 0 .16-.06.152-.195-.026-.433-.087-1.277-.019-2.066.094-1.084.444-1.622.859-2.097.2-.229 1.137-1.22 2.93-1.22 1.792 0 2.732.987 2.931 1.215.416.475.766 1.013.859 2.098.068.788.009 1.632-.019 2.065-.01.142.034.195.152.195a.4.4 0 0 0 .082-.01c.222-.054.607-.253 1.002-.338a1 1 0 0 1 .197-.023c.21 0 .409.082.49.295.117.309-.04.56-.401.812-.218.152-1.003.638-1.18.802-.184.169-.16.3-.139.466.018.14.413 1.991 2.89 3.189.147.073.394.222-.041.464"/>
-</svg>
+    <svg
+      width="16"
+      height="16"
+      fill="currentColor"
+      class="bi bi-snapchat"
+      viewBox="0 0 16 16"
+    >
+      <path d="M15.943 11.526c-.111-.303-.323-.465-.564-.599a1 1 0 0 0-.123-.064l-.219-.111c-.752-.399-1.339-.902-1.746-1.498a3.4 3.4 0 0 1-.3-.531c-.034-.1-.032-.156-.008-.207a.3.3 0 0 1 .097-.1c.129-.086.262-.173.352-.231.162-.104.289-.187.371-.245.309-.216.525-.446.66-.702a1.4 1.4 0 0 0 .069-1.16c-.205-.538-.713-.872-1.329-.872a1.8 1.8 0 0 0-.487.065c.006-.368-.002-.757-.035-1.139-.116-1.344-.587-2.048-1.077-2.61a4.3 4.3 0 0 0-1.095-.881C9.764.216 8.92 0 7.999 0s-1.76.216-2.505.641c-.412.232-.782.53-1.097.883-.49.562-.96 1.267-1.077 2.61-.033.382-.04.772-.036 1.138a1.8 1.8 0 0 0-.487-.065c-.615 0-1.124.335-1.328.873a1.4 1.4 0 0 0 .067 1.161c.136.256.352.486.66.701.082.058.21.14.371.246l.339.221a.4.4 0 0 1 .109.11c.026.053.027.11-.012.217a3.4 3.4 0 0 1-.295.52c-.398.583-.968 1.077-1.696 1.472-.385.204-.786.34-.955.8-.128.348-.044.743.28 1.075q.18.189.409.31a4.4 4.4 0 0 0 1 .4.7.7 0 0 1 .202.09c.118.104.102.26.259.488q.12.178.296.3c.33.229.701.243 1.095.258.355.014.758.03 1.217.18.19.064.389.186.618.328.55.338 1.305.802 2.566.802 1.262 0 2.02-.466 2.576-.806.227-.14.424-.26.609-.321.46-.152.863-.168 1.218-.181.393-.015.764-.03 1.095-.258a1.14 1.14 0 0 0 .336-.368c.114-.192.11-.327.217-.42a.6.6 0 0 1 .19-.087 4.5 4.5 0 0 0 1.014-.404c.16-.087.306-.2.429-.336l.004-.005c.304-.325.38-.709.256-1.047m-1.121.602c-.684.378-1.139.337-1.493.565-.3.193-.122.61-.34.76-.269.186-1.061-.012-2.085.326-.845.279-1.384 1.082-2.903 1.082s-2.045-.801-2.904-1.084c-1.022-.338-1.816-.14-2.084-.325-.218-.15-.041-.568-.341-.761-.354-.228-.809-.187-1.492-.563-.436-.24-.189-.39-.044-.46 2.478-1.199 2.873-3.05 2.89-3.188.022-.166.045-.297-.138-.466-.177-.164-.962-.65-1.18-.802-.36-.252-.52-.503-.402-.812.082-.214.281-.295.49-.295a1 1 0 0 1 .197.022c.396.086.78.285 1.002.338q.04.01.082.011c.118 0 .16-.06.152-.195-.026-.433-.087-1.277-.019-2.066.094-1.084.444-1.622.859-2.097.2-.229 1.137-1.22 2.93-1.22 1.792 0 2.732.987 2.931 1.215.416.475.766 1.013.859 2.098.068.788.009 1.632-.019 2.065-.01.142.034.195.152.195a.4.4 0 0 0 .082-.01c.222-.054.607-.253 1.002-.338a1 1 0 0 1 .197-.023c.21 0 .409.082.49.295.117.309-.04.56-.401.812-.218.152-1.003.638-1.18.802-.184.169-.16.3-.139.466.018.14.413 1.991 2.89 3.189.147.073.394.222-.041.464" />
+    </svg>
   ),
 
   TELEGRAM: (
@@ -338,6 +344,517 @@ export const ICONS = {
   CUSTOM: (
     <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
       <path d="M18 16a3 3 0 00-2.24 1.02L8.91 13.7a3.03 3.03 0 000-3.4l6.85-3.32A3 3 0 1014 5a2.98 2.98 0 00.24 1.18L7.39 9.5a3 3 0 100 5l6.85 3.32A3 3 0 0014 19a3 3 0 103-3z" />
+    </svg>
+  ),
+};
+
+export const MODULE_ICONS = {
+  FBT: (
+    <svg
+      class="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>
+      <path
+        d="M14 14.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
+        fill="currentColor"
+        fill-opacity="0.2"
+        stroke="currentColor"
+        stroke-width="1.5"
+      ></path>
+      <circle
+        cx="18"
+        cy="18"
+        r="4"
+        fill="white"
+        stroke="currentColor"
+        stroke-width="2"
+      ></circle>
+      <path
+        d="M18 16v4M16 18h4"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+      ></path>
+    </svg>
+  ),
+
+  BUNDLE: (
+    <svg
+      class="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M21 7.5L12 3L3 7.5V16.5L12 21L21 16.5V7.5Z"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>
+      <path
+        d="M12 21V12"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>
+      <path
+        d="M12 12L21 7.5"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>
+      <path
+        d="M12 12L3 7.5"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>
+      <path
+        d="M7.5 5.25L16.5 9.75"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>
+    </svg>
+  ),
+  BTL: (
+    <svg
+      class="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M8 6H21M8 12H21M8 18H21M3 6H3.01M3 12H3.01M3 18H3.01"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>
+    </svg>
+  ),
+  QS: (
+    <svg
+      class="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M18 2H6C3.79086 2 2 3.79086 2 6V18C2 20.2091 3.79086 22 6 22H18C20.2091 22 22 20.2091 22 18V6C22 3.79086 20.2091 2 18 2Z"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>
+      <path
+        d="M8 12C8 14.2091 9.79086 16 12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12Z"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>
+      <path
+        d="M17.5 6.5H17.51"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path>
+    </svg>
+  ),
+  PBR: (
+    <svg
+      className="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect
+        x="3"
+        y="3"
+        width="18"
+        height="18"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+      <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
+      <path
+        d="M21 16L16 11L5 21"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  TBD: (
+    <svg
+      className="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 3L20 6V11C20 16 16.5 20.5 12 22C7.5 20.5 4 16 4 11V6L12 3Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9 12L11 14L15 10"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
+  PDV: (
+    <svg
+      className="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Screen */}
+      <rect
+        x="3"
+        y="5"
+        width="18"
+        height="14"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+
+      {/* Play Button */}
+      <path d="M10 9L15 12L10 15V9Z" fill="currentColor" />
+    </svg>
+  ),
+  SN: (
+    <svg
+      className="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Bell */}
+      <path
+        d="M12 3C9.79 3 8 4.79 8 7V10C8 11.1 7.1 12 6 12V14H18V12C16.9 12 16 11.1 16 10V7C16 4.79 14.21 3 12 3Z"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+
+      {/* Bell bottom */}
+      <path
+        d="M10 17C10 18.1 10.9 19 12 19C13.1 19 14 18.1 14 17"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+
+      {/* Sale dot */}
+      <circle cx="18" cy="6" r="2" fill="currentColor" />
+    </svg>
+  ),
+  SCT: (
+    <svg
+      className="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Cart */}
+      <path
+        d="M3 3H5L6.5 14H18L20 6H7"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      {/* Wheels */}
+      <circle cx="9" cy="19" r="1.5" fill="currentColor" />
+      <circle cx="17" cy="19" r="1.5" fill="currentColor" />
+
+      {/* Sticky indicator (top bar) */}
+      <rect x="6" y="2" width="12" height="2" rx="1" fill="currentColor" />
+    </svg>
+  ),
+  BNBTN: (
+    <svg
+      className="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Button Background */}
+      <rect
+        x="2"
+        y="5"
+        width="20"
+        height="14"
+        rx="4"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+
+      {/* Cart */}
+      <path
+        d="M7 9H8.5L9.5 14H15L16.5 10H9"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      {/* Wheels */}
+      <circle cx="10.5" cy="16.5" r="1" fill="currentColor" />
+      <circle cx="14.5" cy="16.5" r="1" fill="currentColor" />
+    </svg>
+  ),
+  INTB: (
+    <svg
+      className="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Browser tab */}
+      <rect
+        x="3"
+        y="5"
+        width="18"
+        height="14"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+
+      {/* Tab header */}
+      <path d="M3 8H21" stroke="currentColor" strokeWidth="2" />
+
+      {/* Alert / attention indicator */}
+      <circle cx="17" cy="6.5" r="1" fill="currentColor" />
+
+      {/* Text lines */}
+      <path
+        d="M7 12H13M7 15H11"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
+
+  STKSC: (
+    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
+      {/* Container */}
+      <rect
+        x="3"
+        y="5"
+        width="18"
+        height="12"
+        rx="3"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+
+      {/* Progress bg */}
+      <rect
+        x="5"
+        y="14"
+        width="14"
+        height="2.5"
+        rx="1.2"
+        fill="currentColor"
+        opacity="0.2"
+      />
+
+      {/* Progress low */}
+      <rect x="5" y="14" width="5" height="2.5" rx="1.2" fill="currentColor" />
+
+      <path
+        d="M12 7C13 9 10 9.5 11 11C11.5 11.7 12.5 11.5 13 10.5C13.5 9.5 13 8.5 12 7Z"
+        fill="currentColor"
+      />
+    </svg>
+  ),
+  SLCNT: (
+    <svg
+      className="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Clock */}
+      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" />
+
+      {/* Clock hands */}
+      <path
+        d="M12 7V12L15 14"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      {/* Sale dot */}
+      <circle cx="18" cy="6" r="2" fill="currentColor" />
+    </svg>
+  ),
+  SMRTOFR: (
+    <svg
+      className="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Tag shape (offer icon) */}
+      <path
+        d="M3 12L12 3L21 12L12 21L3 12Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+
+      {/* Discount circle */}
+      <circle cx="12" cy="12" r="2" stroke="currentColor" strokeWidth="2" />
+
+      {/* Small spark (smart effect) */}
+      <path
+        d="M18 4V7M18 7H21"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
+  PORDR: (
+    <svg
+      className="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Product Box */}
+      <rect
+        x="3"
+        y="5"
+        width="18"
+        height="14"
+        rx="3"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+
+      {/* Clock */}
+      <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" />
+
+      {/* Clock Hands */}
+      <path
+        d="M12 10V12.5L13.8 13.5"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      {/* Preorder Badge */}
+      <path
+        d="M7 18H17"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+
+      {/* Live / Active Dot */}
+      <circle cx="18" cy="8" r="1.2" fill="currentColor" />
+    </svg>
+  ),
+  RV: (
+    <svg
+      className="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Eye */}
+      <path
+        d="M2 12C4.5 7.5 8 5 12 5C16 5 19.5 7.5 22 12C19.5 16.5 16 19 12 19C8 19 4.5 16.5 2 12Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+
+      {/* Eye center */}
+      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
+
+      {/* Clock (recent indicator) */}
+      <path
+        d="M17 4V7M17 7H20"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
+  PV: (
+    <svg
+      className="w-6 h-6"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      {/* Monitor / Live Card */}
+      <rect
+        x="3"
+        y="5"
+        width="18"
+        height="14"
+        rx="3"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+
+      {/* People */}
+      <circle cx="9" cy="11" r="2" stroke="currentColor" strokeWidth="2" />
+
+      <circle cx="15" cy="11" r="2" stroke="currentColor" strokeWidth="2" />
+
+      {/* Bottom viewer line */}
+      <path
+        d="M6.5 16C7.5 14.8 8.8 14 10.5 14C12.2 14 13.5 14.8 14.5 16"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+
+      <path
+        d="M13.5 16C14.2 15 15.2 14.5 16.5 14.5C17.8 14.5 18.7 15 19.5 16"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+
+      {/* Live dot */}
+      <circle cx="18" cy="8" r="1.2" fill="currentColor" />
     </svg>
   ),
 };

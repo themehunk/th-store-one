@@ -11,10 +11,17 @@ const MODULE_ID = 'quick-social';
 export default function QuickSocialSettings({
     onSettingsChange,
     onLivePreview,
-    onRegisterSave, //
+    onRegisterSave,
+    onModuleReady, //
 }) {
  
     const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!loading) {
+      onModuleReady?.(MODULE_ID);
+    }
+  }, [loading]);
     const [saving, setSaving] = useState(false);
 
     const [success, setSuccess] = useState('');

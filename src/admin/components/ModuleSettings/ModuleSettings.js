@@ -8,25 +8,86 @@ import {
   ToggleControl,
   Button,
 } from "@wordpress/components";
+
 import { __ } from "@wordpress/i18n";
 
+/* =========================
+ * DIRECT IMPORTS
+ * ========================= */
+
 import FrequentlyBoughtSettings from "../../modules/frequentlyBoughtTogether/FrequentlyBoughtSettings";
+
 import BundleProductSettings from "../../modules/BundleProductSetting/BundleProductSettings";
+
 import BuytoListSettings from "../../modules/BuytoList/BuytoListSettings";
+
 import QuickSocialSettings from "../../modules/QuickSocial/QuickSocialSettings";
+
 import ProductBrandSettings from "../../modules/ProductBrand/ProductBrandSettings";
+
 import TrustBadgesSettings from "../../modules/TrustBadges/TrustBadgesSettings";
+
 import ProductVideoSettings from "../../modules/ProductVideo/ProductVideoSettings";
+
 import SaleNotificationSettings from "../../modules/SaleNotification/SaleNotificationSettings";
+
 import StickyCartSettings from "../../modules/StickyCart/StickyCartSettings";
+
 import BuyNowButtonSettings from "../../modules/BuyNowButton/BuyNowButtonSettings";
+
 import InactiveTabSettings from "../../modules/InactiveTab/InactiveTabSettings";
+
 import StockScarcitySettings from "../../modules/StockScarcity/StockScarcitySettings";
+
 import SaleCountdownSettings from "../../modules/SaleCountdown/SaleCountdownSettings";
+
 import RecentViewSettings from "../../modules/RecentView/RecentViewSettings";
+
 import SmartOffersSettings from "../../modules/SmartOffers/SmartOffersSettings";
+
 import PeopleViewSettings from "../../modules/PeopleView/PeopleViewSettings";
+
 import PreOrderSettings from "../../modules/PreOrder/PreOrderSettings";
+
+/* =========================
+ * MODULE COMPONENT MAP
+ * ========================= */
+
+const moduleComponents = {
+  "frequently-bought": FrequentlyBoughtSettings,
+
+  "bundle-product": BundleProductSettings,
+
+  "buy-to-list": BuytoListSettings,
+
+  "quick-social": QuickSocialSettings,
+
+  "product-brand": ProductBrandSettings,
+
+  "trust-badges": TrustBadgesSettings,
+
+  "product-video": ProductVideoSettings,
+
+  "sale-notification": SaleNotificationSettings,
+
+  "sticky-cart": StickyCartSettings,
+
+  "buynow-button": BuyNowButtonSettings,
+
+  "inactive-tab": InactiveTabSettings,
+
+  "stock-scarcity": StockScarcitySettings,
+
+  "sale-countdown": SaleCountdownSettings,
+
+  "recent-view": RecentViewSettings,
+
+  "smart-offers": SmartOffersSettings,
+
+  "people-view": PeopleViewSettings,
+
+  "pre-order": PreOrderSettings,
+};
 
 const ModuleSettings = ({
   currentModule,
@@ -36,163 +97,90 @@ const ModuleSettings = ({
   onSettingsChange,
   onLivePreview,
   onRegisterSave,
+  onModuleReady,
   licenseActive,
 }) => {
   const enabled = !!modulesState[currentModule.id];
+
   const isPremium = currentModule.premium ?? false;
+
   const isLocked = isPremium && !licenseActive;
-  const renderModuleContent = () => {
-    switch (currentModule.id) {
-      case "frequently-bought":
-        return (
-          <FrequentlyBoughtSettings
-            onSettingsChange={onSettingsChange}
-            onLivePreview={onLivePreview}
-            onRegisterSave={onRegisterSave}
-          />
-        );
-      case "bundle-product":
-        return (
-          <BundleProductSettings
-            onSettingsChange={onSettingsChange}
-            onLivePreview={onLivePreview}
-            onRegisterSave={onRegisterSave}
-          />
-        );
-      case "buy-to-list":
-        return (
-          <BuytoListSettings
-            onSettingsChange={onSettingsChange}
-            onLivePreview={onLivePreview}
-            onRegisterSave={onRegisterSave}
-          />
-        );
-      case "quick-social":
-        return (
-          <QuickSocialSettings
-            onSettingsChange={onSettingsChange}
-            onLivePreview={onLivePreview}
-            onRegisterSave={onRegisterSave}
-          />
-        );
-      case "product-brand":
-        return (
-          <ProductBrandSettings
-            onSettingsChange={onSettingsChange}
-            onLivePreview={onLivePreview}
-            onRegisterSave={onRegisterSave}
-          />
-        );
-      case "trust-badges":
-        return (
-          <TrustBadgesSettings
-            onSettingsChange={onSettingsChange}
-            onLivePreview={onLivePreview}
-            onRegisterSave={onRegisterSave}
-          />
-        );
-      case "product-video":
-        return (
-          <ProductVideoSettings
-            onSettingsChange={onSettingsChange}
-            onLivePreview={onLivePreview}
-            onRegisterSave={onRegisterSave}
-          />
-        );
-      case "sale-notification":
-        return (
-          <SaleNotificationSettings
-            onSettingsChange={onSettingsChange}
-            onLivePreview={onLivePreview}
-            onRegisterSave={onRegisterSave}
-          />
-        );
-      case "sticky-cart":
-        return (
-          <StickyCartSettings
-            onSettingsChange={onSettingsChange}
-            onLivePreview={onLivePreview}
-            onRegisterSave={onRegisterSave}
-          />
-        );
-      case "buynow-button":
-        return (
-          <BuyNowButtonSettings
-            onSettingsChange={onSettingsChange}
-            onLivePreview={onLivePreview}
-            onRegisterSave={onRegisterSave}
-          />
-        );
-      case "inactive-tab":
-        return (
-          <InactiveTabSettings
-            onSettingsChange={onSettingsChange}
-            onLivePreview={onLivePreview}
-            onRegisterSave={onRegisterSave}
-          />
-        );
-      case "stock-scarcity":
-        return (
-          <StockScarcitySettings
-            onSettingsChange={onSettingsChange}
-            onLivePreview={onLivePreview}
-            onRegisterSave={onRegisterSave}
-          />
-        );
-      case "sale-countdown":
-        return (
-          <SaleCountdownSettings
-            onSettingsChange={onSettingsChange}
-            onLivePreview={onLivePreview}
-            onRegisterSave={onRegisterSave}
-          />
-        );
-      case "recent-view":
-        return (
-          <RecentViewSettings
-            onSettingsChange={onSettingsChange}
-            onLivePreview={onLivePreview}
-            onRegisterSave={onRegisterSave}
-          />
-        );
-      case "smart-offers":
-        return (
-          <SmartOffersSettings
-            onSettingsChange={onSettingsChange}
-            onLivePreview={onLivePreview}
-            onRegisterSave={onRegisterSave}
-          />
-        );
-      case "people-view":
-        return (
-          <PeopleViewSettings
-            onSettingsChange={onSettingsChange}
-            onLivePreview={onLivePreview}
-            onRegisterSave={onRegisterSave}
-          />
-        );
-      case "pre-order":
-        return (
-          <PreOrderSettings
-            onSettingsChange={onSettingsChange}
-            onLivePreview={onLivePreview}
-            onRegisterSave={onRegisterSave}
-          />
-        );
-      default:
-        return (
-          <p className="s1-settings__placeholder">
-            {__("More settings will appear here…", "th-store-one")}
-          </p>
-        );
-    }
+
+  /* =========================
+   * COMMON PROPS
+   * ========================= */
+
+  const commonProps = {
+    onSettingsChange,
+    onLivePreview,
+    onRegisterSave,
+    onModuleReady,
   };
+
+  /* =========================
+   * ACTIVE COMPONENT
+   * ========================= */
+
+  const ActiveComponent = moduleComponents[currentModule.id];
+
+  /* =========================
+   * ACTION BUTTONS
+   * ========================= */
+
+  const renderActionButton = () => {
+    const buttons = {
+      "bundle-product": {
+        label: __("Create Bundle", "th-store-one"),
+
+        url: `${th_StoreOneAdmin.adminUrl}post-new.php?post_type=product`,
+      },
+
+      "product-video": {
+        label: __("Add Video", "th-store-one"),
+
+        url: `${th_StoreOneAdmin.adminUrl}edit.php?post_type=product`,
+      },
+
+      "sale-countdown": {
+        label: __("Add Sale Countdown", "th-store-one"),
+
+        url: `${th_StoreOneAdmin.adminUrl}edit.php?post_type=product`,
+      },
+
+      "pre-order": {
+        label: __("Add Pre Order", "th-store-one"),
+
+        url: `${th_StoreOneAdmin.adminUrl}edit.php?post_type=product`,
+      },
+    };
+
+    const config = buttons[currentModule.id];
+
+    if (!config) {
+      return null;
+    }
+
+    return (
+      <Button
+        className="s1-settings__redirect-btn"
+        onClick={() => window.open(config.url, "_blank")}
+      >
+        {config.label}
+      </Button>
+    );
+  };
+
   return (
     <Card className="s1-settings">
+      {/* =========================
+       * HEADER
+       * ========================= */}
+
       <CardHeader className="s1-settings__header">
         <Flex justify="space-between" align="center">
           <FlexBlock className="s1-settings__info">
             <h2 className="s1-settings__title">{currentModule.label}</h2>
+
             {isLocked && (
               <span className="s1-license-required-badge">
                 <a
@@ -204,59 +192,10 @@ const ModuleSettings = ({
                 </a>
               </span>
             )}
+
             <p className="s1-settings__desc">{currentModule.description}</p>
-            {currentModule.id === "bundle-product" && (
-              <Button
-                className="s1-settings__redirect-btn"
-                onClick={() =>
-                  window.open(
-                    `${th_StoreOneAdmin.adminUrl}post-new.php?post_type=product`,
-                    "_blank",
-                  )
-                }
-              >
-                {__("Create Bundle", "th-store-one")}
-              </Button>
-            )}
-            {currentModule.id === "product-video" && (
-              <Button
-                className="s1-settings__redirect-btn"
-                onClick={() =>
-                  window.open(
-                    `${th_StoreOneAdmin.adminUrl}edit.php?post_type=product`,
-                    "_blank",
-                  )
-                }
-              >
-                {__("Add Video", "th-store-one")}
-              </Button>
-            )}
-            {currentModule.id === "sale-countdown" && (
-              <Button
-                className="s1-settings__redirect-btn"
-                onClick={() =>
-                  window.open(
-                    `${th_StoreOneAdmin.adminUrl}edit.php?post_type=product`,
-                    "_blank",
-                  )
-                }
-              >
-                {__("Add Sale Countdown", "th-store-one")}
-              </Button>
-            )}
-            {currentModule.id === "pre-order" && (
-              <Button
-                className="s1-settings__redirect-btn"
-                onClick={() =>
-                  window.open(
-                    `${th_StoreOneAdmin.adminUrl}edit.php?post_type=product`,
-                    "_blank",
-                  )
-                }
-              >
-                {__("Add Pre order", "th-store-one")}
-              </Button>
-            )}
+
+            {renderActionButton()}
           </FlexBlock>
 
           <FlexItem className="s1-settings__toggle">
@@ -276,8 +215,21 @@ const ModuleSettings = ({
         </Flex>
       </CardHeader>
 
-      <CardBody className="s1-settings__body">{renderModuleContent()}</CardBody>
+      {/* =========================
+       * BODY
+       * ========================= */}
+
+      <CardBody className="s1-settings__body">
+        {ActiveComponent ? (
+          <ActiveComponent {...commonProps} />
+        ) : (
+          <p className="s1-settings__placeholder">
+            {__("More settings will appear here…", "th-store-one")}
+          </p>
+        )}
+      </CardBody>
     </Card>
   );
 };
+
 export default ModuleSettings;

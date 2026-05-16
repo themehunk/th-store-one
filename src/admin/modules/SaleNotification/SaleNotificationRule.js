@@ -1326,7 +1326,11 @@ export default function SaleNotificationRule({
 
         <ResetModuleButton
           moduleId="sale-notification"
-          onReset={() => updateAll([newSaleRule()])}
+          onReset={() => {
+            const resetRules = [newSaleRule()];
+            updateAll(resetRules);
+            return { rules: resetRules };
+          }}
         />
       </div>
     </div>

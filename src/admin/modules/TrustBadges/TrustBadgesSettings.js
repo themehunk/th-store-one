@@ -11,8 +11,15 @@ export default function TrustBadgesSettings({
     onSettingsChange,
     onLivePreview,
     onRegisterSave,
+    onModuleReady,
 }) {
     const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!loading) {
+      onModuleReady?.(MODULE_ID);
+    }
+  }, [loading]);
     const [saving, setSaving] = useState(false);
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');

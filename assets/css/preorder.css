@@ -8,6 +8,7 @@
 	border-radius:12px;
 	position:relative;
 	overflow:hidden;
+	border:1px solid #9e9e9e42
 }
 
 /* =========================
@@ -18,7 +19,7 @@
 	font-size:14px;
 	line-height:1.7;
 	font-weight:500;
-	margin-bottom:12px;
+	
 	color:inherit;
 }
 

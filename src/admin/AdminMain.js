@@ -7,21 +7,101 @@ import ModuleSettings from "@th-storeone-modulesettings/ModuleSettings";
 import PreviewPane from "@th-storeone-modulepreviewpane/PreviewPane";
 import GlobalSettings from "@th-storeone-global/GlobalSettings";
 import LicensePage from "@th-storeone-global/LicensePage";
-import { Notice, Spinner, Button } from "@wordpress/components";
+import { Spinner, Button } from "@wordpress/components";
 import "@th-storeone/store/productVideoStore";
 import "./admin.scss";
 import { modulesList } from "./modules/modulesList";
+
+const ADMIN_VIEW_STORAGE_KEY = "th_store_one_admin_view";
+const VALID_PAGES = ["dashboard", "settings", "license"];
+const isValidModule = (moduleId) =>
+  modulesList.some((module) => module.id === moduleId);
+
+const getInitialAdminView = () => {
+  if (typeof window === "undefined") {
+    return { page: "dashboard", module: null };
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const urlModule = params.get("store_one_module");
+  const urlPage = params.get("store_one_page");
+
+  if (isValidModule(urlModule)) {
+    return { page: "dashboard", module: urlModule };
+  }
+
+  if (VALID_PAGES.includes(urlPage)) {
+    return { page: urlPage, module: null };
+  }
+
+  try {
+    const savedView = JSON.parse(
+      window.localStorage.getItem(ADMIN_VIEW_STORAGE_KEY) || "{}",
+    );
+
+    if (VALID_PAGES.includes(savedView.page)) {
+      return { page: savedView.page, module: null };
+    }
+  } catch (e) {
+    window.localStorage.removeItem(ADMIN_VIEW_STORAGE_KEY);
+  }
+
+  return { page: "dashboard", module: null };
+};
+
+const persistAdminView = (page, module = null) => {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const nextView = {
+    page: VALID_PAGES.includes(page) ? page : "dashboard",
+    module: isValidModule(module) ? module : null,
+  };
+
+  if (nextView.module) {
+    nextView.page = "dashboard";
+  }
+
+  try {
+    window.localStorage.setItem(
+      ADMIN_VIEW_STORAGE_KEY,
+      JSON.stringify(nextView),
+    );
+  } catch (e) {}
+
+  const url = new URL(window.location.href);
+  url.searchParams.delete("store_one_page");
+  url.searchParams.delete("store_one_module");
+
+  if (nextView.module) {
+    url.searchParams.set("store_one_module", nextView.module);
+  } else if (nextView.page !== "dashboard") {
+    url.searchParams.set("store_one_page", nextView.page);
+  }
+
+  window.history.replaceState(null, "", url.toString());
+};
+
 const AdminMain = () => {
   const [livePreviewSettings, setLivePreviewSettings] = useState({});
   const [moduleSettings, setModuleSettings] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [modulesLoading, setModulesLoading] = useState(true);
+  const [licensePageLoading, setLicensePageLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [currentPage, setCurrentPage] = useState("dashboard");
+  const [currentPage, setCurrentPageState] = useState(
+    () => getInitialAdminView().page,
+  );
   const [proActive, setProActive] = useState(false);
   const [licenseActive, setLicenseActive] = useState(false);
-  const [activeModule, setActiveModule] = useState(null);
+  const [activeModule, setActiveModuleState] = useState(
+    () => getInitialAdminView().module,
+  );
+  const [modulePreparing, setModulePreparing] = useState(
+    () => !!getInitialAdminView().module,
+  );
   const [saveHandler, setSaveHandler] = useState(null);
   const [isDirty, setIsDirty] = useState(false);
   const [licenseLoading, setLicenseLoading] = useState(true);
@@ -62,10 +142,48 @@ const AdminMain = () => {
   const currentModule = activeModule
     ? modulesList.find((m) => m.id === activeModule)
     : null;
+
+  const setCurrentPage = (page) => {
+    const nextPage = VALID_PAGES.includes(page) ? page : "dashboard";
+
+    setCurrentPageState(nextPage);
+    setActiveModuleState(null);
+    setModulePreparing(false);
+    setSaveHandler(null);
+    setIsDirty(false);
+    persistAdminView(nextPage, null);
+  };
+
+  const setActiveModule = (moduleId) => {
+    if (!isValidModule(moduleId)) {
+      setActiveModuleState(null);
+      setModulePreparing(false);
+      setSaveHandler(null);
+      setIsDirty(false);
+      return;
+    }
+
+    setCurrentPageState("dashboard");
+    setModulePreparing(true);
+    setActiveModuleState(moduleId);
+    setSaveHandler(null);
+    setIsDirty(false);
+    persistAdminView("dashboard", moduleId);
+  };
+
+  const clearActiveModule = () => {
+    setActiveModuleState(null);
+    setModulePreparing(false);
+    setSaveHandler(null);
+    setIsDirty(false);
+    persistAdminView("dashboard", null);
+  };
+
   useEffect(() => {
     if (!currentModule) return;
 
     skipFirstChange.current = true; //ignore next change
+    setModulePreparing(true);
 
     const currentData = moduleSettings[currentModule.id];
 
@@ -74,6 +192,64 @@ const AdminMain = () => {
     }
 
     setIsDirty(false);
+  }, [currentModule]);
+
+  const handleModuleReady = (moduleId) => {
+    if (moduleId !== currentModule?.id) {
+      return;
+    }
+
+    setTimeout(() => {
+      setModulePreparing(false);
+    }, 50);
+  };
+
+  useEffect(() => {
+    const handleModuleReset = (event) => {
+      const moduleId = event?.detail?.moduleId;
+      const resetSettings = event?.detail?.settings;
+
+      if (!isValidModule(moduleId)) {
+        return;
+      }
+
+      setLivePreviewSettings((prev) => {
+        const next = { ...prev };
+        delete next[moduleId];
+        return next;
+      });
+
+      if (resetSettings) {
+        setModuleSettings((prev) => ({
+          ...prev,
+          [moduleId]: resetSettings,
+        }));
+
+        if (moduleId === currentModule?.id) {
+          setIsDirty(true);
+        }
+      } else {
+        setModuleSettings((prev) => {
+          const next = { ...prev };
+          delete next[moduleId];
+          return next;
+        });
+        delete originalSettings.current[moduleId];
+      }
+
+      if (moduleId === currentModule?.id) {
+        setIsDirty(true);
+      }
+    };
+
+    window.addEventListener("th-store-one:module-reset", handleModuleReset);
+
+    return () => {
+      window.removeEventListener(
+        "th-store-one:module-reset",
+        handleModuleReset,
+      );
+    };
   }, [currentModule]);
 
   // Attach nonce middleware.
@@ -85,7 +261,7 @@ const AdminMain = () => {
    * Load modules state from REST.
    */
   useEffect(() => {
-    setLoading(true);
+    setModulesLoading(true);
 
     apiFetch({ path: `${th_StoreOneAdmin.restUrl}modules` })
       .then((res) => {
@@ -103,7 +279,7 @@ const AdminMain = () => {
       .catch(() => {
         setError(__("Failed to load settings.", "th-store-one"));
       })
-      .finally(() => setLoading(false));
+      .finally(() => setModulesLoading(false));
   }, []);
 
   /**
@@ -268,7 +444,7 @@ const AdminMain = () => {
     if (currentPage !== "license" || !th_StoreOneAdmin.proActive) {
       return;
     }
-    setLoading(true);
+    setLicensePageLoading(true);
     apiFetch({ path: `${th_StoreOneAdmin.restUrl}license-html` })
       .then((html) => {
         const el = document.getElementById("store-one-license-root");
@@ -280,9 +456,21 @@ const AdminMain = () => {
         console.log("License page load failed");
       })
       .finally(() => {
-        setLoading(false);
+        setLicensePageLoading(false);
       });
   }, [currentPage]);
+
+  useEffect(() => {
+    if (!licenseLoading && currentPage === "license" && !proActive) {
+      setCurrentPage("dashboard");
+    }
+  }, [licenseLoading, currentPage, proActive]);
+
+  const currentPreviewSettings = currentModule
+    ? livePreviewSettings[currentModule.id] ||
+      moduleSettings[currentModule.id]?.rules?.[0] ||
+      moduleSettings[currentModule.id]
+    : null;
 
   return (
     <div className="store-one-admin">
@@ -301,307 +489,148 @@ const AdminMain = () => {
           <span>{error}</span>
         </div>
       )}
-      {licenseLoading && (
-        <div className="store-one-admin">
-          <div className="s1-loader">
-            <Spinner />
-            {__("Loading…", "th-store-one")}
-          </div>
-        </div>
-      )}
-      <Header
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        setActiveModule={setActiveModule}
-        proActive={proActive}
-        licenseActive={licenseActive}
-      />
-      {/* SAVE BUTTON */}
-      {isDirty && saveHandler && (
-        <div className="s1-top-savebar">
-          <span>
-            {__("Your settings have been modified. Save?", "th-store-one")}
-          </span>
-          <Button disabled={saving} onClick={handleTopSave}>
-            {saving ? (
-              <>
-                {__("Saving", "th-store-one")}
-                <Spinner style={{ marginLeft: 8 }} />
-              </>
-            ) : (
-              __("Save", "th-store-one")
-            )}
-          </Button>
-        </div>
-      )}
-      {currentPage === "dashboard" && (
-        <>
-          {!loading && !activeModule && (
-            <ModuleGrid
-              modulesList={modulesList}
-              modulesState={modulesState}
-              tabs={tabs}
-              setActiveModule={setActiveModule}
-              licenseActive={licenseActive}
-            />
-          )}
-          {!loading && activeModule && currentModule && (
-            <div className="store-module-wrap">
-              <Button
-                isTertiary
-                className="back-btn"
-                onClick={() => setActiveModule(null)}
-              >
-                ← {__("Go Back", "th-store-one")}
-              </Button>
-              {/*FIXED CLASS HERE */}
-              <div className="s1-settings-layout">
-                <ModuleSettings
-                  onLivePreview={(rule) =>
-                    setLivePreviewSettings((prev) => ({
-                      ...prev,
-                      [currentModule.id]: rule,
-                    }))
-                  }
-                  currentModule={currentModule}
-                  modulesState={modulesState}
-                  onToggleModule={handleToggleModule}
-                  saving={saving}
-                  onSettingsChange={(settings) => {
-                    //Skip first automatic call
-                    if (skipFirstChange.current) {
-                      originalSettings.current[currentModule.id] =
-                        JSON.stringify(settings);
-
-                      setModuleSettings((prev) => ({
-                        ...prev,
-                        [currentModule.id]: settings,
-                      }));
-
-                      setIsDirty(false);
-
-                      skipFirstChange.current = false;
-                      return;
-                    }
-
-                    setModuleSettings((prev) => ({
-                      ...prev,
-                      [currentModule.id]: settings,
-                    }));
-
-                    const newString = JSON.stringify(settings);
-                    const oldString =
-                      originalSettings.current[currentModule.id];
-
-                    setIsDirty(newString !== oldString);
-                  }}
-                  onRegisterSave={setSaveHandler}
-                  licenseActive={licenseActive}
-                />
-                <div className="s1-preview-pane">
-                  {/* <PreviewPane currentModule={currentModule} settings={livePreviewSettings || moduleSettings[currentModule.id]?.rules?.[0]}/> */}
-                  {currentModule?.id === "frequently-bought" && (
-                    <PreviewPane
-                      currentModule={currentModule}
-                      settings={
-                        livePreviewSettings[currentModule.id] ||
-                        moduleSettings[currentModule.id]?.rules?.[0] ||
-                        moduleSettings[currentModule.id]
-                      }
-                    />
-                  )}
-                  {currentModule?.id === "bundle-product" && (
-                    <PreviewPane
-                      currentModule={currentModule}
-                      settings={
-                        livePreviewSettings[currentModule.id] ||
-                        moduleSettings[currentModule.id]?.rules?.[0] ||
-                        moduleSettings[currentModule.id]
-                      }
-                    />
-                  )}
-                  {currentModule?.id === "buy-to-list" && (
-                    <PreviewPane
-                      currentModule={currentModule}
-                      settings={
-                        livePreviewSettings[currentModule.id] ||
-                        moduleSettings[currentModule.id]?.rules?.[0] ||
-                        moduleSettings[currentModule.id]
-                      }
-                    />
-                  )}
-                  {currentModule?.id === "quick-social" && (
-                    <PreviewPane
-                      currentModule={currentModule}
-                      settings={
-                        livePreviewSettings[currentModule.id] ||
-                        moduleSettings[currentModule.id]?.rules?.[0] ||
-                        moduleSettings[currentModule.id]
-                      }
-                    />
-                  )}
-                  {currentModule?.id === "product-brand" && (
-                    <PreviewPane
-                      currentModule={currentModule}
-                      settings={
-                        livePreviewSettings[currentModule.id] ||
-                        moduleSettings[currentModule.id]?.rules?.[0] ||
-                        moduleSettings[currentModule.id]
-                      }
-                    />
-                  )}
-                  {currentModule?.id === "trust-badges" && (
-                    <PreviewPane
-                      currentModule={currentModule}
-                      settings={
-                        livePreviewSettings[currentModule.id] ||
-                        moduleSettings[currentModule.id]?.rules?.[0] ||
-                        moduleSettings[currentModule.id]
-                      }
-                    />
-                  )}
-                  {currentModule?.id === "product-video" && (
-                    <PreviewPane
-                      currentModule={currentModule}
-                      settings={
-                        livePreviewSettings[currentModule.id] ||
-                        moduleSettings[currentModule.id]?.rules?.[0] ||
-                        moduleSettings[currentModule.id]
-                      }
-                    />
-                  )}
-                  {currentModule?.id === "sale-notification" && (
-                    <PreviewPane
-                      currentModule={currentModule}
-                      settings={
-                        livePreviewSettings[currentModule.id] ||
-                        moduleSettings[currentModule.id]?.rules?.[0] ||
-                        moduleSettings[currentModule.id]
-                      }
-                    />
-                  )}
-                  {currentModule?.id === "sticky-cart" && (
-                    <PreviewPane
-                      currentModule={currentModule}
-                      settings={
-                        livePreviewSettings[currentModule.id] ||
-                        moduleSettings[currentModule.id]?.rules?.[0] ||
-                        moduleSettings[currentModule.id]
-                      }
-                    />
-                  )}
-                  {currentModule?.id === "buynow-button" && (
-                    <PreviewPane
-                      currentModule={currentModule}
-                      settings={
-                        livePreviewSettings[currentModule.id] ||
-                        moduleSettings[currentModule.id]?.rules?.[0] ||
-                        moduleSettings[currentModule.id]
-                      }
-                    />
-                  )}
-                  {currentModule?.id === "inactive-tab" && (
-                    <PreviewPane
-                      currentModule={currentModule}
-                      settings={
-                        livePreviewSettings[currentModule.id] ||
-                        moduleSettings[currentModule.id]?.rules?.[0] ||
-                        moduleSettings[currentModule.id]
-                      }
-                    />
-                  )}
-                  {currentModule?.id === "stock-scarcity" && (
-                    <PreviewPane
-                      currentModule={currentModule}
-                      settings={
-                        livePreviewSettings[currentModule.id] ||
-                        moduleSettings[currentModule.id]?.rules?.[0] ||
-                        moduleSettings[currentModule.id]
-                      }
-                    />
-                  )}
-                  {currentModule?.id === "sale-countdown" && (
-                    <PreviewPane
-                      currentModule={currentModule}
-                      settings={
-                        livePreviewSettings[currentModule.id] ||
-                        moduleSettings[currentModule.id]?.rules?.[0] ||
-                        moduleSettings[currentModule.id]
-                      }
-                    />
-                  )}
-                  {currentModule?.id === "recent-view" && (
-                    <PreviewPane
-                      currentModule={currentModule}
-                      settings={
-                        livePreviewSettings[currentModule.id] ||
-                        moduleSettings[currentModule.id]?.rules?.[0] ||
-                        moduleSettings[currentModule.id]
-                      }
-                    />
-                  )}
-                  {currentModule?.id === "smart-offers" && (
-                    <PreviewPane
-                      currentModule={currentModule}
-                      settings={
-                        livePreviewSettings[currentModule.id] ||
-                        moduleSettings[currentModule.id]?.rules?.[0] ||
-                        moduleSettings[currentModule.id]
-                      }
-                    />
-                  )}
-                  {currentModule?.id === "people-view" && (
-                    <PreviewPane
-                      currentModule={currentModule}
-                      settings={
-                        livePreviewSettings[currentModule.id] ||
-                        moduleSettings[currentModule.id]?.rules?.[0] ||
-                        moduleSettings[currentModule.id]
-                      }
-                    />
-                  )}
-                  {currentModule?.id === "pre-order" && (
-                    <PreviewPane
-                      currentModule={currentModule}
-                      settings={
-                        livePreviewSettings[currentModule.id] ||
-                        moduleSettings[currentModule.id]?.rules?.[0] ||
-                        moduleSettings[currentModule.id]
-                      }
-                    />
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
-
-          {loading && (
-            <div className="s1-loader">
-              <Spinner />
-              {__("Loading…", "th-store-one")}
-            </div>
-          )}
-        </>
-      )}
-
-      {currentPage === "settings" && (
-        <GlobalSettings
-          modulesList={modulesList}
-          modulesState={modulesState}
-          onToggleAllModules={handleToggleAllModules}
+      <>
+        <Header
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          setActiveModule={(moduleId) => {
+            if (moduleId) {
+              setActiveModule(moduleId);
+            }
+          }}
+          proActive={proActive}
           licenseActive={licenseActive}
         />
-      )}
-      {currentPage === "license" &&
-        proActive &&
-        (loading ? (
-          <div className="s1-loader">
-            <Spinner />
-            {__("Loading…", "th-store-one")}
+        {/* SAVE BUTTON */}
+        {isDirty && saveHandler && (
+          <div className="s1-top-savebar">
+            <span>
+              {__("Your settings have been modified. Save?", "th-store-one")}
+            </span>
+            <Button disabled={saving} onClick={handleTopSave}>
+              {saving ? (
+                <>
+                  {__("Saving", "th-store-one")}
+                  <Spinner style={{ marginLeft: 8 }} />
+                </>
+              ) : (
+                __("Save", "th-store-one")
+              )}
+            </Button>
           </div>
-        ) : (
-          <LicensePage />
-        ))}
+        )}
+
+        {currentPage === "dashboard" && (
+          <>
+            {!activeModule && modulesLoading && (
+              <div className="s1-loader s1-loader--content">
+                <Spinner />
+                {__("Loading modules…", "th-store-one")}
+              </div>
+            )}
+            {!activeModule && !modulesLoading && (
+              <ModuleGrid
+                modulesList={modulesList}
+                modulesState={modulesState}
+                tabs={tabs}
+                setActiveModule={setActiveModule}
+                licenseActive={licenseActive}
+              />
+            )}
+            {activeModule && currentModule && (
+              <div className="store-module-wrap">
+                <Button
+                  isTertiary
+                  className="back-btn"
+                  onClick={clearActiveModule}
+                >
+                  ← {__("Go Back", "th-store-one")}
+                </Button>
+                <div className="s1-module-stage">
+                  {modulePreparing && (
+                    <div className="s1-loader s1-loader--content">
+                      <Spinner />
+                      {__("Loading module settings…", "th-store-one")}
+                    </div>
+                  )}
+                  <div
+                    className={`s1-settings-layout ${
+                      modulePreparing ? "is-preparing" : ""
+                    }`}
+                  >
+                    <ModuleSettings
+                      onLivePreview={(rule) =>
+                        setLivePreviewSettings((prev) => ({
+                          ...prev,
+                          [currentModule.id]: rule,
+                        }))
+                      }
+                      currentModule={currentModule}
+                      modulesState={modulesState}
+                      onToggleModule={handleToggleModule}
+                      saving={saving}
+                      onSettingsChange={(settings) => {
+                        //Skip first automatic call
+                        if (skipFirstChange.current) {
+                          setModuleSettings((prev) => ({
+                            ...prev,
+                            [currentModule.id]: settings,
+                          }));
+                          originalSettings.current[currentModule.id] =
+                            JSON.stringify(settings);
+                          setIsDirty(false);
+
+                          skipFirstChange.current = false;
+                          return;
+                        }
+
+                        setModuleSettings((prev) => ({
+                          ...prev,
+                          [currentModule.id]: settings,
+                        }));
+
+                        const newString = JSON.stringify(settings);
+                        const oldString =
+                          originalSettings.current[currentModule.id];
+
+                        setIsDirty(newString !== oldString);
+                      }}
+                      onRegisterSave={setSaveHandler}
+                      onModuleReady={handleModuleReady}
+                      licenseActive={licenseActive}
+                    />
+                    <div className="s1-preview-pane">
+                      <PreviewPane
+                        currentModule={currentModule}
+                        settings={currentPreviewSettings || {}}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+
+        {currentPage === "settings" && (
+          <GlobalSettings
+            modulesList={modulesList}
+            modulesState={modulesState}
+            onToggleAllModules={handleToggleAllModules}
+            licenseActive={licenseActive}
+          />
+        )}
+        {currentPage === "license" &&
+          proActive &&
+          (licensePageLoading ? (
+            <div className="s1-loader s1-loader--content">
+              <Spinner />
+              {__("Loading license details…", "th-store-one")}
+            </div>
+          ) : (
+            <LicensePage />
+          ))}
+      </>
     </div>
   );
 };

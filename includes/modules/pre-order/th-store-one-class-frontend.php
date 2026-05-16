@@ -71,6 +71,8 @@ class TH_Store_One_Pre_Order
             [ $this, 'button_text' ]
         );
 
+
+
         add_filter(
             'woocommerce_loop_add_to_cart_link',
             [ $this, 'loop_button' ],
@@ -173,11 +175,12 @@ class TH_Store_One_Pre_Order
             10,
             2
         );
+
     }
 
     /* =========================
-     * ASSETS
-     * ========================= */
+ * ASSETS
+ * ========================= */
 
     public function assets()
     {
@@ -197,6 +200,138 @@ class TH_Store_One_Pre_Order
             [ 'jquery' ],
             TH_STORE_ONE_VERSION,
             true
+        );
+
+        /* =========================
+         * DEFAULT LOCALIZE
+         * ========================= */
+
+        $localized = [
+            'enabled' => false,
+            'text'    => '',
+        ];
+
+        /* =========================
+         * SINGLE PRODUCT
+         * ========================= */
+
+        if (! is_product()) {
+            return;
+        }
+
+        $product_id = get_queried_object_id();
+
+        if (! $product_id) {
+            return;
+        }
+
+        $product = wc_get_product(
+            $product_id
+        );
+
+        if (! $product) {
+            return;
+        }
+
+        foreach ($this->rules as $rule) {
+
+            if (
+                ! $this->match_rule(
+                    $rule,
+                    $product->get_id()
+                )
+            ) {
+                continue;
+            }
+
+            $settings = $this->get_settings(
+                $product->get_id(),
+                $rule
+            );
+
+            /* =========================
+             * PREORDER TEXT
+             * ========================= */
+
+            $mode =
+                $settings['preorder_mode']
+                ?? 'preorder';
+
+            if (
+                'coming_soon'
+                === $mode
+            ) {
+
+                $localized = [
+                    'enabled' => true,
+
+                    'text' => __(
+                        'Coming Soon',
+                        'th-store-one'
+                    ),
+                ];
+
+            } else {
+
+                $localized = [
+                    'enabled' => true,
+
+                    'text' =>
+                        $settings['button_text']
+                        ?? __(
+                            'Pre Order',
+                            'th-store-one'
+                        ),
+                ];
+            }
+
+            /* =========================
+             * BUTTON STYLE
+             * ========================= */
+
+            $btn = $this->get_preorder_button_style(
+                $settings
+            );
+
+            $style = str_replace(
+                ';',
+                ' !important;',
+                $btn['style']
+            );
+
+            $css = '
+        .single_add_to_cart_button{
+
+            ' . $style . '
+
+        }
+
+        .single_add_to_cart_button:hover{
+
+            color:' . esc_attr(
+                $settings['btn_text_clr']
+                    ?? '#fff'
+            ) . ' !important;
+
+        }
+        ';
+
+            wp_add_inline_style(
+                'th-preorder',
+                $css
+            );
+
+            break;
+        }
+
+        /* =========================
+         * LOCALIZE
+         * ========================= */
+
+        wp_localize_script(
+            'th-smart-offer',
+            'thPreorder',
+            $localized
         );
     }
 
@@ -716,12 +851,39 @@ class TH_Store_One_Pre_Order
                 continue;
             }
 
-            return preg_replace(
+            $btn = $this->get_preorder_button_style(
+                $settings
+            );
+
+            $class = esc_attr(
+                $btn['class']
+            );
+
+            $style = esc_attr(
+                $btn['style']
+            );
+
+            /* add class */
+            $html = preg_replace(
+                '/class="([^"]*)"/',
+                'class="$1 ' . $class . '"',
+                $html,
+                1
+            );
+
+            /* add inline style */
+            $html = preg_replace(
+                '/<a /',
+                '<a style="' . $style . '" ',
+                $html,
+                1
+            );
+
+            /* replace text */
+            $html = preg_replace(
                 '/>(.*?)</',
                 '>' .
-                esc_html(
-                    $button
-                ) .
+                esc_html($button) .
                 '<',
                 $html,
                 1
@@ -959,8 +1121,44 @@ class TH_Store_One_Pre_Order
         $preorder =
             $cart_item['th_preorder'];
 
+        $mode =
+            $preorder['mode']
+            ?? 'preorder';
+
+        $label =
+            'coming_soon' === $mode
+            ? __(
+                'Coming Soon',
+                'th-store-one'
+            )
+            : __(
+                'Pre Order',
+                'th-store-one'
+            );
+
         /* =========================
-         * ONLY PREORDER PRICE
+         * PREORDER LABEL
+         * ========================= */
+
+        $item_data[] = [
+            'key'   => '',
+            'value' => '',
+            'display' => sprintf(
+                '
+            <div class="th-preorder-cart-label">
+
+                <span class="th-preorder-badge">
+                    %s
+                </span>
+
+            </div>
+            ',
+                esc_html($label)
+            ),
+        ];
+
+        /* =========================
+         * PREORDER PRICE
          * ========================= */
 
         if (
@@ -980,7 +1178,7 @@ class TH_Store_One_Pre_Order
                 <div class="th-preorder-cart-price-wrap">
 
                     <span class="th-preorder-price-label">
-                        Pre-order Price
+                        %s
                     </span>
 
                     <div class="th-preorder-cart-price">
@@ -991,6 +1189,10 @@ class TH_Store_One_Pre_Order
 
                 </div>
                 ',
+                    esc_html__(
+                        'Pre-order Price',
+                        'th-store-one'
+                    ),
                     wc_price(
                         $preorder['preorder_price']
                     )
@@ -1085,6 +1287,11 @@ class TH_Store_One_Pre_Order
                     'th-store-one'
                 );
         }
+
+        $item->add_meta_data(
+            '_th_preorder',
+            $text
+        );
 
         $item->add_meta_data(
             __(
@@ -1287,18 +1494,13 @@ class TH_Store_One_Pre_Order
                 $settings
             );
 
+        $msg   = $this->get_message_style($settings);
+
         ?>
 
 	<div
 		class="th-preorder-box"
-		style="
-			background:
-				<?php echo esc_attr($bg); ?>;
-			color:
-				<?php echo esc_attr($text); ?>;
-			border:1px solid
-				<?php echo esc_attr($border); ?>;
-		"
+		style="<?php echo esc_attr($msg); ?>"
 	>
 
 		<?php if (! empty($message)) : ?>
@@ -1668,38 +1870,122 @@ class TH_Store_One_Pre_Order
         );
     }
 
-    private function render_top_badge(
-        $settings
-    ) {
+    private function render_top_badge($settings)
+    {
 
-        $mode =
-    $settings['preorder_mode']
-    ?? 'preorder';
+        $mode = $settings['preorder_mode']
+            ?? 'preorder';
 
-        $badge =
-            'coming_soon' === $mode
+        $badge = 'coming_soon' === $mode
             ? (
                 $settings['badges_coming_text']
-                ?? __(
-                    'Coming Soon',
-                    'th-store-one'
-                )
+                ?? __('Coming Soon', 'th-store-one')
             )
             : (
                 $settings['badges_text']
-                ?? __(
-                    'Pre Order',
-                    'th-store-one'
-                )
+                ?? __('Pre Order', 'th-store-one')
             );
+
+        $style = $this->get_badge_style(
+            $settings
+        );
 
         return sprintf(
             '
-        <span class="th-preorder-inline-badge">
+        <span
+            class="th-preorder-inline-badge"
+            style="%s"
+        >
             %s
         </span>
         ',
+            esc_attr($style),
             esc_html($badge)
+        );
+    }
+
+    private function get_preorder_button_style($settings)
+    {
+
+        $classes = [ 'th-preorder-btn', 'button' ];
+        $style   = '';
+
+        $is_block_theme = function_exists('wp_is_block_theme') && wp_is_block_theme();
+
+        if ($is_block_theme) {
+            $classes[] = 'wp-element-button';
+        }
+
+        if (
+            ! empty($settings['btn_style']) &&
+            'custom_btn_style' === $settings['btn_style']
+        ) {
+
+            $classes[] = 'th-preorder-custom-btn';
+
+            $padding = $settings['btn_padding'] ?? [];
+            $border  = $settings['btn_border'] ?? [];
+
+            $style = sprintf(
+                '
+            background:%s;
+            color:%s;
+
+            padding:%s %s %s %s;
+
+            border-style:%s;
+            border-color:%s;
+            border-width:%s %s %s %s;
+
+            border-radius:%s %s %s %s;
+            ',
+                esc_attr($settings['btn_bg_clr'] ?? '#111'),
+                esc_attr($settings['btn_text_clr'] ?? '#fff'),
+                th_store_one_with_unit($padding['top'] ?? '12px'),
+                th_store_one_with_unit($padding['right'] ?? '18px'),
+                th_store_one_with_unit($padding['bottom'] ?? '12px'),
+                th_store_one_with_unit($padding['left'] ?? '18px'),
+                esc_attr($border['style'] ?? 'solid'),
+                esc_attr($border['color'] ?? '#111'),
+                th_store_one_with_unit($border['width']['top'] ?? '1px'),
+                th_store_one_with_unit($border['width']['right'] ?? '1px'),
+                th_store_one_with_unit($border['width']['bottom'] ?? '1px'),
+                th_store_one_with_unit($border['width']['left'] ?? '1px'),
+                th_store_one_with_unit($border['radius']['top'] ?? '0px'),
+                th_store_one_with_unit($border['radius']['right'] ?? '0px'),
+                th_store_one_with_unit($border['radius']['bottom'] ?? '0px'),
+                th_store_one_with_unit($border['radius']['left'] ?? '0px')
+            );
+        }
+
+        return [
+            'class' => implode(' ', $classes),
+            'style' => trim($style),
+        ];
+    }
+
+    private function get_badge_style($settings)
+    {
+
+        return sprintf(
+            '
+        background:%s;
+        color:%s;
+        ',
+            esc_attr($settings['btn_bdge_bg_clr'] ?? '#111'),
+            esc_attr($settings['btn_clr'] ?? '#fff')
+        );
+    }
+    private function get_message_style($settings)
+    {
+
+        return sprintf(
+            '
+        background:%s;
+        color:%s;
+        ',
+            esc_attr($settings['msg_bg_clr'] ?? '#fff'),
+            esc_attr($settings['msg_clr'] ?? '#111')
         );
     }
 

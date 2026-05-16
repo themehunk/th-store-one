@@ -822,7 +822,9 @@ export default function FrequentlyBoughtRulesEditor({
         <ResetModuleButton
           moduleId="frequently-bought"
           onReset={() => {
-            updateAll([newFBTRule()]);
+            const resetRules = [newFBTRule()];
+            updateAll(resetRules);
+            return { rules: resetRules };
           }}
         />
       </div>

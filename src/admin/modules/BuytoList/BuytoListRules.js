@@ -1028,7 +1028,9 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
         <ResetModuleButton
           moduleId="buy-to-list"
           onReset={() => {
-            updateAll([newBlistTRule()]);
+            const resetRules = [newBlistTRule()];
+            updateAll(resetRules);
+            return { rules: resetRules };
           }}
         />
       </div>

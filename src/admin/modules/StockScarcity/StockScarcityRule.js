@@ -857,7 +857,11 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
 
         <ResetModuleButton
           moduleId="stock-scarcity"
-          onReset={() => onChange([newStockRule()])}
+          onReset={() => {
+            const resetRules = [newStockRule()];
+            onChange(resetRules);
+            return { rules: resetRules };
+          }}
         />
       </div>
     </div>

@@ -44,7 +44,7 @@ const newPreOrderRule = () => ({
 
   button_text: "Pre Order Now",
 
-  preorder_message: "This product is available for pre-order.",
+  preorder_message: "This product is available for Pre Order.",
 
   enable_countdown: false,
 
@@ -103,7 +103,7 @@ const newPreOrderRule = () => ({
   devices: ["desktop", "tablet", "mobile"],
 
   /* STYLE */
-  btn_style: "default_btn_style",
+  btn_style: "custom_btn_style",
 
   btn_bg_clr: "#111111",
 
@@ -125,10 +125,10 @@ const newPreOrderRule = () => ({
       left: "1",
     },
     radius: {
-      top: "6",
-      right: "6",
-      bottom: "6",
-      left: "6",
+      top: "0",
+      right: "0",
+      bottom: "0",
+      left: "0",
     },
     style: "solid",
     color: "#111111",
@@ -791,7 +791,7 @@ export default function PreOrderRules({ rules, onChange, onLivePreview }) {
                           )}
                         >
                           <SelectControl
-                            value={rule.btn_style || "default_btn_style"}
+                            value={rule.btn_style || "custom_btn_style"}
                             options={[
                               {
                                 label: __(
@@ -893,7 +893,11 @@ export default function PreOrderRules({ rules, onChange, onLivePreview }) {
 
         <ResetModuleButton
           moduleId="pre-order"
-          onReset={() => onChange([newPreOrderRule()])}
+          onReset={() => {
+            const resetRules = [newPreOrderRule()];
+            onChange(resetRules);
+            return { rules: resetRules };
+          }}
         />
       </div>
     </div>

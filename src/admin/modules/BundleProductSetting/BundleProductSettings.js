@@ -34,8 +34,15 @@ const DEFAULT_SETTINGS = {
 export default function BundleProductSettings({
   onSettingsChange,
   onRegisterSave,
+    onModuleReady,
 }) {
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!loading) {
+      onModuleReady?.(MODULE_ID);
+    }
+  }, [loading]);
   const [saving, setSaving] = useState(false);
 
   const [success, setSuccess] = useState("");
@@ -411,8 +418,8 @@ export default function BundleProductSettings({
         <ResetModuleButton
         moduleId={MODULE_ID}
         label="Reset"
-        onReset={(newSettings) =>
-            setSettings({
+        onReset={(newSettings) => {
+            const resetSettings = {
             ...DEFAULT_SETTINGS,
             ...newSettings,
             product_page: {
@@ -423,8 +430,10 @@ export default function BundleProductSettings({
                 ...DEFAULT_SETTINGS.cart_page,
                 ...(newSettings?.cart_page || {}),
             },
-            })
-        }
+            };
+            setSettings(resetSettings);
+            return resetSettings;
+        }}
         />
         </div>
     </div>

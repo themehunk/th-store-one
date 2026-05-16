@@ -41,6 +41,8 @@ class Th_Store_One
             new TH_Store_One_Product_Video_Admin();
             require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/sale-countdown/sale-countdown-admin.php';
             require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/pre-order/pre-order-admin.php';
+            require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/pre-order/pre-order-status.php';
+
 
         }
         // Modules manager (option + REST).

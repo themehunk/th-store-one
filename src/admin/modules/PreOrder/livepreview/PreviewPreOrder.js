@@ -77,11 +77,11 @@ const PreviewPreOrder = ({ settings = {} }) => {
 
   const getBoxStyle = () => {
     return {
-      background: s?.box_bg_color || "#ffffff",
+      background: s?.msg_bg_clr || "#ffffff",
 
-      color: s?.box_text_color || "#111827",
+      color: s?.msg_clr || "#111827",
 
-      border: `1px solid ${s?.box_border_color || "#e5e7eb"}`,
+      border: `1px solid #e5e7eb`,
 
       borderRadius: "18px",
 
@@ -93,7 +93,7 @@ const PreviewPreOrder = ({ settings = {} }) => {
 
   const getMessageStyle = () => {
     return {
-      color: s?.message_text_color || "#111827",
+      color: s?.msg_clr || "#111827",
 
       fontSize: `${s?.message_font_size || 16}px`,
 
