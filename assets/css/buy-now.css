@@ -23,10 +23,33 @@
     display:flex;
     margin:0;
 }
-.th-buy-now-form.s1-archive{
-  text-align:center;
-}
+
 
 .s1-single .th-buy-now-btn,.th-buy-now-btn.button.th-buy-now-single {
     width: 100%;
+}
+.th-buy-now-btn.button.th-buy-now-custom {
+
+  background: var(--th-buy-bg);
+
+  color: var(--th-buy-color);
+
+  border-style: var(--th-buy-border-style);
+
+  border-color: var(--th-buy-border-color);
+
+  border-width: var(--th-buy-border-top)
+                var(--th-buy-border-right)
+                var(--th-buy-border-bottom)
+                var(--th-buy-border-left);
+
+  border-radius: var(--th-buy-radius-top)
+                 var(--th-buy-radius-right)
+                 var(--th-buy-radius-bottom)
+                 var(--th-buy-radius-left);
+
+  padding: var(--th-buy-pad-top)
+           var(--th-buy-pad-right)
+           var(--th-buy-pad-bottom)
+           var(--th-buy-pad-left);
 }

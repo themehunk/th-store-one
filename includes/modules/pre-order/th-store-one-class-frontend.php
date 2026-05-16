@@ -87,6 +87,8 @@ class TH_Store_One_Pre_Order
             3
         );
 
+
+
         /* =========================
          * PURCHASE CONTROL
          * ========================= */
@@ -175,6 +177,8 @@ class TH_Store_One_Pre_Order
             10,
             2
         );
+
+
 
     }
 
@@ -364,6 +368,18 @@ class TH_Store_One_Pre_Order
                     $rule['enable_single_page']
                 )
             ) {
+
+                add_action(
+                    'woocommerce_before_add_to_cart_form',
+                    [ $this, 'open_single_wrap' ],
+                    1
+                );
+
+                add_action(
+                    'woocommerce_after_add_to_cart_form',
+                    [ $this, 'close_single_wrap' ],
+                    999
+                );
 
                 $placement =
                     $rule['single_placement']
@@ -1928,16 +1944,26 @@ class TH_Store_One_Pre_Order
 
             $style = sprintf(
                 '
-            background:%s;
-            color:%s;
+             --th-pre-btn-bg:%s;
+    --th-pre-btn-color:%s;
 
-            padding:%s %s %s %s;
+    --th-pre-btn-pad-top:%s;
+    --th-pre-btn-pad-right:%s;
+    --th-pre-btn-pad-bottom:%s;
+    --th-pre-btn-pad-left:%s;
 
-            border-style:%s;
-            border-color:%s;
-            border-width:%s %s %s %s;
+    --th-pre-btn-border-style:%s;
+    --th-pre-btn-border-color:%s;
 
-            border-radius:%s %s %s %s;
+    --th-pre-btn-border-top:%s;
+    --th-pre-btn-border-right:%s;
+    --th-pre-btn-border-bottom:%s;
+    --th-pre-btn-border-left:%s;
+
+    --th-pre-btn-radius-top:%s;
+    --th-pre-btn-radius-right:%s;
+    --th-pre-btn-radius-bottom:%s;
+    --th-pre-btn-radius-left:%s;
             ',
                 esc_attr($settings['btn_bg_clr'] ?? '#111'),
                 esc_attr($settings['btn_text_clr'] ?? '#fff'),
@@ -1964,29 +1990,109 @@ class TH_Store_One_Pre_Order
         ];
     }
 
-    private function get_badge_style($settings)
-    {
+    private function get_badge_style(
+        $settings
+    ) {
 
         return sprintf(
             '
-        background:%s;
-        color:%s;
+        --th-preorder-badge-bg:%s;
+        --th-preorder-badge-color:%s;
         ',
-            esc_attr($settings['btn_bdge_bg_clr'] ?? '#111'),
-            esc_attr($settings['btn_clr'] ?? '#fff')
+            esc_attr(
+                $settings['btn_bdge_bg_clr']
+                ?? '#111'
+            ),
+            esc_attr(
+                $settings['btn_clr']
+                ?? '#fff'
+            )
         );
     }
-    private function get_message_style($settings)
-    {
+    private function get_message_style(
+        $settings
+    ) {
 
         return sprintf(
             '
-        background:%s;
-        color:%s;
+        --th-preorder-msg-bg:%s;
+        --th-preorder-msg-color:%s;
         ',
-            esc_attr($settings['msg_bg_clr'] ?? '#fff'),
-            esc_attr($settings['msg_clr'] ?? '#111')
+            esc_attr(
+                $settings['msg_bg_clr']
+                ?? '#fff'
+            ),
+            esc_attr(
+                $settings['msg_clr']
+                ?? '#111'
+            )
         );
+    }
+
+    public function open_single_wrap()
+    {
+
+        global $product;
+
+        if (
+            ! $product instanceof WC_Product
+        ) {
+            return;
+        }
+
+        foreach ($this->rules as $rule) {
+
+            if (
+                ! $this->match_rule(
+                    $rule,
+                    $product->get_id()
+                )
+            ) {
+                continue;
+            }
+
+            ?>
+
+        <div
+            class="th-preorder-single-wrap"
+        >
+
+        <?php
+
+            break;
+        }
+    }
+
+    public function close_single_wrap()
+    {
+
+        global $product;
+
+        if (
+            ! $product instanceof WC_Product
+        ) {
+            return;
+        }
+
+        foreach ($this->rules as $rule) {
+
+            if (
+                ! $this->match_rule(
+                    $rule,
+                    $product->get_id()
+                )
+            ) {
+                continue;
+            }
+
+            ?>
+
+        </div>
+
+        <?php
+
+            break;
+        }
     }
 
 }
