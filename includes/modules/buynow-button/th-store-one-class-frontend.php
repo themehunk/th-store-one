@@ -314,7 +314,7 @@ class Th_Store_One_Buy_Now_Frontend
     <?php echo esc_html($text); ?>
     </button>
 
-    <?php else: ?>
+    <?php else: ?> 
 
     <form class="th-buy-now-form s1-<?php echo esc_attr($type); ?>" method="post">
         <input type="hidden" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>">
@@ -386,57 +386,145 @@ class Th_Store_One_Buy_Now_Frontend
 
         $s = $this->settings;
 
-        // default class (WooCommerce compatible)
-        $classes = ['th-buy-now-btn', 'button'];
-        $style   = '';
+        /* =========================
+         * DEFAULT CLASSES
+         * ========================= */
 
-        // Only apply custom styles if enabled
-        if (!empty($s['btn_style']) && $s['btn_style'] === 'custom_btn_style') {
+        $classes = [
+            'th-buy-now-btn',
+            'button',
+        ];
+
+        $style = '';
+
+        /* =========================
+         * CUSTOM STYLE
+         * ========================= */
+
+        if (
+            ! empty($s['btn_style']) &&
+            $s['btn_style'] === 'custom_btn_style'
+        ) {
 
             $classes[] = 'th-buy-now-custom';
 
             $padding = $s['btn_padding'] ?? [];
-            $border  = $s['btn_border'] ?? [];
 
-            //Normalize values using your helper functions
-            $bg_color   = th_store_one_normalize_color($s['btn_bg_clr'] ?? '');
-            $text_color = th_store_one_normalize_color($s['btn_text_clr'] ?? '');
+            $border = $s['btn_border'] ?? [];
 
-            $pad_top    = th_store_one_with_unit($padding['top'] ?? '10px');
-            $pad_right  = th_store_one_with_unit($padding['right'] ?? '15px');
-            $pad_bottom = th_store_one_with_unit($padding['bottom'] ?? '10px');
-            $pad_left   = th_store_one_with_unit($padding['left'] ?? '15px');
+            /* =========================
+             * COLORS
+             * ========================= */
 
-            $border_top    = th_store_one_with_unit($border['width']['top'] ?? '1px');
-            $border_right  = th_store_one_with_unit($border['width']['right'] ?? '1px');
-            $border_bottom = th_store_one_with_unit($border['width']['bottom'] ?? '1px');
-            $border_left   = th_store_one_with_unit($border['width']['left'] ?? '1px');
+            $bg_color = th_store_one_normalize_color(
+                $s['btn_bg_clr'] ?? ''
+            );
 
-            $radius_top    = th_store_one_normalize_radius($border['radius']['top'] ?? '0px');
-            $radius_right  = th_store_one_normalize_radius($border['radius']['right'] ?? '0px');
-            $radius_bottom = th_store_one_normalize_radius($border['radius']['bottom'] ?? '0px');
-            $radius_left   = th_store_one_normalize_radius($border['radius']['left'] ?? '0px');
+            $text_color = th_store_one_normalize_color(
+                $s['btn_text_clr'] ?? ''
+            );
+
+            /* =========================
+             * PADDING
+             * ========================= */
+
+            $pad_top = th_store_one_with_unit(
+                $padding['top'] ?? '10px'
+            );
+
+            $pad_right = th_store_one_with_unit(
+                $padding['right'] ?? '15px'
+            );
+
+            $pad_bottom = th_store_one_with_unit(
+                $padding['bottom'] ?? '10px'
+            );
+
+            $pad_left = th_store_one_with_unit(
+                $padding['left'] ?? '15px'
+            );
+
+            /* =========================
+             * BORDER WIDTH
+             * ========================= */
+
+            $border_top = th_store_one_with_unit(
+                $border['width']['top'] ?? '1px'
+            );
+
+            $border_right = th_store_one_with_unit(
+                $border['width']['right'] ?? '1px'
+            );
+
+            $border_bottom = th_store_one_with_unit(
+                $border['width']['bottom'] ?? '1px'
+            );
+
+            $border_left = th_store_one_with_unit(
+                $border['width']['left'] ?? '1px'
+            );
+
+            /* =========================
+             * BORDER RADIUS
+             * ========================= */
+
+            $radius_top = th_store_one_normalize_radius(
+                $border['radius']['top'] ?? '0px'
+            );
+
+            $radius_right = th_store_one_normalize_radius(
+                $border['radius']['right'] ?? '0px'
+            );
+
+            $radius_bottom = th_store_one_normalize_radius(
+                $border['radius']['bottom'] ?? '0px'
+            );
+
+            $radius_left = th_store_one_normalize_radius(
+                $border['radius']['left'] ?? '0px'
+            );
+
+            /* =========================
+             * BORDER STYLE
+             * ========================= */
 
             $border_style = $border['style'] ?? 'solid';
-            $border_color = th_store_one_normalize_color($border['color'] ?? '#e5e7eb');
 
-            //Final style string
+            $border_color = th_store_one_normalize_color(
+                $border['color'] ?? '#e5e7eb'
+            );
+
+            /* =========================
+             * CSS VARIABLES
+             * ========================= */
+
             $style = "
-            background: {$bg_color};
-            color: {$text_color};
+            --th-buy-bg: {$bg_color};
+            --th-buy-color: {$text_color};
 
-            padding: {$pad_top} {$pad_right} {$pad_bottom} {$pad_left};
+            --th-buy-pad-top: {$pad_top};
+            --th-buy-pad-right: {$pad_right};
+            --th-buy-pad-bottom: {$pad_bottom};
+            --th-buy-pad-left: {$pad_left};
 
-            border-style: {$border_style};
-            border-color: {$border_color};
-            border-width: {$border_top} {$border_right} {$border_bottom} {$border_left};
+            --th-buy-border-style: {$border_style};
+            --th-buy-border-color: {$border_color};
 
-            border-radius: {$radius_top} {$radius_right} {$radius_bottom} {$radius_left};
+            --th-buy-border-top: {$border_top};
+            --th-buy-border-right: {$border_right};
+            --th-buy-border-bottom: {$border_bottom};
+            --th-buy-border-left: {$border_left};
+
+            --th-buy-radius-top: {$radius_top};
+            --th-buy-radius-right: {$radius_right};
+            --th-buy-radius-bottom: {$radius_bottom};
+            --th-buy-radius-left: {$radius_left};
         ";
         }
 
         return [
             'class' => implode(' ', $classes),
+
             'style' => trim($style),
         ];
     }
