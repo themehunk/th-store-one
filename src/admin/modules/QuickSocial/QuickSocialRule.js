@@ -1070,7 +1070,9 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
       <ResetModuleButton
         moduleId="quick-social"
         onReset={() => {
-          updateAll([newsocialTRule()]);
+          const resetRules = [newsocialTRule()];
+          updateAll(resetRules);
+          return { rules: resetRules };
         }}
       />
       </div> 

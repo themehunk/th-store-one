@@ -886,9 +886,11 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
         {__("+ Add New Rule", "th-store-one")}
       </div>
       <ResetModuleButton
-                moduleId="buy-to-list"
+                moduleId="product-brand"
                 onReset={() => {
-                  updateAll([newBrlistTRule()]);
+                  const resetRules = [newBrlistTRule()];
+                  updateAll(resetRules);
+                  return { rules: resetRules };
                 }}
               />
       </div>

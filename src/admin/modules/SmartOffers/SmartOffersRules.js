@@ -876,7 +876,11 @@ export default function SmartOffersRules({ rules, onChange }) {
 
         <ResetModuleButton
           moduleId="smart-offers"
-          onReset={() => updateAll([newSmartOfferRule()])}
+          onReset={() => {
+            const resetRules = [newSmartOfferRule()];
+            updateAll(resetRules);
+            return { rules: resetRules };
+          }}
         />
       </div>
     </div>

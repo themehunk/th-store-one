@@ -103,8 +103,15 @@ const DEFAULT_SETTINGS = {
 export default function BuyNowButtonSettings({
   onSettingsChange,
   onRegisterSave,
+    onModuleReady,
 }) {
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!loading) {
+      onModuleReady?.(MODULE_ID);
+    }
+  }, [loading]);
   const [saving, setSaving] = useState(false);
 
   const [success, setSuccess] = useState("");
@@ -927,12 +934,14 @@ export default function BuyNowButtonSettings({
         <ResetModuleButton
           moduleId={MODULE_ID}
           label="Reset"
-          onReset={(newSettings) =>
-            setSettings({
+          onReset={(newSettings) => {
+            const resetSettings = {
               ...DEFAULT_SETTINGS,
               ...newSettings,
-            })
-          }
+            };
+            setSettings(resetSettings);
+            return resetSettings;
+          }}
         />
       </div>
     </div>

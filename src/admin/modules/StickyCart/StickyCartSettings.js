@@ -98,8 +98,15 @@ const DEFAULT_SETTINGS = {
 export default function StickyCartSettings({
   onSettingsChange,
   onRegisterSave,
+    onModuleReady,
 }) {
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!loading) {
+      onModuleReady?.(MODULE_ID);
+    }
+  }, [loading]);
   const [saving, setSaving] = useState(false);
 
   const [success, setSuccess] = useState("");
@@ -947,8 +954,8 @@ export default function StickyCartSettings({
         <ResetModuleButton
           moduleId={MODULE_ID}
           label="Reset"
-          onReset={(newSettings) =>
-            setSettings({
+          onReset={(newSettings) => {
+            const resetSettings = {
               ...DEFAULT_SETTINGS,
               ...newSettings,
               general: {
@@ -967,8 +974,10 @@ export default function StickyCartSettings({
                 ...DEFAULT_SETTINGS.style,
                 ...(newSettings?.style || {}),
               },
-            })
-          }
+            };
+            setSettings(resetSettings);
+            return resetSettings;
+          }}
         />
       </div>
     </div>

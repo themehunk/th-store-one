@@ -88,12 +88,15 @@ jQuery(function ($) {
     ===================================================== */
 
   function updateUI() {
+    const preorderText =
+      typeof thPreorder !== "undefined" && thPreorder.enabled
+        ? thPreorder.text
+        : thSmartOffer.add_to_cart_text || "Add to Cart";
+
     const wrapper = $(".th-offer-wrapper");
 
     if (!wrapper.length) {
-      $(".single_add_to_cart_button").text(
-        thSmartOffer.add_to_cart_text || "Add to cart",
-      );
+      $(".single_add_to_cart_button").text(preorderText);
 
       return;
     }
@@ -258,7 +261,7 @@ jQuery(function ($) {
       $(".single_add_to_cart_button").text("Add Offer To Cart");
     } else {
       $(".single_add_to_cart_button").text(
-        `Add to Cart • ${formatPrice(final)}`,
+        `${preorderText} • ${formatPrice(final)}`,
       );
     }
 

@@ -1022,7 +1022,11 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
 
         <ResetModuleButton
           moduleId="people-view"
-          onReset={() => onChange([newPeopleViewRule()])}
+          onReset={() => {
+            const resetRules = [newPeopleViewRule()];
+            onChange(resetRules);
+            return { rules: resetRules };
+          }}
         />
       </div>
     </div>

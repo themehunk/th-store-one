@@ -10,10 +10,17 @@ const MODULE_ID = 'frequently-bought';
 export default function FrequentlyBoughtSettings({
     onSettingsChange,
     onLivePreview,
-    onRegisterSave, // REQUIRED for AdminMain
+    onRegisterSave,
+    onModuleReady, // REQUIRED for AdminMain
 }) {
  
     const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!loading) {
+      onModuleReady?.(MODULE_ID);
+    }
+  }, [loading]);
     const [saving, setSaving] = useState(false);
 
     const [success, setSuccess] = useState('');

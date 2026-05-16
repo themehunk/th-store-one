@@ -920,7 +920,11 @@ export default function InactiveTabRules({ rules, onChange }) {
 
         <ResetModuleButton
           moduleId="inactive-tab"
-          onReset={() => updateAll([newInactiveTabRule()])}
+          onReset={() => {
+            const resetRules = [newInactiveTabRule()];
+            updateAll(resetRules);
+            return { rules: resetRules };
+          }}
         />
       </div>
     </div>
