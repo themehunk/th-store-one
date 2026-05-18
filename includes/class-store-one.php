@@ -34,7 +34,7 @@ class Th_Store_One
     {
         // Admin UI.
         if (is_admin()) {
-            require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/admin/class-th-store-one-tabs.php';
+            require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/admin/th-store-one-tabs.php';
             require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/admin/th-store-one-admin.php';
             new Th_Store_One_Admin();
             require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/product-video/product-video-admin.php';

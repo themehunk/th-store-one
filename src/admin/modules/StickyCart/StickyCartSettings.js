@@ -55,10 +55,18 @@ const DEFAULT_SETTINGS = {
     countdown: false,
     mobile: {
       enabled: false,
+      show_image: true,
+      show_title: true,
+      show_price: true,
+      show_rating: false,
+      show_qty: true,
+      show_variation: true,
+      show_stock: true,
+      show_discount: false,
     },
     show_ofrbnr: false,
     ofrbnr_msg: __("Hurry! Offer will expire soon", "th-store-one"),
-    show_timer: false,
+    show_timer: true,
     start_datetime: "",
     end_datetime: "",
   },
@@ -98,7 +106,7 @@ const DEFAULT_SETTINGS = {
 export default function StickyCartSettings({
   onSettingsChange,
   onRegisterSave,
-    onModuleReady,
+  onModuleReady,
 }) {
   const [loading, setLoading] = useState(true);
 

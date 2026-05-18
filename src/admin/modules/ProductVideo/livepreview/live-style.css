@@ -80,3 +80,19 @@ text-align: -webkit-center;
 height:100%;
 width:260px;
 }
+
+.s1-shop-video .s1-preview-image-skeleton {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Overlay - Sirf Self-hosted Video ke liye */
+.s1-shop-video .s1-preview-image-skeleton::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:var(--overlay-color);
+    transition: opacity 0.4s ease;
+    z-index:99;
+    pointer-events: none;
+}

@@ -29,6 +29,7 @@ import ProfessionalItemEditor from "./ProfessionalItemEditor";
 import BusinessItemEditor from "./BusinessItemEditor";
 import OtherItemEditor from "./OtherItemEditor";
 import PlacementPriorityControl from "@th-storeone-global/PlacementPriorityControl";
+import ExcludeWooCondition from "@th-storeone-global/ExcludeWooCondition";
 /* Default Rule */
 const newsocialTRule = () => ({
   status: "active",
@@ -36,6 +37,10 @@ const newsocialTRule = () => ({
   trigger_type: "all_products",
   products: [],
   pages: [],
+  exclude_products_enabled: false,
+  exclude_products: [],
+  exclude_pages_enabled: false,
+  exclude_pages: [],
   flexible_id: crypto.randomUUID(),
   social_list: [
     {
@@ -61,7 +66,7 @@ const newsocialTRule = () => ({
         social_choose: "profile",
         phone: "",
         message: "",
-         custom_label: "",
+        custom_label: "",
       },
       contact: {
         selected_icon: "",
@@ -72,7 +77,7 @@ const newsocialTRule = () => ({
         social_choose: "profile",
         phone: "{PHONE}",
         message: "{MESSAGE}",
-         custom_label: "",
+        custom_label: "",
       },
       professional: {
         selected_icon: "",
@@ -81,7 +86,7 @@ const newsocialTRule = () => ({
         image_url: "",
         url: "",
         social_choose: "profile",
-         custom_label: "",
+        custom_label: "",
       },
       business: {
         selected_icon: "",
@@ -90,7 +95,7 @@ const newsocialTRule = () => ({
         image_url: "",
         url: "",
         social_choose: "profile",
-         custom_label: "",
+        custom_label: "",
       },
       other: {
         selected_icon: "",
@@ -98,12 +103,12 @@ const newsocialTRule = () => ({
         custom_svg: "",
         image_url: "",
         url: "",
-         custom_label: "",
+        custom_label: "",
       },
     },
   ],
   social_style: "style1",
- 
+
   priority: 10,
   open: true,
   offer_products: [],
@@ -120,9 +125,9 @@ const newsocialTRule = () => ({
   position_left: "10px",
   position_right: "10px",
   original_enabled: true,
-  max_show:"4",
+  max_show: "4",
   onpage_enabled: false,
-  placement: 'after_add_to_cart',
+  placement: "after_add_to_cart",
 });
 
 const ICON_OPTIONS = [
@@ -561,7 +566,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                                 label: __("Home Page Only", "th-store-one"),
                                 value: "home_page_only",
                               },
-                               {
+                              {
                                 label: __("All Single", "th-store-one"),
                                 value: "all_single",
                               },
@@ -581,26 +586,27 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                             label={__("On Page", "th-store-one")}
                             classN="s1-toggle-wrpapper"
                           >
-                          <ToggleControl
-                            checked={rule.onpage_enabled}
-                            onChange={(v) =>
-                              updateField(index, "onpage_enabled", v)
-                            }
-                          />
-                        </S1Field>
+                            <ToggleControl
+                              checked={rule.onpage_enabled}
+                              onChange={(v) =>
+                                updateField(index, "onpage_enabled", v)
+                              }
+                            />
+                          </S1Field>
                         )}
-                        {(rule.trigger_type === "all_single" && rule.onpage_enabled === true) && (
-                              <PlacementPriorityControl
-                                placement={rule.placement}
-                                priority={rule.priority}
-                                onPlacementChange={(v) =>
-                                  updateField(index, "placement", v)
-                                }
-                                onPriorityChange={(v) =>
-                                  updateField(index, "priority", v)
-                                }
-                              />
-                        )}
+                        {rule.trigger_type === "all_single" &&
+                          rule.onpage_enabled === true && (
+                            <PlacementPriorityControl
+                              placement={rule.placement}
+                              priority={rule.priority}
+                              onPlacementChange={(v) =>
+                                updateField(index, "placement", v)
+                              }
+                              onPriorityChange={(v) =>
+                                updateField(index, "priority", v)
+                              }
+                            />
+                          )}
                         {rule.trigger_type === "specific_pages" &&
                           rule.trigger_type !== "custom_shrtcd" && (
                             <MultiWooSearchSelector
@@ -626,6 +632,34 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                               detailedView={true}
                             />
                           )}
+
+                        <ExcludeWooCondition
+                          label={__("Exclude products", "th-store-one")}
+                          searchType="product"
+                          enabled={rule.exclude_products_enabled}
+                          items={rule.exclude_products}
+                          onToggle={(v) =>
+                            updateField(index, "exclude_products_enabled", v)
+                          }
+                          onChangeItems={(items) =>
+                            updateField(index, "exclude_products", items)
+                          }
+                          detailedView={true}
+                        />
+
+                        <ExcludeWooCondition
+                          label={__("Exclude Pages", "th-store-one")}
+                          searchType="page"
+                          enabled={rule.exclude_pages_enabled}
+                          items={rule.exclude_pages}
+                          onToggle={(v) =>
+                            updateField(index, "exclude_pages_enabled", v)
+                          }
+                          onChangeItems={(items) =>
+                            updateField(index, "exclude_pages", items)
+                          }
+                          detailedView={true}
+                        />
 
                         {/* BUY LIST GROUP */}
                         <S1FieldGroup
@@ -893,17 +927,15 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                             }}
                           />
                         </S1Field>
-                         <UniversalRangeControl
-                              label={__("Max Show On Screen", "th-store-one")}
-                              responsive={false}
-                              value={rule.max_show}
-                               min={1}
-                               max={10}
-                              onChange={(v) =>
-                                updateField(index, "max_show", v)
-                              }
-                              defaultValue="4"
-                            />
+                        <UniversalRangeControl
+                          label={__("Max Show On Screen", "th-store-one")}
+                          responsive={false}
+                          value={rule.max_show}
+                          min={1}
+                          max={10}
+                          onChange={(v) => updateField(index, "max_show", v)}
+                          defaultValue="4"
+                        />
                         <S1Field
                           label={__("Enable Original", "th-store-one")}
                           classN="s1-toggle-wrpapper"
@@ -949,7 +981,9 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                                 />
                               </S1Field>
                             </S1FieldGroup>
-                            <S1FieldGroup title={__("Icon Hover", "th-store-one")}>
+                            <S1FieldGroup
+                              title={__("Icon Hover", "th-store-one")}
+                            >
                               <S1Field>
                                 <THBackgroundControl
                                   allowGradient={true}
@@ -1063,19 +1097,19 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
         ))}
       </SortableWrapper>
       <div className="store-one-rules-footer">
-      {/* Add Rule */}
-      <div className="store-one-add-rule" onClick={addRule}>
-        {__("+ Add New Rule", "th-store-one")}
+        {/* Add Rule */}
+        <div className="store-one-add-rule" onClick={addRule}>
+          {__("+ Add New Rule", "th-store-one")}
+        </div>
+        <ResetModuleButton
+          moduleId="quick-social"
+          onReset={() => {
+            const resetRules = [newsocialTRule()];
+            updateAll(resetRules);
+            return { rules: resetRules };
+          }}
+        />
       </div>
-      <ResetModuleButton
-        moduleId="quick-social"
-        onReset={() => {
-          const resetRules = [newsocialTRule()];
-          updateAll(resetRules);
-          return { rules: resetRules };
-        }}
-      />
-      </div> 
     </div>
   );
 }

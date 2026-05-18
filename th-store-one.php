@@ -20,7 +20,7 @@ if (! defined('ABSPATH')) {
     exit;
 }
 // ------------------ Constants ------------------.
-define('TH_STORE_ONE_VERSION', '1.0.56');
+define('TH_STORE_ONE_VERSION', '1.0.68');
 define('TH_STORE_ONE_PLUGIN_FILE', __FILE__);
 define('TH_STORE_ONE_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('TH_STORE_ONE_PLUGIN_URL', plugin_dir_url(__FILE__));
@@ -49,70 +49,102 @@ add_action(
 add_action(
     'init',
     function () {
-        // Frontend class include + init.
-        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/buy-to-list/th-store-one-class-frontend.php';
-        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/quick-social/th-store-one-class-frontend.php';
-        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/product-brand/th-store-one-class-frontend.php';
-        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/trust-badges/th-store-one-class-frontend.php';
-        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/product-video/th-store-one-class-frontend.php';
-        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/sale-notification/th-store-one-class-frontend.php';
-        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/sticky-cart/th-store-one-class-frontend.php';
-        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/buynow-button/th-store-one-class-frontend.php';
-        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/Inactive-tab/th-store-one-class-frontend.php';
-        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/stock-scarcity/th-store-one-class-frontend.php';
-        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/sale-countdown/th-store-one-class-frontend.php';
-        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/recent-view/th-store-one-class-frontend.php';
-        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/smart-offers/th-store-one-class-frontend.php';
-        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/people-view/th-store-one-class-frontend.php';
-        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/pre-order/th-store-one-class-frontend.php';
 
-        if (class_exists('Th_Store_One_Buy_To_List_Frontend')) {
-            new Th_Store_One_Buy_To_List_Frontend();
-        }
-        if (class_exists('Th_Store_One_Quick_Social')) {
-            new Th_Store_One_Quick_Social();
-        }
-        if (class_exists('Th_Store_One_Product_Brand_Frontend')) {
-            new Th_Store_One_Product_Brand_Frontend();
-        }
-        if (class_exists('Th_Store_One_Trust_Badges_Frontend')) {
-            new Th_Store_One_Trust_Badges_Frontend();
-        }
-        if (class_exists('TH_Store_One_Product_Video_Frontend')) {
-            new TH_Store_One_Product_Video_Frontend();
-        }
-        if (class_exists('Th_Store_One_Sale_Notification_Frontend')) {
-            new Th_Store_One_Sale_Notification_Frontend();
-        }
-        if (class_exists('Th_Store_One_Sticky_Cart_Frontend')) {
-            new Th_Store_One_Sticky_Cart_Frontend();
-        }
-        if (class_exists('Th_Store_One_Buy_Now_Frontend')) {
-            new Th_Store_One_Buy_Now_Frontend();
-        }
-        if (class_exists('Th_Store_One_Inactive_Tab_Frontend')) {
-            new Th_Store_One_Inactive_Tab_Frontend();
-        }
-        if (class_exists('Th_Store_One_Stock_Scarcity_Frontend')) {
-            new Th_Store_One_Stock_Scarcity_Frontend();
-        }
-        if (class_exists('Th_Store_One_Sale_Countdown_Frontend')) {
-            new Th_Store_One_Sale_Countdown_Frontend();
-        }
-        if (class_exists('Th_Store_One_Recent_View')) {
-            new Th_Store_One_Recent_View();
-        }
-        if (class_exists('Th_Store_One_Smart_Offers')) {
-            new Th_Store_One_Smart_Offers();
-        }
-        if (class_exists('Th_Store_One_People_View_Frontend')) {
-            new Th_Store_One_People_View_Frontend();
-        }
-        if (class_exists('TH_Store_One_Pre_Order')) {
-            new TH_Store_One_Pre_Order();
+        $modules = [
+
+            'buy-to-list' => [
+                'file'  => 'includes/modules/buy-to-list/th-store-one-class-frontend.php',
+                'class' => 'Th_Store_One_Buy_To_List_Frontend',
+            ],
+
+            'quick-social' => [
+                'file'  => 'includes/modules/quick-social/th-store-one-class-frontend.php',
+                'class' => 'Th_Store_One_Quick_Social',
+            ],
+
+            'product-brand' => [
+                'file'  => 'includes/modules/product-brand/th-store-one-class-frontend.php',
+                'class' => 'Th_Store_One_Product_Brand_Frontend',
+            ],
+
+            'trust-badges' => [
+                'file'  => 'includes/modules/trust-badges/th-store-one-class-frontend.php',
+                'class' => 'Th_Store_One_Trust_Badges_Frontend',
+            ],
+
+            'product-video' => [
+                'file'  => 'includes/modules/product-video/th-store-one-class-frontend.php',
+                'class' => 'TH_Store_One_Product_Video_Frontend',
+            ],
+
+            'sale-notification' => [
+                'file'  => 'includes/modules/sale-notification/th-store-one-class-frontend.php',
+                'class' => 'Th_Store_One_Sale_Notification_Frontend',
+            ],
+
+            'sticky-cart' => [
+                'file'  => 'includes/modules/sticky-cart/th-store-one-class-frontend.php',
+                'class' => 'Th_Store_One_Sticky_Cart_Frontend',
+            ],
+
+            'buynow-button' => [
+                'file'  => 'includes/modules/buynow-button/th-store-one-class-frontend.php',
+                'class' => 'Th_Store_One_Buy_Now_Frontend',
+            ],
+
+            'Inactive-tab' => [
+                'file'  => 'includes/modules/Inactive-tab/th-store-one-class-frontend.php',
+                'class' => 'Th_Store_One_Inactive_Tab_Frontend',
+            ],
+
+            'stock-scarcity' => [
+                'file'  => 'includes/modules/stock-scarcity/th-store-one-class-frontend.php',
+                'class' => 'Th_Store_One_Stock_Scarcity_Frontend',
+            ],
+
+            'sale-countdown' => [
+                'file'  => 'includes/modules/sale-countdown/th-store-one-class-frontend.php',
+                'class' => 'Th_Store_One_Sale_Countdown_Frontend',
+            ],
+
+            'recent-view' => [
+                'file'  => 'includes/modules/recent-view/th-store-one-class-frontend.php',
+                'class' => 'Th_Store_One_Recent_View',
+            ],
+
+            'smart-offers' => [
+                'file'  => 'includes/modules/smart-offers/th-store-one-class-frontend.php',
+                'class' => 'Th_Store_One_Smart_Offers',
+            ],
+
+            'people-view' => [
+                'file'  => 'includes/modules/people-view/th-store-one-class-frontend.php',
+                'class' => 'Th_Store_One_People_View_Frontend',
+            ],
+
+            'pre-order' => [
+                'file'  => 'includes/modules/pre-order/th-store-one-class-frontend.php',
+                'class' => 'TH_Store_One_Pre_Order',
+            ],
+        ];
+
+        foreach ($modules as $module) {
+
+            $file = TH_STORE_ONE_PLUGIN_DIR . $module['file'];
+
+            if (file_exists($file)) {
+
+                require_once $file;
+
+                if (class_exists($module['class'])) {
+
+                    new $module['class']();
+                }
+            }
         }
     }
 );
+
 add_action('admin_enqueue_scripts', function () {
     wp_enqueue_media();
 });

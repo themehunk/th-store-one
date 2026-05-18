@@ -236,7 +236,7 @@ foreach ($rules as $rule):
     --th-message-color:' . esc_attr($message_color) . ';
     --th-success-color:' . esc_attr($success_color) . ';
 
-    --th-card-padding:' . esc_attr($card_padding) . 'px;
+  
     --th-image-radius:' . esc_attr($image_radius) . 'px;
 
     --th-border-top:' . esc_attr($border_top) . ';
