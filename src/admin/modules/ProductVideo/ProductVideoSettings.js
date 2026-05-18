@@ -28,12 +28,13 @@ const DEFAULT_SETTINGS = {
   image_vim_url: "",
   image_f_vim_url: "",
   aspect: "circle",
-  aspectShop: "1:1",
+  aspectShop: "9:16",
   icon: "circle",
   icon_clr: "#7388FFBA",
   ficon: "outline",
   ficon_clr: "#7388FFBA",
-  fauto_play: false,
+  foverlay: "rgba(0, 0, 0, 0.35)",
+  fauto_play: true,
   gauto_play: false,
 };
 
@@ -111,7 +112,7 @@ const TabContentWrapper = ({ tab, setActiveTab, children }) => {
 export default function ProductVideoSettings({
   onSettingsChange,
   onRegisterSave,
-    onModuleReady,
+  onModuleReady,
   onLivePreview,
 }) {
   const [loading, setLoading] = useState(true);
@@ -549,6 +550,14 @@ export default function ProductVideoSettings({
                               label={__("Icon Color", "th-store-one")}
                               value={settings?.ficon_clr}
                               onChange={(v) => updateField("ficon_clr", v)}
+                            />
+                          </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              allowGradient={true}
+                              label={__("Overlay", "th-store-one")}
+                              value={settings?.foverlay}
+                              onChange={(v) => updateField("foverlay", v)}
                             />
                           </S1Field>
                         </div>

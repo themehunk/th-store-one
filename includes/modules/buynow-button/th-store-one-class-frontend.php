@@ -50,6 +50,8 @@ class Th_Store_One_Buy_Now_Frontend
         add_shortcode('th_store_one_single_buy_now', [$this, 'shortcode_single']);
 
         add_action('wp', [$this, 'maybe_hide_cart_button']);
+
+
     }
 
 
@@ -259,9 +261,16 @@ class Th_Store_One_Buy_Now_Frontend
             ? ($s['archive_btn_text'] ?? 'Buy Now')
             : ($s['single_btn_text'] ?? 'Buy Now');
 
-        $qty = ($type === 'archive')
-            ? ($s['archive_default_quantity'] ?? 1)
-            : 1;
+        if ($type === 'archive') {
+            $qty = $s['archive_default_quantity'] ?? 1;
+        } else {
+
+            // single page me real WooCommerce quantity use hogi
+            $qty = max(
+                1,
+                intval($product->get_min_purchase_quantity())
+            );
+        }
 
 
         $btn = $this->get_button_style();
@@ -302,36 +311,30 @@ class Th_Store_One_Buy_Now_Frontend
         ?>
 
     <!--NORMAL BUY NOW FORM -->
-    <?php if ($type === 'single' && $is_variable): ?>
+   <?php if ($type === 'single' && $is_variable): ?>
 
-    <button type="button"
-    class="<?php echo esc_attr($btn['class'] . ' th-buy-now-single disabled'); ?>"
-    disabled
-    <?php if (!empty($btn['style'])) : ?>
-        style="<?php echo esc_attr($btn['style']); ?>"
-    <?php endif; ?>
-    >
-    <?php echo esc_html($text); ?>
-    </button>
-
-    <?php else: ?> 
-
-    <form class="th-buy-now-form s1-<?php echo esc_attr($type); ?>" method="post">
-        <input type="hidden" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>">
-        <input type="hidden" name="th_buy_now" value="1">
-        <input type="hidden" name="quantity" value="<?php echo esc_attr($qty); ?>">
-
-        <button type="submit"
-    class="<?php echo esc_attr($btn['class']); ?>"
+<button type="button"
+    class="<?php echo esc_attr($btn['class'] . ' th-buy-now-single'); ?>"
     <?php if (!empty($btn['style'])) : ?>
         style="<?php echo esc_attr($btn['style']); ?>"
     <?php endif; ?>
 >
     <?php echo esc_html($text); ?>
 </button>
-    </form>
 
-    <?php endif; ?>
+<?php else: ?> 
+
+<form class="th-buy-now-form s1-<?php echo esc_attr($type); ?>" method="post">
+    <input type="hidden" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>">
+    <input type="hidden" name="th_buy_now" value="1">
+    <input type="hidden" name="quantity" value="<?php echo esc_attr($qty); ?>">
+
+    <button type="submit" class="<?php echo esc_attr($btn['class']); ?>" ... >
+        <?php echo esc_html($text); ?>
+    </button>
+</form>
+
+<?php endif; ?>
     <?php
     }
 

@@ -1,5 +1,5 @@
-import { __ } from '@wordpress/i18n';
-import './live-style.css';
+import { __ } from "@wordpress/i18n";
+import "./live-style.css";
 
 /* ================= ICON GENERATOR ================= */
 const getVideoIcon = (type, color) => {
@@ -15,7 +15,14 @@ const getVideoIcon = (type, color) => {
 
     case "camera":
       return (
-        <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke={clr} strokeWidth="2">
+        <svg
+          viewBox="0 0 24 24"
+          width="34"
+          height="34"
+          fill="none"
+          stroke={clr}
+          strokeWidth="2"
+        >
           <rect x="3" y="6" width="11" height="12" rx="2" />
           <polygon points="16,9 21,6 21,18 16,15" />
         </svg>
@@ -38,12 +45,18 @@ const getVideoIcon = (type, color) => {
       );
     case "outline":
       return (
-        <svg width="34" height="34" fill={clr} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <svg
+          width="34"
+          height="34"
+          fill={clr}
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <g>
-          <path d="M0 0h24v24H0z" fill="none"></path>
-          <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM10.622 8.415l4.879 3.252a.4.4 0 0 1 0 .666l-4.88 3.252a.4.4 0 0 1-.621-.332V8.747a.4.4 0 0 1 .622-.332z"></path>
+            <path d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM10.622 8.415l4.879 3.252a.4.4 0 0 1 0 .666l-4.88 3.252a.4.4 0 0 1-.621-.332V8.747a.4.4 0 0 1 .622-.332z"></path>
           </g>
-          </svg>
+        </svg>
       );
 
     default:
@@ -59,18 +72,24 @@ const getAspectClass = (aspect) => {
   if (!aspect || aspect === "default") return "th-aspect-16-9";
 
   switch (aspect) {
-    case "16:9": return "th-aspect-16-9";
-    case "9:16": return "th-aspect-9-16";
-    case "4:3": return "th-aspect-4-3";
-    case "3:2": return "th-aspect-3-2";
-    case "1:1": return "th-aspect-1-1";
-    case "auto": return "th-aspect-auto";
-    default: return "th-aspect-16-9";
+    case "16:9":
+      return "th-aspect-16-9";
+    case "9:16":
+      return "th-aspect-9-16";
+    case "4:3":
+      return "th-aspect-4-3";
+    case "3:2":
+      return "th-aspect-3-2";
+    case "1:1":
+      return "th-aspect-1-1";
+    case "auto":
+      return "th-aspect-auto";
+    default:
+      return "th-aspect-16-9";
   }
 };
 /* ================= PREVIEW ================= */
-const PreviewProductVideo = ({ settings = {},activeTab = "gallery"  }) => {
-
+const PreviewProductVideo = ({ settings = {}, activeTab = "gallery" }) => {
   //active tab settings se aayega
   const isFeatured = activeTab === "featured";
 
@@ -83,20 +102,18 @@ const PreviewProductVideo = ({ settings = {},activeTab = "gallery"  }) => {
     ? settings?.ficon_clr || "#e3e3e3"
     : settings?.icon_clr || "#e3e3e3";
 
-    const aspect = isFeatured
-  ? settings?.aspectShop || "default"
-  : settings?.aspect || "default";
+  const aspect = isFeatured
+    ? settings?.aspectShop || "default"
+    : settings?.aspect || "default";
 
-const aspectClass = getAspectClass(aspect);
+  const aspectClass = getAspectClass(aspect);
 
   return (
     <div className="s1-preview-wrap">
-
       {/* ================= GALLERY PREVIEW ================= */}
       {!isFeatured && (
         <div className="s1-product-preview s1-video-preview">
           <div className="s1-main-product">
-
             <div className={`s1-main-thumb ${aspectClass}`}>
               <div className="static-skeleton static-main-img"></div>
 
@@ -114,7 +131,6 @@ const aspectClass = getAspectClass(aspect);
                 <div className="static-skeleton static-btn"></div>
               </div>
             </div>
-
           </div>
         </div>
       )}
@@ -122,27 +138,26 @@ const aspectClass = getAspectClass(aspect);
       {/* ================= FEATURED (SHOP) PREVIEW ================= */}
       {isFeatured && (
         <div className="s1-product-preview s1-shop-preview">
-
           <div className="s1-preview-product s1-shop-video s1-trust-badges">
-        
-        <div className={`s1-preview-image-skeleton ${aspectClass}`}>
-          <span className="th-video-thumb-icon">
+            <div
+              className={`s1-preview-image-skeleton ${aspectClass}`}
+              style={{
+                "--overlay-color": settings?.foverlay || "rgba(0, 0, 0, 0.35)",
+              }}
+            >
+              <span className="th-video-thumb-icon">
                 {getVideoIcon(iconType, iconColor)}
               </span>
-        </div>
-        <div className="s1-preview-title-skeleton">
-          <span />
-          <span />
-        </div>
+            </div>
+            <div className="s1-preview-title-skeleton">
+              <span />
+              <span />
+            </div>
 
-        <div className="s1-preview-price-skeleton" />
-      </div>
-
+            <div className="s1-preview-price-skeleton" />
           </div>
-
-       
+        </div>
       )}
-
     </div>
   );
 };
