@@ -246,10 +246,12 @@ class TH_Store_One_Product_Video_Frontend
 
                 if ($id) : ?>
                 <iframe 
-                    src="https://www.youtube.com/embed/<?php echo esc_attr($id); ?>?autoplay=<?php echo $fauto_play ? '1' : '0'; ?>&mute=1&loop=1&playlist=<?php echo esc_attr($id); ?>" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            frameborder="0"
-            allowfullscreen>
+                    src="https://www.youtube.com/embed/<?php echo esc_attr($id); ?>?autoplay=<?php echo $fauto_play ? '1' : '0'; ?>&mute=1&loop=1&playlist=<?php echo esc_attr($id); ?>&controls=0&modestbranding=1&rel=0" 
+                    
+    frameborder="0"
+    allow="autoplay; fullscreen"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen>
                 </iframe>
                 <?php endif; ?>
                <?php elseif ($source === 'vimeo') :
@@ -425,10 +427,12 @@ $allowed_svg = array(
 
                 if ($id) : ?>
                 <iframe 
-                    src="https://www.youtube.com/embed/<?php echo esc_attr($id); ?>?autoplay=<?php echo $fauto_play ? '1' : '0'; ?>&mute=1&loop=1&playlist=<?php echo esc_attr($id); ?>" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            frameborder="0"
-            allowfullscreen>
+                    src="https://www.youtube.com/embed/<?php echo esc_attr($id); ?>?autoplay=<?php echo $fauto_play ? '1' : '0'; ?>&mute=1&loop=1&playlist=<?php echo esc_attr($id); ?>&controls=0&modestbranding=1&rel=0" 
+                    
+    frameborder="0"
+    allow="autoplay; fullscreen"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allowfullscreen>
                 </iframe>
                 <?php endif; ?>
                <?php elseif ($source === 'vimeo') :

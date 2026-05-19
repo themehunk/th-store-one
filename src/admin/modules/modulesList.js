@@ -23,6 +23,56 @@ export const modulesList = [
     premium: true,
   },
   {
+    id: "smart-offers",
+    label: __("Smart Offers", "th-store-one"),
+    description: __(
+      "Create powerful Buy X Get Y deals, discounts, and automated offers to boost conversions and increase average order value.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.SMRTOFR,
+    premium: true,
+  },
+  {
+    id: "people-view",
+    label: __("Visitor Count", "th-store-one"),
+    description: __(
+      "Show real-time or simulated product viewers to create urgency, increase trust, and boost conversions.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.PV,
+    premium: true,
+  },
+  {
+    id: "trust-badges",
+    label: __("Badge Management", "th-store-one"),
+    description: __(
+      "Easily create, customize, and manage badges across your store with full control.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.TBD,
+    premium: true,
+  },
+  {
+    id: "inactive-tab",
+    label: __("Inactive Tab Message", "th-store-one"),
+    description: __(
+      "Modify the browser tab title when visitors switch away from your store to grab attention and encourage them to return.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.INTB,
+    premium: true,
+  },
+  {
+    id: "stock-scarcity",
+    label: __("Stock Scarcity", "th-store-one"),
+    description: __(
+      "Show low stock alerts and progress bars to create urgency and increase conversions.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.STKSC,
+    premium: true,
+  },
+  {
     id: "buy-to-list",
     label: __("Featured List", "th-store-one"),
     description: __(
@@ -52,16 +102,7 @@ export const modulesList = [
     icon: MODULE_ICONS.PBR,
     premium: false,
   },
-  {
-    id: "trust-badges",
-    label: __("Badge Management", "th-store-one"),
-    description: __(
-      "Easily create, customize, and manage badges across your store with full control.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.TBD,
-    premium: false,
-  },
+
   {
     id: "product-video",
     label: __("Product Video Gallery", "th-store-one"),
@@ -103,26 +144,6 @@ export const modulesList = [
     premium: false,
   },
   {
-    id: "inactive-tab",
-    label: __("Inactive Tab Message", "th-store-one"),
-    description: __(
-      "Modify the browser tab title when visitors switch away from your store to grab attention and encourage them to return.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.INTB,
-    premium: false,
-  },
-  {
-    id: "stock-scarcity",
-    label: __("Stock Scarcity", "th-store-one"),
-    description: __(
-      "Show low stock alerts and progress bars to create urgency and increase conversions.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.STKSC,
-    premium: false,
-  },
-  {
     id: "sale-countdown",
     label: __("Sale Countdown", "th-store-one"),
     description: __(
@@ -142,26 +163,7 @@ export const modulesList = [
     icon: MODULE_ICONS.RV,
     premium: false,
   },
-  {
-    id: "smart-offers",
-    label: __("Smart Offers", "th-store-one"),
-    description: __(
-      "Create powerful Buy X Get Y deals, discounts, and automated offers to boost conversions and increase average order value.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.SMRTOFR,
-    premium: false,
-  },
-  {
-    id: "people-view",
-    label: __("Visitor Count", "th-store-one"),
-    description: __(
-      "Show real-time or simulated product viewers to create urgency, increase trust, and boost conversions.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.PV,
-    premium: false,
-  },
+
   {
     id: "pre-order",
     label: __("Pre Order", "th-store-one"),

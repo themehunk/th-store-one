@@ -1,20 +1,19 @@
-import './live-style.css';
-import { __ } from '@wordpress/i18n';
+import "./live-style.css";
+import { __ } from "@wordpress/i18n";
 
 const PreviewSaleNotification = ({ settings = {} }) => {
+  const style = settings?.noti_style || "style1";
 
-    const style = settings?.noti_style || 'style1';
+  const changeStyle = (value) => {
+    window.dispatchEvent(
+      new CustomEvent("storeone:changeNotifyStyle", {
+        detail: { style: value },
+      }),
+    );
+  };
 
-    const changeStyle = (value) => {
-        window.dispatchEvent(
-            new CustomEvent('storeone:changeNotifyStyle', {
-                detail: { style: value }
-            })
-        );
-    };
-
-    const dynamicStyle = {
-    background: settings?.noti_bg_clr || "#fff",
+  const dynamicStyle = {
+    background: settings?.noti_bg_clr || "#ffffff8c",
 
     color: settings?.noti_text_clr || "#1e1e1e",
 
@@ -44,56 +43,65 @@ const PreviewSaleNotification = ({ settings = {} }) => {
     `,
   };
 
-    return (
-        <div className="s1-ntf-preview-wrap">
+  return (
+    <div className="s1-ntf-preview-wrap">
+      <div className="s1-style-tabs">
+        {[
+          { id: "style1", label: "Classic" },
+          { id: "style2", label: "Modern" },
+          { id: "style3", label: "Minimal" },
+          { id: "style4", label: "Elegant" },
+        ].map((s) => (
+          <div
+            key={s.id}
+            className={`s1-style-tab ${style === s.id ? "active" : ""}`}
+            onClick={() => changeStyle(s.id)}
+          >
+            <div className="s1-style-preview-box">{s.label}</div>
+          </div>
+        ))}
+      </div>
+      <div className="s1-preview-area">
+        <div className={`s1-sale-popup ${style}`} style={dynamicStyle}>
+          <span
+            className="s1-close-btn"
+            style={{ color: settings?.noti_text_clr || "#1e1e1e" }}
+          >
+            ×
+          </span>
+          <img
+            src={
+              th_StoreOneAdmin.homeUrl +
+              "wp-content/plugins/th-store-one/assets/images/prd1.png"
+            }
+            className="s1-sale-img"
+          />
 
-            <div className="s1-style-tabs">
-  {[
-    { id: "style1", label: "Classic" },
-    { id: "style2", label: "Modern" },
-    { id: "style3", label: "Minimal" },
-    { id: "style4", label: "Elegant" },
-  ].map((s) => (
-    <div
-      key={s.id}
-      className={`s1-style-tab ${style === s.id ? "active" : ""}`}
-      onClick={() => changeStyle(s.id)}
-    >
-      <div className="s1-style-preview-box">{s.label}</div>
-    </div>
-  ))}
-</div>
-   <div className="s1-preview-area">
-    <div className={`s1-sale-popup ${style}`} style={dynamicStyle}>
-        <span className="s1-close-btn" style={{ color: settings?.noti_text_clr || "#1e1e1e" }}>×</span>
-    <img
-    src={
-        th_StoreOneAdmin.homeUrl +
-        "wp-content/plugins/th-store-one/assets/images/prd1.png"
-    }
-    className="s1-sale-img"
-    />
-
-    <div className="s1-sale-content">
-      <strong style={{ color: settings?.noti_title_clr || "#111" }}>{__('Amit from Bangalore','th-store-one')}</strong>
-      <p style={{ color: settings?.noti_text_clr || "#1e1e1e" }}>{__('purchased Sony WH-1000XM5','th-store-one')}</p>
-      <span style={{ color: settings?.noti_text_clr || "#1e1e1e" }}>{__('1 Week ago','th-store-one')}</span>
-    </div>
-<div className="s1-progress-bar">
-  <div
-    key={settings?.display_duration + settings?.delay_bar_clr}
-    className="s1-progress-fill"
-    style={{
-      animationDuration: `${settings?.display_duration || 4}s`,
-      background: settings?.delay_bar_clr || "#F56E28"
-    }}
-  ></div>
-</div>
-  </div>
-  
-</div> 
+          <div className="s1-sale-content">
+            <strong style={{ color: settings?.noti_title_clr || "#111" }}>
+              {__("Amit from Bangalore", "th-store-one")}
+            </strong>
+            <p style={{ color: settings?.noti_text_clr || "#1e1e1e" }}>
+              {__("purchased Sony WH-1000XM5", "th-store-one")}
+            </p>
+            <span style={{ color: settings?.noti_text_clr || "#1e1e1e" }}>
+              {__("1 Week ago", "th-store-one")}
+            </span>
+          </div>
+          <div className="s1-progress-bar">
+            <div
+              key={settings?.display_duration + settings?.delay_bar_clr}
+              className="s1-progress-fill"
+              style={{
+                animationDuration: `${settings?.display_duration || 4}s`,
+                background: settings?.delay_bar_clr || "#F56E28",
+              }}
+            ></div>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default PreviewSaleNotification;

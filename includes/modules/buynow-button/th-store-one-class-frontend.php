@@ -275,6 +275,7 @@ class Th_Store_One_Buy_Now_Frontend
 
         $btn = $this->get_button_style();
 
+
         $is_block_theme = function_exists('wp_is_block_theme') && wp_is_block_theme();
         $is_theme_style = isset($s['btn_style']) && $s['btn_style'] === 'default_btn_style';
 
@@ -329,7 +330,9 @@ class Th_Store_One_Buy_Now_Frontend
     <input type="hidden" name="th_buy_now" value="1">
     <input type="hidden" name="quantity" value="<?php echo esc_attr($qty); ?>">
 
-    <button type="submit" class="<?php echo esc_attr($btn['class']); ?>" ... >
+    <button type="submit" class="<?php echo esc_attr($btn['class']); ?>" <?php if (!empty($btn['style'])) : ?>
+                style="<?php echo esc_attr($btn['style']); ?>"
+            <?php endif; ?>>
         <?php echo esc_html($text); ?>
     </button>
 </form>

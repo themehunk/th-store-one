@@ -237,27 +237,31 @@ const PreviewPreOrder = ({ settings = {} }) => {
 
                 {/* PREORDER BOX */}
 
-                <div className="th-preorder-box-preview" style={getBoxStyle()}>
+                {s?.enable_msg === true && (
                   <div
-                    className="th-preorder-message-preview"
-                    style={getMessageStyle()}
+                    className="th-preorder-box-preview"
+                    style={getBoxStyle()}
                   >
-                    {s?.preorder_message ||
-                      __(
-                        "This product is available for pre-order.",
-                        "th-store-one",
-                      )}
-                  </div>
-
-                  {s?.date_mode === "calendar" && (
-                    <div className="th-preorder-date-preview">
-                      <strong>{__("Available On:", "th-store-one")}</strong>
-
-                      <span>{s?.availability_date || "May 14, 2026"}</span>
+                    <div
+                      className="th-preorder-message-preview"
+                      style={getMessageStyle()}
+                    >
+                      {s?.preorder_message ||
+                        __(
+                          "This product is available for pre-order.",
+                          "th-store-one",
+                        )}
                     </div>
-                  )}
 
-                  {/* {s?.date_mode === "manual" && (
+                    {s?.date_mode === "calendar" && (
+                      <div className="th-preorder-date-preview">
+                        <strong>{__("Available On:", "th-store-one")}</strong>
+
+                        <span>{s?.availability_date || "May 14, 2026"}</span>
+                      </div>
+                    )}
+
+                    {/* {s?.date_mode === "manual" && (
                     <div
                       className="th-preorder-badge-preview"
                       style={getBadgeStyle()}
@@ -266,7 +270,7 @@ const PreviewPreOrder = ({ settings = {} }) => {
                     </div>
                   )} */}
 
-                  {/* {s?.price_type !== "product_price" && (
+                    {/* {s?.price_type !== "product_price" && (
                     <div className="th-preorder-price-wrap-preview">
                       <span className="th-preorder-price-label-preview">
                         {__("Pre-order Price", "th-store-one")}
@@ -279,7 +283,8 @@ const PreviewPreOrder = ({ settings = {} }) => {
                       </div>
                     </div>
                   )} */}
-                </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

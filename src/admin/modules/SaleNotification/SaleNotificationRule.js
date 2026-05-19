@@ -46,7 +46,7 @@ const newSaleRule = () => ({
       id: crypto.randomUUID(),
       fakeCustomerName: "",
       fakeCustomerAddress: "{city}, {state}, {country}, {address}",
-      fakeTime:"1 Week ago",
+      fakeTime: "1 Week ago",
       fakePrductSrc: "store_product",
       fakeProductList: [],
       fakeCustomProduct: "{Product Name}, {Price}, {Sku}",
@@ -56,7 +56,7 @@ const newSaleRule = () => ({
     },
   ],
   display_notification: "{customer name} from {city} ",
-  display_notification_n:"purchase, {product name} {sku}",
+  display_notification_n: "purchase, {product name} {sku}",
   display_duration: 4,
   delay_between: 5,
   position: "bottom_right",
@@ -71,9 +71,9 @@ const newSaleRule = () => ({
   exclude_productsInclude_enabled: false,
   exclude_categoryInclude_enabled: false,
   noti_title_clr: "#000000",
-  noti_text_clr:"#1e1e1e",
-  noti_bg_clr: "#fff",
-  delay_bar_clr:"#F56E28",
+  noti_text_clr: "#1e1e1e",
+  noti_bg_clr: "#ffffff8c",
+  delay_bar_clr: "#F56E28",
   noti_border: {
     width: {
       top: "1px",
@@ -95,94 +95,93 @@ const newSaleRule = () => ({
     right: "15px",
     bottom: "15px",
     left: "15px",
-  }
-  
+  },
 });
 
 const STYLE_DEFAULTS = {
   style1: {
     noti_title_clr: "#111",
-    noti_bg_clr: "#ffffff",
-    noti_text_clr:"#1e1e1e",
+    noti_bg_clr: "#ffffff8c",
+    noti_text_clr: "#1e1e1e",
     noti_border: {
       style: "solid",
       color: "#e5e7eb",
       width: {
-      top: "1px",
-      right: "1px",
-      bottom: "1px",
-      left: "1px",
+        top: "1px",
+        right: "1px",
+        bottom: "1px",
+        left: "1px",
+      },
+      radius: {
+        top: "10px",
+        right: "10px",
+        bottom: "10px",
+        left: "10px",
+      },
     },
-    radius: {
-      top: "10px",
-      right: "10px",
-      bottom: "10px",
-      left: "10px",
-    },
-      }
   },
   style2: {
-   noti_title_clr: "#fff",
-   noti_text_clr:"#fff",
+    noti_title_clr: "#fff",
+    noti_text_clr: "#fff",
     noti_bg_clr: "#111827",
     noti_border: {
       style: "solid",
-        color: "#111827",
-        width: {
-      top: "1px",
-      right: "1px",
-      bottom: "1px",
-      left: "1px",
+      color: "#111827",
+      width: {
+        top: "1px",
+        right: "1px",
+        bottom: "1px",
+        left: "1px",
+      },
+      radius: {
+        top: "10px",
+        right: "10px",
+        bottom: "10px",
+        left: "10px",
+      },
     },
-    radius: {
-      top: "10px",
-      right: "10px",
-      bottom: "10px",
-      left: "10px",
-    },
-      }
   },
   style3: {
     noti_title_clr: "#111",
-    noti_bg_clr: "#ffffff",
-    noti_text_clr:"#1e1e1e",
+    noti_bg_clr: "#ffffff8c",
+    noti_text_clr: "#1e1e1e",
     noti_border: {
-        style: "dashed",
-        color: "#cbd5e1",
-        width: {
-      top: "1px",
-      right: "1px",
-      bottom: "1px",
-      left: "1px",
+      style: "dashed",
+      color: "#cbd5e1",
+      width: {
+        top: "1px",
+        right: "1px",
+        bottom: "1px",
+        left: "1px",
+      },
+      radius: {
+        top: "10px",
+        right: "10px",
+        bottom: "10px",
+        left: "10px",
+      },
     },
-    radius: {
-      top: "10px",
-      right: "10px",
-      bottom: "10px",
-      left: "10px",
-    },
-      }
   },
   style4: {
     noti_title_clr: "#fff",
-    noti_text_clr:"#fff",
+    noti_text_clr: "#fff",
     noti_bg_clr: "linear-gradient(135deg, #6366f1, #8b5cf6)",
     noti_border: {
-        style: "solid",
-        color: "transparent",
-        width: {
-      top: "1px",
-      right: "1px",
-      bottom: "1px",
-      left: "1px",
+      style: "solid",
+      color: "transparent",
+      width: {
+        top: "1px",
+        right: "1px",
+        bottom: "1px",
+        left: "1px",
+      },
+      radius: {
+        top: "10px",
+        right: "10px",
+        bottom: "10px",
+        left: "10px",
+      },
     },
-    radius: {
-      top: "10px",
-      right: "10px",
-      bottom: "10px",
-      left: "10px",
-    },
-      }
   },
 };
 /* Sortable */
@@ -339,19 +338,18 @@ export default function SaleNotificationRule({
   };
 
   const updateFakeItemField = (ruleIndex, itemIndex, field, value) => {
+    const list = rules[ruleIndex].fake_orders.map((item, i) => {
+      if (i === itemIndex) {
+        return {
+          ...item,
+          [field]: value,
+        };
+      }
+      return item;
+    });
 
-  const list = rules[ruleIndex].fake_orders.map((item, i) => {
-    if (i === itemIndex) {
-      return {
-        ...item,
-        [field]: value,
-      };
-    }
-    return item;
-  });
-
-  updateFakeList(ruleIndex, list);
-};
+    updateFakeList(ruleIndex, list);
+  };
 
   const toggleFakeItem = (ruleIndex, itemIndex) => {
     const list = [...rules[ruleIndex].fake_orders];
@@ -553,7 +551,6 @@ export default function SaleNotificationRule({
                               </S1Field>
                               <MultiWooSearchSelector
                                 searchType="product"
-                               
                                 label={__(
                                   "Add Selected Products to List",
                                   "th-store-one",
@@ -664,7 +661,6 @@ export default function SaleNotificationRule({
                                           }
                                           placeholder="{customer_name}, {city}, {state}, {country}, {address}"
                                         />
-                                        
                                       </S1Field>
                                       <S1Field
                                         label={__(
@@ -684,7 +680,6 @@ export default function SaleNotificationRule({
                                           }
                                           placeholder="1 week ago"
                                         />
-                                        
                                       </S1Field>
 
                                       <S1Field
@@ -728,7 +723,12 @@ export default function SaleNotificationRule({
                                           label="Select Product"
                                           value={item.fakeProductList || []}
                                           onChange={(items) =>
-                                            updateFakeItemField(index, i, "fakeProductList", items)
+                                            updateFakeItemField(
+                                              index,
+                                              i,
+                                              "fakeProductList",
+                                              items,
+                                            )
                                           }
                                           detailedView={true}
                                           isSingle={true}
@@ -755,9 +755,7 @@ export default function SaleNotificationRule({
                                             />
                                             <p className="s1-help-text">
                                               Available Tags:{" "}
-                                              {
-                                                "{order}, {invoice}, {ref}"
-                                              }
+                                              {"{order}, {invoice}, {ref}"}
                                             </p>
                                           </S1Field>
                                           <S1Field
@@ -778,7 +776,6 @@ export default function SaleNotificationRule({
                                               }
                                               placeholder="https://"
                                             />
-                                            
                                           </S1Field>
                                           <S1Field
                                             label={__(
@@ -926,7 +923,11 @@ export default function SaleNotificationRule({
                           <TextControl
                             value={rule.display_notification_n}
                             onChange={(items) =>
-                              updateField(index, "display_notification_n", items)
+                              updateField(
+                                index,
+                                "display_notification_n",
+                                items,
+                              )
                             }
                             placeholder="purchase {product_name} {sku}"
                           />
@@ -1010,7 +1011,10 @@ export default function SaleNotificationRule({
                           >
                             {/* Initial Delay */}
                             <S1Field
-                              label={__("Initial Delay Range(sec)", "th-store-one")}
+                              label={__(
+                                "Initial Delay Range(sec)",
+                                "th-store-one",
+                              )}
                             >
                               <UniversalRangeControl
                                 value={String(rule.initial_delay ?? 2)}
@@ -1037,7 +1041,10 @@ export default function SaleNotificationRule({
                             {/* Random Delay Range */}
                             {rule.random_delay && (
                               <S1Field
-                                label={__("Random Delay Range (sec)", "th-store-one")}
+                                label={__(
+                                  "Random Delay Range (sec)",
+                                  "th-store-one",
+                                )}
                               >
                                 <UniversalRangeControl
                                   value={String(rule.random_delay_range ?? 4)}
@@ -1181,7 +1188,9 @@ export default function SaleNotificationRule({
                             detailedView={true}
                           />
                         )}
-                        <S1Field label={__("Device Visibility", "th-store-one")}>
+                        <S1Field
+                          label={__("Device Visibility", "th-store-one")}
+                        >
                           <DeviceSelector
                             value={rule.devices || ["desktop"]}
                             onChange={(v) => updateField(index, "devices", v)}

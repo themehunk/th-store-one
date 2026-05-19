@@ -1,19 +1,26 @@
 <?php
-if (!defined('ABSPATH')) exit;
+if (!defined('ABSPATH')) {
+    exit;
+}
 
-class Th_Store_One_Sticky_Cart_Frontend {
-
+class Th_Store_One_Sticky_Cart_Frontend
+{
     private $settings = [];
 
-    public function __construct() {
+    public function __construct()
+    {
 
         $modules = get_option('th_store_one_module_option', []);
-        if (empty($modules['sticky-cart'])) return;
+        if (empty($modules['sticky-cart'])) {
+            return;
+        }
 
         $all = get_option('th_store_one_module_set', []);
         $this->settings = $all['sticky-cart'] ?? [];
 
-        if (empty($this->settings)) return;
+        if (empty($this->settings)) {
+            return;
+        }
 
         add_action('wp_footer', [$this, 'render']);
         add_action('wp_enqueue_scripts', [$this, 'assets']);
@@ -21,26 +28,32 @@ class Th_Store_One_Sticky_Cart_Frontend {
         add_filter('woocommerce_add_to_cart_redirect', [$this, 'th_buy_now_redirect']);
     }
 
-    public function th_buy_now_redirect($url) {
+    public function th_buy_now_redirect($url)
+    {
 
-    // check buy now request
-    if (isset($_REQUEST['th_buy_now'])) {
-        return wc_get_checkout_url(); // direct checkout
+        // check buy now request
+        if (isset($_REQUEST['th_buy_now'])) {
+            return wc_get_checkout_url(); // direct checkout
+        }
+
+        return $url;
     }
-
-    return $url;
-}
 
     /* -------------------------
      * DEVICE
      * ------------------------- */
-    private function device_allowed($vis) {
+    private function device_allowed($vis)
+    {
 
         $devices = $vis['devices'] ?? ['desktop','mobile'];
         $is_mobile = wp_is_mobile();
 
-        if ($is_mobile && !in_array('mobile', $devices, true)) return false;
-        if (!$is_mobile && !in_array('desktop', $devices, true)) return false;
+        if ($is_mobile && !in_array('mobile', $devices, true)) {
+            return false;
+        }
+        if (!$is_mobile && !in_array('desktop', $devices, true)) {
+            return false;
+        }
 
         return true;
     }
@@ -48,40 +61,61 @@ class Th_Store_One_Sticky_Cart_Frontend {
     /* -------------------------
      * USER + VISIBILITY
      * ------------------------- */
-    private function check_visibility($vis, $product) {
+    private function check_visibility($vis, $product)
+    {
 
         /* Product include */
         if (($vis['trigger_type'] ?? '') === 'specific_products') {
-            if (!in_array($product->get_id(), $vis['productsInclude'] ?? [])) return false;
+            if (!in_array($product->get_id(), $vis['productsInclude'] ?? [])) {
+                return false;
+            }
         }
 
         /* Category include */
         if (($vis['trigger_type'] ?? '') === 'specific_categories') {
             $cats = wc_get_product_term_ids($product->get_id(), 'product_cat');
-            if (!array_intersect($cats, $vis['categoriesInclude'] ?? [])) return false;
+            if (!array_intersect($cats, $vis['categoriesInclude'] ?? [])) {
+                return false;
+            }
         }
 
         /* Exclude products */
         if (!empty($vis['exclude_productsInclude_enabled'])) {
-            if (in_array($product->get_id(), $vis['exclude_productsInclude'] ?? [])) return false;
+            if (in_array($product->get_id(), $vis['exclude_productsInclude'] ?? [])) {
+                return false;
+            }
         }
 
         /* Exclude categories */
         if (!empty($vis['exclude_categoriesInclude_enabled'])) {
             $cats = wc_get_product_term_ids($product->get_id(), 'product_cat');
-            if (array_intersect($cats, $vis['exclude_categoriesInclude'] ?? [])) return false;
+            if (array_intersect($cats, $vis['exclude_categoriesInclude'] ?? [])) {
+                return false;
+            }
         }
 
         /* USER CONDITION */
         $user = wp_get_current_user();
 
-        if (($vis['user_condition'] ?? 'all') === 'logged_in' && !is_user_logged_in()) return false;
-        if (($vis['user_condition'] ?? 'all') === 'guest' && is_user_logged_in()) return false;
+        if (($vis['user_condition'] ?? 'all') === 'logged_in' && !is_user_logged_in()) {
+            return false;
+        }
+        if (($vis['user_condition'] ?? 'all') === 'guest' && is_user_logged_in()) {
+            return false;
+        }
 
-        if (!empty($vis['allowed_roles']) && !array_intersect($vis['allowed_roles'], $user->roles)) return false;
-        if (!empty($vis['allowed_users']) && !in_array($user->ID, $vis['allowed_users'])) return false;
-        if (!empty($vis['exclude_roles']) && array_intersect($vis['exclude_roles'], $user->roles)) return false;
-        if (!empty($vis['exclude_users_enabled']) && in_array($user->ID, $vis['exclude_users'])) return false;
+        if (!empty($vis['allowed_roles']) && !array_intersect($vis['allowed_roles'], $user->roles)) {
+            return false;
+        }
+        if (!empty($vis['allowed_users']) && !in_array($user->ID, $vis['allowed_users'])) {
+            return false;
+        }
+        if (!empty($vis['exclude_roles']) && array_intersect($vis['exclude_roles'], $user->roles)) {
+            return false;
+        }
+        if (!empty($vis['exclude_users_enabled']) && in_array($user->ID, $vis['exclude_users'])) {
+            return false;
+        }
 
         return true;
     }
@@ -89,7 +123,8 @@ class Th_Store_One_Sticky_Cart_Frontend {
     /* -------------------------
      * CONTENT (MOBILE)
      * ------------------------- */
-    private function get_content() {
+    private function get_content()
+    {
 
         $content = $this->settings['content'] ?? [];
 
@@ -103,27 +138,38 @@ class Th_Store_One_Sticky_Cart_Frontend {
     /* -------------------------
      * RENDER
      * ------------------------- */
-    public function render() {
+    public function render()
+    {
 
-        if (!is_product()) return;
+        if (!is_product()) {
+            return;
+        }
 
         global $product;
-        if (!$product) return;
+        if (!$product) {
+            return;
+        }
 
         $g = $this->settings['general'] ?? [];
         $c = $this->get_content();
         $s = $this->settings['style'] ?? [];
         $v = $this->settings['visibility'] ?? [];
 
-        if (empty($g['status'])) return;
+        if (empty($g['status'])) {
+            return;
+        }
 
-        if (!$this->device_allowed($v)) return;
-        if (!$this->check_visibility($v, $product)) return;
+        if (!$this->device_allowed($v)) {
+            return;
+        }
+        if (!$this->check_visibility($v, $product)) {
+            return;
+        }
 
         $position = $this->settings['general']['position'] ?? 'bottom';
         $show_ofrbnr = $c['show_ofrbnr'] ?? '';
         $show_timer = $c['show_timer'] ?? '';
-    
+
         ?>
         <div class="th-sticky-cart th-<?php echo esc_attr($position); ?>"
              data-animation="<?php echo esc_attr($g['animation'] ?? 'slide'); ?>"
@@ -132,14 +178,29 @@ class Th_Store_One_Sticky_Cart_Frontend {
              
             <?php
             $end = $c['end_datetime'] ?? '';
-            $msg = $c['ofrbnr_msg'] ?? 'Hurry! Offer will expire soon';
-            ?>
+        $msg = $c['ofrbnr_msg'] ?? 'Hurry! Offer will expire soon';
+        ?>
 
             <?php if (!empty($show_ofrbnr)) : ?>
             <div class="s1-offer-banner" 
                 style="background:<?php echo esc_attr($s['ofr_bnr_bg']); ?>;color:<?php echo esc_attr($s['ofr_bnr_clr']); ?>">
-
+<span class="s1-offer-icon" style="color:<?php echo esc_attr($s['ofr_icon']); ?>;">
+        <svg xmlns="http://www.w3.org/2000/svg" 
+            width="16" 
+            height="16" 
+            viewBox="0 0 24 24" 
+            fill="none" 
+            stroke="currentColor" 
+            stroke-width="2" 
+            stroke-linecap="round" 
+            stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>
+    </span>
+    <div class="s1-offer-text">
                 <?php echo esc_html($msg); ?>
+            </div>
 
                 <?php if (!empty($end) && !empty($show_timer)) : ?>
                     <span 
@@ -177,11 +238,11 @@ class Th_Store_One_Sticky_Cart_Frontend {
                     enctype="multipart/form-data"
                     data-product_id="<?php echo esc_attr($product->get_id()); ?>">
                     <input type="hidden" name="product_id" value="<?php echo esc_attr($product->get_id()); ?>">
-                    <?php if ( $product->is_type('variable') ) : ?>
+                    <?php if ($product->is_type('variable')) : ?>
                         <script>
-                            window.th_product_variations = <?php 
-                                echo wp_json_encode( $product->get_available_variations() ); 
-                            ?>;
+                            window.th_product_variations = <?php
+                            echo wp_json_encode($product->get_available_variations());
+                        ?>;
                         </script>
                     <?php endif; ?>
                     <div class="th-right">
@@ -189,7 +250,7 @@ class Th_Store_One_Sticky_Cart_Frontend {
                         <?php if ($product->is_type('variable') && !empty($c['show_variation'])): ?>
                         <?php
                         $attributes = $product->get_variation_attributes();
-                        ?>
+                            ?>
 
                         <div class="th-variations">
 
@@ -203,7 +264,7 @@ class Th_Store_One_Sticky_Cart_Frontend {
                                         data-attribute_name="attribute_<?php echo esc_attr($attribute_name); ?>" 
                                         class="th-var-select"
                                         >
-                                        <option value=""><?php echo esc_html('Choose','th-store-one');?></option>
+                                        <option value=""><?php echo esc_html('Choose', 'th-store-one');?></option>
 
                                         <?php foreach ($options as $option): ?>
                                             <option value="<?php echo esc_attr(strtolower($option)); ?>">
@@ -231,10 +292,10 @@ class Th_Store_One_Sticky_Cart_Frontend {
                             data-action="<?php echo esc_attr($c['button_action']); ?>">
 
                             <?php echo esc_html(
-                                    !empty($c['button_text'])
-                                    ? $c['button_text']
-                                    : (($c['button_action'] ?? '') === 'buynow' ? 'Buy Now' : 'Add to Cart')
-                                ); ?>
+                                !empty($c['button_text'])
+                                ? $c['button_text']
+                                : (($c['button_action'] ?? '') === 'buynow' ? 'Buy Now' : 'Add to Cart')
+                            ); ?>
                         </button>
                         <?php else: ?>
 
@@ -268,25 +329,26 @@ class Th_Store_One_Sticky_Cart_Frontend {
         <?php
     }
 
-    public function assets() {
+    public function assets()
+    {
 
-    wp_enqueue_style(
-        'th-sticky-bar',
-        TH_STORE_ONE_PLUGIN_URL . 'assets/css/sticky-bar.css',
-        [],
-        TH_STORE_ONE_VERSION
-    );
+        wp_enqueue_style(
+            'th-sticky-bar',
+            TH_STORE_ONE_PLUGIN_URL . 'assets/css/sticky-bar.css',
+            [],
+            TH_STORE_ONE_VERSION
+        );
 
-    wp_enqueue_script('jquery');
+        wp_enqueue_script('jquery');
 
-    wp_enqueue_script(
-        'th-sticky-cart-js',
-        TH_STORE_ONE_PLUGIN_URL . 'assets/js/sticky-bar.js',
-        ['jquery'],
-        TH_STORE_ONE_VERSION,
-        true
-    );
+        wp_enqueue_script(
+            'th-sticky-cart-js',
+            TH_STORE_ONE_PLUGIN_URL . 'assets/js/sticky-bar.js',
+            ['jquery'],
+            TH_STORE_ONE_VERSION,
+            true
+        );
 
-    wp_enqueue_script('wc-add-to-cart-variation');
- }
+        wp_enqueue_script('wc-add-to-cart-variation');
+    }
 }

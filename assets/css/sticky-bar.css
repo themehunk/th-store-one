@@ -37,6 +37,7 @@
 
 .s1-offer-time{
     margin-left:0rem;
+    font-weight: 600;
 }
 .s1-offer-banner{
     text-align: center;
@@ -44,7 +45,16 @@
     background: #f3f4f6;
     color: #111;
     font-size: 1rem;
-    font-weight:normal;
+    font-weight:500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+.s1-offer-icon{
+  display: flex;
+  color: #D97706;
+  
 }
 /* ===============================
    POSITION

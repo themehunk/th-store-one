@@ -101,6 +101,7 @@ const DEFAULT_SETTINGS = {
     price_color: "#16a34a",
     ofr_bnr_clr: "#111",
     ofr_bnr_bg: "#f3f4f6",
+    ofr_icon: "#D97706",
   },
 };
 export default function StickyCartSettings({
@@ -943,6 +944,22 @@ export default function StickyCartSettings({
                                   style: {
                                     ...settings.style,
                                     ofr_bnr_clr: value,
+                                  },
+                                })
+                              }
+                            />
+                          </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              allowGradient={true}
+                              label={__("Icon Color", "th-store-one")}
+                              value={settings.style.ofr_icon || "#D97706"}
+                              onChange={(value) =>
+                                setSettings({
+                                  ...settings,
+                                  style: {
+                                    ...settings.style,
+                                    ofr_icon: value,
                                   },
                                 })
                               }
