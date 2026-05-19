@@ -50,10 +50,10 @@ const newBrlistTRule = () => ({
     },
   ],
   slider: {
-  enabled: false,
-  slides: 4,
-  autoplay: false,
-  navigation: true,
+    enabled: false,
+    slides: 4,
+    autoplay: false,
+    navigation: true,
   },
   black_image_enabled: false,
   placement: "after_summary",
@@ -89,21 +89,21 @@ const newBrlistTRule = () => ({
   btl_icon_clr: "#2563eb",
   btl_bg_clr: "#fff",
   border: {
-      width: {
-        top: "1px", 
-        right: "1px",
-        bottom: "1px",
-        left: "1px",
-      },
-      style: "solid",
-      color: "#eee",
-      radius: {
-        top: "4px",
-        right: "4px",
-        bottom: "4px",
-        left: "4px",
-      },
+    width: {
+      top: "1px",
+      right: "1px",
+      bottom: "1px",
+      left: "1px",
     },
+    style: "solid",
+    color: "#eee",
+    radius: {
+      top: "4px",
+      right: "4px",
+      bottom: "4px",
+      left: "4px",
+    },
+  },
 });
 
 /** menu tabs */
@@ -390,7 +390,10 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                                 value: "specific_products",
                               },
                               {
-                                label: __("Specific Categories", "th-store-one"),
+                                label: __(
+                                  "Specific Categories",
+                                  "th-store-one",
+                                ),
                                 value: "specific_categories",
                               },
                               {
@@ -563,118 +566,133 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
 
                                 {item.open && (
                                   <div className="store-one-rule-body">
+                                    <S1Field
+                                      label={__(
+                                        "Choose Badges",
+                                        "th-store-one",
+                                      )}
+                                    >
+                                      <SelectControl
+                                        value={item.badegs_type || "preset"}
+                                        options={[
+                                          {
+                                            label: __("Preset", "th-store-one"),
+                                            value: "preset",
+                                          },
+                                          {
+                                            label: __("Custom", "th-store-one"),
+                                            value: "custom",
+                                          },
+                                        ]}
+                                        onChange={(v) =>
+                                          updateBuyItemField(
+                                            index,
+                                            i,
+                                            "badegs_type",
+                                            v,
+                                          )
+                                        }
+                                      />
+                                    </S1Field>
 
-                                    <S1Field label={__("Choose Badges", "th-store-one")}>
-                                    <SelectControl
-                                      value={item.badegs_type || "preset"}
-                                      options={[
-                                        {
-                                          label: __("Preset", "th-store-one"),
-                                          value: "preset",
-                                        },
-                                        {
-                                          label: __("Custom", "th-store-one"),
-                                          value: "custom",
-                                        },
-                                      ]}
-                                      onChange={(v) => updateBuyItemField(index,i, "badegs_type", v)}
-                                    />
-                                  </S1Field>
+                                    {item.badegs_type === "custom" && (
+                                      <S1Field label="Upload Image">
+                                        <div className="s1-image-upload-wrapper">
+                                          {item.image_url ? (
+                                            <div className="s1-image-card">
+                                              <div className="s1-image-preview">
+                                                <img
+                                                  src={item.image_url}
+                                                  alt=""
+                                                />
+                                              </div>
 
-                                  {item.badegs_type === "custom" && (
-                                    <S1Field label="Upload Image">
-                                      <div className="s1-image-upload-wrapper">
-                                        {item.image_url ? (
-                                          <div className="s1-image-card">
-                                            <div className="s1-image-preview">
-                                              <img
-                                                src={item.image_url}
-                                                alt=""
-                                              />
-                                            </div>
+                                              <div className="s1-image-actions">
+                                                <button
+                                                  type="button"
+                                                  className="s1-btn s1-btn-edit"
+                                                  onClick={() =>
+                                                    openMediaLibrary((media) =>
+                                                      updateBuyItemField(
+                                                        index,
+                                                        i,
+                                                        "image_url",
+                                                        media.url,
+                                                      ),
+                                                    )
+                                                  }
+                                                >
+                                                  <span className="s1-btn-icon">
+                                                    {ICONS.SETTINGS}
+                                                  </span>
+                                                  Change
+                                                </button>
 
-                                            <div className="s1-image-actions">
-                                              <button
-                                                type="button"
-                                                className="s1-btn s1-btn-edit"
-                                                onClick={() =>
-                                                  openMediaLibrary((media) =>
+                                                <button
+                                                  type="button"
+                                                  className="s1-btn s1-btn-remove"
+                                                  onClick={() =>
                                                     updateBuyItemField(
                                                       index,
                                                       i,
                                                       "image_url",
-                                                      media.url,
-                                                    ),
-                                                  )
-                                                }
-                                              >
-                                                <span className="s1-btn-icon">
-                                                  {ICONS.SETTINGS}
-                                                </span>
-                                                Change
-                                              </button>
-
-                                              <button
-                                                type="button"
-                                                className="s1-btn s1-btn-remove"
-                                                onClick={() =>
+                                                      "",
+                                                    )
+                                                  }
+                                                >
+                                                  <TrashIcon />
+                                                </button>
+                                              </div>
+                                            </div>
+                                          ) : (
+                                            <button
+                                              type="button"
+                                              className="s1-upload-card"
+                                              onClick={() =>
+                                                openMediaLibrary((media) =>
                                                   updateBuyItemField(
                                                     index,
                                                     i,
                                                     "image_url",
-                                                    "",
-                                                  )
-                                                }
-                                              >
-                                                <TrashIcon />
-                                              </button>
-                                            </div>
-                                          </div>
-                                        ) : (
-                                          <button
-                                            type="button"
-                                            className="s1-upload-card"
-                                            onClick={() =>
-                                              openMediaLibrary((media) =>
-                                                updateBuyItemField(
-                                                  index,
-                                                  i,
-                                                  "image_url",
-                                                  media.url,
-                                                ),
-                                              )
-                                            }
-                                          >
-                                            <span className="s1-btn-icon">
-                                              {ICONS.DISPLAY}
-                                            </span>
-                                            <div className="s1-upload-text">
-                                              <strong>Upload Image</strong>
-                                              <p>
-                                                Select or upload an image file
-                                              </p>
-                                              <small className="s1-upload-note">
-                                                PNG, JPG, and SVG formats
-                                                supported
-                                              </small>
-                                            </div>
-                                          </button>
-                                        )}
-                                      </div>
-                                    </S1Field>
-                                  )}
+                                                    media.url,
+                                                  ),
+                                                )
+                                              }
+                                            >
+                                              <span className="s1-btn-icon">
+                                                {ICONS.DISPLAY}
+                                              </span>
+                                              <div className="s1-upload-text">
+                                                <strong>Upload Image</strong>
+                                                <p>
+                                                  Select or upload an image file
+                                                </p>
+                                                <small className="s1-upload-note">
+                                                  PNG, JPG, and SVG formats
+                                                  supported
+                                                </small>
+                                              </div>
+                                            </button>
+                                          )}
+                                        </div>
+                                      </S1Field>
+                                    )}
 
-                                    {(item.badegs_type || "preset") === "preset" && (
-                                    
-                                    <S1Field label="Trust Badge">
-                                    <PresetImageSelector
-                                        value={item.image_url}
-                                        onChange={(url) =>
-                                            updateBuyItemField(index, i, "image_url", url)
-                                        }
-                                    />
-                                    </S1Field>
-      
+                                    {(item.badegs_type || "preset") ===
+                                      "preset" && (
+                                      <S1Field label="Trust Badge">
+                                        <PresetImageSelector
+                                          value={item.image_url}
+                                          onChange={(url) =>
+                                            updateBuyItemField(
+                                              index,
+                                              i,
+                                              "image_url",
+                                              url,
+                                            )
+                                          }
+                                        />
+                                      </S1Field>
                                     )}
 
                                     <S1Field
@@ -727,7 +745,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                         <S1Field label={__("Shortcode", "th-store-one")}>
                           <p className="s1-shortcode-description">
                             {__(
-                              "Use this shortcode to display this Featured List anywhere on your site (posts, pages, widgets, or page builders).",
+                              "Use this shortcode to display this Trust Badges anywhere on your site (posts, pages, widgets, or page builders).",
                               "th-store-one",
                             )}
                           </p>
@@ -754,32 +772,32 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                       </div>
                     ),
                   },
-                    {
+                  {
                     id: menuItems[1].id,
                     label: menuItems[1].label,
                     icon: ICONS[menuItems[1].icon],
                     content: (
                       <div className="store-one-rule-body">
-
                         <SliderControl
-                            value={rule.slider || {}}
-                            onChange={(val) => updateField(index, "slider", val)}
-
-                            labels={{
-                                enable: __("Display Trust in Slider", "th-store-one"),
-                                slides: __("Slides to Show", "th-store-one"),
-                                autoplay: __("Auto Play", "th-store-one"),
-                                navigation: __("Show Navigation", "th-store-one"),
-                            }}
-
-                            fields={{
-                                enable: true,
-                                slides: true,
-                                autoplay: true,
-                                navigation: true,
-                            }}
+                          value={rule.slider || {}}
+                          onChange={(val) => updateField(index, "slider", val)}
+                          labels={{
+                            enable: __(
+                              "Display Trust in Slider",
+                              "th-store-one",
+                            ),
+                            slides: __("Slides to Show", "th-store-one"),
+                            autoplay: __("Auto Play", "th-store-one"),
+                            navigation: __("Show Navigation", "th-store-one"),
+                          }}
+                          fields={{
+                            enable: true,
+                            slides: true,
+                            autoplay: true,
+                            navigation: true,
+                          }}
                         />
-                       
+
                         <PlacementPriorityControl
                           placement={rule.placement}
                           priority={rule.priority}
@@ -800,7 +818,6 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                     icon: ICONS[menuItems[2].icon],
                     content: (
                       <div className="store-one-rule-body">
-                       
                         <UniversalRangeControl
                           label="Margin Top"
                           value={rule.margin_top}
@@ -834,12 +851,16 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                           max={100}
                         />
 
-                        <S1Field label={__("EnableBlack/White Images", "th-store-one")}>
+                        <S1Field
+                          label={__("EnableBlack/White Images", "th-store-one")}
+                        >
                           <ToggleControl
-                              checked={rule.black_image_enabled}
-                              onChange={(v) => updateField(index, "black_image_enabled", v)}
+                            checked={rule.black_image_enabled}
+                            onChange={(v) =>
+                              updateField(index, "black_image_enabled", v)
+                            }
                           />
-                      </S1Field>
+                        </S1Field>
 
                         <S1Field>
                           <THBackgroundControl
@@ -873,7 +894,6 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                       </div>
                     ),
                   },
-                
                 ]}
               />
             )}
@@ -882,17 +902,17 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
       </SortableWrapper>
       {/* Add Rule */}
       <div className="store-one-rules-footer">
-      <div className="store-one-add-rule" onClick={addRule}>
-        {__("+ Add New Rule", "th-store-one")}
-      </div>
-      <ResetModuleButton
-                moduleId="product-brand"
-                onReset={() => {
-                  const resetRules = [newBrlistTRule()];
-                  updateAll(resetRules);
-                  return { rules: resetRules };
-                }}
-              />
+        <div className="store-one-add-rule" onClick={addRule}>
+          {__("+ Add New Rule", "th-store-one")}
+        </div>
+        <ResetModuleButton
+          moduleId="product-brand"
+          onReset={() => {
+            const resetRules = [newBrlistTRule()];
+            updateAll(resetRules);
+            return { rules: resetRules };
+          }}
+        />
       </div>
     </div>
   );

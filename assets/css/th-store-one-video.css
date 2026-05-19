@@ -206,3 +206,32 @@
     width: 100%;
     height: 100%;
 }
+.th-loop-video {
+    position: relative;
+    overflow: hidden;
+}
+
+.th-loop-video iframe {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+.th-has-video video {
+    pointer-events: none;           /* user click na kare */
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.th-has-video video::-webkit-media-controls {
+    display: none !important;
+}
+
+.th-has-video video::-webkit-media-controls-panel,
+.th-has-video video::-webkit-media-controls-play-button,
+.th-has-video video::-webkit-media-controls-volume-slider,
+.th-has-video video::-webkit-media-controls-mute-button,
+.th-has-video video::-webkit-media-controls-timeline {
+    display: none !important;
+}

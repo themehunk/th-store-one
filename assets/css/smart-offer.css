@@ -139,6 +139,9 @@ padding:
   border:2px solid #cfcfcf;
   background:#fff;
   transition:.22s ease;
+  -webkit-box-sizing: unset;
+    -moz-box-sizing:unset;
+    box-sizing: unset;
 }
 
 .th-offer-wrapper .th-card-inner::after{

@@ -12,8 +12,7 @@ const PreviewStickyCart = ({ settings = {} }) => {
   const [previewDevice, setPreviewDevice] = useState(devices[0] || "desktop");
 
   // only mobile auto mode
-  const isOnlyMobile =
-    devices.length === 1 && devices.includes("mobile");
+  const isOnlyMobile = devices.length === 1 && devices.includes("mobile");
 
   //active device (FIXED LOGIC)
   const activeDevice = isOnlyMobile
@@ -48,35 +47,38 @@ const PreviewStickyCart = ({ settings = {} }) => {
 
   return (
     <div className="s1-preview-wrap">
-
       {/*DEVICE SWITCHER (only when multiple devices) */}
       {devices.length > 1 && (
         <div className="s1-device-switcher s1-style-tabs">
+          <button
+            className={`s1-style-tab ${
+              activeDevice === "desktop" ? "active" : ""
+            }`}
+            onClick={() => setPreviewDevice("desktop")}
+            disabled={!devices.includes("desktop")}
+          >
+            Desktop
+          </button>
 
           <button
-  className={`s1-style-tab ${activeDevice === "desktop" ? "active" : ""}`}
-  onClick={() => setPreviewDevice("desktop")}
-  disabled={!devices.includes("desktop")}
->
-  Desktop
-</button>
+            className={`s1-style-tab ${
+              activeDevice === "tablet" ? "active" : ""
+            }`}
+            onClick={() => setPreviewDevice("tablet")}
+            disabled={!devices.includes("tablet")}
+          >
+            Tablet
+          </button>
 
-<button
-  className={`s1-style-tab ${activeDevice === "tablet" ? "active" : ""}`}
-  onClick={() => setPreviewDevice("tablet")}
-  disabled={!devices.includes("tablet")}
->
-  Tablet
-</button>
-
-<button
-  className={`s1-style-tab ${activeDevice === "mobile" ? "active" : ""}`}
-  onClick={() => setPreviewDevice("mobile")}
-  disabled={!devices.includes("mobile")}
->
-  Mobile
-</button>
-
+          <button
+            className={`s1-style-tab ${
+              activeDevice === "mobile" ? "active" : ""
+            }`}
+            onClick={() => setPreviewDevice("mobile")}
+            disabled={!devices.includes("mobile")}
+          >
+            Mobile
+          </button>
         </div>
       )}
 
@@ -91,7 +93,6 @@ const PreviewStickyCart = ({ settings = {} }) => {
         }}
       >
         <div className="s1-product-preview s1-preview-stickybar">
-    
           {/* MAIN PRODUCT */}
           <div className="s1-main-product">
             <div className="s1-main-thumb">
@@ -117,78 +118,103 @@ const PreviewStickyCart = ({ settings = {} }) => {
               color: s?.style?.text_color,
             }}
           >
-
             {/* LEFT */}
             {/* offer */}
-           {content?.show_ofrbnr && (
-          <div className="s1-offer-banner"style={{
-              background: s?.style?.ofr_bnr_bg,
-              color: s?.style?.ofr_bnr_clr,
-            }}>
-            <div className="s1-offer-conetnt"> {__("Hurry! Offer will expire soon", "th-store-one")}
-               {content?.show_timer && (
-              <span className="s1-offer-time">{__("4:00", "th-store-one")}</span>
-               )}
-              </div>
-          </div>
-          )}
-          <div className="s1-sticky-content">
-            <div className="s1-sticky-left">
-              {content?.show_image && (
-                <div className="static-skeleton s1-thumb"></div>
-              )}
-
-              <div className="s1-info">
-                {content?.show_title && (
-                  <div
-                    className="s1-title"
-                    style={{ color: s?.style?.text_color }}
-                  >
-                    {__("Product Title", "th-store-one")}
-                  </div>
-                )}
-
-                {content?.show_price && (
-                  <div
-                    className="s1-price"
-                    style={{ color: s?.style?.price_color }}
-                  >
-                    ₹120
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* RIGHT */}
-            <div className="s1-sticky-right">
-
-              {content?.show_variation && (
-                <div className="s1-variation">
-                  <select disabled>
-                    <option>{__("Select Size", "th-store-one")}</option>
-                    <option>S</option>
-                    <option>M</option>
-                    <option>L</option>
-                  </select>
-                </div>
-              )}
-
-              {content?.show_qty && (
-                <div className="static-skeleton s1-qty"></div>
-              )}
-
+            {content?.show_ofrbnr && (
               <div
-                className="s1-btn"
+                className="s1-offer-banner"
                 style={{
-                  background: s?.style?.btn_bg_color,
-                  color: s?.style?.btn_text_color,
+                  background: s?.style?.ofr_bnr_bg,
+                  color: s?.style?.ofr_bnr_clr,
                 }}
               >
-                {getButtonText()}
+                <div className="s1-offer-conetnt">
+                  {" "}
+                  <span
+                    className="s1-offer-icon"
+                    style={{ color: s?.style?.ofr_icon }}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                  </span>
+                  <div className="s1-offer-text">
+                    {__("Hurry! Offer will expire soon", "th-store-one")}
+                  </div>
+                  {content?.show_timer && (
+                    <span className="s1-offer-time">
+                      {__("4:00", "th-store-one")}
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
+            <div className="s1-sticky-content">
+              <div className="s1-sticky-left">
+                {content?.show_image && (
+                  <div className="static-skeleton s1-thumb"></div>
+                )}
+
+                <div className="s1-info">
+                  {content?.show_title && (
+                    <div
+                      className="s1-title"
+                      style={{ color: s?.style?.text_color }}
+                    >
+                      {__("Product Title", "th-store-one")}
+                    </div>
+                  )}
+
+                  {content?.show_price && (
+                    <div
+                      className="s1-price"
+                      style={{ color: s?.style?.price_color }}
+                    >
+                      ₹120
+                    </div>
+                  )}
+                </div>
               </div>
 
+              {/* RIGHT */}
+              <div className="s1-sticky-right">
+                {content?.show_variation && (
+                  <div className="s1-variation">
+                    <select disabled>
+                      <option>{__("Select Size", "th-store-one")}</option>
+                      <option>S</option>
+                      <option>M</option>
+                      <option>L</option>
+                    </select>
+                  </div>
+                )}
+
+                {content?.show_qty && (
+                  <div className="static-skeleton s1-qty"></div>
+                )}
+
+                <div
+                  className="s1-btn"
+                  style={{
+                    background: s?.style?.btn_bg_color,
+                    color: s?.style?.btn_text_color,
+                  }}
+                >
+                  {getButtonText()}
+                </div>
+              </div>
             </div>
-          </div>
           </div>
         </div>
       </div>

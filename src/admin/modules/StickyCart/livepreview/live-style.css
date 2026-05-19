@@ -117,7 +117,12 @@ display: flex;
   transform: translateY(-1px);
   box-shadow: 0 6px 14px rgba(0,0,0,0.15);
 }
-
+.s1-offer-conetnt{
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+        font-weight: 500;
+    }
 /* SHIMMER ANIMATION */
 @keyframes s1-shimmer {
   0% { background-position: 100% 0 }
@@ -134,7 +139,7 @@ display: flex;
 }
 
 .s1-offer-time{
-    margin-left:0.3rem;
+    margin-left:0rem;
 }
 .s1-offer-banner{
 text-align: center;

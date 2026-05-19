@@ -1493,6 +1493,11 @@ class TH_Store_One_Pre_Order
                 'price_type'
             ] ?? 'product_price';
 
+        $enable_msg =
+            $settings[
+                'enable_msg'
+            ] ?? true;
+
         $product_price =
             (float)
             $product->get_regular_price();
@@ -1514,6 +1519,8 @@ class TH_Store_One_Pre_Order
 
         ?>
 
+        <?php if ($enable_msg == true) {?>
+
 	<div
 		class="th-preorder-box"
 		style="<?php echo esc_attr($msg); ?>"
@@ -1524,9 +1531,9 @@ class TH_Store_One_Pre_Order
 			<div class="th-preorder-message">
 
 				<?php
-                            echo wp_kses_post(
-                                $message
-                            );
+                    echo wp_kses_post(
+                        $message
+                    );
 		    ?>
 
 			</div>
@@ -1627,6 +1634,7 @@ class TH_Store_One_Pre_Order
 		<?php endif; ?>
 
 	</div>
+    <?php } ?>
 
 	<?php
     }

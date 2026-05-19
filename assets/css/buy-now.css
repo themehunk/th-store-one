@@ -52,4 +52,6 @@
            var(--th-buy-pad-right)
            var(--th-buy-pad-bottom)
            var(--th-buy-pad-left);
+
+           line-height: normal;
 }

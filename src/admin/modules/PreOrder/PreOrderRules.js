@@ -44,6 +44,8 @@ const newPreOrderRule = () => ({
 
   button_text: "Pre Order Now",
 
+  enable_msg: true,
+
   preorder_message: "This product is available for Pre Order.",
 
   enable_countdown: false,
@@ -488,16 +490,29 @@ export default function PreOrderRules({ rules, onChange, onLivePreview }) {
                           </S1Field>
 
                           <S1Field
-                            label="Message"
-                            description="Show preorder message."
+                            label="Enable Message"
+                            description="Display preorder message."
                           >
-                            <TextControl
-                              value={rule.preorder_message}
+                            <ToggleControl
+                              checked={rule.enable_msg}
                               onChange={(v) =>
-                                updateField(index, "preorder_message", v)
+                                updateField(index, "enable_msg", v)
                               }
                             />
                           </S1Field>
+                          {rule.enable_msg == true && (
+                            <S1Field
+                              label="Message"
+                              description="Show preorder message."
+                            >
+                              <TextControl
+                                value={rule.preorder_message}
+                                onChange={(v) =>
+                                  updateField(index, "preorder_message", v)
+                                }
+                              />
+                            </S1Field>
+                          )}
 
                           {/* <S1Field
                             label="Enable Countdown"
