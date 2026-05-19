@@ -67,10 +67,6 @@ add_action(
                 'class' => 'Th_Store_One_Product_Brand_Frontend',
             ],
 
-            'trust-badges' => [
-                'file'  => 'includes/modules/trust-badges/th-store-one-class-frontend.php',
-                'class' => 'Th_Store_One_Trust_Badges_Frontend',
-            ],
 
             'product-video' => [
                 'file'  => 'includes/modules/product-video/th-store-one-class-frontend.php',
@@ -92,15 +88,6 @@ add_action(
                 'class' => 'Th_Store_One_Buy_Now_Frontend',
             ],
 
-            'Inactive-tab' => [
-                'file'  => 'includes/modules/Inactive-tab/th-store-one-class-frontend.php',
-                'class' => 'Th_Store_One_Inactive_Tab_Frontend',
-            ],
-
-            'stock-scarcity' => [
-                'file'  => 'includes/modules/stock-scarcity/th-store-one-class-frontend.php',
-                'class' => 'Th_Store_One_Stock_Scarcity_Frontend',
-            ],
 
             'sale-countdown' => [
                 'file'  => 'includes/modules/sale-countdown/th-store-one-class-frontend.php',
@@ -110,16 +97,6 @@ add_action(
             'recent-view' => [
                 'file'  => 'includes/modules/recent-view/th-store-one-class-frontend.php',
                 'class' => 'Th_Store_One_Recent_View',
-            ],
-
-            'smart-offers' => [
-                'file'  => 'includes/modules/smart-offers/th-store-one-class-frontend.php',
-                'class' => 'Th_Store_One_Smart_Offers',
-            ],
-
-            'people-view' => [
-                'file'  => 'includes/modules/people-view/th-store-one-class-frontend.php',
-                'class' => 'Th_Store_One_People_View_Frontend',
             ],
 
             'pre-order' => [
