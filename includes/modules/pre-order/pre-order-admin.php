@@ -646,8 +646,10 @@ add_action(
             $post_id,
             '_th_preorder_price',
             wc_format_decimal(
-                wp_unslash(
-                    $_POST['th_preorder_price'] ?? 0
+                sanitize_text_field(
+                    wp_unslash(
+                        $_POST['th_preorder_price'] ?? '0'
+                    )
                 )
             )
         );

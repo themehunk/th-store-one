@@ -1,6 +1,8 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
-
+if (! defined('ABSPATH')) {
+    exit;
+}
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $end        = $args['end'] ?? '';
 $msg        = $args['msg'] ?? '';
 $sold       = $args['sold'] ?? null;
@@ -8,18 +10,18 @@ $remaining  = $args['remaining'] ?? null;
 $percent    = floatval($args['percent'] ?? 0);
 $settings   = $args['settings'] ?? [];
 $format = $settings['time_format'] ?? 'dhms';
- $align    = $settings['alignmentArchive'] ?? 'center';
+$align    = $settings['alignmentArchive'] ?? 'center';
 
 /* ================= DETECT PRODUCT DATA ================= */
 $has_product_data  = ! empty($end) || ! empty($msg);
 $has_product_stock = ($sold !== null && $remaining !== null);
 
 /* ================= GLOBAL FALLBACK ================= */
-if ( ! $has_product_data ) {
+if (! $has_product_data) {
 
     $msg = $settings['sale_message'] ?? '';
 
-    if ( ! empty($settings['end_countdown_datetime']) ) {
+    if (! empty($settings['end_countdown_datetime'])) {
         $end = strtotime($settings['end_countdown_datetime']);
     }
 
@@ -29,7 +31,7 @@ if ( ! $has_product_data ) {
 }
 
 /* ================= NORMALIZE END ================= */
-if ( ! is_numeric($end) && ! empty($end) ) {
+if (! is_numeric($end) && ! empty($end)) {
     $end = strtotime($end);
 }
 
@@ -50,7 +52,7 @@ $timer_color = $settings['archive_timer_color'] ?? '#111';
 $bar_color   = $settings['archive_sold_bar_bg_color'] ?? '#d63638';
 
 /* ================= SAFETY ================= */
-if ( $percent <= 0 && $has_product_stock && ($sold + $remaining) > 0 ) {
+if ($percent <= 0 && $has_product_stock && ($sold + $remaining) > 0) {
     $total = $sold + $remaining;
     $percent = ($sold / $total) * 100;
 }
@@ -65,14 +67,14 @@ if ( $percent <= 0 && $has_product_stock && ($sold + $remaining) > 0 ) {
      data-text-color="<?php echo esc_attr($text); ?>">
 
   <!-- MESSAGE -->
-  <?php if ( $show_msg ) : ?>
+  <?php if ($show_msg) : ?>
     <div class="th-msg" style="margin-bottom:8px; color: <?php echo esc_attr($text); ?>;">
       <?php echo esc_html($msg); ?>
     </div>
   <?php endif; ?>
 
   <!-- TIMER -->
-  <?php if ( ! empty($end) ) : ?>
+  <?php if (! empty($end)) : ?>
     <div class="th-timer-boxes"
          style="display:flex; justify-content:<?php echo esc_attr($align); ?>; gap:12px; margin-bottom:8px;">
 <?php if ($format === 'dhms') : ?>
@@ -97,7 +99,7 @@ if ( $percent <= 0 && $has_product_stock && ($sold + $remaining) > 0 ) {
   <?php endif; ?>
 
   <!-- STOCK -->
-   <?php if ($show_bar && ($args['sold']!== 0) ) : ?>
+   <?php if ($show_bar && ($args['sold'] !== 0)) : ?>
     <div class="th-stock-row" style="margin-top:6px; color: <?php echo esc_attr($text); ?>">
       <span>
         <?php echo esc_html($sold); ?> <?php esc_html_e('sold', 'th-store-one'); ?>
@@ -117,3 +119,4 @@ if ( $percent <= 0 && $has_product_stock && ($sold + $remaining) > 0 ) {
   <?php endif; ?>
 
 </div>
+<?php // phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound?>

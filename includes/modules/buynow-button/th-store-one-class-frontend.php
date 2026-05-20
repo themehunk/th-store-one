@@ -49,11 +49,7 @@ class Th_Store_One_Buy_Now_Frontend
         add_shortcode('th_store_one_shop_buy_now', [$this, 'shortcode_archive']);
         add_shortcode('th_store_one_single_buy_now', [$this, 'shortcode_single']);
 
-        add_action('wp', [$this, 'maybe_hide_cart_button']);
-
-
     }
-
 
     public function assets()
     {
@@ -88,6 +84,21 @@ class Th_Store_One_Buy_Now_Frontend
                 'ajax_url' => admin_url('admin-ajax.php'),
             ]
         );
+
+        if (
+            is_product() &&
+            ! empty($this->settings['hide_single_add_to_cart_button'])
+        ) {
+
+            wp_add_inline_style(
+                'th-buy-now',
+                '
+        .single-product form.cart .single_add_to_cart_button{
+            display:none !important;
+        }
+        '
+            );
+        }
     }
     /* -------------------------
      * ARCHIVE HOOK MAP
@@ -177,6 +188,8 @@ class Th_Store_One_Buy_Now_Frontend
         if (!$this->is_allowed($product, 'archive')) {
             return;
         }
+
+
         if (!empty($s['hide_shop_add_to_cart_button'])) {
             remove_action('woocommerce_after_shop_loop_item', 'woocommerce_template_loop_add_to_cart', 10);
         }
@@ -202,29 +215,7 @@ class Th_Store_One_Buy_Now_Frontend
 
         $this->button_html($product, 'single');
     }
-    public function maybe_hide_cart_button()
-    {
 
-        if (!is_product()) {
-            return;
-        }
-
-        if (!empty($this->settings['hide_single_add_to_cart_button'])) {
-
-            remove_action(
-                'woocommerce_single_product_summary',
-                'woocommerce_template_single_add_to_cart',
-                30
-            );
-
-            // Add Buy Now in same position
-            add_action(
-                'woocommerce_single_product_summary',
-                [$this, 'render_single'],
-                30
-            );
-        }
-    }
     /* -------------------------
      * SHORTCODES
      * ------------------------- */
@@ -329,6 +320,7 @@ class Th_Store_One_Buy_Now_Frontend
     <input type="hidden" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>">
     <input type="hidden" name="th_buy_now" value="1">
     <input type="hidden" name="quantity" value="<?php echo esc_attr($qty); ?>">
+    <?php wp_nonce_field('th_store_one_buy_now', 'th_buy_now_nonce'); ?>
 
     <button type="submit" class="<?php echo esc_attr($btn['class']); ?>" <?php if (!empty($btn['style'])) : ?>
                 style="<?php echo esc_attr($btn['style']); ?>"
@@ -347,7 +339,16 @@ class Th_Store_One_Buy_Now_Frontend
     public function redirect($url)
     {
 
-        if (!isset($_REQUEST['th_buy_now'])) {
+        if (
+            ! isset($_REQUEST['th_buy_now']) ||
+            ! isset($_REQUEST['th_buy_now_nonce']) ||
+            ! wp_verify_nonce(
+                sanitize_text_field(
+                    wp_unslash($_REQUEST['th_buy_now_nonce'])
+                ),
+                'th_store_one_buy_now'
+            )
+        ) {
             return $url;
         }
 
@@ -367,7 +368,16 @@ class Th_Store_One_Buy_Now_Frontend
     public function handle_buy_now_cart($passed, $product_id, $quantity)
     {
 
-        if (!isset($_REQUEST['th_buy_now'])) {
+        if (
+            ! isset($_REQUEST['th_buy_now']) ||
+            ! isset($_REQUEST['th_buy_now_nonce']) ||
+            ! wp_verify_nonce(
+                sanitize_text_field(
+                    wp_unslash($_REQUEST['th_buy_now_nonce'])
+                ),
+                'th_store_one_buy_now'
+            )
+        ) {
             return $passed;
         }
 

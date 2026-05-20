@@ -31,9 +31,17 @@ class Th_Store_One_Sticky_Cart_Frontend
     public function th_buy_now_redirect($url)
     {
 
-        // check buy now request
-        if (isset($_REQUEST['th_buy_now'])) {
-            return wc_get_checkout_url(); // direct checkout
+        if (
+            isset($_REQUEST['th_buy_now']) &&
+            isset($_REQUEST['th_buy_now_nonce']) &&
+            wp_verify_nonce(
+                sanitize_text_field(
+                    wp_unslash($_REQUEST['th_buy_now_nonce'])
+                ),
+                'th_store_one_buy_now'
+            )
+        ) {
+            return wc_get_checkout_url();
         }
 
         return $url;
@@ -183,8 +191,8 @@ class Th_Store_One_Sticky_Cart_Frontend
 
             <?php if (!empty($show_ofrbnr)) : ?>
             <div class="s1-offer-banner" 
-                style="background:<?php echo esc_attr($s['ofr_bnr_bg']); ?>;color:<?php echo esc_attr($s['ofr_bnr_clr']); ?>">
-<span class="s1-offer-icon" style="color:<?php echo esc_attr($s['ofr_icon']); ?>;">
+                style="background:<?php echo esc_attr($s['ofr_bnr_bg']); ?> color:<?php echo esc_attr($s['ofr_bnr_clr']); ?>">
+<span class="s1-offer-icon" style="color:<?php echo esc_attr($s['ofr_icon']); ?>">
         <svg xmlns="http://www.w3.org/2000/svg" 
             width="16" 
             height="16" 
@@ -216,7 +224,7 @@ class Th_Store_One_Sticky_Cart_Frontend
                 <div class="th-left">
 
                     <?php if (!empty($c['show_image'])): ?>
-                        <div class="th-thumb"><?php echo $product->get_image('thumbnail'); ?></div>
+                        <div class="th-thumb"><?php echo wp_kses_post($product->get_image('thumbnail')); ?></div>
                     <?php endif; ?>
 
                     <div class="th-info">
@@ -237,6 +245,7 @@ class Th_Store_One_Sticky_Cart_Frontend
                     method="post"
                     enctype="multipart/form-data"
                     data-product_id="<?php echo esc_attr($product->get_id()); ?>">
+                    <?php wp_nonce_field('th_store_one_buy_now', 'th_buy_now_nonce'); ?>
                     <input type="hidden" name="product_id" value="<?php echo esc_attr($product->get_id()); ?>">
                     <?php if ($product->is_type('variable')) : ?>
                         <script>
@@ -257,8 +266,7 @@ class Th_Store_One_Sticky_Cart_Frontend
                             <?php foreach ($attributes as $attribute_name => $options): ?>
                                 
                                 <div class="th-var-row">
-                                    <label><?php echo wc_attribute_label($attribute_name); ?></label>
-
+                                    <label> <?php echo esc_html(wc_attribute_label($attribute_name)); ?></label>
                                     <select 
                                         name="attribute_<?php echo esc_attr($attribute_name); ?>" 
                                         data-attribute_name="attribute_<?php echo esc_attr($attribute_name); ?>" 

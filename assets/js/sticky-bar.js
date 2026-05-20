@@ -1,5 +1,4 @@
 jQuery(function ($) {
-
   const bars = $(".th-sticky-cart");
   if (!bars.length) return;
 
@@ -10,14 +9,13 @@ jQuery(function ($) {
    * ------------------- */
   const handleScroll = () => {
     bars.each(function () {
-
       const bar = $(this);
       const trigger = parseInt(bar.data("scroll")) || 20;
       const anim = bar.data("animation") || "slide";
 
       const scrollPercent =
-        (window.scrollY /
-          (document.body.scrollHeight - window.innerHeight)) * 100;
+        (window.scrollY / (document.body.scrollHeight - window.innerHeight)) *
+        100;
 
       if (scrollPercent >= trigger) {
         bar.removeClass(animClasses.join(" "));
@@ -59,8 +57,8 @@ jQuery(function ($) {
   const getRequiredAttributes = () => {
     if (!variations.length) return [];
 
-    return Object.keys(variations[0].attributes).filter(attr => {
-      return variations.some(v => v.attributes[attr] !== "");
+    return Object.keys(variations[0].attributes).filter((attr) => {
+      return variations.some((v) => v.attributes[attr] !== "");
     });
   };
 
@@ -69,7 +67,6 @@ jQuery(function ($) {
   const findMatchingVariation = (selected) => {
     return variations.find((v) => {
       return Object.keys(v.attributes).every((attr) => {
-
         const selectedVal = (selected[attr] || "").toLowerCase();
         const variationVal = (v.attributes[attr] || "").toLowerCase();
 
@@ -81,7 +78,6 @@ jQuery(function ($) {
   };
 
   form.on("change", ".th-var-select", function () {
-
     let selected = {};
 
     form.find(".th-var-select").each(function () {
@@ -91,7 +87,9 @@ jQuery(function ($) {
     });
 
     const selectedKeys = Object.keys(selected);
-    const allRequiredSelected = requiredAttrs.every(attr => selectedKeys.includes(attr));
+    const allRequiredSelected = requiredAttrs.every((attr) =>
+      selectedKeys.includes(attr),
+    );
 
     if (!allRequiredSelected) {
       form.find(".variation_id").val(0);
@@ -102,7 +100,6 @@ jQuery(function ($) {
     const variation = findMatchingVariation(selected);
 
     if (variation) {
-
       form.find(".variation_id").val(variation.variation_id);
       btns.removeClass("disabled").prop("disabled", false);
 
@@ -113,19 +110,16 @@ jQuery(function ($) {
       if (variation.image && variation.image.src) {
         $(".th-thumb img").attr("src", variation.image.src);
       }
-
     } else {
       form.find(".variation_id").val(0);
       btns.addClass("disabled").prop("disabled", true);
     }
-
   });
 
   /* -------------------
    * SUBMIT + BUY NOW + LOADING
    * ------------------- */
   $("body").on("submit", ".th-sticky-form", function (e) {
-
     const form = $(this);
 
     let btn = form.find(".th-btn.clicked");
@@ -137,7 +131,10 @@ jQuery(function ($) {
     const variationID = form.find(".variation_id").val();
 
     //block if variation not selected
-    if (form.find(".th-var-select").length && (!variationID || variationID == 0)) {
+    if (
+      form.find(".th-var-select").length &&
+      (!variationID || variationID == 0)
+    ) {
       e.preventDefault();
       return;
     }
@@ -151,32 +148,27 @@ jQuery(function ($) {
 
     /* BUY NOW */
     if (action === "buynow") {
-
       if (!form.find('input[name="th_buy_now"]').length) {
         form.append('<input type="hidden" name="th_buy_now" value="1">');
       }
 
       // no preventDefault (Woo handles redirect)
     }
-
   });
-
 });
 
 // time banner code
-document.querySelectorAll('.s1-offer-time').forEach(el => {
-
+document.querySelectorAll(".s1-offer-time").forEach((el) => {
   const endTime = new Date(el.dataset.end).getTime();
 
   function updateTimer() {
-
     const now = new Date().getTime();
     const diff = endTime - now;
 
-    // 🔥 Auto hide
+    // Auto hide
     if (diff <= 0) {
-      const banner = el.closest('.s1-offer-banner');
-      if (banner) banner.style.display = 'none';
+      const banner = el.closest(".s1-offer-banner");
+      if (banner) banner.style.display = "none";
       return;
     }
 
@@ -188,16 +180,13 @@ document.querySelectorAll('.s1-offer-time').forEach(el => {
     let display = "";
 
     if (days > 0) {
-      display = `${days} ${days === 1 ? 'day' : 'days'}`;
-    } 
-    else if (hours > 0) {
-      display = `${hours} ${hours === 1 ? 'hour' : 'hours'}`;
-    } 
-    else if (minutes > 0) {
-      display = `${minutes} ${minutes === 1 ? 'minute' : 'minutes'}`;
-    } 
-    else {
-      display = `${seconds} ${seconds === 1 ? 'second' : 'seconds'}`;
+      display = `${days} ${days === 1 ? "day" : "days"}`;
+    } else if (hours > 0) {
+      display = `${hours} ${hours === 1 ? "hour" : "hours"}`;
+    } else if (minutes > 0) {
+      display = `${minutes} ${minutes === 1 ? "minute" : "minutes"}`;
+    } else {
+      display = `${seconds} ${seconds === 1 ? "second" : "seconds"}`;
     }
 
     el.innerHTML = display;
@@ -205,5 +194,4 @@ document.querySelectorAll('.s1-offer-time').forEach(el => {
 
   updateTimer();
   setInterval(updateTimer, 1000);
-
 });
