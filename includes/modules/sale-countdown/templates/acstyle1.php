@@ -1,14 +1,16 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
-
+if (! defined('ABSPATH')) {
+    exit;
+}
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $end   = $args['end'] ?? '';
 $msg   = $args['msg'] ?? '';
 $sold  = intval($args['sold'] ?? 0);
 $remaining = intval($args['remaining'] ?? 0);
 $percent = floatval($args['percent'] ?? 0);
 $settings = $args['settings'] ?? [];
- $format = $settings['time_format'] ?? 'dhms';
- $align    = $settings['alignmentArchive'] ?? 'center';
+$format = $settings['time_format'] ?? 'dhms';
+$align    = $settings['alignmentArchive'] ?? 'center';
 
 /* ================= DETECT SOURCE ================= */
 $has_product_data = !empty($end) || !empty($msg);
@@ -84,7 +86,7 @@ if ($percent <= 0 && ($sold + $remaining) > 0) {
   <?php endif; ?>
 
   <!-- STOCK -->
-  <?php if ($show_bar && ($args['sold']!== 0) ) : ?>
+  <?php if ($show_bar && ($args['sold'] !== 0)) : ?>
     <div class="th-stock-row" style="margin-top:4px; color: <?php echo esc_attr($text); ?>">
       <span><?php echo esc_html($sold); ?> sold</span>
       <span><?php echo esc_html($remaining); ?> left</span>
@@ -100,3 +102,4 @@ if ($percent <= 0 && ($sold + $remaining) > 0) {
   <?php endif; ?>
 
 </div>
+<?php // phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound?>

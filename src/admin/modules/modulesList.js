@@ -3,76 +3,6 @@ import { MODULE_ICONS } from "@th-storeone-global/icons";
 
 export const modulesList = [
   {
-    id: "frequently-bought",
-    label: __("Frequently Bought Together", "th-store-one"),
-    description: __(
-      "Displays related products often purchased together, allowing customers to add multiple complementary items to their cart with one click.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.FBT,
-    premium: true,
-  },
-  {
-    id: "bundle-product",
-    label: __("Bundle Product", "th-store-one"),
-    description: __(
-      "Create customizable product bundles that combine multiple items into one offer, increasing average order value and improving the shopping experience.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.BUNDLE,
-    premium: true,
-  },
-  {
-    id: "smart-offers",
-    label: __("Smart Offers", "th-store-one"),
-    description: __(
-      "Create powerful Buy X Get Y deals, discounts, and automated offers to boost conversions and increase average order value.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.SMRTOFR,
-    premium: true,
-  },
-  {
-    id: "people-view",
-    label: __("Visitor Count", "th-store-one"),
-    description: __(
-      "Show real-time or simulated product viewers to create urgency, increase trust, and boost conversions.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.PV,
-    premium: true,
-  },
-  {
-    id: "trust-badges",
-    label: __("Badge Management", "th-store-one"),
-    description: __(
-      "Easily create, customize, and manage badges across your store with full control.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.TBD,
-    premium: true,
-  },
-  {
-    id: "inactive-tab",
-    label: __("Inactive Tab Message", "th-store-one"),
-    description: __(
-      "Modify the browser tab title when visitors switch away from your store to grab attention and encourage them to return.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.INTB,
-    premium: true,
-  },
-  {
-    id: "stock-scarcity",
-    label: __("Stock Scarcity", "th-store-one"),
-    description: __(
-      "Show low stock alerts and progress bars to create urgency and increase conversions.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.STKSC,
-    premium: true,
-  },
-  {
     id: "buy-to-list",
     label: __("Featured List", "th-store-one"),
     description: __(
@@ -173,5 +103,75 @@ export const modulesList = [
     ),
     icon: MODULE_ICONS.PORDR,
     premium: false,
+  },
+  {
+    id: "frequently-bought",
+    label: __("Frequently Bought Together", "th-store-one"),
+    description: __(
+      "Displays related products often purchased together, allowing customers to add multiple complementary items to their cart with one click.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.FBT,
+    premium: true,
+  },
+  {
+    id: "bundle-product",
+    label: __("Bundle Product", "th-store-one"),
+    description: __(
+      "Create customizable product bundles that combine multiple items into one offer, increasing average order value and improving the shopping experience.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.BUNDLE,
+    premium: true,
+  },
+  {
+    id: "smart-offers",
+    label: __("Smart Offers", "th-store-one"),
+    description: __(
+      "Create powerful Buy X Get Y deals, discounts, and automated offers to boost conversions and increase average order value.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.SMRTOFR,
+    premium: true,
+  },
+  {
+    id: "people-view",
+    label: __("Visitor Count", "th-store-one"),
+    description: __(
+      "Show real-time or simulated product viewers to create urgency, increase trust, and boost conversions.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.PV,
+    premium: true,
+  },
+  {
+    id: "trust-badges",
+    label: __("Badge Management", "th-store-one"),
+    description: __(
+      "Easily create, customize, and manage badges across your store with full control.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.TBD,
+    premium: true,
+  },
+  {
+    id: "inactive-tab",
+    label: __("Inactive Tab Message", "th-store-one"),
+    description: __(
+      "Modify the browser tab title when visitors switch away from your store to grab attention and encourage them to return.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.INTB,
+    premium: true,
+  },
+  {
+    id: "stock-scarcity",
+    label: __("Stock Scarcity", "th-store-one"),
+    description: __(
+      "Show low stock alerts and progress bars to create urgency and increase conversions.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.STKSC,
+    premium: true,
   },
 ];

@@ -1,6 +1,8 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
-
+if (! defined('ABSPATH')) {
+    exit;
+}
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $end   = $args['end'] ?? '';
 $msg   = $args['msg'] ?? '';
 $sold  = intval($args['sold'] ?? 0);
@@ -44,15 +46,12 @@ $border_css = sprintf(
      border-top-right-radius:%s;
      border-bottom-right-radius:%s;
      border-bottom-left-radius:%s;',
-     
     esc_attr($border_style),
     esc_attr($border_color),
-
     esc_attr($bw['top'] ?? '0px'),
     esc_attr($bw['right'] ?? '0px'),
     esc_attr($bw['bottom'] ?? '0px'),
     esc_attr($bw['left'] ?? '0px'),
-
     esc_attr($br['top'] ?? '0px'),
     esc_attr($br['right'] ?? '0px'),
     esc_attr($br['bottom'] ?? '0px'),
@@ -65,7 +64,7 @@ $border_css = sprintf(
      data-expire-action="<?php echo esc_attr($settings['countdown_expire_action'] ?? 'hide'); ?>"
      data-expire-msg="<?php echo esc_attr($settings['expire_message'] ?? 'Offer expired'); ?>"
      data-format="<?php echo esc_attr($settings['time_format'] ?? 'dhms'); ?>"
-     style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>;  <?php echo $border_css; ?>">
+     style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>;  <?php echo esc_attr($border_css); ?>">
 
   <!-- MESSAGE -->
   <?php if ($show_msg && !empty($msg)) : ?>
@@ -114,3 +113,4 @@ $border_css = sprintf(
   <?php endif; ?>
 
 </div>
+<?php // phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound?>

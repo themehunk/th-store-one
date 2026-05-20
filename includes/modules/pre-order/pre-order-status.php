@@ -115,6 +115,7 @@ class TH_Store_One_Pre_Order_Status
 
                 'show_in_admin_status_list' => true,
 
+                /* translators: %s = order count */
                 'label_count' => _n_noop(
                     'Pre Ordered <span class="count">(%s)</span>',
                     'Pre Ordered <span class="count">(%s)</span>',
@@ -123,7 +124,6 @@ class TH_Store_One_Pre_Order_Status
             ]
         );
     }
-
     /* =========================
      * ADD STATUS
      * ========================= */
@@ -198,7 +198,6 @@ class TH_Store_One_Pre_Order_Status
                 true
             );
 
-            print_r($meta);
 
             if (
                 empty($meta)

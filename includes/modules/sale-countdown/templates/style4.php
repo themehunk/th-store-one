@@ -1,6 +1,8 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
-
+if (! defined('ABSPATH')) {
+    exit;
+}
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $end   = $args['end'] ?? '';
 $msg   = $args['msg'] ?? '';
 $sold  = intval($args['sold'] ?? 0);
@@ -66,3 +68,4 @@ if ($percent <= 0) {
   </div>
 
 </div>
+<?php // phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound?>

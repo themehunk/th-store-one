@@ -1287,6 +1287,7 @@ class TH_Store_One_Pre_Order
             $text .=
                 ' | ' .
                 sprintf(
+                    /* translators: %s = formatted availability date */
                     __(
                         'Available On: %s',
                         'th-store-one'
@@ -1608,9 +1609,9 @@ class TH_Store_One_Pre_Order
 						<del>
 
 							<?php
-					        echo wc_price(
-					            $product_price
-					        );
+echo wp_kses_post(
+    wc_price($product_price)
+);
 					    ?>
 
 						</del>
@@ -1620,9 +1621,9 @@ class TH_Store_One_Pre_Order
 					<ins>
 
 						<?php
-					    echo wc_price(
-					        $new_price
-					    );
+echo wp_kses_post(
+    wc_price($new_price)
+);
 		    ?>
 
 					</ins>

@@ -1,6 +1,8 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) exit;
-
+if (! defined('ABSPATH')) {
+    exit;
+}
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
 $end   = $args['end'] ?? '';
 $msg   = $args['msg'] ?? '';
 $sold  = intval($args['sold'] ?? 0);
@@ -50,15 +52,12 @@ $border_css = sprintf(
      border-top-right-radius:%s;
      border-bottom-right-radius:%s;
      border-bottom-left-radius:%s;',
-     
     esc_attr($border_style),
     esc_attr($border_color),
-
     esc_attr($bw['top'] ?? '0px'),
     esc_attr($bw['right'] ?? '0px'),
     esc_attr($bw['bottom'] ?? '0px'),
     esc_attr($bw['left'] ?? '0px'),
-
     esc_attr($br['top'] ?? '0px'),
     esc_attr($br['right'] ?? '0px'),
     esc_attr($br['bottom'] ?? '0px'),
@@ -68,7 +67,7 @@ $border_css = sprintf(
 ?>
 
 <div class="th-cd th-style2 s1-align-<?php echo esc_attr($align); ?>"
-     style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>; padding:10px; <?php echo $border_css; ?>"
+     style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>; padding:10px; <?php echo esc_attr($border_css); ?>"
      data-end="<?php echo esc_attr($end); ?>"
      data-expire-action="<?php echo esc_attr($expire_action); ?>"
      data-expire-msg="<?php echo esc_attr($expire_msg); ?>"
@@ -129,3 +128,4 @@ $border_css = sprintf(
   <?php endif; ?>
 
 </div>
+<?php // phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound?>
