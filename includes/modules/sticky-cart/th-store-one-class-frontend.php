@@ -192,7 +192,8 @@ class Th_Store_One_Sticky_Cart_Frontend
             <?php if (!empty($show_ofrbnr)) : ?>
             <div class="s1-offer-banner" 
                 style="background:<?php echo esc_attr($s['ofr_bnr_bg']); ?> color:<?php echo esc_attr($s['ofr_bnr_clr']); ?>">
-                <span class="s1-offer-icon" style="color: <?php echo esc_attr( $s['ofr_icon'] ); ?>;">
+<span class="s1-offer-icon" style="color:<?php echo esc_attr(! empty($s['ofr_icon']) ? $s['ofr_icon'] : '#D97706'); ?>">
+
         <svg xmlns="http://www.w3.org/2000/svg" 
             width="16" 
             height="16" 

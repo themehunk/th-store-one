@@ -3,6 +3,36 @@ import { MODULE_ICONS } from "@th-storeone-global/icons";
 
 export const modulesList = [
   {
+    id: "sale-notification",
+    label: __("Sale Notification", "th-store-one"),
+    description: __(
+      "Notify customers about limited-time sales and special offers.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.SN,
+    premium: false,
+  },
+  {
+    id: "product-video",
+    label: __("Product Video Gallery", "th-store-one"),
+    description: __(
+      "Display product videos in the gallery using YouTube, Vimeo, or custom video URLs, along with featured video support.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.PDV,
+    premium: false,
+  },
+  {
+    id: "product-brand",
+    label: __("Trust Badges", "th-store-one"),
+    description: __(
+      "Display trust badges on your store to build customer confidence and increase conversions.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.PBR,
+    premium: false,
+  },
+  {
     id: "buy-to-list",
     label: __("Featured List", "th-store-one"),
     description: __(
@@ -23,37 +53,6 @@ export const modulesList = [
     premium: false,
   },
   {
-    id: "product-brand",
-    label: __("Trust Badges", "th-store-one"),
-    description: __(
-      "Display trust badges on your store to build customer confidence and increase conversions.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.PBR,
-    premium: false,
-  },
-
-  {
-    id: "product-video",
-    label: __("Product Video Gallery", "th-store-one"),
-    description: __(
-      "Display product videos in the gallery using YouTube, Vimeo, or custom video URLs, along with featured video support.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.PDV,
-    premium: false,
-  },
-  {
-    id: "sale-notification",
-    label: __("Sale Notification", "th-store-one"),
-    description: __(
-      "Notify customers about limited-time sales and special offers.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.SN,
-    premium: false,
-  },
-  {
     id: "sticky-cart",
     label: __("Sticky Cart Bar", "th-store-one"),
     description: __(
@@ -71,16 +70,6 @@ export const modulesList = [
       "th-store-one",
     ),
     icon: MODULE_ICONS.BNBTN,
-    premium: false,
-  },
-  {
-    id: "sale-countdown",
-    label: __("Sale Countdown", "th-store-one"),
-    description: __(
-      "Display a countdown timer for limited-time offers along with stock urgency like sold and discount quantity to boost conversions.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.SLCNT,
     premium: false,
   },
   {
