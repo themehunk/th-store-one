@@ -59,7 +59,7 @@ const newBlistTRule = () => ({
     },
   ],
   buy_to_list_style: "style_1",
-  placement: "after_summary",
+  placement: "woocommerce_product_meta_start",
   priority: 10,
   icon_enabled: true,
   icontype: "icon",
@@ -433,7 +433,10 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                                 value: "specific_products",
                               },
                               {
-                                label: __("Specific Categories", "th-store-one"),
+                                label: __(
+                                  "Specific Categories",
+                                  "th-store-one",
+                                ),
                                 value: "specific_categories",
                               },
                               {
@@ -577,7 +580,10 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                                 <div className="store-one-rule-header">
                                   <DragHandleDots2Icon className="drag-handle s1-icon" />
                                   <strong className="s1-rule-title">
-                                    {sprintf(__("Item %d", "th-store-one"), i + 1)}
+                                    {sprintf(
+                                      __("Item %d", "th-store-one"),
+                                      i + 1,
+                                    )}
                                   </strong>
                                   <CopyIcon
                                     className="s1-icon"
