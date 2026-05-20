@@ -40,21 +40,20 @@ class Th_Store_One_Admin
             'th-store-one',
             array( $this, 'render_admin_page' )
         );
-        $license_status = false;
-        if (class_exists('StoreOnePro_License')) {
-            $license_status = StoreOnePro_License::is_active();
-        }
-        if (! $license_status) {
+
+        if (class_exists('StoreOne_Pro')) {
             add_submenu_page(
                 'th-store-one',
-                esc_html__('Upgrade to Pro', 'th-store-one'),
-                '<span class="storeone-upgrade-btn">' . esc_html__('Upgrade to Pro', 'th-store-one') . '</span>',
+                esc_html__('License', 'th-store-one'),
+                '<span class="storeone-upgrade-btn">' .
+                esc_html__('License', 'th-store-one') .
+                '</span>',
                 'manage_options',
-                'th-store-one-upgrade',
+                'th-store-one&store_one_page=license',
                 '__return_false'
             );
-
         }
+
     }
 
     public function render_admin_page()
