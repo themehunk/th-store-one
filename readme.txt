@@ -1,7 +1,7 @@
-=== TH Store One — Store Growth for WooCommerce ===
+=== TH Store One — Store Growth for WooCommerce  ===
 Contributors: ThemeHunk
 Author URI: : https://www.themehunk.com/
-Tags: trust badges, product video, product labels
+Tags: extensions, addons, elementor, store one
 Requires at least: 5.5 
 Tested up to: 7.0
 Stable tag: 1.1.0
@@ -10,7 +10,7 @@ License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires Plugins: woocommerce
 
-ThemeHunk Store One addons Trust badges, Video Gallery, and Bundle products to grow your store.
+ThemeHunk Store One addons Trust badges, sale notification,  Video Gallery, and Bundle products to grow your store.
 
 == Description ==
 ThemeHunk Store One is a powerful all-in-one toolkit for WooCommerce, designed to enhance your online store with conversion-focused features and advanced customization options.
@@ -18,26 +18,51 @@ It improves product presentation, optimizes the shopping experience, and simplif
 
 [More Details](https://themehunk.com/store-one/)| [Live Demo](https://wpthemes.themehunk.com/store-one/) | [Docs](https://themehunk.com/docs/store-one/) | [support](https://themehunk.com/contact-us/).
 
-### Key Features:-
+### Key Modules or Addons for WooComemrce:-
 
-- **Featured list for single product pages** - Display key product highlights in a clear, structured list to help customers quickly understand important details.
+– **[Featured list for single product pages](https://themehunk.com/store-one/featured-list/)** – Display customizable bullet points, feature highlights, and informative lists on product pages to showcase important details like specifications, services, delivery benefits, warranty information, or product advantages in a clean and visually appealing format.
 
-- **Quick social links** - Adds social media profile links to your store and lets customers share products instantly, increasing brand visibility and engagement across platforms.
+– **[Quick social links](https://themehunk.com/store-one/quick-social-link/)** – Add social sharing buttons to product pages so customers can instantly share products across Facebook, WhatsApp, Twitter, Pinterest, and other platforms, helping increase brand visibility, customer engagement, and potential product reach organically.
 
-- **Trust Badges** – Show security and trust badges on your store to reassure customers about safe payments and reliable service, helping build confidence and increase conversions.
+– **[Trust Badges](https://themehunk.com/store-one/trust-badges/)** – Display professional trust badges for secure payments, brand logos, fast delivery, money back guarantees, SSL security, and verified checkout to build customer confidence and improve trust throughout the shopping and checkout experience..
 
-- **Badge Management** - Easily create, customize, and manage badges across your store with full control.
+– **[Badge Management](https://themehunk.com/store-one/badge-management/)** – Create and manage custom product badges like Sale, New Arrival, Trending, Hot Deal, Limited Stock, or Best Seller to highlight important products and attract customer attention instantly.
 
-- **Product Video Gallery** - Display product videos in the gallery using YouTube, Vimeo, or custom video URLs, with featured video support for WooCommerce products.
+– **[Product Video Gallery](https://themehunk.com/store-one/product-video-gallery/)** – Show product videos directly inside the product gallery using YouTube, Vimeo, or custom video URLs, helping customers better understand product features, demonstrations, installation guides, or real usage before purchasing.
+
+– **[Sticky Cart Bar](https://themehunk.com/store-one/sticky-cart-bar/)** – Keep a floating sticky add to cart section visible while customers scroll through product pages, allowing quick product purchases without needing to scroll back to the top repeatedly.
+
+– **[Sale Notification](https://themehunk.com/store-one/sale-notification/)** – Display live or simulated sales popup notifications showing recent purchases, trending products, or customer activity to create social proof, increase urgency, and encourage visitors to make faster buying decisions.
+
+– **[Buy Now Button](https://themehunk.com/store-one/buy-now-button/)** – Add a direct Buy Now button beside Add to Cart that instantly redirects customers to checkout, reducing extra steps and helping improve quick purchases and overall conversion rates.
+
+– **[Sale Countdown](https://themehunk.com/store-one/sale-countdown/)** – Create attractive countdown timers for limited time offers, flash sales, seasonal promotions, or discount campaigns to build urgency and encourage customers to complete purchases before offers expire.
+
+
+– **[Recently Viewed](https://themehunk.com/store-one/recently-viewed/)** – Display products recently viewed by visitors so customers can quickly revisit items they explored earlier, improving product discovery, customer convenience, and chances of returning purchases.
+
+– **[Inactive Tab Message](https://themehunk.com/store-one/inactive-tab-message/)** – Change the browser tab title and message when customers switch tabs, helping grab their attention and encouraging them to return to your store before leaving completely.
+
 
 * More features coming soon
 We are continuously improving the plugin with new features and enhancements.
 
 ### Pro Features:-
 
-- **Frequently bought together** - Suggest related products that are commonly purchased together to increase average order value and improve the shopping experience.
+– **[Frequently bought together](https://themehunk.com/store-one/frequently-bought-together/)** – Display related products commonly purchased together and allow customers to add multiple complementary products to their cart with a single click, helping increase average order value.
 
-- **Bundle products** - Group multiple products into a single bundle, allowing customers to purchase them together easily, often with added convenience or value.
+– **[Bundle products](https://themehunk.com/store-one/bundle-product/)** – Create customizable product bundles by combining multiple related products into one discounted offer, helping customers purchase complete sets while increasing overall store revenue and shopping convenience.
+
+– **[Smart Offers](https://themehunk.com/store-one/smart-offers/)** – Create advanced promotional campaigns like Buy One Get One, Buy X Get Y, free gifts, automatic discounts, cart based offers, and upsell deals to increase conversions and order value.
+
+– **[Visitor Count](https://themehunk.com/store-one/visitor-count/)** – Display live or simulated visitor counts on product pages to create urgency, show product popularity, and encourage customers to purchase products that appear actively viewed by others.
+
+– **[Badge Management](https://themehunk.com/store-one/badge-management/)** – Create and manage custom product badges like Sale, New Arrival, Trending, Hot Deal, Limited Stock, or Best Seller to highlight important products and attract customer attention instantly.
+
+– **[Stock Scarcity](https://themehunk.com/store-one/stock-scarcity/)** – Display low stock warnings, inventory progress bars, and scarcity messages to create urgency and encourage customers to purchase before products become unavailable or sell out completely.
+
+– **[Pre Order](https://themehunk.com/store-one/pre-order/)** – Allow customers to pre order upcoming, unreleased, or out of stock products with custom availability dates, preorder messages, stock status controls, and early purchase access options.
+
 
 ### Theme Compatibility:-
 
@@ -138,9 +163,16 @@ Fix: Slug and permission issue fixed.
 
 = 1.0.0 =
 == Upgrade Notice ==
+New: Added Sale Notification addon for real-time purchase updates.
+New: Added Sticky Cart Bar and Buy Now Button for faster checkout.
+New: Added Sale Countdown to create urgency for offers.
+New: Added Recently Viewed and Pre-Order addons.
+Update: Optimized CSS and JavaScript to improve overall performance and user experience.
+Fix: Fixed bugs and improved code loading speed.
+Fix: Resolved theme compatibility issues.
 
 = 1.0.0 =
 * Initial release.
 
-Thank you for using ThemeHunk Store One. We are confident you can build a great WooCommerce store with this plugin. If you have any questions, feel free to contact us via our support forum: https://themehunk.com/contact-us/
+Thank you for using ThemeHunk Store One Plugin For WooCommerce. We are confident you can build a great WooCommerce store with this WooCommerce Addon plugin. If you have any questions, feel free to contact us via our support forum: https://themehunk.com/contact-us/
 Thank You!
