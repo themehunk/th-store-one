@@ -29,9 +29,6 @@ require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/class-store-one.php';
 require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/store-one-function.php';
 function th_store_one_run()
 {
-    if (! class_exists('WooCommerce')) {
-        return;
-    }
     Th_Store_One::get_instance();
 }
 add_action('plugins_loaded', 'th_store_one_run');
@@ -52,10 +49,6 @@ add_action(
 add_action(
     'init',
     function () {
-
-        if (! class_exists('WooCommerce')) {
-            return;
-        }
 
         $modules = [
 
@@ -95,7 +88,6 @@ add_action(
                 'class' => 'Th_Store_One_Buy_Now_Frontend',
             ],
 
-
             'sale-countdown' => [
                 'file'  => 'includes/modules/sale-countdown/th-store-one-class-frontend.php',
                 'class' => 'Th_Store_One_Sale_Countdown_Frontend',
@@ -105,11 +97,11 @@ add_action(
                 'file'  => 'includes/modules/recent-view/th-store-one-class-frontend.php',
                 'class' => 'Th_Store_One_Recent_View',
             ],
-
-            'pre-order' => [
-                'file'  => 'includes/modules/pre-order/th-store-one-class-frontend.php',
-                'class' => 'TH_Store_One_Pre_Order',
+            'inactive-tab' => [
+                'file'  => 'includes/modules/Inactive-tab/th-store-one-class-frontend.php',
+                'class' => 'Th_Store_One_Inactive_Tab_Frontend',
             ],
+
         ];
 
         foreach ($modules as $module) {

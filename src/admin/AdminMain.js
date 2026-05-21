@@ -19,34 +19,38 @@ const isValidModule = (moduleId) =>
 
 const getInitialAdminView = () => {
   if (typeof window === "undefined") {
-    return { page: "dashboard", module: null };
+    return {
+      page: "dashboard",
+      module: null,
+    };
   }
 
   const params = new URLSearchParams(window.location.search);
+
   const urlModule = params.get("store_one_module");
   const urlPage = params.get("store_one_page");
 
-  if (isValidModule(urlModule)) {
-    return { page: "dashboard", module: urlModule };
+  // Module URL takes highest priority
+  if (urlModule && isValidModule(urlModule)) {
+    return {
+      page: "dashboard",
+      module: urlModule,
+    };
   }
 
-  if (VALID_PAGES.includes(urlPage)) {
-    return { page: urlPage, module: null };
+  // Valid page from URL
+  if (urlPage && VALID_PAGES.includes(urlPage)) {
+    return {
+      page: urlPage,
+      module: null,
+    };
   }
 
-  try {
-    const savedView = JSON.parse(
-      window.localStorage.getItem(ADMIN_VIEW_STORAGE_KEY) || "{}",
-    );
-
-    if (VALID_PAGES.includes(savedView.page)) {
-      return { page: savedView.page, module: null };
-    }
-  } catch (e) {
-    window.localStorage.removeItem(ADMIN_VIEW_STORAGE_KEY);
-  }
-
-  return { page: "dashboard", module: null };
+  // No URL params → always dashboard
+  return {
+    page: "dashboard",
+    module: null,
+  };
 };
 
 const persistAdminView = (page, module = null) => {

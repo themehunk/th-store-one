@@ -92,6 +92,16 @@ export const modulesList = [
     icon: MODULE_ICONS.RV,
     premium: false,
   },
+  {
+    id: "inactive-tab",
+    label: __("Inactive Tab Message", "th-store-one"),
+    description: __(
+      "Change the browser tab title when visitors switch tabs to grab attention and encourage customers to return to your store.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.INTB,
+    premium: false,
+  },
 
   {
     id: "pre-order",
@@ -101,7 +111,7 @@ export const modulesList = [
       "th-store-one",
     ),
     icon: MODULE_ICONS.PORDR,
-    premium: false,
+    premium: true,
   },
   {
     id: "frequently-bought",
@@ -153,16 +163,7 @@ export const modulesList = [
     icon: MODULE_ICONS.TBD,
     premium: true,
   },
-  {
-    id: "inactive-tab",
-    label: __("Inactive Tab Message", "th-store-one"),
-    description: __(
-      "Change the browser tab title when visitors switch tabs to grab attention and encourage customers to return to your store.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.INTB,
-    premium: true,
-  },
+
   {
     id: "stock-scarcity",
     label: __("Stock Scarcity", "th-store-one"),
