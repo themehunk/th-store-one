@@ -109,7 +109,13 @@ Yes, the plugin is translation-ready and supports multiple languages.
 == Changelog ==
 
 = 1.1.0 =
-New: Sale Notification, Sticky Cart Bar, Buy Now Button, Sale Countdown, Recently Viewed and Pre Order New addon added.
+New: Added Sale Notification addon for real-time purchase updates.
+New: Added Sticky Cart Bar and Buy Now Button for faster checkout.
+New: Added Sale Countdown to create urgency for offers.
+New: Added Recently Viewed and Pre-Order addons.
+Update: Optimized CSS and JavaScript to improve overall performance and user experience.
+Fix: Fixed bugs and improved code loading speed.
+Fix: Resolved theme compatibility issues.
 
 = 1.0.5 =
 New: Added Product Video Gallery addon.
