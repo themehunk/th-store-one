@@ -1,4 +1,4 @@
-=== TH Store One — Product Features List & Badge Manager for WooCommerce ===
+=== TH Store One — Store Growth for WooCommerce ===
 Contributors: ThemeHunk
 Author URI: : https://www.themehunk.com/
 Tags: trust badges, product video, product labels
@@ -10,7 +10,7 @@ License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires Plugins: woocommerce
 
-ThemeHunk Store One is designed for use with eCommerce stores, offering product badges, feature lists, and social sharing tools to boost engagement and sales.
+ThemeHunk Store One addons Trust badges, Video Gallery, and Bundle products to grow your store.
 
 == Description ==
 ThemeHunk Store One is a powerful all-in-one toolkit for WooCommerce, designed to enhance your online store with conversion-focused features and advanced customization options.
