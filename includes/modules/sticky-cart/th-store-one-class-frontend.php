@@ -291,26 +291,66 @@ class Th_Store_One_Sticky_Cart_Frontend
                         <input type="hidden" name="variation_id" class="variation_id" value="0">
 
                         <?php if (!empty($c['show_qty'])): ?>
-                            <input type="number" name="quantity" value="1" min="1" class="th-qty" />
-                        <?php endif; ?>
+    <div class="th-quantity-wrap">
+        <button type="button" class="th-qty-minus">−</button>
+
+        <input
+            type="number"
+            name="quantity"
+            value="1"
+            min="1"
+            class="th-qty"
+        />
+
+        <button type="button" class="th-qty-plus">+</button>
+    </div>
+<?php endif; ?>
 
                         <button type="submit"
                             name="add-to-cart"
                             value="<?php echo esc_attr($product->get_id()); ?>"
                             class="th-btn"
                             data-action="<?php echo esc_attr($c['button_action']); ?>">
-
+<svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+    >
+        <circle cx="9" cy="20" r="1"></circle>
+        <circle cx="18" cy="20" r="1"></circle>
+        <path d="M3 4h2l2.2 10.4a1 1 0 0 0 1 .8h8.8a1 1 0 0 0 1-.8L20 8H7"></path>
+    </svg>
+    <span>
                             <?php echo esc_html(
                                 !empty($c['button_text'])
                                 ? $c['button_text']
                                 : (($c['button_action'] ?? '') === 'buynow' ? 'Buy Now' : 'Add to Cart')
                             ); ?>
+                            </span>
                         </button>
                         <?php else: ?>
 
-                            <?php if (!empty($c['show_qty'])): ?>
-                                <input type="number" name="quantity" value="1" min="1" class="th-qty" />
-                            <?php endif; ?>
+                           <?php if (!empty($c['show_qty'])): ?>
+    <div class="th-quantity-wrap">
+        <button type="button" class="th-qty-minus">−</button>
+
+        <input
+            type="number"
+            name="quantity"
+            value="1"
+            min="1"
+            class="th-qty"
+        />
+
+        <button type="button" class="th-qty-plus">+</button>
+    </div>
+<?php endif; ?>
 
                             <button type="submit"
                                 name="add-to-cart"
@@ -318,12 +358,28 @@ class Th_Store_One_Sticky_Cart_Frontend
                                 class="th-btn"
                                 data-action="<?php echo esc_attr($c['button_action']); ?>"
                                 style="background:<?php echo esc_attr($s['btn_bg_color']); ?>;color:<?php echo esc_attr($s['btn_text_color']); ?>">
-
+<svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+    >
+        <circle cx="9" cy="20" r="1"></circle>
+        <circle cx="18" cy="20" r="1"></circle>
+        <path d="M3 4h2l2.2 10.4a1 1 0 0 0 1 .8h8.8a1 1 0 0 0 1-.8L20 8H7"></path>
+    </svg>
+    <span>
                                 <?php echo esc_html(
                                     !empty($c['button_text'])
                                     ? $c['button_text']
                                     : (($c['button_action'] ?? '') === 'buynow' ? 'Buy Now' : 'Add to Cart')
                                 ); ?>
+                                </span>
                             </button>
 
                         <?php endif; ?>

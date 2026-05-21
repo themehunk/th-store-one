@@ -195,3 +195,22 @@ document.querySelectorAll(".s1-offer-time").forEach((el) => {
   updateTimer();
   setInterval(updateTimer, 1000);
 });
+
+jQuery(function ($) {
+  $(document).on("click", ".th-qty-plus", function () {
+    const $input = $(this).siblings(".th-qty");
+    let qty = parseInt($input.val(), 10) || 1;
+
+    $input.val(qty + 1).trigger("change");
+  });
+
+  $(document).on("click", ".th-qty-minus", function () {
+    const $input = $(this).siblings(".th-qty");
+    let qty = parseInt($input.val(), 10) || 1;
+    let min = parseInt($input.attr("min"), 10) || 1;
+
+    if (qty > min) {
+      $input.val(qty - 1).trigger("change");
+    }
+  });
+});

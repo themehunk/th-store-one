@@ -18,18 +18,18 @@ const PreviewStockScarcity = ({ settings = {} }) => {
     let text = rule.message || "Hurry! Only {stock} left";
 
     text = text.replace(
-  "{stock}",
-  `<span class="s1-stock-highlight">${stock}</span>`
-);
+      "{stock}",
+      `<span class="s1-stock-highlight">${stock}</span>`,
+    );
 
-if (rule.sold?.enable) {
-  text = text.replace(
-    "{sold}",
-    `<span class="s1-sold-highlight">${sold}</span>`
-  );
-} else {
-  text = text.replace("{sold}", "");
-}
+    if (rule.sold?.enable) {
+      text = text.replace(
+        "{sold}",
+        `<span class="s1-sold-highlight">${sold}</span>`,
+      );
+    } else {
+      text = text.replace("{sold}", "");
+    }
 
     if (rule.sold?.enable) {
       text = text.replace("{sold}", sold);
@@ -50,7 +50,6 @@ if (rule.sold?.enable) {
     }
 
     setPercentage(percent);
-
   }, [JSON.stringify(rule)]);
 
   /* ---------- STYLE ---------- */
@@ -78,18 +77,19 @@ if (rule.sold?.enable) {
   /* ---------- RENDER ---------- */
   return (
     <div className="s1-stock-preview-wrap">
-
-      <div className="s1-stock-preview-box">
-
+      <div
+        className="s1-stock-preview-box"
+        style={{
+          marginTop: `${rule.bar_margin || 10}px`,
+          marginBottom: `${rule.bar_margin || 10}px`,
+        }}
+      >
         {/* MESSAGE */}
         <div
           className="s1-stock-message"
           style={{
-            color:
-              rule.message_clr?.color ||
-              rule.message_clr ||
-              "#111",
-              fontSize: `${rule.font_size || 16}px`,
+            color: rule.message_clr?.color || rule.message_clr || "#111",
+            fontSize: `${rule.font_size || 16}px`,
           }}
         >
           <span dangerouslySetInnerHTML={{ __html: message }} />
@@ -97,12 +97,13 @@ if (rule.sold?.enable) {
 
         {/* BAR */}
         {rule.show_progress && (
-          <div className="s1-stock-bar-bg" style={{
-                background:rule.bar_end_clr || "#d1d5db",
-                height: `${rule.bar_height || 12}px`,
-                
-              }}>
-
+          <div
+            className="s1-stock-bar-bg"
+            style={{
+              background: rule.bar_end_clr || "#d1d5db",
+              height: `${rule.bar_height || 12}px`,
+            }}
+          >
             <div
               className="s1-stock-bar-fill"
               style={{
@@ -110,13 +111,11 @@ if (rule.sold?.enable) {
                 ...getBarStyle(),
               }}
             />
-
           </div>
         )}
-
       </div>
       <style>
-{`
+        {`
   .s1-stock-highlight {
     color: ${rule.highlight_clr || "#111"};
     font-weight: 700;
@@ -127,7 +126,7 @@ if (rule.sold?.enable) {
     font-weight: 600;
   }
 `}
-</style>
+      </style>
     </div>
   );
 };
