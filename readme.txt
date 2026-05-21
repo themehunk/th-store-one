@@ -3,8 +3,8 @@ Contributors: ThemeHunk
 Author URI: : https://www.themehunk.com/
 Tags: trust badges, product video, product labels
 Requires at least: 5.5 
-Tested up to: 6.9
-Stable tag: 1.0.6
+Tested up to: 7.0
+Stable tag: 1.1.0
 Requires PHP: 7.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -107,7 +107,8 @@ It is compatible with all [ThemeHunk themes](https://themehunk.com/free-themes/)
 Yes, the plugin is translation-ready and supports multiple languages.
 
 == Changelog ==
-= 1.0.6 =
+
+= 1.1.0 =
 New: Sale Notification, Sticky Cart Bar, Buy Now Button, Sale Countdown, Recently Viewed and Pre Order New addon added.
 
 = 1.0.5 =

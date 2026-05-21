@@ -177,15 +177,87 @@
   
 }
 
-/* QTY */
-.th-sticky-cart .th-qty {
-  width: 60px;
- height:41px;
- opacity:0.5;
-  border-radius: 8px;
-  border: none;
-  background: #f3f4f6;
-  text-align: center;
+/* Quantity Wrapper */
+.th-quantity-wrap{
+    display:flex;
+    align-items:center;
+    overflow:hidden;
+    border-radius:8px;
+    background:#f3f4f6;
+    border:1px solid #e5e7eb;
+}
+
+/* Input */
+.th-quantity-wrap .th-qty{
+    width:41px;
+    height:41px;
+    border:none;
+    background:transparent;
+    text-align:center;
+    padding:0;
+    margin:0;
+    box-shadow:none;
+    outline:none;
+    font-size:14px;
+    font-weight:500;
+    color:#374151;
+}
+
+/* Remove browser arrows */
+.th-quantity-wrap .th-qty::-webkit-outer-spin-button,
+.th-quantity-wrap .th-qty::-webkit-inner-spin-button{
+    -webkit-appearance:none;
+    margin:0;
+}
+
+.th-quantity-wrap .th-qty{
+    -moz-appearance:textfield;
+}
+
+/* Buttons */
+.th-qty-minus,
+.th-qty-plus{
+    width:41px;
+    height:41px;
+    border:none;
+    background:transparent;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:18px;
+    font-weight:600;
+    color:#374151;
+    transition:all .2s ease;
+}
+
+/* Hover */
+.th-qty-minus:hover,
+.th-qty-plus:hover{
+    background:rgba(0,0,0,.05);
+}
+
+/* Active */
+.th-qty-minus:active,
+.th-qty-plus:active{
+    transform:scale(.95);
+}
+
+.th-qty-minus:focus,
+.th-qty-plus:focus,
+.th-qty-minus:focus-visible,
+.th-qty-plus:focus-visible,
+.th-quantity-wrap .th-qty:focus,
+.th-quantity-wrap .th-qty:focus-visible{
+    outline:none !important;
+    box-shadow:none !important;
+    border:none !important;
+}
+
+.th-qty-minus:active,
+.th-qty-plus:active{
+    outline:none !important;
+    box-shadow:none !important;
 }
 
 /* BUTTON */
@@ -201,6 +273,9 @@
   cursor: pointer;
   transition: all 0.25s ease;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  align-items: center;
+    display: flex;
+    gap: 5px;
 }
 
 .th-sticky-cart .th-btn:hover {
@@ -334,4 +409,9 @@
     .s1-offer-banner {
     font-size: 0.89rem;
     }
+    .th-quantity-wrap .th-qty{
+    width:32px;
+    height:32px;
+    
+}
 }

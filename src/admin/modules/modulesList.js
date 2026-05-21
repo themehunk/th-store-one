@@ -6,7 +6,7 @@ export const modulesList = [
     id: "sale-notification",
     label: __("Sale Notification", "th-store-one"),
     description: __(
-      "Notify customers about limited-time sales and special offers.",
+      "Show real time purchase notifications and sales popups to create social proof, increase urgency, and encourage visitors to complete purchases faster.",
       "th-store-one",
     ),
     icon: MODULE_ICONS.SN,
@@ -16,7 +16,7 @@ export const modulesList = [
     id: "product-video",
     label: __("Product Video Gallery", "th-store-one"),
     description: __(
-      "Display product videos in the gallery using YouTube, Vimeo, or custom video URLs, along with featured video support.",
+      "Display product videos from YouTube, Vimeo, or custom media sources directly inside the product gallery for better engagement and detailed product presentation.",
       "th-store-one",
     ),
     icon: MODULE_ICONS.PDV,
@@ -26,17 +26,27 @@ export const modulesList = [
     id: "product-brand",
     label: __("Trust Badges", "th-store-one"),
     description: __(
-      "Display trust badges on your store to build customer confidence and increase conversions.",
+      "Show secure payment, brand logos, delivery, and guarantee badges on product and checkout pages to build customer confidence and improve purchase conversions.",
       "th-store-one",
     ),
     icon: MODULE_ICONS.PBR,
     premium: false,
   },
   {
+    id: "sale-countdown",
+    label: __("Sale Countdown", "th-store-one"),
+    description: __(
+      "Display countdown timers for sales, discounts, and limited offers to create urgency and encourage customers to purchase before deals expire.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.SLCNT,
+    premium: false,
+  },
+  {
     id: "buy-to-list",
     label: __("Featured List", "th-store-one"),
     description: __(
-      "Showcase selected products in a dedicated list to highlight promotions, bestsellers, or priority items and drive more customer attention and sales.",
+      "Display customizable feature highlights, bullet points, and product information lists to showcase key benefits, specifications, services, or important details directly on product pages",
       "th-store-one",
     ),
     icon: MODULE_ICONS.BTL,
@@ -46,7 +56,7 @@ export const modulesList = [
     id: "quick-social",
     label: __("Quick Social Link", "th-store-one"),
     description: __(
-      "Adds social media profile links to your store and lets customers share products instantly, increasing brand visibility and engagement across platforms.",
+      "Add social sharing buttons to product pages so customers can instantly share products across platforms, improving visibility, engagement, and potential sales.",
       "th-store-one",
     ),
     icon: MODULE_ICONS.QS,
@@ -56,7 +66,7 @@ export const modulesList = [
     id: "sticky-cart",
     label: __("Sticky Cart Bar", "th-store-one"),
     description: __(
-      "Adds a floating sticky cart bar to improve conversions by keeping the add-to-cart option always visible while scrolling.",
+      "Keep an always visible sticky add to cart bar while scrolling so customers can quickly purchase products without returning to the top.",
       "th-store-one",
     ),
     icon: MODULE_ICONS.SCT,
@@ -66,7 +76,7 @@ export const modulesList = [
     id: "buynow-button",
     label: __("Buy Now Button", "th-store-one"),
     description: __(
-      "Adds a direct Buy Now button that skips the cart and takes customers straight to checkout, helping increase quick conversions.",
+      "Add a direct Buy Now button that skips the cart page and sends customers straight to checkout for faster and smoother purchasing.",
       "th-store-one",
     ),
     icon: MODULE_ICONS.BNBTN,
@@ -76,7 +86,7 @@ export const modulesList = [
     id: "recent-view",
     label: __("Recently Viewed", "th-store-one"),
     description: __(
-      "Display products that users have recently viewed to improve engagement and increase chances of conversion.",
+      "Show products as recently viewed by customers to improve product discovery, increase engagement, and encourage returning visitors to complete purchases.",
       "th-store-one",
     ),
     icon: MODULE_ICONS.RV,
@@ -87,7 +97,7 @@ export const modulesList = [
     id: "pre-order",
     label: __("Pre Order", "th-store-one"),
     description: __(
-      "Allow customers to pre-order upcoming or out-of-stock products with custom availability dates, preorder messages, and advanced rule controls.",
+      "Allow customers to pre order upcoming or out of stock products with custom availability dates, preorder messages, and advanced options",
       "th-store-one",
     ),
     icon: MODULE_ICONS.PORDR,
@@ -97,7 +107,7 @@ export const modulesList = [
     id: "frequently-bought",
     label: __("Frequently Bought Together", "th-store-one"),
     description: __(
-      "Displays related products often purchased together, allowing customers to add multiple complementary items to their cart with one click.",
+      "Display related products commonly purchased together and allow customers to add complementary items to their cart with a single click.",
       "th-store-one",
     ),
     icon: MODULE_ICONS.FBT,
@@ -107,7 +117,7 @@ export const modulesList = [
     id: "bundle-product",
     label: __("Bundle Product", "th-store-one"),
     description: __(
-      "Create customizable product bundles that combine multiple items into one offer, increasing average order value and improving the shopping experience.",
+      "Create customizable product bundles that combine multiple products into one offer to increase average order value and improve shopping experience.",
       "th-store-one",
     ),
     icon: MODULE_ICONS.BUNDLE,
@@ -117,7 +127,7 @@ export const modulesList = [
     id: "smart-offers",
     label: __("Smart Offers", "th-store-one"),
     description: __(
-      "Create powerful Buy X Get Y deals, discounts, and automated offers to boost conversions and increase average order value.",
+      "Create automated Buy X Get Y offers or BOGO offers, discounts, upsells, and special promotions to boost conversions and increase average order value.",
       "th-store-one",
     ),
     icon: MODULE_ICONS.SMRTOFR,
@@ -127,7 +137,7 @@ export const modulesList = [
     id: "people-view",
     label: __("Visitor Count", "th-store-one"),
     description: __(
-      "Show real-time or simulated product viewers to create urgency, increase trust, and boost conversions.",
+      "Display live or simulated visitor counts on product pages, and across store to create urgency, build trust, and encourage faster purchasing decisions.",
       "th-store-one",
     ),
     icon: MODULE_ICONS.PV,
@@ -137,7 +147,7 @@ export const modulesList = [
     id: "trust-badges",
     label: __("Badge Management", "th-store-one"),
     description: __(
-      "Easily create, customize, and manage badges across your store with full control.",
+      "Create and manage custom product badges such as Sale, New, Trending, or Limited Stock to highlight important products across your store.",
       "th-store-one",
     ),
     icon: MODULE_ICONS.TBD,
@@ -147,7 +157,7 @@ export const modulesList = [
     id: "inactive-tab",
     label: __("Inactive Tab Message", "th-store-one"),
     description: __(
-      "Modify the browser tab title when visitors switch away from your store to grab attention and encourage them to return.",
+      "Change the browser tab title when visitors switch tabs to grab attention and encourage customers to return to your store.",
       "th-store-one",
     ),
     icon: MODULE_ICONS.INTB,
@@ -157,7 +167,7 @@ export const modulesList = [
     id: "stock-scarcity",
     label: __("Stock Scarcity", "th-store-one"),
     description: __(
-      "Show low stock alerts and progress bars to create urgency and increase conversions.",
+      "Show low stock alerts, inventory progress bars, and scarcity messages to create urgency and motivate customers to complete purchases quickly.",
       "th-store-one",
     ),
     icon: MODULE_ICONS.STKSC,

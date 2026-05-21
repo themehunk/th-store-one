@@ -99,6 +99,7 @@ const newStockRule = () => ({
   highlight_clr: "#111",
   font_size: 16,
   bar_height: 12,
+  bar_margin: 10,
 
   low_stock_effect: {
     enable: true,
@@ -760,6 +761,17 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                             max={20}
                             onChange={(v) =>
                               updateField(index, "bar_height", parseInt(v))
+                            }
+                          />
+                        </S1Field>
+                        <S1Field>
+                          <UniversalRangeControl
+                            label="Margin"
+                            value={String(rule.bar_margin || 10)}
+                            min={0}
+                            max={100}
+                            onChange={(v) =>
+                              updateField(index, "bar_margin", parseInt(v))
                             }
                           />
                         </S1Field>
