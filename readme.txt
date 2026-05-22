@@ -4,7 +4,7 @@ Author URI: : https://www.themehunk.com/
 Tags: extensions, addons, elementor, store one
 Requires at least: 5.5 
 Tested up to: 7.0
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 Requires PHP: 7.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -132,6 +132,10 @@ It is compatible with all [ThemeHunk themes](https://themehunk.com/free-themes/)
 Yes, the plugin is translation-ready and supports multiple languages.
 
 == Changelog ==
+= 1.1.1 =
+Update: Addon style improved.
+Fix: Fixed bugs and improved code loading speed.
+Fix: Resolved theme compatibility issues.
 
 = 1.1.0 =
 New: Added Sale Notification addon for real-time purchase updates.
@@ -161,13 +165,8 @@ Fix: Corrected prefix issue.
 = 1.0.1 =
 Fix: Slug and permission issue fixed.
 
-= 1.0.0 =
-== Upgrade Notice ==
-New: Added Sale Notification addon for real-time purchase updates.
-New: Added Sticky Cart Bar and Buy Now Button for faster checkout.
-New: Added Sale Countdown to create urgency for offers.
-New: Added Recently Viewed and Pre-Order addons.
-Update: Optimized CSS and JavaScript to improve overall performance and user experience.
+= 1.1.1 =
+Update: Addon style improved.
 Fix: Fixed bugs and improved code loading speed.
 Fix: Resolved theme compatibility issues.
 
