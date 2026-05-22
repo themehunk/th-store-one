@@ -104,6 +104,15 @@ This plugin has been tested and works with most WordPress themes, including:
 The full source code of this plugin is publicly available here:
 https://github.com/themehunk/store-one
 
+== Screenshots ==
+1. Store One addons
+2. Dashboard addons
+3. Sale notification
+4. Sticky cart bar
+5. Bundle Product
+6. Stock Scarcity
+
+
 
 == Frequently Asked Questions ==
 
