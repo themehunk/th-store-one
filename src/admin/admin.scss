@@ -932,6 +932,84 @@ button.is-tertiary,
     80% { transform: scale(1.15); opacity: 1; }
     100% { transform: scale(1); }
 }
+
+.s1-inline-toast {
+    display: flex;
+    align-items: center;
+
+    margin-bottom: 16px;
+    padding: 14px 20px;
+
+    background: #fff;
+
+    border-left: 4px solid var(--s1-color-primary);
+    border-radius: var(--s1-radius-md);
+
+    box-shadow: var(--s1-shadow-lg);
+
+    font-weight: 500;
+
+    animation: fadeIn 0.3s ease;
+}
+
+.s1-inline-toast--success {
+    border-left-color: #46b450;
+}
+
+.s1-inline-toast--error {
+    border-left-color: #dc3232;
+}
+
+.s1-inline-toast.hide {
+    animation: fadeOut 0.3s ease forwards;
+}
+
+.s1-inline-toast::before {
+    content: "";
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    flex-shrink: 0;
+
+    animation: popIn 0.3s ease;
+}
+
+.s1-inline-toast--success::before {
+    content: "✓";
+    color: #46b450;
+    font-weight: 700;
+}
+
+.s1-inline-toast--error::before {
+    content: "✕";
+    color: #dc3232;
+    font-weight: 700;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+}
+
+@keyframes popIn {
+    0% {
+        transform: scale(0.4);
+        opacity: 0;
+    }
+    80% {
+        transform: scale(1.15);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1);
+    }
+}
 /* ------------------------------------------
    FBT RULES EDITOR — S1 UI VARIABLES + CLEAN SCSS
 ------------------------------------------- */
@@ -2259,23 +2337,107 @@ button.s1-settings__redirect-btn{
 .store-one-rules-footer.bundle-footer{
     justify-content: end;
 }
-.s1-license-required-badge{
-    border-radius:20px;
-    // background: linear-gradient(170deg, #ff3131, #fe6a70ab);
-    color:#fff;
-    transition:all .2s ease;
-    font-size: 15px;
-    font-weight: 600;
-    padding: 6px 10px;
-    border-radius: 6px;
-    display:inline-block;
-    margin:0.5rem 0;
-    background: var(--s1-color-primary-dark);
+.s1-settings__header .components-flex{
+    -webkit-box-align: start;
+    align-items: start;
 }
-.s1-license-required-badge a,.s1-license-required-badge a:hover{
+.s1-settings__title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom:10px;
+    flex-wrap: wrap;
+}
+
+a.s1-license-required-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: #6f4ef6;
+    color: #fff;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 500;
+}
+
+a.s1-license-required-badge,a.s1-license-required-badge:hover{
     color:#fff;
     text-decoration:none;
 }
+
+.s1-settings__toggle-tooltip {
+    position: relative;
+    display: inline-flex;
+    cursor: not-allowed;
+}
+
+.s1-settings__toggle-tooltip::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+
+    background:var(--s1-gray-800);;
+    color: #fff;
+
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+
+    padding: 8px 12px;
+    border-radius: 8px;
+
+    white-space: nowrap;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: all 0.2s ease;
+
+    pointer-events: none;
+    z-index: 9999;
+
+    box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.15),
+        0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.s1-settings__toggle-tooltip::after {
+    content: "";
+    position: absolute;
+
+    bottom: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+
+    border-width: 6px;
+    border-style: solid;
+    border-color: var(--s1-gray-800) transparent transparent transparent;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: all 0.2s ease;
+
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.s1-settings__toggle-tooltip:hover::before,
+.s1-settings__toggle-tooltip:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* Empty tooltip hide */
+.s1-settings__toggle-tooltip[data-tooltip=""]::before,
+.s1-settings__toggle-tooltip[data-tooltip=""]::after {
+    display: none;
+}
+
 .s1-card-body .s1-btn,
 .s1-card-body .s1-btn:hover{
    border:1px solid var(--s1-color-primary-dark);

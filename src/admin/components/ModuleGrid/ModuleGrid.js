@@ -1,59 +1,68 @@
-import { useState } from '@wordpress/element';
-import ModuleCard from '../ModuleCard/ModuleCard';
-import { __ } from '@wordpress/i18n';
-const ModuleGrid = ({ modulesList, modulesState, tabs, setActiveModule,licenseActive }) => {
+import { useState } from "@wordpress/element";
+import ModuleCard from "../ModuleCard/ModuleCard";
+import { __ } from "@wordpress/i18n";
+const ModuleGrid = ({
+  modulesList,
+  modulesState,
+  tabs,
+  setActiveModule,
+  licenseActive,
+}) => {
+  const [activeTab, setActiveTab] = useState(tabs[0].name);
 
-    const [activeTab, setActiveTab] = useState(tabs[0].name);
+  const currentTab = tabs.find((tab) => tab.name === activeTab);
 
-    const currentTab = tabs.find(tab => tab.name === activeTab);
-
-    return (
-        <div className="s1-modules">
-
-            <div className="s1-content-area">
-
-            {/* Header + Tab List Wrapper */}
-            <div className="s1-top-section">
-
-                <div className="s1-modules__header">
-                    <h2>{__('Store', 'th-store-one')} <span>{__('Enhancer', 'th-store-one')}</span></h2>
-                    <p>{__('A lightweight solution that boosts store performance and user experience, with easy setup, smooth functionality, and powerful add-ons to extend features as needed.', 'th-store-one')}</p>
-                </div>
-                <div className="s1-tabs">
-                <div className="s1-tabs-list components-tab-panel__tabs">
-                    {tabs.map((tab) => (
-                        <button
-                            key={tab.name}
-                            className={`s1-tab-btn components-tab-panel__tabs-item ${activeTab === tab.name ? 'is-active' : ''}`}
-                            onClick={() => setActiveTab(tab.name)}
-                        >
-                            {tab.title}
-                        </button>
-                    ))}
-                </div>
-                </div>
-
+  return (
+    <div className="s1-modules">
+      <div className="s1-content-area">
+        {/* Header + Tab List Wrapper */}
+        <div className="s1-top-section">
+          <div className="s1-modules__header">
+            <h2>
+              {__("Grow Faster with", "th-store-one")}{" "}
+              <span>{__("Store One", "th-store-one")}</span>
+            </h2>
+            <p>
+              {__(
+                "Activate premium quality WooCommerce Addons to create a faster, smarter, and more engaging shopping experience",
+                "th-store-one",
+              )}
+            </p>
+          </div>
+          <div className="s1-tabs">
+            <div className="s1-tabs-list components-tab-panel__tabs">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.name}
+                  className={`s1-tab-btn components-tab-panel__tabs-item ${
+                    activeTab === tab.name ? "is-active" : ""
+                  }`}
+                  onClick={() => setActiveTab(tab.name)}
+                >
+                  {tab.title}
+                </button>
+              ))}
             </div>
-
-            {/* Tab Content */}
-            <div className="s1-modules__grid">
-                {modulesList
-                    .filter((m) => currentTab.modules.includes(m.id))
-                    .map((mod) => (
-                        <ModuleCard
-                            key={mod.id}
-                            mod={mod}
-                            modulesState={modulesState}
-                            setActiveModule={setActiveModule}
-                            licenseActive={licenseActive}
-                        />
-                    ))}
-            </div>
-
-            </div>
-
+          </div>
         </div>
-    );
+
+        {/* Tab Content */}
+        <div className="s1-modules__grid">
+          {modulesList
+            .filter((m) => currentTab.modules.includes(m.id))
+            .map((mod) => (
+              <ModuleCard
+                key={mod.id}
+                mod={mod}
+                modulesState={modulesState}
+                setActiveModule={setActiveModule}
+                licenseActive={licenseActive}
+              />
+            ))}
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default ModuleGrid;

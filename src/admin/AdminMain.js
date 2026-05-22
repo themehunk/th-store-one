@@ -132,12 +132,12 @@ const AdminMain = () => {
   const tabs = [
     {
       name: "all",
-      title: __("All Modules", "th-store-one"),
+      title: __("All Addons", "th-store-one"),
       modules: modulesList.map((m) => m.id),
     },
     {
       name: "active",
-      title: __("Active Modules", "th-store-one"),
+      title: __("Active Addons", "th-store-one"),
       modules: modulesList.filter((m) => modulesState[m.id]).map((m) => m.id),
     },
   ];
@@ -289,7 +289,10 @@ const AdminMain = () => {
   /**
    * Save whole modulesState to REST.
    */
-  const saveModules = (nextState) => {
+  const saveModules = (
+    nextState,
+    successMessage = __("Changes saved successfully.", "th-store-one"),
+  ) => {
     setSaving(true);
     setError("");
     setSuccess("");
@@ -300,7 +303,7 @@ const AdminMain = () => {
       data: { modules: nextState },
     })
       .then(() => {
-        setSuccess(__("Saved successfully!", "th-store-one"));
+        setSuccess(successMessage);
       })
       .catch(() => {
         setError(__("Failed to save settings.", "th-store-one"));
@@ -308,29 +311,38 @@ const AdminMain = () => {
       .finally(() => setSaving(false));
   };
 
+  const [messageSource, setMessageSource] = useState("");
+
   /**
    * Toggle single module (auto-saves).
    */
   const handleToggleModule = (moduleId, enabled) => {
+    setMessageSource("module");
     setModulesState((prev) => {
       const next = {
         ...prev,
         [moduleId]: !!enabled,
       };
-      saveModules(next);
+
+      saveModules(
+        next,
+        enabled
+          ? __("Addon activated successfully.", "th-store-one")
+          : __("Addon deactivated successfully.", "th-store-one"),
+      );
+
       return next;
     });
   };
-
   /**
    * Master switch (Enable all / Disable all).
    */
   const handleToggleAllModules = (enableAll) => {
+    setMessageSource("admin");
     setModulesState((prev) => {
       const next = {};
 
       modulesList.forEach((mod) => {
-        // premium module + license inactive → force disable
         if (mod.premium && !licenseActive) {
           next[mod.id] = false;
         } else {
@@ -338,7 +350,13 @@ const AdminMain = () => {
         }
       });
 
-      saveModules(next);
+      saveModules(
+        next,
+        enableAll
+          ? __("All addons activated successfully.", "th-store-one")
+          : __("All addons deactivated successfully.", "th-store-one"),
+      );
+
       return next;
     });
   };
@@ -399,6 +417,7 @@ const AdminMain = () => {
   }, []);
 
   const handleTopSave = async () => {
+    setMessageSource("savebar");
     if (!saveHandler || saving) return;
 
     try {
@@ -478,7 +497,7 @@ const AdminMain = () => {
 
   return (
     <div className="store-one-admin">
-      {success && (
+      {messageSource === "admin" && success && (
         <div
           className={`s1-toast s1-toast--success ${hideToast ? "hide" : ""}`}
         >
@@ -487,7 +506,7 @@ const AdminMain = () => {
         </div>
       )}
 
-      {error && (
+      {messageSource === "admin" && error && (
         <div className={`s1-toast s1-toast--error ${hideToast ? "hide" : ""}`}>
           <span className="s1-toast__icon"></span>
           <span>{error}</span>
@@ -602,6 +621,11 @@ const AdminMain = () => {
                       onRegisterSave={setSaveHandler}
                       onModuleReady={handleModuleReady}
                       licenseActive={licenseActive}
+                      success={success}
+                      error={error}
+                      hideToast={hideToast}
+                      isDirty={isDirty}
+                      messageSource={messageSource}
                     />
                     <div className="s1-preview-pane">
                       <PreviewPane

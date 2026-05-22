@@ -38,8 +38,6 @@
 //     bar.style.width = "100%";
 // }
 
-
-
 //     function showItem(index) {
 
 //         if (!items[index] || isClosed) return;
@@ -135,173 +133,158 @@
 // })();
 
 (function () {
+  const items = document.querySelectorAll(".th-notification");
+  if (!items.length) return;
 
-    const items = document.querySelectorAll(".th-notification");
-    if (!items.length) return;
+  let currentIndex = 0;
+  let isClosed = false;
+  let timer = null;
 
-    let currentIndex = 0;
-    let isClosed = false;
-    let timer = null;
+  function getRandomDelay(range) {
+    return Math.floor(Math.random() * range);
+  }
 
-    function getRandomDelay(range) {
-        return Math.floor(Math.random() * range);
-    }
+  function applyAnimation(el) {
+    const animation = el.dataset.animation || "slide";
+    el.classList.remove("slide", "fade", "zoom");
+    el.classList.add(animation);
+  }
 
-    function applyAnimation(el) {
-        const animation = el.dataset.animation || "slide";
-        el.classList.remove("slide", "fade", "zoom");
-        el.classList.add(animation);
-    }
+  /* ================= PROGRESS BAR ================= */
+  function startProgressBar(el, duration) {
+    const bar = el.querySelector(".th-progress-fill");
+    if (!bar) return;
 
-    /* ================= PROGRESS BAR ================= */
-    function startProgressBar(el, duration) {
-        const bar = el.querySelector(".th-progress-fill");
-        if (!bar) return;
+    bar.style.transition = "none";
+    bar.style.width = "0%";
 
-        bar.style.transition = "none";
-        bar.style.width = "0%";
+    bar.offsetHeight;
 
-        bar.offsetHeight;
+    bar.style.transition = `width ${duration}ms linear`;
+    bar.style.width = "100%";
+  }
 
-        bar.style.transition = `width ${duration}ms linear`;
-        bar.style.width = "100%";
-    }
-
-    /* ================= OFFSET FIX ================= */
-    function adjustNotificationOffset() {
-
+  /* ================= OFFSET FIX ================= */
+  function adjustNotificationOffset() {
     const cart = document.querySelector(".th-sticky-cart");
+    const cartVisible = cart && cart.classList.contains("show");
 
-    // 🔥 ONLY bottom notifications select karo
     const targets = document.querySelectorAll(
-        ".th-notification.th-bottom_left, .th-notification.th-bottom_right"
+      ".th-notification.th-bottom_left, .th-notification.th-bottom_right",
     );
 
-    targets.forEach(el => {
+    targets.forEach((el) => {
+      if (cartVisible) {
+        const cartHeight = cart.offsetHeight || 0;
 
-        if (cart && cart.offsetHeight > 0) {
-
-            const rect = cart.getBoundingClientRect();
-            const cartHeight = rect.height;
-
-            el.style.setProperty(
-                "bottom",
-                (cartHeight + 20) + "px",
-                "important"
-            );
-
-        } else {
-            el.style.removeProperty("bottom");
-        }
-
+        el.style.setProperty("bottom", cartHeight + 20 + "px", "important");
+      } else {
+        el.style.removeProperty("bottom");
+      }
     });
-   }
+  }
 
-    /* ================= SHOW ================= */
-    function showItem(index) {
+  /* ================= SHOW ================= */
+  function showItem(index) {
+    if (!items[index] || isClosed) return;
 
-        if (!items[index] || isClosed) return;
+    const el = items[index];
 
-        const el = items[index];
+    const duration = parseInt(el.dataset.duration || 5) * 1000;
+    const delayBetween = parseInt(el.dataset.delayBetween || 10) * 1000;
 
-        const duration = parseInt(el.dataset.duration || 5) * 1000;
-        const delayBetween = parseInt(el.dataset.delayBetween || 10) * 1000;
+    const randomEnabled = el.dataset.random === "true";
+    const randomRange = parseInt(el.dataset.randomRange || 0) * 1000;
 
-        const randomEnabled = el.dataset.random === "true";
-        const randomRange = parseInt(el.dataset.randomRange || 0) * 1000;
+    const extraDelay = randomEnabled ? getRandomDelay(randomRange) : 0;
 
-        const extraDelay = randomEnabled ? getRandomDelay(randomRange) : 0;
+    applyAnimation(el);
 
-        applyAnimation(el);
+    el.classList.remove("hide");
+    el.classList.add("show");
 
-        el.classList.remove("hide");
-        el.classList.add("show");
+    startProgressBar(el, duration);
 
-        startProgressBar(el, duration);
+    /*wait for DOM paint then adjust */
+    setTimeout(adjustNotificationOffset, 50);
 
-        /*wait for DOM paint then adjust */
-        setTimeout(adjustNotificationOffset, 50);
+    timer = setTimeout(() => {
+      hideItem(el);
 
-        timer = setTimeout(() => {
+      timer = setTimeout(() => {
+        nextItem();
+      }, delayBetween + extraDelay);
+    }, duration);
+  }
 
-            hideItem(el);
+  /* ================= HIDE ================= */
+  function hideItem(el) {
+    el.classList.remove("show");
+    el.classList.add("hide");
+  }
 
-            timer = setTimeout(() => {
-                nextItem();
-            }, delayBetween + extraDelay);
+  /* ================= NEXT ================= */
+  function nextItem() {
+    if (isClosed) return;
 
-        }, duration);
+    currentIndex++;
+
+    if (currentIndex >= items.length) {
+      const loop = items[0].dataset.loop === "true";
+
+      if (!loop) return;
+
+      currentIndex = 0;
     }
 
-    /* ================= HIDE ================= */
-    function hideItem(el) {
-        el.classList.remove("show");
-        el.classList.add("hide");
+    showItem(currentIndex);
+  }
+
+  /* ================= CLOSE ================= */
+  document.addEventListener("click", function (e) {
+    const closeBtn = e.target.closest(".th-close-btn");
+
+    if (closeBtn) {
+      isClosed = true;
+
+      if (timer) clearTimeout(timer);
+
+      items.forEach((el) => {
+        hideItem(el);
+
+        setTimeout(() => {
+          el.style.display = "none";
+        }, 400);
+      });
     }
+  });
 
-    /* ================= NEXT ================= */
-    function nextItem() {
+  /* ================= INITIAL ================= */
+  const initialDelay = parseInt(items[0].dataset.initial || 3) * 1000;
 
-        if (isClosed) return;
+  setTimeout(() => {
+    showItem(currentIndex);
+  }, initialDelay);
 
-        currentIndex++;
+  /* ================= GLOBAL EVENTS ================= */
 
-        if (currentIndex >= items.length) {
+  window.addEventListener("load", adjustNotificationOffset);
+  window.addEventListener("resize", adjustNotificationOffset);
 
-            const loop = items[0].dataset.loop === "true";
+  /*detect cart DOM change */
+  const stickyCart = document.querySelector(".th-sticky-cart");
 
-            if (!loop) return;
-
-            currentIndex = 0;
-        }
-
-        showItem(currentIndex);
-    }
-
-    /* ================= CLOSE ================= */
-    document.addEventListener("click", function (e) {
-
-        const closeBtn = e.target.closest(".th-close-btn");
-
-        if (closeBtn) {
-
-            isClosed = true;
-
-            if (timer) clearTimeout(timer);
-
-            items.forEach(el => {
-
-                hideItem(el);
-
-                setTimeout(() => {
-                    el.style.display = "none";
-                }, 400);
-
-            });
-        }
-
+  if (stickyCart) {
+    new MutationObserver(() => {
+      adjustNotificationOffset();
+    }).observe(stickyCart, {
+      attributes: true,
+      attributeFilter: ["class"],
     });
+  }
 
-    /* ================= INITIAL ================= */
-    const initialDelay = parseInt(items[0].dataset.initial || 3) * 1000;
-
-    setTimeout(() => {
-        showItem(currentIndex);
-    }, initialDelay);
-
-    /* ================= GLOBAL EVENTS ================= */
-
-    window.addEventListener("load", adjustNotificationOffset);
-    window.addEventListener("resize", adjustNotificationOffset);
-
-    /*detect cart DOM change */
-    const observer = new MutationObserver(() => {
-        adjustNotificationOffset();
-    });
-
-    observer.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
-
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
 })();

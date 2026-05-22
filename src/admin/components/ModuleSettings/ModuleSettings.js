@@ -99,6 +99,11 @@ const ModuleSettings = ({
   onRegisterSave,
   onModuleReady,
   licenseActive,
+  success,
+  error,
+  hideToast,
+  isDirty,
+  messageSource,
 }) => {
   const enabled = !!modulesState[currentModule.id];
 
@@ -175,23 +180,33 @@ const ModuleSettings = ({
       {/* =========================
        * HEADER
        * ========================= */}
+      {messageSource === "module" && (success || error) && (
+        <div
+          className={`s1-inline-toast ${
+            success ? "s1-inline-toast--success" : "s1-inline-toast--error"
+          } ${hideToast ? "hide" : ""}`}
+        >
+          {success || error}
+        </div>
+      )}
 
       <CardHeader className="s1-settings__header">
         <Flex justify="space-between" align="center">
           <FlexBlock className="s1-settings__info">
-            <h2 className="s1-settings__title">{currentModule.label}</h2>
+            <div className="s1-settings__title-wrap">
+              <h2 className="s1-settings__title">{currentModule.label}</h2>
 
-            {isLocked && (
-              <span className="s1-license-required-badge">
+              {isLocked && (
                 <a
+                  className="s1-license-required-badge"
                   href="https://themehunk.com/storeone/?utm_campaign=free_plugin&utm_source=dashboard&utm_medium=upgrade_button"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {__("Buy Pro", "th-store-one")}
+                  {__("Upgrade to Pro", "th-store-one")}
                 </a>
-              </span>
-            )}
+              )}
+            </div>
 
             <p className="s1-settings__desc">{currentModule.description}</p>
 
@@ -199,18 +214,27 @@ const ModuleSettings = ({
           </FlexBlock>
 
           <FlexItem className="s1-settings__toggle">
-            <ToggleControl
-              label={
-                enabled
-                  ? __("Enabled", "th-store-one")
-                  : __("Disabled", "th-store-one")
+            <div
+              className="s1-settings__toggle-tooltip"
+              data-tooltip={
+                isLocked
+                  ? __("Upgrade to Pro to Enable This Addon", "th-store-one")
+                  : ""
               }
-              checked={enabled}
-              disabled={saving || isLocked}
-              onChange={(val) => {
-                onToggleModule(currentModule.id, val);
-              }}
-            />
+            >
+              <ToggleControl
+                label={
+                  enabled
+                    ? __("Enabled", "th-store-one")
+                    : __("Disabled", "th-store-one")
+                }
+                checked={enabled}
+                disabled={saving || isLocked}
+                onChange={(val) => {
+                  onToggleModule(currentModule.id, val);
+                }}
+              />
+            </div>
           </FlexItem>
         </Flex>
       </CardHeader>
