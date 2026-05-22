@@ -212,7 +212,7 @@ class Th_Store_One_Recent_View
 
         ?>
 
-        <div class="th-recent-view-wrap <?php echo $is_slider ? 'is-slider' : 'is-grid'; ?>"
+        <div class="th-recent-view-wrap woocommerce <?php echo $is_slider ? 'is-slider' : 'is-grid'; ?>"
              style="--th-gap:<?php echo esc_attr($gap); ?>px;">
 
             <?php if (empty($s['hide_title'])) : ?>
