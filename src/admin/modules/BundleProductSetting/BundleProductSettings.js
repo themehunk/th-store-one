@@ -5,7 +5,7 @@ import { S1Field, S1FieldGroup } from "@th-storeone-global/S1Field";
 import { Spinner, ToggleControl, SelectControl } from "@wordpress/components";
 import ResetModuleButton from "@th-storeone-global/ResetModuleButton";
 const MODULE_ID = "bundle-product";
- 
+
 /* ---------------------------------
  * DEFAULT SETTINGS
  * --------------------------------- */
@@ -34,7 +34,7 @@ const DEFAULT_SETTINGS = {
 export default function BundleProductSettings({
   onSettingsChange,
   onRegisterSave,
-    onModuleReady,
+  onModuleReady,
 }) {
   const [loading, setLoading] = useState(true);
 
@@ -158,7 +158,9 @@ export default function BundleProductSettings({
 
           {success && (
             <div
-              className={`s1-toast s1-toast--success ${hideToast ? "hide" : ""}`}
+              className={`s1-toast s1-toast--success ${
+                hideToast ? "hide" : ""
+              }`}
             >
               <span>{success}</span>
             </div>
@@ -173,7 +175,6 @@ export default function BundleProductSettings({
 
           <div className="store-one-content-settings">
             <S1FieldGroup title={__("Product page", "th-store-one")}>
-             
               <S1Field
                 label={__("Display bundled product thumbnails", "th-store-one")}
                 classN="s1-toggle-wrpapper"
@@ -192,7 +193,10 @@ export default function BundleProductSettings({
                 />
               </S1Field>
               <S1Field
-                label={__("Display bundled product descriptions", "th-store-one")}
+                label={__(
+                  "Display bundled product descriptions",
+                  "th-store-one",
+                )}
                 classN="s1-toggle-wrpapper"
               >
                 <ToggleControl
@@ -251,8 +255,14 @@ export default function BundleProductSettings({
                 <SelectControl
                   value={settings.product_page.price_display}
                   options={[
-                    { label: __("Price per unit", "th-store-one"), value: "unit" },
-                    { label: __("Total price", "th-store-one"), value: "total" },
+                    {
+                      label: __("Price per unit", "th-store-one"),
+                      value: "unit",
+                    },
+                    {
+                      label: __("Total price", "th-store-one"),
+                      value: "total",
+                    },
                     { label: __("Hide", "th-store-one"), value: "hide" },
                   ]}
                   onChange={(v) =>
@@ -294,7 +304,10 @@ export default function BundleProductSettings({
                 />
               </S1Field>
               <S1Field
-                label={__("Where to display the bundled products", "th-store-one")}
+                label={__(
+                  "Where to display the bundled products",
+                  "th-store-one",
+                )}
               >
                 <SelectControl
                   value={settings.product_page.position}
@@ -416,26 +429,26 @@ export default function BundleProductSettings({
       )}
       <div className="store-one-rules-footer bundle-footer">
         <ResetModuleButton
-        moduleId={MODULE_ID}
-        label="Reset"
-        onReset={(newSettings) => {
+          moduleId={MODULE_ID}
+          label="Reset"
+          onReset={(newSettings) => {
             const resetSettings = {
-            ...DEFAULT_SETTINGS,
-            ...newSettings,
-            product_page: {
+              ...DEFAULT_SETTINGS,
+              ...newSettings,
+              product_page: {
                 ...DEFAULT_SETTINGS.product_page,
                 ...(newSettings?.product_page || {}),
-            },
-            cart_page: {
+              },
+              cart_page: {
                 ...DEFAULT_SETTINGS.cart_page,
                 ...(newSettings?.cart_page || {}),
-            },
+              },
             };
             setSettings(resetSettings);
             return resetSettings;
-        }}
+          }}
         />
-        </div>
+      </div>
     </div>
   );
 }
