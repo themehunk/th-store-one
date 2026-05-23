@@ -49,6 +49,8 @@ import PeopleViewSettings from "../../modules/PeopleView/PeopleViewSettings";
 
 import PreOrderSettings from "../../modules/PreOrder/PreOrderSettings";
 
+import ThAdvanceSearch from "../../modules/ThAdvanceSearch/ThAdvanceSearchSettings";
+
 /* =========================
  * MODULE COMPONENT MAP
  * ========================= */
@@ -87,6 +89,8 @@ const moduleComponents = {
   "people-view": PeopleViewSettings,
 
   "pre-order": PreOrderSettings,
+
+  "th-advanced-search": ThAdvanceSearch,
 };
 
 const ModuleSettings = ({

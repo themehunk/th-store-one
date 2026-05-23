@@ -128,6 +128,7 @@ const AdminMain = () => {
     "smart-offers": false,
     "people-view": false,
     "pre-order": false,
+    "th-advanced-search": false,
   });
   const tabs = [
     {
