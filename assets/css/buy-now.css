@@ -18,6 +18,9 @@
 .th-buy-now-form {
   margin-top: 10px;
 }
+.th-buy-now-form.s1-archive{
+    text-align:center;
+}
 
 .th-buy-now-form.s1-single{
     display:flex;

@@ -3462,3 +3462,97 @@ transform:translateX(-50%);
 .s1-field-wrapper .components-base-control .components-grid{
    width:73%;
 }
+
+// plugin extension addon settings
+.s1-extension-card {
+    display: flex;
+    gap: 20px;
+    padding: 24px;
+    background: #fff;
+}
+
+.s1-extension-card__icon {
+    flex-shrink: 0;
+}
+
+.s1-extension-card__icon-image {
+    width: 50px;
+    height: 50px;
+    
+}
+
+.s1-extension-card__content {
+    flex: 1;
+    min-width: 0;
+}
+
+.s1-extension-card__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.s1-extension-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.s1-extension-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
+.s1-extension-desc {
+    margin: 14px 0 0;
+    color: #64748b;
+    line-height: 1.6;
+    max-width: 700px;
+}
+
+.s1-extension-status {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.s1-extension-status.is-active {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.s1-extension-status.is-installed {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.s1-extension-status.is-missing {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.s1-extension-version {
+    color: #64748b;
+    font-size: 12px;
+}
+
+.th-extenstion-settings-btn{
+    border: 1px solid var(--s1-gray-300) !important;
+    border-radius: var(--s1-radius-md) !important;
+    color: var(--s1-gray-700) !important;
+    padding: var(--s1-btn-padding-md) !important;
+    font-size: var(--s1-btn-font-md) !important;
+    transition: var(--s1-anim-fast);
+    margin-bottom: var(--s1-space-20);
+    background-color: #fff !important;
+    box-shadow: var(--s1-box-shadow);
+}
+
+.th-extenstion-settings-btn:hover{
+    background: var(--s1-gray-100) !important;
+    color: var(--s1-gray-900) !important;
+}

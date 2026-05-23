@@ -53,5 +53,10 @@ class Th_Store_One
         if (class_exists('Th_Store_One_REST')) {
             new Th_Store_One_REST();
         }
+        // pluign extension api
+        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/admin/th-store-one-extension-rest.php';
+        if (class_exists('Th_Store_One_Extension_REST')) {
+            new Th_Store_One_Extension_REST();
+        }
     }
 }
