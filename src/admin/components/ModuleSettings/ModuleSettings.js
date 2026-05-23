@@ -51,6 +51,7 @@ import PreOrderSettings from "../../modules/PreOrder/PreOrderSettings";
 
 import ThAdvanceSearch from "../../modules/ThAdvanceSearch/ThAdvanceSearchSettings";
 
+import ThAdvanceCart from "../../modules/ThAdvanceCart/ThAdvanceCartSettings";
 /* =========================
  * MODULE COMPONENT MAP
  * ========================= */
@@ -90,8 +91,13 @@ const moduleComponents = {
 
   "pre-order": PreOrderSettings,
 
-  "th-advanced-search": ThAdvanceSearch,
+  "th-advanced-cart": ThAdvanceCart,
 };
+
+/* =========================
+ * MODULES WHERE HEADER SHOULD BE HIDDEN
+ * ========================= */
+const modulesWithoutHeader = ["th-advanced-search", "th-advanced-cart"];
 
 const ModuleSettings = ({
   currentModule,
@@ -114,6 +120,9 @@ const ModuleSettings = ({
   const isPremium = currentModule.premium ?? false;
 
   const isLocked = isPremium && !licenseActive;
+
+  // Check if current module should hide header
+  const hideHeader = modulesWithoutHeader.includes(currentModule.id);
 
   /* =========================
    * COMMON PROPS
@@ -193,55 +202,56 @@ const ModuleSettings = ({
           {success || error}
         </div>
       )}
+      {!hideHeader && (
+        <CardHeader className="s1-settings__header">
+          <Flex justify="space-between" align="center">
+            <FlexBlock className="s1-settings__info">
+              <div className="s1-settings__title-wrap">
+                <h2 className="s1-settings__title">{currentModule.label}</h2>
 
-      <CardHeader className="s1-settings__header">
-        <Flex justify="space-between" align="center">
-          <FlexBlock className="s1-settings__info">
-            <div className="s1-settings__title-wrap">
-              <h2 className="s1-settings__title">{currentModule.label}</h2>
+                {isLocked && (
+                  <a
+                    className="s1-license-required-badge"
+                    href="https://themehunk.com/storeone/?utm_campaign=free_plugin&utm_source=dashboard&utm_medium=upgrade_button"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {__("Upgrade to Pro", "th-store-one")}
+                  </a>
+                )}
+              </div>
 
-              {isLocked && (
-                <a
-                  className="s1-license-required-badge"
-                  href="https://themehunk.com/storeone/?utm_campaign=free_plugin&utm_source=dashboard&utm_medium=upgrade_button"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {__("Upgrade to Pro", "th-store-one")}
-                </a>
-              )}
-            </div>
+              <p className="s1-settings__desc">{currentModule.description}</p>
 
-            <p className="s1-settings__desc">{currentModule.description}</p>
+              {renderActionButton()}
+            </FlexBlock>
 
-            {renderActionButton()}
-          </FlexBlock>
-
-          <FlexItem className="s1-settings__toggle">
-            <div
-              className="s1-settings__toggle-tooltip"
-              data-tooltip={
-                isLocked
-                  ? __("Upgrade to Pro to Enable This Addon", "th-store-one")
-                  : ""
-              }
-            >
-              <ToggleControl
-                label={
-                  enabled
-                    ? __("Enabled", "th-store-one")
-                    : __("Disabled", "th-store-one")
+            <FlexItem className="s1-settings__toggle">
+              <div
+                className="s1-settings__toggle-tooltip"
+                data-tooltip={
+                  isLocked
+                    ? __("Upgrade to Pro to Enable This Addon", "th-store-one")
+                    : ""
                 }
-                checked={enabled}
-                disabled={saving || isLocked}
-                onChange={(val) => {
-                  onToggleModule(currentModule.id, val);
-                }}
-              />
-            </div>
-          </FlexItem>
-        </Flex>
-      </CardHeader>
+              >
+                <ToggleControl
+                  label={
+                    enabled
+                      ? __("Enabled", "th-store-one")
+                      : __("Disabled", "th-store-one")
+                  }
+                  checked={enabled}
+                  disabled={saving || isLocked}
+                  onChange={(val) => {
+                    onToggleModule(currentModule.id, val);
+                  }}
+                />
+              </div>
+            </FlexItem>
+          </Flex>
+        </CardHeader>
+      )}
 
       {/* =========================
        * BODY

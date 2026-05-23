@@ -111,10 +111,23 @@ export const modulesList = [
     ),
     icon: MODULE_ICONS.ADVSEARCH,
     premium: false,
-
     source: {
       type: "th-extension",
       plugin: "th-advance-product-search",
+    },
+  },
+  {
+    id: "th-advanced-cart",
+    label: __("Advanced Cart", "th-store-one"),
+    description: __(
+      "Enhance the shopping cart experience with advanced features like real-time updates, item customization, and improved checkout flow.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.ADVCART,
+    premium: false,
+    source: {
+      type: "th-extension",
+      plugin: "th-all-in-one-woo-cart",
     },
   },
 

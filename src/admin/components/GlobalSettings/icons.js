@@ -875,4 +875,24 @@ export const MODULE_ICONS = {
       />
     </svg>
   ),
+
+  ADVCART: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+    >
+      <path
+        d="M2 3H5L7.2 13.5C7.29 13.92 7.53 14.29 7.87 14.55C8.22 14.81 8.64 14.95 9.08 14.95H18.2C18.62 14.95 19.03 14.81 19.37 14.56C19.7 14.3 19.94 13.94 20.05 13.53L21.5 8H6.2"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="9" cy="19" r="1.6" fill="currentColor" />
+      <circle cx="18" cy="19" r="1.6" fill="currentColor" />
+    </svg>
+  ),
 };

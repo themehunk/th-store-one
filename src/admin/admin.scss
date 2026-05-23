@@ -164,7 +164,7 @@
     margin:0
 }
 .s1-modules__header h2 span{
-    color:#4f46e5;
+    color:#FF3132;
 }
 .s1-modules__header p{
     font-size: 1rem;
@@ -459,11 +459,12 @@ box-shadow:0 4px 10px rgba(22,163,74,0.35);
     animation: iconPulse 3s infinite ease-in-out;
 
     .s1-module-card:hover & {
+        // background: #ff3132;
         animation-duration: 1.5s;
     }
 }
 .is-premium .s1-module-card__icon{
-background: var(--s1-color-primary-dark);
+background: #0f172a;
 color: var(--s1-gray-150);
 }
 /* Badge */
@@ -538,13 +539,13 @@ color: var(--s1-gray-150);
 }
 
 .s1-modules__grid .is-active .components-button.s1-module-card__btn:hover{
-    background:var(--s1-color-primary-dark)!important;
+    background:#FF3132!important;
     color:#fff;
 }
 .s1-modules__grid .components-button.s1-module-card__btn:hover{
     background:#f8fafc!important;
     color:#334155;
-    border: 2px solid #f1f5f9
+    border: 2px solid #FF3132!important;
 }
 /* ------------------------------------------------------------
    Animation (icon breathing effect)
@@ -3497,6 +3498,7 @@ transform:translateX(-50%);
     margin: 0;
     font-size: 18px;
     font-weight: 600;
+   line-height: 24px;
 }
 
 .s1-extension-meta {
@@ -3555,4 +3557,28 @@ transform:translateX(-50%);
 .th-extenstion-settings-btn:hover{
     background: var(--s1-gray-100) !important;
     color: var(--s1-gray-900) !important;
+}
+.s1-pro-badge {
+    background:#0f172a;
+    color: white;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+.s1-pro-activated-message,.s1-upgrade-notice{
+    background: #fff3c4;
+    border: 1px solid #f0c040;
+    padding: 12px;
+    border-radius: 6px;
+    margin-top: 12px;
+}
+.s1-extension-card__action .components-button{
+    display:flex;
+    min-width:120px;
+    text-align: center;
+    justify-content:center;
+    border-radius: var(--s1-radius-md) !important;
 }
