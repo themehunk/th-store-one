@@ -141,6 +141,13 @@ const AdminMain = () => {
       title: __("Active Addons", "th-store-one"),
       modules: modulesList.filter((m) => modulesState[m.id]).map((m) => m.id),
     },
+    {
+      name: "extensions",
+      title: __("Extensions", "th-store-one"),
+      modules: modulesList
+        .filter((m) => m.source?.type === "th-extension")
+        .map((m) => m.id),
+    },
   ];
   const originalSettings = useRef({});
   const skipFirstChange = useRef(false);

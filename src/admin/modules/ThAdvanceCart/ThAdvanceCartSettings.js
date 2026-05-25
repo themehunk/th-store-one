@@ -3,10 +3,10 @@ import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import { Spinner, Button } from "@wordpress/components";
 
-const MODULE_ID = "th-advanced-search";
-const EXTENSION_ID = "th-advanced-search";
+const MODULE_ID = "th-advanced-cart";
+const EXTENSION_ID = "th-advanced-cart";
 
-export default function ThAdvanceSearchSettings({ onModuleReady }) {
+export default function ThAdvanceCartSettings({ onModuleReady }) {
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
 
@@ -39,7 +39,7 @@ export default function ThAdvanceSearchSettings({ onModuleReady }) {
       const extension = response?.[EXTENSION_ID] || {};
 
       setPluginStatus({
-        name: extension.name || "TH Advanced Search",
+        name: extension.name || "TH Advanced Cart",
         description: extension.description || "",
         icon: extension.icon || "",
         installed: extension.installed === true,
@@ -279,7 +279,7 @@ export default function ThAdvanceSearchSettings({ onModuleReady }) {
                   <div className="s1-upgrade-notice">
                     <strong>Pro version is installed but not active.</strong>
                     <br />
-                    Activate Pro to unlock premium features .
+                    Activate Pro to unlock premium features.
                     <Button
                       variant="secondary"
                       onClick={handleExtensionAction}
