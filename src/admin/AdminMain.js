@@ -129,6 +129,8 @@ const AdminMain = () => {
     "people-view": false,
     "pre-order": false,
     "th-advanced-search": false,
+    "th-advanced-cart": false,
+    "th-variation-swatches": false,
   });
   const tabs = [
     {

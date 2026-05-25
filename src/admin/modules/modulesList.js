@@ -104,7 +104,7 @@ export const modulesList = [
   },
   {
     id: "th-advanced-search",
-    label: __("Advanced Search", "th-store-one"),
+    label: __("Advanced Product Search", "th-store-one"),
     description: __(
       "Enhance WooCommerce product search with AJAX live search, smart filters, and advanced search options.",
       "th-store-one",
@@ -118,7 +118,7 @@ export const modulesList = [
   },
   {
     id: "th-advanced-cart",
-    label: __("Advanced Cart", "th-store-one"),
+    label: __("Advanced Woo Cart", "th-store-one"),
     description: __(
       "Enhance the shopping cart experience with advanced features like real-time updates, item customization, and improved checkout flow.",
       "th-store-one",
@@ -128,6 +128,34 @@ export const modulesList = [
     source: {
       type: "th-extension",
       plugin: "th-all-in-one-woo-cart",
+    },
+  },
+  {
+    id: "th-variation-swatches",
+    label: __("Product Variations", "th-store-one"),
+    description: __(
+      "Display product variations as attractive color, image, button, and label swatches to help customers choose options quickly.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.VARIATIONS,
+    premium: false,
+    source: {
+      type: "th-extension",
+      plugin: "th-variation-swatches",
+    },
+  },
+  {
+    id: "th-product-compare",
+    label: __("Product Compare", "th-store-one"),
+    description: __(
+      "Allow customers to compare multiple products side by side and make informed purchasing decisions.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.COMPARE,
+    premium: false,
+    source: {
+      type: "th-extension",
+      plugin: "th-product-compare",
     },
   },
 

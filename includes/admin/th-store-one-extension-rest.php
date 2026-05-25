@@ -38,6 +38,28 @@ class Th_Store_One_Extension_REST
                 'pro_admin_url'     => admin_url('admin.php?page=taiowcp'),
                 'icon'         => 'https://ps.w.org/th-all-in-one-woo-cart/assets/icon-128x128.gif?rev=3324764',
             ],
+            'th-variation-swatches' => [
+                'name'         => 'TH Variation Swatches',
+                'description'  => __('Add beautiful variation swatches to your product images.', 'th-store-one'),
+                'lite_file'    => 'th-variation-swatches/th-variation-swatches.php',
+                'pro_file'     => 'th-variation-swatches-pro/th-variation-swatches-pro.php',
+                'lite_slug'    => 'th-variation-swatches',
+                'pro_slug'     => 'th-variation-swatches-pro',
+                'lite_admin_url'    => admin_url('admin.php?page=th-variation-swatches'),
+                'pro_admin_url'     => admin_url('admin.php?page=th-variation-swatches'),
+                'icon'         => 'https://ps.w.org/th-variation-swatches/assets/icon-128x128.gif?rev=2597279',
+            ],
+            'th-product-compare' => [
+                'name'         => 'TH Product Compare',
+                'description'  => __('Compare products side-by-side with an easy-to-use interface.', 'th-store-one'),
+                'lite_file'    => 'th-product-compare/th-product-compare.php',
+                'pro_file'     => 'th-product-compare-pro/th-product-compare-pro.php',
+                'lite_slug'    => 'th-product-compare',
+                'pro_slug'     => 'th-product-compare-pro',
+                'lite_admin_url'    => admin_url('admin.php?page=th-product-compare'),
+                'pro_admin_url'     => admin_url('admin.php?page=tpcp-product-compare'),
+                'icon'         => 'https://ps.w.org/th-product-compare/assets/icon-256x256.gif?rev=3324938',
+            ],
         ];
     }
 
