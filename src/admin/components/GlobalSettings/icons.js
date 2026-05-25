@@ -968,4 +968,45 @@ export const MODULE_ICONS = {
       />
     </svg>
   ),
+  SHOPPABLE_VIDEO: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+    >
+      <rect
+        x="2"
+        y="4"
+        width="14"
+        height="10"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+      <path d="M8 7L12 9L8 11V7Z" fill="currentColor" />
+      <rect
+        x="14"
+        y="12"
+        width="8"
+        height="8"
+        rx="1.5"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+      <path
+        d="M17 10V12"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M19 10V12"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  ),
 };

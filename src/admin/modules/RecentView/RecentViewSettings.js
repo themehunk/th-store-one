@@ -56,7 +56,7 @@ const DEFAULT_SETTINGS = {
 export default function RecentViewSettings({
   onSettingsChange,
   onRegisterSave,
-    onModuleReady,
+  onModuleReady,
 }) {
   const [loading, setLoading] = useState(true);
 
