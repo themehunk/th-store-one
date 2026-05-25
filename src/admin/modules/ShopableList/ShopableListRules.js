@@ -36,7 +36,7 @@ const newShopableListRule = () => ({
   shopable_list: [
     {
       id: crypto.randomUUID(),
-      l_title: "List",
+      l_title: "Product List Item",
       l_products: [],
       open: true,
     },
@@ -362,7 +362,10 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                                     {item.l_title
                                       ? item.l_title
                                       : sprintf(
-                                          __("Item %d", "th-store-one"),
+                                          __(
+                                            "Product List Item %d",
+                                            "th-store-one",
+                                          ),
                                           i + 1,
                                         )}
                                   </strong>
@@ -423,11 +426,12 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                                         updateShopableItemField(
                                           index,
                                           i,
-                                          "l_products ",
+                                          "l_products",
                                           v,
                                         )
                                       }
                                       detailedView={true}
+                                      productFilters={["category", "tag"]}
                                     />
                                   </div>
                                 )}
