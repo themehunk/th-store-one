@@ -52,6 +52,10 @@ import PreOrderSettings from "../../modules/PreOrder/PreOrderSettings";
 import ThAdvanceSearch from "../../modules/ThAdvanceSearch/ThAdvanceSearchSettings";
 
 import ThAdvanceCart from "../../modules/ThAdvanceCart/ThAdvanceCartSettings";
+
+import ThVariations from "../../modules/ThVariations/ThVariationSettings";
+
+import ThCompare from "../../modules/ThCompare/ThCompareSettings";
 /* =========================
  * MODULE COMPONENT MAP
  * ========================= */
@@ -92,12 +96,24 @@ const moduleComponents = {
   "pre-order": PreOrderSettings,
 
   "th-advanced-cart": ThAdvanceCart,
+
+  "th-advanced-search": ThAdvanceSearch,
+
+  "th-variation-swatches": ThVariations,
+
+  "th-product-compare": ThCompare,
 };
 
 /* =========================
  * MODULES WHERE HEADER SHOULD BE HIDDEN
  * ========================= */
-const modulesWithoutHeader = ["th-advanced-search", "th-advanced-cart"];
+const modulesWithoutHeader = [
+  "th-advanced-search",
+  "th-advanced-cart",
+  "th-advanced-cart",
+  "th-variation-swatches",
+  "th-product-compare",
+];
 
 const ModuleSettings = ({
   currentModule,
