@@ -62,7 +62,10 @@ class Th_Store_One_Modules
             'smart-offers'	    => false,
             'people-view'	    => false,
             'pre-order'         => false,
-            'th-advanced-search' => false,
+            'th-advanced-search' => true,
+            'th-advanced-cart' => true,
+            'th-variation-swatches' => true,
+            'th-product-compare' => true,
         );
     }
     /**

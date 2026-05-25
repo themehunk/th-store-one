@@ -154,6 +154,7 @@
     max-width:1200px;
     margin-left:auto;
     margin-right:auto;
+    padding-bottom: 40px;
 }
 .s1-modules__header h2{
     font-size:2.25rem;
@@ -282,6 +283,9 @@ display: flex;
     border-radius: 999px !important;
     font-size: 13px !important;
     padding: 6px 14px !important;
+}
+.s1-module-card__body.is-premium{
+    background:#ffe4e43d;
 }
 .s1-module-card__pro.is-premium{
     display: inline-flex;
