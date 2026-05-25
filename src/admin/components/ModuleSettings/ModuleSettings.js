@@ -56,6 +56,8 @@ import ThAdvanceCart from "../../modules/ThAdvanceCart/ThAdvanceCartSettings";
 import ThVariations from "../../modules/ThVariations/ThVariationSettings";
 
 import ThCompare from "../../modules/ThCompare/ThCompareSettings";
+
+import ShopableList from "../../modules/ShopableList/ShopableListSettings";
 /* =========================
  * MODULE COMPONENT MAP
  * ========================= */
@@ -102,6 +104,8 @@ const moduleComponents = {
   "th-variation-swatches": ThVariations,
 
   "th-product-compare": ThCompare,
+
+  "shopable-list": ShopableList,
 };
 
 /* =========================

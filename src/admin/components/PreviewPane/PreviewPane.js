@@ -17,6 +17,7 @@ import PreviewRecentView from "../../modules/RecentView/livepreview/PreviewRecen
 import PreviewSmartOffers from "../../modules/SmartOffers/livepreview/PreviewSmartOffers";
 import PreviewPeopleView from "../../modules/PeopleView/livepreview/PreviewPeopleView";
 import PreviewPreOrder from "../../modules/PreOrder/livepreview/PreviewPreOrder";
+import PreviewShopable from "../../modules/ShopableList/livepreview/PreviewShopable";
 
 import { useSelect } from "@wordpress/data";
 
@@ -55,7 +56,6 @@ const PreviewPane = ({ currentModule, settings }) => {
               {currentModule?.id === "bundle-product" && activeRule && (
                 <PreviewBndl key={currentModule.id} settings={settings} />
               )}
-
               {currentModule?.id === "buy-to-list" && activeRule && (
                 <PreviewBuyToList
                   key={currentModule.id}
@@ -105,7 +105,6 @@ const PreviewPane = ({ currentModule, settings }) => {
                   settings={activeRule}
                 />
               )}
-
               {currentModule?.id === "stock-scarcity" && activeRule && (
                 <PreviewStockScarcity
                   key={currentModule.id}
@@ -138,6 +137,9 @@ const PreviewPane = ({ currentModule, settings }) => {
               )}
               {currentModule?.id === "pre-order" && activeRule && (
                 <PreviewPreOrder key={currentModule.id} settings={activeRule} />
+              )}
+              {currentModule?.id === "shopable-list" && activeRule && (
+                <PreviewShopable key={currentModule.id} settings={activeRule} />
               )}
             </div>
           </div>

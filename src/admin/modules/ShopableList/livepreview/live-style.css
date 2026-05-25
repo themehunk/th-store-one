@@ -1,0 +1,121 @@
+/* PRODUCT LAYOUT */
+.s1-product-preview {
+    padding: 20px;
+    background: #fff;
+}
+
+.s1-main-product {
+    display: flex;
+    gap: 30px;
+}
+
+.s1-main-thumb {
+    width: 40%;
+}
+
+.static-main-img {
+    width: 100%;
+    height: 300px;
+}
+
+.s1-main-info {
+    width: 60%;
+}
+
+.static-title {
+    width: 60%;
+    height: 20px;
+    margin-bottom: 15px;
+}
+
+.static-price {
+    width: 30%;
+    height: 16px;
+    margin-bottom: 20px;
+}
+
+/* BUY TO LIST BLOCK */
+.s1-btl-preview {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 8px;
+}
+
+.s1-btl-preview .static-btl-title {
+    width: 40%;
+    height: 16px;
+    margin-bottom: 15px;
+}
+
+.s1-btl-preview .s1-btl-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.s1-btl-preview .s1-btl-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+  
+}
+
+.s1-btl-preview .s1-btl-icon {
+    color: #10b981;
+    display: flex;
+    background: #ecfdf5;
+    padding: 0.3rem;
+    border-radius: 50%;
+}
+
+.s1-btl-text{
+    font-size:15px;
+    font-weight:600;
+    color:#334155;
+}
+.s1-btl-preview .static-btl-text {
+    height: 14px;
+}
+
+/* CART SKELETON */
+.s1-main-cart {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.static-qty {
+    width: 80px;
+    height: 40px;
+}
+
+.static-btn {
+    width: 150px;
+    height: 40px;
+}
+.s1-btl-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.s1-btl-preview-4 .s1-btl-item,.btl-style-5 .s1-btl-item{
+
+padding: 1rem;
+border-radius:1rem;
+}
+.s1-btl-preview-4 .s1-btl-item .s1-btl-icon{
+border-radius: 0.5rem;
+
+}
+
+.btl-style-5 .s1-btl-item .s1-btl-icon{
+background-color: transparent;
+}
+.btl-style-5 .s1-btl-item{
+border:1px solid #fff9;
+background-color: #ffffff66;
+}

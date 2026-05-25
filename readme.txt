@@ -4,7 +4,7 @@ Author URI: : https://www.themehunk.com/
 Tags: extensions, addons, elementor, store one
 Requires at least: 5.5 
 Tested up to: 7.0
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 Requires PHP: 7.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -141,6 +141,9 @@ It is compatible with all [ThemeHunk themes](https://themehunk.com/free-themes/)
 Yes, the plugin is translation-ready and supports multiple languages.
 
 == Changelog ==
+= 1.1.2 =
+Update: Plugin Extension Added.
+
 = 1.1.1 =
 Update: Addon style improved.
 Fix: Fixed bugs and improved code loading speed.

@@ -131,6 +131,7 @@ const AdminMain = () => {
     "th-advanced-search": false,
     "th-advanced-cart": false,
     "th-variation-swatches": false,
+    "shopable-list": false,
   });
   const tabs = [
     {

@@ -154,6 +154,7 @@
     max-width:1200px;
     margin-left:auto;
     margin-right:auto;
+    padding-bottom: 40px;
 }
 .s1-modules__header h2{
     font-size:2.25rem;
@@ -282,6 +283,9 @@ display: flex;
     border-radius: 999px !important;
     font-size: 13px !important;
     padding: 6px 14px !important;
+}
+.s1-module-card__body.is-premium{
+    background:#ffe4e43d;
 }
 .s1-module-card__pro.is-premium{
     display: inline-flex;
@@ -1900,11 +1904,11 @@ INPUT
     color: #111827;
 }
 
-.s1-field-group-desc {
-    margin: 4px 0 0;
-    font-size: 12px;
-    color: #6b7280;
-}
+// .s1-field-group-desc {
+//     margin: 4px 0 0;
+//     font-size: 12px;
+//     color: #6b7280;
+// }
 .s1-field-group-body, .s1-field-wrapper{
     margin-bottom: 1rem;
 }

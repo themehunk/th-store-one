@@ -8,7 +8,7 @@ import "swiper/css/navigation";
 
 import { Navigation, Autoplay } from "swiper/modules";
 
-const PreviewRecentView = ({ settings = {} }) => {
+const Style1 = ({ settings = {} }) => {
   const s = settings || {};
 
   const devices = s?.visibility?.devices || [];
@@ -113,4 +113,4 @@ const PreviewRecentView = ({ settings = {} }) => {
   );
 };
 
-export default PreviewRecentView;
+export default Style1;
