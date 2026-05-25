@@ -2,7 +2,11 @@ import { useState, useEffect, useRef } from "@wordpress/element";
 import apiFetch from "@wordpress/api-fetch";
 import { TextControl } from "@wordpress/components";
 import { __ } from "@wordpress/i18n";
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import {
+  MagnifyingGlassIcon,
+  DragHandleDots2Icon,
+} from "@radix-ui/react-icons";
+import Sortable from "sortablejs";
 
 export default function MultiWooSearchSelector({
   label = "",
@@ -10,8 +14,10 @@ export default function MultiWooSearchSelector({
   onChange,
   searchType = "product",
   detailedView = false,
-  customOptions = [], 
+  customOptions = [],
   isSingle = false,
+  productFilters = [],
+  filterMode = "optional",
 }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
@@ -19,8 +25,15 @@ export default function MultiWooSearchSelector({
   const [isFocused, setIsFocused] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
 
+  // filter
+  const [categories, setCategories] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedTag, setSelectedTag] = useState("");
+
   const abortRef = useRef(null);
   const debounceRef = useRef(null);
+  const selectedRef = useRef(null);
 
   /* -------------------- ENDPOINT -------------------- */
 
@@ -93,10 +106,10 @@ export default function MultiWooSearchSelector({
     }),
 
     product_type: (t) => ({
-  id: t.value,
-  name: t.label,
-  type: "product_type",
-}),
+      id: t.value,
+      name: t.label,
+      type: "product_type",
+    }),
   };
 
   const normalize = normalizerMap[searchType];
@@ -106,14 +119,14 @@ export default function MultiWooSearchSelector({
   const addItem = (item) => {
     if (selectedItems.some((i) => i.id === item.id)) return;
 
-   let newItems;
+    let newItems;
 
-if (isSingle) {
-  newItems = [item]; // 👈 sirf 1 item allow
-} else {
-  if (selectedItems.some((i) => i.id === item.id)) return;
-  newItems = [...selectedItems, item];
-}
+    if (isSingle) {
+      newItems = [item]; // 👈 sirf 1 item allow
+    } else {
+      if (selectedItems.some((i) => i.id === item.id)) return;
+      newItems = [...selectedItems, item];
+    }
     setSelectedItems(newItems);
 
     onChange(newItems.map((i) => i.id));
@@ -131,6 +144,49 @@ if (isSingle) {
     onChange(newItems.map((i) => i.id));
   };
 
+  useEffect(() => {
+    if (!selectedRef.current) return;
+
+    const sortable = Sortable.create(selectedRef.current, {
+      animation: 150,
+      handle: ".drag-handle",
+
+      onEnd: ({ oldIndex, newIndex }) => {
+        const updated = [...selectedItems];
+
+        const moved = updated.splice(oldIndex, 1)[0];
+
+        updated.splice(newIndex, 0, moved);
+
+        setSelectedItems(updated);
+
+        onChange(updated.map((i) => i.id));
+      },
+    });
+
+    return () => sortable.destroy();
+  }, [selectedItems]);
+
+  // filter code
+  useEffect(() => {
+    if (!productFilters.includes("category")) return;
+
+    apiFetch({
+      path: "wc/v3/products/categories?per_page=100",
+    }).then((res) => {
+      setCategories(res);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!productFilters.includes("tag")) return;
+
+    apiFetch({
+      path: "wc/v3/products/tags?per_page=100",
+    }).then((res) => {
+      setTags(res);
+    });
+  }, []);
   /* -------------------- DEFAULT FETCH -------------------- */
 
   const fetchDefaultItems = async () => {
@@ -161,29 +217,39 @@ if (isSingle) {
     }
 
     if (searchType === "product_type") {
-  const PRODUCT_TYPES = [
-    { label: "Simple", value: "simple" },
-    { label: "Variable", value: "variable" },
-    { label: "Grouped", value: "grouped" },
-    { label: "External", value: "external" },
-  ];
+      const PRODUCT_TYPES = [
+        { label: "Simple", value: "simple" },
+        { label: "Variable", value: "variable" },
+        { label: "Grouped", value: "grouped" },
+        { label: "External", value: "external" },
+      ];
 
-  const formatted = PRODUCT_TYPES.map(normalize);
-  setResults(formatted);
-  return;
-}
+      const formatted = PRODUCT_TYPES.map(normalize);
+      setResults(formatted);
+      return;
+    }
 
     if (!endpoint) return;
 
     setLoading(true);
 
     try {
-      const path =
+      let path =
         searchType === "product"
           ? `${endpoint}?per_page=5&orderby=date&order=desc`
           : searchType === "page"
           ? `${endpoint}?per_page=5&orderby=date&order=desc`
           : `${endpoint}?per_page=5&orderby=name&order=asc`;
+
+      if (searchType === "product") {
+        if (selectedCategory) {
+          path += `&category=${selectedCategory}`;
+        }
+
+        if (selectedTag) {
+          path += `&tag=${selectedTag}`;
+        }
+      }
 
       const res = await apiFetch({ path });
 
@@ -194,12 +260,27 @@ if (isSingle) {
       setLoading(false);
     }
   };
-
+  useEffect(() => {
+    if (isFocused && searchType === "product") {
+      fetchDefaultItems();
+    }
+  }, [selectedCategory, selectedTag, searchType]);
   /* -------------------- SEARCH -------------------- */
 
   const buildSearchPath = (q) => {
     if (searchType === "product") {
-      return `${endpoint}?search=${encodeURIComponent(q)}&per_page=20`;
+      // return `${endpoint}?search=${encodeURIComponent(q)}&per_page=20`;
+      let path = `${endpoint}?search=${encodeURIComponent(q)}&per_page=20`;
+
+      if (selectedCategory) {
+        path += `&category=${selectedCategory}`;
+      }
+
+      if (selectedTag) {
+        path += `&tag=${selectedTag}`;
+      }
+
+      return path;
     }
 
     if (searchType === "page") {
@@ -270,7 +351,7 @@ if (isSingle) {
     }, 300);
 
     return () => clearTimeout(debounceRef.current);
-  }, [query]);
+  }, [query, selectedCategory, selectedTag]);
 
   /* -------------------- PLACEHOLDER -------------------- */
 
@@ -299,8 +380,8 @@ if (isSingle) {
         return __("Select roles…", "th-store-one");
       case "order_status":
         return __("Select order status…", "th-store-one");
-        case "product_type":
-  return __("Select product types…", "th-store-one");
+      case "product_type":
+        return __("Select product types…", "th-store-one");
 
       default:
         return __("Search…", "th-store-one");
@@ -347,22 +428,22 @@ if (isSingle) {
     }
 
     if (searchType === "product_type") {
-  const PRODUCT_TYPES = [
-    { label: "Simple", value: "simple" },
-    { label: "Variable", value: "variable" },
-    { label: "Grouped", value: "grouped" },
-    { label: "External", value: "external" },
-  ];
+      const PRODUCT_TYPES = [
+        { label: "Simple", value: "simple" },
+        { label: "Variable", value: "variable" },
+        { label: "Grouped", value: "grouped" },
+        { label: "External", value: "external" },
+      ];
 
-  const formatted = PRODUCT_TYPES.map(normalize);
+      const formatted = PRODUCT_TYPES.map(normalize);
 
-  const ordered = value
-    .map((id) => formatted.find((p) => p.id === id))
-    .filter(Boolean);
+      const ordered = value
+        .map((id) => formatted.find((p) => p.id === id))
+        .filter(Boolean);
 
-  setSelectedItems(ordered);
-  return;
-}
+      setSelectedItems(ordered);
+      return;
+    }
 
     if (!endpoint) return;
 
@@ -409,10 +490,60 @@ if (isSingle) {
       {label && <label className="s1-field-label">{label}</label>}
 
       <div className="s1-field-control">
-        <div className="selected-items">
+        {/* filter render code */}
+        <div className="s1-product-filters">
+          {searchType === "product" && productFilters.includes("category") && (
+            <div className="s1-filter-item">
+              <label className="s1-filter-label">
+                {__("Category", "th-store-one")}
+              </label>
+
+              <select
+                className="s1-filter-select"
+                value={selectedCategory}
+                onChange={(e) => setSelectedCategory(e.target.value)}
+              >
+                <option value="">{__("All Categories", "th-store-one")}</option>
+
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {searchType === "product" && productFilters.includes("tag") && (
+            <div className="s1-filter-item">
+              <label className="s1-filter-label">
+                {__("Tag", "th-store-one")}
+              </label>
+
+              <select
+                className="s1-filter-select"
+                value={selectedTag}
+                onChange={(e) => setSelectedTag(e.target.value)}
+              >
+                <option value="">{__("All Tags", "th-store-one")}</option>
+
+                {tags.map((tag) => (
+                  <option key={tag.id} value={tag.id}>
+                    {tag.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+        </div>
+
+        <div ref={selectedRef} className="selected-items">
           {selectedItems.map((item) => (
             <div key={item.id} className="s1-selected-row">
               <div className="s1-product-left">
+                <span className="drag-handle">
+                  <DragHandleDots2Icon className="drag-handle" />
+                </span>
                 {item.image && (
                   <img src={item.image} className="s1-product-thumb" alt="" />
                 )}

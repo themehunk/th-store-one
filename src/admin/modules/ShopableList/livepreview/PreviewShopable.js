@@ -33,22 +33,22 @@ const PreviewShopable = ({ settings = {} }) => {
           className={`s1-style-tab ${style === "style1" ? "active" : ""}`}
           onClick={() => changeStyle("style1")}
         >
-          <span> {__("Style 1", "th-store-one")}</span>
+          <span> {__("Grid", "th-store-one")}</span>
         </button>
 
         <button
           className={`s1-style-tab ${style === "style2" ? "active" : ""}`}
           onClick={() => changeStyle("style2")}
         >
-          <span> {__("Style 2", "th-store-one")}</span>
+          <span> {__("Slider", "th-store-one")}</span>
         </button>
 
-        <button
+        {/* <button
           className={`s1-style-tab ${style === "style3" ? "active" : ""}`}
           onClick={() => changeStyle("style3")}
         >
           <span>{__("Style 3", "th-store-one")}</span>
-        </button>
+        </button> */}
       </div>
 
       {/* ================= PREVIEW ================= */}
