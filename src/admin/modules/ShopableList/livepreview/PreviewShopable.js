@@ -33,15 +33,15 @@ const PreviewShopable = ({ settings = {} }) => {
           className={`s1-style-tab ${style === "style1" ? "active" : ""}`}
           onClick={() => changeStyle("style1")}
         >
-          <span> {__("Grid", "th-store-one")}</span>
+          <span> {__("Style", "th-store-one")}</span>
         </button>
 
-        <button
+        {/* <button
           className={`s1-style-tab ${style === "style2" ? "active" : ""}`}
           onClick={() => changeStyle("style2")}
         >
           <span> {__("Slider", "th-store-one")}</span>
-        </button>
+        </button> */}
 
         {/* <button
           className={`s1-style-tab ${style === "style3" ? "active" : ""}`}
@@ -53,8 +53,8 @@ const PreviewShopable = ({ settings = {} }) => {
 
       {/* ================= PREVIEW ================= */}
       {style === "style1" && <Style1 settings={settings} />}
-      {style === "style2" && <Style2 settings={settings} />}
-      {style === "style3" && <Style3 settings={settings} />}
+      {/* {style === "style2" && <Style2 settings={settings} />}
+      {style === "style3" && <Style3 settings={settings} />} */}
     </div>
   );
 };

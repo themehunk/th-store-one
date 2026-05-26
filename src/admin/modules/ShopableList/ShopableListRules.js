@@ -31,18 +31,24 @@ import PlacementPriorityControl from "@th-storeone-global/PlacementPriorityContr
 const newShopableListRule = () => ({
   status: "active",
   list_title: "Shopable List",
-  trigger_type: "all_products",
   flexible_id: crypto.randomUUID(),
   shopable_list: [
     {
       id: crypto.randomUUID(),
       l_title: "Product List Item",
-      l_products: [],
+      items: [
+        {
+          id: crypto.randomUUID(),
+          video_url: "",
+          products: [],
+        },
+      ],
       open: true,
     },
   ],
   product_info_position: "top",
   show_prd_popup: false,
+  video_auto_play: true,
   prd_delay: "",
 
   open: true,
@@ -214,6 +220,44 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
     updateShopableList(ruleIndex, list);
   };
 
+  const addVideoProduct = (ruleIndex, itemIndex) => {
+    const list = [...rules[ruleIndex].shopable_list];
+
+    if (!list[itemIndex].items) {
+      list[itemIndex].items = [];
+    }
+
+    list[itemIndex].items.push({
+      id: crypto.randomUUID(),
+      video_url: "",
+      products: [],
+    });
+
+    updateShopableList(ruleIndex, list);
+  };
+
+  const removeVideoProduct = (ruleIndex, itemIndex, videoIndex) => {
+    const list = [...rules[ruleIndex].shopable_list];
+
+    list[itemIndex].items.splice(videoIndex, 1);
+
+    updateShopableList(ruleIndex, list);
+  };
+
+  const updateVideoProductField = (
+    ruleIndex,
+    itemIndex,
+    videoIndex,
+    field,
+    value,
+  ) => {
+    const list = [...rules[ruleIndex].shopable_list];
+
+    list[itemIndex].items[videoIndex][field] = value;
+
+    updateShopableList(ruleIndex, list);
+  };
+
   useEffect(() => {
     if (rules.length === 0) {
       updateAll([newShopableListRule()]);
@@ -244,15 +288,21 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
       window.removeEventListener("storeone:changeListStyle", handler);
   }, [rules]);
 
-  const openMediaLibrary = (callback) => {
+  const openVideoLibrary = (callback) => {
     const media = window.wp.media({
-      title: "Select Image",
-      button: { text: "Use Image" },
+      title: "Select Video",
+      button: {
+        text: "Use Video",
+      },
+      library: {
+        type: "video",
+      },
       multiple: false,
     });
 
     media.on("select", () => {
       const attachment = media.state().get("selection").first().toJSON();
+
       callback(attachment);
     });
 
@@ -359,15 +409,13 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                                 <div className="store-one-rule-header">
                                   <DragHandleDots2Icon className="drag-handle s1-icon" />
                                   <strong className="s1-rule-title">
-                                    {item.l_title
-                                      ? item.l_title
-                                      : sprintf(
-                                          __(
-                                            "Product List Item %d",
-                                            "th-store-one",
-                                          ),
-                                          i + 1,
-                                        )}
+                                    {sprintf(
+                                      __(
+                                        "Product List Item %d",
+                                        "th-store-one",
+                                      ),
+                                      i + 1,
+                                    )}
                                   </strong>
                                   <CopyIcon
                                     className="s1-icon"
@@ -399,40 +447,148 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
 
                                 {item.open && (
                                   <div className="store-one-rule-body">
-                                    <S1Field
-                                      label={__("Title", "th-store-one")}
+                                    {(item.items || []).map(
+                                      (videoItem, vIndex) => (
+                                        <div
+                                          key={videoItem.id}
+                                          className="store-one-rule-item inner"
+                                        >
+                                          <div className="store-one-rule-header">
+                                            <strong className="s1-rule-title">
+                                              Video Product {vIndex + 1}
+                                            </strong>
+
+                                            <TrashIcon
+                                              className="s1-icon s1-icon-danger"
+                                              onClick={() =>
+                                                removeVideoProduct(
+                                                  index,
+                                                  i,
+                                                  vIndex,
+                                                )
+                                              }
+                                            />
+                                          </div>
+
+                                          <div className="store-one-rule-body">
+                                            <S1Field label="Video">
+                                              <div className="s1-image-upload-wrapper">
+                                                {videoItem.video_url ? (
+                                                  <div className="s1-image-card video-card">
+                                                    <div className="s1-video-preview">
+                                                      <video
+                                                        src={
+                                                          videoItem.video_url
+                                                        }
+                                                        controls
+                                                        style={{
+                                                          width: "100%",
+                                                          display: "block",
+                                                          borderRadius: "8px",
+                                                        }}
+                                                      />
+                                                    </div>
+
+                                                    <div className="s1-image-actions">
+                                                      <button
+                                                        type="button"
+                                                        className="s1-btn s1-btn-edit"
+                                                        onClick={() =>
+                                                          openVideoLibrary(
+                                                            (media) =>
+                                                              updateVideoProductField(
+                                                                index,
+                                                                i,
+                                                                vIndex,
+                                                                "video_url",
+                                                                media.url,
+                                                              ),
+                                                          )
+                                                        }
+                                                      >
+                                                        <span className="s1-btn-icon">
+                                                          {ICONS.SETTINGS}
+                                                        </span>
+                                                        Change
+                                                      </button>
+                                                    </div>
+                                                  </div>
+                                                ) : (
+                                                  <button
+                                                    type="button"
+                                                    className="s1-upload-card"
+                                                    onClick={() =>
+                                                      openVideoLibrary(
+                                                        (media) =>
+                                                          updateVideoProductField(
+                                                            index,
+                                                            i,
+                                                            vIndex,
+                                                            "video_url",
+                                                            media.url,
+                                                          ),
+                                                      )
+                                                    }
+                                                  >
+                                                    <span className="s1-btn-icon">
+                                                      {ICONS.DISPLAY}
+                                                    </span>
+
+                                                    <div className="s1-upload-text">
+                                                      <strong>
+                                                        Upload Video
+                                                      </strong>
+
+                                                      <p>
+                                                        Select or upload a video
+                                                      </p>
+
+                                                      <small className="s1-upload-note">
+                                                        MP4, MOV & WebM
+                                                        supported
+                                                      </small>
+                                                    </div>
+                                                  </button>
+                                                )}
+                                              </div>
+                                            </S1Field>
+
+                                            <MultiWooSearchSelector
+                                              searchType="product"
+                                              label="Choose Products"
+                                              value={videoItem.products || []}
+                                              onChange={(value) =>
+                                                updateVideoProductField(
+                                                  index,
+                                                  i,
+                                                  vIndex,
+                                                  "products",
+                                                  value,
+                                                )
+                                              }
+                                              detailedView={true}
+                                              productFilters={["category"]}
+                                            />
+                                          </div>
+                                        </div>
+                                      ),
+                                    )}
+                                    <div
+                                      className="store-one-add-video-card"
+                                      onClick={() => addVideoProduct(index, i)}
                                     >
-                                      <TextControl
-                                        value={item.l_title}
-                                        onChange={(v) =>
-                                          updateShopableItemField(
-                                            index,
-                                            i,
-                                            "l_title",
-                                            v,
-                                          )
-                                        }
-                                        placeholder="Enter list title"
-                                      />
-                                    </S1Field>
-                                    <MultiWooSearchSelector
-                                      searchType="product"
-                                      label={__(
-                                        "Choose Products",
-                                        "th-store-one",
-                                      )}
-                                      value={item.l_products || []}
-                                      onChange={(v) =>
-                                        updateShopableItemField(
-                                          index,
-                                          i,
-                                          "l_products",
-                                          v,
-                                        )
-                                      }
-                                      detailedView={true}
-                                      productFilters={["category", "tag"]}
-                                    />
+                                      <div className="store-one-add-video-card__icon">
+                                        +
+                                      </div>
+
+                                      <div className="store-one-add-video-card__content">
+                                        <strong>Add Video Product</strong>
+
+                                        <span>
+                                          Create another shoppable video item
+                                        </span>
+                                      </div>
+                                    </div>
                                   </div>
                                 )}
                               </div>
@@ -447,6 +603,20 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                           </div>
                         </S1FieldGroup>
                         <S1FieldGroup title={__("Content", "th-store-one")}>
+                          <S1Field
+                            label={__("Video Auto Play", "th-store-one")}
+                            description={__(
+                              "Automatically start playing videos and switch to the next item based on the configured delay or video duration.",
+                              "th-store-one",
+                            )}
+                          >
+                            <ToggleControl
+                              checked={rule.video_auto_play}
+                              onChange={(v) =>
+                                updateField(index, "video_auto_play", v)
+                              }
+                            />
+                          </S1Field>
                           <S1Field
                             label={__("Delay (ms)", "th-store-one")}
                             description={__(
