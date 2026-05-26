@@ -36,17 +36,30 @@ const Style1 = ({ settings = {} }) => {
 
   /* SKELETON CARD */
   const SkeletonCard = () => (
-    <div className="s1-product-skeleton-card">
-      <div className="s1-skeleton s1-image-skeleton"></div>
+    <div className="s1-shopable-card">
+      <div className="s1-shopable-media">
+        <div className="s1-skeleton s1-shopable-video"></div>
+        <div className="s1-video-play-icon">▶</div>
 
-      <div className="s1-title-lines">
-        <div className="s1-skeleton line"></div>
-        <div className="s1-skeleton line small"></div>
+        <div className="s1-shopable-actions">
+          <div className="s1-skeleton s1-action-icon"></div>
+          <div className="s1-skeleton s1-action-icon"></div>
+          <div className="s1-skeleton s1-action-icon"></div>
+        </div>
+
+        <div className="s1-shopable-product-bar">
+          <div className="s1-shopable-product-left">
+            <div className="s1-skeleton s1-product-thumb"></div>
+
+            <div className="s1-shopable-product-content">
+              <div className="s1-skeleton s1-product-title"></div>
+              <div className="s1-skeleton s1-product-price"></div>
+            </div>
+          </div>
+
+          <div className="s1-skeleton s1-cart-button"></div>
+        </div>
       </div>
-
-      <div className="s1-skeleton s1-price-skeleton"></div>
-
-      <div className="s1-skeleton s1-btn-skeleton"></div>
     </div>
   );
 
@@ -72,7 +85,7 @@ const Style1 = ({ settings = {} }) => {
               color: s?.title_color || "#212121",
             }}
           >
-            {s?.title || __("Recently Viewed", "th-store-one")}
+            {s?.title || __("Shopable List", "th-store-one")}
           </div>
         )}
 
@@ -85,7 +98,7 @@ const Style1 = ({ settings = {} }) => {
               spaceBetween={gap}
               navigation={navigation}
               autoplay={autoplay ? { delay: 2500 } : false}
-              className="s1-custom-swiper s1-recent-view s1-recent-slider"
+              className="s1-shopable-slider"
             >
               {[...Array(products)].map((_, i) => (
                 <SwiperSlide key={i}>

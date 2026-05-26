@@ -102,6 +102,7 @@ add_action(
                 'class' => 'Th_Store_One_Inactive_Tab_Frontend',
             ],
 
+
         ];
 
         foreach ($modules as $module) {
