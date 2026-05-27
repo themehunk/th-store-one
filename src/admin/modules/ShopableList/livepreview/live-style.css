@@ -129,3 +129,27 @@
     bottom:12px;
     top:auto;
 }
+
+.s1-style-2 .s1-shopable-card .s1-shopable-media {
+    position: relative;
+    height: 350px;
+    border-radius:0;
+
+}
+
+
+.s1-style-2 .s1-skeleton.s1-product-title,.s1-style-2 .s1-product-price{
+    background: #fff!important;
+}
+.s1-style-2 .s1-shopable-product-bar {
+    position:relative;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+   
+    padding: 10px;
+    border-radius: 0;
+    background: #eeeeee;
+    backdrop-filter: blur(12px);
+    margin: 12px 0;
+}

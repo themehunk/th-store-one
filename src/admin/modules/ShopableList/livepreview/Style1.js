@@ -45,11 +45,11 @@ const Style1 = ({ settings = {} }) => {
         <div className="s1-skeleton s1-shopable-video"></div>
         <div className="s1-video-play-icon">▶</div>
 
-        <div className="s1-shopable-actions">
+        {/* <div className="s1-shopable-actions">
           <div className="s1-skeleton s1-action-icon"></div>
           <div className="s1-skeleton s1-action-icon"></div>
           <div className="s1-skeleton s1-action-icon"></div>
-        </div>
+        </div> */}
 
         <div className="s1-shopable-product-bar">
           <div className="s1-shopable-product-left">

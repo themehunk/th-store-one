@@ -27,26 +27,16 @@ export const ICONS = {
       height="24"
       viewBox="0 0 24 24"
       fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="lucide lucide-upload w-5 h-5 text-slate-400 group-hover:text-sky-500 transition-colors"
+      aria-hidden="true"
     >
-      <path
-        d="M12 15V5"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
-      <path
-        d="M8.5 8.5L12 5L15.5 8.5"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M5 18H19"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-      />
+      <path d="M12 3v12"></path>
+      <path d="m17 8-5-5-5 5"></path>
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
     </svg>
   ),
 

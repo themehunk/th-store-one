@@ -1,149 +1,131 @@
-import { __ } from '@wordpress/i18n';
-import { ICONS } from '@th-storeone-global/icons';
+import "./live-style.css";
+import { __ } from "@wordpress/i18n";
+import { useState } from "@wordpress/element";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+
+import { Navigation, Autoplay } from "swiper/modules";
 
 const Style2 = ({ settings = {} }) => {
+  const s = settings || {};
 
-    const iconMap = {
-        check: ICONS.CheckSVG,
-        star: ICONS.StarSVG,
-        heart: ICONS.HeartSVG,
-        bolt: ICONS.BoltSVG,
-        rocket: ICONS.RocketSVG,
-    };
+  const devices = s?.visibility?.devices || [];
+  const [previewDevice] = useState(devices[0] || "desktop");
 
-    const SelectedIcon =
-        iconMap[settings.selected_icon] || ICONS.CheckSVG;
+  const activeDevice = devices.includes(previewDevice)
+    ? previewDevice
+    : "desktop";
 
-    const listItems = [
-        "Premium Quality Material",
-        "Fast & Secure Shipping",
-        "30 Days Easy Returns",
-        "Trusted by 10,000+ Customers"
-    ];
+  const getPreviewWidth = () => {
+    if (activeDevice === "mobile") return "375px";
+    if (activeDevice === "tablet") return "768px";
+    return "100%";
+  };
 
-    /* ================= ICON RENDER FUNCTION ================= */
-        const renderIcon = () => {
-    
-            if (!settings.icon_enabled) return null;
-    
-            // 1Preset SVG Icon
-            if ((settings.icontype || 'icon') === 'icon') {
-                const IconComponent =
-                    iconMap[settings.selected_icon] || ICONS.CheckSVG;
-    
-                return IconComponent;
-            }
-    
-            // 2️Custom SVG Code
-            if (settings.icontype === 'custom_svg' && settings.custom_svg) {
-                return (
-                    <span
-                        className="s1-custom-svg"
-                        dangerouslySetInnerHTML={{
-                            __html: settings.custom_svg
-                        }}
-                    />
-                );
-            }
-    
-            // 3️Image Upload
-            if (settings.icontype === 'image' && settings.image_url) {
-                return (
-                    <img
-                        src={settings.image_url}
-                        alt=""
-                        className="s1-icon-image"
-                        style={{
-                            width: "16px",
-                            height: "16px",
-                            objectFit: "contain"
-                        }}
-                    />
-                );
-            }
-    
-            return null;
-        };
-    
+  /* SETTINGS */
+  const isSlider = s?.slider?.enabled;
+  const slides = Number(s?.slider?.slides || 3);
+  const autoplay = s?.slider?.autoplay;
+  const navigation = s?.slider?.navigation;
 
-    return (
-        <div className="s1-product-preview btl-style-2">
+  const columns = Number(s?.columns || 3);
+  const gap = Number(s?.columns_gap || 15);
+  const products = Number(s?.products || 6);
 
-            <div className="s1-main-product">
+  const productInfoPosition = s?.product_info_position || "bottom";
 
-                <div className="s1-main-thumb">
-                    <div className="static-skeleton static-main-img"></div>
-                </div>
+  /* SKELETON CARD */
+  const SkeletonCard = () => (
+    <div className="s1-shopable-card">
+      <div className={`s1-shopable-media `}>
+        <div className="s1-skeleton s1-shopable-video"></div>
+        <div className="s1-video-play-icon">▶</div>
 
-                <div className="s1-main-info">
+        {/* <div className="s1-shopable-actions">
+          <div className="s1-skeleton s1-action-icon"></div>
+          <div className="s1-skeleton s1-action-icon"></div>
+          <div className="s1-skeleton s1-action-icon"></div>
+        </div> */}
+      </div>
+      <div className="s1-shopable-product-bar">
+        <div className="s1-shopable-product-left">
+          <div className="s1-skeleton s1-product-thumb"></div>
 
-                    <div className="static-skeleton static-title"></div>
-                    <div className="static-skeleton static-price"></div>
-
-                    {/* ================= BUY TO LIST ================= */}
-                    <div
-                        className="s1-btl-preview s1-btl-preview-2"
-                        style={{
-                            background: settings.btl_bg_clr,
-                            borderColor: settings.btl_border_clr || "#e5e7eb",
-                            borderRadius: settings.btl_border_radius || "8px",
-                        }}
-                    >
-
-                        <div
-                            className="s1-btl-title"
-                            style={{
-                                color: settings.btl_title_clr
-                            }}
-                        >
-                            {settings.list_title || "Featured List"}
-                        </div>
-
-                        <ul className="s1-btl-list">
-                            {listItems.map((text, index) => (
-                                <li key={index} className="s1-btl-item">
-
-                                   {settings.icon_enabled && (
-                                        <span
-                                            className="s1-btl-icon"
-                                            style={{
-                                                background:
-                                                    settings.icontype === 'image'
-                                                        ? "transparent"
-                                                        : settings.btl_icon_bg_clr || "#fff",
-                                                color: settings.btl_icon_clr || "#2563eb"
-                                            }}
-                                        >
-                                            {renderIcon()}
-                                        </span>
-                                    )}
-
-                                    <span
-                                        className="s1-btl-text"
-                                        style={{
-                                            color: settings.btl_list_clr 
-                                        }}
-                                    >
-                                        {text}
-                                    </span>
-
-                                </li>
-                            ))}
-                        </ul>
-
-                    </div>
-                    {/* ================= END BUY TO LIST ================= */}
-
-                    <div className="s1-main-cart">
-                        <div className="static-skeleton static-qty"></div>
-                        <div className="static-skeleton static-btn"></div>
-                    </div>
-
-                </div>
-            </div>
-
+          <div className="s1-shopable-product-content">
+            <div className="s1-skeleton s1-product-title"></div>
+            <div className="s1-skeleton s1-product-price"></div>
+          </div>
         </div>
-    );
+
+        <div className="s1-skeleton s1-cart-button"></div>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="s1-preview-wrap s1-recent-view">
+      <div
+        className={`s1-preview-device ${activeDevice}`}
+        style={{
+          maxWidth: getPreviewWidth(),
+          margin: "0 auto",
+          padding: "20px",
+          background: "#fff",
+          borderRadius: "12px",
+        }}
+      >
+        {/* TITLE */}
+        {!s?.hide_title && (
+          <div
+            style={{
+              marginBottom: "20px",
+              fontSize: "18px",
+              fontWeight: "600",
+              color: s?.title_color || "#212121",
+            }}
+          >
+            {s?.title || __("Shopable List", "th-store-one")}
+          </div>
+        )}
+
+        {/* SLIDER */}
+        {isSlider ? (
+          <div className="s1-slider-wrapper s1-style-2">
+            <Swiper
+              modules={[Navigation, Autoplay]}
+              slidesPerView={slides}
+              spaceBetween={gap}
+              navigation={navigation}
+              autoplay={autoplay ? { delay: 2500 } : false}
+              className="s1-shopable-slider"
+            >
+              {[...Array(products)].map((_, i) => (
+                <SwiperSlide key={i}>
+                  <SkeletonCard />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        ) : (
+          /* GRID (ONLY 3 ITEMS) */
+          <div
+            className="s1-style-2"
+            style={{
+              display: "grid",
+              gridTemplateColumns: `repeat(3, 1fr)`,
+              gap: `${gap}px`,
+            }}
+          >
+            {[...Array(3)].map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default Style2;
