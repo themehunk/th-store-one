@@ -80,7 +80,7 @@
   border-radius:999px;
 }
 
-s1-shopable-product-left .s1-product-price{
+.s1-shopable-product-left .s1-product-price{
   width:50px;
   height:10px;
   border-radius:999px;
@@ -117,4 +117,15 @@ s1-shopable-product-left .s1-product-price{
   line-height:1;
 
   z-index:2;
+}
+.s1-shopable-media.s1-product-info-top
+.s1-shopable-product-bar{
+    top:12px;
+    bottom:auto;
+}
+
+.s1-shopable-media.s1-product-info-bottom
+.s1-shopable-product-bar{
+    bottom:12px;
+    top:auto;
 }

@@ -46,7 +46,7 @@ const newShopableListRule = () => ({
       open: true,
     },
   ],
-  product_info_position: "top",
+  product_info_position: "bottom",
   show_prd_popup: false,
   video_auto_play: true,
   prd_delay: "",
@@ -531,21 +531,19 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                                                     }
                                                   >
                                                     <span className="s1-btn-icon">
-                                                      {ICONS.DISPLAY}
+                                                      {ICONS.UploadIcon}
                                                     </span>
 
                                                     <div className="s1-upload-text">
-                                                      <strong>
-                                                        Upload Video
-                                                      </strong>
-
                                                       <p>
-                                                        Select or upload a video
+                                                        <strong>
+                                                          Choose MP4, MOV & WebM
+                                                        </strong>
                                                       </p>
 
                                                       <small className="s1-upload-note">
-                                                        MP4, MOV & WebM
-                                                        supported
+                                                        Play instantly from your
+                                                        device.
                                                       </small>
                                                     </div>
                                                   </button>

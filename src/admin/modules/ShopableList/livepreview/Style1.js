@@ -34,10 +34,14 @@ const Style1 = ({ settings = {} }) => {
   const gap = Number(s?.columns_gap || 15);
   const products = Number(s?.products || 6);
 
+  const productInfoPosition = s?.product_info_position || "bottom";
+
   /* SKELETON CARD */
   const SkeletonCard = () => (
     <div className="s1-shopable-card">
-      <div className="s1-shopable-media">
+      <div
+        className={`s1-shopable-media s1-product-info-${productInfoPosition}`}
+      >
         <div className="s1-skeleton s1-shopable-video"></div>
         <div className="s1-video-play-icon">▶</div>
 

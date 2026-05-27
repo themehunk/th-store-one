@@ -609,6 +609,35 @@ export default function MultiWooSearchSelector({
         {(isFocused || query) && results.length > 0 && (
           <div className="selector-dropdown">
             {results.map((r) => (
+              // <div
+              //   key={r.id}
+              //   className="s1-product-row"
+              //   onClick={() => addItem(r)}
+              // >
+              //   <div className="s1-product-left">
+              //     {r.image && (
+              //       <img src={r.image} className="s1-product-thumb" alt="" />
+              //     )}
+
+              //     <div className="s1-product-meta">
+              //       <div className="s1-product-title">{r.name}</div>
+
+              //       {r.price_html && (
+              //         <div
+              //           className="s1-product-price"
+              //           dangerouslySetInnerHTML={{ __html: r.price_html }}
+              //         />
+              //       )}
+
+              //       <div className={`s1-product-stock ${r.stock_status}`}>
+              //         {r.stock_status}
+              //       </div>
+              //     </div>
+              //   </div>
+
+              //   <span className="s1-product-type">{r.type}</span>
+              // </div>
+
               <div
                 key={r.id}
                 className="s1-product-row"
@@ -622,20 +651,22 @@ export default function MultiWooSearchSelector({
                   <div className="s1-product-meta">
                     <div className="s1-product-title">{r.name}</div>
 
-                    {r.price_html && (
-                      <div
-                        className="s1-product-price"
-                        dangerouslySetInnerHTML={{ __html: r.price_html }}
-                      />
-                    )}
-
                     <div className={`s1-product-stock ${r.stock_status}`}>
-                      {r.stock_status}
+                      {r.type}
                     </div>
                   </div>
                 </div>
 
-                <span className="s1-product-type">{r.type}</span>
+                {r.price_html && (
+                  <div
+                    className="s1-product-price"
+                    dangerouslySetInnerHTML={{
+                      __html: r.price_html,
+                    }}
+                  />
+                )}
+
+                <span className="s1-product-type">+</span>
               </div>
             ))}
           </div>
