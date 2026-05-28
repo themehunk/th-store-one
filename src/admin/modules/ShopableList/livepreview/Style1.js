@@ -38,30 +38,132 @@ const Style1 = ({ settings = {} }) => {
 
   /* SKELETON CARD */
   const SkeletonCard = () => (
-    <div className="s1-shopable-card">
+    <div
+      className="s1-shopable-card"
+      style={{
+        borderStyle: s?.border?.style || "solid",
+        borderColor: s?.border?.color || "transparent",
+
+        borderTopWidth: s?.border?.width?.top || "0px",
+        borderRightWidth: s?.border?.width?.right || "0px",
+        borderBottomWidth: s?.border?.width?.bottom || "0px",
+        borderLeftWidth: s?.border?.width?.left || "0px",
+
+        borderTopLeftRadius: s?.border?.radius?.top || "0px",
+        borderTopRightRadius: s?.border?.radius?.right || "0px",
+        borderBottomRightRadius: s?.border?.radius?.bottom || "0px",
+        borderBottomLeftRadius: s?.border?.radius?.left || "0px",
+
+        overflow: "hidden",
+      }}
+    >
       <div
         className={`s1-shopable-media s1-product-info-${productInfoPosition}`}
       >
         <div className="s1-skeleton s1-shopable-video"></div>
-        <div className="s1-video-play-icon">▶</div>
 
-        {/* <div className="s1-shopable-actions">
-          <div className="s1-skeleton s1-action-icon"></div>
-          <div className="s1-skeleton s1-action-icon"></div>
-          <div className="s1-skeleton s1-action-icon"></div>
-        </div> */}
+        <div
+          className="s1-video-play-icon"
+          style={{
+            background: s?.vicon_bg_color || "#000",
+            color: s?.vicon_color || "#fff",
+          }}
+        >
+          ▶
+        </div>
 
-        <div className="s1-shopable-product-bar">
+        <div
+          className="s1-shopable-product-bar"
+          style={{
+            borderTopLeftRadius: s?.border?.radius?.top || "0px",
+            borderTopRightRadius: s?.border?.radius?.right || "0px",
+            borderBottomRightRadius: s?.border?.radius?.bottom || "0px",
+            borderBottomLeftRadius: s?.border?.radius?.left || "0px",
+            background: s?.bg_color || "#fff",
+          }}
+        >
           <div className="s1-shopable-product-left">
             <div className="s1-skeleton s1-product-thumb"></div>
 
             <div className="s1-shopable-product-content">
-              <div className="s1-skeleton s1-product-title"></div>
-              <div className="s1-skeleton s1-product-price"></div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  marginBottom: "6px",
+                }}
+              >
+                {/* Small Image Skeleton */}
+                <div
+                  className="s1-skeleton"
+                  style={{
+                    width: "20px",
+                    height: "20px",
+                    borderRadius: "4px",
+                    flexShrink: 0,
+                  }}
+                ></div>
+
+                {/* Title */}
+                <div
+                  className="s1-product-title-text"
+                  style={{
+                    color: s?.prd_title_color || "#111",
+                    fontSize: "14px",
+                    fontWeight: "600",
+                  }}
+                >
+                  Title
+                </div>
+                <div
+                  className="s1-product-price-text"
+                  style={{
+                    color: s?.prd_price_color || "#111",
+                  }}
+                >
+                  ₹299
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="s1-skeleton s1-cart-button"></div>
+          <button
+            className="s1-cart-button"
+            style={{
+              background: s?.prd_cart_bg_color || "#22c55e",
+              color: s?.prd_cart_icon_color || "#fff",
+
+              width: "35px",
+              height: "35px",
+
+              minWidth: "35px",
+
+              borderRadius: "50%",
+              border: "none",
+
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+
+              padding: "0",
+              cursor: "pointer",
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <circle cx="9" cy="21" r="1"></circle>
+              <circle cx="20" cy="21" r="1"></circle>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+            </svg>
+          </button>
         </div>
       </div>
     </div>

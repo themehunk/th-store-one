@@ -14,6 +14,7 @@ import TabSwitcher from "@th-storeone-global/TabSwitcher";
 import THBackgroundControl from "@th-storeone-control/color";
 import UniversalRangeControl from "@th-storeone-global/UniversalRangeControl";
 import SliderControl from "@th-storeone-global/SliderControl";
+import UniversalBorderControl from "@th-storeone-control/UniversalBorderControl";
 
 import {
   CopyIcon,
@@ -64,6 +65,30 @@ const newShopableListRule = () => ({
   columns: "3",
   columns_gap: "15",
   list_style: "style1",
+  border: {
+    width: {
+      top: "0px",
+      right: "0px",
+      bottom: "0px",
+      left: "0px",
+    },
+    style: "solid",
+    color: "transparent",
+    radius: {
+      top: "10px",
+      right: "10px",
+      bottom: "10px",
+      left: "10px",
+    },
+  },
+  title_color: "#111",
+  prd_title_color: "#111",
+  prd_price_color: "#111",
+  bg_color: "#ffffff91",
+  prd_cart_bg_color: "#22c55e",
+  prd_cart_icon_color: "#fff",
+  vicon_color: "#fff",
+  vicon_bg_color: "#00000073",
 });
 
 const ICON_OPTIONS = [
@@ -646,31 +671,6 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                               }
                             />
                           </S1Field>
-                          {rule.show_prd_popup === false && (
-                            <S1Field
-                              label={__(
-                                "Product Info Position",
-                                "th-store-one",
-                              )}
-                            >
-                              <SelectControl
-                                value={rule.product_info_position}
-                                options={[
-                                  {
-                                    label: "Top",
-                                    value: "top",
-                                  },
-                                  {
-                                    label: "Bottom",
-                                    value: "bottom",
-                                  },
-                                ]}
-                                onChange={(v) =>
-                                  updateField(index, "product_info_position", v)
-                                }
-                              />
-                            </S1Field>
-                          )}
                         </S1FieldGroup>
                       </div>
                     ),
@@ -830,6 +830,121 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                             }}
                           />
                         </S1Field>
+
+                        <S1Field
+                          label={__("Product Info Position", "th-store-one")}
+                        >
+                          <SelectControl
+                            value={rule.product_info_position}
+                            options={[
+                              {
+                                label: "Top",
+                                value: "top",
+                              },
+                              {
+                                label: "Bottom",
+                                value: "bottom",
+                              },
+                            ]}
+                            onChange={(v) =>
+                              updateField(index, "product_info_position", v)
+                            }
+                          />
+                        </S1Field>
+
+                        <S1Field>
+                          <THBackgroundControl
+                            label="Title Color"
+                            value={rule.title_color}
+                            onChange={(v) =>
+                              updateField(index, "title_color", v)
+                            }
+                          />
+                        </S1Field>
+
+                        <UniversalBorderControl
+                          value={rule.border}
+                          onChange={(v) => updateField(index, "border", v)}
+                        />
+
+                        <S1FieldGroup title="Product Info Color">
+                          <S1Field>
+                            <THBackgroundControl
+                              label="Background"
+                              value={rule.bg_color}
+                              onChange={(v) =>
+                                updateField(index, "bg_color", v)
+                              }
+                            />
+                          </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              label="Title"
+                              value={rule.prd_title_color}
+                              onChange={(v) =>
+                                updateField(index, "prd_title_color", v)
+                              }
+                            />
+                          </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              label="Price"
+                              value={rule.prd_price_color}
+                              onChange={(v) =>
+                                updateField(index, "prd_price_color", v)
+                              }
+                            />
+                          </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              label="Cart Background"
+                              value={rule.prd_cart_bg_color}
+                              onChange={(v) =>
+                                updateField(index, "prd_cart_bg_color", v)
+                              }
+                            />
+                          </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              label="Cart Icon"
+                              value={rule.prd_cart_icon_color}
+                              onChange={(v) =>
+                                updateField(index, "prd_cart_icon_color", v)
+                              }
+                            />
+                          </S1Field>
+                        </S1FieldGroup>
+                        <S1FieldGroup title="Progress Bar Color">
+                          <S1Field>
+                            <THBackgroundControl
+                              label="Bar Fill"
+                              value={rule.bar_color}
+                              onChange={(v) =>
+                                updateField(index, "bar_color", v)
+                              }
+                            />
+                          </S1Field>
+                        </S1FieldGroup>
+                        <S1FieldGroup title="Video Icon Color">
+                          <S1Field>
+                            <THBackgroundControl
+                              label="Background"
+                              value={rule.vicon_bg_color}
+                              onChange={(v) =>
+                                updateField(index, "vicon_bg_color", v)
+                              }
+                            />
+                          </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              label="Color"
+                              value={rule.vicon_color}
+                              onChange={(v) =>
+                                updateField(index, "vicon_color", v)
+                              }
+                            />
+                          </S1Field>
+                        </S1FieldGroup>
                       </div>
                     ),
                   },
