@@ -83,31 +83,31 @@ const DEFAULT_SETTINGS = {
   alignmentSingle: "center",
 
   border: {
-      width: {
-        top: "0px", 
-        right: "0px",
-        bottom: "0px",
-        left: "0px",
-      },
-      style: "solid",
-      color: "",
-      radius: {
-        top: "0px",
-        right: "0px",
-        bottom: "0px",
-        left: "0px",
-      },
+    width: {
+      top: "0px",
+      right: "0px",
+      bottom: "0px",
+      left: "0px",
     },
+    style: "solid",
+    color: "",
+    radius: {
+      top: "0px",
+      right: "0px",
+      bottom: "0px",
+      left: "0px",
+    },
+  },
 };
 
 const STYLE_DEFAULTS = {
   // SINGLE STYLES
   style1: {
     single_bg_color: "#111",
-  single_text_color: "#facc15",
-  single_timer_bg_color: "#222",
-  single_timer_color: "#fff",
-  single_sold_bar_bg_color: "linear-gradient(90deg, #22c55e, #f97316)",
+    single_text_color: "#facc15",
+    single_timer_bg_color: "#222",
+    single_timer_color: "#fff",
+    single_sold_bar_bg_color: "linear-gradient(90deg, #22c55e, #f97316)",
   },
   style2: {
     single_bg_color: "#ffffff",
@@ -165,7 +165,7 @@ const applyStyleDefaults = (settings, style, type) => {
 export default function SaleCountdownSettings({
   onSettingsChange,
   onRegisterSave,
-    onModuleReady,
+  onModuleReady,
 }) {
   const [loading, setLoading] = useState(true);
 
@@ -617,7 +617,12 @@ export default function SaleCountdownSettings({
                           }}
                         />
                       </S1Field>
-                      <AlignmentControl value={settings.alignmentSingle} onChange={(v) => setSettings({ ...settings, alignmentSingle: v })} />
+                      <AlignmentControl
+                        value={settings.alignmentSingle}
+                        onChange={(v) =>
+                          setSettings({ ...settings, alignmentSingle: v })
+                        }
+                      />
                       {settings.show_on_single && (
                         <S1FieldGroup title="Single Style">
                           <S1Field>
@@ -701,10 +706,12 @@ export default function SaleCountdownSettings({
                             max={30}
                           />
                         </S1Field> */}
-                        <UniversalBorderControl
-                          value={settings.border}
-                          onChange={(v) => setSettings({ ...settings, border: v })}
-                        />
+                          <UniversalBorderControl
+                            value={settings.border}
+                            onChange={(v) =>
+                              setSettings({ ...settings, border: v })
+                            }
+                          />
                         </S1FieldGroup>
                       )}
                       {settings.show_on_archive && (
@@ -721,7 +728,6 @@ export default function SaleCountdownSettings({
                                 let updated = {
                                   ...settings,
                                   sale_countdown_archive_style: v,
-                                  
                                 };
 
                                 updated = applyStyleDefaults(
@@ -734,7 +740,12 @@ export default function SaleCountdownSettings({
                               }}
                             />
                           </S1Field>
-                          <AlignmentControl value={settings.alignmentArchive} onChange={(v) => setSettings({ ...settings, alignmentArchive: v })} />
+                          <AlignmentControl
+                            value={settings.alignmentArchive}
+                            onChange={(v) =>
+                              setSettings({ ...settings, alignmentArchive: v })
+                            }
+                          />
                           <S1FieldGroup title="Archive Style">
                             <S1Field>
                               <THBackgroundControl
