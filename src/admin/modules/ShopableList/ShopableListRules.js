@@ -89,6 +89,7 @@ const newShopableListRule = () => ({
   prd_cart_icon_color: "#fff",
   vicon_color: "#fff",
   vicon_bg_color: "#00000073",
+  bar_color: "#fff",
 });
 
 const ICON_OPTIONS = [
@@ -749,6 +750,20 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                               navigation: true,
                             }}
                           />
+                          <S1Field
+                            label={__(
+                              "Hide Inherit Navigation",
+                              "th-store-one",
+                            )}
+                            classN="s1-toggle-wrpapper"
+                          >
+                            <ToggleControl
+                              checked={rule.hide_navigation}
+                              onChange={(v) =>
+                                updateField(index, "hide_navigation", v)
+                              }
+                            />
+                          </S1Field>
                           {!rule.slider.enabled && (
                             <>
                               <UniversalRangeControl
