@@ -50,6 +50,7 @@ const newShopableListRule = () => ({
   product_info_position: "bottom",
   show_prd_popup: false,
   video_auto_play: true,
+  video_mute: true,
   prd_delay: "",
 
   open: true,
@@ -642,6 +643,20 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                             />
                           </S1Field>
                           <S1Field
+                            label={__("Mute", "th-store-one")}
+                            description={__(
+                              "Enabling this option will automatically turn off mute.",
+                              "th-store-one",
+                            )}
+                          >
+                            <ToggleControl
+                              checked={rule.video_mute}
+                              onChange={(v) =>
+                                updateField(index, "video_mute", v)
+                              }
+                            />
+                          </S1Field>
+                          <S1Field
                             label={__("Delay (ms)", "th-store-one")}
                             description={__(
                               "Leave this field empty to display the product for the entire video duration. Set a value to control how long the product remains visible.",
@@ -673,6 +688,33 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                             />
                           </S1Field>
                         </S1FieldGroup>
+                        <S1Field label={__("Shortcode", "th-store-one")}>
+                          <p className="s1-shortcode-description">
+                            {__(
+                              "Use this shortcode to display this Shopable List anywhere on your site (posts, pages, widgets, or page builders).",
+                              "th-store-one",
+                            )}
+                          </p>
+                          <div className="s1-shortcode-wrapper">
+                            <textarea
+                              readOnly
+                              value={`[th_store_one_shopable_list id="${rule.flexible_id}"]`}
+                              className="s1-shortcode-textarea"
+                            />
+
+                            <button
+                              type="button"
+                              className="s1-shortcode-copy"
+                              onClick={() => {
+                                navigator.clipboard.writeText(
+                                  `[th_store_one_shopable_list id="${rule.flexible_id}"]`,
+                                );
+                              }}
+                            >
+                              <CopyIcon />
+                            </button>
+                          </div>
+                        </S1Field>
                       </div>
                     ),
                   },
@@ -787,33 +829,6 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                             </>
                           )}
                         </S1FieldGroup>
-                        <S1Field label={__("Shortcode", "th-store-one")}>
-                          <p className="s1-shortcode-description">
-                            {__(
-                              "Use this shortcode to display this Shopable List anywhere on your site (posts, pages, widgets, or page builders).",
-                              "th-store-one",
-                            )}
-                          </p>
-                          <div className="s1-shortcode-wrapper">
-                            <textarea
-                              readOnly
-                              value={`[th_store_one_shopable_list id="${rule.flexible_id}"]`}
-                              className="s1-shortcode-textarea"
-                            />
-
-                            <button
-                              type="button"
-                              className="s1-shortcode-copy"
-                              onClick={() => {
-                                navigator.clipboard.writeText(
-                                  `[th_store_one_shopable_list id="${rule.flexible_id}"]`,
-                                );
-                              }}
-                            >
-                              <CopyIcon />
-                            </button>
-                          </div>
-                        </S1Field>
                       </div>
                     ),
                   },
@@ -824,13 +839,15 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                     icon: ICONS[menuItems[2].icon],
                     content: (
                       <div className="store-one-rule-body">
-                        <S1Field label={__("Choose Style", "th-store-one")}>
+                        <S1Field
+                          label={__("Choose Style", "th-store-one")}
+                          visible={false}
+                        >
                           <SelectControl
                             value={rule.list_style}
                             options={[
                               { label: "Style1", value: "style1" },
                               { label: "Style2", value: "style2" },
-                              { label: "Style3", value: "style3" },
                             ]}
                             onChange={(v) => {
                               const updatedRule = applyStyleDefaults(rule, v);
@@ -869,6 +886,7 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
 
                         <S1Field>
                           <THBackgroundControl
+                            allowGradient={false}
                             label="Title Color"
                             value={rule.title_color}
                             onChange={(v) =>
@@ -885,6 +903,7 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                         <S1FieldGroup title="Product Info Color">
                           <S1Field>
                             <THBackgroundControl
+                              allowGradient={false}
                               label="Background"
                               value={rule.bg_color}
                               onChange={(v) =>
@@ -894,6 +913,7 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                           </S1Field>
                           <S1Field>
                             <THBackgroundControl
+                              allowGradient={false}
                               label="Title"
                               value={rule.prd_title_color}
                               onChange={(v) =>
@@ -903,6 +923,7 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                           </S1Field>
                           <S1Field>
                             <THBackgroundControl
+                              allowGradient={false}
                               label="Price"
                               value={rule.prd_price_color}
                               onChange={(v) =>
@@ -921,6 +942,7 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                           </S1Field>
                           <S1Field>
                             <THBackgroundControl
+                              allowGradient={false}
                               label="Cart Icon"
                               value={rule.prd_cart_icon_color}
                               onChange={(v) =>
@@ -952,6 +974,7 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                           </S1Field>
                           <S1Field>
                             <THBackgroundControl
+                              allowGradient={false}
                               label="Color"
                               value={rule.vicon_color}
                               onChange={(v) =>

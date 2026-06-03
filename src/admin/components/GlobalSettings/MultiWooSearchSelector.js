@@ -490,7 +490,7 @@ export default function MultiWooSearchSelector({
       {label && <label className="s1-field-label">{label}</label>}
 
       <div className="s1-field-control">
-        {/* filter render code */}
+        {/* Filter Render Code */}
         <div className="s1-product-filters">
           {searchType === "product" && productFilters.includes("category") && (
             <div className="s1-filter-item">
@@ -504,7 +504,6 @@ export default function MultiWooSearchSelector({
                 onChange={(e) => setSelectedCategory(e.target.value)}
               >
                 <option value="">{__("All Categories", "th-store-one")}</option>
-
                 {categories.map((cat) => (
                   <option key={cat.id} value={cat.id}>
                     {cat.name}
@@ -526,7 +525,6 @@ export default function MultiWooSearchSelector({
                 onChange={(e) => setSelectedTag(e.target.value)}
               >
                 <option value="">{__("All Tags", "th-store-one")}</option>
-
                 {tags.map((tag) => (
                   <option key={tag.id} value={tag.id}>
                     {tag.name}
@@ -537,6 +535,7 @@ export default function MultiWooSearchSelector({
           )}
         </div>
 
+        {/* Selected Items Layout */}
         <div ref={selectedRef} className="selected-items">
           {selectedItems.map((item) => (
             <div key={item.id} className="s1-selected-row">
@@ -547,7 +546,6 @@ export default function MultiWooSearchSelector({
                 {item.image && (
                   <img src={item.image} className="s1-product-thumb" alt="" />
                 )}
-
                 <div className="s1-product-title">{item.name}</div>
               </div>
 
@@ -563,10 +561,10 @@ export default function MultiWooSearchSelector({
               <div className={`s1-product-stock ${item.stock_status}`}>
                 {item.stock_status}
               </div>
+              <div className={`s1-product-id `}>#{item.id}</div>
 
               <div className="s1-product-right">
                 <span className="s1-product-type">{item.type}</span>
-
                 <span className="s1-product-type i_id">#{item.id}</span>
               </div>
 
@@ -577,6 +575,7 @@ export default function MultiWooSearchSelector({
           ))}
         </div>
 
+        {/* Search Input Box */}
         <div
           className={`s1-search-input-wrap ${
             detailedView ? "has-search-icon" : ""
@@ -596,7 +595,7 @@ export default function MultiWooSearchSelector({
               setIsFocused(true);
               if (!query) fetchDefaultItems();
             }}
-            onBlur={() => setTimeout(() => setIsFocused(false), 150)}
+            onBlur={() => setTimeout(() => setIsFocused(false), 200)} // Blur timeout thoda badhaya taaki click register ho sake
           />
 
           {loading && (
@@ -606,69 +605,96 @@ export default function MultiWooSearchSelector({
           )}
         </div>
 
-        {(isFocused || query) && results.length > 0 && (
+        {/* FIXED: Dropdown Layout Engine */}
+        {isFocused && (
           <div className="selector-dropdown">
-            {results.map((r) => (
-              // <div
-              //   key={r.id}
-              //   className="s1-product-row"
-              //   onClick={() => addItem(r)}
-              // >
-              //   <div className="s1-product-left">
-              //     {r.image && (
-              //       <img src={r.image} className="s1-product-thumb" alt="" />
-              //     )}
-
-              //     <div className="s1-product-meta">
-              //       <div className="s1-product-title">{r.name}</div>
-
-              //       {r.price_html && (
-              //         <div
-              //           className="s1-product-price"
-              //           dangerouslySetInnerHTML={{ __html: r.price_html }}
-              //         />
-              //       )}
-
-              //       <div className={`s1-product-stock ${r.stock_status}`}>
-              //         {r.stock_status}
-              //       </div>
-              //     </div>
-              //   </div>
-
-              //   <span className="s1-product-type">{r.type}</span>
-              // </div>
-
+            {/* Condition 1: Agar API hit ho chuki he aur backend loading chal rahi hai */}
+            {loading && results.length === 0 && (
               <div
-                key={r.id}
-                className="s1-product-row"
-                onClick={() => addItem(r)}
+                className="s1-dropdown-loading"
+                style={{
+                  padding: "12px 16px",
+                  color: "#999",
+                  textAlign: "center",
+                  fontSize: "13px",
+                }}
               >
-                <div className="s1-product-left">
-                  {r.image && (
-                    <img src={r.image} className="s1-product-thumb" alt="" />
-                  )}
+                <span
+                  className="components-spinner"
+                  style={{
+                    marginRight: "8px",
+                    display: "inline-block",
+                    verticalAlign: "middle",
+                  }}
+                ></span>
+                {__("Loading items…", "th-store-one")}
+              </div>
+            )}
 
-                  <div className="s1-product-meta">
-                    <div className="s1-product-title">{r.name}</div>
+            {/* Condition 2: Items successfully mil gaye hain */}
+            {results.length > 0 &&
+              results.map((r) => (
+                <div
+                  key={r.id}
+                  className="s1-product-row"
+                  onClick={() => addItem(r)}
+                >
+                  <div className="s1-product-left">
+                    {r.image && (
+                      <img src={r.image} className="s1-product-thumb" alt="" />
+                    )}
 
-                    <div className={`s1-product-stock ${r.stock_status}`}>
-                      {r.type}
+                    <div className="s1-product-meta">
+                      <div className="s1-product-title">{r.name}</div>
+
+                      <div
+                        className="s1-product-meta-row"
+                        style={{
+                          display: "flex",
+                          gap: "8px",
+                          alignItems: "center",
+                        }}
+                      >
+                        <span
+                          className="s1-dropdown-item-id"
+                          style={{ opacity: 0.6, fontSize: "11px" }}
+                        >
+                          #{r.id}
+                        </span>
+                        <div className={`s1-product-stock ${r.stock_status}`}>
+                          {r.type}
+                        </div>
+                      </div>
                     </div>
                   </div>
+
+                  {r.price_html && (
+                    <div
+                      className="s1-product-price"
+                      dangerouslySetInnerHTML={{
+                        __html: r.price_html,
+                      }}
+                    />
+                  )}
+
+                  <span className="s1-product-type">+</span>
                 </div>
+              ))}
 
-                {r.price_html && (
-                  <div
-                    className="s1-product-price"
-                    dangerouslySetInnerHTML={{
-                      __html: r.price_html,
-                    }}
-                  />
-                )}
-
-                <span className="s1-product-type">+</span>
+            {/* Condition 3: Loading khatam ho chuki hai, aur results sach me 0 hain */}
+            {!loading && results.length === 0 && (
+              <div
+                className="s1-no-results-found"
+                style={{
+                  padding: "12px 16px",
+                  color: "#666",
+                  textAlign: "center",
+                  fontSize: "13px",
+                }}
+              >
+                {__("No products found", "th-store-one")}
               </div>
-            ))}
+            )}
           </div>
         )}
       </div>

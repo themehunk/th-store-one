@@ -1614,7 +1614,13 @@ button.is-tertiary,
     opacity:.5;
     margin-right:4px;
 }
-
+.s1-product-id {
+    font-size: 10px;
+    border: 1px solid #eee;
+    padding: 2px 5px;
+    border-radius: 8px;
+    color:#999;
+}
 .selected-items .s1-product-price ins{
     text-decoration:none;
 }
