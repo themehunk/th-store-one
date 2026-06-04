@@ -6,7 +6,9 @@
   text-align: center;
   margin-top: 12px;
 }
-
+.th-cd{
+    margin:15px 0;
+}
 /* MESSAGE */
 .th-style1 .th-msg {
   font-size: 18px;
