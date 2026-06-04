@@ -709,7 +709,7 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                       <div className="store-one-rule-body">
                         <S1Field
                           label={__("Display Style", "th-store-one")}
-                          visible={true}
+                          visible={false}
                         >
                           <SelectControl
                             value={rule.buy_to_list_style}
