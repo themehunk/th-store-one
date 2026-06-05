@@ -51,7 +51,7 @@ const newStockRule = () => ({
 
   /* SOLD */
   sold: {
-    enable: true,
+    enable: false,
     source: "fake",
     timeframe: "24_hours",
     fake: { min: 10, max: 50 },
@@ -69,10 +69,10 @@ const newStockRule = () => ({
   },
   show_progress: true,
   max_stock: 20,
-  enable_single_page: false,
+  enable_single_page: true,
   single_placement: "woocommerce_after_add_to_cart_form",
   single_priority: 10,
-  enable_shop_page: true,
+  enable_shop_page: false,
   shop_position: "after_add_to_cart",
 
   /* VISIBILITY */
@@ -102,8 +102,8 @@ const newStockRule = () => ({
   bar_margin: 10,
 
   low_stock_effect: {
-    enable: true,
-    threshold: 5,
+    enable: false,
+    threshold: 3,
   },
 
   color_change: {
@@ -171,7 +171,7 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
 
   return (
     <div className="store-one-rules-container">
-      <h3>Stock Scarcity</h3>
+      <h3>Stock Availability</h3>
 
       <SortableWrapper items={rules} onSortEnd={reorder}>
         {rules.map((rule, index) => (
@@ -218,13 +218,23 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                     icon: ICONS.SETTINGS,
                     content: (
                       <div className="store-one-rule-body">
-                        <S1FieldGroup title="Stock">
-                          <S1Field label="Stock Mode">
+                        <S1FieldGroup title="Stock Availability">
+                          <S1Field
+                            label="Stock Mode"
+                            description={
+                              rule.stock_mode === "real"
+                                ? "Show real-time stock scarcity based on your product's actual inventory. The stock count will only be displayed when the available quantity falls below the specified threshold."
+                                : "Create a stock scarcity effect by displaying randomly generated stock quantities. The displayed stock count will automatically vary between your defined minimum and maximum values to encourage faster purchasing decisions."
+                            }
+                          >
                             <SelectControl
                               value={rule.stock_mode}
                               options={[
-                                { label: "Real", value: "real" },
-                                { label: "Fake", value: "fake" },
+                                {
+                                  label: "Default Product in Stock",
+                                  value: "real",
+                                },
+                                { label: "Dummy Stock", value: "fake" },
                               ]}
                               onChange={(v) =>
                                 updateField(index, "stock_mode", v)
@@ -234,7 +244,7 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
 
                           {rule.stock_mode === "real" && (
                             <>
-                              <S1Field label="Show only below">
+                              <S1Field label="Show only when inventory is below">
                                 <TextControl
                                   value={rule.real_stock.threshold}
                                   onChange={(v) =>
@@ -245,7 +255,7 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                                   }
                                 />
                               </S1Field>
-                              <S1Field label="Hide Out of Stock">
+                              {/* <S1Field label="Hide Out of Stock">
                                 <ToggleControl
                                   checked={rule.real_stock.hide_outofstock}
                                   onChange={(v) =>
@@ -255,7 +265,7 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                                     })
                                   }
                                 />
-                              </S1Field>
+                              </S1Field> */}
                             </>
                           )}
 
@@ -289,7 +299,7 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                           )}
                         </S1FieldGroup>
 
-                        <S1FieldGroup title="Sold Counter">
+                        <S1FieldGroup title="Stock Sold Counter">
                           <S1Field label="Enable Sold Count">
                             <ToggleControl
                               checked={rule.sold.enable}
@@ -303,12 +313,25 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                           </S1Field>
                           {rule.sold.enable && (
                             <>
-                              <S1Field label="Source">
+                              <S1Field
+                                label="Source"
+                                description={
+                                  rule.sold.source === "real"
+                                    ? "Display the actual number of units sold based on your store’s order data. The sold count updates automatically as new purchases are made."
+                                    : "Display a randomly generated sold count instead of actual sales data. The displayed number will vary between the Minimum Sold and Maximum Sold values you set."
+                                }
+                              >
                                 <SelectControl
                                   value={rule.sold.source}
                                   options={[
-                                    { label: "Real", value: "real" },
-                                    { label: "Fake", value: "fake" },
+                                    {
+                                      label: "Default Product Sold Stock",
+                                      value: "real",
+                                    },
+                                    {
+                                      label: "Dummy Sold Stocks",
+                                      value: "fake",
+                                    },
                                   ]}
                                   onChange={(v) =>
                                     updateField(index, "sold", {
@@ -456,7 +479,7 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                             </>
                           )}
                         </S1FieldGroup>
-                        <S1Field label="Show Progress Bar">
+                        <S1Field label="Show Stock Progress Bar">
                           <ToggleControl
                             checked={rule.show_progress}
                             onChange={(v) =>
@@ -477,9 +500,14 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                           />
                         )}
 
-                        <S1FieldGroup title={__("Single page", "th-store-one")}>
+                        <S1FieldGroup
+                          title={__("Single Product Page", "th-store-one")}
+                        >
                           <S1Field
-                            label={__("Enable on Single Page", "th-store-one")}
+                            label={__(
+                              "Enable on Single Product Page",
+                              "th-store-one",
+                            )}
                             classN="s1-toggle-wrpapper"
                           >
                             <ToggleControl
@@ -505,10 +533,13 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                           )}
                         </S1FieldGroup>
                         <S1FieldGroup
-                          title={__("Archive page", "th-store-one")}
+                          title={__("Archive Or Shop Page", "th-store-one")}
                         >
                           <S1Field
-                            label={__("Enable on Archive Page", "th-store-one")}
+                            label={__(
+                              "Enable on Archive Or Shop Page",
+                              "th-store-one",
+                            )}
                             classN="s1-toggle-wrpapper"
                           >
                             <ToggleControl
@@ -777,7 +808,10 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                         </S1Field>
                         <S1FieldGroup title="Stock Effects">
                           {/* BLINK */}
-                          <S1Field label="Blink on Low Stock">
+                          <S1Field
+                            label="Blink on Low Stock"
+                            description="Set the stock quantity at which the blinking effect starts. The stock count will blink when stock falls at or below this value."
+                          >
                             <ToggleControl
                               checked={rule.low_stock_effect?.enable}
                               onChange={(v) =>
@@ -817,39 +851,49 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                                   }
                                 />
                               </S1Field>
-                              <S1Field>
-                                <THBackgroundControl
-                                  allowGradient={true}
-                                  label={__("Low Stock Color", "th-store-one")}
-                                  value={rule.low_color || "#ef4444"}
-                                  onChange={(v) =>
-                                    updateField(index, "low_color", v)
-                                  }
-                                />
-                              </S1Field>
-                              <S1Field>
-                                <THBackgroundControl
-                                  allowGradient={true}
-                                  label={__(
-                                    "Medium Stock Color",
-                                    "th-store-one",
-                                  )}
-                                  value={rule.medium_color || "#f59e0b"}
-                                  onChange={(v) =>
-                                    updateField(index, "medium_color", v)
-                                  }
-                                />
-                              </S1Field>
-                              <S1Field>
-                                <THBackgroundControl
-                                  allowGradient={true}
-                                  label={__("High Stock Color", "th-store-one")}
-                                  value={rule.high_color || "#4f46e5"}
-                                  onChange={(v) =>
-                                    updateField(index, "high_color", v)
-                                  }
-                                />
-                              </S1Field>
+                              {rule.color_change?.enable && (
+                                <>
+                                  <S1Field>
+                                    <THBackgroundControl
+                                      allowGradient={true}
+                                      label={__(
+                                        "Low Stock Color",
+                                        "th-store-one",
+                                      )}
+                                      value={rule.low_color || "#ef4444"}
+                                      onChange={(v) =>
+                                        updateField(index, "low_color", v)
+                                      }
+                                    />
+                                  </S1Field>
+                                  <S1Field>
+                                    <THBackgroundControl
+                                      allowGradient={true}
+                                      label={__(
+                                        "Medium Stock Color",
+                                        "th-store-one",
+                                      )}
+                                      value={rule.medium_color || "#f59e0b"}
+                                      onChange={(v) =>
+                                        updateField(index, "medium_color", v)
+                                      }
+                                    />
+                                  </S1Field>
+                                  <S1Field>
+                                    <THBackgroundControl
+                                      allowGradient={true}
+                                      label={__(
+                                        "High Stock Color",
+                                        "th-store-one",
+                                      )}
+                                      value={rule.high_color || "#4f46e5"}
+                                      onChange={(v) =>
+                                        updateField(index, "high_color", v)
+                                      }
+                                    />
+                                  </S1Field>
+                                </>
+                              )}
                             </>
                           )}
                         </S1FieldGroup>

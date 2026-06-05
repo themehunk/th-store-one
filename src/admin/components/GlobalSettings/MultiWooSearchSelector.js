@@ -589,6 +589,7 @@ export default function MultiWooSearchSelector({
 
           <TextControl
             value={query}
+            autocomplete="off"
             placeholder={getPlaceholderText()}
             onChange={setQuery}
             onFocus={() => {
