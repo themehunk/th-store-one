@@ -87,11 +87,12 @@ display: inline-flex;
   color: #fff;
   padding: 10px;
   border-radius: 8px;
-  width: 60px;
+
 }
 .s1-boxed span {
-  font-size: 20px;
-  font-weight: bold;
+    font-size: 15px;
+    font-weight: bold;
+    margin-right: 5px;
 }
 
 /* STYLE 4 */
@@ -138,15 +139,21 @@ display: inline-flex;
 .s1-default-pro .s1-timer {
   display: flex;
   justify-content: center;
-  gap: 12px;
+
   margin-bottom: 10px;
 }
 
-.s1-default-pro .s1-timer div {
-  background: #222;
+.s1-default-pro .s1-timer div.th-time-bx {
+  background: #d7d3d3b8;
   padding: 8px 10px;
-  border-radius: 8px;
+
   min-width: 55px;
+}
+.s1-default-pro .s1-timer div.dotes{
+background: #d7d3d3b8;
+    padding: 0px 5px;
+    display: flex;
+    align-items: center;
 }
 
 .s1-default-pro .s1-timer span {

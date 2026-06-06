@@ -68,8 +68,8 @@ const DEFAULT_SETTINGS = {
 
   single_bg_color: "#fff",
   single_text_color: "#111",
-  single_timer_bg_color: "#222",
-  single_timer_color: "#fff",
+  single_timer_bg_color: "#d7d3d3b8",
+  single_timer_color: "#111",
   single_sold_bar_bg_color: "#229fd8",
   single_font_size: "14px",
 
@@ -105,8 +105,8 @@ const STYLE_DEFAULTS = {
   style1: {
     single_bg_color: "#fff",
     single_text_color: "#111",
-    single_timer_bg_color: "#222",
-    single_timer_color: "#fff",
+    single_timer_bg_color: "#d7d3d3b8",
+    single_timer_color: "#111",
     single_sold_bar_bg_color: "#229fd8",
   },
   style2: {
@@ -119,8 +119,8 @@ const STYLE_DEFAULTS = {
   style3: {
     single_bg_color: "#ffffff",
     single_text_color: "#111",
-    single_timer_bg_color: "#111",
-    single_timer_color: "#fff",
+    single_timer_bg_color: "#d7d3d3b8",
+    single_timer_color: "#111",
     single_sold_bar_bg_color: "#ef4444",
   },
 
