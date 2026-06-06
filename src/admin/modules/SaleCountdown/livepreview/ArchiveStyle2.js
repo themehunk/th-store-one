@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "@wordpress/element";
 
 const ArchiveStyle2 = ({ settings = {} }) => {
-const alignment = settings?.alignmentArchive || "center";
+  const alignment = settings?.alignmentArchive || "center";
   const bg = settings?.archive_bg_color || "#f5f6f8";
   const text = settings?.archive_text_color || "#111";
   const timerBg = settings?.archive_timer_bg_color || "#fff";
@@ -43,7 +43,6 @@ const alignment = settings?.alignmentArchive || "center";
         borderRadius: "6px",
       }}
     >
-
       {/* MESSAGE */}
       <div className="s1-ac2-msg" style={{ color: text }}>
         Hurry! Only few left
@@ -51,7 +50,6 @@ const alignment = settings?.alignmentArchive || "center";
 
       {/* TIMER */}
       <div className="s1-ac2-timer">
-
         <div
           className="s1-ac2-box"
           style={{ background: timerBg, color: timerColor }}
@@ -83,13 +81,9 @@ const alignment = settings?.alignmentArchive || "center";
           <span>{String(time.s).padStart(2, "0")}</span>
           <small>S</small>
         </div>
-
       </div>
 
       {/* STOCK */}
-      <div className="s1-ac2-stock" style={{ marginTop: "4px",color: text  }}>
-        {sold} sold • {total - sold} left
-      </div>
 
       {/* BAR */}
       <div
@@ -112,7 +106,6 @@ const alignment = settings?.alignmentArchive || "center";
           }}
         />
       </div>
-
     </div>
   );
 };

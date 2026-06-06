@@ -219,15 +219,13 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                     content: (
                       <div className="store-one-rule-body">
                         <S1FieldGroup title="Stock Availability">
-                          <S1Field
-                            label="Stock Mode"
-                            description={
-                              rule.stock_mode === "real"
-                                ? "Show real-time stock scarcity based on your product's actual inventory. The stock count will only be displayed when the available quantity falls below the specified threshold."
-                                : "Create a stock scarcity effect by displaying randomly generated stock quantities. The displayed stock count will automatically vary between your defined minimum and maximum values to encourage faster purchasing decisions."
-                            }
-                          >
+                          <S1Field label="Stock Mode">
                             <SelectControl
+                              help={
+                                rule.stock_mode === "real"
+                                  ? "Show real-time stock scarcity based on your product's actual inventory. The stock count will only be displayed when the available quantity falls below the specified threshold."
+                                  : "Create a stock scarcity effect by displaying randomly generated stock quantities. The displayed stock count will automatically vary between your defined minimum and maximum values to encourage faster purchasing decisions."
+                              }
                               value={rule.stock_mode}
                               options={[
                                 {
@@ -246,6 +244,10 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                             <>
                               <S1Field label="Show only when inventory is below">
                                 <TextControl
+                                  type="number"
+                                  min={0}
+                                  step={1}
+                                  max={100}
                                   value={rule.real_stock.threshold}
                                   onChange={(v) =>
                                     updateField(index, "real_stock", {
@@ -313,15 +315,13 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                           </S1Field>
                           {rule.sold.enable && (
                             <>
-                              <S1Field
-                                label="Source"
-                                description={
-                                  rule.sold.source === "real"
-                                    ? "Display the actual number of units sold based on your store’s order data. The sold count updates automatically as new purchases are made."
-                                    : "Display a randomly generated sold count instead of actual sales data. The displayed number will vary between the Minimum Sold and Maximum Sold values you set."
-                                }
-                              >
+                              <S1Field label="Source">
                                 <SelectControl
+                                  help={
+                                    rule.sold.source === "real"
+                                      ? "Display the actual number of units sold based on your store’s order data. The sold count updates automatically as new purchases are made."
+                                      : "Display a randomly generated sold count instead of actual sales data. The displayed number will vary between the Minimum Sold and Maximum Sold values you set."
+                                  }
                                   value={rule.sold.source}
                                   options={[
                                     {

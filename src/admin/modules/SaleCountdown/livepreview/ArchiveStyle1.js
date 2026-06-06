@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "@wordpress/element";
 
 const ArchiveStyle1 = ({ settings = {} }) => {
-
-   const alignment = settings?.alignmentArchive || "center";
+  const alignment = settings?.alignmentArchive || "center";
 
   const bg = settings?.archive_bg_color || "#f5f6f8";
   const text = settings?.archive_text_color || "#d63638";
@@ -44,15 +43,20 @@ const ArchiveStyle1 = ({ settings = {} }) => {
         borderRadius: "6px",
       }}
     >
-
       {/* MESSAGE */}
       <div className="s1-ac-msg" style={{ color: text }}>
         <span className="th-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="10" stroke={text} strokeWidth="2"/>
-              <path d="M12 6v6l4 2" stroke={text} strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-          </span> Hurry! Only few left
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="10" stroke={text} strokeWidth="2" />
+            <path
+              d="M12 6v6l4 2"
+              stroke={text}
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+          </svg>
+        </span>{" "}
+        Hurry! Only few left
       </div>
 
       {/* TIMER */}
@@ -60,19 +64,12 @@ const ArchiveStyle1 = ({ settings = {} }) => {
         className="s1-ac-timer"
         style={{ color: timerColor, marginTop: "4px" }}
       >
-        {String(time.d).padStart(2, "0")}d :
-        {" "}
-        {String(time.h).padStart(2, "0")}h :
-        {" "}
-        {String(time.m).padStart(2, "0")}m :
-        {" "}
-        {String(time.s).padStart(2, "0")}s
+        {String(time.d).padStart(2, "0")}d : {String(time.h).padStart(2, "0")}h
+        : {String(time.m).padStart(2, "0")}m : {String(time.s).padStart(2, "0")}
+        s
       </div>
 
       {/* STOCK */}
-      <div className="s1-ac-stock" style={{ marginTop: "4px",color: text  }}>
-        {sold} sold • {total - sold} left
-      </div>
 
       {/* BAR */}
       <div
@@ -95,7 +92,6 @@ const ArchiveStyle1 = ({ settings = {} }) => {
           }}
         />
       </div>
-
     </div>
   );
 };

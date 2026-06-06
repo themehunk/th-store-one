@@ -1,16 +1,25 @@
 import { useEffect, useRef, useState } from "@wordpress/element";
 
 const Style1 = ({ settings }) => {
+  // --- Live Control Settings ---
+  const showMessage = settings?.show_message !== false; // Default true
+  const showStockBar = settings?.show_stock_bar !== false; // Default true
+  const saleMessage = settings?.sale_message || "Hurry! Offer ends soon";
+  const timeFormat = settings?.time_format || "dhms"; // 'dhms' ya 'hms'
+
+  // --- Style Settings ---
+  const alignment = settings?.alignmentSingle || "center";
+  const bg = settings?.single_bg_color || "#fff";
+  const text = settings?.single_text_color || "#111";
+  const timerBg = settings?.single_timer_bg_color || "#222";
+  const timerColor = settings?.single_timer_color || "#fff";
+  const barColor =
+    settings?.single_sold_bar_bg_color ||
+    "linear-gradient(90deg, #22c55e, #f97316)";
 
   const sold = 32;
   const total = 50;
   const percent = (sold / total) * 100;
-  const alignment = settings?.alignmentSingle || "center";
-  const bg = settings?.single_bg_color || "#111";
-  const text = settings?.single_text_color || "#facc15";
-  const timerBg = settings?.single_timer_bg_color || "#222";
-  const timerColor = settings?.single_timer_color || "#fff";
-  const barColor = settings?.single_sold_bar_bg_color || "linear-gradient(90deg, #22c55e, #f97316)";
 
   const getBorderStyle = (border = {}) => ({
     borderStyle: border.style || "",
@@ -27,8 +36,8 @@ const Style1 = ({ settings }) => {
     borderBottomLeftRadius: border?.radius?.left || "",
   });
 
-  // FIXED END TIME (no reset on re-render)
-  const endRef = useRef(Date.now() + 5 * 60 * 60 * 1000); // 5 hours
+  // FIXED END TIME (5 hours countdown)
+  const endRef = useRef(Date.now() + 5 * 60 * 60 * 1000);
 
   const [time, setTime] = useState(getTime());
 
@@ -36,6 +45,7 @@ const Style1 = ({ settings }) => {
     const diff = endRef.current - Date.now();
 
     return {
+      d: Math.floor(diff / (1000 * 60 * 60 * 24)),
       h: Math.floor((diff / (1000 * 60 * 60)) % 24),
       m: Math.floor((diff / (1000 * 60)) % 60),
       s: Math.floor((diff / 1000) % 60),
@@ -56,14 +66,24 @@ const Style1 = ({ settings }) => {
         ...getBorderStyle(settings.border),
       }}
     >
+      {/* 1. SHOW MESSAGE CONTROL */}
+      {showMessage && (
+        <div className="s1-top" style={{ color: text }}>
+          {saleMessage}
+        </div>
+      )}
 
-      {/* TOP MESSAGE */}
-      <div className="s1-top" style={{ color: text }}>
-        Hurry! Only few left in stock
-      </div>
-
-      {/* TIMER */}
+      {/* 2. TIMER CONTROL WITH TIME FORMAT (DHMS vs HMS) */}
       <div className="s1-timer">
+        {/* Agar format 'dhms' hai toh hi DAYS dikhao */}
+        {timeFormat === "dhms" && (
+          <div style={{ background: timerBg }}>
+            <span style={{ color: timerColor }}>
+              {String(time.d).padStart(2, "0")}
+            </span>
+            <small style={{ color: timerColor, opacity: 0.3 }}>DAYS</small>
+          </div>
+        )}
 
         <div style={{ background: timerBg }}>
           <span style={{ color: timerColor }}>
@@ -85,28 +105,31 @@ const Style1 = ({ settings }) => {
           </span>
           <small style={{ color: timerColor, opacity: 0.3 }}>SEC</small>
         </div>
-
       </div>
 
-      {/* STOCK INFO */}
-      <div className="s1-stock-info">
-        <span>{sold} sold</span>
-        <span>{total - sold} left</span>
-      </div>
-
-      {/* PROGRESS BAR */}
-      <div className="s1-stock-bar">
+      {/* 3. SHOW STOCK BAR CONTROL */}
+      {showStockBar && (
         <div
-          className="s1-progress"
+          className="s1-stock-bar"
           style={{
-            width: `${percent}%`,
-            background: barColor,
+            margin: "auto",
+            height: "6px",
+            background: "rgba(0,0,0,0.08)",
+            borderRadius: "6px",
+            overflow: "hidden",
+            width: "250px",
           }}
-        />
-      </div>
-
+        >
+          <div
+            className="s1-progress"
+            style={{
+              width: `${percent}%`,
+              background: barColor,
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };
-
 export default Style1;
