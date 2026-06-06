@@ -3,12 +3,21 @@ if (! defined('ABSPATH')) {
     exit;
 }
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-$end   = $args['end'] ?? '';
-$msg   = $args['msg'] ?? '';
-$sold  = intval($args['sold'] ?? 0);
-$remaining = intval($args['remaining'] ?? 0);
-$percent = floatval($args['percent'] ?? 0);
+if (empty($args['start']) || empty($args['end'])) {
+    return;
+}
+
+$start    = (int) $args['start'];
+$end      = (int) $args['end'];
+$msg      = $args['msg'] ?? '';
+$percent  = floatval($args['percent'] ?? 100);
 $settings = $args['settings'] ?? [];
+
+/* SETTINGS */
+$align      = $settings['alignmentSingle'] ?? 'center';
+$show_msg   = !empty($settings['show_message']);
+$show_bar   = !empty($settings['enable_stock_bar']) || !empty($settings['show_stock_bar']);
+$format     = $settings['time_format'] ?? 'dhms';
 
 /* SETTINGS */
 $align          = $settings['alignmentSingle'] ?? 'center';
@@ -68,7 +77,9 @@ $border_css = sprintf(
 
 <div class="th-cd th-style3 s1-align-<?php echo esc_attr($align); ?>"
      style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>; padding:20px; border-radius:8px; <?php echo esc_attr($border_css); ?>;"
-     data-end="<?php echo esc_attr($end); ?>"
+     data-start="<?php echo $start; ?>" 
+     data-end="<?php echo $end; ?>"
+     data-server-now="<?php echo esc_attr(time()); ?>"
      data-expire-action="<?php echo esc_attr($expire_action); ?>"
      data-expire-msg="<?php echo esc_attr($expire_msg); ?>"
      data-format="<?php echo esc_attr($time_format); ?>">
@@ -108,7 +119,7 @@ $border_css = sprintf(
   </div>
 
   <!-- STOCK BAR -->
-  <?php if ($show_bar && $has_stock_data) : ?>
+  <?php if ($show_bar) : ?>
 
     <div class="th-bar"
          style="margin:auto; height:8px; width:250px; background:rgba(0,0,0,0.08); border-radius:6px; overflow:hidden;">
@@ -116,11 +127,6 @@ $border_css = sprintf(
       <div class="th-fill"
            style="width: <?php echo esc_attr($percent); ?>%; height:100%; background: <?php echo esc_attr($bar_color); ?>; border-radius:6px;">
       </div>
-    </div>
-
-    <!-- STOCK TEXT -->
-    <div style="font-size:14px; margin-top:4px; opacity:0.7; text-align:<?php echo esc_attr($align); ?>;font-weight: 500; color: <?php echo esc_attr($text); ?>">
-      <?php echo esc_html($sold); ?> sold • <?php echo esc_html($remaining); ?> left
     </div>
 
   <?php endif; ?>

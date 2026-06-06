@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "@wordpress/element";
 
 const Style3 = ({ settings = {} }) => {
- const alignment = settings?.alignmentSingle || "center";
- const bg = settings?.single_bg_color || "#ffffff";
+  const alignment = settings?.alignmentSingle || "center";
+  const bg = settings?.single_bg_color || "#ffffff";
   const text = settings?.single_text_color || "#111";
-const timerBg = settings?.single_timer_bg_color || "#222";
+  const timerBg = settings?.single_timer_bg_color || "#222";
   const timerColor = settings?.single_timer_color || "#fff";
   const barColor = settings?.single_sold_bar_bg_color || "#ef4444";
 
-   const getBorderStyle = (border = {}) => ({
+  const getBorderStyle = (border = {}) => ({
     borderStyle: border.style || "",
     borderColor: border.color || "",
 
@@ -50,7 +50,7 @@ const timerBg = settings?.single_timer_bg_color || "#222";
 
   return (
     <div
-       className={`s1-style s1-boxed s1-align-${alignment}`}
+      className={`s1-style s1-boxed s1-align-${alignment}`}
       style={{
         color: text,
         background: bg,
@@ -59,30 +59,34 @@ const timerBg = settings?.single_timer_bg_color || "#222";
         ...getBorderStyle(settings.border),
       }}
     >
-
       {/*TOP MESSAGE */}
       <div style={{ marginBottom: "12px", fontWeight: 500 }}>
         Hurry! Only few left in stock
       </div>
 
       {/* TIMER */}
-      <div style={{ display: "flex", justifyContent: "center", gap: "12px", marginBottom: "12px" }}>
-
-        <div className="box" style={{background: timerBg, color: timerColor}}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: "12px",
+          marginBottom: "12px",
+        }}
+      >
+        <div className="box" style={{ background: timerBg, color: timerColor }}>
           <span>{String(time.h).padStart(2, "0")}</span>
           <small>HRS</small>
         </div>
 
-        <div className="box" style={{background: timerBg, color: timerColor}}>
+        <div className="box" style={{ background: timerBg, color: timerColor }}>
           <span>{String(time.m).padStart(2, "0")}</span>
           <small>MIN</small>
         </div>
 
-        <div className="box" style={{background: timerBg, color: timerColor}}>
+        <div className="box" style={{ background: timerBg, color: timerColor }}>
           <span>{String(time.s).padStart(2, "0")}</span>
           <small>SEC</small>
         </div>
-
       </div>
 
       {/*STOCK BAR */}
@@ -94,7 +98,7 @@ const timerBg = settings?.single_timer_bg_color || "#222";
           background: "rgba(0,0,0,0.08)",
           borderRadius: "6px",
           overflow: "hidden",
-          width:"250px",
+          width: "250px",
         }}
       >
         <div
@@ -109,10 +113,6 @@ const timerBg = settings?.single_timer_bg_color || "#222";
       </div>
 
       {/* STOCK TEXT */}
-      <div style={{ fontSize: "11px", marginTop: "4px", opacity: 0.7 }}>
-        {sold} sold • {total - sold} left
-      </div>
-
     </div>
   );
 };

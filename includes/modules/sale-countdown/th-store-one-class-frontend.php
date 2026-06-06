@@ -10,11 +10,7 @@ class Th_Store_One_Sale_Countdown_Frontend
 
     public function __construct()
     {
-
-        $modules = get_option(
-            'th_store_one_module_option',
-            []
-        );
+        $modules = get_option('th_store_one_module_option', []);
 
         if (empty($modules['sale-countdown'])) {
             return;
@@ -29,7 +25,6 @@ class Th_Store_One_Sale_Countdown_Frontend
 
     public function assets()
     {
-
         wp_enqueue_style(
             'th-countdown',
             TH_STORE_ONE_PLUGIN_URL . 'assets/css/countdown.css',
@@ -48,33 +43,42 @@ class Th_Store_One_Sale_Countdown_Frontend
 
     public function init()
     {
-
         if (empty($this->settings)) {
             return;
         }
 
+        // Single Product Page Placement Logic
         if (!empty($this->settings['show_on_single'])) {
-            add_action(
-                $this->settings['single_placement'],
-                [$this, 'render'],
-                intval($this->settings['single_priority'] ?? 10)
-            );
+            $placement = $this->settings['single_placement'] ?? '';
+            $priority  = intval($this->settings['single_priority'] ?? 10);
+
+            if (function_exists('th_store_one_get_hook_from_placement')) {
+                $hook = th_store_one_get_hook_from_placement($placement);
+            } else {
+                $hook = $placement;
+            }
+
+            add_action($hook, function () {
+                $this->render();
+            }, $priority);
         }
 
+        // Archive/Shop Page Placement Logic
         if (!empty($this->settings['show_on_archive'])) {
-            add_action(
-                $this->map_archive($this->settings['archive_position']),
-                [$this, 'render'],
-                10
-            );
+            $archive_pos = $this->settings['archive_position'] ?? '';
+            add_action($this->map_shop_hook($archive_pos), [$this, 'render'], 10);
         }
     }
 
     public function render()
     {
-
         global $product;
         if (!$product) {
+            return;
+        }
+
+        // Only run if product is on sale
+        if (!$product->is_on_sale()) {
             return;
         }
 
@@ -85,17 +89,14 @@ class Th_Store_One_Sale_Countdown_Frontend
 
         $is_single  = is_product();
         $is_archive = is_shop() || is_product_category() || is_product_tag();
+        $is_loop    = function_exists('wc_get_loop_prop') && wc_get_loop_prop('name');
 
-        $is_loop = function_exists('wc_get_loop_prop') && wc_get_loop_prop('name');
-
-        /*STOP loop items using single logic */
         if ($is_single && $is_loop) {
             $style = $this->settings['sale_countdown_archive_style'] ?? 'acstyle1';
         } else {
             $style = $this->get_style();
         }
 
-        /* SETTINGS VISIBILITY */
         if ($is_single && !$is_loop && empty($this->settings['show_on_single'])) {
             return;
         }
@@ -114,75 +115,72 @@ class Th_Store_One_Sale_Countdown_Frontend
 
     private function get_style()
     {
-
-        // only main single product
         if (is_product()) {
             return $this->settings['sale_countdown_style'] ?? 'style1';
         }
-
-        // everything else = archive
         return $this->settings['sale_countdown_archive_style'] ?? 'acstyle1';
     }
 
     private function get_data($product)
     {
-
         $global = $this->settings;
-        $pid = $product->get_id();
 
-        /* PRODUCT */
-        $enable = get_post_meta($pid, '_th_countdown_enable', true);
-        $start  = get_post_meta($pid, '_th_countdown_start', true);
-        $end    = get_post_meta($pid, '_th_countdown_end', true);
-        $msg    = get_post_meta($pid, '_th_countdown_msg', true);
-        $total  = get_post_meta($pid, '_th_discount_qty', true);
-        $sold   = get_post_meta($pid, '_th_sold_qty', true);
+        $start_str = $global['start_datetime'] ?? '';
+        $end_str   = $global['end_datetime'] ?? '';
 
-        /* VARIATION */
-        if ($product->is_type('variation')) {
-            $vid = $product->get_id();
-
-            $start = get_post_meta($vid, '_th_countdown_start', true) ?: $start;
-            $end   = get_post_meta($vid, '_th_countdown_end', true) ?: $end;
-            $msg   = get_post_meta($vid, '_th_countdown_msg', true) ?: $msg;
+        if (empty($end_str)) {
+            return ['enable' => false];
         }
 
-        /* GLOBAL */
-        $start = $start ?: strtotime($global['start_datetime'] ?? '');
-        $end   = $end ?: strtotime($global['end_datetime'] ?? '');
-        $msg   = $msg ?: ($global['sale_message'] ?? '');
+        $msg = $global['sale_message'] ?? 'Hurry! Offer ends soon';
 
-        /* ENABLE */
-        $enable = ($enable === 'yes') || !empty($global['enable_countdown']);
+        try {
 
-        if (!empty($global['show_on_discounted']) && !$product->is_on_sale()) {
-            $enable = false;
+            $timezone = wp_timezone();
+
+            // WP timezone ka current datetime
+            $now = new DateTime('now', $timezone);
+
+            // Start date empty ho to current WP time use karo
+            if (empty($start_str)) {
+                $start = time();
+            } else {
+                $start_dt = new DateTime($start_str, $timezone);
+                $start    = $start_dt->getTimestamp();
+            }
+
+            // End date
+            $end_dt = new DateTime($end_str, $timezone);
+            $end    = $end_dt->getTimestamp();
+
+        } catch (Exception $e) {
+
+            return ['enable' => false];
         }
 
-        /* PROGRESS */
-        $total = max(1, intval($total));
-        $sold  = intval($sold);
-        $percent = min(100, ($sold / $total) * 100);
+        if ($end <= $start) {
+            return ['enable' => false];
+        }
 
         return [
-            'enable' => $enable,
-            'start' => $start,
-            'end' => $end,
-            'msg' => $msg,
-            'percent' => $percent,
-            'sold' => $sold,
-            'remaining' => max(0, $total - $sold),
-            'settings' => $global
+            'enable'   => true,
+            'start'    => (int) $start,
+            'end'      => (int) $end,
+            'msg'      => $msg,
+            'percent'  => 100,
+            'settings' => $global,
         ];
     }
 
-    private function map_archive($pos)
+    private function map_shop_hook($pos)
     {
-
-        return [
-            'after_title' => 'woocommerce_shop_loop_item_title',
-            'after_price' => 'woocommerce_after_shop_loop_item_title',
-            'after_add_to_cart' => 'woocommerce_after_shop_loop_item'
-        ][$pos] ?? 'woocommerce_after_shop_loop_item_title';
+        $hooks = [
+            'after_title'        => 'woocommerce_shop_loop_item_title',
+            'after_rating'       => 'woocommerce_after_shop_loop_item_title',
+            'after_price'        => 'woocommerce_after_shop_loop_item_title',
+            'before_add_to_cart' => 'woocommerce_after_shop_loop_item_title',
+            'after_add_to_cart'  => 'woocommerce_after_shop_loop_item',
+        ];
+        return $hooks[$pos] ?? 'woocommerce_after_shop_loop_item';
     }
 }

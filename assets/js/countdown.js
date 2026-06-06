@@ -1,71 +1,91 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const pad = (n) => String(n).padStart(2, "0");
 
-  const format = (n) => n.toString().padStart(2, '0');
+  document.querySelectorAll(".th-cd").forEach((el) => {
+    const startMs = parseInt(el.dataset.start || 0, 10) * 1000;
+    const endMs = parseInt(el.dataset.end || 0, 10) * 1000;
+    const serverNowMs = parseInt(el.dataset.serverNow || 0, 10) * 1000;
 
-  document.querySelectorAll(".th-cd").forEach(el => {
+    if (!endMs) {
+      return;
+    }
 
-    const end = parseInt(el.dataset.end) * 1000;
-    const expireAction = el.dataset.expireAction || "hide";
-    const expireMsg = el.dataset.expireMsg || "Expired";
-    const formatType = el.dataset.format || "dhms";
-    const textColor = el.dataset.textColor || "#111"; 
+    const clientNowMs = Date.now();
 
-    if (!end) return;
+    // Browser/server difference
+    const offset = clientNowMs - serverNowMs;
+
+    // Progress start point
+    const progressStartMs = startMs > 0 ? startMs : serverNowMs;
+
+    let interval;
 
     const update = () => {
+      const nowMs = Date.now() - offset;
 
-      const diff = end - Date.now();
+      let diff;
 
-      /* EXPIRE LOGIC */
+      if (startMs > 0 && nowMs < startMs) {
+        diff = startMs - nowMs;
+      } else {
+        diff = endMs - nowMs;
+      }
+
       if (diff <= 0) {
+        const bar = el.querySelector(".th-fill");
 
-        if (expireAction === "hide") {
-          el.style.display = "none";
-        } else if (expireAction === "show_message") {
-          el.innerHTML = `
-            <div class="th-expired" style="color:${textColor}; text-align:center;">
-              ${expireMsg}
-            </div>
-          `;
+        if (bar) {
+          bar.style.width = "0%";
         }
 
+        if (el.dataset.expireAction === "hide") {
+          el.style.display = "none";
+        }
+
+        clearInterval(interval);
         return;
       }
 
-      const d = Math.floor(diff / 86400000);
-      const h = Math.floor((diff / 3600000) % 24);
-      const m = Math.floor((diff / 60000) % 60);
-      const s = Math.floor((diff / 1000) % 60);
+      // Progress Bar
+      const bar = el.querySelector(".th-fill");
+
+      if (bar) {
+        const totalDuration = endMs - progressStartMs;
+
+        const elapsed = nowMs - progressStartMs;
+
+        let percent = 100 - (elapsed / totalDuration) * 100;
+
+        percent = Math.max(0, Math.min(100, percent));
+
+        bar.style.width = percent.toFixed(2) + "%";
+      }
+
+      // Countdown
+      const days = Math.floor(diff / 86400000);
+
+      const hours = Math.floor((diff % 86400000) / 3600000);
+
+      const minutes = Math.floor((diff % 3600000) / 60000);
+
+      const seconds = Math.floor((diff % 60000) / 1000);
 
       const set = (selector, value) => {
         const node = el.querySelector(selector);
-        if (node) node.innerText = format(value);
+
+        if (node) {
+          node.textContent = pad(value);
+        }
       };
 
-      if (formatType === "dhms") {
-        set(".d", d);
-        set(".h", h);
-        set(".m", m);
-        set(".s", s);
-      }
-
-      if (formatType === "hms") {
-        const totalHours = Math.floor(diff / 3600000);
-        set(".h", totalHours);
-        set(".m", m);
-        set(".s", s);
-
-        const dEl = el.querySelector(".d");
-        if (dEl) {
-          const parent = dEl.parentNode;
-          if (parent) parent.remove();
-        }
-      }
+      set(".d", days);
+      set(".h", hours);
+      set(".m", minutes);
+      set(".s", seconds);
     };
 
     update();
-    setInterval(update, 1000);
 
+    interval = setInterval(update, 1000);
   });
-
 });

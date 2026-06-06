@@ -2,8 +2,13 @@
 if (! defined('ABSPATH')) {
     exit;
 }
+
+if (empty($args['start']) || empty($args['end'])) {
+    return;
+}
 // phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-$end        = $args['end'] ?? '';
+$start    = (int) $args['start'];
+$end      = (int) $args['end'];
 $msg        = $args['msg'] ?? '';
 $sold       = $args['sold'] ?? null;
 $remaining  = $args['remaining'] ?? null;
@@ -37,12 +42,7 @@ if (! is_numeric($end) && ! empty($end)) {
 
 /* ================= FLAGS ================= */
 $show_msg = ! empty($settings['show_message']) && ! empty($msg);
-
-$show_bar = (
-    ! empty($settings['show_stock_bar']) &&
-    $has_product_stock &&
-    ($sold > 0 || $remaining > 0)
-);
+$show_bar   = !empty($settings['enable_stock_bar']) || !empty($settings['show_stock_bar']);
 
 /* ================= COLORS (same as React) ================= */
 $bg          = $settings['archive_bg_color'] ?? '#f5f6f8';
@@ -60,7 +60,9 @@ if ($percent <= 0 && $has_product_stock && ($sold + $remaining) > 0) {
 
 <div class="th-cd th-ac th-ac2 s1-align-<?php echo esc_attr($align); ?>"
      style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>; padding:8px; border-radius:6px;"
-     data-end="<?php echo esc_attr($end); ?>"
+     data-start="<?php echo $start; ?>" 
+     data-end="<?php echo $end; ?>"
+     data-server-now="<?php echo esc_attr(time()); ?>"
      data-expire-action="<?php echo esc_attr($settings['countdown_expire_action'] ?? 'hide'); ?>"
      data-expire-msg="<?php echo esc_attr($settings['expire_message'] ?? 'Offer expired'); ?>"
      data-format="<?php echo esc_attr($settings['time_format'] ?? 'dhms'); ?>"
@@ -98,12 +100,8 @@ if ($percent <= 0 && $has_product_stock && ($sold + $remaining) > 0) {
   <?php endif; ?>
 
   <!-- STOCK -->
-  <?php if ($show_bar && ($args['sold'] !== 0)) : ?>
-    <div class="th-stock-row" style="margin-top:6px; color: <?php echo esc_attr($text); ?>">
-      <span><?php echo esc_html($sold); ?> <?php esc_html_e('sold', 'th-store-one'); ?></span>
-      <span><?php echo esc_html($remaining); ?> <?php esc_html_e('left', 'th-store-one'); ?></span>
-    </div>
-
+  <?php if ($show_bar) : ?>
+    
     <div class="th-bar"
          style="margin-top:6px; height:6px; background:rgba(0,0,0,0.08); border-radius:6px; overflow:hidden;">
       

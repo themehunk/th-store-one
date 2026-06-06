@@ -31,8 +31,8 @@ const MODULE_ID = "sale-countdown";
  * --------------------------------- */
 const DEFAULT_SETTINGS = {
   enable_countdown: true,
-  start_countdown_datetime: "",
-  end_countdown_datetime: "",
+  start_datetime: "",
+  end_datetime: "",
   show_on_discounted: false,
   sale_message: "Hurry! Offer ends soon",
 
@@ -66,11 +66,11 @@ const DEFAULT_SETTINGS = {
   hide_if_expired: true,
   hide_if_no_stock: true,
 
-  single_bg_color: "#111",
-  single_text_color: "#facc15",
+  single_bg_color: "#fff",
+  single_text_color: "#111",
   single_timer_bg_color: "#222",
   single_timer_color: "#fff",
-  single_sold_bar_bg_color: "linear-gradient(90deg, #22c55e, #f97316)",
+  single_sold_bar_bg_color: "#229fd8",
   single_font_size: "14px",
 
   archive_bg_color: "#f5f6f8",
@@ -103,11 +103,11 @@ const DEFAULT_SETTINGS = {
 const STYLE_DEFAULTS = {
   // SINGLE STYLES
   style1: {
-    single_bg_color: "#111",
-    single_text_color: "#facc15",
+    single_bg_color: "#fff",
+    single_text_color: "#111",
     single_timer_bg_color: "#222",
     single_timer_color: "#fff",
-    single_sold_bar_bg_color: "linear-gradient(90deg, #22c55e, #f97316)",
+    single_sold_bar_bg_color: "#229fd8",
   },
   style2: {
     single_bg_color: "#ffffff",
@@ -365,41 +365,29 @@ export default function SaleCountdownSettings({
                     <>
                       <S1FieldGroup title={__("Set Countdown", "th-store-one")}>
                         <p className="s1-field-description">
-                          This setting allows you to configure a{" "}
-                          <strong>global sale countdown timer</strong> that will
-                          apply across all products in your store. Select the
-                          start and end date & time to control when the
-                          countdown is displayed. If you want to set a{" "}
-                          <strong>
-                            custom countdown for a specific product
-                          </strong>
-                          , please edit the product individually.
-                          <a
-                            href="YOUR_DOC_LINK_HERE"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{
-                              color: "#007cba",
-                              textDecoration: "underline",
-                            }}
-                          >
-                            View Doc
-                          </a>
+                          Enable a sale countdown timer that will be displayed
+                          on all sale products in your store. Set the start and
+                          end date & time to control when the countdown is
+                          shown.
                         </p>
-                        <S1DateTimePicker
-                          label="Start Date & Time"
-                          value={settings.start_datetime}
-                          onChange={(v) =>
-                            setSettings({ ...settings, start_datetime: v })
-                          }
-                        />
-                        <S1DateTimePicker
-                          label="End Date & Time"
-                          value={settings.end_datetime}
-                          onChange={(v) =>
-                            setSettings({ ...settings, end_datetime: v })
-                          }
-                        />
+                        <S1Field label="Start Date & Time">
+                          <TextControl
+                            type="datetime-local"
+                            value={settings.start_datetime}
+                            onChange={(v) =>
+                              setSettings({ ...settings, start_datetime: v })
+                            }
+                          />
+                        </S1Field>
+                        <S1Field label="End Date & Time">
+                          <TextControl
+                            type="datetime-local"
+                            value={settings.end_datetime}
+                            onChange={(v) =>
+                              setSettings({ ...settings, end_datetime: v })
+                            }
+                          />
+                        </S1Field>
                         <S1Field
                           label={__("Sale Message", "th-store-one")}
                           description={__(
@@ -412,23 +400,6 @@ export default function SaleCountdownSettings({
                             placeholder="Hurry! Offer ends soon"
                             onChange={(v) =>
                               setSettings({ ...settings, sale_message: v })
-                            }
-                          />
-                        </S1Field>
-                        <S1Field
-                          label={__(
-                            "Enable Show only Discounted Products",
-                            "th-store-one",
-                          )}
-                          classN="s1-toggle-wrpapper"
-                        >
-                          <ToggleControl
-                            checked={settings.show_on_discounted}
-                            onChange={(v) =>
-                              setSettings({
-                                ...settings,
-                                show_on_discounted: v,
-                              })
                             }
                           />
                         </S1Field>
@@ -529,7 +500,7 @@ export default function SaleCountdownSettings({
                   icon: ICONS.DISPLAY,
                   content: (
                     <>
-                      <S1Field label="Expire Action">
+                      <S1Field label="Countdown Expire Action">
                         <SelectControl
                           value={settings.countdown_expire_action}
                           options={[
@@ -558,10 +529,21 @@ export default function SaleCountdownSettings({
 
                       <S1Field label="Time Format">
                         <SelectControl
+                          help={
+                            settings.time_format === "dhms"
+                              ? "Display the countdown timer with Days, Hours, Minutes, and Seconds."
+                              : "Display the countdown timer with Hours, Minutes, and Seconds only, without showing Days."
+                          }
                           value={settings.time_format}
                           options={[
-                            { label: "DHMS", value: "dhms" },
-                            { label: "HMS", value: "hms" },
+                            {
+                              label: "DHMS (Days, Hours, Minutes, Seconds)",
+                              value: "dhms",
+                            },
+                            {
+                              label: "HMS (Hours, Minutes, Seconds)",
+                              value: "hms",
+                            },
                           ]}
                           onChange={(v) =>
                             setSettings({ ...settings, time_format: v })
@@ -578,7 +560,7 @@ export default function SaleCountdownSettings({
                         />
                       </S1Field>
 
-                      <S1Field label="Show Stock Bar">
+                      <S1Field label="Show Countdown Bar">
                         <ToggleControl
                           checked={settings.show_stock_bar}
                           onChange={(v) =>

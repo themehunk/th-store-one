@@ -39,9 +39,6 @@ class Th_Store_One
             new Th_Store_One_Admin();
             require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/product-video/product-video-admin.php';
             new TH_Store_One_Product_Video_Admin();
-            require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/sale-countdown/sale-countdown-admin.php';
-
-
 
         }
         // Modules manager (option + REST).

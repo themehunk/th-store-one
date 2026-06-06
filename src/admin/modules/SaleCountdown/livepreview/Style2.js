@@ -23,7 +23,6 @@ const Style2 = ({ settings = {} }) => {
     borderBottomLeftRadius: border?.radius?.left || "",
   });
 
-
   // FIXED END TIME (won't reset on re-render)
   const endRef = useRef(Date.now() + 2 * 60 * 60 * 1000); // 2 hours
 
@@ -61,36 +60,38 @@ const Style2 = ({ settings = {} }) => {
     >
       {/* INLINE ROW */}
       <div className="th-inline-wrap">
-
         {/* MESSAGE + ICON */}
         <span className="th-msg" style={{ color: text }}>
           <span className="th-icon">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="10" stroke={text} strokeWidth="2"/>
-              <path d="M12 6v6l4 2" stroke={text} strokeWidth="2" strokeLinecap="round"/>
+              <circle cx="12" cy="12" r="10" stroke={text} strokeWidth="2" />
+              <path
+                d="M12 6v6l4 2"
+                stroke={text}
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
             </svg>
           </span>
           Hurry! Only few left in stock
         </span>
 
         {/* TIMER */}
-        <span className="th-timer-inline" style={{color: timerColor }}>
+        <span className="th-timer-inline" style={{ color: timerColor }}>
           <span className="h">{String(time.h).padStart(2, "0")}</span>
           <span className="sep">:</span>
           <span className="m">{String(time.m).padStart(2, "0")}</span>
           <span className="sep">:</span>
           <span className="s">{String(time.s).padStart(2, "0")}</span>
         </span>
-
       </div>
 
       {/* STOCK BAR */}
       <div
         className="s1-stock-bar"
         style={{
-          
           height: "6px",
-          
+
           borderRadius: "6px",
           overflow: "hidden",
           width: "200px",
@@ -105,15 +106,11 @@ const Style2 = ({ settings = {} }) => {
             background: barColor,
             borderRadius: "6px",
             transition: "width 0.4s ease",
-            
           }}
         />
       </div>
 
       {/* STOCK TEXT */}
-      <div style={{ fontSize: "11px", marginTop: "3px", opacity: 0.7 }}>
-        {sold} sold • {total - sold} left
-      </div>
     </div>
   );
 };
