@@ -98,14 +98,7 @@ if ($percent <= 0 && $has_product_stock && ($sold + $remaining) > 0) {
 
   <!-- STOCK -->
    <?php if ($show_bar) : ?>
-    <div class="th-stock-row" style="margin-top:6px; color: <?php echo esc_attr($text); ?>">
-      <span>
-        <?php echo esc_html($sold); ?> <?php esc_html_e('sold', 'th-store-one'); ?>
-      </span>
-      <span>
-        <?php echo esc_html($remaining); ?> <?php esc_html_e('left', 'th-store-one'); ?>
-      </span>
-    </div>
+    
 
     <div class="th-bar"
          style="margin-top:6px; height:6px; background:rgba(0,0,0,0.08); border-radius:6px; overflow:hidden;">

@@ -98,7 +98,7 @@ const newStockRule = () => ({
   message_clr: "#111",
   highlight_clr: "#111",
   font_size: 16,
-  bar_height: 12,
+  bar_height: 8,
   bar_margin: 10,
 
   low_stock_effect: {
@@ -600,6 +600,7 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                         {/* TRIGGER TYPE */}
                         <S1Field label={__("Trigger Type", "th-store-one")}>
                           <SelectControl
+                            help="When “All Products” is selected, it will be displayed only on products that have available stock across single product pages, shop pages, and archive pages."
                             value={rule.trigger_type}
                             options={[
                               { label: "All Products", value: "all_products" },
@@ -860,12 +861,18 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                                         "Low Stock Color",
                                         "th-store-one",
                                       )}
-                                      value={rule.low_color || "#ef4444"}
+                                      value={
+                                        rule.color_change.low_color || "#ef4444"
+                                      }
                                       onChange={(v) =>
-                                        updateField(index, "low_color", v)
+                                        updateField(index, "color_change", {
+                                          ...rule.color_change,
+                                          low_color: v, // Sahi tareeqa: color_change ke andar update hoga
+                                        })
                                       }
                                     />
                                   </S1Field>
+
                                   <S1Field>
                                     <THBackgroundControl
                                       allowGradient={true}
@@ -873,12 +880,19 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                                         "Medium Stock Color",
                                         "th-store-one",
                                       )}
-                                      value={rule.medium_color || "#f59e0b"}
+                                      value={
+                                        rule.color_change.medium_color ||
+                                        "#f59e0b"
+                                      }
                                       onChange={(v) =>
-                                        updateField(index, "medium_color", v)
+                                        updateField(index, "color_change", {
+                                          ...rule.color_change,
+                                          medium_color: v, // Sahi tareeqa
+                                        })
                                       }
                                     />
                                   </S1Field>
+
                                   <S1Field>
                                     <THBackgroundControl
                                       allowGradient={true}
@@ -886,9 +900,15 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                                         "High Stock Color",
                                         "th-store-one",
                                       )}
-                                      value={rule.high_color || "#4f46e5"}
+                                      value={
+                                        rule.color_change.high_color ||
+                                        "#4f46e5"
+                                      }
                                       onChange={(v) =>
-                                        updateField(index, "high_color", v)
+                                        updateField(index, "color_change", {
+                                          ...rule.color_change,
+                                          high_color: v, // Sahi tareeqa
+                                        })
                                       }
                                     />
                                   </S1Field>
