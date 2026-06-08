@@ -62,6 +62,7 @@
   background: rgb(225 224 224 / 31%);
   border-radius: 10px;
   overflow: hidden;
+  width:60%;
 }
 
 .th-fill {
@@ -317,7 +318,7 @@ padding: 10px 12px;
 }
 
 .th-ac .th-bar {
-  width: 70px;
+  width:100%;
   height: 3px;
   background: #eee;
   border-radius: 6px;
