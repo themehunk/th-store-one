@@ -46,12 +46,15 @@ $bar_color   = $settings['single_sold_bar_bg_color'] ?? 'linear-gradient(90deg, 
     <div class="t-item" style="background: <?php echo esc_attr($timer_bg); ?>; color: <?php echo esc_attr($timer_color); ?>;">
       <span class="d">00</span><small style="color: <?php echo esc_attr($timer_color); ?>;">DAYS</small>
     </div>
+    <div class="dotes" style="background: <?php echo esc_attr($timer_bg); ?>;">:</div>
     <div class="t-item" style="background: <?php echo esc_attr($timer_bg); ?>; color: <?php echo esc_attr($timer_color); ?>;">
       <span class="h">00</span><small style="color: <?php echo esc_attr($timer_color); ?>;">HRS</small>
     </div>
+    <div class="dotes" style="background: <?php echo esc_attr($timer_bg); ?>;">:</div>
     <div class="t-item" style="background: <?php echo esc_attr($timer_bg); ?>; color: <?php echo esc_attr($timer_color); ?>;">
       <span class="m">00</span><small style="color: <?php echo esc_attr($timer_color); ?>;">MIN</small>
     </div>
+    <div class="dotes" style="background: <?php echo esc_attr($timer_bg); ?>;">:</div>
     <div class="t-item" style="background: <?php echo esc_attr($timer_bg); ?>; color: <?php echo esc_attr($timer_color); ?>;">
       <span class="s">00</span><small style="color: <?php echo esc_attr($timer_color); ?>;">SEC</small>
     </div>

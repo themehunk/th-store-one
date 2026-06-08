@@ -34,15 +34,9 @@ $timer_color = $settings['single_timer_color'] ?? '#111';
 $bar_color   = $settings['single_sold_bar_bg_color'] ?? '#ef4444';
 
 /* VALIDATION */
-$has_stock_data = ($sold > 0 || $remaining > 0);
 
-/* SAFETY */
-if ($percent <= 0 && $has_stock_data) {
-    $total = $sold + $remaining;
-    if ($total > 0) {
-        $percent = ($sold / $total) * 100;
-    }
-}
+
+
 $border = $settings['border'] ?? [];
 $bw = $border['width'] ?? [];
 $br = $border['radius'] ?? [];

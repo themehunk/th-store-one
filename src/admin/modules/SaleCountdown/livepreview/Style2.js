@@ -8,6 +8,11 @@ const Style2 = ({ settings = {} }) => {
   const timerColor = settings?.single_timer_color || "#111";
   const barColor = settings?.single_sold_bar_bg_color || "#ef4444";
 
+  const showMessage = settings?.show_message !== false; // Default true
+  const showStockBar = settings?.show_stock_bar !== false; // Default true
+  const saleMessage = settings?.sale_message || "Hurry! Offer ends soon";
+  const timeFormat = settings?.time_format || "dhms"; // 'dhms' ya 'hms'
+
   const getBorderStyle = (border = {}) => ({
     borderStyle: border.style || "",
     borderColor: border.color || "",
@@ -78,6 +83,13 @@ const Style2 = ({ settings = {} }) => {
 
         {/* TIMER */}
         <span className="th-timer-inline" style={{ color: timerColor }}>
+          {timeFormat === "dhms" && (
+            <>
+              <span className="d">1 Days</span>
+
+              <div className="dotes">:</div>
+            </>
+          )}
           <span className="h">{String(time.h).padStart(2, "0")}</span>
           <span className="sep">:</span>
           <span className="m">{String(time.m).padStart(2, "0")}</span>

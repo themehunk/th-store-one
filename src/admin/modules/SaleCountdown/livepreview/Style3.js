@@ -4,8 +4,8 @@ const Style3 = ({ settings = {} }) => {
   const alignment = settings?.alignmentSingle || "center";
   const bg = settings?.single_bg_color || "#ffffff";
   const text = settings?.single_text_color || "#111";
-  const timerBg = settings?.single_timer_bg_color || "#222";
-  const timerColor = settings?.single_timer_color || "#fff";
+  const timerBg = settings?.single_timer_bg_color || "#d7d3d3b8";
+  const timerColor = settings?.single_timer_color || "#111";
   const barColor = settings?.single_sold_bar_bg_color || "#ef4444";
 
   const getBorderStyle = (border = {}) => ({

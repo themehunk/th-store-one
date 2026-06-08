@@ -11,11 +11,9 @@ const Style1 = ({ settings }) => {
   const alignment = settings?.alignmentSingle || "center";
   const bg = settings?.single_bg_color || "#fff";
   const text = settings?.single_text_color || "#111";
-  const timerBg = settings?.single_timer_bg_color || "#222";
-  const timerColor = settings?.single_timer_color || "#fff";
-  const barColor =
-    settings?.single_sold_bar_bg_color ||
-    "linear-gradient(90deg, #22c55e, #f97316)";
+  const timerBg = settings?.single_timer_bg_color || "#d7d3d3b8";
+  const timerColor = settings?.single_timer_color || "#111";
+  const barColor = settings?.single_sold_bar_bg_color || "#229fd8";
 
   const sold = 32;
   const total = 50;
@@ -77,29 +75,40 @@ const Style1 = ({ settings }) => {
       <div className="s1-timer">
         {/* Agar format 'dhms' hai toh hi DAYS dikhao */}
         {timeFormat === "dhms" && (
-          <div style={{ background: timerBg }}>
-            <span style={{ color: timerColor }}>
-              {String(time.d).padStart(2, "0")}
-            </span>
-            <small style={{ color: timerColor, opacity: 0.3 }}>DAYS</small>
-          </div>
+          <>
+            <div className="th-time-bx" style={{ background: timerBg }}>
+              <span style={{ color: timerColor }}>
+                {String(time.d).padStart(2, "0")}
+              </span>
+              <small style={{ color: timerColor, opacity: 0.6 }}>DAYS</small>
+            </div>
+            <div className="dotes" style={{ background: timerBg }}>
+              :
+            </div>
+          </>
         )}
 
-        <div style={{ background: timerBg }}>
+        <div className="th-time-bx" style={{ background: timerBg }}>
           <span style={{ color: timerColor }}>
             {String(time.h).padStart(2, "0")}
           </span>
           <small style={{ color: timerColor, opacity: 0.3 }}>HRS</small>
         </div>
+        <div className="dotes" style={{ background: timerBg }}>
+          :
+        </div>
 
-        <div style={{ background: timerBg }}>
+        <div className="th-time-bx" style={{ background: timerBg }}>
           <span style={{ color: timerColor }}>
             {String(time.m).padStart(2, "0")}
           </span>
           <small style={{ color: timerColor, opacity: 0.3 }}>MIN</small>
         </div>
+        <div className="dotes" style={{ background: timerBg }}>
+          :
+        </div>
 
-        <div style={{ background: timerBg }}>
+        <div className="th-time-bx" style={{ background: timerBg }}>
           <span style={{ color: timerColor }}>
             {String(time.s).padStart(2, "0")}
           </span>

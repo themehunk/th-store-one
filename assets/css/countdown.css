@@ -21,15 +21,19 @@
 .th-timer-box {
   display: flex;
   justify-content: center;
-  gap: 14px;
   margin-bottom: 16px;
 }
-
+.th-style1 div.dotes {
+    background: #d7d3d3b8;
+    padding: 0px 5px;
+    display: flex;
+    align-items: center;
+}
 .th-style1 .t-item {
   background: #1f1f1f;
   padding: 12px 14px;
-  border-radius: 12px;
   min-width: 70px;
+  text-align: center;
 }
 
 .th-style1 .t-item span {
@@ -216,7 +220,78 @@ padding: 10px 12px;
   height: 100%;
   background: linear-gradient(90deg, #22c55e, #f97316);
 }
+/* ==========================================================================
+   STYLE 4 - COUNTDOWN CIRCLE STYLES (FRONTEND)
+   ========================================================================== */
 
+/* Main Box Layout */
+.th-cd.s4-style {
+  padding: 16px;
+  border-radius: 8px;
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Flex Alignment Controls */
+.s4-align-center .s4-timer-wrap { justify-content: center; 
+    
+}
+.s4-align-left .s4-timer-wrap { justify-content: flex-start; }
+.s4-align-right .s4-timer-wrap { justify-content: flex-end; }
+
+/* Main Timer Wrapper */
+.s4-timer-wrap {
+  display: flex;
+  gap:0px; /* Chote circles ke liye space manage kiya hai taaki mobile me ek line me aaye */
+  flex-wrap: wrap;
+}
+
+/* Individual Circle Item Column */
+.s4-circle-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* SVG Perfect Circle Wrapper */
+.s4-svg-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Hover Zoom Animation */
+.s4-svg-wrapper:hover {
+  transform: scale(1.05);
+}
+
+/* Smooth Dynamic Filling Ring */
+.s4-circle-progress {
+  transition: stroke-dashoffset 1s linear;
+  stroke-dasharray: 155.5; /* Radius 24.75 ka exact circumference */
+  stroke-dashoffset: 0;
+}
+
+/* Inside Typography (Timer Digit) */
+.s4-timer-number {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  letter-spacing: -0.2px;
+}
+
+/* Inside Typography (Labels: DAYS, HOURS, etc.) */
+.s4-timer-label-inside {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+
+/* Message Text Block */
+.s4-message {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
 
 .th-cd.th-ac {
   text-align: center;
