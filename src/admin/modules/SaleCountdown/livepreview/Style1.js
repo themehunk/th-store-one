@@ -82,7 +82,9 @@ const Style1 = ({ settings }) => {
               </span>
               <small style={{ color: timerColor, opacity: 0.6 }}>DAYS</small>
             </div>
-            <div className="dotes">:</div>
+            <div className="dotes" style={{ background: timerBg }}>
+              :
+            </div>
           </>
         )}
 
@@ -92,7 +94,9 @@ const Style1 = ({ settings }) => {
           </span>
           <small style={{ color: timerColor, opacity: 0.3 }}>HRS</small>
         </div>
-        <div className="dotes">:</div>
+        <div className="dotes" style={{ background: timerBg }}>
+          :
+        </div>
 
         <div className="th-time-bx" style={{ background: timerBg }}>
           <span style={{ color: timerColor }}>
@@ -100,7 +104,9 @@ const Style1 = ({ settings }) => {
           </span>
           <small style={{ color: timerColor, opacity: 0.3 }}>MIN</small>
         </div>
-        <div className="dotes">:</div>
+        <div className="dotes" style={{ background: timerBg }}>
+          :
+        </div>
 
         <div className="th-time-bx" style={{ background: timerBg }}>
           <span style={{ color: timerColor }}>

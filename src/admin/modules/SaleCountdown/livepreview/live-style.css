@@ -87,7 +87,6 @@ display: inline-flex;
   color: #fff;
   padding: 10px;
   border-radius: 8px;
-
 }
 .s1-boxed span {
     font-size: 15px;
@@ -389,11 +388,16 @@ background: #d7d3d3b8;
   background: #ff4d4f;
 }
 
-/* alignment classes  */
-.s1-style.s1-default-pro.s1-align-left{
+.s1-default-pro.s1-align-left .s1-top {
+  
     text-align: left;
 }
-
+.s1-style.s1-default-pro.s1-align-left .s1-stock-bar{
+    margin:inherit!important;
+}
+.s1-style.s1-default-pro.s1-align-right .s1-stock-bar {
+    margin-right: 0 !important;
+}
 .s1-default-pro.s1-align-left .s1-timer {
     display: flex;
     justify-content: left;
@@ -507,4 +511,126 @@ background: #d7d3d3b8;
 }
 .s1-ac-style2.s1-align-right .s1-ac2-bar{
     margin-right:0;
+}
+
+/* Main Wrapper */
+.s4-style {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Alignment Settings */
+.s4-align-center .s4-timer-wrap { justify-content: center; }
+.s4-align-left .s4-timer-wrap { justify-content: flex-start; }
+.s4-align-right .s4-timer-wrap { justify-content: flex-end; }
+
+/* Timer Container */
+.s4-timer-wrap {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+/* Single Circle Layout */
+.s4-circle-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Glassy White Background for Circle */
+.s4-svg-wrapper {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  padding: 4px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Hover Effect */
+.s4-svg-wrapper:hover {
+  transform: scale(1.06);
+}
+
+/* Smooth Ring Animation */
+.s4-circle-progress {
+  transition: stroke-dashoffset 1s linear;
+}
+
+/* Typography inside Circle */
+.s4-timer-text {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  letter-spacing: -0.3px;
+}
+
+/* Labels (Hours, Minutes, Seconds) */
+.s4-timer-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  opacity: 0.6;
+}/* Container Box */
+.s4-style {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  display: inline-block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Flex Alignment */
+.s4-align-center .s4-timer-wrap { justify-content: center; }
+.s4-align-left .s4-timer-wrap { justify-content: flex-start; }
+.s4-align-right .s4-timer-wrap { justify-content: flex-end; }
+
+/* Wrapper for circles */
+.s4-timer-wrap {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.s4-circle-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* SVG Perfect Circle Container */
+.s4-svg-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: transform 0.2s ease-in-out;
+}
+
+/* Hover Effect */
+.s4-svg-wrapper:hover {
+  transform: scale(1.05);
+}
+
+/* Smooth active countdown stroke ring */
+.s4-circle-progress {
+  transition: stroke-dashoffset 1s linear;
+}
+
+/* Inside Typography Settings */
+.s4-timer-number {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  letter-spacing: -0.5px;
+}
+
+.s4-timer-label-inside {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  letter-spacing: 0.5px;
+  opacity: 0.5; /* Image jaisa halka grayish label tone */
 }

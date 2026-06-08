@@ -74,10 +74,10 @@ const DEFAULT_SETTINGS = {
   single_font_size: "14px",
 
   archive_bg_color: "#f5f6f8",
-  archive_text_color: "#d63638",
+  archive_text_color: "#111",
   archive_timer_bg_color: "#f5f6f8",
   archive_timer_color: "#111",
-  archive_sold_bar_bg_color: "#d63638",
+  archive_sold_bar_bg_color: "#229fd8",
   archive_font_size: "11px",
   alignmentArchive: "center",
   alignmentSingle: "center",
@@ -114,37 +114,37 @@ const STYLE_DEFAULTS = {
     single_text_color: "#111",
     single_timer_bg_color: "#111",
     single_timer_color: "#111",
-    single_sold_bar_bg_color: "#ef4444",
+    single_sold_bar_bg_color: "#229fd8",
   },
   style3: {
     single_bg_color: "#ffffff",
     single_text_color: "#111",
     single_timer_bg_color: "#d7d3d3b8",
     single_timer_color: "#111",
-    single_sold_bar_bg_color: "#ef4444",
+    single_sold_bar_bg_color: "#229fd8",
   },
 
   // ARCHIVE STYLES
   acstyle1: {
     archive_bg_color: "#fff",
-    archive_text_color: "#d63638",
+    archive_text_color: "#111",
     archive_timer_bg_color: "#f5f6f8",
     archive_timer_color: "#111",
-    archive_sold_bar_bg_color: "#d63638",
+    archive_sold_bar_bg_color: "#229fd8",
   },
   acstyle2: {
     archive_bg_color: "#fff",
     archive_text_color: "#111",
-    archive_timer_bg_color: "#222",
-    archive_timer_color: "#fff",
-    archive_sold_bar_bg_color: "#ef4444",
+    archive_timer_bg_color: "#d7d3d3b8",
+    archive_timer_color: "#111",
+    archive_sold_bar_bg_color: "#229fd8",
   },
   acstyle3: {
     archive_bg_color: "#fff",
-    archive_text_color: "#d63638",
+    archive_text_color: "#111",
     archive_timer_bg_color: "#f5f6f8",
     archive_timer_color: "#111",
-    archive_sold_bar_bg_color: "#ef4444",
+    archive_sold_bar_bg_color: "#229fd8",
   },
 };
 const applyStyleDefaults = (settings, style, type) => {
@@ -585,7 +585,7 @@ export default function SaleCountdownSettings({
                             { label: "style1", value: "style1" },
                             { label: "style2", value: "style2" },
                             { label: "style3", value: "style3" },
-                            // { label: "style4", value: "style4" },
+                            { label: "style4", value: "style4" },
                           ]}
                           onChange={(v) => {
                             let updated = {
@@ -663,7 +663,7 @@ export default function SaleCountdownSettings({
                           </S1Field>
                           <S1Field>
                             <THBackgroundControl
-                              label="Sold Bar Color"
+                              label="Bar Color"
                               value={settings.single_sold_bar_bg_color}
                               onChange={(v) =>
                                 setSettings({

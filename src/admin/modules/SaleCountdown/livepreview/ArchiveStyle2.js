@@ -4,9 +4,9 @@ const ArchiveStyle2 = ({ settings = {} }) => {
   const alignment = settings?.alignmentArchive || "center";
   const bg = settings?.archive_bg_color || "#f5f6f8";
   const text = settings?.archive_text_color || "#111";
-  const timerBg = settings?.archive_timer_bg_color || "#fff";
+  const timerBg = settings?.archive_timer_bg_color || "#d7d3d3b8";
   const timerColor = settings?.archive_timer_color || "#111";
-  const barColor = settings?.archive_sold_bar_bg_color || "#d63638";
+  const barColor = settings?.archive_sold_bar_bg_color || "#229fd8";
 
   const sold = 32;
   const total = 50;
@@ -19,7 +19,6 @@ const ArchiveStyle2 = ({ settings = {} }) => {
 
   function getTime() {
     const diff = endRef.current - Date.now();
-
     return {
       d: Math.floor(diff / (1000 * 60 * 60 * 24)),
       h: Math.floor((diff / (1000 * 60 * 60)) % 24),
