@@ -52,7 +52,7 @@ const newStockRule = () => ({
   /* SOLD */
   sold: {
     enable: false,
-    source: "fake",
+    source: "real",
     timeframe: "24_hours",
     fake: { min: 10, max: 50 },
   },
@@ -93,7 +93,7 @@ const newStockRule = () => ({
 
   devices: ["desktop"],
 
-  bar_strt_clr: "linear-gradient(90deg, #7c3aed 0%, #4f46e5 100%)",
+  bar_strt_clr: "#3B82F6",
   bar_end_clr: "#d1d5db",
   message_clr: "#111",
   highlight_clr: "#111",
@@ -107,10 +107,10 @@ const newStockRule = () => ({
   },
 
   color_change: {
-    enable: true,
+    enable: false,
     low_color: "#ef4444",
-    medium_color: "#f59e0b",
-    high_color: "#4f46e5",
+    medium_color: "#FFC107",
+    high_color: "#22C55E",
   },
 });
 
@@ -392,7 +392,7 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                       <div className="store-one-rule-body">
                         <S1Field label="Message">
                           <TextControl
-                            help="Use {stock} and {sold}"
+                            help="Use the {stock} and {sold} placeholders to display product stock and sales values. The {sold} value will be shown only when the product has at least one sale."
                             value={rule.message}
                             onChange={(v) => updateField(index, "message", v)}
                           />
@@ -733,10 +733,7 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                           <THBackgroundControl
                             allowGradient={true}
                             label={__("Bar Start", "th-store-one")}
-                            value={
-                              rule.bar_strt_clr ||
-                              "linear-gradient(90deg, #7c3aed 0%, #4f46e5 100%)"
-                            }
+                            value={rule.bar_strt_clr || "#3B82F6"}
                             onChange={(v) =>
                               updateField(index, "bar_strt_clr", v)
                             }
@@ -754,7 +751,7 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                         </S1Field>
                         <S1Field>
                           <THBackgroundControl
-                            allowGradient={true}
+                            allowGradient={false}
                             label={__("Message Color", "th-store-one")}
                             value={rule.message_clr || "#111"}
                             onChange={(v) =>
@@ -764,7 +761,7 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                         </S1Field>
                         <S1Field>
                           <THBackgroundControl
-                            allowGradient={true}
+                            allowGradient={false}
                             label={__("Highlight Color", "th-store-one")}
                             value={rule.highlight_clr || "#111"}
                             onChange={(v) =>
@@ -856,7 +853,7 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                                 <>
                                   <S1Field>
                                     <THBackgroundControl
-                                      allowGradient={true}
+                                      allowGradient={false}
                                       label={__(
                                         "Low Stock Color",
                                         "th-store-one",
@@ -875,14 +872,14 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
 
                                   <S1Field>
                                     <THBackgroundControl
-                                      allowGradient={true}
+                                      allowGradient={false}
                                       label={__(
                                         "Medium Stock Color",
                                         "th-store-one",
                                       )}
                                       value={
                                         rule.color_change.medium_color ||
-                                        "#f59e0b"
+                                        "#FFC107"
                                       }
                                       onChange={(v) =>
                                         updateField(index, "color_change", {
@@ -895,14 +892,14 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
 
                                   <S1Field>
                                     <THBackgroundControl
-                                      allowGradient={true}
+                                      allowGradient={false}
                                       label={__(
                                         "High Stock Color",
                                         "th-store-one",
                                       )}
                                       value={
                                         rule.color_change.high_color ||
-                                        "#4f46e5"
+                                        "#22C55E"
                                       }
                                       onChange={(v) =>
                                         updateField(index, "color_change", {

@@ -16,8 +16,8 @@ $settings = $args['settings'] ?? [];
 /* SETTINGS */
 $align      = $settings['alignmentSingle'] ?? 'center';
 $show_msg   = !empty($settings['show_message']);
-$show_bar   = !empty($settings['enable_stock_bar']) || !empty($settings['show_stock_bar']);
-$format     = $settings['time_format'] ?? 'dhms';
+$show_bar   = !empty($settings['show_stock_bar']);
+
 
 /* COLORS */
 $bg          = $settings['single_bg_color'] ?? '#111';
@@ -31,7 +31,7 @@ $bar_color   = $settings['single_sold_bar_bg_color'] ?? 'linear-gradient(90deg, 
      data-start="<?php echo $start; ?>" 
      data-end="<?php echo $end; ?>"
      data-server-now="<?php echo esc_attr(time()); ?>"
-     data-format="<?php echo esc_attr($format); ?>"
+     
      data-expire-action="<?php echo esc_attr($settings['countdown_expire_action'] ?? 'hide'); ?>"
      data-expire-msg="<?php echo esc_attr($settings['expire_message'] ?? 'Offer expired'); ?>"
      style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>;">
@@ -43,10 +43,12 @@ $bar_color   = $settings['single_sold_bar_bg_color'] ?? 'linear-gradient(90deg, 
   <?php endif; ?>
 
   <div class="th-timer-box">
+    <div class="th-days-wrapper" style="display: none;">
     <div class="t-item" style="background: <?php echo esc_attr($timer_bg); ?>; color: <?php echo esc_attr($timer_color); ?>;">
       <span class="d">00</span><small style="color: <?php echo esc_attr($timer_color); ?>;">DAYS</small>
     </div>
     <div class="dotes" style="background: <?php echo esc_attr($timer_bg); ?>;">:</div>
+  </div>
     <div class="t-item" style="background: <?php echo esc_attr($timer_bg); ?>; color: <?php echo esc_attr($timer_color); ?>;">
       <span class="h">00</span><small style="color: <?php echo esc_attr($timer_color); ?>;">HRS</small>
     </div>

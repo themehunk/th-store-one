@@ -40,7 +40,7 @@ const DEFAULT_SETTINGS = {
   show_on_single: true,
 
   archive_position: "after_price",
-  single_placement: "woocommerce_after_add_to_cart_form",
+  single_placement: "woocommerce_before_add_to_cart_form",
   single_priority: 10,
 
   trigger_type: "all_products",
@@ -48,7 +48,7 @@ const DEFAULT_SETTINGS = {
   countdown_expire_action: "hide",
   expire_message: "Offer expired",
 
-  sale_countdown_style: "style1",
+  sale_countdown_style: "style2",
   sale_countdown_archive_style: "acstyle1",
   time_format: "dhms",
 
@@ -80,7 +80,7 @@ const DEFAULT_SETTINGS = {
   archive_sold_bar_bg_color: "#229fd8",
   archive_font_size: "11px",
   alignmentArchive: "center",
-  alignmentSingle: "center",
+  alignmentSingle: "left",
 
   border: {
     width: {
@@ -111,7 +111,7 @@ const STYLE_DEFAULTS = {
   },
   style2: {
     single_bg_color: "#ffffff",
-    single_text_color: "#111",
+    single_text_color: "#9B9B9B",
     single_timer_bg_color: "#111",
     single_timer_color: "#111",
     single_sold_bar_bg_color: "#229fd8",
@@ -527,31 +527,7 @@ export default function SaleCountdownSettings({
                         </S1Field>
                       )}
 
-                      <S1Field label="Time Format">
-                        <SelectControl
-                          help={
-                            settings.time_format === "dhms"
-                              ? "Display the countdown timer with Days, Hours, Minutes, and Seconds."
-                              : "Display the countdown timer with Hours, Minutes, and Seconds only, without showing Days."
-                          }
-                          value={settings.time_format}
-                          options={[
-                            {
-                              label: "DHMS (Days, Hours, Minutes, Seconds)",
-                              value: "dhms",
-                            },
-                            {
-                              label: "HMS (Hours, Minutes, Seconds)",
-                              value: "hms",
-                            },
-                          ]}
-                          onChange={(v) =>
-                            setSettings({ ...settings, time_format: v })
-                          }
-                        />
-                      </S1Field>
-
-                      <S1Field label="Show Message">
+                      <S1Field label="Hide / Show Countdown Message">
                         <ToggleControl
                           checked={settings.show_message}
                           onChange={(v) =>
@@ -560,7 +536,7 @@ export default function SaleCountdownSettings({
                         />
                       </S1Field>
 
-                      <S1Field label="Show Countdown Bar">
+                      <S1Field label="Hide / Show Countdown Bar">
                         <ToggleControl
                           checked={settings.show_stock_bar}
                           onChange={(v) =>
@@ -578,12 +554,16 @@ export default function SaleCountdownSettings({
                   icon: ICONS.DESIGN,
                   content: (
                     <>
-                      <S1Field label="Template Choose on Single Page">
+                      <S1Field
+                        label="Template Choose on Single Page"
+                        visible={false}
+                      >
                         <SelectControl
                           value={settings.sale_countdown_style}
                           options={[
-                            { label: "style1", value: "style1" },
                             { label: "style2", value: "style2" },
+                            { label: "style1", value: "style1" },
+
                             { label: "style3", value: "style3" },
                             { label: "style4", value: "style4" },
                           ]}
@@ -599,14 +579,15 @@ export default function SaleCountdownSettings({
                           }}
                         />
                       </S1Field>
-                      <AlignmentControl
-                        value={settings.alignmentSingle}
-                        onChange={(v) =>
-                          setSettings({ ...settings, alignmentSingle: v })
-                        }
-                      />
+
                       {settings.show_on_single && (
-                        <S1FieldGroup title="Single Style">
+                        <S1FieldGroup title="Product Single Page Style">
+                          <AlignmentControl
+                            value={settings.alignmentSingle}
+                            onChange={(v) =>
+                              setSettings({ ...settings, alignmentSingle: v })
+                            }
+                          />
                           <S1Field>
                             <THBackgroundControl
                               label="Background"
@@ -675,19 +656,6 @@ export default function SaleCountdownSettings({
                             />
                           </S1Field>
 
-                          {/* <S1Field >
-                          <UniversalRangeControl
-                          label="Font Size"
-                          responsive={false}
-                            
-                            value={settings.single_font_size || 14}
-                            onChange={(v) =>
-                              setSettings({ ...settings, single_font_size: v })
-                            }
-                            min={10}
-                            max={30}
-                          />
-                        </S1Field> */}
                           <UniversalBorderControl
                             value={settings.border}
                             onChange={(v) =>
@@ -698,7 +666,10 @@ export default function SaleCountdownSettings({
                       )}
                       {settings.show_on_archive && (
                         <>
-                          <S1Field label="Template Choose on Archive Page">
+                          <S1Field
+                            label="Template Choose on Archive Page"
+                            visible={false}
+                          >
                             <SelectControl
                               value={settings.sale_countdown_archive_style}
                               options={[
@@ -722,13 +693,17 @@ export default function SaleCountdownSettings({
                               }}
                             />
                           </S1Field>
-                          <AlignmentControl
-                            value={settings.alignmentArchive}
-                            onChange={(v) =>
-                              setSettings({ ...settings, alignmentArchive: v })
-                            }
-                          />
-                          <S1FieldGroup title="Archive Style">
+
+                          <S1FieldGroup title="Archive Page & Shop Page Style">
+                            <AlignmentControl
+                              value={settings.alignmentArchive}
+                              onChange={(v) =>
+                                setSettings({
+                                  ...settings,
+                                  alignmentArchive: v,
+                                })
+                              }
+                            />
                             <S1Field>
                               <THBackgroundControl
                                 label="Background"
@@ -786,7 +761,7 @@ export default function SaleCountdownSettings({
                             </S1Field>
                             <S1Field>
                               <THBackgroundControl
-                                label="Sold Bar Color"
+                                label="Bar Color"
                                 value={settings.archive_sold_bar_bg_color}
                                 onChange={(v) =>
                                   setSettings({
@@ -797,20 +772,6 @@ export default function SaleCountdownSettings({
                                 }
                               />
                             </S1Field>
-
-                            {/* <S1Field>
-                          <UniversalRangeControl
-                          label="Font Size"
-                            value={settings.archive_font_size || 11}
-                            responsive={false}
-                            
-                            onChange={(v) =>
-                              setSettings({ ...settings, archive_font_size: v })
-                            }
-                            min={8}
-                            max={20}
-                          />
-                        </S1Field> */}
                           </S1FieldGroup>
                         </>
                       )}

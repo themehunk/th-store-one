@@ -7,6 +7,8 @@ const Style3 = ({ settings = {} }) => {
   const timerBg = settings?.single_timer_bg_color || "#d7d3d3b8";
   const timerColor = settings?.single_timer_color || "#111";
   const barColor = settings?.single_sold_bar_bg_color || "#ef4444";
+  const showMessage = settings?.show_message !== false; // Default true
+  const showStockBar = settings?.show_stock_bar !== false; // Default true
 
   const getBorderStyle = (border = {}) => ({
     borderStyle: border.style || "",
@@ -60,9 +62,11 @@ const Style3 = ({ settings = {} }) => {
       }}
     >
       {/*TOP MESSAGE */}
-      <div style={{ marginBottom: "12px", fontWeight: 500 }}>
-        Hurry! Only few left in stock
-      </div>
+      {showMessage && (
+        <div style={{ marginBottom: "12px", fontWeight: 500 }}>
+          Hurry! Only few left in stock
+        </div>
+      )}
 
       {/* TIMER */}
       <div
@@ -90,27 +94,29 @@ const Style3 = ({ settings = {} }) => {
       </div>
 
       {/*STOCK BAR */}
-      <div
-        className="s1-stock-bar"
-        style={{
-          margin: "auto",
-          height: "6px",
-          background: "rgba(0,0,0,0.08)",
-          borderRadius: "6px",
-          overflow: "hidden",
-          width: "250px",
-        }}
-      >
+      {showStockBar && (
         <div
-          className="s1-progress"
+          className="s1-stock-bar"
           style={{
-            width: `${percent}%`,
-            height: "100%",
-            background: barColor,
+            margin: "auto",
+            height: "6px",
+            background: "rgba(0,0,0,0.08)",
             borderRadius: "6px",
+            overflow: "hidden",
+            width: "250px",
           }}
-        />
-      </div>
+        >
+          <div
+            className="s1-progress"
+            style={{
+              width: `${percent}%`,
+              height: "100%",
+              background: barColor,
+              borderRadius: "6px",
+            }}
+          />
+        </div>
+      )}
 
       {/* STOCK TEXT */}
     </div>

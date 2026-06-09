@@ -8,6 +8,9 @@ const ArchiveStyle1 = ({ settings = {} }) => {
   const timerColor = settings?.archive_timer_color || "#111";
   const barColor = settings?.archive_sold_bar_bg_color || "#d63638";
 
+  const showMessage = settings?.show_message !== false; // Default true
+  const showStockBar = settings?.show_stock_bar !== false; // Default true
+
   const sold = 32;
   const total = 50;
   const percent = (sold / total) * 100;
@@ -44,20 +47,22 @@ const ArchiveStyle1 = ({ settings = {} }) => {
       }}
     >
       {/* MESSAGE */}
-      <div className="s1-ac-msg" style={{ color: text }}>
-        <span className="th-icon">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="10" stroke={text} strokeWidth="2" />
-            <path
-              d="M12 6v6l4 2"
-              stroke={text}
-              strokeWidth="2"
-              strokeLinecap="round"
-            />
-          </svg>
-        </span>{" "}
-        Hurry! Only few left
-      </div>
+      {showMessage && (
+        <div className="s1-ac-msg" style={{ color: text }}>
+          <span className="th-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke={text} strokeWidth="2" />
+              <path
+                d="M12 6v6l4 2"
+                stroke={text}
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
+          </span>{" "}
+          Hurry! Only few left
+        </div>
+      )}
 
       {/* TIMER */}
       <div
@@ -72,26 +77,28 @@ const ArchiveStyle1 = ({ settings = {} }) => {
       {/* STOCK */}
 
       {/* BAR */}
-      <div
-        className="s1-ac-bar"
-        style={{
-          marginTop: "6px",
-          height: "6px",
-          background: "rgba(0,0,0,0.08)",
-          borderRadius: "6px",
-          overflow: "hidden",
-        }}
-      >
+      {showStockBar && (
         <div
-          className="s1-ac-fill"
+          className="s1-ac-bar"
           style={{
-            width: `${percent}%`,
-            background: barColor,
-            height: "100%",
+            marginTop: "6px",
+            height: "6px",
+            background: "rgba(0,0,0,0.08)",
             borderRadius: "6px",
+            overflow: "hidden",
           }}
-        />
-      </div>
+        >
+          <div
+            className="s1-ac-fill"
+            style={{
+              width: `${percent}%`,
+              background: barColor,
+              height: "100%",
+              borderRadius: "6px",
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };

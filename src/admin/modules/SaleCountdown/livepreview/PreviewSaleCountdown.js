@@ -62,17 +62,16 @@ const PreviewSaleCountdown = ({ settings = {} }) => {
         {previewType === "single" && (
           <>
             <button
-              className={`s1-style-tab ${style === "style1" ? "active" : ""}`}
-              onClick={() => changeStyle("style1")}
-            >
-              {__("Default", "th-store-one")}
-            </button>
-
-            <button
               className={`s1-style-tab ${style === "style2" ? "active" : ""}`}
               onClick={() => changeStyle("style2")}
             >
               {__("Minimal", "th-store-one")}
+            </button>
+            <button
+              className={`s1-style-tab ${style === "style1" ? "active" : ""}`}
+              onClick={() => changeStyle("style1")}
+            >
+              {__("Square", "th-store-one")}
             </button>
 
             <button
@@ -128,8 +127,9 @@ const PreviewSaleCountdown = ({ settings = {} }) => {
         {/* ===== SINGLE ===== */}
         {previewType === "single" && (
           <>
-            {style === "style1" && <Style1 settings={settings} />}
             {style === "style2" && <Style2 settings={settings} />}
+            {style === "style1" && <Style1 settings={settings} />}
+
             {style === "style3" && <Style3 settings={settings} />}
             {style === "style4" && <Style4 settings={settings} />}
           </>

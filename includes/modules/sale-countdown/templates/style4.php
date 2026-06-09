@@ -17,7 +17,7 @@ $settings = $args['settings'] ?? [];
 $align      = $settings['alignmentSingle'] ?? 'center';
 $show_msg   = !empty($settings['show_message']);
 $show_bar   = !empty($settings['enable_stock_bar']) || !empty($settings['show_stock_bar']);
-$format     = $settings['time_format'] ?? 'dhms';
+
 
 /* COLORS & STYLES */
 $bg          = $settings['single_bg_color'] ?? '#fff';
@@ -37,7 +37,7 @@ $circumference = $normalizedRadius * 2 * M_PI; // Approx 155.5
      data-start="<?php echo $start; ?>" 
      data-end="<?php echo $end; ?>"
      data-server-now="<?php echo esc_attr(time()); ?>"
-     data-format="<?php echo esc_attr($format); ?>"
+     
      data-expire-action="<?php echo esc_attr($settings['countdown_expire_action'] ?? 'hide'); ?>"
      data-expire-msg="<?php echo esc_attr($settings['expire_message'] ?? 'Offer expired'); ?>"
      style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>;">
@@ -50,7 +50,7 @@ $circumference = $normalizedRadius * 2 * M_PI; // Approx 155.5
 
   <div class="s4-timer-wrap">
     
-    <?php if ($format === 'dhms') : ?>
+    <div class="th-days-wrapper" style="display: none;">
       <div class="s4-circle-item">
         <div class="s4-svg-wrapper">
           <svg width="64" height="64" class="s4-countdown-svg">
@@ -61,7 +61,7 @@ $circumference = $normalizedRadius * 2 * M_PI; // Approx 155.5
           </svg>
         </div>
       </div>
-    <?php endif; ?>
+  </div>
 
     <div class="s4-circle-item">
       <div class="s4-svg-wrapper">

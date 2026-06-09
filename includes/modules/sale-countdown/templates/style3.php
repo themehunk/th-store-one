@@ -17,7 +17,7 @@ $settings = $args['settings'] ?? [];
 $align      = $settings['alignmentSingle'] ?? 'center';
 $show_msg   = !empty($settings['show_message']);
 $show_bar   = !empty($settings['enable_stock_bar']) || !empty($settings['show_stock_bar']);
-$format     = $settings['time_format'] ?? 'dhms';
+
 
 /* SETTINGS */
 $align          = $settings['alignmentSingle'] ?? 'center';
@@ -25,7 +25,7 @@ $show_msg = !empty($settings['show_message']);
 $show_bar = !empty($settings['show_stock_bar']);
 $expire_action = $settings['countdown_expire_action'] ?? 'hide';
 $expire_msg = $settings['expire_message'] ?? 'Offer expired';
-$time_format = $settings['time_format'] ?? 'hms';
+
 
 /*COLORS (same as React) */
 $bg          = $settings['single_bg_color'] ?? '#ffffff';
@@ -68,13 +68,13 @@ $border_css = sprintf(
 ?>
 
 <div class="th-cd th-style3 s1-align-<?php echo esc_attr($align); ?>"
-     style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>; padding:20px; border-radius:8px; <?php echo esc_attr($border_css); ?>;"
+     style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>;border-radius:8px; <?php echo esc_attr($border_css); ?>;"
      data-start="<?php echo $start; ?>" 
      data-end="<?php echo $end; ?>"
      data-server-now="<?php echo esc_attr(time()); ?>"
      data-expire-action="<?php echo esc_attr($expire_action); ?>"
      data-expire-msg="<?php echo esc_attr($expire_msg); ?>"
-     data-format="<?php echo esc_attr($time_format); ?>">
+     >
 
   <!-- MESSAGE -->
   <?php if ($show_msg && !empty($msg)) : ?>
@@ -86,12 +86,12 @@ $border_css = sprintf(
   <!-- TIMER BOX -->
   <div class="th-box-timer" style="display:flex; justify-content:center; gap:12px; margin-bottom:20px;">
 
-    <?php if ($time_format === 'dhms') : ?>
+    <div class="th-days-wrapper" style="display: none;">
       <div class="t-card" style="background:<?php echo esc_attr($timer_bg); ?>; color:<?php echo esc_attr($timer_color); ?>;">
         <span class="d">00</span>
         <small class="label">DAYS</small>
       </div>
-    <?php endif; ?>
+  </div>
 
     <div class="t-card" style="background:<?php echo esc_attr($timer_bg); ?>; color:<?php echo esc_attr($timer_color); ?>;">
       <span class="h">00</span>

@@ -179,12 +179,6 @@ const ModuleSettings = ({
         url: `${th_StoreOneAdmin.adminUrl}edit.php?post_type=product`,
       },
 
-      "sale-countdown": {
-        label: __("Add Sale Countdown", "th-store-one"),
-
-        url: `${th_StoreOneAdmin.adminUrl}edit.php?post_type=product`,
-      },
-
       "pre-order": {
         label: __("Add Pre Order", "th-store-one"),
 

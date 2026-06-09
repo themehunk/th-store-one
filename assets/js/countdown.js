@@ -61,23 +61,29 @@ document.addEventListener("DOMContentLoaded", () => {
         bar.style.width = percent.toFixed(2) + "%";
       }
 
-      // Countdown
+      // 1. Time Units Extraction ke hisse ko isse badlein
       const days = Math.floor(diff / 86400000);
+      let hours = Math.floor((diff % 86400000) / 3600000);
 
-      const hours = Math.floor((diff % 86400000) / 3600000);
+      const daysWrapper = el.querySelector(".th-days-wrapper");
+
+      if (days > 0) {
+        // Agar days hain, toh wrapper dikhao (flex ya block) aur hours normal % 24 chalega
+        if (daysWrapper) daysWrapper.style.display = "inline-flex";
+      } else {
+        // Agar days 00 ho gaye, toh wrapper chhupao aur pure ghante HRS me daal do
+        if (daysWrapper) daysWrapper.style.display = "none";
+        hours = Math.floor(diff / 3600000); // Days ke ghante bhi isme jud gaye
+      }
 
       const minutes = Math.floor((diff % 3600000) / 60000);
-
       const seconds = Math.floor((diff % 60000) / 1000);
 
+      // Text Render pehle jaisa hi rahega
       const set = (selector, value) => {
         const node = el.querySelector(selector);
-
-        if (node) {
-          node.textContent = pad(value);
-        }
+        if (node) node.textContent = pad(value);
       };
-
       set(".d", days);
       set(".h", hours);
       set(".m", minutes);

@@ -14,7 +14,7 @@ $sold       = $args['sold'] ?? null;
 $remaining  = $args['remaining'] ?? null;
 $percent    = floatval($args['percent'] ?? 0);
 $settings   = $args['settings'] ?? [];
-$format = $settings['time_format'] ?? 'dhms';
+
 $align    = $settings['alignmentArchive'] ?? 'center';
 
 /* ================= DETECT PRODUCT DATA ================= */
@@ -42,7 +42,7 @@ if (! is_numeric($end) && ! empty($end)) {
 
 /* ================= FLAGS ================= */
 $show_msg = ! empty($settings['show_message']) && ! empty($msg);
-$show_bar   = !empty($settings['enable_stock_bar']) || !empty($settings['show_stock_bar']);
+$show_bar   = !empty($settings['show_stock_bar']);
 
 /* ================= COLORS (same as React) ================= */
 $bg          = $settings['archive_bg_color'] ?? '#f5f6f8';
@@ -65,7 +65,7 @@ if ($percent <= 0 && $has_product_stock && ($sold + $remaining) > 0) {
      data-server-now="<?php echo esc_attr(time()); ?>"
      data-expire-action="<?php echo esc_attr($settings['countdown_expire_action'] ?? 'hide'); ?>"
      data-expire-msg="<?php echo esc_attr($settings['expire_message'] ?? 'Offer expired'); ?>"
-     data-format="<?php echo esc_attr($settings['time_format'] ?? 'dhms'); ?>"
+     
      data-text-color="<?php echo esc_attr($text); ?>">
 
   <!-- MESSAGE -->
@@ -78,11 +78,11 @@ if ($percent <= 0 && $has_product_stock && ($sold + $remaining) > 0) {
   <!-- TIMER -->
   <?php if (! empty($end)) : ?>
     <div class="th-timer-circles" style="display:flex; gap:8px; justify-content:<?php echo esc_attr($align); ?>;">
-<?php if ($format === 'dhms') : ?>
+ <div class="th-days-wrapper" style="display: none;">
       <div class="t-box" style="background:<?php echo esc_attr($timer_bg); ?>; color:<?php echo esc_attr($timer_color); ?>;">
         <span class="d">00</span><small>D</small>
       </div>
-      <?php endif; ?>
+  </div>
 
       <div class="t-box" style="background:<?php echo esc_attr($timer_bg); ?>; color:<?php echo esc_attr($timer_color); ?>;">
         <span class="h">00</span><small>H</small>
