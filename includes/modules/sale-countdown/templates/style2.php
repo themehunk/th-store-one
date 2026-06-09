@@ -16,7 +16,7 @@ $settings = $args['settings'] ?? [];
 $align      = $settings['alignmentSingle'] ?? 'center';
 $show_msg   = !empty($settings['show_message']);
 $show_bar   = !empty($settings['enable_stock_bar']) || !empty($settings['show_stock_bar']);
-$format     = $settings['time_format'] ?? 'dhms';
+
 
 
 /* SETTINGS */
@@ -25,7 +25,7 @@ $show_msg = !empty($settings['show_message']);
 $show_bar = !empty($settings['show_stock_bar']);
 $expire_action = $settings['countdown_expire_action'] ?? 'hide';
 $expire_msg = $settings['expire_message'] ?? 'Offer expired';
-$time_format = $settings['time_format'] ?? 'hms';
+
 
 /*COLORS (same as React) */
 $bg          = $settings['single_bg_color'] ?? '#ffffff';
@@ -70,13 +70,13 @@ $border_css = sprintf(
 ?>
 
 <div class="th-cd th-style2 s1-align-<?php echo esc_attr($align); ?>"
-     style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>; padding:10px; <?php echo esc_attr($border_css); ?>"
+     style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>; <?php echo esc_attr($border_css); ?>"
      data-start="<?php echo $start; ?>" data-end="<?php echo $end; ?>"
      data-server-now="<?php echo esc_attr(time()); ?>"
-     data-format="<?php echo esc_attr($format); ?>"
+     
      data-expire-action="<?php echo esc_attr($expire_action); ?>"
      data-expire-msg="<?php echo esc_attr($expire_msg); ?>"
-     data-format="<?php echo esc_attr($time_format); ?>"
+     
      >
 
   <!-- INLINE ROW -->
@@ -101,9 +101,9 @@ $border_css = sprintf(
     <!-- TIMER -->
     <span class="th-timer-inline" style="font-weight:600; color: <?php echo esc_attr($timer_color); ?>;">
 
-      <?php if ($time_format === 'dhms') : ?>
+     <div class="th-days-wrapper" style="display: none;">
         <span class="d">00</span><span class="sep">:</span>
-      <?php endif; ?>
+    </div>
 
       <span class="h">00</span>
       <span class="sep">:</span>
@@ -118,7 +118,7 @@ $border_css = sprintf(
   <?php if ($show_bar) : ?>
 
     <div class="th-bar"
-         style="margin:8px auto 0; height:6px; width:200px; background:rgba(0,0,0,0.08); border-radius:6px; overflow:hidden;">
+         style="margin:8px auto 0; height:6px; background:rgba(0,0,0,0.08); border-radius:6px; overflow:hidden;">
       
       <div class="th-fill"
            style="width: <?php echo esc_attr($percent); ?>%; height:100%; background: <?php echo esc_attr($bar_color); ?>; border-radius:6px;">

@@ -70,7 +70,7 @@ const PreviewStockScarcity = ({ settings = {} }) => {
     }
 
     return {
-      background: "#f97316",
+      background: "#fff",
     };
   };
 

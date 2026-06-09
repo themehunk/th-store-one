@@ -26,11 +26,9 @@ const getInitialAdminView = () => {
   }
 
   const params = new URLSearchParams(window.location.search);
-
   const urlModule = params.get("store_one_module");
   const urlPage = params.get("store_one_page");
 
-  // Module URL takes highest priority
   if (urlModule && isValidModule(urlModule)) {
     return {
       page: "dashboard",
@@ -38,7 +36,6 @@ const getInitialAdminView = () => {
     };
   }
 
-  // Valid page from URL
   if (urlPage && VALID_PAGES.includes(urlPage)) {
     return {
       page: urlPage,
@@ -46,7 +43,6 @@ const getInitialAdminView = () => {
     };
   }
 
-  // No URL params → always dashboard
   return {
     page: "dashboard",
     module: null,
@@ -109,6 +105,10 @@ const AdminMain = () => {
   const [saveHandler, setSaveHandler] = useState(null);
   const [isDirty, setIsDirty] = useState(false);
   const [licenseLoading, setLicenseLoading] = useState(true);
+  const [messageSource, setMessageSource] = useState("");
+
+  const [isFetching, setIsFetching] = useState(false);
+  const [isResetting, setIsResetting] = useState(false);
 
   const [modulesState, setModulesState] = useState({
     "frequently-bought": false,
@@ -133,6 +133,7 @@ const AdminMain = () => {
     "th-variation-swatches": false,
     "shopable-list": false,
   });
+
   const tabs = [
     {
       name: "all",
@@ -152,15 +153,25 @@ const AdminMain = () => {
         .map((m) => m.id),
     },
   ];
+
   const originalSettings = useRef({});
   const skipFirstChange = useRef(false);
+  const debounceTimer = useRef(null);
+
   const currentModule = activeModule
     ? modulesList.find((m) => m.id === activeModule)
     : null;
 
+  useEffect(() => {
+    return () => {
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+    };
+  }, [activeModule]);
+
   const setCurrentPage = (page) => {
     const nextPage = VALID_PAGES.includes(page) ? page : "dashboard";
-
     setCurrentPageState(nextPage);
     setActiveModuleState(null);
     setModulePreparing(false);
@@ -177,7 +188,6 @@ const AdminMain = () => {
       setIsDirty(false);
       return;
     }
-
     setCurrentPageState("dashboard");
     setModulePreparing(true);
     setActiveModuleState(moduleId);
@@ -197,23 +207,36 @@ const AdminMain = () => {
   useEffect(() => {
     if (!currentModule) return;
 
-    skipFirstChange.current = true; //ignore next change
     setModulePreparing(true);
-
-    const currentData = moduleSettings[currentModule.id];
-
-    if (currentData) {
-      originalSettings.current[currentModule.id] = JSON.stringify(currentData);
-    }
-
+    setIsFetching(true);
+    skipFirstChange.current = true;
     setIsDirty(false);
-  }, [currentModule]);
+
+    apiFetch({ path: `${th_StoreOneAdmin.restUrl}module/${currentModule.id}` })
+      .then((res) => {
+        const savedData = res?.settings || {};
+        setModuleSettings((prev) => ({
+          ...prev,
+          [currentModule.id]: savedData,
+        }));
+        originalSettings.current[currentModule.id] = JSON.stringify(savedData);
+        setIsDirty(false);
+      })
+      .catch((err) => {
+        console.error("Failed to load saved settings from DB:", err);
+      })
+      .finally(() => {
+        setModulePreparing(false);
+        setIsFetching(false);
+
+        setTimeout(() => {
+          skipFirstChange.current = false;
+        }, 50);
+      });
+  }, [activeModule]);
 
   const handleModuleReady = (moduleId) => {
-    if (moduleId !== currentModule?.id) {
-      return;
-    }
-
+    if (moduleId !== currentModule?.id) return;
     setTimeout(() => {
       setModulePreparing(false);
     }, 50);
@@ -222,11 +245,15 @@ const AdminMain = () => {
   useEffect(() => {
     const handleModuleReset = (event) => {
       const moduleId = event?.detail?.moduleId;
-      const resetSettings = event?.detail?.settings;
+      const resetSettings = event?.detail?.settings || {};
 
-      if (!isValidModule(moduleId)) {
-        return;
+      if (!isValidModule(moduleId)) return;
+
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
       }
+
+      setIsResetting(true);
 
       setLivePreviewSettings((prev) => {
         const next = { ...prev };
@@ -234,31 +261,41 @@ const AdminMain = () => {
         return next;
       });
 
-      if (resetSettings) {
-        setModuleSettings((prev) => ({
-          ...prev,
-          [moduleId]: resetSettings,
-        }));
+      setModuleSettings((prev) => ({
+        ...prev,
+        [moduleId]: resetSettings,
+      }));
+      originalSettings.current[moduleId] = JSON.stringify(resetSettings);
+      setIsDirty(false);
+      setSaving(true);
+      setMessageSource("admin");
 
-        if (moduleId === currentModule?.id) {
-          setIsDirty(true);
-        }
-      } else {
-        setModuleSettings((prev) => {
-          const next = { ...prev };
-          delete next[moduleId];
-          return next;
+      apiFetch({
+        path: `${th_StoreOneAdmin.restUrl}module/${moduleId}`,
+        method: "POST",
+        data: {
+          settings: resetSettings,
+        },
+      })
+        .then(() => {
+          setSuccess(
+            __("Settings reset and saved successfully....", "th-store-one"),
+          );
+          setTimeout(() => {
+            window.location.reload();
+          }, 600);
+        })
+        .catch((err) => {
+          console.error("Database reset failed:", err);
+          setError(
+            __("Failed to save reset settings to database.", "th-store-one"),
+          );
+          setSaving(false);
+          setIsResetting(false);
         });
-        delete originalSettings.current[moduleId];
-      }
-
-      if (moduleId === currentModule?.id) {
-        setIsDirty(true);
-      }
     };
 
     window.addEventListener("th-store-one:module-reset", handleModuleReset);
-
     return () => {
       window.removeEventListener(
         "th-store-one:module-reset",
@@ -267,27 +304,20 @@ const AdminMain = () => {
     };
   }, [currentModule]);
 
-  // Attach nonce middleware.
   useEffect(() => {
     apiFetch.use(apiFetch.createNonceMiddleware(th_StoreOneAdmin.nonce));
   }, []);
 
-  /**
-   * Load modules state from REST.
-   */
   useEffect(() => {
     setModulesLoading(true);
-
     apiFetch({ path: `${th_StoreOneAdmin.restUrl}modules` })
       .then((res) => {
         if (res?.modules) {
           const newState = { ...modulesState };
-
           modulesList.forEach((mod) => {
             newState[mod.id] =
               res.modules[mod.id] !== undefined ? !!res.modules[mod.id] : true;
           });
-
           setModulesState(newState);
         }
       })
@@ -297,9 +327,6 @@ const AdminMain = () => {
       .finally(() => setModulesLoading(false));
   }, []);
 
-  /**
-   * Save whole modulesState to REST.
-   */
   const saveModules = (
     nextState,
     successMessage = __("Changes saved successfully.", "th-store-one"),
@@ -322,37 +349,24 @@ const AdminMain = () => {
       .finally(() => setSaving(false));
   };
 
-  const [messageSource, setMessageSource] = useState("");
-
-  /**
-   * Toggle single module (auto-saves).
-   */
   const handleToggleModule = (moduleId, enabled) => {
-    setMessageSource("module");
+    setMessageSource("module"); // <--- YAHAN SOURCE "module" SET HOTA HAI
     setModulesState((prev) => {
-      const next = {
-        ...prev,
-        [moduleId]: !!enabled,
-      };
-
+      const next = { ...prev, [moduleId]: !!enabled };
       saveModules(
         next,
         enabled
           ? __("Addon activated successfully.", "th-store-one")
           : __("Addon deactivated successfully.", "th-store-one"),
       );
-
       return next;
     });
   };
-  /**
-   * Master switch (Enable all / Disable all).
-   */
+
   const handleToggleAllModules = (enableAll) => {
     setMessageSource("admin");
     setModulesState((prev) => {
       const next = {};
-
       modulesList.forEach((mod) => {
         if (mod.premium && !licenseActive) {
           next[mod.id] = false;
@@ -360,14 +374,12 @@ const AdminMain = () => {
           next[mod.id] = !!enableAll;
         }
       });
-
       saveModules(
         next,
         enableAll
           ? __("All addons activated successfully.", "th-store-one")
           : __("All addons deactivated successfully.", "th-store-one"),
       );
-
       return next;
     });
   };
@@ -407,13 +419,9 @@ const AdminMain = () => {
       );
     }
 
-    // initial
     updateSavebarOffset();
-
-    // responsive
     window.addEventListener("resize", updateSavebarOffset);
 
-    // header height dynamic ho to (best)
     const headerEl = document.querySelector(".s1-header");
     let observer;
     if (headerEl && window.ResizeObserver) {
@@ -428,29 +436,36 @@ const AdminMain = () => {
   }, []);
 
   const handleTopSave = async () => {
-    setMessageSource("savebar");
-    if (!saveHandler || saving) return;
+    setMessageSource("admin");
+    if (!currentModule || saving) return;
 
     try {
       setSaving(true);
+      const freshSettings = moduleSettings[currentModule.id] || {};
 
-      await saveHandler();
+      await apiFetch({
+        path: `${th_StoreOneAdmin.restUrl}module/${currentModule.id}`,
+        method: "POST",
+        data: {
+          settings: freshSettings,
+        },
+      });
 
       setSuccess(__("Saved successfully!", "th-store-one"));
+      originalSettings.current[currentModule.id] =
+        JSON.stringify(freshSettings);
 
-      // UX delay
       setTimeout(() => {
         setIsDirty(false);
         setSaving(false);
-      }, 1200); // 1.2 sec
+      }, 1000);
     } catch (e) {
+      console.error("Manual save failed:", e);
       setError(__("Failed to save settings.", "th-store-one"));
       setSaving(false);
     }
   };
-  //************************/
-  // for licence pro
-  //*********************/
+
   useEffect(() => {
     if (!th_StoreOneAdmin.proActive) {
       setProActive(false);
@@ -460,12 +475,8 @@ const AdminMain = () => {
     }
     apiFetch({ path: `${th_StoreOneAdmin.restUrl}pro-status` })
       .then((res) => {
-        if (res?.pro_active) {
-          setProActive(true);
-        }
-        if (res?.license_active) {
-          setLicenseActive(true);
-        }
+        if (res?.pro_active) setProActive(true);
+        if (res?.license_active) setLicenseActive(true);
       })
       .catch(() => {})
       .finally(() => {
@@ -473,18 +484,13 @@ const AdminMain = () => {
       });
   }, []);
 
-  // licence page load
   useEffect(() => {
-    if (currentPage !== "license" || !th_StoreOneAdmin.proActive) {
-      return;
-    }
+    if (currentPage !== "license" || !th_StoreOneAdmin.proActive) return;
     setLicensePageLoading(true);
     apiFetch({ path: `${th_StoreOneAdmin.restUrl}license-html` })
       .then((html) => {
         const el = document.getElementById("store-one-license-root");
-        if (el) {
-          el.innerHTML = html;
-        }
+        if (el) el.innerHTML = html;
       })
       .catch(() => {
         console.log("License page load failed");
@@ -528,31 +534,33 @@ const AdminMain = () => {
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
           setActiveModule={(moduleId) => {
-            if (moduleId) {
-              setActiveModule(moduleId);
-            }
+            if (moduleId) setActiveModule(moduleId);
           }}
           proActive={proActive}
           licenseActive={licenseActive}
         />
-        {/* SAVE BUTTON */}
-        {isDirty && saveHandler && (
-          <div className="s1-top-savebar">
-            <span>
-              {__("Your settings have been modified. Save?", "th-store-one")}
-            </span>
-            <Button disabled={saving} onClick={handleTopSave}>
-              {saving ? (
-                <>
-                  {__("Saving", "th-store-one")}
-                  <Spinner style={{ marginLeft: 8 }} />
-                </>
-              ) : (
-                __("Save", "th-store-one")
-              )}
-            </Button>
-          </div>
-        )}
+
+        {/* CONDITION FIX: messageSource !== "module" lagaya taaki toggle active/deactivate par savebar strictly block ho jaye */}
+        {activeModule &&
+          (isDirty || (saving && messageSource !== "module")) &&
+          !isFetching &&
+          !isResetting && (
+            <div className="s1-top-savebar">
+              <span>
+                {__("Your settings have been modified. Save?", "th-store-one")}
+              </span>
+              <Button disabled={saving} onClick={handleTopSave}>
+                {saving ? (
+                  <>
+                    {__("Saving", "th-store-one")}
+                    <Spinner style={{ marginLeft: 8 }} />
+                  </>
+                ) : (
+                  __("Save", "th-store-one")
+                )}
+              </Button>
+            </div>
+          )}
 
         {currentPage === "dashboard" && (
           <>
@@ -604,7 +612,6 @@ const AdminMain = () => {
                       onToggleModule={handleToggleModule}
                       saving={saving}
                       onSettingsChange={(settings) => {
-                        //Skip first automatic call
                         if (skipFirstChange.current) {
                           setModuleSettings((prev) => ({
                             ...prev,
@@ -613,8 +620,6 @@ const AdminMain = () => {
                           originalSettings.current[currentModule.id] =
                             JSON.stringify(settings);
                           setIsDirty(false);
-
-                          skipFirstChange.current = false;
                           return;
                         }
 
@@ -627,7 +632,9 @@ const AdminMain = () => {
                         const oldString =
                           originalSettings.current[currentModule.id];
 
-                        setIsDirty(newString !== oldString);
+                        if (oldString) {
+                          setIsDirty(newString !== oldString);
+                        }
                       }}
                       onRegisterSave={setSaveHandler}
                       onModuleReady={handleModuleReady}

@@ -8,6 +8,9 @@ const ArchiveStyle2 = ({ settings = {} }) => {
   const timerColor = settings?.archive_timer_color || "#111";
   const barColor = settings?.archive_sold_bar_bg_color || "#229fd8";
 
+  const showMessage = settings?.show_message !== false; // Default true
+  const showStockBar = settings?.show_stock_bar !== false; // Default true
+
   const sold = 32;
   const total = 50;
   const percent = (sold / total) * 100;
@@ -43,9 +46,11 @@ const ArchiveStyle2 = ({ settings = {} }) => {
       }}
     >
       {/* MESSAGE */}
-      <div className="s1-ac2-msg" style={{ color: text }}>
-        Hurry! Only few left
-      </div>
+      {showMessage && (
+        <div className="s1-ac2-msg" style={{ color: text }}>
+          Hurry! Only few left
+        </div>
+      )}
 
       {/* TIMER */}
       <div className="s1-ac2-timer">
@@ -85,26 +90,28 @@ const ArchiveStyle2 = ({ settings = {} }) => {
       {/* STOCK */}
 
       {/* BAR */}
-      <div
-        className="s1-ac2-bar"
-        style={{
-          marginTop: "6px",
-          height: "6px",
-          background: "rgba(0,0,0,0.08)",
-          borderRadius: "6px",
-          overflow: "hidden",
-        }}
-      >
+      {showStockBar && (
         <div
-          className="s1-ac2-fill"
+          className="s1-ac2-bar"
           style={{
-            width: `${percent}%`,
-            background: barColor,
-            height: "100%",
+            marginTop: "6px",
+            height: "6px",
+            background: "rgba(0,0,0,0.08)",
             borderRadius: "6px",
+            overflow: "hidden",
           }}
-        />
-      </div>
+        >
+          <div
+            className="s1-ac2-fill"
+            style={{
+              width: `${percent}%`,
+              background: barColor,
+              height: "100%",
+              borderRadius: "6px",
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };

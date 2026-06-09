@@ -16,7 +16,7 @@ $sold  = intval($args['sold'] ?? 0);
 $remaining = intval($args['remaining'] ?? 0);
 $percent = floatval($args['percent'] ?? 0);
 
-$format = $settings['time_format'] ?? 'dhms';
+
 $align    = $settings['alignmentArchive'] ?? 'center';
 
 /* ================= DETECT SOURCE ================= */
@@ -39,7 +39,7 @@ if (!$has_product_data) {
 
 /* ================= FLAGS ================= */
 $show_msg = !empty($settings['show_message']) && !empty($msg);
-$show_bar   = !empty($settings['enable_stock_bar']) || !empty($settings['show_stock_bar']);
+$show_bar   = !empty($settings['show_stock_bar']);
 
 /* ================= COLORS ================= */
 $bg          = $settings['archive_bg_color'] ?? '#fff';
@@ -61,7 +61,7 @@ if ($percent <= 0 && ($sold + $remaining) > 0) {
      data-server-now="<?php echo esc_attr(time()); ?>"
      data-expire-action="<?php echo esc_attr($settings['countdown_expire_action'] ?? 'hide'); ?>"
      data-expire-msg="<?php echo esc_attr($settings['expire_message'] ?? 'Offer expired'); ?>"
-     data-format="<?php echo esc_attr($settings['time_format'] ?? 'dhms'); ?>"
+     
      data-text-color="<?php echo esc_attr($text); ?>">
 
   <!-- MESSAGE -->
@@ -85,9 +85,9 @@ if ($percent <= 0 && ($sold + $remaining) > 0) {
     <div class="th-timer-inline"
          style="color: <?php echo esc_attr($timer_color); ?>; margin-top:4px;">
 
-      <?php if ($format === 'dhms') : ?>
+      <div class="th-days-wrapper" style="display: none;">
     <span class="d">00</span>d :
-  <?php endif; ?>
+  </div>
       <span class="h">00</span>h :
       <span class="m">00</span>m :
       <span class="s">00</span>s

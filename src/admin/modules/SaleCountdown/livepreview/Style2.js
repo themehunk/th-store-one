@@ -66,20 +66,22 @@ const Style2 = ({ settings = {} }) => {
       {/* INLINE ROW */}
       <div className="th-inline-wrap">
         {/* MESSAGE + ICON */}
-        <span className="th-msg" style={{ color: text }}>
-          <span className="th-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="10" stroke={text} strokeWidth="2" />
-              <path
-                d="M12 6v6l4 2"
-                stroke={text}
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
+        {showMessage && (
+          <span className="th-msg" style={{ color: text }}>
+            <span className="th-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke={text} strokeWidth="2" />
+                <path
+                  d="M12 6v6l4 2"
+                  stroke={text}
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>
+            Hurry! Only few left in stock
           </span>
-          Hurry! Only few left in stock
-        </span>
+        )}
 
         {/* TIMER */}
         <span className="th-timer-inline" style={{ color: timerColor }}>
@@ -99,28 +101,30 @@ const Style2 = ({ settings = {} }) => {
       </div>
 
       {/* STOCK BAR */}
-      <div
-        className="s1-stock-bar"
-        style={{
-          height: "6px",
-
-          borderRadius: "6px",
-          overflow: "hidden",
-          width: "200px",
-          margin: "auto",
-        }}
-      >
+      {showStockBar && (
         <div
-          className="s1-progress"
+          className="s1-stock-bar"
           style={{
-            width: `${percent}%`,
-            height: "100%",
-            background: barColor,
+            height: "6px",
+
             borderRadius: "6px",
-            transition: "width 0.4s ease",
+            overflow: "hidden",
+            width: "200px",
+            margin: "auto",
           }}
-        />
-      </div>
+        >
+          <div
+            className="s1-progress"
+            style={{
+              width: `${percent}%`,
+              height: "100%",
+              background: barColor,
+              borderRadius: "6px",
+              transition: "width 0.4s ease",
+            }}
+          />
+        </div>
+      )}
 
       {/* STOCK TEXT */}
     </div>
