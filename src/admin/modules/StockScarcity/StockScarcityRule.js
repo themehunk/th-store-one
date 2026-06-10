@@ -822,95 +822,85 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                           </S1Field>
 
                           {rule.low_stock_effect?.enable && (
-                            <>
-                              <UniversalRangeControl
-                                label="Blink Threshold"
-                                value={String(
-                                  rule.low_stock_effect.threshold || 5,
-                                )}
-                                min={1}
-                                max={20}
-                                onChange={(v) =>
-                                  updateField(index, "low_stock_effect", {
-                                    ...rule.low_stock_effect,
-                                    threshold: parseInt(v),
-                                  })
-                                }
-                              />
+                            <UniversalRangeControl
+                              label="Blink Threshold"
+                              value={String(
+                                rule.low_stock_effect.threshold || 5,
+                              )}
+                              min={1}
+                              max={20}
+                              onChange={(v) =>
+                                updateField(index, "low_stock_effect", {
+                                  ...rule.low_stock_effect,
+                                  threshold: parseInt(v),
+                                })
+                              }
+                            />
+                          )}
 
-                              <S1Field label="Auto Color Change">
-                                <ToggleControl
-                                  checked={rule.color_change?.enable}
+                          <S1Field label="Auto Color Change">
+                            <ToggleControl
+                              checked={rule.color_change?.enable}
+                              onChange={(v) =>
+                                updateField(index, "color_change", {
+                                  ...rule.color_change,
+                                  enable: v,
+                                })
+                              }
+                            />
+                          </S1Field>
+                          {rule.color_change?.enable && (
+                            <>
+                              <S1Field>
+                                <THBackgroundControl
+                                  allowGradient={false}
+                                  label={__("Low Stock Color", "th-store-one")}
+                                  value={
+                                    rule.color_change.low_color || "#ef4444"
+                                  }
                                   onChange={(v) =>
                                     updateField(index, "color_change", {
                                       ...rule.color_change,
-                                      enable: v,
+                                      low_color: v, // Sahi tareeqa: color_change ke andar update hoga
                                     })
                                   }
                                 />
                               </S1Field>
-                              {rule.color_change?.enable && (
-                                <>
-                                  <S1Field>
-                                    <THBackgroundControl
-                                      allowGradient={false}
-                                      label={__(
-                                        "Low Stock Color",
-                                        "th-store-one",
-                                      )}
-                                      value={
-                                        rule.color_change.low_color || "#ef4444"
-                                      }
-                                      onChange={(v) =>
-                                        updateField(index, "color_change", {
-                                          ...rule.color_change,
-                                          low_color: v, // Sahi tareeqa: color_change ke andar update hoga
-                                        })
-                                      }
-                                    />
-                                  </S1Field>
 
-                                  <S1Field>
-                                    <THBackgroundControl
-                                      allowGradient={false}
-                                      label={__(
-                                        "Medium Stock Color",
-                                        "th-store-one",
-                                      )}
-                                      value={
-                                        rule.color_change.medium_color ||
-                                        "#FFC107"
-                                      }
-                                      onChange={(v) =>
-                                        updateField(index, "color_change", {
-                                          ...rule.color_change,
-                                          medium_color: v, // Sahi tareeqa
-                                        })
-                                      }
-                                    />
-                                  </S1Field>
+                              <S1Field>
+                                <THBackgroundControl
+                                  allowGradient={false}
+                                  label={__(
+                                    "Medium Stock Color",
+                                    "th-store-one",
+                                  )}
+                                  value={
+                                    rule.color_change.medium_color || "#FFC107"
+                                  }
+                                  onChange={(v) =>
+                                    updateField(index, "color_change", {
+                                      ...rule.color_change,
+                                      medium_color: v, // Sahi tareeqa
+                                    })
+                                  }
+                                />
+                              </S1Field>
 
-                                  <S1Field>
-                                    <THBackgroundControl
-                                      allowGradient={false}
-                                      label={__(
-                                        "High Stock Color",
-                                        "th-store-one",
-                                      )}
-                                      value={
-                                        rule.color_change.high_color ||
-                                        "#22C55E"
-                                      }
-                                      onChange={(v) =>
-                                        updateField(index, "color_change", {
-                                          ...rule.color_change,
-                                          high_color: v, // Sahi tareeqa
-                                        })
-                                      }
-                                    />
-                                  </S1Field>
-                                </>
-                              )}
+                              <S1Field>
+                                <THBackgroundControl
+                                  allowGradient={false}
+                                  label={__("High Stock Color", "th-store-one")}
+                                  value={
+                                    rule.color_change.high_color || "#22C55E"
+                                  }
+                                  onChange={(v) =>
+                                    updateField(index, "color_change", {
+                                      ...rule.color_change,
+                                      high_color: v, // Sahi tareeqa
+                                    })
+                                  }
+                                />
+                              </S1Field>
                             </>
                           )}
                         </S1FieldGroup>

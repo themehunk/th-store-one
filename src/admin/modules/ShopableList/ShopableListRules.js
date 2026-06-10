@@ -219,11 +219,19 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
 
   const duplicateShopableItem = (ruleIndex, itemIndex) => {
     const list = [...rules[ruleIndex].shopable_list];
-    const copy = {
-      ...list[itemIndex],
-      id: crypto.randomUUID(),
-      open: true,
-    };
+
+    const copy = JSON.parse(JSON.stringify(list[itemIndex]));
+
+    copy.id = crypto.randomUUID();
+    copy.open = true;
+
+    if (copy.items && Array.isArray(copy.items)) {
+      copy.items = copy.items.map((videoItem) => ({
+        ...videoItem,
+        id: crypto.randomUUID(),
+      }));
+    }
+
     list.splice(itemIndex + 1, 0, copy);
     updateShopableList(ruleIndex, list);
   };
