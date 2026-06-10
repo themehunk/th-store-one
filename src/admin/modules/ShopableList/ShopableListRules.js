@@ -54,7 +54,7 @@ const newShopableListRule = () => ({
   prd_delay: "",
 
   open: true,
-  title: "Shopable List",
+  title: "Shoppable Videos",
   title_tag: "h2",
   hide_title: false,
   slider: {
@@ -219,11 +219,19 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
 
   const duplicateShopableItem = (ruleIndex, itemIndex) => {
     const list = [...rules[ruleIndex].shopable_list];
-    const copy = {
-      ...list[itemIndex],
-      id: crypto.randomUUID(),
-      open: true,
-    };
+
+    const copy = JSON.parse(JSON.stringify(list[itemIndex]));
+
+    copy.id = crypto.randomUUID();
+    copy.open = true;
+
+    if (copy.items && Array.isArray(copy.items)) {
+      copy.items = copy.items.map((videoItem) => ({
+        ...videoItem,
+        id: crypto.randomUUID(),
+      }));
+    }
+
     list.splice(itemIndex + 1, 0, copy);
     updateShopableList(ruleIndex, list);
   };
@@ -339,7 +347,7 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
   return (
     <div className="store-one-rules-container">
       <h3 className="store-one-section-title">
-        {__("Shopable List", "th-store-one")}
+        {__("Shoppable Videos", "th-store-one")}
       </h3>
       <SortableWrapper items={rules} onSortEnd={reorder}>
         {rules.map((rule, index) => (
@@ -403,14 +411,6 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                               },
                             ]}
                             onChange={(v) => updateField(index, "status", v)}
-                          />
-                        </S1Field>
-                        <S1Field label={__("Title", "th-store-one")}>
-                          <TextControl
-                            value={rule.list_title}
-                            onChange={(v) =>
-                              updateField(index, "list_title", v)
-                            }
                           />
                         </S1Field>
 
@@ -691,14 +691,14 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                         <S1Field label={__("Shortcode", "th-store-one")}>
                           <p className="s1-shortcode-description">
                             {__(
-                              "Use this shortcode to display this Shopable List anywhere on your site (posts, pages, widgets, or page builders).",
+                              "Use this shortcode to display this Shoppable Videos anywhere on your site (posts, pages, widgets, or page builders).",
                               "th-store-one",
                             )}
                           </p>
                           <div className="s1-shortcode-wrapper">
                             <textarea
                               readOnly
-                              value={`[th_store_one_shopable_list id="${rule.flexible_id}"]`}
+                              value={`[th_store_one_shopable_video id="${rule.flexible_id}"]`}
                               className="s1-shortcode-textarea"
                             />
 
@@ -707,7 +707,7 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                               className="s1-shortcode-copy"
                               onClick={() => {
                                 navigator.clipboard.writeText(
-                                  `[th_store_one_shopable_list id="${rule.flexible_id}"]`,
+                                  `[th_store_one_shopable_video id="${rule.flexible_id}"]`,
                                 );
                               }}
                             >

@@ -84,7 +84,7 @@ const newPeopleViewRule = () => ({
 
   /* LOCATIONS */
   enable_single_page: true,
-  single_placement: "woocommerce_after_add_to_cart_form",
+  single_placement: "woocommerce_single_product_summary",
   single_priority: 10,
 
   enable_shop_page: false,
@@ -424,11 +424,11 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
                               value={rule.view_mode}
                               options={[
                                 {
-                                  label: "Real Viewers",
+                                  label: "Real Visitors",
                                   value: "real",
                                 },
                                 {
-                                  label: "Fake Viewers",
+                                  label: "Simulated Visitors",
                                   value: "fake",
                                 },
                               ]}
@@ -1003,7 +1003,7 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
                         {/* BORDER */}
                         <S1Field>
                           <THBackgroundControl
-                            allowGradient={true}
+                            allowGradient={false}
                             label={__("Border Color", "th-store-one")}
                             value={rule.border_color}
                             onChange={(v) =>
@@ -1015,7 +1015,7 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
                         {/* TEXT */}
                         <S1Field>
                           <THBackgroundControl
-                            allowGradient={true}
+                            allowGradient={false}
                             label={__("Text Color", "th-store-one")}
                             value={rule.text_color}
                             onChange={(v) =>
@@ -1027,7 +1027,7 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
                         {/* ICON */}
                         <S1Field>
                           <THBackgroundControl
-                            allowGradient={true}
+                            allowGradient={false}
                             label={__("Icon Color", "th-store-one")}
                             value={rule.icon_color}
                             onChange={(v) =>

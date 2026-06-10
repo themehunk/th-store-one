@@ -203,17 +203,15 @@ const PreviewPeopleView = ({ settings = {} }) => {
   /* ---------------- STYLE ---------------- */
 
   const wrapperStyle = {
-    background: rule.bg_color?.gradient || rule.bg_color || "#FFF7D6",
+    background: rule.bg_color?.gradient || rule.bg_color || "",
 
-    border: `1px solid ${
-      rule.border_color?.color || rule.border_color || "#FACC15"
-    }`,
+    border: `1px solid ${rule.border_color?.color || rule.border_color || ""}`,
 
     color: rule.text_color?.color || rule.text_color || "#111827",
 
-    borderRadius: `${rule.border_radius || 30}px`,
+    borderRadius: `${rule.border_radius || 0}px`,
 
-    padding: `${rule.padding_y || 10}px ${rule.padding_x || 14}px`,
+    padding: `${rule.padding_y || 0}px ${rule.padding_x || 0}px`,
   };
 
   /* ---------------- RENDER ---------------- */
