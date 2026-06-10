@@ -113,13 +113,14 @@ const newPeopleViewRule = () => ({
   bg_color: "#9e9e9e00",
   border_color: "#9e9e9e00",
   text_color: "#111827",
-  icon_color: "#D97706",
+  icon_bg_color: "#111",
+  icon_color: "#fff",
 
   font_size: 14,
   border_radius: 0,
 
-  padding_y: 0,
-  padding_x: 0,
+  padding_y: 5,
+  padding_x: 10,
 });
 /* ================= ICON SELECT ================= */
 const ICON_OPTIONS = [
@@ -1025,6 +1026,16 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
                         </S1Field>
 
                         {/* ICON */}
+                        <S1Field>
+                          <THBackgroundControl
+                            allowGradient={false}
+                            label={__("Icon Background Color", "th-store-one")}
+                            value={rule.icon_bg_color}
+                            onChange={(v) =>
+                              updateField(index, "icon_bg_color", v)
+                            }
+                          />
+                        </S1Field>
                         <S1Field>
                           <THBackgroundControl
                             allowGradient={false}

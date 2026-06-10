@@ -211,7 +211,7 @@ const PreviewPeopleView = ({ settings = {} }) => {
 
     borderRadius: `${rule.border_radius || 0}px`,
 
-    padding: `${rule.padding_y || 0}px ${rule.padding_x || 0}px`,
+    padding: `${rule.padding_y || 5}px ${rule.padding_x || 10}px`,
   };
 
   /* ---------------- RENDER ---------------- */
@@ -227,7 +227,9 @@ const PreviewPeopleView = ({ settings = {} }) => {
           <div
             className="s1-people-icon"
             style={{
-              color: rule.icon_color?.color || rule.icon_color || "#D97706",
+              color: rule.icon_color?.color || rule.icon_color || "#fff",
+              background:
+                rule.icon_bg_color?.color || rule.icon_bg_color || "#9e9e9e00",
             }}
           >
             {renderIcon()}
