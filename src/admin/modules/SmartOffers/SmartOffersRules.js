@@ -154,13 +154,16 @@ function SortableWrapper({ items, onSortEnd, children }) {
 }
 
 /* ---------------- MAIN ---------------- */
-export default function SmartOffersRules({ rules, onChange }) {
+export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
   const updateAll = (arr) => onChange([...arr]);
 
   const updateField = (i, field, val) => {
     const arr = [...rules];
     arr[i][field] = val;
+
     updateAll(arr);
+
+    onLivePreview?.(arr[i], i);
   };
 
   const reorder = (oldIndex, newIndex) => {
@@ -172,8 +175,14 @@ export default function SmartOffersRules({ rules, onChange }) {
 
   const toggleOpen = (i) => {
     const arr = [...rules];
+
     arr[i].open = !arr[i].open;
+
     updateAll(arr);
+
+    if (arr[i].open) {
+      onLivePreview?.(arr[i], i);
+    }
   };
 
   const removeRule = (i) => {
@@ -190,13 +199,31 @@ export default function SmartOffersRules({ rules, onChange }) {
   };
 
   const addRule = () => {
-    updateAll([...rules, newSmartOfferRule()]);
+    const arr = [...rules, newSmartOfferRule()];
+
+    updateAll(arr);
+
+    const newIndex = arr.length - 1;
+
+    onLivePreview?.(arr[newIndex], newIndex);
   };
 
   useEffect(() => {
     if (!rules.length) {
       updateAll([newSmartOfferRule()]);
     }
+  }, []);
+
+  const hasInitialized = useRef(false);
+
+  useEffect(() => {
+    if (hasInitialized.current) return;
+
+    if (rules.length > 0) {
+      onLivePreview?.(rules[0], 0);
+    }
+
+    hasInitialized.current = true;
   }, []);
 
   return (
