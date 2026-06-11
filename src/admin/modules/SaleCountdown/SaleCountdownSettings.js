@@ -98,6 +98,12 @@ const DEFAULT_SETTINGS = {
       left: "0px",
     },
   },
+  cnt_padding: {
+    top: "0px",
+    right: "0px",
+    bottom: "0px",
+    left: "0px",
+  },
 };
 
 const STYLE_DEFAULTS = {
@@ -660,6 +666,18 @@ export default function SaleCountdownSettings({
                             value={settings.border}
                             onChange={(v) =>
                               setSettings({ ...settings, border: v })
+                            }
+                          />
+
+                          <UniversalDimensionControl
+                            label="Padding"
+                            value={settings.cnt_padding}
+                            responsive={false}
+                            onChange={(v) =>
+                              setSettings({
+                                ...settings,
+                                cnt_padding: v,
+                              })
                             }
                           />
                         </S1FieldGroup>

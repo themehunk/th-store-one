@@ -93,6 +93,8 @@ const Style4 = ({ settings }) => {
   const saleMessage = settings?.sale_message || "Sale ending in";
   const timeFormat = settings?.time_format || "dhms";
 
+  const cntPadding = settings?.cnt_padding || {};
+
   const getBorderStyle = (border = {}) => ({
     borderStyle: border.style || "",
     borderColor: border.color || "",
@@ -135,7 +137,9 @@ const Style4 = ({ settings }) => {
       style={{
         background: bg,
         color: text,
-        padding: "24px",
+        padding: `${cntPadding.top || "0px"} ${cntPadding.right || "0px"} ${
+          cntPadding.bottom || "0px"
+        } ${cntPadding.left || "0px"}`,
         textAlign: alignment,
         ...getBorderStyle(settings?.border),
       }}

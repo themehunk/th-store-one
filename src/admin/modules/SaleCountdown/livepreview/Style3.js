@@ -9,6 +9,7 @@ const Style3 = ({ settings = {} }) => {
   const barColor = settings?.single_sold_bar_bg_color || "#ef4444";
   const showMessage = settings?.show_message !== false; // Default true
   const showStockBar = settings?.show_stock_bar !== false; // Default true
+  const cntPadding = settings?.cnt_padding || {};
 
   const getBorderStyle = (border = {}) => ({
     borderStyle: border.style || "",
@@ -56,7 +57,9 @@ const Style3 = ({ settings = {} }) => {
       style={{
         color: text,
         background: bg,
-        padding: "30px",
+        padding: `${cntPadding.top || "0px"} ${cntPadding.right || "0px"} ${
+          cntPadding.bottom || "0px"
+        } ${cntPadding.left || "0px"}`,
         borderRadius: "8px",
         ...getBorderStyle(settings.border),
       }}

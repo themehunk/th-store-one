@@ -47,7 +47,7 @@ class Th_Store_One_Sale_Countdown_Frontend
             return;
         }
 
-        // Single Product Page Placement Logic
+
         if (!empty($this->settings['show_on_single'])) {
             $placement = $this->settings['single_placement'] ?? '';
             $priority  = intval($this->settings['single_priority'] ?? 10);
@@ -58,19 +58,34 @@ class Th_Store_One_Sale_Countdown_Frontend
                 $hook = $placement;
             }
 
+
             add_action($hook, function () {
-                $this->render();
+                global $product, $post;
+
+
+                if (is_product() && is_object($post) && is_object($product)) {
+                    if ((int)$product->get_id() !== (int)get_queried_object_id()) {
+
+                        if (!empty($this->settings['show_on_archive'])) {
+                            $this->render('archive');
+                        }
+                        return;
+                    }
+                }
+                $this->render('single');
             }, $priority);
         }
 
         // Archive/Shop Page Placement Logic
         if (!empty($this->settings['show_on_archive'])) {
             $archive_pos = $this->settings['archive_position'] ?? '';
-            add_action($this->map_shop_hook($archive_pos), [$this, 'render'], 10);
+            add_action($this->map_shop_hook($archive_pos), function () {
+                $this->render('archive');
+            }, 10);
         }
     }
 
-    public function render()
+    public function render($context = '')
     {
         global $product;
         if (!$product) {
@@ -87,21 +102,21 @@ class Th_Store_One_Sale_Countdown_Frontend
             return;
         }
 
-        $is_single  = is_product();
-        $is_archive = is_shop() || is_product_category() || is_product_tag();
-        $is_loop    = function_exists('wc_get_loop_prop') && wc_get_loop_prop('name');
-
-        if ($is_single && $is_loop) {
+        // Context check perfect template style assigning
+        if ($context === 'single') {
+            $style = $this->settings['sale_countdown_style'] ?? 'style1';
+        } elseif ($context === 'archive') {
             $style = $this->settings['sale_countdown_archive_style'] ?? 'acstyle1';
         } else {
-            $style = $this->get_style();
+            // Context fall-back mechanism
+            $style = is_product() ? ($this->settings['sale_countdown_style'] ?? 'style1') : ($this->settings['sale_countdown_archive_style'] ?? 'acstyle1');
         }
 
-        if ($is_single && !$is_loop && empty($this->settings['show_on_single'])) {
+        // Settings validity check before inclusion
+        if ($context === 'single' && empty($this->settings['show_on_single'])) {
             return;
         }
-
-        if (($is_archive || $is_loop) && empty($this->settings['show_on_archive'])) {
+        if ($context === 'archive' && empty($this->settings['show_on_archive'])) {
             return;
         }
 

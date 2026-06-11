@@ -25,6 +25,25 @@ $text        = $settings['single_text_color'] ?? '#facc15';
 $timer_bg    = $settings['single_timer_bg_color'] ?? '#222';
 $timer_color = $settings['single_timer_color'] ?? '#fff';
 $bar_color   = $settings['single_sold_bar_bg_color'] ?? 'linear-gradient(90deg, #22c55e, #f97316)';
+
+/* PADDING */
+$padding = $settings['cnt_padding'] ?? [];
+
+$pad_top = th_store_one_with_unit(
+    $padding['top'] ?? '0px'
+);
+
+$pad_right = th_store_one_with_unit(
+    $padding['right'] ?? '0px'
+);
+
+$pad_bottom = th_store_one_with_unit(
+    $padding['bottom'] ?? '0px'
+);
+
+$pad_left = th_store_one_with_unit(
+    $padding['left'] ?? '0px'
+);
 ?>
 
 <div class="th-cd th-style1 s1-align-<?php echo esc_attr($align); ?>"
@@ -34,7 +53,7 @@ $bar_color   = $settings['single_sold_bar_bg_color'] ?? 'linear-gradient(90deg, 
      
      data-expire-action="<?php echo esc_attr($settings['countdown_expire_action'] ?? 'hide'); ?>"
      data-expire-msg="<?php echo esc_attr($settings['expire_message'] ?? 'Offer expired'); ?>"
-     style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>;">
+     style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>; padding: <?php echo esc_attr("$pad_top $pad_right $pad_bottom $pad_left"); ?>;">
 
   <?php if ($show_msg && $msg) : ?>
     <div class="th-msg" style="color: <?php echo esc_attr($text); ?>;">

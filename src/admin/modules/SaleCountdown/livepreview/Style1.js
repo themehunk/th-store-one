@@ -14,6 +14,7 @@ const Style1 = ({ settings }) => {
   const timerBg = settings?.single_timer_bg_color || "#d7d3d3b8";
   const timerColor = settings?.single_timer_color || "#111";
   const barColor = settings?.single_sold_bar_bg_color || "#229fd8";
+  const cntPadding = settings?.cnt_padding || {};
 
   const sold = 32;
   const total = 50;
@@ -61,6 +62,9 @@ const Style1 = ({ settings }) => {
       style={{
         background: bg,
         color: text,
+        padding: `${cntPadding.top || "0px"} ${cntPadding.right || "0px"} ${
+          cntPadding.bottom || "0px"
+        } ${cntPadding.left || "0px"}`,
         ...getBorderStyle(settings.border),
       }}
     >
