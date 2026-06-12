@@ -66,11 +66,28 @@ $border_css = sprintf(
     esc_attr($br['bottom'] ?? '0px'),
     esc_attr($br['left'] ?? '0px')
 );
+/* PADDING */
+$padding = $settings['cnt_padding'] ?? [];
 
+$pad_top = th_store_one_with_unit(
+    $padding['top'] ?? '0px'
+);
+
+$pad_right = th_store_one_with_unit(
+    $padding['right'] ?? '0px'
+);
+
+$pad_bottom = th_store_one_with_unit(
+    $padding['bottom'] ?? '0px'
+);
+
+$pad_left = th_store_one_with_unit(
+    $padding['left'] ?? '0px'
+);
 ?>
 
 <div class="th-cd th-style2 s1-align-<?php echo esc_attr($align); ?>"
-     style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>; <?php echo esc_attr($border_css); ?>"
+     style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>; <?php echo esc_attr($border_css); ?>; padding: <?php echo esc_attr("$pad_top $pad_right $pad_bottom $pad_left"); ?>;"
      data-start="<?php echo $start; ?>" data-end="<?php echo $end; ?>"
      data-server-now="<?php echo esc_attr(time()); ?>"
      

@@ -88,3 +88,13 @@
   visibility: visible;
   pointer-events: auto;
 }
+
+.th-recent-view-wrap ul.products li.product .thunk-product .price{
+    text-align: center;
+    font-size: 16px;
+    line-height: 23px;
+    color: #767676;
+    font-family: 'Jost';
+    font-weight: 500;
+    margin-bottom: 15px;
+}

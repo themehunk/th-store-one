@@ -31,6 +31,24 @@ $radius = 26;
 $stroke = 2.5;
 $normalizedRadius = $radius - $stroke / 2;
 $circumference = $normalizedRadius * 2 * M_PI; // Approx 155.5
+/* PADDING */
+$padding = $settings['cnt_padding'] ?? [];
+
+$pad_top = th_store_one_with_unit(
+    $padding['top'] ?? '0px'
+);
+
+$pad_right = th_store_one_with_unit(
+    $padding['right'] ?? '0px'
+);
+
+$pad_bottom = th_store_one_with_unit(
+    $padding['bottom'] ?? '0px'
+);
+
+$pad_left = th_store_one_with_unit(
+    $padding['left'] ?? '0px'
+);
 ?>
 
 <div class="th-cd s4-style s4-align-<?php echo esc_attr($align); ?>"
@@ -40,7 +58,7 @@ $circumference = $normalizedRadius * 2 * M_PI; // Approx 155.5
      
      data-expire-action="<?php echo esc_attr($settings['countdown_expire_action'] ?? 'hide'); ?>"
      data-expire-msg="<?php echo esc_attr($settings['expire_message'] ?? 'Offer expired'); ?>"
-     style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>;">
+     style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>;  padding: <?php echo esc_attr("$pad_top $pad_right $pad_bottom $pad_left"); ?>;">
 
   <?php if ($show_msg && $msg) : ?>
     <div class="s4-message" style="color: <?php echo esc_attr($text); ?>; margin-bottom: 14px; font-size: 14px; font-weight: 500;">

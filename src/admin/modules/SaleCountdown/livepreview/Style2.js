@@ -12,6 +12,7 @@ const Style2 = ({ settings = {} }) => {
   const showStockBar = settings?.show_stock_bar !== false; // Default true
   const saleMessage = settings?.sale_message || "Hurry! Offer ends soon";
   const timeFormat = settings?.time_format || "dhms"; // 'dhms' ya 'hms'
+  const cntPadding = settings?.cnt_padding || {};
 
   const getBorderStyle = (border = {}) => ({
     borderStyle: border.style || "",
@@ -59,7 +60,9 @@ const Style2 = ({ settings = {} }) => {
       style={{
         color: text,
         background: bg,
-        padding: "30px",
+        padding: `${cntPadding.top || "0px"} ${cntPadding.right || "0px"} ${
+          cntPadding.bottom || "0px"
+        } ${cntPadding.left || "0px"}`,
         ...getBorderStyle(settings.border),
       }}
     >
