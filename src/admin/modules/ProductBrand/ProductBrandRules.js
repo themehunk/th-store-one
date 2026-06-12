@@ -38,6 +38,7 @@ const newBrlistTRule = () => ({
   categories: [],
   tags: [],
   flexible_id: crypto.randomUUID(),
+  use_shortcode: false,
   brand_list: [
     {
       id: crypto.randomUUID(),
@@ -742,33 +743,47 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                             + Add List Item
                           </div>
                         </S1FieldGroup>
-                        <S1Field label={__("Shortcode", "th-store-one")}>
+                        <S1Field label={__("Use Shortcode", "th-store-one")}>
+                          <ToggleControl
+                            checked={rule.use_shortcode}
+                            onChange={(v) =>
+                              updateField(index, "use_shortcode", v)
+                            }
+                          />
                           <p className="s1-shortcode-description">
                             {__(
                               "Use this shortcode to display this Trust Badges anywhere on your site (posts, pages, widgets, or page builders).",
                               "th-store-one",
                             )}
                           </p>
-                          <div className="s1-shortcode-wrapper">
-                            <textarea
-                              readOnly
-                              value={`[th_store_one_product_brand id="${rule.flexible_id}"]`}
-                              className="s1-shortcode-textarea"
-                            />
-
-                            <button
-                              type="button"
-                              className="s1-shortcode-copy"
-                              onClick={() => {
-                                navigator.clipboard.writeText(
-                                  `[th_store_one_product_brand id="${rule.flexible_id}"]`,
-                                );
-                              }}
-                            >
-                              <CopyIcon />
-                            </button>
-                          </div>
                         </S1Field>
+                        {rule.use_shortcode && (
+                          <S1Field>
+                            <div className="s1-shortcode-wrapper">
+                              <textarea
+                                readOnly
+                                value={`[th_store_one_product_trust_badges id="${
+                                  index + 1
+                                }"]`}
+                                className="s1-shortcode-textarea"
+                              />
+
+                              <button
+                                type="button"
+                                className="s1-shortcode-copy"
+                                onClick={() => {
+                                  navigator.clipboard.writeText(
+                                    `[th_store_one_product_trust_badges id="${
+                                      index + 1
+                                    }"]`,
+                                  );
+                                }}
+                              >
+                                <CopyIcon />
+                              </button>
+                            </div>
+                          </S1Field>
+                        )}
                       </div>
                     ),
                   },

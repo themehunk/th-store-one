@@ -40,7 +40,10 @@ const newSaleRule = () => ({
   products: [],
   exclude_products_enabled: false,
   exclude_products: [],
-  trigger_type: "all_products",
+  exclude_pages: [],
+  exclude_alproducts: [],
+  trigger_type: "all_pages",
+  use_shortcode: false,
   fake_orders: [
     {
       id: crypto.randomUUID(),
@@ -68,8 +71,12 @@ const newSaleRule = () => ({
   loop: true,
   productsInclude: [],
   categoriesInclude: [],
+  pagesInclude: [],
+  exclude_pagesInclude_enabled: false,
   exclude_productsInclude_enabled: false,
   exclude_categoryInclude_enabled: false,
+  exclude_productInclude_enabled: false,
+
   noti_title_clr: "#000000",
   noti_text_clr: "#1e1e1e",
   noti_bg_clr: "#ffffff8c",
@@ -883,6 +890,48 @@ export default function SaleNotificationRule({
                             </div>
                           </S1FieldGroup>
                         )}
+
+                        <S1Field label={__("Use Shortcode", "th-store-one")}>
+                          <ToggleControl
+                            checked={rule.use_shortcode}
+                            onChange={(v) =>
+                              updateField(index, "use_shortcode", v)
+                            }
+                          />
+                          <p className="s1-shortcode-description">
+                            {__(
+                              "Use this shortcode to display this Sales Notification anywhere on your site (posts, pages, widgets, or page builders).",
+                              "th-store-one",
+                            )}
+                          </p>
+                        </S1Field>
+                        {rule.use_shortcode && (
+                          <S1Field>
+                            <div className="s1-shortcode-wrapper">
+                              <textarea
+                                readOnly
+                                value={`[th_store_one_sales_notification id="${
+                                  index + 1
+                                }"]`}
+                                className="s1-shortcode-textarea"
+                              />
+
+                              <button
+                                type="button"
+                                className="s1-shortcode-copy"
+                                onClick={() => {
+                                  navigator.clipboard.writeText(
+                                    `[th_store_one_sales_notification id="${
+                                      index + 1
+                                    }"]`,
+                                  );
+                                }}
+                              >
+                                <CopyIcon />
+                              </button>
+                            </div>
+                          </S1Field>
+                        )}
                       </div>
                     ),
                   },
@@ -1104,7 +1153,12 @@ export default function SaleNotificationRule({
                           <SelectControl
                             value={rule.trigger_type}
                             options={[
-                              { label: "All Pages", value: "all_products" },
+                              { label: "All Pages", value: "all_pages" },
+                              {
+                                label: "Specific Pages",
+                                value: "specific_pages",
+                              },
+                              { label: "All Product", value: "all_product" },
                               {
                                 label: "Specific Products",
                                 value: "specific_products",
@@ -1128,6 +1182,7 @@ export default function SaleNotificationRule({
                             onChange={(items) =>
                               updateField(index, "productsInclude", items)
                             }
+                            detailedView={true}
                           />
                         )}
 
@@ -1139,32 +1194,60 @@ export default function SaleNotificationRule({
                             onChange={(items) =>
                               updateField(index, "categoriesInclude", items)
                             }
+                            detailedView={true}
                           />
                         )}
-                        {(rule.trigger_type === "specific_products" ||
-                          rule.trigger_type === "all_products") && (
-                          <ExcludeWooCondition
-                            label={__("Exclude products", "th-store-one")}
-                            searchType="product"
-                            enabled={rule.exclude_productsInclude_enabled}
-                            items={rule.exclude_products}
-                            onToggle={(v) =>
-                              updateField(
-                                index,
-                                "exclude_productsInclude_enabled",
-                                v,
-                              )
-                            }
-                            onChangeItems={(items) =>
-                              updateField(
-                                index,
-                                "exclude_productsInclude",
-                                items,
-                              )
+                        {rule.trigger_type === "specific_pages" && (
+                          <MultiWooSearchSelector
+                            searchType="page"
+                            label="Select Pages"
+                            value={rule.pagesInclude}
+                            onChange={(items) =>
+                              updateField(index, "pagesInclude", items)
                             }
                             detailedView={true}
                           />
                         )}
+
+                        {rule.trigger_type === "all_pages" && (
+                          <ExcludeWooCondition
+                            label={__("Exclude Pages", "th-store-one")}
+                            searchType="page"
+                            enabled={rule.exclude_pagesInclude_enabled}
+                            items={rule.exclude_pages}
+                            onToggle={(v) =>
+                              updateField(
+                                index,
+                                "exclude_pagesInclude_enabled",
+                                v,
+                              )
+                            }
+                            onChangeItems={(items) =>
+                              updateField(index, "exclude_pages", items)
+                            }
+                            detailedView={true}
+                          />
+                        )}
+                        {rule.trigger_type === "all_product" && (
+                          <ExcludeWooCondition
+                            label={__("Exclude Product", "th-store-one")}
+                            searchType="product"
+                            enabled={rule.exclude_productInclude_enabled}
+                            items={rule.exclude_alproducts}
+                            onToggle={(v) =>
+                              updateField(
+                                index,
+                                "exclude_productInclude_enabled",
+                                v,
+                              )
+                            }
+                            onChangeItems={(items) =>
+                              updateField(index, "exclude_alproducts", items)
+                            }
+                            detailedView={true}
+                          />
+                        )}
+
                         {rule.trigger_type === "specific_categories" && (
                           <ExcludeWooCondition
                             label={__("Exclude categories", "th-store-one")}

@@ -53,6 +53,10 @@ class Th_Store_One_Buy_To_List_Frontend
 
         foreach ($this->rules as $rule) {
 
+            if (!empty($rule['use_shortcode'])) {
+                continue;
+            }
+
             if (empty($rule['status']) || 'active' !== $rule['status']) {
                 continue;
             }
@@ -181,29 +185,37 @@ class Th_Store_One_Buy_To_List_Frontend
 
     public function shortcode_render($atts)
     {
-
         $atts = shortcode_atts(
-            array(
+            [
                 'id' => '',
-            ),
+            ],
             $atts
         );
 
-        if (empty($atts['id'])) {
+        $rule_id = absint($atts['id']);
+
+        if ($rule_id < 1) {
             return '';
         }
 
-        foreach ($this->rules as $rule) {
+        $index = $rule_id - 1;
 
-            if (isset($rule['flexible_id']) && $rule['flexible_id'] === $atts['id']) {
-
-                ob_start();
-                $this->render_single_rule($rule);
-                return ob_get_clean();
-            }
+        if (!isset($this->rules[$index])) {
+            return '';
         }
 
-        return '';
+        $rule = $this->rules[$index];
+
+        // shortcode enabled rules
+        if (empty($rule['use_shortcode'])) {
+            return '';
+        }
+
+        ob_start();
+
+        $this->render_single_rule($rule);
+
+        return ob_get_clean();
     }
 
 
@@ -301,10 +313,10 @@ class Th_Store_One_Buy_To_List_Frontend
                         echo wp_kses(
                             $rule['custom_svg'],
                             array(
-                                // मुख्य SVG कंटेनर (साइज और व्यूबॉक्स को डिस्टर्ब नहीं करेगा)
+
                                 'svg' => array(
                                     'xmlns'       => true,
-                                    'viewbox'     => true, // viewBox छोटा-बड़ा होने से रोकता है
+                                    'viewbox'     => true,
                                     'width'       => true,
                                     'height'      => true,
                                     'fill'        => true,
@@ -314,7 +326,7 @@ class Th_Store_One_Buy_To_List_Frontend
                                     'style'       => true,
                                     'id'          => true,
                                 ),
-                                // SVG के सभी कॉमन शेप्स और डिज़ाइन एलिमेंट्स
+
                                 'path' => array(
                                     'd' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true,
                                     'stroke-linecap' => true, 'stroke-linejoin' => true, 'class' => true, 'style' => true
@@ -341,12 +353,12 @@ class Th_Store_One_Buy_To_List_Frontend
                                 'ellipse' => array(
                                     'cx' => true, 'cy' => true, 'rx' => true, 'ry' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true
                                 ),
-                                // ग्रुपिंग और कंबाइनिंग टैग्स
+
                                 'g' => array(
                                     'fill' => true, 'stroke' => true, 'stroke-width' => true, 'class' => true, 'style' => true, 'id' => true
                                 ),
                                 'defs' => array(),
-                                // एडवांस डिज़ाइनों और ग्रेडिएंट्स के लिए (ताकि कलर गायब न हों)
+
                                 'lineargradient' => array(
                                     'id' => true, 'x1' => true, 'y1' => true, 'x2' => true, 'y2' => true, 'gradientunits' => true
                                 ),
