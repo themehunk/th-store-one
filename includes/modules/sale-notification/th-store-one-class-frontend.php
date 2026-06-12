@@ -6,6 +6,7 @@ if (!defined('ABSPATH')) {
 class Th_Store_One_Sale_Notification_Frontend
 {
     private $rules = [];
+    private $shortcode_rendered_on_page = false;
 
     public function __construct()
     {
@@ -18,10 +19,16 @@ class Th_Store_One_Sale_Notification_Frontend
         $all = get_option('th_store_one_module_set', []);
         $this->rules = $all['sale-notification']['rules'] ?? [];
 
+
+
+
         if (empty($this->rules)) {
             return;
         }
-
+        add_shortcode(
+            'th_store_one_sales_notification',
+            [$this, 'shortcode_handler']
+        );
         add_action('wp_footer', [$this, 'render']);
         add_action('wp_enqueue_scripts', [$this, 'assets']);
     }
@@ -46,13 +53,24 @@ class Th_Store_One_Sale_Notification_Frontend
     }
 
     public function render()
-    {?>
+    {
+
+        if ($this->shortcode_rendered_on_page) {
+            return;
+        }
+
+        ?>
 
         <div id="th-sale-notify-root">
 
-        <?php foreach ($this->rules as $rule) {
+        <?php foreach ($this->rules as $index => $rule) {
 
             if (($rule['status'] ?? '') !== 'active') {
+                continue;
+            }
+
+
+            if (!empty($rule['use_shortcode'])) {
                 continue;
             }
 
@@ -67,113 +85,238 @@ class Th_Store_One_Sale_Notification_Frontend
 
     <?php }
 
+
+
+    public function shortcode_handler($atts)
+    {
+        $atts = shortcode_atts([
+            'id' => '',
+        ], $atts);
+
+        $rule_id = absint($atts['id']);
+
+        if ($rule_id < 1) {
+            return '';
+        }
+
+        $index = $rule_id - 1;
+
+        if (!isset($this->rules[$index])) {
+            return '';
+        }
+
+        $rule = $this->rules[$index];
+
+        // IMPORTANT
+        if (empty($rule['use_shortcode'])) {
+            return '';
+        }
+        $this->shortcode_rendered_on_page = true;
+
+        ob_start();
+
+        $this->render_rule($rule);
+
+        return ob_get_clean();
+    }
+
     /* ================= RULE MATCH ================= */
 
     private function match_rule($rule)
     {
+        /* ================= DEVICE ================= */
 
-        /* DEVICE */
         if (!empty($rule['devices'])) {
 
             $user_agent = isset($_SERVER['HTTP_USER_AGENT'])
-    ? sanitize_text_field(
-        wp_unslash($_SERVER['HTTP_USER_AGENT'])
-    )
-    : '';
+                ? sanitize_text_field(wp_unslash($_SERVER['HTTP_USER_AGENT']))
+                : '';
 
-            // detect mobile
             $is_mobile = wp_is_mobile();
 
-            // detect tablet (basic UA check)
             $is_tablet = (
                 stripos($user_agent, 'ipad') !== false ||
-                 stripos($user_agent, 'android') !== false && !stripos($user_agent, 'mobile') ||
-                 stripos($user_agent, 'tablet') !== false
+                (
+                    stripos($user_agent, 'android') !== false &&
+                    stripos($user_agent, 'mobile') === false
+                ) ||
+                stripos($user_agent, 'tablet') !== false
             );
 
-            // fix: tablet should not be counted as mobile
             if ($is_tablet) {
                 $is_mobile = false;
             }
 
-            /* CONDITIONS */
-            if ($is_mobile && !in_array('mobile', $rule['devices'])) {
+            if (
+                $is_mobile &&
+                !in_array('mobile', $rule['devices'], true)
+            ) {
                 return false;
             }
 
-            if ($is_tablet && !in_array('tablet', $rule['devices'])) {
+            if (
+                $is_tablet &&
+                !in_array('tablet', $rule['devices'], true)
+            ) {
                 return false;
             }
 
-            if (!$is_mobile && !$is_tablet && !in_array('desktop', $rule['devices'])) {
+            if (
+                !$is_mobile &&
+                !$is_tablet &&
+                !in_array('desktop', $rule['devices'], true)
+            ) {
                 return false;
             }
         }
 
-        /* PRODUCT PAGE LOGIC */
-        if (is_product()) {
+        /* ================= TRIGGER ================= */
 
-            global $product;
-            if (!$product) {
-                return false;
-            }
+        $trigger = $rule['trigger_type'] ?? 'all_pages';
 
-            $pid = $product->get_id();
+        /* ================= ALL PAGES ================= */
 
-            /* ================= TRIGGER ================= */
+        if ($trigger === 'all_pages') {
 
-            $trigger = $rule['trigger_type'] ?? 'all_products';
+            if (
+                !empty($rule['exclude_pagesInclude_enabled']) &&
+                !empty($rule['exclude_pages'])
+            ) {
 
-            if ($trigger === 'specific_products') {
+                $current_page = get_queried_object_id();
 
-                if (empty($rule['productsInclude']) ||
-                    !in_array($pid, $rule['productsInclude'], true)
+                if (
+                    in_array(
+                        $current_page,
+                        $rule['exclude_pages'],
+                        true
+                    )
                 ) {
                     return false;
                 }
-            } elseif ($trigger === 'specific_categories') {
-
-                if (empty($rule['categoriesInclude'])) {
-                    return false;
-                }
-
-                $cats = wp_get_post_terms($pid, 'product_cat', ['fields' => 'ids']);
-
-                if (!array_intersect($rule['categoriesInclude'], $cats)) {
-                    return false;
-                }
             }
 
-            /*IMPORTANT: all_products = NO restriction */
-            // no condition here → always pass
-
-            /* ================= EXCLUDE PRODUCTS ================= */
-
-            if (!empty($rule['exclude_productsInclude_enabled'])
-                && !empty($rule['exclude_productsInclude'])
-            ) {
-
-                if (in_array($pid, $rule['exclude_productsInclude'], true)) {
-                    return false;
-                }
-            }
-
-            /* ================= EXCLUDE CATEGORIES ================= */
-
-            if (!empty($rule['exclude_categoryInclude_enabled'])
-                && !empty($rule['exclude_categoriesInclude'])
-            ) {
-
-                $cats = wp_get_post_terms($pid, 'product_cat', ['fields' => 'ids']);
-
-                if (array_intersect($rule['exclude_categoriesInclude'], $cats)) {
-                    return false;
-                }
-            }
+            return true;
         }
-        return true;
-    }
 
+        /* ================= SPECIFIC PAGES ================= */
+
+        if ($trigger === 'specific_pages') {
+
+            $current_page = get_queried_object_id();
+
+            if (
+                empty($rule['pagesInclude']) ||
+                !in_array(
+                    $current_page,
+                    $rule['pagesInclude'],
+                    true
+                )
+            ) {
+                return false;
+            }
+
+            return true;
+        }
+
+        /* ================= PRODUCT CHECK ================= */
+
+        if (!is_product()) {
+            return false;
+        }
+
+        global $product;
+
+        if (!$product) {
+            return false;
+        }
+
+        $pid = $product->get_id();
+
+        /* ================= ALL PRODUCTS ================= */
+
+        if ($trigger === 'all_product') {
+
+            if (
+                !empty($rule['exclude_productInclude_enabled']) &&
+                !empty($rule['exclude_alproducts'])
+            ) {
+
+                if (
+                    in_array(
+                        $pid,
+                        $rule['exclude_alproducts'],
+                        true
+                    )
+                ) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /* ================= SPECIFIC PRODUCTS ================= */
+
+        if ($trigger === 'specific_products') {
+
+            if (
+                empty($rule['productsInclude']) ||
+                !in_array(
+                    $pid,
+                    $rule['productsInclude'],
+                    true
+                )
+            ) {
+                return false;
+            }
+
+            return true;
+        }
+
+        /* ================= SPECIFIC CATEGORIES ================= */
+
+        if ($trigger === 'specific_categories') {
+
+            if (empty($rule['categoriesInclude'])) {
+                return false;
+            }
+
+            $cats = wp_get_post_terms(
+                $pid,
+                'product_cat',
+                ['fields' => 'ids']
+            );
+
+            if (
+                !array_intersect(
+                    $rule['categoriesInclude'],
+                    $cats
+                )
+            ) {
+                return false;
+            }
+
+            if (
+                !empty($rule['exclude_categoriesInclude_enabled']) &&
+                !empty($rule['exclude_categoriesInclude'])
+            ) {
+
+                if (
+                    array_intersect(
+                        $rule['exclude_categoriesInclude'],
+                        $cats
+                    )
+                ) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
     /* ================= RULE RENDER ================= */
 
     private function render_rule($rule)

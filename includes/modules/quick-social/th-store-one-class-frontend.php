@@ -51,13 +51,38 @@ class Th_Store_One_Quick_Social
 
     public function shortcode($atts)
     {
-
         $atts = shortcode_atts(
-            array( 'id' => '' ),
+            [
+                'id' => '',
+            ],
             $atts
         );
 
-        return $this->generate_output($atts['id']);
+        $rule_id = absint($atts['id']);
+
+        if ($rule_id < 1) {
+            return '';
+        }
+
+        $index = $rule_id - 1;
+
+        if (!isset($this->rules[$index])) {
+            return '';
+        }
+
+        $rule = $this->rules[$index];
+
+        // shortcode enabled hona chahiye
+        if (empty($rule['use_shortcode'])) {
+            return '';
+        }
+
+        ob_start();
+
+        $this->current_rule = $rule;
+        $this->generate_output($rule['flexible_id']);
+
+        return ob_get_clean();
     }
 
     /* ================= MAIN OUTPUT ================= */
