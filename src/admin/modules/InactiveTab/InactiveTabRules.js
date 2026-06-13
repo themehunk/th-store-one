@@ -30,7 +30,7 @@ import { S1Field, S1FieldGroup } from "@th-storeone-global/S1Field";
 const newInactiveTabRule = () => ({
   status: "active",
   rule_name: "Inactive Tab Rule",
-open: true,
+  open: true,
   message_type: "dynamic",
   custom_message: "Come back!",
   dynamic_template: "You left {cart_count} items",
@@ -39,6 +39,7 @@ open: true,
   selected_icon: "cart",
   custom_svg: "",
   image_url: "",
+  use_shortcode: false,
 
   rotation_enabled: false,
   rotation_messages: [
@@ -107,7 +108,7 @@ const MESSAGE_ICON_OPTIONS = [
   {
     id: "heart",
     icon: <span>❤️</span>,
-  }
+  },
 ];
 /* ------------------------ SORTABLE ------------------------ */
 
@@ -360,6 +361,47 @@ export default function InactiveTabRules({ rules, onChange }) {
                             }
                           />
                         </S1Field>
+                        <S1Field label={__("Use Shortcode", "th-store-one")}>
+                          <ToggleControl
+                            checked={rule.use_shortcode}
+                            onChange={(v) =>
+                              updateField(index, "use_shortcode", v)
+                            }
+                          />
+                          <p className="s1-shortcode-description">
+                            {__(
+                              "Use this shortcode to display this Inactive Tab Rule anywhere on your site (posts, pages, widgets, or page builders).",
+                              "th-store-one",
+                            )}
+                          </p>
+                        </S1Field>
+                        {rule.use_shortcode && (
+                          <S1Field>
+                            <div className="s1-shortcode-wrapper">
+                              <textarea
+                                readOnly
+                                value={`[th_store_one_inactive_tab id="${
+                                  index + 1
+                                }"]`}
+                                className="s1-shortcode-textarea"
+                              />
+
+                              <button
+                                type="button"
+                                className="s1-shortcode-copy"
+                                onClick={() => {
+                                  navigator.clipboard.writeText(
+                                    `[th_store_one_inactive_tab id="${
+                                      index + 1
+                                    }"]`,
+                                  );
+                                }}
+                              >
+                                <CopyIcon />
+                              </button>
+                            </div>
+                          </S1Field>
+                        )}
                       </div>
                     ),
                   },
@@ -903,8 +945,6 @@ export default function InactiveTabRules({ rules, onChange }) {
                       </div>
                     ),
                   },
-
-                  
                 ]}
               />
             )}
