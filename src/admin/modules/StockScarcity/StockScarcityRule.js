@@ -701,7 +701,9 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                             <div className="s1-shortcode-wrapper">
                               <textarea
                                 readOnly
-                                value={`[th_stock_scarcity id="${rule.flexible_id}"]`}
+                                value={`[th_store_one_stock_scarcity id="${
+                                  index + 1
+                                }"]`}
                                 className="s1-shortcode-textarea"
                               />
 
@@ -710,7 +712,9 @@ export default function StockScarcityRule({ rules, onChange, onLivePreview }) {
                                 className="s1-shortcode-copy"
                                 onClick={() =>
                                   navigator.clipboard.writeText(
-                                    `[th_stock_scarcity id="${rule.flexible_id}"]`,
+                                    `[th_store_one_stock_scarcity id="${
+                                      index + 1
+                                    }"]`,
                                   )
                                 }
                               >

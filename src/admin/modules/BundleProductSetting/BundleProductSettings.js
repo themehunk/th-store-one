@@ -4,12 +4,14 @@ import { __ } from "@wordpress/i18n";
 import { S1Field, S1FieldGroup } from "@th-storeone-global/S1Field";
 import { Spinner, ToggleControl, SelectControl } from "@wordpress/components";
 import ResetModuleButton from "@th-storeone-global/ResetModuleButton";
+import { CopyIcon } from "@radix-ui/react-icons";
 const MODULE_ID = "bundle-product";
 
 /* ---------------------------------
  * DEFAULT SETTINGS
  * --------------------------------- */
 const DEFAULT_SETTINGS = {
+  use_shortcode: false,
   display_style: "product",
   product_page: {
     show_price_range: true,
@@ -424,6 +426,40 @@ export default function BundleProductSettings({
                 />
               </S1Field>
             </S1FieldGroup>
+
+            <S1Field label={__("Use Shortcode", "th-store-one")}>
+              <ToggleControl
+                checked={settings.use_shortcode}
+                onChange={(v) => setSettings({ ...settings, use_shortcode: v })}
+              />
+              <p className="s1-shortcode-description">
+                {__(
+                  "Use this shortcode to display this Bundle anywhere on Product Page",
+                  "th-store-one",
+                )}
+              </p>
+            </S1Field>
+            {settings.use_shortcode && (
+              <S1Field>
+                <div className="s1-shortcode-wrapper">
+                  <textarea
+                    readOnly
+                    value={`[th_store_one_bundle]`}
+                    className="s1-shortcode-textarea"
+                  />
+
+                  <button
+                    type="button"
+                    className="s1-shortcode-copy"
+                    onClick={() => {
+                      navigator.clipboard.writeText(`[th_store_one_bundle"]`);
+                    }}
+                  >
+                    <CopyIcon />
+                  </button>
+                </div>
+              </S1Field>
+            )}
           </div>
         </>
       )}
