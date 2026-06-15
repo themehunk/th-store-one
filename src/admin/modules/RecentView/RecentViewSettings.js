@@ -28,6 +28,7 @@ const DEFAULT_SETTINGS = {
   title: "Recently Viewed",
   title_tag: "h3",
   hide_title: false,
+  use_shortcode: false,
 
   slider: {
     enabled: false,
@@ -247,6 +248,46 @@ export default function RecentViewSettings({
                           />
                         </S1Field>
                       </S1FieldGroup>
+                      {/* SHORTCODE */}
+                      <S1FieldGroup title="Shortcode">
+                        <S1Field label={__("Use Shortcode", "th-store-one")}>
+                          <ToggleControl
+                            checked={settings.use_shortcode}
+                            onChange={(v) =>
+                              setSettings({ ...settings, use_shortcode: v })
+                            }
+                          />
+                          <p className="s1-shortcode-description">
+                            {__(
+                              "Use this shortcode to display this Recent View anywhere on your site (posts, pages, widgets, or page builders).",
+                              "th-store-one",
+                            )}
+                          </p>
+                        </S1Field>
+                        {settings.use_shortcode && (
+                          <S1Field>
+                            <div className="s1-shortcode-wrapper">
+                              <textarea
+                                readOnly
+                                value={`[th_store_one_recent_view]`}
+                                className="s1-shortcode-textarea"
+                              />
+
+                              <button
+                                type="button"
+                                className="s1-shortcode-copy"
+                                onClick={() => {
+                                  navigator.clipboard.writeText(
+                                    `[th_store_one_recent_view"]`,
+                                  );
+                                }}
+                              >
+                                <CopyIcon />
+                              </button>
+                            </div>
+                          </S1Field>
+                        )}
+                      </S1FieldGroup>
                     </>
                   ),
                 },
@@ -326,36 +367,6 @@ export default function RecentViewSettings({
                             page)
                           </p>
                         </S1FieldGroup>
-                      </S1FieldGroup>
-                      {/* SHORTCODE */}
-                      <S1FieldGroup title="Shortcode">
-                        <S1Field label={__("Shortcode", "th-store-one")}>
-                          <p className="s1-shortcode-description">
-                            {__(
-                              "Use this shortcode to display this Featured List anywhere on your site (posts, pages, widgets, or page builders).",
-                              "th-store-one",
-                            )}
-                          </p>
-                          <div className="s1-shortcode-wrapper">
-                            <textarea
-                              readOnly
-                              value={`[th_store_one_recent_view]`}
-                              className="s1-shortcode-textarea"
-                            />
-
-                            <button
-                              type="button"
-                              className="s1-shortcode-copy"
-                              onClick={() => {
-                                navigator.clipboard.writeText(
-                                  `[th_store_one_recent_view"]`,
-                                );
-                              }}
-                            >
-                              <CopyIcon />
-                            </button>
-                          </div>
-                        </S1Field>
                       </S1FieldGroup>
                     </>
                   ),

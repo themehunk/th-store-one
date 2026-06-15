@@ -16,12 +16,33 @@ class Th_Store_One_Inactive_Tab_Frontend
             return;
         }
 
+
         $settings = get_option('th_store_one_module_set', []);
         if (isset($settings['inactive-tab']['rules'])) {
             $this->rules = $settings['inactive-tab']['rules'];
         }
 
+        foreach ($this->rules as $rule) {
+
+            if (empty($rule['status']) || $rule['status'] !== 'active') {
+                continue;
+            }
+
+            // Shortcode rule ko global load mat karo
+            if (!empty($rule['use_shortcode'])) {
+                continue;
+            }
+
+            if ($this->rule_matches($rule)) {
+                $matched_rules[] = $this->prepare_rule($rule);
+            }
+        }
+
         add_action('wp_enqueue_scripts', [$this, 'enqueue_assets']);
+        add_shortcode(
+            'th_store_one_inactive_tab',
+            [$this, 'render_shortcode']
+        );
     }
 
     public function enqueue_assets()
@@ -36,6 +57,11 @@ class Th_Store_One_Inactive_Tab_Frontend
         foreach ($this->rules as $rule) {
 
             if (empty($rule['status']) || $rule['status'] !== 'active') {
+                continue;
+            }
+
+            // shortcode
+            if (!empty($rule['use_shortcode'])) {
                 continue;
             }
 
@@ -175,5 +201,48 @@ class Th_Store_One_Inactive_Tab_Frontend
         $text = str_replace('{cart_total}', wp_strip_all_tags($cart_total), $text);
 
         return wp_strip_all_tags($text);
+    }
+    public function render_shortcode($atts)
+    {
+        $atts = shortcode_atts([
+            'id' => '',
+        ], $atts);
+
+        $id = intval($atts['id']);
+
+        if (!$id || empty($this->rules[$id - 1])) {
+            return '';
+        }
+
+        $rule = $this->rules[$id - 1];
+
+        // sirf shortcode enabled rule hi allow
+        if (empty($rule['use_shortcode'])) {
+            return '';
+        }
+
+        if (empty($rule['status']) || $rule['status'] !== 'active') {
+            return '';
+        }
+
+        wp_enqueue_script(
+            'th-inactive-tab',
+            TH_STORE_ONE_PLUGIN_URL . 'assets/js/inactive-tab.js',
+            [],
+            TH_STORE_ONE_VERSION,
+            true
+        );
+
+        wp_localize_script(
+            'th-inactive-tab',
+            'thInactiveTabData',
+            [
+                'rules' => [
+                    $this->prepare_rule($rule)
+                ]
+            ]
+        );
+
+        return '';
     }
 }

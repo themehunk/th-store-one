@@ -1,6 +1,10 @@
 /* ------------------------ imports ------------------------ */
 import { useState, useEffect, useRef } from "@wordpress/element";
-import { TextControl, SelectControl } from "@wordpress/components";
+import {
+  TextControl,
+  SelectControl,
+  ToggleControl,
+} from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
 import Sortable from "sortablejs";
 import MultiWooSearchSelector from "@th-storeone-global/MultiWooSearchSelector";
@@ -65,7 +69,7 @@ const newFBTRule = () => ({
   exclude_users: [],
 
   exclude_users_enabled: false,
-
+  use_shortcode: false,
   /* -----------------------
    * SINGLE PAGE SETTINGS
    * ---------------------- */
@@ -250,7 +254,6 @@ export default function FrequentlyBoughtRulesEditor({
       window.removeEventListener("storeone:changeDisplayStyle", handler);
   }, [rules]);
 
-
   const hasInitialized = useRef(false);
 
   useEffect(() => {
@@ -368,7 +371,10 @@ export default function FrequentlyBoughtRulesEditor({
                                 value: "specific_products",
                               },
                               {
-                                label: __("Specific Categories", "th-store-one"),
+                                label: __(
+                                  "Specific Categories",
+                                  "th-store-one",
+                                ),
                                 value: "specific_categories",
                               },
                               {
@@ -462,8 +468,6 @@ export default function FrequentlyBoughtRulesEditor({
                           detailedView={true}
                         />
 
-                
-
                         <ExcludeWooCondition
                           label={__("Exclude On-Sale products", "th-store-one")}
                           searchType="on_sale"
@@ -474,6 +478,43 @@ export default function FrequentlyBoughtRulesEditor({
                           }
                           onChangeItems={() => {}}
                         />
+                        <S1Field label={__("Use Shortcode", "th-store-one")}>
+                          <ToggleControl
+                            checked={rule.use_shortcode}
+                            onChange={(v) =>
+                              updateField(index, "use_shortcode", v)
+                            }
+                          />
+                          <p className="s1-shortcode-description">
+                            {__(
+                              "Use this shortcode to display this Frequently Bought Rule anywhere on Product Page",
+                              "th-store-one",
+                            )}
+                          </p>
+                        </S1Field>
+                        {rule.use_shortcode && (
+                          <S1Field>
+                            <div className="s1-shortcode-wrapper">
+                              <textarea
+                                readOnly
+                                value={`[th_store_one_ftb id="${index + 1}"]`}
+                                className="s1-shortcode-textarea"
+                              />
+
+                              <button
+                                type="button"
+                                className="s1-shortcode-copy"
+                                onClick={() => {
+                                  navigator.clipboard.writeText(
+                                    `[th_store_one_ftb id="${index + 1}"]`,
+                                  );
+                                }}
+                              >
+                                <CopyIcon />
+                              </button>
+                            </div>
+                          </S1Field>
+                        )}
                       </div>
                     ),
                   },
@@ -513,7 +554,6 @@ export default function FrequentlyBoughtRulesEditor({
                             }
                           />
                         </S1Accordion>
-
                       </>
                     ),
                   },
@@ -632,20 +672,20 @@ export default function FrequentlyBoughtRulesEditor({
                             defaultValue="12px"
                           />
                           <S1Field>
-                              <THBackgroundControl
-                                allowGradient={false}
-                                label={__("Outer Border", "th-store-one")}
-                                value={rule.outer_brd_clr}
-                                onChange={(v) => {
-                                  const updatedRule = {
-                                    ...rule,
-                                    outer_brd_clr: v,
-                                  };
-                                  updateField(index, "outer_brd_clr", v);
-                                  onLivePreview?.(updatedRule, index);
-                                }}
-                              />
-                            </S1Field>
+                            <THBackgroundControl
+                              allowGradient={false}
+                              label={__("Outer Border", "th-store-one")}
+                              value={rule.outer_brd_clr}
+                              onChange={(v) => {
+                                const updatedRule = {
+                                  ...rule,
+                                  outer_brd_clr: v,
+                                };
+                                updateField(index, "outer_brd_clr", v);
+                                onLivePreview?.(updatedRule, index);
+                              }}
+                            />
+                          </S1Field>
                         </S1FieldGroup>
 
                         <S1FieldGroup title={__("Product", "th-store-one")}>

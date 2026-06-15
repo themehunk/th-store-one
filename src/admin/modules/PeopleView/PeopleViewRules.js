@@ -38,6 +38,7 @@ const newPeopleViewRule = () => ({
 
   /* VIEW MODE */
   view_mode: "real",
+  use_shortcode: false,
 
   /* REAL VIEW */
   real_view: {
@@ -622,6 +623,47 @@ export default function PeopleViewRules({ rules, onChange, onLivePreview }) {
                               />
                             )}
                           </S1FieldGroup>
+                        )}
+                        <S1Field label={__("Use Shortcode", "th-store-one")}>
+                          <ToggleControl
+                            checked={rule.use_shortcode}
+                            onChange={(v) =>
+                              updateField(index, "use_shortcode", v)
+                            }
+                          />
+                          <p className="s1-shortcode-description">
+                            {__(
+                              "Use this shortcode to display this Visitor Count Rule .",
+                              "th-store-one",
+                            )}
+                          </p>
+                        </S1Field>
+                        {rule.use_shortcode && (
+                          <S1Field>
+                            <div className="s1-shortcode-wrapper">
+                              <textarea
+                                readOnly
+                                value={`[th_store_one_visitor_count id="${
+                                  index + 1
+                                }"]`}
+                                className="s1-shortcode-textarea"
+                              />
+
+                              <button
+                                type="button"
+                                className="s1-shortcode-copy"
+                                onClick={() => {
+                                  navigator.clipboard.writeText(
+                                    `[th_store_one_visitor_count id="${
+                                      index + 1
+                                    }"]`,
+                                  );
+                                }}
+                              >
+                                <CopyIcon />
+                              </button>
+                            </div>
+                          </S1Field>
                         )}
                       </div>
                     ),
