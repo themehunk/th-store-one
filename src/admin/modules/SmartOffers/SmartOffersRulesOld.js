@@ -11,7 +11,6 @@ import {
 import { __, sprintf } from "@wordpress/i18n";
 import Sortable from "sortablejs";
 import MultiWooSearchSelector from "@th-storeone-global/MultiWooSearchSelector";
-import ExcludeWooCondition from "@th-storeone-global/ExcludeWooCondition";
 import TabSwitcher from "@th-storeone-global/TabSwitcher";
 import DeviceSelector from "@th-storeone-global/DeviceSelector";
 import { S1Field, S1FieldGroup } from "@th-storeone-global/S1Field";
@@ -40,30 +39,6 @@ const newSmartOfferRule = () => ({
   open: true,
   status: "active",
   title: "Smart Offer",
-  // bogo
-  rule_type: "bogo",
-  bogo_trigger: "bogo_allproduct",
-  exclude_bogo_products_enabled: false,
-  exclude_bogo_products: [],
-  bogo_product: [],
-  bogo_categories: [],
-  bogo_tags: [],
-  //x
-  x_trigger: "x_allproduct",
-  x_exclude_products_enabled: false,
-  x_exclude_products: [],
-  x_product: [],
-  x_categories: [],
-  x_tags: [],
-  x_quantity: "1",
-  //y
-  y_trigger: "y_allproduct",
-  y_exclude_products_enabled: false,
-  y_exclude_products: [],
-  y_product: [],
-  y_categories: [],
-  y_tags: [],
-  y_quantity: "4",
 
   trigger_type: "specific_products",
   products: [],
@@ -326,377 +301,242 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                           </S1Field>
                         </S1FieldGroup>
 
-                        <S1FieldGroup title="Choose Rule">
-                          <S1Field label="Rule Type">
+                        <S1FieldGroup title="BOGO Logic">
+                          <S1Field
+                            label="Buy Quantity (X)"
+                            description="Minimum number of items a customer must purchase to activate the offer"
+                          >
+                            <TextControl
+                              type="number"
+                              value={rule.x_qty}
+                              onChange={(v) =>
+                                updateField(index, "x_qty", parseInt(v))
+                              }
+                            />
+                          </S1Field>
+
+                          <S1Field
+                            label="Get Quantity (Y)"
+                            description="Number of items the customer will receive as free or discounted"
+                          >
+                            <TextControl
+                              type="number"
+                              value={rule.y_qty}
+                              onChange={(v) =>
+                                updateField(index, "y_qty", parseInt(v))
+                              }
+                            />
+                          </S1Field>
+
+                          <S1Field
+                            label="Apply Mode"
+                            description="Repeat: offer applies multiple times based on quantity. Once: offer applies only once per order"
+                          >
                             <SelectControl
-                              help="Choose how the discount behaves. The fields below change to match."
-                              value={rule.rule_type}
+                              value={rule.apply_mode}
                               options={[
-                                {
-                                  label: "Buy one, Get one",
-                                  value: "bogo",
-                                },
-                                {
-                                  label: "Buy X Get Y",
-                                  value: "buyxgety",
-                                },
-                                {
-                                  label: "Dyanmic Offer",
-                                  value: "dynamicoffer",
-                                },
+                                { label: "Repeat", value: "step" },
+                                { label: "Once Only", value: "once" },
                               ]}
-                              onChange={(v) => {
-                                updateField(index, "rule_type", v);
-                              }}
+                              onChange={(v) =>
+                                updateField(index, "apply_mode", v)
+                              }
                             />
                           </S1Field>
                         </S1FieldGroup>
-                        {rule.rule_type == "bogo" && (
-                          <S1FieldGroup title="BOGO Setup">
-                            <S1Field label="Offer applies to">
-                              <SelectControl
-                                help="Pick the products that trigger the buy-one-get-one offer."
-                                value={rule.bogo_trigger}
-                                options={[
-                                  {
-                                    label: "All Products",
-                                    value: "bogo_allproduct",
-                                  },
-                                  {
-                                    label: "Specific Products",
-                                    value: "bogo_specificproduct",
-                                  },
-                                  {
-                                    label: "Specific Category",
-                                    value: "bogo_category",
-                                  },
-                                  {
-                                    label: "Specific Tag",
-                                    value: "bogo_tag",
-                                  },
-                                ]}
-                                onChange={(v) => {
-                                  updateField(index, "bogo_trigger", v);
-                                }}
-                              />
-                            </S1Field>
 
-                            {rule.bogo_trigger == "bogo_allproduct" && (
-                              <ExcludeWooCondition
-                                label={__("Exclude products", "th-store-one")}
-                                searchType="product"
-                                enabled={rule.exclude_bogo_products_enabled}
-                                items={rule.exclude_products}
-                                onToggle={(v) =>
+                        <S1FieldGroup title="Reward">
+                          <S1Field
+                            label="Reward Type"
+                            description="Choose the type of reward customers will receive after qualifying for the offer"
+                          >
+                            <SelectControl
+                              value={rule.reward_type}
+                              options={[
+                                {
+                                  label: "Free Product",
+                                  value: "free_product",
+                                },
+                                {
+                                  label: "Percentage Discount",
+                                  value: "discount_percent",
+                                },
+                                {
+                                  label: "Fixed Discount",
+                                  value: "discount_fixed",
+                                },
+                                {
+                                  label: "Fixed Cart Discount",
+                                  value: "discount_fixed_cart",
+                                },
+                              ]}
+                              onChange={(v) => {
+                                updateField(index, "reward_type", v);
+
+                                /* AUTO FIX */
+
+                                if (v === "free_product") {
                                   updateField(
                                     index,
-                                    "exclude_bogo_products_enabled",
-                                    v,
-                                  )
+                                    "apply_on",
+                                    "specific_product",
+                                  );
                                 }
-                                onChangeItems={(items) =>
-                                  updateField(
-                                    index,
-                                    "exclude_bogo_products",
-                                    items,
-                                  )
-                                }
-                                detailedView={true}
-                              />
-                            )}
-                            {rule.bogo_trigger === "bogo_specificproduct" && (
-                              <MultiWooSearchSelector
-                                searchType="product"
-                                label={__("Select Product", "th-store-one")}
-                                value={rule.bogo_product || []}
-                                onChange={(items) =>
-                                  updateField(index, "bogo_product", items)
-                                }
-                                detailedView={true}
-                              />
-                            )}
-                            {rule.bogo_trigger === "bogo_category" && (
-                              <MultiWooSearchSelector
-                                searchType="category"
-                                label={__("Select Categories", "th-store-one")}
-                                value={rule.bogo_categories || []}
-                                onChange={(items) =>
-                                  updateField(index, "bogo_categories", items)
-                                }
-                                detailedView={true}
-                              />
-                            )}
+                              }}
+                            />
+                          </S1Field>
 
-                            {rule.bogo_trigger === "bogo_tag" && (
-                              <MultiWooSearchSelector
-                                searchType="tag"
-                                label={__("Select Tags", "th-store-one")}
-                                value={rule.bogo_tags || []}
-                                onChange={(items) =>
-                                  updateField(index, "bogo_tags", items)
-                                }
-                                detailedView={true}
-                              />
-                            )}
-                          </S1FieldGroup>
-                        )}
-                        {rule.rule_type == "buyxgety" && (
-                          <>
-                            <S1FieldGroup title="Customer buys (X)">
-                              <S1Field label="Qualifying products">
-                                <SelectControl
-                                  value={rule.x_trigger}
-                                  options={[
-                                    {
-                                      label: "All Products",
-                                      value: "x_allproduct",
-                                    },
-                                    {
-                                      label: "Specific Products",
-                                      value: "x_specificproduct",
-                                    },
-                                    {
-                                      label: "Specific Category",
-                                      value: "x_category",
-                                    },
-                                    {
-                                      label: "Specific Tag",
-                                      value: "x_tag",
-                                    },
-                                  ]}
-                                  onChange={(v) => {
-                                    updateField(index, "x_trigger", v);
-                                  }}
-                                />
-                              </S1Field>
-                              {rule.x_trigger == "x_allproduct" && (
-                                <ExcludeWooCondition
-                                  label={__("Exclude products", "th-store-one")}
-                                  searchType="product"
-                                  enabled={rule.x_exclude_products_enabled}
-                                  items={rule.x_exclude_products}
-                                  onToggle={(v) =>
-                                    updateField(
-                                      index,
-                                      "x_exclude_products_enabled",
-                                      v,
-                                    )
-                                  }
-                                  onChangeItems={(items) =>
-                                    updateField(
-                                      index,
-                                      "x_exclude_products",
-                                      items,
-                                    )
-                                  }
-                                  detailedView={true}
-                                />
-                              )}
-                              {rule.x_trigger === "x_specificproduct" && (
-                                <MultiWooSearchSelector
-                                  searchType="product"
-                                  label={__("Select Product", "th-store-one")}
-                                  value={rule.x_product || []}
-                                  onChange={(items) =>
-                                    updateField(index, "x_product", items)
-                                  }
-                                  detailedView={true}
-                                />
-                              )}
-                              {rule.x_trigger === "x_category" && (
-                                <MultiWooSearchSelector
-                                  searchType="category"
-                                  label={__(
-                                    "Select Categories",
-                                    "th-store-one",
-                                  )}
-                                  value={rule.x_categories || []}
-                                  onChange={(items) =>
-                                    updateField(index, "x_categories", items)
-                                  }
-                                  detailedView={true}
-                                />
-                              )}
+                          {rule.reward_type === "free_product" && (
+                            <MultiWooSearchSelector
+                              searchType="product"
+                              label="Select Free Product"
+                              value={rule.reward_products}
+                              onChange={(v) =>
+                                updateField(index, "reward_products", v)
+                              }
+                              detailedView={true}
+                            />
+                          )}
 
-                              {rule.x_trigger === "x_tag" && (
-                                <MultiWooSearchSelector
-                                  searchType="tag"
-                                  label={__("Select Tags", "th-store-one")}
-                                  value={rule.x_tags || []}
-                                  onChange={(items) =>
-                                    updateField(index, "x_tags", items)
-                                  }
-                                  detailedView={true}
-                                />
-                              )}
-                              <S1Field label="Quantity to buy">
+                          {rule.reward_type !== "free_product" && (
+                            <>
+                              <S1Field
+                                label="Discount Value"
+                                description={
+                                  rule.reward_type === "discount_percent"
+                                    ? "Enter the discount percentage customers will receive (example: 10 = 10% OFF)"
+                                    : rule.reward_type === "discount_fixed"
+                                    ? "Enter the fixed discount amount applied to each rewarded product"
+                                    : "Enter the fixed cart discount amount applied to the entire cart total"
+                                }
+                              >
                                 <TextControl
                                   type="number"
-                                  value={rule.x_quantity}
+                                  value={rule.discount_value}
                                   onChange={(v) =>
                                     updateField(
                                       index,
-                                      "x_quantity",
-                                      parseInt(v),
+                                      "discount_value",
+                                      parseFloat(v),
                                     )
                                   }
                                 />
                               </S1Field>
-                            </S1FieldGroup>
-                            <S1FieldGroup title="Customer gets (Y)">
-                              <S1Field label="Reward products">
+
+                              <S1Field
+                                label="Apply Discount On"
+                                description={
+                                  rule.reward_type === "discount_percent"
+                                    ? "Choose which product should receive the percentage (%) discount"
+                                    : rule.reward_type === "discount_fixed"
+                                    ? "Choose which product should receive the fixed amount discount"
+                                    : "Choose how the fixed cart discount should be triggered"
+                                }
+                              >
                                 <SelectControl
-                                  value={rule.y_trigger}
+                                  value={rule.apply_on}
                                   options={[
                                     {
-                                      label: "All Products",
-                                      value: "y_allproduct",
+                                      label: "Same Product",
+                                      value: "same_product",
                                     },
                                     {
-                                      label: "Specific Products",
-                                      value: "y_specificproduct",
-                                    },
-                                    {
-                                      label: "Specific Category",
-                                      value: "y_category",
-                                    },
-                                    {
-                                      label: "Specific Tag",
-                                      value: "y_tag",
+                                      label: "Specific Product",
+                                      value: "specific_product",
                                     },
                                   ]}
-                                  onChange={(v) => {
-                                    updateField(index, "y_trigger", v);
-                                  }}
-                                />
-                              </S1Field>
-                              {rule.y_trigger == "y_allproduct" && (
-                                <ExcludeWooCondition
-                                  label={__("Exclude products", "th-store-one")}
-                                  searchType="product"
-                                  enabled={rule.y_exclude_products_enabled}
-                                  items={rule.y_exclude_products}
-                                  onToggle={(v) =>
-                                    updateField(
-                                      index,
-                                      "y_exclude_products_enabled",
-                                      v,
-                                    )
-                                  }
-                                  onChangeItems={(items) =>
-                                    updateField(
-                                      index,
-                                      "y_exclude_products",
-                                      items,
-                                    )
-                                  }
-                                  detailedView={true}
-                                />
-                              )}
-                              {rule.y_trigger === "y_specificproduct" && (
-                                <MultiWooSearchSelector
-                                  searchType="product"
-                                  label={__("Select Product", "th-store-one")}
-                                  value={rule.y_product || []}
-                                  onChange={(items) =>
-                                    updateField(index, "y_product", items)
-                                  }
-                                  detailedView={true}
-                                />
-                              )}
-                              {rule.y_trigger === "y_category" && (
-                                <MultiWooSearchSelector
-                                  searchType="category"
-                                  label={__(
-                                    "Select Categories",
-                                    "th-store-one",
-                                  )}
-                                  value={rule.y_categories || []}
-                                  onChange={(items) =>
-                                    updateField(index, "y_categories", items)
-                                  }
-                                  detailedView={true}
-                                />
-                              )}
-
-                              {rule.y_trigger === "y_tag" && (
-                                <MultiWooSearchSelector
-                                  searchType="tag"
-                                  label={__("Select Tags", "th-store-one")}
-                                  value={rule.y_tags || []}
-                                  onChange={(items) =>
-                                    updateField(index, "y_tags", items)
-                                  }
-                                  detailedView={true}
-                                />
-                              )}
-                              <S1Field label="Reward quantity">
-                                <TextControl
-                                  type="number"
-                                  value={rule.y_quantity}
                                   onChange={(v) =>
-                                    updateField(
-                                      index,
-                                      "y_quantity",
-                                      parseInt(v),
-                                    )
+                                    updateField(index, "apply_on", v)
                                   }
                                 />
                               </S1Field>
 
-                              <S1Field label="Discount on Y">
-                                <SelectControl
-                                  value={rule.reward_type}
-                                  options={[
-                                    {
-                                      label: "Free Product",
-                                      value: "free_product",
-                                    },
-                                    {
-                                      label: "Percentage OFF",
-                                      value: "discount_percent",
-                                    },
-                                    {
-                                      label: "Fixed OFF",
-                                      value: "discount_fixed",
-                                    },
-                                    {
-                                      label: "Fixed Price",
-                                      value: "discount_fixed_price",
-                                    },
-                                  ]}
-                                  onChange={(v) => {
-                                    updateField(index, "reward_type", v);
-                                  }}
-                                />
-                              </S1Field>
-                              {rule.reward_type !== "free_product" && (
-                                <S1Field
-                                  label="Discount Value"
-                                  description={
-                                    rule.reward_type === "discount_percent"
-                                      ? "Enter the discount percentage customers will receive (example: 10 = 10% OFF)"
-                                      : rule.reward_type === "discount_fixed"
-                                      ? "Enter the fixed discount amount applied to each rewarded product"
-                                      : "Enter the fixed cart discount amount applied to the entire cart total"
+                              {rule.apply_on === "specific_product" && (
+                                <MultiWooSearchSelector
+                                  searchType="product"
+                                  label="Select Reward Product"
+                                  value={rule.reward_products}
+                                  onChange={(v) =>
+                                    updateField(index, "reward_products", v)
                                   }
-                                >
-                                  <TextControl
-                                    type="number"
-                                    value={rule.discount_value}
-                                    onChange={(v) =>
-                                      updateField(
-                                        index,
-                                        "discount_value",
-                                        parseFloat(v),
-                                      )
-                                    }
-                                  />
-                                </S1Field>
+                                  detailedView={true}
+                                />
                               )}
-                            </S1FieldGroup>
-                          </>
-                        )}
+                            </>
+                          )}
+                        </S1FieldGroup>
+
+                        <S1FieldGroup title="Advanced">
+                          <S1Field
+                            label="Default Selected Offer"
+                            description="Enable this to pre-select the offer automatically on the product page. If disabled, customers will need to manually select the offer before adding it to the cart."
+                          >
+                            <ToggleControl
+                              checked={rule.auto_add}
+                              onChange={(v) =>
+                                updateField(index, "auto_add", v)
+                              }
+                            />
+                          </S1Field>
+
+                          <S1Field
+                            label="Limit Per Order"
+                            description="Maximum number of times this offer can be applied in a single order"
+                          >
+                            <TextControl
+                              type="number"
+                              value={rule.limit_per_order}
+                              onChange={(v) =>
+                                updateField(
+                                  index,
+                                  "limit_per_order",
+                                  parseInt(v),
+                                )
+                              }
+                            />
+                          </S1Field>
+                        </S1FieldGroup>
+                      </div>
+                    ),
+                  },
+
+                  /* TRIGGER */
+                  {
+                    id: "trigger",
+                    label: "Trigger",
+                    icon: <TargetIcon />,
+                    content: (
+                      <div className="store-one-rule-body">
+                        <MultiWooSearchSelector
+                          searchType="product"
+                          label="Trigger Products (Customer must purchase these products)"
+                          value={rule.products}
+                          onChange={(v) => updateField(index, "products", v)}
+                          detailedView={true}
+                        />
+
+                        <MultiWooSearchSelector
+                          searchType="product"
+                          label="Exclude Products (Offer will not apply)"
+                          value={rule.exclude_products}
+                          onChange={(v) =>
+                            updateField(index, "exclude_products", v)
+                          }
+                          detailedView={true}
+                        />
+
+                        <S1Field
+                          label="Minimum Quantity"
+                          description="Minimum quantity required in cart to activate the offer"
+                        >
+                          <TextControl
+                            type="number"
+                            value={rule.min_qty}
+                            onChange={(v) =>
+                              updateField(index, "min_qty", parseInt(v))
+                            }
+                          />
+                        </S1Field>
                       </div>
                     ),
                   },
