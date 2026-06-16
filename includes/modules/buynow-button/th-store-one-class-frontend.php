@@ -82,6 +82,7 @@ class Th_Store_One_Buy_Now_Frontend
             'thBuyNow',
             [
                 'ajax_url' => admin_url('admin-ajax.php'),
+                 'nonce'    => wp_create_nonce('th_store_one_buy_now'),
             ]
         );
 
