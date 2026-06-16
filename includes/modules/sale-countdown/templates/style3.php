@@ -87,7 +87,7 @@ $pad_left = th_store_one_with_unit(
 ?>
 
 <div class="th-cd th-style3 s1-align-<?php echo esc_attr($align); ?>"
-     style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>;border-radius:8px; <?php echo esc_attr($border_css); ?>; padding: <?php echo esc_attr("$pad_top $pad_right $pad_bottom $pad_left"); ?>;"
+     style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>; <?php echo esc_attr($border_css); ?>; padding: <?php echo esc_attr("$pad_top $pad_right $pad_bottom $pad_left"); ?>;"
      data-start="<?php echo $start; ?>" 
      data-end="<?php echo $end; ?>"
      data-server-now="<?php echo esc_attr(time()); ?>"

@@ -9,7 +9,7 @@ const Style1 = ({ settings }) => {
 
   // --- Style Settings ---
   const alignment = settings?.alignmentSingle || "center";
-  const bg = settings?.single_bg_color || "#fff";
+  const bg = settings?.single_bg_color || "#fff0";
   const text = settings?.single_text_color || "#111";
   const timerBg = settings?.single_timer_bg_color || "#d7d3d3b8";
   const timerColor = settings?.single_timer_color || "#111";
@@ -56,6 +56,18 @@ const Style1 = ({ settings }) => {
     return () => clearInterval(i);
   }, []);
 
+  const getIcon = () => {
+    const map = {
+      fire: "🔥",
+      cart: "🛍️",
+      clock: "⏳",
+      sad: "😢",
+      heart: "❤️",
+    };
+
+    return map[settings?.selected_icon] || "🔥";
+  };
+
   return (
     <div
       className={`s1-style s1-default-pro s1-align-${alignment}`}
@@ -71,6 +83,7 @@ const Style1 = ({ settings }) => {
       {/* 1. SHOW MESSAGE CONTROL */}
       {showMessage && (
         <div className="s1-top" style={{ color: text }}>
+          <span className="s1-msg-icon">{getIcon()}</span>
           {saleMessage}
         </div>
       )}

@@ -543,3 +543,32 @@ text-align:left!important;
 .th-cd.th-ac3.s1-align-left .th-bar{
     margin-left:0;
 }
+
+.th-style5 .s1-style5-title{
+    font-size:1.1rem;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.th-style5 .s1-style5-timer{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:5px;
+}
+
+.th-style5 .s1-style5-timer .num{
+   font-size: 1.3rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.th-style5 .s1-style5-timer .label{
+    font-size:1.1rem;
+    font-weight:500;
+}
+
+.th-style5 .s1-style5-timer .colon{
+    font-size:1.1rem;
+    font-weight:700;
+}

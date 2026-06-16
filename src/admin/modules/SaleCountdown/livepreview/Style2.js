@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "@wordpress/element";
 
 const Style2 = ({ settings = {} }) => {
   const alignment = settings?.alignmentSingle || "center";
-  const bg = settings?.single_bg_color || "#ffffff";
+  const bg = settings?.single_bg_color || "";
   const text = settings?.single_text_color || "#111";
 
   const timerColor = settings?.single_timer_color || "#111";
@@ -54,6 +54,18 @@ const Style2 = ({ settings = {} }) => {
   const total = 50;
   const percent = (sold / total) * 100;
 
+  const getIcon = () => {
+    const map = {
+      fire: "🔥",
+      cart: "🛍️",
+      clock: "⏳",
+      sad: "😢",
+      heart: "❤️",
+    };
+
+    return map[settings?.selected_icon] || "🔥";
+  };
+
   return (
     <div
       className={`s1-style s1-minimal s1-align-${alignment}`}
@@ -71,7 +83,7 @@ const Style2 = ({ settings = {} }) => {
         {/* MESSAGE + ICON */}
         {showMessage && (
           <span className="th-msg" style={{ color: text }}>
-            <span className="th-icon">
+            {/* <span className="th-icon">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="12" r="10" stroke={text} strokeWidth="2" />
                 <path
@@ -81,7 +93,8 @@ const Style2 = ({ settings = {} }) => {
                   strokeLinecap="round"
                 />
               </svg>
-            </span>
+            </span> */}
+            <span className="s1-msg-icon">{getIcon()}</span>
             Hurry! Only few left in stock
           </span>
         )}

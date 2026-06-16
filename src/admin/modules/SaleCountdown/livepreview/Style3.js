@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "@wordpress/element";
 
 const Style3 = ({ settings = {} }) => {
   const alignment = settings?.alignmentSingle || "center";
-  const bg = settings?.single_bg_color || "#ffffff";
+  const bg = settings?.single_bg_color || "";
   const text = settings?.single_text_color || "#111";
   const timerBg = settings?.single_timer_bg_color || "#d7d3d3b8";
   const timerColor = settings?.single_timer_color || "#111";
@@ -51,6 +51,18 @@ const Style3 = ({ settings = {} }) => {
   const total = 50;
   const percent = (sold / total) * 100;
 
+  const getIcon = () => {
+    const map = {
+      fire: "🔥",
+      cart: "🛍️",
+      clock: "⏳",
+      sad: "😢",
+      heart: "❤️",
+    };
+
+    return map[settings?.selected_icon] || "🔥";
+  };
+
   return (
     <div
       className={`s1-style s1-boxed s1-align-${alignment}`}
@@ -67,6 +79,7 @@ const Style3 = ({ settings = {} }) => {
       {/*TOP MESSAGE */}
       {showMessage && (
         <div style={{ marginBottom: "12px", fontWeight: 500 }}>
+          <span className="s1-msg-icon">{getIcon()}</span>
           Hurry! Only few left in stock
         </div>
       )}

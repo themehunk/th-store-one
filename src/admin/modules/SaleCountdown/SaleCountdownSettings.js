@@ -66,7 +66,7 @@ const DEFAULT_SETTINGS = {
   hide_if_expired: true,
   hide_if_no_stock: true,
 
-  single_bg_color: "#fff",
+  single_bg_color: "",
   single_text_color: "#111",
   single_timer_bg_color: "#d7d3d3b8",
   single_timer_color: "#111",
@@ -104,30 +104,131 @@ const DEFAULT_SETTINGS = {
     bottom: "0px",
     left: "0px",
   },
+  selected_icon: "🔥",
 };
 
 const STYLE_DEFAULTS = {
   // SINGLE STYLES
   style1: {
-    single_bg_color: "#fff",
+    single_bg_color: "",
     single_text_color: "#111",
     single_timer_bg_color: "#d7d3d3b8",
     single_timer_color: "#111",
     single_sold_bar_bg_color: "#229fd8",
+    border: {
+      width: {
+        top: "0px",
+        right: "0px",
+        bottom: "0px",
+        left: "0px",
+      },
+      style: "solid",
+      color: "",
+      radius: {
+        top: "0px",
+        right: "0px",
+        bottom: "0px",
+        left: "0px",
+      },
+    },
   },
   style2: {
-    single_bg_color: "#ffffff",
+    single_bg_color: "",
     single_text_color: "#9B9B9B",
     single_timer_bg_color: "#111",
     single_timer_color: "#111",
     single_sold_bar_bg_color: "#229fd8",
+    border: {
+      width: {
+        top: "0px",
+        right: "0px",
+        bottom: "0px",
+        left: "0px",
+      },
+      style: "solid",
+      color: "",
+      radius: {
+        top: "0px",
+        right: "0px",
+        bottom: "0px",
+        left: "0px",
+      },
+    },
   },
   style3: {
-    single_bg_color: "#ffffff",
+    single_bg_color: "",
     single_text_color: "#111",
     single_timer_bg_color: "#d7d3d3b8",
     single_timer_color: "#111",
     single_sold_bar_bg_color: "#229fd8",
+    border: {
+      width: {
+        top: "0px",
+        right: "0px",
+        bottom: "0px",
+        left: "0px",
+      },
+      style: "solid",
+      color: "",
+      radius: {
+        top: "0px",
+        right: "0px",
+        bottom: "0px",
+        left: "0px",
+      },
+    },
+  },
+  style4: {
+    single_bg_color: "",
+    single_text_color: "#111",
+    single_timer_bg_color: "#d7d3d3b8",
+    single_timer_color: "#111",
+    single_sold_bar_bg_color: "#229fd8",
+    border: {
+      width: {
+        top: "0px",
+        right: "0px",
+        bottom: "0px",
+        left: "0px",
+      },
+      style: "solid",
+      color: "",
+      radius: {
+        top: "0px",
+        right: "0px",
+        bottom: "0px",
+        left: "0px",
+      },
+    },
+  },
+  style5: {
+    single_bg_color: "#faeceb",
+    single_text_color: "#333",
+    single_timer_bg_color: "#d7d3d3b8",
+    single_timer_color: "#d0473e",
+    single_sold_bar_bg_color: "#d0473e",
+    border: {
+      width: {
+        top: "1px",
+        right: "1px",
+        bottom: "1px",
+        left: "1px",
+      },
+      style: "dashed",
+      color: "#d0473e",
+      radius: {
+        top: "5px",
+        right: "5px",
+        bottom: "5px",
+        left: "5px",
+      },
+    },
+    cnt_padding: {
+      top: "20px",
+      right: "20px",
+      bottom: "20px",
+      left: "20px",
+    },
   },
 
   // ARCHIVE STYLES
@@ -153,6 +254,28 @@ const STYLE_DEFAULTS = {
     archive_sold_bar_bg_color: "#229fd8",
   },
 };
+const COUNT_ICON_OPTIONS = [
+  {
+    id: "fire",
+    icon: <span>🔥</span>,
+  },
+  {
+    id: "cart",
+    icon: <span>🛍️</span>,
+  },
+  {
+    id: "clock",
+    icon: <span>⏳</span>,
+  },
+  {
+    id: "sad",
+    icon: <span>😢</span>,
+  },
+  {
+    id: "heart",
+    icon: <span>❤️</span>,
+  },
+];
 const applyStyleDefaults = (settings, style, type) => {
   const defaults = STYLE_DEFAULTS[style] || {};
   let updated = { ...settings };
@@ -561,6 +684,27 @@ export default function SaleCountdownSettings({
                   content: (
                     <>
                       <S1Field
+                        classN="s1-toggle-wrpapper list-icon count"
+                        label="Message Icon"
+                      >
+                        {COUNT_ICON_OPTIONS.map(({ id, icon }) => (
+                          <div
+                            key={id}
+                            className={`s1-icon-option ${
+                              settings.selected_icon === id ? "active" : ""
+                            }`}
+                            onClick={() =>
+                              setSettings({
+                                ...settings,
+                                selected_icon: id,
+                              })
+                            }
+                          >
+                            {icon}
+                          </div>
+                        ))}
+                      </S1Field>
+                      <S1Field
                         label="Template Choose on Single Page"
                         visible={false}
                       >
@@ -572,6 +716,7 @@ export default function SaleCountdownSettings({
 
                             { label: "style3", value: "style3" },
                             { label: "style4", value: "style4" },
+                            { label: "style5", value: "style5" },
                           ]}
                           onChange={(v) => {
                             let updated = {
@@ -596,6 +741,7 @@ export default function SaleCountdownSettings({
                           />
                           <S1Field>
                             <THBackgroundControl
+                              allowGradient={false}
                               label="Background"
                               value={settings.single_bg_color}
                               onChange={(v) =>
@@ -610,6 +756,7 @@ export default function SaleCountdownSettings({
 
                           <S1Field>
                             <THBackgroundControl
+                              allowGradient={false}
                               label="Massage Color"
                               value={settings.single_text_color}
                               onChange={(v) =>
@@ -623,6 +770,7 @@ export default function SaleCountdownSettings({
                           </S1Field>
                           <S1Field>
                             <THBackgroundControl
+                              allowGradient={false}
                               label="Timer Background Color"
                               value={settings.single_timer_bg_color}
                               onChange={(v) =>
@@ -637,6 +785,7 @@ export default function SaleCountdownSettings({
 
                           <S1Field>
                             <THBackgroundControl
+                              allowGradient={false}
                               label="Timer Color"
                               value={settings.single_timer_color}
                               onChange={(v) =>
@@ -650,6 +799,7 @@ export default function SaleCountdownSettings({
                           </S1Field>
                           <S1Field>
                             <THBackgroundControl
+                              allowGradient={false}
                               label="Bar Color"
                               value={settings.single_sold_bar_bg_color}
                               onChange={(v) =>
