@@ -4,7 +4,7 @@ Author URI: : https://www.themehunk.com/
 Tags: woocommerce extensions, woocommerce addons, store one
 Requires at least: 5.5 
 Tested up to: 7.0
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 Requires PHP: 7.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -142,9 +142,13 @@ Yes, the plugin is translation-ready and supports multiple languages.
 
 == Changelog ==
 
+= 1.1.3=
+Update:Sales Countdown, Sticky Cart and Buynow Button Addon Improved
+Fix:Style issue.
+
 = 1.1.2=
 Update: sale countdown Addon Improve.
-Fixe: sales notify js issue.
+Fix: sales notify js issue.
 Update: Plugin Extension Added.
 
 = 1.1.1 =
