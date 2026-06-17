@@ -10,6 +10,7 @@ import {
 } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
 import Sortable from "sortablejs";
+import QuantityTiersControl from "./QuantityTiersControl";
 import MultiWooSearchSelector from "@th-storeone-global/MultiWooSearchSelector";
 import ExcludeWooCondition from "@th-storeone-global/ExcludeWooCondition";
 import TabSwitcher from "@th-storeone-global/TabSwitcher";
@@ -65,35 +66,29 @@ const newSmartOfferRule = () => ({
   y_tags: [],
   y_quantity: "4",
 
-  trigger_type: "specific_products",
-  products: [],
-  categories: [],
-  exclude_products: [],
-  min_qty: 2,
-  min_amount: 0,
+  //dynamic
+  d_trigger: "d_allproduct",
+  d_exclude_products_enabled: false,
+  d_exclude_products: [],
+  d_product: [],
+  d_categories: [],
+  d_tags: [],
 
-  offer_type: "bxgy",
-  x_qty: 2,
-  y_qty: 1,
-  apply_mode: "step",
+  quantity_tiers: [
+    {
+      id: crypto.randomUUID(),
+      from_qty: 1,
+      to_qty: "",
+      offer: "percent",
+      value: 10,
+    },
+  ],
 
   reward_type: "free_product",
-  reward_products: [],
   discount_value: 100,
-  max_qty: 1,
-  apply_on: "same_product",
+  apply_on: "sale_price",
 
-  auto_add: true,
-  repeat: true,
-  remove_if_invalid: true,
   priority: 10,
-  stackable: false,
-  limit_per_order: 10,
-
-  user_role: "all",
-  first_order_only: false,
-  start_date: "",
-  end_date: "",
 
   offer_heading: "Buy {x} Get {y}",
   offer_subheading: "Limited time offer",
@@ -697,6 +692,127 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                             </S1FieldGroup>
                           </>
                         )}
+                        {rule.rule_type == "dynamicoffer" && (
+                          <>
+                            <S1FieldGroup title="Customer buys (X)">
+                              <S1Field label="Qualifying products">
+                                <SelectControl
+                                  value={rule.d_trigger}
+                                  options={[
+                                    {
+                                      label: "All Products",
+                                      value: "d_allproduct",
+                                    },
+                                    {
+                                      label: "Specific Products",
+                                      value: "d_specificproduct",
+                                    },
+                                    {
+                                      label: "Specific Category",
+                                      value: "d_category",
+                                    },
+                                    {
+                                      label: "Specific Tag",
+                                      value: "d_tag",
+                                    },
+                                  ]}
+                                  onChange={(v) => {
+                                    updateField(index, "d_trigger", v);
+                                  }}
+                                />
+                              </S1Field>
+                              {rule.d_trigger == "d_allproduct" && (
+                                <ExcludeWooCondition
+                                  label={__("Exclude products", "th-store-one")}
+                                  searchType="product"
+                                  enabled={rule.d_exclude_products_enabled}
+                                  items={rule.d_exclude_products}
+                                  onToggle={(v) =>
+                                    updateField(
+                                      index,
+                                      "d_exclude_products_enabled",
+                                      v,
+                                    )
+                                  }
+                                  onChangeItems={(items) =>
+                                    updateField(
+                                      index,
+                                      "d_exclude_products",
+                                      items,
+                                    )
+                                  }
+                                  detailedView={true}
+                                />
+                              )}
+                              {rule.d_trigger === "d_specificproduct" && (
+                                <MultiWooSearchSelector
+                                  searchType="product"
+                                  label={__("Select Product", "th-store-one")}
+                                  value={rule.d_product || []}
+                                  onChange={(items) =>
+                                    updateField(index, "d_product", items)
+                                  }
+                                  detailedView={true}
+                                />
+                              )}
+                              {rule.d_trigger === "d_category" && (
+                                <MultiWooSearchSelector
+                                  searchType="category"
+                                  label={__(
+                                    "Select Categories",
+                                    "th-store-one",
+                                  )}
+                                  value={rule.d_categories || []}
+                                  onChange={(items) =>
+                                    updateField(index, "d_categories", items)
+                                  }
+                                  detailedView={true}
+                                />
+                              )}
+
+                              {rule.d_trigger === "d_tag" && (
+                                <MultiWooSearchSelector
+                                  searchType="tag"
+                                  label={__("Select Tags", "th-store-one")}
+                                  value={rule.x_tags || []}
+                                  onChange={(items) =>
+                                    updateField(index, "d_tags", items)
+                                  }
+                                  detailedView={true}
+                                />
+                              )}
+                            </S1FieldGroup>
+                            <S1FieldGroup title="Quantity Tiers">
+                              <QuantityTiersControl
+                                value={rule.quantity_tiers || []}
+                                onChange={(tiers) =>
+                                  updateField(index, "quantity_tiers", tiers)
+                                }
+                              />
+                            </S1FieldGroup>
+                          </>
+                        )}
+                        {rule.rule_type !== "bogo" && (
+                          <S1Field label="Discount basis">
+                            <SelectControl
+                              help="Which price the discount is calculated from. Applies to every rule type."
+                              value={rule.discount_basis}
+                              options={[
+                                {
+                                  label: "Regular Price",
+                                  value: "regular_price",
+                                },
+                                {
+                                  label: "Sale Price",
+                                  value: "sale_price",
+                                },
+                              ]}
+                              onChange={(v) =>
+                                updateField(index, "apply_on", v)
+                              }
+                            />
+                          </S1Field>
+                        )}
                       </div>
                     ),
                   },
@@ -839,32 +955,6 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                     icon: ICONS.DESIGN,
                     content: (
                       <div className="store-one-rule-body">
-                        {/* CARD */}
-
-                        {/* <S1FieldGroup title="Layout Style">
-                          <S1Field
-                            label="Offer Layout"
-                            description="Choose how the offer box should appear on the product page"
-                          >
-                            <SelectControl
-                              value={rule.layout_style || "detailed"}
-                              options={[
-                                {
-                                  label: "Detailed Layout",
-                                  value: "detailed",
-                                },
-                                {
-                                  label: "Minimal Layout",
-                                  value: "minimal",
-                                },
-                              ]}
-                              onChange={(v) =>
-                                updateField(index, "layout_style", v)
-                              }
-                            />
-                          </S1Field>
-                        </S1FieldGroup> */}
-
                         <S1FieldGroup title="Card">
                           <S1Field>
                             <THBackgroundControl
