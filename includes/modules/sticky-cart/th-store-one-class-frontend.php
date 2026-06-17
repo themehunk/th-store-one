@@ -149,6 +149,10 @@ class Th_Store_One_Sticky_Cart_Frontend
     public function render()
     {
 
+        if (get_option('woocommerce_coming_soon') === 'yes' && !current_user_can('manage_options')) {
+            return;
+        }
+
         if (!is_product()) {
             return;
         }

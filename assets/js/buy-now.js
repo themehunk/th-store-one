@@ -1,103 +1,3 @@
-// jQuery(function ($) {
-//   /* ===================================
-//    * ARCHIVE / SIMPLE BUY NOW
-//    * =================================== */
-
-//   $(document).on("submit", ".th-buy-now-form", function () {
-//     const form = $(this);
-
-//     const btn = form.find("button");
-
-//     btn.addClass("loading").text("Processing...");
-
-//     /*
-//      * SIMPLE PRODUCT QTY SYNC
-//      */
-
-//     const realQty = $("form.cart input.qty").val();
-
-//     if (realQty) {
-//       form.find("input[name='quantity']").val(realQty);
-//     }
-//   });
-
-//   /* ===================================
-//    * VARIABLE PRODUCTS
-//    * =================================== */
-
-//   const $form = $("form.variations_form");
-
-//   if (!$form.length) {
-//     return;
-//   }
-
-//   const $btn = $(".th-buy-now-single");
-
-//   /* init */
-
-//   $btn.prop("disabled", true).addClass("disabled");
-
-//   /* variation found */
-
-//   $form.on("found_variation", function () {
-//     $btn.prop("disabled", false).removeClass("disabled");
-//   });
-
-//   /* variation reset */
-
-//   $form.on("reset_data hide_variation", function () {
-//     $btn.prop("disabled", true).addClass("disabled");
-//   });
-
-//   /* buy now click */
-
-//   $btn.on("click", function (e) {
-//     e.preventDefault();
-
-//     const variation_id = parseInt(
-//       $form.find("input[name='variation_id']").val(),
-//       10,
-//     );
-
-//     if (!variation_id || variation_id <= 0) {
-//       alert("Please select product options");
-
-//       return;
-//     }
-
-//     /* remove old */
-
-//     $form.find(".th-buy-now-hidden").remove();
-
-//     /* buy now flag */
-
-//     $("<input>", {
-//       type: "hidden",
-//       class: "th-buy-now-hidden",
-//       name: "th_buy_now",
-//       value: "1",
-//     }).appendTo($form);
-
-//     /* runtime qty */
-
-//     let qty = parseInt($form.find("input.qty").val(), 10);
-
-//     if (isNaN(qty) || qty < 1) {
-//       qty = 1;
-//     }
-
-//     $form.find("input.qty").val(qty);
-
-//     /* loading */
-
-//     $btn.addClass("loading").text("Processing...");
-
-//     /* submit */
-
-//     $form.trigger("submit");
-//   });
-// });
-
 jQuery(function ($) {
   /* ===================================
    * ARCHIVE / SIMPLE BUY NOW
@@ -122,6 +22,7 @@ jQuery(function ($) {
    * VARIABLE PRODUCTS BUY NOW
    * =================================== */
   const $form = $("form.variations_form");
+
   if ($form.length) {
     const $btn = $(".th-buy-now-single");
 
@@ -135,8 +36,10 @@ jQuery(function ($) {
       $btn.prop("disabled", true).addClass("disabled");
     });
 
-    $btn.on("click", function (e) {
+    $(document).on("click", ".th-buy-now-single", function (e) {
       e.preventDefault();
+
+      const $btn = $(this);
 
       const variation_id = parseInt(
         $form.find("input[name='variation_id']").val(),
@@ -144,11 +47,21 @@ jQuery(function ($) {
       );
 
       if (!variation_id || variation_id <= 0) {
+        //alert("Please select product options");
         return;
       }
 
+      /* Loading State */
+      const originalText = $btn.text();
+
+      $btn.addClass("loading").prop("disabled", true).text("Processing...");
+
       /* Remove old hidden fields */
-      $form.find(".th-buy-now-hidden, .th-offer-hidden").remove();
+      $form
+        .find(
+          ".th-buy-now-hidden, .th-offer-hidden, input[name='th_buy_now_nonce']",
+        )
+        .remove();
 
       /* Buy Now Flag */
       $("<input>", {
@@ -158,11 +71,25 @@ jQuery(function ($) {
         value: "1",
       }).appendTo($form);
 
-      /* ============== SMART OFFER COMPATIBILITY ============== */
+      /* Nonce */
+      $("<input>", {
+        type: "hidden",
+        name: "th_buy_now_nonce",
+        value: thBuyNow.nonce,
+      }).appendTo($form);
+
+      /* Smart Offer */
       copySmartOfferDataToForm($form);
 
-      /* Submit main form */
-      $form.trigger("submit");
+      /* Give browser time to repaint button */
+      setTimeout(function () {
+        $form.get(0).submit();
+      }, 50);
+
+      /* Fallback */
+      setTimeout(function () {
+        $btn.removeClass("loading").prop("disabled", false).text(originalText);
+      }, 5000);
     });
   }
 

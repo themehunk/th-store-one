@@ -82,6 +82,7 @@ class Th_Store_One_Buy_Now_Frontend
             'thBuyNow',
             [
                 'ajax_url' => admin_url('admin-ajax.php'),
+                 'nonce'    => wp_create_nonce('th_store_one_buy_now'),
             ]
         );
 
@@ -105,16 +106,27 @@ class Th_Store_One_Buy_Now_Frontend
      * ------------------------- */
     private function get_archive_hook($pos)
     {
-        return match($pos) {
-            'after_title' => 'woocommerce_shop_loop_item_title',
-            'after_rating' => 'woocommerce_after_shop_loop_item_title',
-            'after_price' => 'woocommerce_after_shop_loop_item_title',
-            'before_add_to_cart' => 'woocommerce_before_shop_loop_item_title',
-            'after_add_to_cart' => 'woocommerce_after_shop_loop_item',
-            default => 'woocommerce_after_shop_loop_item'
-        };
-    }
+        switch ($pos) {
 
+            case 'after_title':
+                return 'woocommerce_shop_loop_item_title';
+
+            case 'after_rating':
+                return 'woocommerce_after_shop_loop_item_title';
+
+            case 'after_price':
+                return 'woocommerce_after_shop_loop_item_title';
+
+            case 'before_add_to_cart':
+                return 'woocommerce_before_shop_loop_item_title';
+
+            case 'after_add_to_cart':
+                return 'woocommerce_after_shop_loop_item';
+
+            default:
+                return 'woocommerce_after_shop_loop_item';
+        }
+    }
     /* -------------------------
      * VISIBILITY LOGIC
      * ------------------------- */

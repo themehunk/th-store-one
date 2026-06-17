@@ -230,14 +230,14 @@ export const modulesList = [
     icon: MODULE_ICONS.STKSC,
     premium: true,
   },
-  {
-    id: "shopable-list",
-    label: __("Shoppable Videos", "th-store-one"),
-    description: __(
-      "Create customizable product lists with advanced filtering and sorting options to enhance the shopping experience.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.SHOPPABLE_VIDEO,
-    premium: true,
-  },
+  // {
+  //   id: "shopable-list",
+  //   label: __("Shoppable Videos", "th-store-one"),
+  //   description: __(
+  //     "Create customizable product lists with advanced filtering and sorting options to enhance the shopping experience.",
+  //     "th-store-one",
+  //   ),
+  //   icon: MODULE_ICONS.SHOPPABLE_VIDEO,
+  //   premium: true,
+  // },
 ];

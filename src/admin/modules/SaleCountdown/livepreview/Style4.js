@@ -81,7 +81,7 @@ const CircleTimer = ({
 
 const Style4 = ({ settings }) => {
   const alignment = settings?.alignmentSingle || "center";
-  const bg = settings?.single_bg_color || "#fff";
+  const bg = settings?.single_bg_color;
   const text = settings?.single_text_color || "#111";
 
   // Dynamic stroke/progress color settings se aa raha hai
@@ -131,6 +131,18 @@ const Style4 = ({ settings }) => {
     return () => clearInterval(interval);
   }, []);
 
+  const getIcon = () => {
+    const map = {
+      fire: "🔥",
+      cart: "🛍️",
+      clock: "⏳",
+      sad: "😢",
+      heart: "❤️",
+    };
+
+    return map[settings?.selected_icon] || "🔥";
+  };
+
   return (
     <div
       className={`s4-style s4-align-${alignment}`}
@@ -154,6 +166,7 @@ const Style4 = ({ settings }) => {
             color: text,
           }}
         >
+          <span className="s1-msg-icon">{getIcon()}</span>
           {saleMessage}
         </div>
       )}

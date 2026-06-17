@@ -446,3 +446,134 @@
     min-width:70px;
   }
 }
+
+div.s1-quantity-tiers-wrapper {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  padding: 8px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+div.s1-quantity-tiers-wrapper .s1-tier-th, 
+div.s1-quantity-tiers-wrapper .s1-tier-tr {
+  display: grid;
+  grid-template-columns: 24px 60px 60px 130px 1fr 24px;
+  gap: 6px;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+div.s1-quantity-tiers-wrapper .s1-tier-th {
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #64748b;
+  font-weight: 600;
+  padding: 2px 4px;
+  border-bottom: 1px solid #f1f5f9;
+  margin-bottom: 4px;
+}
+
+div.s1-quantity-tiers-wrapper .s1-tier-tr {
+  padding: 2px 4px;
+  background: #ffffff;
+}
+
+/* WP Input Resets */
+div.s1-quantity-tiers-wrapper .components-base-control,
+div.s1-quantity-tiers-wrapper .components-base-control__field,
+div.s1-quantity-tiers-wrapper .components-input-control__container {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+  min-height: 0;
+}
+
+/* MASTER CONTROLS STYLING - Text aur Select dono bilkul judwa dikhenge */
+div.s1-quantity-tiers-wrapper .components-text-control__input,
+div.s1-quantity-tiers-wrapper input[type="number"].components-text-control__input,
+div.s1-quantity-tiers-wrapper .s1-compact-select {
+  height: 26px;
+  min-height: 26px;
+  max-height: 26px;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #1e293b;
+  margin: 0;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  box-sizing: border-box;
+  line-height: 20px;
+}
+div.s1-quantity-tiers-wrapper .components-text-control__input, div.s1-quantity-tiers-wrapper input[type="number"].components-text-control__input{
+    width:50px!important;
+}
+/* Select specific styling - Clean look with standard inline drop arrow */
+div.s1-quantity-tiers-wrapper .s1-compact-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 22px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 6px center;
+  background-size: 14px;
+  cursor: pointer;
+}
+
+div.s1-quantity-tiers-wrapper .components-text-control__input:focus,
+div.s1-quantity-tiers-wrapper .s1-compact-select:focus {
+  border-color: #38bdf8;
+  outline: none;
+  box-shadow: 0 0 0 1px #38bdf8;
+}
+
+/* Misc Utilities */
+div.s1-quantity-tiers-wrapper .s1-tier-drag {
+  cursor: grab;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+div.s1-quantity-tiers-wrapper .s1-tier-drag svg { width: 14px; height: 14px; }
+
+div.s1-quantity-tiers-wrapper .s1-tier-btn-remove {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+div.s1-quantity-tiers-wrapper .s1-tier-btn-remove:hover { color: #ef4444; }
+
+div.s1-quantity-tiers-wrapper .s1-tier-footer {
+  margin-top: 8px;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+div.s1-quantity-tiers-wrapper .s1-tier-btn-add {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #334155;
+}
+div.s1-quantity-tiers-wrapper .s1-tier-btn-add:hover { background: #f1f5f9; }
+
+div.s1-quantity-tiers-wrapper .s1-tier-help-text { font-size: 10px; color: #94a3b8; margin: 0; }

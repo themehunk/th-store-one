@@ -322,6 +322,10 @@ class Th_Store_One_Sale_Notification_Frontend
     private function render_rule($rule)
     {
 
+        if (get_option('woocommerce_coming_soon') === 'yes' && !current_user_can('manage_options')) {
+            return;
+        }
+
         $id = 'th-sale-' . esc_attr($rule['flexible_id']);
         $data = $this->get_data($rule);
 
