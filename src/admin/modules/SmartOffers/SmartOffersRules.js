@@ -7,6 +7,7 @@ import {
   __experimentalUnitControl as UnitControl,
   ColorPalette,
   RangeControl,
+  TabPanel,
 } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
 import Sortable from "sortablejs";
@@ -58,7 +59,7 @@ const newSmartOfferRule = () => ({
   x_tags: [],
   x_quantity: "1",
   //y
-  y_trigger: "y_allproduct",
+  y_trigger: "y_specificproduct",
   y_exclude_products_enabled: false,
   y_exclude_products: [],
   y_product: [],
@@ -322,28 +323,40 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                         </S1FieldGroup>
 
                         <S1FieldGroup title="Choose Rule">
-                          <S1Field label="Rule Type">
-                            <SelectControl
-                              help="Choose how the discount behaves. The fields below change to match."
-                              value={rule.rule_type}
-                              options={[
-                                {
-                                  label: "Buy one, Get one",
-                                  value: "bogo",
-                                },
-                                {
-                                  label: "Buy X Get Y",
-                                  value: "buyxgety",
-                                },
-                                {
-                                  label: "Dyanmic Offer",
-                                  value: "dynamicoffer",
-                                },
-                              ]}
-                              onChange={(v) => {
-                                updateField(index, "rule_type", v);
-                              }}
-                            />
+                          <S1Field>
+                            <div className="th-rule-tabs-wrapper">
+                              <TabPanel
+                                className="th-smart-offers-tab-panel"
+                                activeClass="is-active"
+                                initialTabName={rule.rule_type || "bogo"}
+                                onSelect={(tabName) => {
+                                  updateField(index, "rule_type", tabName);
+                                }}
+                                tabs={[
+                                  {
+                                    name: "bogo",
+                                    title: "Buy X Get X",
+                                    className: "th-tab-item bogo-tab",
+                                  },
+                                  {
+                                    name: "buyxgety",
+                                    title: "Buy X Get Y",
+                                    className: "th-tab-item buyxgety-tab",
+                                  },
+                                  {
+                                    name: "dynamicoffer",
+                                    title: "Dynamic Offer",
+                                    className: "th-tab-item dynamic-tab",
+                                  },
+                                ]}
+                              >
+                                {/* TabPanel require karta hai ki ek function child pass ho jo content return kare */}
+                                {(activeTab) => {
+                                  // Hum yahan content render nahi kar rahe kyunki niche ke fields auto-change hote hain
+                                  return null;
+                                }}
+                              </TabPanel>
+                            </div>
                           </S1Field>
                         </S1FieldGroup>
                         {rule.rule_type == "bogo" && (
@@ -544,10 +557,6 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                                   value={rule.y_trigger}
                                   options={[
                                     {
-                                      label: "All Products",
-                                      value: "y_allproduct",
-                                    },
-                                    {
                                       label: "Specific Products",
                                       value: "y_specificproduct",
                                     },
@@ -559,35 +568,17 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                                       label: "Specific Tag",
                                       value: "y_tag",
                                     },
+                                    {
+                                      label: "Same Product",
+                                      value: "y_same",
+                                    },
                                   ]}
                                   onChange={(v) => {
                                     updateField(index, "y_trigger", v);
                                   }}
                                 />
                               </S1Field>
-                              {rule.y_trigger == "y_allproduct" && (
-                                <ExcludeWooCondition
-                                  label={__("Exclude products", "th-store-one")}
-                                  searchType="product"
-                                  enabled={rule.y_exclude_products_enabled}
-                                  items={rule.y_exclude_products}
-                                  onToggle={(v) =>
-                                    updateField(
-                                      index,
-                                      "y_exclude_products_enabled",
-                                      v,
-                                    )
-                                  }
-                                  onChangeItems={(items) =>
-                                    updateField(
-                                      index,
-                                      "y_exclude_products",
-                                      items,
-                                    )
-                                  }
-                                  detailedView={true}
-                                />
-                              )}
+
                               {rule.y_trigger === "y_specificproduct" && (
                                 <MultiWooSearchSelector
                                   searchType="product"
@@ -796,7 +787,7 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                           <S1Field label="Discount basis">
                             <SelectControl
                               help="Which price the discount is calculated from. Applies to every rule type."
-                              value={rule.discount_basis}
+                              value={rule.apply_on}
                               options={[
                                 {
                                   label: "Regular Price",

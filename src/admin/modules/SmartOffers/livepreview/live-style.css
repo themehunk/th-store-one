@@ -577,3 +577,82 @@ div.s1-quantity-tiers-wrapper .s1-tier-btn-add {
 div.s1-quantity-tiers-wrapper .s1-tier-btn-add:hover { background: #f1f5f9; }
 
 div.s1-quantity-tiers-wrapper .s1-tier-help-text { font-size: 10px; color: #94a3b8; margin: 0; }
+/* ==========================================================================
+   STORE ONE SMART OFFERS - WORDPRESS TABPANEL PREMIUM DESIGN
+   ========================================================================== */
+
+/* Outer wrapper sizing and spacing */
+.th-rule-tabs-wrapper {
+    width: 100%;
+    margin-top: 5px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* WordPress Tab Header Control (The Pill Box Layout) */
+.th-smart-offers-tab-panel .components-tab-panel__tabs {
+    display: flex;
+    align-items: center;
+    background-color:#F1F5F9; /* Subtle modern gray background */
+    border: 1px solid #e5e7eb;
+    border-radius:0px;
+    padding: 4px;
+    gap: 4px;
+    margin-bottom: 0; /* Core bottom margin remove karne ke liye */
+}
+
+/* Individual Tab Button Override */
+.th-smart-offers-tab-panel .components-tab-panel__tabs button.th-tab-item {
+    flex: 1; /* Saare tabs barabar width ke honge */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius:0px !important;
+    cursor: pointer;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #4b5563 !important; /* Muted slate text */
+    box-shadow: none !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    height: auto !important; /* WP Core fixed height reset */
+}
+
+/* Tab Hover State */
+.th-smart-offers-tab-panel .components-tab-panel__tabs button.th-tab-item:hover {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+    color: var(--s1-color-primary)!important;
+}
+
+/* WordPress Active Tab State (Your custom activeClass="is-active") */
+.th-smart-offers-tab-panel .components-tab-panel__tabs button.th-tab-item.is-active {
+    background-color: #ffffff !important; /* Floating white effect */
+    color: var(--s1-color-primary)!important; /* Store One Signature Premium Green */
+    font-weight: 600 !important;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* WordPress core blue outline/border reset taaki look clean rahe */
+.th-smart-offers-tab-panel .components-tab-panel__tabs button.th-tab-item:focus:not(:disabled) {
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* Content Container Animation (If any lower field renders) */
+.th-smart-offers-tab-panel .components-tab-panel__panel-content {
+    padding: 0;
+    margin-top: 15px;
+    animation: thTabFade 0.2s ease-out;
+}
+
+@keyframes thTabFade {
+    from {
+        opacity: 0;
+        transform: translateY(2px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
