@@ -394,7 +394,7 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                                 label={__("Exclude products", "th-store-one")}
                                 searchType="product"
                                 enabled={rule.exclude_bogo_products_enabled}
-                                items={rule.exclude_products}
+                                items={rule.exclude_bogo_products}
                                 onToggle={(v) =>
                                   updateField(
                                     index,
