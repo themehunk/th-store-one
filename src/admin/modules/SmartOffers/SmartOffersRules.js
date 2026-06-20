@@ -74,7 +74,7 @@ const newSmartOfferRule = () => ({
   d_product: [],
   d_categories: [],
   d_tags: [],
-
+  tier_create_quantity: "interval_price",
   quantity_tiers: [
     {
       id: crypto.randomUUID(),
@@ -84,32 +84,37 @@ const newSmartOfferRule = () => ({
       value: 10,
     },
   ],
-
   reward_type: "free_product",
   discount_value: 100,
   apply_on: "sale_price",
-
   priority: 10,
-
-  offer_heading: "Buy {x} Get {y}",
-  offer_subheading: "Limited time offer",
-  show_product_image: true,
-  show_product_title: true,
-  show_discount_badge: true,
-  badge_text: "BEST DEAL",
-  button_text: "Unlock Offer",
-
-  message: "Buy {remaining} more to get FREE gift",
-  success_message: "Free gift added!",
-  show_progress: true,
-  show_badge: true,
-
-  devices: ["desktop"],
-
   single_placement: "woocommerce_after_add_to_cart_form",
   single_priority: 10,
-  /* ================= STYLE ================= */
+  // BOGO
+  bogo_offer_title: "Buy One, Get One",
+  bogo_badge_text: "BEST DEAL",
+  bogo_price_text: "",
 
+  // BXGY
+  bxgy_offer_title: "Buy {XQTY} Products & Get This Gift FREE",
+  bxgy_badge_text: "FREE GIFT",
+  bxgy_price_text: "{DELPRICE} Worth {PRICE}",
+  bxgy_short_description: "Included with Your Purchase",
+
+  // Dynamic Offer
+  dynamic_offer_title:
+    "Buy from {XQTY} to {YQTY} items for {DISCOUNT} OFF per item",
+  dynamic_badge_text: "Save {DISCOUNT}",
+  dynamic_price_text: "Price {DELPRICE} {PRICE}",
+  dynamic_short_description: "{DISCOUNT} / each item",
+
+  use_shortcode: false,
+  devices: ["desktop"],
+
+  crt_page_bogo_text: "{BOGO} SMART OFFER",
+  crt_page_xy_text: "Special BXGY Offer",
+  crt_page_dyn_text: "Dynamic Discount",
+  /* ================ STYLE ================= */
   card_bg: "linear-gradient(180deg, #f7fff9 0%, #ffffff 100%);",
   card_border: {
     width: {
@@ -131,22 +136,16 @@ const newSmartOfferRule = () => ({
 
   heading_color: "#111827",
   text_color: "#6b7280",
-  price_color: "#111827",
+  price_color: "#6b7280",
 
-  badge_bg: "linear-gradient(135deg, #22c55e, #16a34a);",
+  badge_bg: "#111827",
   badge_color: "#ffffff",
-
-  progress_bg: "#e5e7eb4d",
-  progress_fill: "#22c55e",
-
-  message_color: "#6b7280",
-  success_color: "#16a34a",
 
   card_radius: 16,
   card_padding: 18,
   image_radius: 12,
   layout_style: "detailed",
-  highlight_color: "#22c55e",
+  highlight_color: "#111",
   padding: {
     top: "14px",
     right: "14px",
@@ -361,7 +360,7 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                         </S1FieldGroup>
                         {rule.rule_type == "bogo" && (
                           <S1FieldGroup title="BOGO Setup">
-                            <S1Field label="Offer applies to">
+                            <S1Field label="Offer Applies To">
                               <SelectControl
                                 help="Pick the products that trigger the buy-one-get-one offer."
                                 value={rule.bogo_trigger}
@@ -450,8 +449,8 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                         )}
                         {rule.rule_type == "buyxgety" && (
                           <>
-                            <S1FieldGroup title="Customer buys (X)">
-                              <S1Field label="Qualifying products">
+                            <S1FieldGroup title="Customer Buys (X)">
+                              <S1Field label="Offer Applies To">
                                 <SelectControl
                                   value={rule.x_trigger}
                                   options={[
@@ -537,7 +536,7 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                                   detailedView={true}
                                 />
                               )}
-                              <S1Field label="Quantity to buy">
+                              <S1Field label="Quantity">
                                 <TextControl
                                   type="number"
                                   value={rule.x_quantity}
@@ -551,8 +550,8 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                                 />
                               </S1Field>
                             </S1FieldGroup>
-                            <S1FieldGroup title="Customer gets (Y)">
-                              <S1Field label="Reward products">
+                            <S1FieldGroup title="Customer Gets (Y)">
+                              <S1Field label="Reward Products">
                                 <SelectControl
                                   value={rule.y_trigger}
                                   options={[
@@ -616,7 +615,7 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                                   detailedView={true}
                                 />
                               )}
-                              <S1Field label="Reward quantity">
+                              <S1Field label="Quantity">
                                 <TextControl
                                   type="number"
                                   value={rule.y_quantity}
@@ -630,20 +629,20 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                                 />
                               </S1Field>
 
-                              <S1Field label="Discount on Y">
+                              <S1Field label="Discount on Y Product">
                                 <SelectControl
                                   value={rule.reward_type}
                                   options={[
                                     {
-                                      label: "Free Product",
+                                      label: "Free Product (100% Discount)",
                                       value: "free_product",
                                     },
                                     {
-                                      label: "Percentage OFF",
+                                      label: "Percent Discount (%)",
                                       value: "discount_percent",
                                     },
                                     {
-                                      label: "Fixed OFF",
+                                      label: "Price Discount ($)",
                                       value: "discount_fixed",
                                     },
                                     {
@@ -685,8 +684,8 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                         )}
                         {rule.rule_type == "dynamicoffer" && (
                           <>
-                            <S1FieldGroup title="Customer buys (X)">
-                              <S1Field label="Qualifying products">
+                            <S1FieldGroup title="Dynamic Offer">
+                              <S1Field label="Offer Applies To">
                                 <SelectControl
                                   value={rule.d_trigger}
                                   options={[
@@ -773,7 +772,28 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                                 />
                               )}
                             </S1FieldGroup>
-                            <S1FieldGroup title="Quantity Tiers">
+
+                            <S1FieldGroup title="Discount Rules">
+                              <S1Field label="Create Qty/Price table with">
+                                <SelectControl
+                                  value={rule.d_trigger}
+                                  options={[
+                                    {
+                                      label:
+                                        "Interval Pricing (e.g. 5–10 items = $10/item)",
+                                      value: "interval_price",
+                                    },
+                                    {
+                                      label:
+                                        "Fixed Unit Pricing (e.g. 5 items = $10/item, 20 items = $30/item)",
+                                      value: "fixed_unit_price",
+                                    },
+                                  ]}
+                                  onChange={(v) => {
+                                    updateField(index, "d_trigger", v);
+                                  }}
+                                />
+                              </S1Field>
                               <QuantityTiersControl
                                 value={rule.quantity_tiers || []}
                                 onChange={(tiers) =>
@@ -784,7 +804,7 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                           </>
                         )}
                         {rule.rule_type !== "bogo" && (
-                          <S1Field label="Discount basis">
+                          <S1Field label="Calculate Discount On">
                             <SelectControl
                               help="Which price the discount is calculated from. Applies to every rule type."
                               value={rule.apply_on}
@@ -828,115 +848,192 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                             updateField({ ...rule, single_priority: v })
                           }
                         />
-                        <S1FieldGroup title="Offer Card Massage">
-                          <S1Field
-                            label="Offer Heading"
-                            description="Main heading shown inside offer card"
-                          >
-                            <TextControl
-                              value={rule.offer_heading}
-                              onChange={(v) =>
-                                updateField(index, "offer_heading", v)
-                              }
-                            />
-                          </S1Field>
-                          <S1Field
-                            label="Offer Subheading"
-                            description="Small description under heading"
-                          >
-                            <TextControl
-                              value={rule.offer_subheading}
-                              onChange={(v) =>
-                                updateField(index, "offer_subheading", v)
-                              }
-                            />
-                          </S1Field>
-                          <S1Field
-                            label="Show Product Image"
-                            description="Display product image inside card"
-                          >
-                            <ToggleControl
-                              checked={rule.show_product_image}
-                              onChange={(v) =>
-                                updateField(index, "show_product_image", v)
-                              }
-                            />
-                          </S1Field>
-                          <S1Field
-                            label="Show Product Title"
-                            description="Display product title"
-                          >
-                            <ToggleControl
-                              checked={rule.show_product_title}
-                              onChange={(v) =>
-                                updateField(index, "show_product_title", v)
-                              }
-                            />
-                          </S1Field>
-                          <S1Field
-                            label="Show Badge"
-                            description="Display highlight badge"
-                          >
-                            <ToggleControl
-                              checked={rule.show_discount_badge}
-                              onChange={(v) =>
-                                updateField(index, "show_discount_badge", v)
-                              }
-                            />
-                          </S1Field>
-                          {rule.show_discount_badge && (
+
+                        {/* BOGO */}
+                        {rule.rule_type === "bogo" && (
+                          <S1FieldGroup title="BOGO Text Settings">
                             <S1Field
-                              label="Badge Text"
-                              description="Badge label text"
+                              label="Offer Title"
+                              description="Main offer heading displayed on the offer card."
                             >
                               <TextControl
-                                value={rule.badge_text}
+                                value={rule.bogo_offer_title}
                                 onChange={(v) =>
-                                  updateField(index, "badge_text", v)
+                                  updateField(index, "bogo_offer_title", v)
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field
+                              label="Badge Text"
+                              description="Badge label shown on the offer card."
+                            >
+                              <TextControl
+                                value={rule.bogo_badge_text}
+                                onChange={(v) =>
+                                  updateField(index, "bogo_badge_text", v)
+                                }
+                              />
+                            </S1Field>
+                            <S1Field
+                              label="Price Text"
+                              description="Price information displayed with the offer."
+                            >
+                              <TextControl
+                                value={rule.bogo_price_text}
+                                onChange={(v) =>
+                                  updateField(index, "bogo_price_text", v)
+                                }
+                              />
+                            </S1Field>
+                          </S1FieldGroup>
+                        )}
+
+                        {/* Buy X Get Y */}
+                        {rule.rule_type === "buyxgety" && (
+                          <S1FieldGroup title="Buy X Get Y Text Settings">
+                            <S1Field
+                              label="Offer Title"
+                              description="Main heading displayed for the free gift offer."
+                            >
+                              <TextControl
+                                value={rule.bxgy_offer_title}
+                                onChange={(v) =>
+                                  updateField(index, "bxgy_offer_title", v)
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field
+                              label="Badge Text"
+                              description="Badge label displayed on the gift card."
+                            >
+                              <TextControl
+                                value={rule.bxgy_badge_text}
+                                onChange={(v) =>
+                                  updateField(index, "bxgy_badge_text", v)
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field
+                              label="Price Text"
+                              description="Gift value text displayed below the badge."
+                            >
+                              <TextControl
+                                value={rule.bxgy_price_text}
+                                onChange={(v) =>
+                                  updateField(index, "bxgy_price_text", v)
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field
+                              label="Short Description"
+                              description="Additional text displayed below the price."
+                            >
+                              <TextControl
+                                value={rule.bxgy_short_description}
+                                onChange={(v) =>
+                                  updateField(
+                                    index,
+                                    "bxgy_short_description",
+                                    v,
+                                  )
+                                }
+                              />
+                            </S1Field>
+                          </S1FieldGroup>
+                        )}
+
+                        {/* Buy X Get Y */}
+                        {rule.rule_type === "dynamicoffer" && (
+                          <S1FieldGroup title="Dynamic Offer Text Settings">
+                            <S1Field label="Offer Title">
+                              <TextControl
+                                value={rule.dynamic_offer_title}
+                                onChange={(v) =>
+                                  updateField(index, "dynamic_offer_title", v)
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field label="Badge Text">
+                              <TextControl
+                                value={rule.dynamic_badge_text}
+                                onChange={(v) =>
+                                  updateField(index, "dynamic_badge_text", v)
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field label="Price Text">
+                              <TextControl
+                                value={rule.dynamic_price_text}
+                                onChange={(v) =>
+                                  updateField(index, "dynamic_price_text", v)
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field label="Short Description">
+                              <TextControl
+                                value={rule.dynamic_short_description}
+                                onChange={(v) =>
+                                  updateField(
+                                    index,
+                                    "dynamic_short_description",
+                                    v,
+                                  )
+                                }
+                              />
+                            </S1Field>
+                          </S1FieldGroup>
+                        )}
+
+                        <S1FieldGroup title="Cart & Checkout Page">
+                          {rule.rule_type === "bogo" && (
+                            <S1Field label="Bogo">
+                              <TextControl
+                                value={rule.crt_page_bogo_text}
+                                onChange={(v) =>
+                                  updateField(index, "crt_page_bogo_text", v)
+                                }
+                              />
+                            </S1Field>
+                          )}
+                          {rule.rule_type === "buyxgety" && (
+                            <S1Field label="XY">
+                              <TextControl
+                                value={rule.crt_page_xy_text}
+                                onChange={(v) =>
+                                  updateField(index, "crt_page_xy_text", v)
+                                }
+                              />
+                            </S1Field>
+                          )}
+                          {rule.rule_type === "dynamicoffer" && (
+                            <S1Field label="Dyanamic">
+                              <TextControl
+                                value={rule.crt_page_dyn_text}
+                                onChange={(v) =>
+                                  updateField(index, "crt_page_dyn_text", v)
                                 }
                               />
                             </S1Field>
                           )}
                         </S1FieldGroup>
 
-                        <S1Field
-                          label="Gift Message"
-                          description="Message shown before the offer is unlocked"
-                        >
-                          <TextControl
-                            value={rule.message}
-                            onChange={(v) => updateField(index, "message", v)}
-                          />
+                        <S1Field label={__("Use Shortcode", "th-store-one")}>
+                          <p>
+                            {`{DELPRICE}`} = Original Price, {`{PRICE}`} = Offer
+                            Price,
+                            {`{XQTY}`} = Required Quantity, {`{YQTY}`} =
+                            Reward/Maximum Quantity,
+                            {`{DISCOUNT}`} = Discount Value, {`{REMAINING}`} =
+                            Remaining Quantity to Unlock the Offer.
+                          </p>
                         </S1Field>
-
-                        <S1Field
-                          label="Success Message"
-                          description="Message shown after the offer has been successfully applied"
-                        >
-                          <TextControl
-                            value={rule.success_message}
-                            onChange={(v) =>
-                              updateField(index, "success_message", v)
-                            }
-                          />
-                        </S1Field>
-
-                        <S1Field
-                          label="Show Progress Bar"
-                          description="Display a progress bar indicating how close the customer is to unlocking the offer"
-                        >
-                          <ToggleControl
-                            checked={rule.show_progress}
-                            onChange={(v) =>
-                              updateField(index, "show_progress", v)
-                            }
-                          />
-                        </S1Field>
-
-                        <DeviceSelector
-                          value={rule.devices}
-                          onChange={(v) => updateField(index, "devices", v)}
-                        />
                       </div>
                     ),
                   },
@@ -1034,7 +1131,7 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                           <S1Field>
                             <THBackgroundControl
                               allowGradient={true}
-                              label={__("Hightlight Color", "th-store-one")}
+                              label={__("Radio Button Color", "th-store-one")}
                               value={rule.highlight_color}
                               onChange={(v) => {
                                 const updatedRule = {
@@ -1070,59 +1167,6 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                               onChange={(v) => {
                                 const updatedRule = { ...rule, badge_color: v };
                                 updateField(index, "badge_color", v);
-                              }}
-                            />
-                          </S1Field>
-                        </S1FieldGroup>
-
-                        {/* PROGRESS */}
-
-                        <S1FieldGroup title="Progress Bar">
-                          <S1Field>
-                            <THBackgroundControl
-                              allowGradient={true}
-                              label={__("Progress Fill", "th-store-one")}
-                              value={rule.progress_fill}
-                              onChange={(v) => {
-                                const updatedRule = {
-                                  ...rule,
-                                  progress_fill: v,
-                                };
-                                updateField(index, "progress_fill", v);
-                              }}
-                            />
-                          </S1Field>
-                        </S1FieldGroup>
-
-                        {/* MESSAGE */}
-
-                        <S1FieldGroup title="Message">
-                          <S1Field>
-                            <THBackgroundControl
-                              allowGradient={true}
-                              label={__("Message Color", "th-store-one")}
-                              value={rule.message_color}
-                              onChange={(v) => {
-                                const updatedRule = {
-                                  ...rule,
-                                  message_color: v,
-                                };
-                                updateField(index, "message_color", v);
-                              }}
-                            />
-                          </S1Field>
-
-                          <S1Field>
-                            <THBackgroundControl
-                              allowGradient={true}
-                              label={__("Success Color", "th-store-one")}
-                              value={rule.success_color}
-                              onChange={(v) => {
-                                const updatedRule = {
-                                  ...rule,
-                                  success_color: v,
-                                };
-                                updateField(index, "success_color", v);
                               }}
                             />
                           </S1Field>

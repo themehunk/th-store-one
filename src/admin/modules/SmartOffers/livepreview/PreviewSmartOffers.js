@@ -1,289 +1,333 @@
 import "./live-style.css";
-import { __ } from "@wordpress/i18n";
+import { useState } from "@wordpress/element";
+const replaceShortcodes = (text = "", values = {}) => {
+  if (!text) return "";
 
-const PreviewSmartOffers = ({ settings = {} }) => {
+  let str = text;
+
+  Object.keys(values).forEach((key) => {
+    str = str.replaceAll(`{${key}}`, values[key]);
+    str = str.replaceAll(`[${key}]`, values[key]);
+  });
+
+  return str;
+};
+
+const PreviewSmartOffers = ({ settings = {}, rule = {} }) => {
+  const ruleType = rule?.rule_type || settings?.rule_type || "bogo";
+
   const {
     x_qty = 2,
-    y_qty = 1,
-
-    reward_type = "free_product",
-    discount_value = 20,
-
-    offer_heading = "Buy {x} Get {y}",
-    offer_subheading = "Limited time offer",
-
-    show_product_image = true,
-    show_product_title = true,
-    show_discount_badge = true,
-
-    badge_text = "BEST DEAL",
-
-    message = "Buy {remaining} more to unlock offer",
-
-    show_progress = true,
+    y_qty = 5,
+    discount_value = "20%",
 
     heading_color = "#111827",
     text_color = "#6b7280",
-    price_color = "#111827",
-
-    badge_bg = "linear-gradient(135deg, #22c55e, #16a34a)",
+    price_color = "#6b7280",
+    highlight_color = "#111",
+    badge_bg = "#111827",
     badge_color = "#ffffff",
 
-    progress_bg = "#e5e7eb4d",
-    progress_fill = "#22c55e",
+    radio_color = "#ef4444",
 
-    message_color = "#6b7280",
+    card_bg = "#ffffff",
+    card_active_bg = "#f8fafc",
 
-    card_bg = "linear-gradient(180deg, #f7fff9 0%, #ffffff 100%)",
-
-    card_active_bg = "linear-gradient(180deg, #f7fff9 0%, #ffffff 100%)",
-
-    highlight_color = "#22c55e",
-
-    /* NEW COLORS */
-
-    radio_color = highlight_color,
-
-    meta_color = highlight_color,
-
-    save_amount_color = price_color,
-
-    /* BORDER */
+    border_color = "#d1d5db",
 
     card_border = {},
+    padding = {},
 
-    /* PADDING */
+    bogo_offer_title = "Buy One, Get One",
+    bogo_badge_text = "BOGO SALE",
+    bogo_price_text = "FREE",
 
-    padding = {
-      top: "14px",
-      right: "14px",
-      bottom: "14px",
-      left: "14px",
-    },
+    bxgy_offer_title = "Buy [XQTY] Products & Get This Gift FREE",
 
-    image_radius = 12,
+    bxgy_badge_text = "FREE GIFT",
+
+    bxgy_price_text = "[DELPRICE] Worth [PRICE]",
+
+    bxgy_short_description = "Included with Your Purchase",
+
+    dynamic_offer_title = "Buy from [XQTY] to [YQTY] items for [DISCOUNT] OFF per item",
+
+    dynamic_badge_text = "Save [DISCOUNT]",
+
+    dynamic_price_text = "Price [DELPRICE] [PRICE]",
+
+    dynamic_short_description = "[DISCOUNT] / each item",
   } = settings;
 
-  /* ================= HEADING ================= */
-
-  let heading = offer_heading;
-
-  heading = heading
-    .replace("{x}", x_qty)
-    .replace("{y}", y_qty)
-    .replace("{discount}", discount_value)
-    .replace("{product}", "Hair Claw");
-
-  /* ================= BORDER ================= */
-
   const borderWidth = card_border?.width || {};
-
   const borderRadius = card_border?.radius || {};
 
-  const borderStyle = card_border?.style || "solid";
+  const previewStyle = {
+    background: card_bg,
+    "--th-radio-color": highlight_color,
 
-  const borderColor = card_border?.color || "#e5e7eb";
+    borderStyle: card_border?.style || "solid",
+    borderColor: card_border?.color || "#d1d5db",
 
-  /* ================= PADDING ================= */
+    borderTopWidth: borderWidth.top || "1px",
+    borderRightWidth: borderWidth.right || "1px",
+    borderBottomWidth: borderWidth.bottom || "1px",
+    borderLeftWidth: borderWidth.left || "1px",
 
-  const paddingTop = padding?.top || "14px";
+    borderTopLeftRadius: borderRadius.top || "16px",
+    borderTopRightRadius: borderRadius.right || "16px",
+    borderBottomRightRadius: borderRadius.bottom || "16px",
+    borderBottomLeftRadius: borderRadius.left || "16px",
 
-  const paddingRight = padding?.right || "14px";
+    paddingTop: padding?.top || "14px",
+    paddingRight: padding?.right || "14px",
+    paddingBottom: padding?.bottom || "14px",
+    paddingLeft: padding?.left || "14px",
+  };
+  const shortcodeValues = {
+    DELPRICE: "$408.00",
+    PRICE: "$326.40",
+    XQTY: x_qty,
+    YQTY: y_qty,
+    DISCOUNT: discount_value,
+    REMAINING: 1,
+  };
 
-  const paddingBottom = padding?.bottom || "14px";
+  /*
+  ==================================
+  BOGO
+  ==================================
+  */
 
-  const paddingLeft = padding?.left || "14px";
+  if (ruleType === "bogo") {
+    return (
+      <div className="th-smart-preview" style={previewStyle}>
+        <div className="th-offer-row">
+          <div className="th-radio-mark active" />
 
-  return (
-    <div className="th-offer-wrapper">
-      <div
-        className="th-offer-card"
-        style={{
-          /* VARIABLES */
+          <div className="th-offer-content">
+            <div
+              className="th-offer-title"
+              style={{
+                color: heading_color,
+              }}
+            >
+              🎉 {bogo_offer_title}
+            </div>
 
-          "--th-card-bg": card_bg,
-          "--th-card-active-bg": card_active_bg,
+            <div
+              className="th-badge"
+              style={{
+                background: badge_bg || "#111827",
+                color: badge_color || "#ffffff",
+              }}
+            >
+              {bogo_badge_text}
+            </div>
 
-          "--th-radio-color": radio_color,
-
-          "--th-meta-color": meta_color,
-
-          "--th-save-amount-color": save_amount_color,
-
-          "--th-progress-bg": progress_bg,
-
-          "--th-progress-fill": progress_fill,
-
-          background: card_bg,
-
-          borderStyle: borderStyle,
-
-          borderColor: borderColor,
-
-          borderTopWidth: borderWidth?.top || "1px",
-
-          borderRightWidth: borderWidth?.right || "1px",
-
-          borderBottomWidth: borderWidth?.bottom || "1px",
-
-          borderLeftWidth: borderWidth?.left || "1px",
-
-          borderTopLeftRadius: borderRadius?.top || "16px",
-
-          borderTopRightRadius: borderRadius?.right || "16px",
-
-          borderBottomRightRadius: borderRadius?.bottom || "16px",
-
-          borderBottomLeftRadius: borderRadius?.left || "16px",
-        }}
-      >
-        <label>
-          <input type="radio" checked={true} readOnly />
-
-          <div
-            className="th-card-inner"
-            style={{
-              paddingTop: paddingTop,
-
-              paddingRight: paddingRight,
-
-              paddingBottom: paddingBottom,
-
-              paddingLeft: paddingLeft,
-            }}
-          >
-            {/* BADGE */}
-
-            {show_discount_badge && (
-              <div
-                className="th-ofr-badge"
+            <div
+              className="th-price"
+              style={{
+                color: price_color,
+              }}
+            >
+              <del
                 style={{
-                  background: badge_bg,
-
-                  color: badge_color,
+                  color: price_color,
                 }}
               >
-                {badge_text}
+                $408.00
+              </del>
+              <span>{bogo_price_text}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  /*
+  ==================================
+  BUY X GET Y
+  ==================================
+  */
+
+  if (ruleType === "buyxgety") {
+    const formattedPrice = replaceShortcodes(
+      bxgy_price_text,
+      shortcodeValues,
+    ).replace(
+      shortcodeValues.DELPRICE,
+      `<del>${shortcodeValues.DELPRICE}</del>`,
+    );
+    return (
+      <div
+        className="th-smart-preview"
+        style={{
+          background: card_bg,
+          borderColor: border_color,
+          ...previewStyle,
+        }}
+      >
+        <div className="th-offer-row">
+          <div className="th-radio-mark active" />
+          <div className="th-gift-image">🎁</div>
+
+          <div className="th-offer-content">
+            <div className="th-offer-left">
+              <div
+                className="th-offer-title"
+                style={{
+                  color: heading_color,
+                }}
+              >
+                {replaceShortcodes(bxgy_offer_title, shortcodeValues)}
               </div>
-            )}
+            </div>
 
-            {/* ROW */}
+            <div
+              className="th-badge"
+              style={{
+                background: badge_bg || "#111827",
+                color: badge_color || "#ffffff",
+              }}
+            >
+              {bxgy_badge_text}
+            </div>
 
-            <div className="th-row">
-              {/* IMAGE */}
+            <div className="th-offer-wrp">
+              <div
+                className="th-price"
+                style={{
+                  color: price_color,
+                }}
+              >
+                <span
+                  dangerouslySetInnerHTML={{
+                    __html: replaceShortcodes(
+                      bxgy_price_text,
+                      shortcodeValues,
+                    ).replace(
+                      shortcodeValues.DELPRICE,
+                      `<del style="margin-right:3px;">${shortcodeValues.DELPRICE}</del>`,
+                    ),
+                  }}
+                />
+              </div>
+              <div
+                className="th-desc"
+                style={{
+                  color: text_color,
+                }}
+              >
+                {bxgy_short_description}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
-              {show_product_image && (
-                <div className="th-left">
-                  <img
-                    src="https://dummyimage.com/100x100/e5e7eb/111827"
-                    alt=""
-                    style={{
-                      borderRadius: `${image_radius}px`,
-                    }}
-                  />
-                </div>
-              )}
+  /*
+  ==================================
+  DYNAMIC OFFER
+  ==================================
+  */
 
-              {/* CONTENT */}
+  const rows = [
+    {
+      x: 2,
+      y: 2,
+      discount: "20%",
+      price: "$326.40",
+    },
+    {
+      x: 3,
+      y: 4,
+      discount: "40%",
+      price: "$244.80",
+    },
+    {
+      x: 5,
+      y: 8,
+      discount: "60%",
+      price: "$163.20",
+    },
+  ];
+  const [activeIndex, setActiveIndex] = useState(0);
+  return (
+    <div
+      className="th-smart-preview"
+      style={{
+        background: card_bg,
+        borderColor: border_color,
+        ...previewStyle,
+      }}
+    >
+      {rows.map((item, i) => {
+        const values = {
+          DELPRICE: "$408.00",
+          PRICE: item.price,
+          XQTY: item.x,
+          YQTY: item.y,
+          DISCOUNT: item.discount,
+        };
+        const processedPrice = replaceShortcodes(
+          dynamic_price_text,
+          values,
+        ).replace(
+          values.DELPRICE,
+          `<del style="margin-right: 5px;">${values.DELPRICE}</del>`,
+        );
+        return (
+          <div
+            key={i}
+            className={`th-dynamic-row ${activeIndex === i ? "active" : ""}`}
+            onClick={() => setActiveIndex(i)}
+          >
+            <div
+              className={`th-radio-mark ${activeIndex === i ? "active" : ""}`}
+            />
 
-              <div className="th-mid">
-                <strong
-                  className="th-offer-heading"
+            <div className="th-offer-content">
+              <div className="th-offer-left">
+                <div
+                  className="th-offer-title"
                   style={{
                     color: heading_color,
                   }}
                 >
-                  {heading}
-                </strong>
-
-                {show_product_title && (
-                  <div
-                    className="th-product-title"
-                    style={{
-                      color: text_color,
-                    }}
-                  >
-                    Premium Hair Claw
-                  </div>
-                )}
-
-                {!!offer_subheading && (
-                  <div
-                    className="th-offer-subheading"
-                    style={{
-                      color: text_color,
-                    }}
-                  >
-                    {offer_subheading}
-                  </div>
-                )}
-
-                <div
-                  className="th-offer-meta"
-                  style={{
-                    color: meta_color,
-                  }}
-                >
-                  {reward_type === "free_product" &&
-                    __("Free Product Offer", "th-store-one")}
-
-                  {reward_type === "discount_percent" &&
-                    `${discount_value}% OFF`}
-
-                  {reward_type === "discount_fixed" && `$${discount_value} OFF`}
+                  {replaceShortcodes(dynamic_offer_title, values)}
                 </div>
               </div>
 
-              {/* PRICE */}
-
-              <div className="th-right">
-                <span className="th-price">
-                  <del>$120</del>
-
-                  <strong
-                    style={{
-                      color: save_amount_color,
-                    }}
-                  >
-                    $90
-                  </strong>
-                </span>
-              </div>
-            </div>
-
-            {/* PROGRESS */}
-
-            {show_progress && (
               <div
-                className="th-progress"
+                className="th-badge"
                 style={{
-                  background: progress_bg,
+                  background: badge_bg || "#111827",
+                  color: badge_color || "#ffffff",
                 }}
               >
-                <div
-                  className="th-bar"
-                  style={{
-                    width: "70%",
-
-                    background: progress_fill,
-                  }}
-                />
+                {replaceShortcodes(dynamic_badge_text, values)}
               </div>
-            )}
-
-            {/* MESSAGE */}
-
-            <div
-              className="th-msg"
-              style={{
-                color: message_color,
-              }}
-            >
-              {message.replace("{remaining}", "1")}
+              <div className="th-offer-wrp">
+                <div className="th-price" style={{ color: price_color }}>
+                  <span dangerouslySetInnerHTML={{ __html: processedPrice }} />
+                </div>
+                <div
+                  className="th-desc"
+                  style={{
+                    color: text_color,
+                  }}
+                >
+                  {replaceShortcodes(dynamic_short_description, values)}
+                </div>
+              </div>
             </div>
           </div>
-        </label>
-      </div>
+        );
+      })}
     </div>
   );
 };

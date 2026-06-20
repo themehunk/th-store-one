@@ -63,7 +63,7 @@ export default function QuantityTiersControl({ value = [], onChange }) {
           <div>From Qty</div>
           <div>To Qty</div>
           <div>Offer Type</div>
-          <div>Value</div>
+          <div>offer</div>
           <div></div>
         </div>
 
@@ -101,9 +101,9 @@ export default function QuantityTiersControl({ value = [], onChange }) {
                   value={tier.offer}
                   onChange={(e) => updateTier(index, "offer", e.target.value)}
                 >
-                  <option value="percent">Percent Off (%)</option>
-                  <option value="fixed">Fixed Discount ($)</option>
-                  <option value="fixed_price">Fixed Price ($)</option>
+                  <option value="percent">Percent Discount (%)</option>
+                  <option value="fixed">Price Discount ($)</option>
+                  <option value="fixed_price">Fixed Price</option>
                 </select>
               </div>
 
