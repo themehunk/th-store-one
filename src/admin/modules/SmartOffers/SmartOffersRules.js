@@ -559,14 +559,7 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                                       label: "Specific Products",
                                       value: "y_specificproduct",
                                     },
-                                    {
-                                      label: "Specific Category",
-                                      value: "y_category",
-                                    },
-                                    {
-                                      label: "Specific Tag",
-                                      value: "y_tag",
-                                    },
+
                                     {
                                       label: "Same Product",
                                       value: "y_same",
