@@ -1,452 +1,185 @@
-/* =========================================================
-   WRAPPER
-========================================================= */
-
-.th-offer-wrapper{
-  margin:20px 0;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
+.th-smart-preview {
+  border: 1px solid #d1d5db;
+  border-radius: 16px;
+  padding: 14px;
+  background: #fff;
+  box-sizing: border-box;
 }
 
-/* =========================================================
-   CARD
-========================================================= */
+/* ======================
+   CARD ROWS
+====================== */
 
-.th-offer-card{
-  position:relative;
-  overflow:hidden;
-
-  background:
-    var(
-      --th-card-bg,
-      linear-gradient(
-        180deg,
-        #f7fff9 0%,
-        #ffffff 100%
-      )
-    );
-
-  border-style:
-    var(--th-border-style,solid);
-
-  border-color:
-    var(--th-border-color,#e5e7eb);
-
-  border-top-width:
-    var(--th-border-top,1px);
-
-  border-right-width:
-    var(--th-border-right,1px);
-
-  border-bottom-width:
-    var(--th-border-bottom,1px);
-
-  border-left-width:
-    var(--th-border-left,1px);
-
-  border-top-left-radius:
-    var(--th-radius-top-left,16px);
-
-  border-top-right-radius:
-    var(--th-radius-top-right,16px);
-
-  border-bottom-right-radius:
-    var(--th-radius-bottom-right,16px);
-
-  border-bottom-left-radius:
-    var(--th-radius-bottom-left,16px);
-
-  transition:all .25s ease;
-  cursor:pointer;
+.th-smart-preview .th-bogo-card,
+.th-smart-preview .th-bxgy-card,
+.th-smart-preview .th-dynamic-row,
+.th-smart-preview .th-offer-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
 }
 
-.th-offer-card:hover{
-  transform:translateY(-2px);
-
-  box-shadow:
-    0 10px 25px rgba(0,0,0,.06),
-    0 2px 10px rgba(0,0,0,.04);
-}
-
-/* =========================================================
-   LABEL
-========================================================= */
-
-.th-offer-card label{
-  display:block;
-  cursor:pointer;
-}
-
-.th-offer-card input[type="radio"]{
-  display:none;
-}
-
-/* =========================================================
-   INNER
-========================================================= */
-
-.th-offer-card .th-card-inner{
-  position:relative;
-
-  padding-top:
-    var(--th-padding-top,14px);
-
-  padding-right:
-    var(--th-padding-right,14px);
-
-  padding-bottom:
-    var(--th-padding-bottom,14px);
-
-  padding-left:
-    var(--th-padding-left,14px);
-
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-
-  transition:all .25s ease;
-}
-
-/* ACTIVE */
-
-/* .th-offer-card input:checked + .th-card-inner{
-  background:
-    var(
-      --th-card-active-bg,
-      linear-gradient(
-        180deg,
-        #f7fff9 0%,
-        #ffffff 100%
-      )
-    );
-} */
-
-/* =========================================================
-   CUSTOM RADIO
-========================================================= */
-
-.th-offer-card .th-card-inner::before{
-  content:"";
-
-  position:absolute;
-
-  left: 6px;
-    top: 6px;
-
-  width:15px;
-  height:15px;
-
-  border-radius:50%;
-
-  border:2px solid
-    var(--th-radio-color,#cfcfcf);
-
-  background:#fff;
-
-  transition:.25s ease;
-}
-
-.th-offer-card .th-card-inner::after{
-  content:"";
-
-  position:absolute;
-
-  left: 10px;
-    top: 10px;
-
-  width:11px;
-  height:11px;
-
-  border-radius:50%;
-
-  background:
-    var(--th-radio-color,#22c55e);
-
-  opacity:0;
-
-  transform:scale(.5);
-
-  transition:.2s ease;
-}
-
-/* .th-offer-card input:checked + .th-card-inner::before{
-  border-color:
-    var(--th-radio-color,#22c55e);
-} */
-
-.th-offer-card input:checked + .th-card-inner::after{
-  opacity:1;
-  transform:scale(1);
-}
-
-/* =========================================================
-   BADGE
-========================================================= */
-.th-offer-wrapper .th-ofr-badge {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 4px 10px;
-    border-bottom-left-radius: 10px;
-    background:
-    var(
-      --th-badge-bg,
-      linear-gradient(
-        135deg,
-        #22c55e,
-        #16a34a
-      )
-    );
-
-  color:
-    var(--th-badge-color,#fff);
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: .3px;
-    text-transform: uppercase;
-    box-shadow: 0 3px 8px rgb(158 158 158 / 32%);
-    z-index: 2;
-}
-
-/* =========================================================
-   ROW
-========================================================= */
-
-.th-offer-card .th-row{
-  display:flex;
-  align-items:center;
-  gap:14px;
-  padding:0 10px;
-}
-
-/* =========================================================
-   IMAGE
-========================================================= */
-
-.th-offer-card .th-left{
-  flex-shrink:0;
-}
-
-.th-offer-card .th-left img{
-  width:64px;
-  height:64px;
-
-  object-fit:cover;
-
-  border-radius:
-    var(--th-image-radius,12px);
-
-  border:1px solid #ececec;
-
-  background:#fff;
-}
-
-/* =========================================================
+/* ======================
    CONTENT
-========================================================= */
+====================== */
 
-.th-offer-card .th-mid{
-  flex:1;
-  min-width:0;
+.th-smart-preview .th-bogo-content,
+.th-smart-preview .th-bxgy-content,
+.th-smart-preview .th-offer-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 14px;
+  justify-content: space-between;
+  flex: 1;
 }
 
-.th-offer-card .th-offer-heading{
-  display:block;
+/* ======================
+   LEFT SIDE
+====================== */
 
-  font-size:15px;
-  line-height:1.4;
-  font-weight:700;
-
-  color:
-    var(--th-heading-color,#111827);
-
-  margin-bottom:4px;
+.th-smart-preview .th-offer-left {
+  flex: 1;
+  min-width: 0;
 }
 
-.th-offer-card .th-product-title{
-  font-size:13px;
+/* ======================
+   TITLES
+====================== */
 
-  color:
-    var(--th-text-color,#6b7280);
-
-  margin-bottom:4px;
-
-  font-weight:500;
+.th-smart-preview .th-bogo-title,
+.th-smart-preview .th-bxgy-title,
+.th-smart-preview .th-dynamic-title,
+.th-smart-preview .th-offer-title {
+  flex: 1;
+  font-size: 16px;
+  line-height: 1.35;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
 }
 
-.th-offer-card .th-offer-subheading{
-  font-size:12px;
+/* ======================
+   BADGE
+====================== */
 
-  color:
-    var(--th-text-color,#9ca3af);
-
-  line-height:1.5;
-
-  margin-bottom:6px;
+.th-smart-preview .th-badge {
+  padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 10px;
+    line-height: 1;
+    font-weight: 600;
+  white-space: nowrap;
+  text-transform: uppercase;
+  flex-shrink: 0;
 }
 
-.th-offer-card .th-offer-meta{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-
-  border-radius:999px;
-
-  color:
-    var(--th-meta-color,#15803d);
-
-  font-size:12px;
-  font-weight:600;
-
-  width:fit-content;
-}
-
-/* =========================================================
+/* ======================
    PRICE
-========================================================= */
+====================== */
 
-.th-offer-card .th-right{
-  min-width:90px;
-  text-align:right;
+.th-smart-preview .th-price {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+  justify-content: end;
+  flex-shrink: 0;
+  font-weight: 600;
 }
 
-.th-offer-card .th-price{
-  display:flex;
-  align-items:flex-end;
-  gap:10px;
+.th-smart-preview .th-price del {
+  font-size: 13px;
+  color: #9ca3af;
 }
 
-.th-offer-card .th-price del{
-  color:
-    var(--th-save-amount-color,#16a34a);
-    opacity:0.6;
-  font-size:12px;
+.th-smart-preview .th-price strong {
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 800;
+  color: inherit; /* price_color inline style ko override nahi karega */
 }
 
-.th-offer-card .th-price strong{
-  font-size:18px;
-  font-weight:700;
-
-  color:
-    var(--th-save-amount-color,#16a34a);
+.th-smart-preview .th-price-text {
+  font-size: 13px;
+  font-weight: 600;
 }
 
-/* =========================================================
-   PROGRESS
-========================================================= */
+/* ======================
+   DESCRIPTION
+====================== */
 
-.th-offer-card .th-progress{
-  position:relative;
-  overflow:hidden;
+.th-smart-preview .th-desc {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #6b7280;
+  font-weight: 500;
+}
+.th-smart-preview .th-offer-wrp .th-desc{
+    text-align:right;
+}
+/* ======================
+   GIFT IMAGE
+====================== */
 
-  height:8px;
+.th-smart-preview .th-gift-image {
+  width: 48px;
+  height: 48px;
+  background: #f3f4f6;
+  border-radius: 10px;
 
-  border-radius:999px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  background:
-    var(--th-progress-bg,#e5e7eb);
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.th-radio-mark {
+  width: 15px;
+  height: 15px;
+  border: 1px solid var(--th-radio-color);
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
 }
 
-.th-offer-card .th-bar{
-  height:100%;
-  width:0%;
-
-  border-radius:999px;
-
-  background:
-    var(--th-progress-fill,#22c55e);
-
-  transition:width .35s ease;
+.th-smart-preview .th-radio-mark.active {
+  border-color: var(--th-radio-color);
 }
 
-/* =========================================================
-   MESSAGE
-========================================================= */
+.th-smart-preview .th-radio-mark.active::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background:var(--th-radio-color);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+/* ======================
+   DYNAMIC ROW
+====================== */
 
-.th-offer-card .th-msg{
-  margin-top:4px;
-
-  font-size:13px;
-  line-height:1.5;
-  font-weight:500;
-
-  color:
-    var(--th-message-color,#6b7280);
-
-  transition:all .2s ease;
+.th-smart-preview .th-dynamic-row {
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 10px;
+  transition: all 0.2s ease;
 }
 
-.th-offer-card input:checked
-+ .th-card-inner .th-msg{
-
-  color:
-    var(--th-success-color,#16a34a);
-
-  font-weight:600;
+.th-smart-preview .th-dynamic-row:last-child {
+  margin-bottom: 0;
 }
 
-/* =========================================================
-   CART OFFER
-========================================================= */
-
-.th-offer-cart{
-  margin:14px 0;
+.th-smart-preview .th-dynamic-row.active {
+  border-color: #cbd5e1;
+  background: #f8fafc;
 }
-
-.th-cart-msg{
-  padding:14px 16px;
-  border-radius:14px;
-
-  font-size:14px;
-  font-weight:600;
-  line-height:1.5;
-}
-
-/* SUCCESS */
-
-.th-cart-msg.success{
-  background:#effdf5;
-  border:1px solid #86efac;
-  color:#166534;
-}
-
-/* DISCOUNT */
-
-.th-cart-msg.discount{
-  background:#fff8eb;
-  border:1px solid #fcd34d;
-  color:#b45309;
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width:767px){
-
-  .th-row{
-    align-items:flex-start;
-  }
-
-  .th-left img{
-    width:56px;
-    height:56px;
-  }
-
-  .th-offer-heading{
-    font-size:14px;
-  }
-
-  .th-price strong{
-    font-size:16px;
-  }
-
-  .th-right{
-    min-width:70px;
-  }
-}
-
 div.s1-quantity-tiers-wrapper {
   background: #ffffff;
   border: 1px solid #e2e8f0;
