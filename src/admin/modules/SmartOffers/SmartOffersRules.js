@@ -85,6 +85,7 @@ const newSmartOfferRule = () => ({
     },
   ],
   reward_type: "free_product",
+  offer_mode: "repeat",
   discount_value: 100,
   apply_on: "sale_price",
   priority: 10,
@@ -141,9 +142,6 @@ const newSmartOfferRule = () => ({
   badge_bg: "#111827",
   badge_color: "#ffffff",
 
-  card_radius: 16,
-  card_padding: 18,
-  image_radius: 12,
   layout_style: "detailed",
   highlight_color: "#111",
   padding: {
@@ -813,6 +811,27 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                               ]}
                               onChange={(v) =>
                                 updateField(index, "apply_on", v)
+                              }
+                            />
+                          </S1Field>
+                        )}
+                        {rule.rule_type !== "dynamicoffer" && (
+                          <S1Field label="Apply Mode">
+                            <SelectControl
+                              help="Repeat: Offer applies Multiple times based on qauntity. Once Only: Offer apply only once per order."
+                              value={rule.apply_mode || "repeat"}
+                              options={[
+                                {
+                                  label: "Reapeat",
+                                  value: "repeat",
+                                },
+                                {
+                                  label: "Once Only",
+                                  value: "once",
+                                },
+                              ]}
+                              onChange={(v) =>
+                                updateField(index, "apply_mode", v)
                               }
                             />
                           </S1Field>
