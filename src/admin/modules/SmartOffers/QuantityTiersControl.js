@@ -11,7 +11,11 @@ const createTier = () => ({
   value: 0,
 });
 
-export default function QuantityTiersControl({ value = [], onChange }) {
+export default function QuantityTiersControl({
+  trigger,
+  value = [],
+  onChange,
+}) {
   const sortableRef = useRef(null);
   const valueRef = useRef(value);
 
@@ -60,8 +64,8 @@ export default function QuantityTiersControl({ value = [], onChange }) {
       <div className="s1-tier-table">
         <div className="s1-tier-th">
           <div className="s1-th-drag"></div>
-          <div>From Qty</div>
-          <div>To Qty</div>
+          {trigger !== "fixed_unit_price" && <div>From Qty</div>}
+          <div>{trigger === "fixed_unit_price" ? "Quantity" : "To Qty"}</div>
           <div>Offer Type</div>
           <div>offer</div>
           <div></div>
@@ -73,22 +77,25 @@ export default function QuantityTiersControl({ value = [], onChange }) {
               <div className="s1-tier-drag">
                 <DragHandleDots2Icon />
               </div>
+              {trigger !== "fixed_unit_price" && (
+                <div className="s1-td-field">
+                  <TextControl
+                    type="number"
+                    min={1}
+                    value={tier.from_qty}
+                    onChange={(v) =>
+                      updateTier(index, "from_qty", parseInt(v || 0, 10))
+                    }
+                  />
+                </div>
+              )}
 
               <div className="s1-td-field">
                 <TextControl
                   type="number"
-                  min={1}
-                  value={tier.from_qty}
-                  onChange={(v) =>
-                    updateTier(index, "from_qty", parseInt(v || 0, 10))
+                  placeholder={
+                    trigger === "fixed_unit_price" ? "Quantity" : "0"
                   }
-                />
-              </div>
-
-              <div className="s1-td-field">
-                <TextControl
-                  type="number"
-                  placeholder="0"
                   value={tier.to_qty}
                   onChange={(v) => updateTier(index, "to_qty", v)}
                 />

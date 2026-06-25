@@ -786,6 +786,7 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                                 />
                               </S1Field>
                               <QuantityTiersControl
+                                trigger={rule.d_trigger}
                                 value={rule.quantity_tiers || []}
                                 onChange={(tiers) =>
                                   updateField(index, "quantity_tiers", tiers)
