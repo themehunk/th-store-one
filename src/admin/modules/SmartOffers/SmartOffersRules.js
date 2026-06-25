@@ -767,7 +767,7 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                             <S1FieldGroup title="Discount Rules">
                               <S1Field label="Create Qty/Price table with">
                                 <SelectControl
-                                  value={rule.d_trigger}
+                                  value={rule.price_fixed_trigger}
                                   options={[
                                     {
                                       label:
@@ -781,12 +781,16 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                                     },
                                   ]}
                                   onChange={(v) => {
-                                    updateField(index, "d_trigger", v);
+                                    updateField(
+                                      index,
+                                      "price_fixed_trigger",
+                                      v,
+                                    );
                                   }}
                                 />
                               </S1Field>
                               <QuantityTiersControl
-                                trigger={rule.d_trigger}
+                                trigger={rule.price_fixed_trigger}
                                 value={rule.quantity_tiers || []}
                                 onChange={(tiers) =>
                                   updateField(index, "quantity_tiers", tiers)
