@@ -60,7 +60,11 @@ export default function QuantityTiersControl({
   };
 
   return (
-    <div className="s1-quantity-tiers-wrapper">
+    <div
+      className={`s1-quantity-tiers-wrapper ${
+        trigger === "fixed_unit_price" ? "s1-fixed-unit-price" : ""
+      }`}
+    >
       <div className="s1-tier-table">
         <div className="s1-tier-th">
           <div className="s1-th-drag"></div>

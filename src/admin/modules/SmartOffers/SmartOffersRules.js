@@ -13,6 +13,7 @@ import { __, sprintf } from "@wordpress/i18n";
 import Sortable from "sortablejs";
 import QuantityTiersControl from "./QuantityTiersControl";
 import MultiWooSearchSelector from "@th-storeone-global/MultiWooSearchSelector";
+
 import ExcludeWooCondition from "@th-storeone-global/ExcludeWooCondition";
 import TabSwitcher from "@th-storeone-global/TabSwitcher";
 import DeviceSelector from "@th-storeone-global/DeviceSelector";
@@ -65,7 +66,7 @@ const newSmartOfferRule = () => ({
   y_product: [],
   y_categories: [],
   y_tags: [],
-  y_quantity: "4",
+  y_quantity: "1",
 
   //dynamic
   d_trigger: "d_allproduct",
@@ -86,7 +87,7 @@ const newSmartOfferRule = () => ({
   ],
   reward_type: "free_product",
   offer_mode: "repeat",
-  discount_value: 100,
+  discount_value: 50,
   apply_on: "sale_price",
   priority: 10,
   single_placement: "woocommerce_after_add_to_cart_form",
@@ -116,7 +117,8 @@ const newSmartOfferRule = () => ({
   crt_page_xy_text: "Special BXGY Offer",
   crt_page_dyn_text: "Dynamic Discount",
   /* ================ STYLE ================= */
-  card_bg: "linear-gradient(180deg, #f7fff9 0%, #ffffff 100%);",
+  offer_style: "style1",
+  card_bg: "#fff",
   card_border: {
     width: {
       top: "1px",
@@ -133,15 +135,12 @@ const newSmartOfferRule = () => ({
       left: "16px",
     },
   },
-  card_active_bg: "linear-gradient(180deg, #f7fff9 0%, #ffffff 100%);",
-
+  card_active_bg: "#fff",
   heading_color: "#111827",
   text_color: "#6b7280",
   price_color: "#6b7280",
-
   badge_bg: "#111827",
   badge_color: "#ffffff",
-
   layout_style: "detailed",
   highlight_color: "#111",
   padding: {
@@ -150,6 +149,7 @@ const newSmartOfferRule = () => ({
     bottom: "14px",
     left: "14px",
   },
+  active_border_width: "2px",
 });
 
 /* ---------------- SORTABLE ---------------- */
@@ -182,6 +182,27 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
     updateAll(arr);
 
     onLivePreview?.(arr[i], i);
+  };
+
+  /* ================= STYLE DEFAULTS (ADDED) ================= */
+  const STYLE_DEFAULTS = {};
+
+  /* ================= HELPER (ADDED) ================= */
+  const applyStyleDefaults = (rule, style) => {
+    const defaults = STYLE_DEFAULTS[style] || {};
+    const updated = { ...rule, list_style: style };
+
+    Object.keys(defaults).forEach((key) => {
+      const autoKey = `${key}_auto`;
+
+      // Agar user ne manually change nahi kiya
+      if (rule[autoKey] !== false) {
+        updated[key] = defaults[key];
+        updated[autoKey] = true;
+      }
+    });
+
+    return updated;
   };
 
   const reorder = (oldIndex, newIndex) => {
@@ -243,6 +264,26 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
 
     hasInitialized.current = true;
   }, []);
+
+  useEffect(() => {
+    const handler = (e) => {
+      const { style } = e.detail;
+      if (!style) return;
+
+      const index = rules.findIndex((r) => r.open);
+      if (index === -1) return;
+
+      const updatedRule = applyStyleDefaults(rules[index], style);
+
+      updateAll(rules.map((r, i) => (i === index ? updatedRule : r)));
+
+      onLivePreview?.(updatedRule, index);
+    };
+
+    window.addEventListener("storeone:changeListStyle", handler);
+    return () =>
+      window.removeEventListener("storeone:changeListStyle", handler);
+  }, [rules]);
 
   return (
     <div className="store-one-rules-container">
@@ -625,7 +666,7 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                                   value={rule.reward_type}
                                   options={[
                                     {
-                                      label: "Free Product (100% Discount)",
+                                      label: "Free Product 100% Off",
                                       value: "free_product",
                                     },
                                     {
@@ -1061,6 +1102,29 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                     content: (
                       <div className="store-one-rule-body">
                         <S1FieldGroup title="Card">
+                          <S1Field
+                            label={__("Choose Style", "th-store-one")}
+                            visible={false}
+                          >
+                            <SelectControl
+                              value={rule.offer_style}
+                              options={[
+                                { label: "Style1", value: "style1" },
+                                { label: "Style2", value: "style2" },
+                              ]}
+                              onChange={(v) => {
+                                const updatedRule = applyStyleDefaults(rule, v);
+
+                                updateAll(
+                                  rules.map((r, i) =>
+                                    i === index ? updatedRule : r,
+                                  ),
+                                );
+
+                                onLivePreview?.(updatedRule, index);
+                              }}
+                            />
+                          </S1Field>
                           <S1Field>
                             <THBackgroundControl
                               allowGradient={true}
@@ -1080,23 +1144,6 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                             }
                           />
 
-                          <S1Field>
-                            <THBackgroundControl
-                              allowGradient={true}
-                              label={__(
-                                "Active Card Background",
-                                "th-store-one",
-                              )}
-                              value={rule.card_active_bg}
-                              onChange={(v) => {
-                                const updatedRule = {
-                                  ...rule,
-                                  card_active_bg: v,
-                                };
-                                updateField(index, "card_active_bg", v);
-                              }}
-                            />
-                          </S1Field>
                           <UniversalDimensionControl
                             label="Padding"
                             value={rule.padding}
@@ -1145,20 +1192,6 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                               }}
                             />
                           </S1Field>
-                          <S1Field>
-                            <THBackgroundControl
-                              allowGradient={true}
-                              label={__("Radio Button Color", "th-store-one")}
-                              value={rule.highlight_color}
-                              onChange={(v) => {
-                                const updatedRule = {
-                                  ...rule,
-                                  highlight_color: v,
-                                };
-                                updateField(index, "highlight_color", v);
-                              }}
-                            />
-                          </S1Field>
                         </S1FieldGroup>
 
                         {/* BADGE */}
@@ -1187,6 +1220,48 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                               }}
                             />
                           </S1Field>
+                        </S1FieldGroup>
+                        <S1FieldGroup title="Active Card">
+                          <S1Field>
+                            <THBackgroundControl
+                              allowGradient={true}
+                              label={__(
+                                "Active Card Background",
+                                "th-store-one",
+                              )}
+                              value={rule.card_active_bg}
+                              onChange={(v) => {
+                                const updatedRule = {
+                                  ...rule,
+                                  card_active_bg: v,
+                                };
+                                updateField(index, "card_active_bg", v);
+                              }}
+                            />
+                          </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              allowGradient={true}
+                              label={__("Active Color", "th-store-one")}
+                              value={rule.highlight_color}
+                              onChange={(v) => {
+                                const updatedRule = {
+                                  ...rule,
+                                  highlight_color: v,
+                                };
+                                updateField(index, "highlight_color", v);
+                              }}
+                            />
+                          </S1Field>
+                          <UniversalRangeControl
+                            label="Active Border Width"
+                            value={rule.active_border_width}
+                            onChange={(v) =>
+                              updateField(index, "active_border_width", v)
+                            }
+                            min={1}
+                            max={20}
+                          />
                         </S1FieldGroup>
                       </div>
                     ),
