@@ -141,7 +141,7 @@ const newSmartOfferRule = () => ({
   price_color: "#6b7280",
   badge_bg: "#111827",
   badge_color: "#ffffff",
-  layout_style: "detailed",
+
   highlight_color: "#111",
   padding: {
     top: "14px",
@@ -190,7 +190,7 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
   /* ================= HELPER (ADDED) ================= */
   const applyStyleDefaults = (rule, style) => {
     const defaults = STYLE_DEFAULTS[style] || {};
-    const updated = { ...rule, list_style: style };
+    const updated = { ...rule, offer_style: style };
 
     Object.keys(defaults).forEach((key) => {
       const autoKey = `${key}_auto`;
