@@ -9,6 +9,7 @@ export default function SmartOffersSettings({
   onLivePreview,
   onRegisterSave,
   onModuleReady,
+  licenseActive,
 }) {
   const [loading, setLoading] = useState(true);
 
@@ -110,6 +111,7 @@ export default function SmartOffersSettings({
             rules={rules}
             onChange={setRules}
             onLivePreview={onLivePreview}
+            licenseActive={licenseActive}
           />
         </>
       )}

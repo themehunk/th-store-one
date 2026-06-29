@@ -5,7 +5,7 @@ import "./live-style.css";
 import { __ } from "@wordpress/i18n";
 
 const PreviewSmartOffers = ({ settings = {} }) => {
-  const style = settings?.list_style || "style1";
+  const style = settings?.offer_style || "style1";
 
   //Tab click → Design SelectControl change
   const changeStyle = (value) => {

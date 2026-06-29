@@ -153,6 +153,7 @@ const ModuleSettings = ({
     onLivePreview,
     onRegisterSave,
     onModuleReady,
+    licenseActive,
   };
 
   /* =========================
