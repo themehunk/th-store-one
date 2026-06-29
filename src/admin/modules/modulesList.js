@@ -103,6 +103,16 @@ export const modulesList = [
     premium: false,
   },
   {
+    id: "smart-offers",
+    label: __("Smart Offers", "th-store-one"),
+    description: __(
+      "Create automated Buy X Get Y offers or BOGO offers, discounts, upsells, and special promotions to boost conversions and increase average order value.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.SMRTOFR,
+    premium: false,
+  },
+  {
     id: "th-advanced-search",
     label: __("Advanced Product Search", "th-store-one"),
     description: __(
@@ -189,16 +199,7 @@ export const modulesList = [
     icon: MODULE_ICONS.BUNDLE,
     premium: true,
   },
-  {
-    id: "smart-offers",
-    label: __("Smart Offers", "th-store-one"),
-    description: __(
-      "Create automated Buy X Get Y offers or BOGO offers, discounts, upsells, and special promotions to boost conversions and increase average order value.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.SMRTOFR,
-    premium: true,
-  },
+
   {
     id: "people-view",
     label: __("Visitor Count", "th-store-one"),

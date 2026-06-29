@@ -82,7 +82,6 @@ const Style1 = ({ settings = {}, rule = {} }) => {
     background: card_bg,
     "--th-radio-color": highlight_color,
     "--th-active-card": card_active_bg,
-    "--th-active-boder-width": active_border_width,
 
     borderStyle: card_border?.style || "solid",
     borderColor: card_border?.color || "#d1d5db",
@@ -183,72 +182,136 @@ const Style1 = ({ settings = {}, rule = {} }) => {
       shortcodeValues.DELPRICE,
       `<del>${shortcodeValues.DELPRICE}</del>`,
     );
+
+    const offer1Values = {
+      ...shortcodeValues,
+      XQTY: 1,
+      YQTY: 1,
+      PRICE: "$19.99",
+      DELPRICE: "$39.99",
+      DISCOUNT: "50%",
+    };
+
+    const offer2Values = {
+      ...shortcodeValues,
+      XQTY: 2,
+      YQTY: 1,
+      PRICE: "$29.99",
+      DELPRICE: "$59.99",
+      DISCOUNT: "40%",
+    };
+
     return (
-      <div
-        className="th-smart-preview"
-        style={{
-          background: card_bg,
-          borderColor: border_color,
-          ...previewStyle,
-        }}
-      >
-        <div className="th-offer-row">
-          <div className="th-radio-mark active" />
-          <div className="th-gift-image">🎁</div>
+      <>
+        <div
+          className="th-smart-preview bxgy active-card"
+          style={{
+            background: card_bg,
+            borderColor: border_color,
+            ...previewStyle,
+          }}
+        >
+          <div className="th-offer-row">
+            <div className="th-radio-mark active" />
+            <div className="th-gift-image">🎁</div>
 
-          <div className="th-offer-content">
-            <div className="th-offer-left">
-              <div
-                className="th-offer-title"
-                style={{
-                  color: heading_color,
-                }}
-              >
-                {replaceShortcodes(bxgy_offer_title, shortcodeValues)}
+            <div className="th-offer-content">
+              <div className="th-offer-left">
+                <div
+                  className="th-offer-title"
+                  style={{ color: heading_color }}
+                >
+                  {replaceShortcodes(bxgy_offer_title, offer1Values)}
+                </div>
               </div>
-            </div>
 
-            <div
-              className="th-badge"
-              style={{
-                background: badge_bg || "#111827",
-                color: badge_color || "#ffffff",
-              }}
-            >
-              {bxgy_badge_text}
-            </div>
-
-            <div className="th-offer-wrp">
               <div
-                className="th-price"
+                className="th-badge"
                 style={{
-                  color: price_color,
+                  background: badge_bg || "#111827",
+                  color: badge_color || "#fff",
                 }}
               >
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: replaceShortcodes(
-                      bxgy_price_text,
-                      shortcodeValues,
-                    ).replace(
-                      shortcodeValues.DELPRICE,
-                      `<del style="margin-right:3px;">${shortcodeValues.DELPRICE}</del>`,
-                    ),
-                  }}
-                />
+                {bxgy_badge_text}
               </div>
-              <div
-                className="th-desc"
-                style={{
-                  color: text_color,
-                }}
-              >
-                {bxgy_short_description}
+
+              <div className="th-offer-wrp">
+                <div className="th-price" style={{ color: price_color }}>
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: replaceShortcodes(
+                        bxgy_price_text,
+                        offer1Values,
+                      ).replace(
+                        offer1Values.DELPRICE,
+                        `<del style="margin-right:3px;">${offer1Values.DELPRICE}</del>`,
+                      ),
+                    }}
+                  />
+                </div>
+                <div className="th-desc" style={{ color: text_color }}>
+                  {bxgy_short_description}
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+        <div
+          className="th-smart-preview bxgy"
+          style={{
+            background: card_bg,
+            borderColor: border_color,
+            marginTop: "15px",
+            ...previewStyle,
+          }}
+        >
+          <div className="th-offer-row">
+            <div className="th-radio-mark" />
+            <div className="th-gift-image">🎁</div>
+
+            <div className="th-offer-content">
+              <div className="th-offer-left">
+                <div
+                  className="th-offer-title"
+                  style={{ color: heading_color }}
+                >
+                  {replaceShortcodes(bxgy_offer_title, offer2Values)}
+                </div>
+              </div>
+
+              <div
+                className="th-badge"
+                style={{
+                  background: badge_bg || "#111827",
+                  color: badge_color || "#fff",
+                }}
+              >
+                {bxgy_badge_text}
+              </div>
+
+              <div className="th-offer-wrp">
+                <div className="th-price" style={{ color: price_color }}>
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: replaceShortcodes(
+                        bxgy_price_text,
+                        offer2Values,
+                      ).replace(
+                        offer2Values.DELPRICE,
+                        `<del style="margin-right:3px;">${offer2Values.DELPRICE}</del>`,
+                      ),
+                    }}
+                  />
+                </div>
+
+                <div className="th-desc" style={{ color: text_color }}>
+                  {bxgy_short_description}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
     );
   }
 

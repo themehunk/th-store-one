@@ -108,7 +108,7 @@ const newSmartOfferRule = () => ({
     "Buy from {XQTY} to {YQTY} items for {DISCOUNT} OFF per item",
   dynamic_badge_text: "Save {DISCOUNT}",
   dynamic_price_text: "Price {DELPRICE} {PRICE}",
-  dynamic_short_description: "{DISCOUNT} / each item",
+  dynamic_short_description: "{PRICE} / each item",
 
   use_shortcode: false,
   devices: ["desktop"],
@@ -172,7 +172,12 @@ function SortableWrapper({ items, onSortEnd, children }) {
 }
 
 /* ---------------- MAIN ---------------- */
-export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
+export default function SmartOffersRules({
+  rules,
+  onChange,
+  onLivePreview,
+  licenseActive,
+}) {
   const updateAll = (arr) => onChange([...arr]);
 
   const updateField = (i, field, val) => {
@@ -374,23 +379,22 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                                   {
                                     name: "bogo",
                                     title: "Buy X Get X",
-                                    className: "th-tab-item bogo-tab",
                                   },
                                   {
                                     name: "buyxgety",
-                                    title: "Buy X Get Y",
-                                    className: "th-tab-item buyxgety-tab",
+                                    title: !licenseActive
+                                      ? "Buy X Get Y (PRO)"
+                                      : "Buy X Get Y",
                                   },
                                   {
                                     name: "dynamicoffer",
-                                    title: "Dynamic Offer",
-                                    className: "th-tab-item dynamic-tab",
+                                    title: !licenseActive
+                                      ? "Dynamic Offer (PRO)"
+                                      : "Dynamic Offer",
                                   },
                                 ]}
                               >
-                                {/* TabPanel require karta hai ki ek function child pass ho jo content return kare */}
                                 {(activeTab) => {
-                                  // Hum yahan content render nahi kar rahe kyunki niche ke fields auto-change hote hain
                                   return null;
                                 }}
                               </TabPanel>
@@ -897,13 +901,10 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                           placement={rule.single_placement}
                           priority={rule.single_priority}
                           onPlacementChange={(v) =>
-                            updateField({
-                              ...rule,
-                              single_placement: v,
-                            })
+                            updateField(index, "single_placement", v)
                           }
                           onPriorityChange={(v) =>
-                            updateField({ ...rule, single_priority: v })
+                            updateField(index, "single_priority", v)
                           }
                         />
 
@@ -1088,8 +1089,7 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                             Price,
                             {`{XQTY}`} = Required Quantity, {`{YQTY}`} =
                             Reward/Maximum Quantity,
-                            {`{DISCOUNT}`} = Discount Value, {`{REMAINING}`} =
-                            Remaining Quantity to Unlock the Offer.
+                            {`{DISCOUNT}`} = Discount Value,
                           </p>
                         </S1Field>
                       </div>
@@ -1253,15 +1253,6 @@ export default function SmartOffersRules({ rules, onChange, onLivePreview }) {
                               }}
                             />
                           </S1Field>
-                          <UniversalRangeControl
-                            label="Active Border Width"
-                            value={rule.active_border_width}
-                            onChange={(v) =>
-                              updateField(index, "active_border_width", v)
-                            }
-                            min={1}
-                            max={20}
-                          />
                         </S1FieldGroup>
                       </div>
                     ),

@@ -71,7 +71,7 @@ const Style2 = ({ settings = {}, rule = {} }) => {
     "--th-price-color": price_color,
     "--th-badge-bg": badge_bg,
     "--th-badge-color": badge_color,
-    "--th-active-boder-width": active_border_width,
+
     borderStyle: card_border?.style || "solid",
     borderColor: card_border?.color || "#d1d5db",
 
@@ -129,36 +129,83 @@ const Style2 = ({ settings = {}, rule = {} }) => {
   }
 
   /* =========================================================
-     2. BUY X GET Y RULE MODE (Single Row)
-     ========================================================= */
+   2. BUY X GET Y RULE MODE (Two Default Rows)
+   ========================================================= */
   if (ruleType === "buyxgety") {
-    const bxgyValues = {
+    const bxgyValues1 = {
       DELPRICE: "$2500",
       PRICE: "$500",
-      XQTY: x_qty || 3,
+      XQTY: 3,
+      YQTY: 1,
+    };
+
+    const bxgyValues2 = {
+      DELPRICE: "$5000",
+      PRICE: "$1000",
+      XQTY: 5,
+      YQTY: 2,
     };
 
     return (
       <div className="th-offer-style-2">
         <style>{customStyles}</style>
+
+        {/* First Offer */}
         <div className="th-layout-card active" style={parentLayoutStyles}>
-          {/* <div className="th-popular-ribbon">Most Popular</div> */}
           <div className="th-radio-container">
             <div className="th-custom-radio" />
           </div>
-          <div class="th-gift-image">🎁</div>
+
+          <div className="th-gift-image">🎁</div>
+
           <div className="th-card-content">
             <h4 className="th-card-title">
-              {replaceShortcodes(bxgy_offer_title, bxgyValues)}
+              {replaceShortcodes(bxgy_offer_title, bxgyValues1)}
             </h4>
+
             <div className="th-content-meta-row">
               <span className="th-gift-badge">{bxgy_badge_text}</span>
             </div>
+
             <div className="th-price-info">
               <span>Price</span>
-              <del>{bxgyValues.DELPRICE}</del>
-              <span>Worth {bxgyValues.PRICE}</span>
+              <del>{bxgyValues1.DELPRICE}</del>
+              <span>Worth {bxgyValues1.PRICE}</span>
             </div>
+
+            <p className="th-card-desc">{bxgy_short_description}</p>
+          </div>
+        </div>
+
+        {/* Second Offer */}
+        <div
+          className="th-layout-card"
+          style={{
+            ...parentLayoutStyles,
+            marginTop: "15px",
+          }}
+        >
+          <div className="th-radio-container">
+            <div className="th-custom-radio" />
+          </div>
+
+          <div className="th-gift-image">🎁</div>
+
+          <div className="th-card-content">
+            <h4 className="th-card-title">
+              {replaceShortcodes(bxgy_offer_title, bxgyValues2)}
+            </h4>
+
+            <div className="th-content-meta-row">
+              <span className="th-gift-badge">{bxgy_badge_text}</span>
+            </div>
+
+            <div className="th-price-info">
+              <span>Price</span>
+              <del>{bxgyValues2.DELPRICE}</del>
+              <span>Worth {bxgyValues2.PRICE}</span>
+            </div>
+
             <p className="th-card-desc">{bxgy_short_description}</p>
           </div>
         </div>

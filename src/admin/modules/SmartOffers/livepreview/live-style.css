@@ -157,6 +157,9 @@
 .th-smart-preview .th-radio-mark.active {
   background: var(--th-radio-color);
 }
+.th-smart-preview.bxgy.active-card{
+border-color:var(--th-radio-color)!important;
+}
 
 /* style2 */
 .th-offer-style-2 {
@@ -190,7 +193,7 @@
   }
 
   .th-layout-card.active {
-     border-width: var(--th-active-boder-width) !important;
+     /* border-width: var(--th-active-boder-width) !important; */
 
      border-color: var(--th-radio-color, #0f172a) !important;
    
@@ -338,7 +341,7 @@
 }
 
  .th-smart-preview .th-dynamic-row.active{
-  border-width: var(--th-active-boder-width) !important;
+  /* border-width: var(--th-active-boder-width) !important; */
 
      border-color: var(--th-radio-color, #0f172a) !important;
   background:var(--th-active-card)!important;
