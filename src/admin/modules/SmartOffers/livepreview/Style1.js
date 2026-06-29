@@ -119,7 +119,7 @@ const Style1 = ({ settings = {}, rule = {} }) => {
   if (ruleType === "bogo") {
     return (
       <div
-        className="th-smart-preview"
+        className="th-smart-preview bogo active-card"
         style={{
           ...previewStyle,
         }}
