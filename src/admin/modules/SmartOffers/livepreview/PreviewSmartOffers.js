@@ -32,14 +32,14 @@ const PreviewSmartOffers = ({ settings = {} }) => {
           className={`s1-style-tab ${style === "style1" ? "active" : ""}`}
           onClick={() => changeStyle("style1")}
         >
-          <span> {__("Style1", "th-store-one")}</span>
+          <span> {__("Default", "th-store-one")}</span>
         </button>
 
         <button
           className={`s1-style-tab ${style === "style2" ? "active" : ""}`}
           onClick={() => changeStyle("style2")}
         >
-          <span> {__("Style2", "th-store-one")}</span>
+          <span> {__("Modern", "th-store-one")}</span>
         </button>
       </div>
       {/* ================= PREVIEW ================= */}
