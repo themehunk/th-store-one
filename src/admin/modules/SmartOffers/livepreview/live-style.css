@@ -157,7 +157,7 @@
 .th-smart-preview .th-radio-mark.active {
   background: var(--th-radio-color);
 }
-.th-smart-preview.bxgy.active-card{
+.th-smart-preview.bxgy.active-card,.th-smart-preview.bogo.active-card{
 border-color:var(--th-radio-color)!important;
 }
 
@@ -278,8 +278,8 @@ border-color:var(--th-radio-color)!important;
   }
 
   .th-layout-card .th-gift-badge {
-    background-color: var(--th-badge-bg, #0f172a);
-    color: var(--th-badge-color, #ffffff);
+    background: var(--th-badge-bg);
+    color: var(--th-badge-color);
     font-size: 11px;
     font-weight: 800;
     padding: 3px 8px;
