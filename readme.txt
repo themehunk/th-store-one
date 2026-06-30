@@ -145,9 +145,9 @@ Yes, the plugin is translation-ready and supports multiple languages.
 * Added limitaion only BOGO workign in lite version.
 * Added 3 Types of Smart Offer BOGO , BUY X GET Y and Dyanamic.
 * Added Smart Offer Added Two new style.
-* Added Shopale Video option added all video auto play.
-* Added Shopale Video navigation potision change to choose product information showing in top.
-* Added Shopale Video Module in lite version
+* Added Shoppable Video option added all video auto play.
+* Added Shoppable Video navigation potision change to choose product information showing in top.
+* Added Shoppable Video Module in lite version
 
 = 1.1.3=
 Update:Sales Countdown, Sticky Cart and Buynow Button Addon Improved

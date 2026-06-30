@@ -370,662 +370,310 @@ export const ICONS = {
 export const MODULE_ICONS = {
   FBT: (
     <svg
-      class="w-6 h-6"
       viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     >
-      <path
-        d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      ></path>
-      <path
-        d="M14 14.5a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
-        fill="currentColor"
-        fill-opacity="0.2"
-        stroke="currentColor"
-        stroke-width="1.5"
-      ></path>
-      <circle
-        cx="18"
-        cy="18"
-        r="4"
-        fill="white"
-        stroke="currentColor"
-        stroke-width="2"
-      ></circle>
-      <path
-        d="M18 16v4M16 18h4"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-      ></path>
+      <path d="M3 4h2l1.4 9.2A2 2 0 0 0 8.4 15h8.2a2 2 0 0 0 2-1.6L20 6H6.6"></path>
+      <circle cx="9" cy="20" r="1.2"></circle>
+      <circle cx="17" cy="20" r="1.2"></circle>
+      <path d="M16.5 2.5v4"></path>
+      <path d="M14.5 4.5h4"></path>
     </svg>
   ),
 
   BUNDLE: (
     <svg
-      class="w-6 h-6"
       viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     >
-      <path
-        d="M21 7.5L12 3L3 7.5V16.5L12 21L21 16.5V7.5Z"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      ></path>
-      <path
-        d="M12 21V12"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      ></path>
-      <path
-        d="M12 12L21 7.5"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      ></path>
-      <path
-        d="M12 12L3 7.5"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      ></path>
-      <path
-        d="M7.5 5.25L16.5 9.75"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      ></path>
+      <path d="M21 8l-9-5-9 5 9 5 9-5z" />
+      <path d="M3 8v8l9 5 9-5V8" />
+      <path d="M12 13v8" />
     </svg>
   ),
   BTL: (
     <svg
-      class="w-6 h-6"
       viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     >
-      <path
-        d="M8 6H21M8 12H21M8 18H21M3 6H3.01M3 12H3.01M3 18H3.01"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      ></path>
+      <line x1="9" y1="6" x2="20" y2="6" />
+      <line x1="9" y1="12" x2="20" y2="12" />
+      <line x1="9" y1="18" x2="20" y2="18" />
+      <circle cx="4.5" cy="6" r="1.4" />
+      <circle cx="4.5" cy="12" r="1.4" />
+      <circle cx="4.5" cy="18" r="1.4" />
     </svg>
   ),
   QS: (
     <svg
-      class="w-6 h-6"
       viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     >
-      <path
-        d="M18 2H6C3.79086 2 2 3.79086 2 6V18C2 20.2091 3.79086 22 6 22H18C20.2091 22 22 20.2091 22 18V6C22 3.79086 20.2091 2 18 2Z"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      ></path>
-      <path
-        d="M8 12C8 14.2091 9.79086 16 12 16C14.2091 16 16 14.2091 16 12C16 9.79086 14.2091 8 12 8C9.79086 8 8 9.79086 8 12Z"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      ></path>
-      <path
-        d="M17.5 6.5H17.51"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      ></path>
+      <circle cx="18" cy="5" r="2.4" />
+      <circle cx="6" cy="12" r="2.4" />
+      <circle cx="18" cy="19" r="2.4" />
+      <line x1="8.2" y1="10.8" x2="15.8" y2="6.2" />
+      <line x1="8.2" y1="13.2" x2="15.8" y2="17.8" />
     </svg>
   ),
   PBR: (
     <svg
-      className="w-6 h-6"
       viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     >
-      <rect
-        x="3"
-        y="3"
-        width="18"
-        height="18"
-        rx="2"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-      <circle cx="8.5" cy="8.5" r="1.5" fill="currentColor" />
-      <path
-        d="M21 16L16 11L5 21"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M12 2l8 3v6c0 5-3.4 8.7-8 10-4.6-1.3-8-5-8-10V5l8-3z" />
+      <path d="M9 12l2 2 4-4" />
     </svg>
   ),
   TBD: (
     <svg
-      className="w-6 h-6"
       viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     >
-      <path
-        d="M12 3L20 6V11C20 16 16.5 20.5 12 22C7.5 20.5 4 16 4 11V6L12 3Z"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M9 12L11 14L15 10"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M12 2l8 3v6c0 5-3.4 8.7-8 10-4.6-1.3-8-5-8-10V5l8-3z" />
+      <path d="M9 12l2 2 4-4" />
     </svg>
   ),
   PDV: (
     <svg
-      className="w-6 h-6"
       viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     >
-      {/* Screen */}
-      <rect
-        x="3"
-        y="5"
-        width="18"
-        height="14"
-        rx="2"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-
-      {/* Play Button */}
-      <path d="M10 9L15 12L10 15V9Z" fill="currentColor" />
+      <rect x="2" y="5" width="20" height="14" rx="2" />
+      <path d="M10 9.5v5l4.5-2.5-4.5-2.5z" />
     </svg>
   ),
   SN: (
     <svg
-      className="w-6 h-6"
       viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     >
-      {/* Bell */}
-      <path
-        d="M12 3C9.79 3 8 4.79 8 7V10C8 11.1 7.1 12 6 12V14H18V12C16.9 12 16 11.1 16 10V7C16 4.79 14.21 3 12 3Z"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-
-      {/* Bell bottom */}
-      <path
-        d="M10 17C10 18.1 10.9 19 12 19C13.1 19 14 18.1 14 17"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-
-      {/* Sale dot */}
-      <circle cx="18" cy="6" r="2" fill="currentColor" />
+      <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
+      <path d="M13.73 21a2 2 0 0 1-3.46 0" />
     </svg>
   ),
   SCT: (
     <svg
-      className="w-6 h-6"
       viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     >
-      {/* Cart */}
-      <path
-        d="M3 3H5L6.5 14H18L20 6H7"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-
-      {/* Wheels */}
-      <circle cx="9" cy="19" r="1.5" fill="currentColor" />
-      <circle cx="17" cy="19" r="1.5" fill="currentColor" />
-
-      {/* Sticky indicator (top bar) */}
-      <rect x="6" y="2" width="12" height="2" rx="1" fill="currentColor" />
+      <path d="M3 6h2l1.4 9.2A2 2 0 0 0 8.4 17h8.2a2 2 0 0 0 2-1.6L20 8H6.6" />
+      <circle cx="9" cy="21" r="1.2" />
+      <circle cx="17" cy="21" r="1.2" />
     </svg>
   ),
   BNBTN: (
     <svg
-      className="w-6 h-6"
       viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     >
-      {/* Button Background */}
-      <rect
-        x="2"
-        y="5"
-        width="20"
-        height="14"
-        rx="4"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-
-      {/* Cart */}
-      <path
-        d="M7 9H8.5L9.5 14H15L16.5 10H9"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-
-      {/* Wheels */}
-      <circle cx="10.5" cy="16.5" r="1" fill="currentColor" />
-      <circle cx="14.5" cy="16.5" r="1" fill="currentColor" />
+      <rect x="3" y="4" width="18" height="6" rx="1.5" />
+      <path d="M7 14h5" />
+      <path d="M7 18h9" />
     </svg>
   ),
   INTB: (
     <svg
-      className="w-6 h-6"
       viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     >
-      {/* Browser tab */}
-      <rect
-        x="3"
-        y="5"
-        width="18"
-        height="14"
-        rx="2"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-
-      {/* Tab header */}
-      <path d="M3 8H21" stroke="currentColor" strokeWidth="2" />
-
-      {/* Alert / attention indicator */}
-      <circle cx="17" cy="6.5" r="1" fill="currentColor" />
-
-      {/* Text lines */}
-      <path
-        d="M7 12H13M7 15H11"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
+      <rect x="2" y="5" width="20" height="14" rx="2" />
+      <path d="M2 9h20" />
+      <path d="M6 14h4" />
     </svg>
   ),
 
   STKSC: (
-    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none">
-      {/* Container */}
-      <rect
-        x="3"
-        y="5"
-        width="18"
-        height="12"
-        rx="3"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-
-      {/* Progress bg */}
-      <rect
-        x="5"
-        y="14"
-        width="14"
-        height="2.5"
-        rx="1.2"
-        fill="currentColor"
-        opacity="0.2"
-      />
-
-      {/* Progress low */}
-      <rect x="5" y="14" width="5" height="2.5" rx="1.2" fill="currentColor" />
-
-      <path
-        d="M12 7C13 9 10 9.5 11 11C11.5 11.7 12.5 11.5 13 10.5C13.5 9.5 13 8.5 12 7Z"
-        fill="currentColor"
-      />
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M3 21l5-12 4 7 3-5 6 10" />
+      <line x1="3" y1="21" x2="21" y2="21" />
     </svg>
   ),
   SLCNT: (
     <svg
-      className="w-6 h-6"
       viewBox="0 0 24 24"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     >
-      {/* Clock */}
-      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="2" />
-
-      {/* Clock hands */}
-      <path
-        d="M12 7V12L15 14"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-
-      {/* Sale dot */}
-      <circle cx="18" cy="6" r="2" fill="currentColor" />
+      <circle cx="12" cy="13" r="8" />
+      <path d="M12 9v4l3 2" />
+      <path d="M9 2h6" />
+      <path d="M12 2v2" />
     </svg>
   ),
   SMRTOFR: (
-    <svg
-      className="w-6 h-6"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {/* Tag shape (offer icon) */}
-      <path
-        d="M3 12L12 3L21 12L12 21L3 12Z"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinejoin="round"
-      />
-
-      {/* Discount circle */}
-      <circle cx="12" cy="12" r="2" stroke="currentColor" strokeWidth="2" />
-
-      {/* Small spark (smart effect) */}
-      <path
-        d="M18 4V7M18 7H21"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </svg>
-  ),
-  PORDR: (
-    <svg
-      className="w-6 h-6"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {/* Product Box */}
-      <rect
-        x="3"
-        y="5"
-        width="18"
-        height="14"
-        rx="3"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-
-      {/* Clock */}
-      <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="2" />
-
-      {/* Clock Hands */}
-      <path
-        d="M12 10V12.5L13.8 13.5"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-
-      {/* Preorder Badge */}
-      <path
-        d="M7 18H17"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-
-      {/* Live / Active Dot */}
-      <circle cx="18" cy="8" r="1.2" fill="currentColor" />
-    </svg>
-  ),
-  RV: (
-    <svg
-      className="w-6 h-6"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {/* Eye */}
-      <path
-        d="M2 12C4.5 7.5 8 5 12 5C16 5 19.5 7.5 22 12C19.5 16.5 16 19 12 19C8 19 4.5 16.5 2 12Z"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-
-      {/* Eye center */}
-      <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
-
-      {/* Clock (recent indicator) */}
-      <path
-        d="M17 4V7M17 7H20"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-    </svg>
-  ),
-  PV: (
-    <svg
-      className="w-6 h-6"
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      {/* Monitor / Live Card */}
-      <rect
-        x="3"
-        y="5"
-        width="18"
-        height="14"
-        rx="3"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-
-      {/* People */}
-      <circle cx="9" cy="11" r="2" stroke="currentColor" strokeWidth="2" />
-
-      <circle cx="15" cy="11" r="2" stroke="currentColor" strokeWidth="2" />
-
-      {/* Bottom viewer line */}
-      <path
-        d="M6.5 16C7.5 14.8 8.8 14 10.5 14C12.2 14 13.5 14.8 14.5 16"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-
-      <path
-        d="M13.5 16C14.2 15 15.2 14.5 16.5 14.5C17.8 14.5 18.7 15 19.5 16"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-
-      {/* Live dot */}
-      <circle cx="18" cy="8" r="1.2" fill="currentColor" />
-    </svg>
-  ),
-
-  ADVSEARCH: (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-    >
-      <path
-        d="M21 21L16.65 16.65M11 18C7.13401 18 4 14.866 4 11C4 7.13401 7.13401 4 11 4C14.866 4 18 7.13401 18 11C18 14.866 14.866 18 11 18Z"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  ),
-
-  ADVCART: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
       viewBox="0 0 24 24"
       fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="lucide lucide-gift w-5 h-5 text-emerald-600 animate-pulse"
+      aria-hidden="true"
     >
-      <path
-        d="M2 3H5L7.2 13.5C7.29 13.92 7.53 14.29 7.87 14.55C8.22 14.81 8.64 14.95 9.08 14.95H18.2C18.62 14.95 19.03 14.81 19.37 14.56C19.7 14.3 19.94 13.94 20.05 13.53L21.5 8H6.2"
-        stroke="currentColor"
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle cx="9" cy="19" r="1.6" fill="currentColor" />
-      <circle cx="18" cy="19" r="1.6" fill="currentColor" />
+      <rect x="3" y="8" width="18" height="4" rx="1"></rect>
+      <path d="M12 8v13"></path>
+      <path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"></path>
+      <path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"></path>
+    </svg>
+  ),
+  PORDR: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <rect x="3" y="3" width="18" height="18" rx="4" />
+      <circle cx="12" cy="12" r="3.5" />
+      <path d="M12 8.5V12l2 1.2" />
+    </svg>
+  ),
+  RV: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
+      <circle cx="12" cy="12" r="3" />
+      <path d="M12 5V2" />
+      <path d="M9.5 2.5l1 2" />
+    </svg>
+  ),
+  PV: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
+      <circle cx="12" cy="12" r="3" />
+      <path d="M5 5l1.5 1.5" />
+      <path d="M19 5l-1.5 1.5" />
+    </svg>
+  ),
+
+  ADVSEARCH: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="10.5" cy="10.5" r="6.5" />
+      <line x1="15.3" y1="15.3" x2="21" y2="21" />
+    </svg>
+  ),
+
+  ADVCART: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M3 4h2l1.4 9.2A2 2 0 0 0 8.4 15h8.2a2 2 0 0 0 2-1.6L20 6H6.6" />
+      <circle cx="9" cy="20" r="1.2" />
+      <circle cx="17" cy="20" r="1.2" />
     </svg>
   ),
   VARIATIONS: (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
       viewBox="0 0 24 24"
       fill="none"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     >
-      <circle cx="6" cy="12" r="3" fill="currentColor" />
-      <circle cx="12" cy="12" r="3" fill="currentColor" opacity="0.7" />
-      <circle cx="18" cy="12" r="3" fill="currentColor" opacity="0.4" />
-      <path
-        d="M4 4H20"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M4 20H20"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
+      <line x1="3" y1="6" x2="21" y2="6" />
+      <line x1="3" y1="12" x2="21" y2="12" />
+      <line x1="3" y1="18" x2="21" y2="18" />
+      <circle cx="8" cy="6" r="1.6" />
+      <circle cx="15" cy="12" r="1.6" />
+      <circle cx="11" cy="18" r="1.6" />
     </svg>
   ),
   COMPARE: (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
       viewBox="0 0 24 24"
       fill="none"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     >
-      <path
-        d="M8 4V20"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M16 4V20"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M4 8H12"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M12 16H20"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M10 6L12 8L10 10"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M14 14L12 16L14 18"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <line x1="6" y1="3" x2="6" y2="21" />
+      <path d="M3 7h6" />
+      <path d="M3 11h6" />
+      <line x1="18" y1="3" x2="18" y2="21" />
+      <path d="M15 13h6" />
+      <path d="M15 17h6" />
     </svg>
   ),
   SHOPPABLE_VIDEO: (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
       viewBox="0 0 24 24"
       fill="none"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     >
-      <rect
-        x="2"
-        y="4"
-        width="14"
-        height="10"
-        rx="2"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-      <path d="M8 7L12 9L8 11V7Z" fill="currentColor" />
-      <rect
-        x="14"
-        y="12"
-        width="8"
-        height="8"
-        rx="1.5"
-        stroke="currentColor"
-        strokeWidth="2"
-      />
-      <path
-        d="M17 10V12"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
-      <path
-        d="M19 10V12"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
+      <rect x="2" y="5" width="20" height="14" rx="2" />
+      <path d="M9.5 9v6l5-3-5-3z" />
+      <path d="M2 9h2" />
+      <path d="M2 15h2" />
     </svg>
   ),
 };
