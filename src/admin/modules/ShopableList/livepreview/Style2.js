@@ -74,10 +74,7 @@ const Style2 = ({ settings = {} }) => {
       <div
         className="s1-shopable-product-bar"
         style={{
-          borderTopLeftRadius: s?.border?.radius?.top || "0px",
-          borderTopRightRadius: s?.border?.radius?.right || "0px",
-          borderBottomRightRadius: s?.border?.radius?.bottom || "0px",
-          borderBottomLeftRadius: s?.border?.radius?.left || "0px",
+          borderRadius: s?.prd_cart_border_radius || "10px",
           background: s?.bg_color || "#fff",
         }}
       >

@@ -6,7 +6,11 @@ import THBackgroundControl from "@th-storeone-control/color";
 
 import { S1Field, S1FieldGroup } from "@th-storeone-global/S1Field";
 
-export default function UniversalBorderControl({ value = {}, onChange }) {
+export default function UniversalBorderControl({
+  value = {},
+  onChange,
+  title = __("Border", "th-store-one"),
+}) {
   const border = value || {};
 
   const update = (key, val) => {
@@ -17,7 +21,7 @@ export default function UniversalBorderControl({ value = {}, onChange }) {
   };
 
   return (
-    <S1FieldGroup title={__("Border", "th-store-one")}>
+    <S1FieldGroup title={title}>
       {/* Border Style */}
       <S1Field label={__("Border Style", "th-store-one")}>
         <SelectControl
