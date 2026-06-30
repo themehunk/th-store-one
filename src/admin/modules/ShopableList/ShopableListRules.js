@@ -50,6 +50,7 @@ const newShopableListRule = () => ({
   product_info_position: "bottom",
   show_prd_popup: false,
   video_auto_play: true,
+  video_all_auto_play: false,
   video_mute: true,
   prd_delay: "",
 
@@ -59,7 +60,7 @@ const newShopableListRule = () => ({
   hide_title: false,
   slider: {
     enabled: false,
-    slides: 4,
+    slides: 3,
     autoplay: false,
     navigation: true,
   },
@@ -88,6 +89,7 @@ const newShopableListRule = () => ({
   bg_color: "#ffffff91",
   prd_cart_bg_color: "#22c55e",
   prd_cart_icon_color: "#fff",
+  prd_cart_border_radius: "10px",
   vicon_color: "#fff",
   vicon_bg_color: "#00000073",
   bar_color: "#fff",
@@ -643,6 +645,20 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                             />
                           </S1Field>
                           <S1Field
+                            label={__("All Video Auto Play", "th-store-one")}
+                            description={__(
+                              "Automatically all playing videos",
+                              "th-store-one",
+                            )}
+                          >
+                            <ToggleControl
+                              checked={rule.video_all_auto_play}
+                              onChange={(v) =>
+                                updateField(index, "video_all_auto_play", v)
+                              }
+                            />
+                          </S1Field>
+                          <S1Field
                             label={__("Mute", "th-store-one")}
                             description={__(
                               "Enabling this option will automatically turn off mute.",
@@ -698,7 +714,9 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                           <div className="s1-shortcode-wrapper">
                             <textarea
                               readOnly
-                              value={`[th_store_one_shopable_video id="${rule.flexible_id}"]`}
+                              value={`[th_store_one_shopable_video id="${
+                                index + 1
+                              }"]`}
                               className="s1-shortcode-textarea"
                             />
 
@@ -707,7 +725,9 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                               className="s1-shortcode-copy"
                               onClick={() => {
                                 navigator.clipboard.writeText(
-                                  `[th_store_one_shopable_video id="${rule.flexible_id}"]`,
+                                  `[th_store_one_shopable_video id="${
+                                    index + 1
+                                  }"]`,
                                 );
                               }}
                             >
@@ -862,27 +882,28 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                             }}
                           />
                         </S1Field>
-
-                        <S1Field
-                          label={__("Product Info Position", "th-store-one")}
-                        >
-                          <SelectControl
-                            value={rule.product_info_position}
-                            options={[
-                              {
-                                label: "Top",
-                                value: "top",
-                              },
-                              {
-                                label: "Bottom",
-                                value: "bottom",
-                              },
-                            ]}
-                            onChange={(v) =>
-                              updateField(index, "product_info_position", v)
-                            }
-                          />
-                        </S1Field>
+                        {rule.list_style == "style1" && (
+                          <S1Field
+                            label={__("Product Info Position", "th-store-one")}
+                          >
+                            <SelectControl
+                              value={rule.product_info_position}
+                              options={[
+                                {
+                                  label: "Top",
+                                  value: "top",
+                                },
+                                {
+                                  label: "Bottom",
+                                  value: "bottom",
+                                },
+                              ]}
+                              onChange={(v) =>
+                                updateField(index, "product_info_position", v)
+                              }
+                            />
+                          </S1Field>
+                        )}
 
                         <S1Field>
                           <THBackgroundControl
@@ -896,6 +917,7 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                         </S1Field>
 
                         <UniversalBorderControl
+                          title="Video Border"
                           value={rule.border}
                           onChange={(v) => updateField(index, "border", v)}
                         />
@@ -950,6 +972,15 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
                               }
                             />
                           </S1Field>
+                          <UniversalRangeControl
+                            label={__("Border Radius", "th-store-one")}
+                            responsive={false}
+                            units={["px"]}
+                            value={rule.prd_cart_border_radius}
+                            onChange={(v) =>
+                              updateField(index, "prd_cart_border_radius", v)
+                            }
+                          />
                         </S1FieldGroup>
                         <S1FieldGroup title="Progress Bar Color">
                           <S1Field>
@@ -998,7 +1029,7 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
           {__("+ Add New Rule", "th-store-one")}
         </div>
         <ResetModuleButton
-          moduleId="buy-to-list"
+          moduleId="shopable-list"
           onReset={() => {
             const resetRules = [newShopableListRule()];
             updateAll(resetRules);
