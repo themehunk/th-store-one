@@ -148,6 +148,7 @@ Yes, the plugin is translation-ready and supports multiple languages.
 * Added Shoppable Video option added all video auto play.
 * Added Shoppable Video navigation potision change to choose product information showing in top.
 * Added Shoppable Video Module in lite version
+* Added Plugin Installation option in Setting page.
 
 = 1.1.3=
 Update:Sales Countdown, Sticky Cart and Buynow Button Addon Improved

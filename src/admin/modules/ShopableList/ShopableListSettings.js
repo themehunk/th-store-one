@@ -12,6 +12,7 @@ export default function ShopableListSettings({
   onLivePreview,
   onRegisterSave,
   onModuleReady,
+  licenseActive,
 }) {
   const [loading, setLoading] = useState(true);
 
@@ -113,6 +114,7 @@ export default function ShopableListSettings({
             rules={rules}
             onChange={setRules}
             onLivePreview={onLivePreview}
+            licenseActive={licenseActive}
           />
         </>
       )}

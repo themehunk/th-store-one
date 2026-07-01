@@ -144,7 +144,12 @@ function SortableWrapper({ items, onSortEnd, children }) {
 }
 
 /* ------------------------ Main Component ------------------------ */
-export default function ShopableListRules({ rules, onChange, onLivePreview }) {
+export default function ShopableListRules({
+  rules,
+  onChange,
+  onLivePreview,
+  licenseActive,
+}) {
   const menuItems = [
     { id: "settings", label: "Settings", icon: "SETTINGS" },
     { id: "display", label: "Display Page", icon: "DISPLAY" },
@@ -190,8 +195,14 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
   };
 
   const addRule = () => {
+    // Lite version: allow only one rule
+    if (!licenseActive && rules.length >= 1) {
+      return;
+    }
+
     const arr = [...rules, newShopableListRule()];
     updateAll(arr);
+
     const newIndex = arr.length - 1;
     onLivePreview?.(arr[newIndex], newIndex);
   };
@@ -1025,9 +1036,19 @@ export default function ShopableListRules({ rules, onChange, onLivePreview }) {
       </SortableWrapper>
       {/* Add Rule */}
       <div className="store-one-rules-footer">
-        <div className="store-one-add-rule" onClick={addRule}>
-          {__("+ Add New Rule", "th-store-one")}
-        </div>
+        {licenseActive || rules.length === 0 ? (
+          <div className="store-one-add-rule" onClick={addRule}>
+            {__("+ Add New Rule", "th-store-one")}
+          </div>
+        ) : (
+          <div
+            className="store-one-add-rule s1-disabled"
+            style={{ opacity: 0.5, cursor: "not-allowed" }}
+          >
+            {__("Upgrade to Pro for Multiple Rules", "th-store-one")}
+          </div>
+        )}
+
         <ResetModuleButton
           moduleId="shopable-list"
           onReset={() => {

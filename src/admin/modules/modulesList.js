@@ -113,6 +113,16 @@ export const modulesList = [
     premium: false,
   },
   {
+    id: "shopable-list",
+    label: __("Shoppable Videos", "th-store-one"),
+    description: __(
+      "Create customizable product lists with advanced filtering and sorting options to enhance the shopping experience.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.SHOPPABLE_VIDEO,
+    premium: false,
+  },
+  {
     id: "th-advanced-search",
     label: __("Advanced Product Search", "th-store-one"),
     description: __(
@@ -229,16 +239,6 @@ export const modulesList = [
       "th-store-one",
     ),
     icon: MODULE_ICONS.STKSC,
-    premium: true,
-  },
-  {
-    id: "shopable-list",
-    label: __("Shoppable Videos", "th-store-one"),
-    description: __(
-      "Create customizable product lists with advanced filtering and sorting options to enhance the shopping experience.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.SHOPPABLE_VIDEO,
     premium: true,
   },
 ];
