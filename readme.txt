@@ -1,4 +1,4 @@
-=== Store One — Shoppable Videos, BOGO, Buy Now, Pre-Orders, Sale Countdown & More for WooCommerce  ===
+=== Store One — All in One Conversion & Sales Toolkit for WooCommerce  ===
 Contributors: ThemeHunk
 Author URI: : https://www.themehunk.com/
 Tags: woocommerce extensions, woocommerce addons, store one
@@ -10,7 +10,7 @@ License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires Plugins: woocommerce
 
-ThemeHunk Store One addons Shoppable Videos, sale notification,  Smart Offers, and Bundle products to grow your store.
+ThemeHunk Store One addons Shoppable Videos, sale notification, Smart Offers, and Bundle products to grow your store.
 
 == Description ==
 ThemeHunk Store One is a powerful all-in-one toolkit for WooCommerce, designed to enhance your online store with conversion-focused features and advanced customization options.
