@@ -506,13 +506,51 @@ color: var(--s1-gray-150);
     background: var(--s1-gray-100);
     color: var(--s1-gray-500);
 }
+// featured
+/* NEW Badge */
+.s1-module-card__featured {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+margin-left: 5px;
+    padding: 4px 10px;
+    min-width: 42px;
 
+    border-radius: 999px;
+
+    background: linear-gradient(
+        135deg,
+        #ff6b6b,
+        #ff3132
+    );
+
+    color: #fff;
+
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+
+    text-transform: uppercase;
+    letter-spacing: .6px;
+
+    box-shadow:
+        0 2px 8px rgba(255, 49, 50, .25);
+
+    transition: all .2s ease;
+}
+
+.s1-module-card:hover
+.s1-module-card__featured {
+    transform: translateY(-1px);
+    box-shadow:
+        0 4px 12px rgba(255, 49, 50, .35);
+}
 /* ------------------------------------------------------------
    TITLE + DESCRIPTION
 ------------------------------------------------------------- */
 
 .s1-module-card__title {
-    margin: 6px 0 4px;
+    margin: 8px 0 8px;
     font-size: 15px;
     font-weight: 600;
 }
