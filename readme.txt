@@ -142,6 +142,7 @@ Yes, the plugin is translation-ready and supports multiple languages.
 
 == Changelog ==
 = 1.1.4=
+
 * Added limitaion only BOGO workign in lite version.
 * Added 3 Types of Smart Offer BOGO , BUY X GET Y and Dyanamic.
 * Added Smart Offer Added Two new style.
@@ -149,6 +150,8 @@ Yes, the plugin is translation-ready and supports multiple languages.
 * Added Shoppable Video navigation potision change to choose product information showing in top.
 * Added Shoppable Video Module in lite version
 * Added Plugin Installation option in Setting page.
+* Added Available Plugin Setting page at TH Store one Dashboard.
+* updated video gallery style improve.
 
 = 1.1.3=
 Update:Sales Countdown, Sticky Cart and Buynow Button Addon Improved

@@ -84,6 +84,32 @@ const Header = ({
             <span>{__("Settings", "th-store-one")}</span>
           </button>
 
+          <button
+            className={`s1-nav__btn ${
+              currentPage === "ourplugins" ? "is-active" : ""
+            }`}
+            onClick={() => {
+              setCurrentPage("ourplugins");
+              setActiveModule(null);
+            }}
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M14 4a2 2 0 1 1 4 0v2h2a2 2 0 1 1 0 4h-2v2a2 2 0 1 1-4 0v-2h-2a2 2 0 1 1 0-4h2V4z" />
+              <path d="M6 10h2a2 2 0 1 0 0-4H6V4a2 2 0 1 0-4 0v16a2 2 0 1 0 4 0v-2h2a2 2 0 1 0 0-4H6v-4z" />
+            </svg>
+
+            <span>{__("Available Plugins", "th-store-one")}</span>
+          </button>
+
           {proActive && (
             <button
               className={`s1-nav__btn ${
