@@ -26,6 +26,7 @@ class Th_Store_One_Extension_REST
                 'lite_admin_url'    => admin_url('admin.php?page=th-advance-product-search'),
                 'pro_admin_url'     => admin_url('admin.php?page=th-advance-product-search-pro'),
                 'icon'         => 'https://ps.w.org/th-advance-product-search/assets/icon-256x256.gif?rev=3498764',
+                'lite_link'     => 'https://wordpress.org/plugins/th-advance-product-search/',
             ],
             'th-advanced-cart' => [
                 'name'         => 'TH Advanced Cart',
@@ -37,6 +38,7 @@ class Th_Store_One_Extension_REST
                 'lite_admin_url'    => admin_url('admin.php?page=taiowc'),
                 'pro_admin_url'     => admin_url('admin.php?page=taiowcp'),
                 'icon'         => 'https://ps.w.org/th-all-in-one-woo-cart/assets/icon-128x128.gif?rev=3324764',
+                'lite_link'     => 'https://wordpress.org/plugins/th-all-in-one-woo-cart/',
             ],
             'th-variation-swatches' => [
                 'name'         => 'TH Variation Swatches',
@@ -48,6 +50,7 @@ class Th_Store_One_Extension_REST
                 'lite_admin_url'    => admin_url('admin.php?page=th-variation-swatches'),
                 'pro_admin_url'     => admin_url('admin.php?page=th-variation-swatches'),
                 'icon'         => 'https://ps.w.org/th-variation-swatches/assets/icon-128x128.gif?rev=2597279',
+                'lite_link'     => 'https://wordpress.org/plugins/th-variation-swatches/',
             ],
             'th-product-compare' => [
                 'name'         => 'TH Product Compare',
@@ -59,6 +62,7 @@ class Th_Store_One_Extension_REST
                 'lite_admin_url'    => admin_url('admin.php?page=th-product-compare'),
                 'pro_admin_url'     => admin_url('admin.php?page=tpcp-product-compare'),
                 'icon'         => 'https://ps.w.org/th-product-compare/assets/icon-256x256.gif?rev=3324938',
+                'lite_link'     => 'https://wordpress.org/plugins/th-product-compare/',
             ],
         ];
     }
@@ -169,6 +173,7 @@ class Th_Store_One_Extension_REST
                 'lite_active'    => $lite_active,
                 'pro_installed'  => $pro_installed,
                 'pro_active'     => $pro_active,
+                'details_url'    => $ext['lite_link'] ?? '',
             ];
         }
 

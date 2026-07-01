@@ -80,89 +80,65 @@ const GlobalSettings = ({
             <h3>{__("Store One Pro", "th-store-one")}</h3>
           </CardHeader>
 
-          <CardBody>
-            {proLoading ? (
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                }}
-              >
-                <Spinner />
-                <span>{__("Checking Store One Pro...", "th-store-one")}</span>
-              </div>
-            ) : (
-              <>
-                <p style={{ marginBottom: "15px" }}>
-                  {__(
-                    "Unlock all premium modules, advanced WooCommerce features and future updates with Store One Pro.",
-                    "th-store-one",
-                  )}
+          <CardBody className="s1-store-pro-card">
+            <div className="s1-store-pro-left">
+              <img
+                src={
+                  th_StoreOneAdmin.homeUrl +
+                  "wp-content/plugins/th-store-one/assets/images/storeonemain.png"
+                }
+                className="s1-store-pro-icon"
+                alt="Store One"
+              />
+
+              <div className="s1-store-pro-content">
+                <h3 className="s1-store-pro-title">Store One Pro</h3>
+
+                <p className="s1-store-pro-desc">
+                  Unlock all premium modules and advanced WooCommerce features.
                 </p>
+              </div>
+            </div>
 
-                {!proPlugin.installed ? (
-                  <Button
-                    isPrimary
-                    href="https://themehunk.com/storeone/?utm_campaign=free_plugin&utm_source=dashboard&utm_medium=upgrade_button"
-                    target="_blank"
+            <div className="s1-store-pro-right">
+              {proLoading ? (
+                <Spinner />
+              ) : !proPlugin.installed ? (
+                <Button
+                  isPrimary
+                  href="https://themehunk.com/storeone/"
+                  target="_blank"
+                >
+                  Upgrade
+                </Button>
+              ) : !proPlugin.active ? (
+                <Button
+                  isPrimary
+                  onClick={activatePro}
+                  disabled={proActionLoading}
+                >
+                  {proActionLoading ? "Activating..." : "Activate"}
+                </Button>
+              ) : (
+                <div className="s1-store-pro-active">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
                   >
-                    {__("Upgrade To Pro", "th-store-one")}
-                  </Button>
-                ) : !proPlugin.active ? (
-                  <>
-                    <p style={{ color: "#666", marginBottom: "15px" }}>
-                      {__(
-                        "Store One Pro is installed but not activated.",
-                        "th-store-one",
-                      )}
-                    </p>
-
-                    <Button
-                      isPrimary
-                      onClick={activatePro}
-                      disabled={proActionLoading}
-                    >
-                      {proActionLoading && <Spinner />}
-                      {proActionLoading
-                        ? __("Activating...", "th-store-one")
-                        : __("Activate Store One Pro", "th-store-one")}
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <p
-                      style={{
-                        color: "#16a34a",
-                        fontWeight: 600,
-                        display: "flex",
-                        gap: 5,
-                        alignItems: "center",
-                      }}
-                    >
-                      <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M5 13l4 4L19 7"
-                        ></path>
-                      </svg>{" "}
-                      {__(
-                        "Store One Pro is activated successfully.",
-                        "th-store-one",
-                      )}
-                    </p>
-                  </>
-                )}
-              </>
-            )}
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  Activated
+                </div>
+              )}
+            </div>
           </CardBody>
         </Card>
 

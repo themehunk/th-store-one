@@ -6,6 +6,7 @@ import ModuleGrid from "@th-storeone-modulegrid/ModuleGrid";
 import ModuleSettings from "@th-storeone-modulesettings/ModuleSettings";
 import PreviewPane from "@th-storeone-modulepreviewpane/PreviewPane";
 import GlobalSettings from "@th-storeone-global/GlobalSettings";
+import PluginsPage from "@th-storeone-global/PluginsPage";
 import LicensePage from "@th-storeone-global/LicensePage";
 import { Spinner, Button } from "@wordpress/components";
 import "@th-storeone/store/productVideoStore";
@@ -13,7 +14,7 @@ import "./admin.scss";
 import { modulesList } from "./modules/modulesList";
 
 const ADMIN_VIEW_STORAGE_KEY = "th_store_one_admin_view";
-const VALID_PAGES = ["dashboard", "settings", "license"];
+const VALID_PAGES = ["dashboard", "settings", "ourplugins", "license"];
 const isValidModule = (moduleId) =>
   modulesList.some((module) => module.id === moduleId);
 
@@ -680,6 +681,9 @@ const AdminMain = () => {
             onToggleAllModules={handleToggleAllModules}
             licenseActive={licenseActive}
           />
+        )}
+        {currentPage === "ourplugins" && (
+          <PluginsPage licenseActive={licenseActive} proActive={proActive} />
         )}
         {currentPage === "license" &&
           proActive &&
