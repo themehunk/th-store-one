@@ -76,6 +76,22 @@ class Th_Store_One_Extension_REST
             'callback'            => [$this, 'extension_action'],
             'permission_callback' => fn () => current_user_can('install_plugins'),
         ]);
+
+        register_rest_route($this->namespace, '/storeone-pro', [
+            'methods' => WP_REST_Server::READABLE,
+            'callback' => function () {
+                return rest_ensure_response(
+                    $this->get_store_one_pro_status()
+                );
+            },
+            'permission_callback' => fn () => current_user_can('manage_options'),
+        ]);
+
+        register_rest_route($this->namespace, '/storeone-pro/activate', [
+            'methods' => WP_REST_Server::CREATABLE,
+            'callback' => [$this, 'activate_storeone_pro'],
+            'permission_callback' => fn () => current_user_can('activate_plugins'),
+        ]);
     }
 
     /**
@@ -227,5 +243,43 @@ class Th_Store_One_Extension_REST
     'admin_url' => $use_pro ? $ext['pro_admin_url'] : $ext['lite_admin_url'],  // ← Dynamic
     'type'      => $use_pro ? 'pro' : 'lite',
 ]);
+    }
+
+    private function get_store_one_pro_status()
+    {
+        include_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+        $plugin = 'store-one-pro/store-one-pro.php';
+
+        return [
+            'installed' => file_exists(WP_PLUGIN_DIR . '/' . $plugin),
+            'active'    => is_plugin_active($plugin),
+        ];
+    }
+
+    public function activate_storeone_pro()
+    {
+        include_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+        $plugin = 'store-one-pro/store-one-pro.php';
+
+        if (!file_exists(WP_PLUGIN_DIR . '/' . $plugin)) {
+            return new WP_Error(
+                'not_installed',
+                __('Store One Pro not installed', 'th-store-one'),
+                ['status' => 404]
+            );
+        }
+
+        $result = activate_plugin($plugin);
+
+        if (is_wp_error($result)) {
+            return $result;
+        }
+
+        return rest_ensure_response([
+            'success' => true,
+            'active' => true,
+        ]);
     }
 }

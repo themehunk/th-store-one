@@ -105,6 +105,10 @@ add_action(
                 'file'  => 'includes/modules/smart-offers/smart-offer-render.php',
                 'class' => 'Th_Store_One_Smart_Offers',
             ],
+             'shopable-list' => [
+                'file'  => 'includes/modules/shopable-list/shopable-list-render.php',
+                'class' => 'Th_Store_One_Shopable_List',
+            ],
 
 
 

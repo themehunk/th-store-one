@@ -467,18 +467,33 @@ const AdminMain = () => {
   };
 
   useEffect(() => {
+    // Pro plugin installed not
+    if (!th_StoreOneAdmin.proInstalled) {
+      setProActive(false);
+      setLicenseActive(false);
+      setLicenseLoading(false);
+      return;
+    }
+
+    // Installed but not active
     if (!th_StoreOneAdmin.proActive) {
       setProActive(false);
       setLicenseActive(false);
       setLicenseLoading(false);
       return;
     }
-    apiFetch({ path: `${th_StoreOneAdmin.restUrl}pro-status` })
+
+    apiFetch({
+      path: `${th_StoreOneAdmin.restUrl}pro-status`,
+    })
       .then((res) => {
-        if (res?.pro_active) setProActive(true);
-        if (res?.license_active) setLicenseActive(true);
+        setProActive(!!res?.pro_active);
+        setLicenseActive(!!res?.license_active);
       })
-      .catch(() => {})
+      .catch(() => {
+        setProActive(false);
+        setLicenseActive(false);
+      })
       .finally(() => {
         setLicenseLoading(false);
       });

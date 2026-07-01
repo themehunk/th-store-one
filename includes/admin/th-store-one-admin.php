@@ -122,8 +122,13 @@ class Th_Store_One_Admin
         if (! function_exists('is_plugin_active')) {
             require_once ABSPATH . 'wp-admin/includes/plugin.php';
         }
+        $pro_installed = file_exists(
+            WP_PLUGIN_DIR . '/store-one-pro/store-one-pro.php'
+        );
 
-        $pro_active = is_plugin_active('store-one-pro/store-one-pro.php');
+        $pro_active = $pro_installed
+    ? is_plugin_active('store-one-pro/store-one-pro.php')
+    : false;
 
         wp_localize_script(
             'th-store-one-admin',
@@ -141,7 +146,8 @@ class Th_Store_One_Admin
                 ),
                 'homeUrl' => home_url('/'),
                 'adminUrl' => admin_url(),
-                'proActive'  => $pro_active,
+                'proInstalled' => $pro_installed,
+        'proActive'    => $pro_active,
             )
         );
 
