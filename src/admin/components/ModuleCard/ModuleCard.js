@@ -1,63 +1,74 @@
-import { Card, CardBody, Button } from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
+import { Card, CardBody, Button } from "@wordpress/components";
+import { __ } from "@wordpress/i18n";
 
-const ModuleCard = ({ mod, modulesState, setActiveModule, licenseActive  }) => {
-    const isActive = modulesState[mod.id];
-    const isPremium = mod.premium ?? false;
-    const isLocked = isPremium && !licenseActive;
+const ModuleCard = ({ mod, modulesState, setActiveModule, licenseActive }) => {
+  const isActive = modulesState[mod.id];
+  const isPremium = mod.premium ?? false;
+  const isLocked = isPremium && !licenseActive;
 
-    return (
-        <Card className="s1-module-card">
-           <CardBody
-            className={[
-                    's1-module-card__body',
-                    isPremium ? 'is-premium' : 'is-free',
-                    isActive ? 'is-active' : '',
-                    isLocked ? 'is-locked' : ''
-                ].join(' ')}
-                 onClick={() => {
-                    if (isLocked) {
-                        setActiveModule(mod.id);
-                    }
-                }}
-                style={{ cursor:isLocked ? 'pointer' : '' }}
+  return (
+    <Card className="s1-module-card">
+      <CardBody
+        className={[
+          "s1-module-card__body",
+          isPremium ? "is-premium" : "is-free",
+          isActive ? "is-active" : "",
+          isLocked ? "is-locked" : "",
+        ].join(" ")}
+        onClick={() => {
+          if (isLocked) {
+            setActiveModule(mod.id);
+          }
+        }}
+        style={{ cursor: isLocked ? "pointer" : "" }}
+      >
+        <div className="s1-module-card__top">
+          <span className="s1-module-card__icon">{mod.icon}</span>
+
+          <div className="s1-module-card__right">
+            <span
+              className={`s1-module-card__badge ${
+                isActive ? "is-on" : "is-off"
+              }`}
             >
+              {isActive
+                ? __("Active", "th-store-one")
+                : __("Inactive", "th-store-one")}
+            </span>
+            <span
+              className={`s1-module-card__pro ${
+                isPremium ? "is-premium" : "is-free"
+              }`}
+            >
+              {isPremium
+                ? __("PRO", "th-store-one")
+                : __("Free", "th-store-one")}
+            </span>
+          </div>
+        </div>
 
-                <div className="s1-module-card__top"  >
-                    <span className="s1-module-card__icon">{mod.icon}</span>
-                    <div className="s1-module-card__right">
-                    <span className={`s1-module-card__badge ${isActive ? 'is-on' : 'is-off'}`}>
-                        { isActive
-                            ? __('Active', 'th-store-one')
-                            : __('Inactive', 'th-store-one')
-                        }
-                    </span>
-                    <span className={`s1-module-card__pro ${isPremium ? 'is-premium' : 'is-free'}`}>
-                        {isPremium
-                            ? __('PRO', 'th-store-one')
-                            : __('Free', 'th-store-one')
-                        }
-                    </span>
-                    </div>
-                </div>
+        <h3 className="s1-module-card__title">
+          {mod.label}{" "}
+          {mod.featured && (
+            <span className="s1-module-card__featured">
+              {__("NEW", "th-store-one")}
+            </span>
+          )}
+        </h3>
 
-                <h3 className="s1-module-card__title">{ mod.label }</h3>
-
-                <p className="s1-module-card__desc">{ mod.description }</p>
-                {!isLocked && (
-                    <Button
-                                    className="s1-module-card__btn"
-                                    isPrimary
-                                    onClick={() => setActiveModule(mod.id)}
-                                >
-                                   
-                                        {__('Configure', 'th-store-one') } →
-                                </Button>
-                )}
-
-            </CardBody>
-        </Card>
-    );
+        <p className="s1-module-card__desc">{mod.description}</p>
+        {!isLocked && (
+          <Button
+            className="s1-module-card__btn"
+            isPrimary
+            onClick={() => setActiveModule(mod.id)}
+          >
+            {__("Configure", "th-store-one")} →
+          </Button>
+        )}
+      </CardBody>
+    </Card>
+  );
 };
 
 export default ModuleCard;

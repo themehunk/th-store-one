@@ -150,7 +150,7 @@ Yes, the plugin is translation-ready and supports multiple languages.
 * Added Shoppable Video navigation potision change to choose product information showing in top.
 * Added Shoppable Video Module in lite version
 * Added Plugin Installation option in Setting page.
-* Added Available Plugin Setting page at TH Store one Dashboard.
+* Added Available Plugin Tab in Dashboard.
 * updated video gallery style improve.
 
 = 1.1.3=
