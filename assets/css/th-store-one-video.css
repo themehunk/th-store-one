@@ -52,7 +52,7 @@
     pointer-events: none;
 }
 /* Default */
-.th-aspect-default{
+.th-aspect-default{ 
     aspect-ratio: 1/1;
 }
 
@@ -235,4 +235,8 @@
 .th-has-video video::-webkit-media-controls-mute-button,
 .th-has-video video::-webkit-media-controls-timeline {
     display: none !important;
+}
+
+ul .th-has-video.product .ct-media-container img{
+    display:none!important;
 }
