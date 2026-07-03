@@ -1,49 +1,45 @@
 /* ---------------------------------
  * Single Field Wrapper
  * --------------------------------- */
-export const S1Field = ({ label, description, children, classN, visible = true }) => {
-    if (!visible) return null;
+export const S1Field = ({
+  label,
+  description,
+  children,
+  classN,
+  visible = true,
+}) => {
+  if (!visible) return null;
 
-    return (
-        <div className={`s1-field-wrapper ${classN || ''}`}>
-            {label && (
-                <label className="s1-field-label">
-                    {label}
-                </label>
-            )}
-            {description && (
-        <p className="s1-field-description">
-          {description}
-        </p>
-      )}
-            <div className="s1-field-control">
-                {children}
-            </div>
-        </div>
-    );
+  return (
+    <div className={`s1-field-wrapper ${classN || ""}`}>
+      {label && <label className="s1-field-label">{label}</label>}
+      {description && <p className="s1-field-description">{description}</p>}
+      <div className="s1-field-control">{children}</div>
+    </div>
+  );
 };
 
-/* ---------------------------------
- * Field Group Wrapper
- * --------------------------------- */
-export const S1FieldGroup = ({ title, description, children }) => {
-    return (
-        <div className="s1-field-group">
-            <div className="s1-field-group-header">
-                <h4 className="s1-field-group-title">
-                    {title}
-                </h4>
+export const S1FieldGroup = ({
+  title,
+  description,
+  children,
+  number = false,
+}) => {
+  return (
+    <div className="s1-field-group">
+      <div className="s1-field-group-header">
+        <div className="s1-field-group-heading">
+          {number !== false && (
+            <span className="s1-field-group-number">{number}</span>
+          )}
 
-                {description && (
-                    <p className="s1-field-group-desc">
-                        {description}
-                    </p>
-                )}
-            </div>
-
-            <div className="s1-field-group-body">
-                {children}
-            </div>
+          <h4 className="s1-field-group-title">{title}</h4>
         </div>
-    );
+
+        {description && <p className="s1-field-group-desc">{description}</p>}
+      </div>
+
+      <div className="s1-field-group-body">{children}</div>
+    </div>
+  );
 };
