@@ -1,4 +1,4 @@
-=== TH Store One — Addons for WooCommerce  ===
+=== Store One — All in One Conversion & Sales Toolkit for WooCommerce  ===
 Contributors: ThemeHunk
 Author URI: : https://www.themehunk.com/
 Tags: woocommerce extensions, woocommerce addons, store one
@@ -10,7 +10,7 @@ License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Requires Plugins: woocommerce
 
-ThemeHunk Store One addons Trust badges, sale notification,  Video Gallery, and Bundle products to grow your store.
+ThemeHunk Store One addons Shoppable Videos, sale notification, Smart Offers, and Bundle products to grow your store.
 
 == Description ==
 ThemeHunk Store One is a powerful all-in-one toolkit for WooCommerce, designed to enhance your online store with conversion-focused features and advanced customization options.
@@ -44,16 +44,13 @@ It improves product presentation, optimizes the shopping experience, and simplif
 – **[Inactive Tab Message](https://themehunk.com/store-one/inactive-tab-message/)** – Change the browser tab title and message when customers switch tabs, helping grab their attention and encouraging them to return to your store before leaving completely.
 
 
-* More features coming soon
-We are continuously improving the plugin with new features and enhancements.
-
 ### Pro Features:-
 
 – **[Frequently bought together](https://themehunk.com/store-one/frequently-bought-together/)** – Display related products commonly purchased together and allow customers to add multiple complementary products to their cart with a single click, helping increase average order value.
 
 – **[Bundle products](https://themehunk.com/store-one/bundle-product/)** – Create customizable product bundles by combining multiple related products into one discounted offer, helping customers purchase complete sets while increasing overall store revenue and shopping convenience.
 
-– **[Smart Offers](https://themehunk.com/store-one/smart-offers/)** – Create advanced promotional campaigns like Buy One Get One, Buy X Get Y, free gifts, automatic discounts, cart based offers, and upsell deals to increase conversions and order value.
+– **[Smart Offers (BOGO,BXGY)](https://themehunk.com/store-one/smart-offers/)** – Create advanced promotional campaigns like Buy One Get One, Buy X Get Y, free gifts, automatic discounts, cart based offers, and upsell deals to increase conversions and order value.
 
 – **[Visitor Count](https://themehunk.com/store-one/visitor-count/)** – Display live or simulated visitor counts on product pages to create urgency, show product popularity, and encourage customers to purchase products that appear actively viewed by others.
 
@@ -62,6 +59,11 @@ We are continuously improving the plugin with new features and enhancements.
 – **[Stock Scarcity](https://themehunk.com/store-one/stock-scarcity/)** – Display low stock warnings, inventory progress bars, and scarcity messages to create urgency and encourage customers to purchase before products become unavailable or sell out completely.
 
 – **[Pre Order](https://themehunk.com/store-one/pre-order/)** – Allow customers to pre order upcoming, unreleased, or out of stock products with custom availability dates, preorder messages, stock status controls, and early purchase access options.
+
+- **[Shoppable Videos for WooCommerce] **  – Boost Product Sales with Interactive Video Shopping.
+
+* More features coming soon
+We are continuously improving the plugin with new features and enhancements.
 
 
 ### Theme Compatibility:-
@@ -141,7 +143,6 @@ It is compatible with all [ThemeHunk themes](https://themehunk.com/free-themes/)
 Yes, the plugin is translation-ready and supports multiple languages.
 
 == Changelog ==
-
 = 1.1.5=
 * Added Product Featured video clickable.
 * Added Product Video Gallery custom video ratio option.
