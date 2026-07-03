@@ -222,6 +222,7 @@ const ModuleSettings = ({
           <Flex justify="space-between" align="center">
             <FlexBlock className="s1-settings__info">
               <div className="s1-settings__title-wrap">
+                <div className="s1-settings__icon">{currentModule.icon}</div>
                 <h2 className="s1-settings__title">{currentModule.label}</h2>
 
                 {isLocked && (
