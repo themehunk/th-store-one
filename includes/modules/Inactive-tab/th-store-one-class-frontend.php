@@ -193,9 +193,17 @@ class Th_Store_One_Inactive_Tab_Frontend
 
     private function parse_message($text)
     {
+        $cart_count = 0;
+        $cart_total = '';
 
-        $cart_count = WC()->cart ? WC()->cart->get_cart_contents_count() : 0;
-        $cart_total = WC()->cart ? WC()->cart->get_cart_total() : '';
+        if (
+            did_action('wp_loaded')
+            && function_exists('WC')
+            && WC()->cart
+        ) {
+            $cart_count = WC()->cart->get_cart_contents_count();
+            $cart_total = WC()->cart->get_cart_total();
+        }
 
         $text = str_replace('{cart_count}', $cart_count, $text);
         $text = str_replace('{cart_total}', wp_strip_all_tags($cart_total), $text);

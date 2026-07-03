@@ -2,7 +2,12 @@ import { useState, useEffect } from "@wordpress/element";
 import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import { S1Field, S1FieldGroup } from "@th-storeone-global/S1Field";
-import { Spinner, ToggleControl, SelectControl } from "@wordpress/components";
+import {
+  Spinner,
+  ToggleControl,
+  SelectControl,
+  TextControl,
+} from "@wordpress/components";
 import ResetModuleButton from "@th-storeone-global/ResetModuleButton";
 import { ICONS } from "@th-storeone-global/icons";
 import THBackgroundControl from "@th-storeone-control/color";
@@ -36,6 +41,8 @@ const DEFAULT_SETTINGS = {
   foverlay: "rgba(0, 0, 0, 0.35)",
   fauto_play: true,
   gauto_play: false,
+  g_ratio_custom: "",
+  f_ratio_custom: "",
 };
 
 const VIDEO_ICON_OPTIONS = [
@@ -375,10 +382,33 @@ export default function ProductVideoSettings({
                                 { label: "9:16", value: "9:16" },
                                 { label: "4:3", value: "4:3" },
                                 { label: "3:2", value: "3:2" },
+                                { label: "3:4", value: "3:4" },
+                                { label: "2:3", value: "2:3" },
+                                { label: "5:7", value: "5:7" },
+                                { label: "7:5", value: "7:5" },
+                                { label: "Custom", value: "custom" },
                               ]}
                               onChange={(val) => updateField("aspect", val)}
                             />
                           </S1Field>
+                          {settings?.aspect === "custom" && (
+                            <S1Field
+                              label={__("Custom Aspect Ratio", "th-store-one")}
+                            >
+                              <TextControl
+                                value={settings.g_ratio_custom}
+                                onChange={(v) =>
+                                  updateField("g_ratio_custom", v)
+                                }
+                              />
+                              <p className="components-base-control__help">
+                                {__(
+                                  "Enter the aspect ratio in width/height format. Examples: 16/9, 4/3, 21/9.",
+                                  "th-store-one",
+                                )}
+                              </p>
+                            </S1Field>
+                          )}
                           <S1Field
                             label={__("Auto Play", "th-store-one")}
                             classN="s1-toggle-wrpapper"
@@ -510,11 +540,34 @@ export default function ProductVideoSettings({
                                 },
                                 { label: "9:16", value: "9:16" },
                                 { label: "4:3", value: "4:3" },
+                                { label: "3:4", value: "3:4" },
                                 { label: "3:2", value: "3:2" },
+                                { label: "2:3", value: "2:3" },
+                                { label: "5:7", value: "5:7" },
+                                { label: "7:5", value: "7:5" },
+                                { label: "Custom", value: "custom" },
                               ]}
                               onChange={(val) => updateField("aspectShop", val)}
                             />
                           </S1Field>
+                          {settings?.aspectShop === "custom" && (
+                            <S1Field
+                              label={__("Custom Aspect Ratio", "th-store-one")}
+                            >
+                              <TextControl
+                                value={settings.f_ratio_custom}
+                                onChange={(v) =>
+                                  updateField("f_ratio_custom", v)
+                                }
+                              />
+                              <p className="components-base-control__help">
+                                {__(
+                                  "Enter the aspect ratio in width/height format. Examples: 16/9, 4/3, 21/9.",
+                                  "th-store-one",
+                                )}
+                              </p>
+                            </S1Field>
+                          )}
                           <S1Field
                             label={__("Auto Play", "th-store-one")}
                             classN="s1-toggle-wrpapper"

@@ -178,6 +178,8 @@ class TH_Store_One_Product_Video_Frontend
         $aspect_shop   = $settings['aspectShop'] ?? 'default';
         $image_f_url   = $settings['image_f_url'] ?? '';
         $fauto_play     = $settings['fauto_play'] ?? '';
+        $f_ratio_custom = $settings['f_ratio_custom'] ?? '';
+        $aspect_style = '';
 
         global $product;
         if (! $product) {
@@ -198,21 +200,45 @@ class TH_Store_One_Product_Video_Frontend
 
         if ($aspect_shop === '16:9' || $aspect_shop === 'default') {
             $aspect_class = 'th-aspect-16-9';
+
         } elseif ($aspect_shop === '9:16') {
             $aspect_class = 'th-aspect-9-16';
+
         } elseif ($aspect_shop === '4:3') {
             $aspect_class = 'th-aspect-4-3';
+
+        } elseif ($aspect_shop === '3:4') {
+            $aspect_class = 'th-aspect-3-4';
+
         } elseif ($aspect_shop === '3:2') {
             $aspect_class = 'th-aspect-3-2';
+
+        } elseif ($aspect_shop === '2:3') {
+            $aspect_class = 'th-aspect-2-3';
+
+        } elseif ($aspect_shop === '5:7') {
+            $aspect_class = 'th-aspect-5-7';
+
+        } elseif ($aspect_shop === '7:5') {
+            $aspect_class = 'th-aspect-7-5';
+
         } elseif ($aspect_shop === '1:1') {
             $aspect_class = 'th-aspect-1-1';
+
         } elseif ($aspect_shop === 'auto') {
             $aspect_class = 'th-aspect-auto';
+
+        } elseif ($aspect_shop === 'custom') {
+            $aspect_class = 'th-aspect-custom';
+
+            if (!empty($f_ratio_custom)) {
+                $aspect_style = 'aspect-ratio:' . esc_attr($f_ratio_custom) . ';';
+            }
         }
         ob_start();
         ?>
 
-   <div class="th-loop-video <?php echo esc_attr($aspect_class); ?>" style="---overlay-color: <?php echo esc_attr($settings['foverlay'] ?? 'rgba(0, 0, 0, 0.35)'); ?>;">
+   <div class="th-loop-video <?php echo esc_attr($aspect_class); ?>" style="<?php echo esc_attr($aspect_style); ?> ---overlay-color: <?php echo esc_attr($settings['foverlay'] ?? 'rgba(0, 0, 0, 0.35)'); ?>;">
 
             <?php if ($source === 'youtube') :
 
@@ -354,6 +380,8 @@ $allowed_svg = array(
         $aspect_shop   = $settings['aspectShop'] ?? 'default';
         $image_f_url   = $settings['image_f_url'] ?? '';
         $fauto_play     = $settings['fauto_play'] ?? false;
+        $f_ratio_custom = $settings['f_ratio_custom'] ?? '';
+        $aspect_style = '';
 
 
 
@@ -361,16 +389,40 @@ $allowed_svg = array(
 
         if ($aspect_shop === '16:9' || $aspect_shop === 'default') {
             $aspect_class = 'th-aspect-16-9';
+
         } elseif ($aspect_shop === '9:16') {
             $aspect_class = 'th-aspect-9-16';
+
         } elseif ($aspect_shop === '4:3') {
             $aspect_class = 'th-aspect-4-3';
+
+        } elseif ($aspect_shop === '3:4') {
+            $aspect_class = 'th-aspect-3-4';
+
         } elseif ($aspect_shop === '3:2') {
             $aspect_class = 'th-aspect-3-2';
+
+        } elseif ($aspect_shop === '2:3') {
+            $aspect_class = 'th-aspect-2-3';
+
+        } elseif ($aspect_shop === '5:7') {
+            $aspect_class = 'th-aspect-5-7';
+
+        } elseif ($aspect_shop === '7:5') {
+            $aspect_class = 'th-aspect-7-5';
+
         } elseif ($aspect_shop === '1:1') {
             $aspect_class = 'th-aspect-1-1';
+
         } elseif ($aspect_shop === 'auto') {
             $aspect_class = 'th-aspect-auto';
+
+        } elseif ($aspect_shop === 'custom') {
+            $aspect_class = 'th-aspect-custom';
+
+            if (!empty($f_ratio_custom)) {
+                $aspect_style = '--th-g-aspect-ratio:' . esc_attr($f_ratio_custom) . ';';
+            }
         }
 
         global $product;
@@ -391,7 +443,7 @@ $allowed_svg = array(
         }
         ?>
 
-        <div class="th-loop-video <?php echo esc_attr($aspect_class); ?>" style="---overlay-color: <?php echo esc_attr($settings['foverlay'] ?? 'rgba(0, 0, 0, 0.35)'); ?>;">
+        <div class="th-loop-video <?php echo esc_attr($aspect_class); ?>" style="<?php echo esc_attr($aspect_style); ?> ---overlay-color: <?php echo esc_attr($settings['foverlay'] ?? 'rgba(0, 0, 0, 0.35)'); ?>;">
 
             <?php if ($source === 'youtube') :
 
@@ -448,7 +500,7 @@ $allowed_svg = array(
             <?php else : ?>
 
                 <!-- SELF HOSTED VIDEO -->
-                <div class="th-video-wrap <?php echo esc_attr($aspect_class); ?>" data-src="<?php echo esc_url($url); ?>">
+                <div class="th-video-wrap <?php echo esc_attr($aspect_class); ?>" style="<?php echo esc_attr($aspect_style); ?>" data-src="<?php echo esc_url($url); ?>">
 
                     <video 
                         src="<?php echo esc_url($url); ?>" 
@@ -565,6 +617,7 @@ function th_store_one_get_video_settings()
         // Layout
         'aspect'           => 'default',
         'aspectShop'       => 'default',
+        'f_ratio_custom'   => '',
 
         // Icons
         'icon'             => 'outline',
