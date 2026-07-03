@@ -72,18 +72,40 @@ const getAspectClass = (aspect) => {
   if (!aspect || aspect === "default") return "th-aspect-16-9";
 
   switch (aspect) {
+    case "default":
     case "16:9":
       return "th-aspect-16-9";
-    case "9:16":
-      return "th-aspect-9-16";
-    case "4:3":
-      return "th-aspect-4-3";
-    case "3:2":
-      return "th-aspect-3-2";
+
     case "1:1":
       return "th-aspect-1-1";
+
+    case "9:16":
+      return "th-aspect-9-16";
+
+    case "4:3":
+      return "th-aspect-4-3";
+
+    case "3:4":
+      return "th-aspect-3-4";
+
+    case "3:2":
+      return "th-aspect-3-2";
+
+    case "2:3":
+      return "th-aspect-2-3";
+
+    case "5:7":
+      return "th-aspect-5-7";
+
+    case "7:5":
+      return "th-aspect-7-5";
+
+    case "custom":
+      return "th-aspect-custom";
+
     case "auto":
       return "th-aspect-auto";
+
     default:
       return "th-aspect-16-9";
   }
@@ -108,13 +130,20 @@ const PreviewProductVideo = ({ settings = {}, activeTab = "gallery" }) => {
 
   const aspectClass = getAspectClass(aspect);
 
+  const customRatio = isFeatured
+    ? settings?.f_ratio_custom
+    : settings?.g_ratio_custom;
+
+  const aspectStyle =
+    aspect === "custom" && customRatio ? { aspectRatio: customRatio } : {};
+
   return (
     <div className="s1-preview-wrap">
       {/* ================= GALLERY PREVIEW ================= */}
       {!isFeatured && (
         <div className="s1-product-preview s1-video-preview">
           <div className="s1-main-product">
-            <div className={`s1-main-thumb ${aspectClass}`}>
+            <div className={`s1-main-thumb ${aspectClass}`} style={aspectStyle}>
               <div className="static-skeleton static-main-img"></div>
 
               <span className="th-video-thumb-icon">
@@ -142,6 +171,7 @@ const PreviewProductVideo = ({ settings = {}, activeTab = "gallery" }) => {
             <div
               className={`s1-preview-image-skeleton ${aspectClass}`}
               style={{
+                ...aspectStyle,
                 "--overlay-color": settings?.foverlay || "rgba(0, 0, 0, 0.35)",
               }}
             >
