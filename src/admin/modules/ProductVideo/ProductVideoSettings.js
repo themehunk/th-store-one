@@ -38,7 +38,7 @@ const DEFAULT_SETTINGS = {
   icon_clr: "#7388FFBA",
   ficon: "outline",
   ficon_clr: "#7388FFBA",
-  foverlay: "rgba(0, 0, 0, 0.35)",
+  foverlay: "",
   fauto_play: true,
   gauto_play: false,
   g_ratio_custom: "",
@@ -49,9 +49,9 @@ const VIDEO_ICON_OPTIONS = [
   {
     id: "circle",
     icon: (
-      <svg viewBox="0 0 24 24" width="28" height="28">
-        <circle cx="12" cy="12" r="10" fill="black" />
-        <polygon points="10,8 16,12 10,16" fill="white" />
+      <svg class="th-video-icon" viewBox="0 0 24 24" width="28" height="28">
+        <circle cx="12" cy="12" r="10" fill="currentColor" />
+        <polygon points="10,8 16,12 10,16" fill="#fff" />
       </svg>
     ),
   },
@@ -59,15 +59,16 @@ const VIDEO_ICON_OPTIONS = [
     id: "outline",
     icon: (
       <svg
+        class="th-video-icon"
         width="24"
         height="24"
-        fill="#111"
+        fill="currentColor"
         viewBox="0 0 24 24"
         xmlns="http://www.w3.org/2000/svg"
       >
         <g>
-          <path d="M0 0h24v24H0z" fill="none"></path>
-          <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM10.622 8.415l4.879 3.252a.4.4 0 0 1 0 .666l-4.88 3.252a.4.4 0 0 1-.621-.332V8.747a.4.4 0 0 1 .622-.332z"></path>
+          <path d="M0 0h24v24H0z" fill="none" />
+          <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM10.622 8.415l4.879 3.252a.4.4 0 0 1 0 .666l-4.88 3.252a.4.4 0 0 1-.621-.332V8.747a.4.4 0 0 1 .622-.332z" />
         </g>
       </svg>
     ),
@@ -75,8 +76,13 @@ const VIDEO_ICON_OPTIONS = [
   {
     id: "triangle",
     icon: (
-      <svg viewBox="0 0 34 24" width="28" height="28">
-        <polygon points="8,5 19,12 8,19" fill="black" />
+      <svg
+        class="th-video-icon triangle"
+        viewBox="0 0 24 24"
+        width="28"
+        height="28"
+      >
+        <polygon points="8,5 19,12 8,19" fill="currentColor" />
       </svg>
     ),
   },
@@ -84,24 +90,27 @@ const VIDEO_ICON_OPTIONS = [
     id: "camera",
     icon: (
       <svg
+        class="th-video-icon"
         viewBox="0 0 24 24"
         width="28"
         height="28"
         fill="none"
-        stroke="black"
+        stroke="currentColor"
         strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       >
-        <rect x="3" y="6" width="11" height="12" rx="2"></rect>
-        <polygon points="16,9 21,6 21,18 16,15"></polygon>
+        <rect x="3" y="6" width="11" height="12" rx="2" />
+        <polygon points="16,9 21,6 21,18 16,15" fill="currentColor" />
       </svg>
     ),
   },
   {
     id: "youtube",
     icon: (
-      <svg viewBox="0 0 68 48" width="36" height="26">
-        <rect width="68" height="48" rx="10" fill="black" />
-        <polygon points="28,18 28,30 42,24" fill="white" />
+      <svg class="th-video-icon" viewBox="0 0 68 48" width="36" height="26">
+        <rect width="68" height="48" rx="10" fill="currentColor" />
+        <polygon points="28,18 28,30 42,24" fill="#fff" />
       </svg>
     ),
   },
@@ -297,7 +306,28 @@ export default function ProductVideoSettings({
                 {
                   id: "gallery",
                   label: "Gallery",
-                  icon: ICONS.SETTINGS,
+                  icon: (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                        
+                      <rect x="3" y="3" width="18" height="14" rx="2" />
+                        
+                      <polygon points="10 7 15 10 10 13 10 7" />
+                        
+                      <line x1="7" y1="21" x2="17" y2="21" />
+                        
+                      <line x1="5" y1="19" x2="19" y2="19" opacity="0.5" />
+                    </svg>
+                  ),
                   content: (
                     <TabContentWrapper
                       tab="gallery"
@@ -456,7 +486,30 @@ export default function ProductVideoSettings({
                 {
                   id: "featured",
                   label: "Featured",
-                  icon: ICONS.USER,
+                  icon: (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                        
+                      <rect x="2" y="5" width="20" height="14" rx="2" />
+                        
+                      <polygon points="10 9 15 12 10 15 10 9" />
+                        
+                      <path
+                        d="M17 2l1 2 2 .3-1.5 1.4.4 2L17 6.7 15.1 7.7l.4-2L14 4.3l2-.3 1-2z"
+                        fill="currentColor"
+                        stroke="none"
+                      />
+                    </svg>
+                  ),
                   content: (
                     <TabContentWrapper
                       tab="featured"
