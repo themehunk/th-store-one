@@ -172,7 +172,9 @@ const PreviewProductVideo = ({ settings = {}, activeTab = "gallery" }) => {
               className={`s1-preview-image-skeleton ${aspectClass}`}
               style={{
                 ...aspectStyle,
-                "--overlay-color": settings?.foverlay || "rgba(0, 0, 0, 0.35)",
+                "--overlay-color":
+                  settings?.foverlay ||
+                  "linear-gradient(110deg, #f0f1f3 30%, #e8eaed 50%, #f0f1f3 70%)",
               }}
             >
               <span className="th-video-thumb-icon">

@@ -2280,7 +2280,7 @@ INPUT
 }
 
 .s1-field-wrapper.list-icon .s1-field-control .s1-icon-option.active {
-    border-color: #2563eb;
+    border-color: var(--s1-color-primary)
     //background: #eff6ff;
 }
 // image upload
@@ -2473,15 +2473,15 @@ INPUT
 
 /* Hover */
 .s1-icon-option:hover {
-  border-color: #2563eb;
+  border-color: var(--s1-color-primary);
   background: #eff6ff;
   transform: translateY(-2px);
 }
 
 /* Active */
 .s1-icon-option.active {
-  border-color: #2563eb;
-  background: #2563eb;
+  border-color: var(--s1-color-primary);
+  background: var(--s1-color-primary);
   color: #fff;
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
 }

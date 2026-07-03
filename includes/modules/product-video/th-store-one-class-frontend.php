@@ -237,7 +237,8 @@ class TH_Store_One_Product_Video_Frontend
         }
         ob_start();
         ?>
-
+<a href="<?php echo esc_url(get_permalink($product_id)); ?>"
+   class="th-video-link">
    <div class="th-loop-video <?php echo esc_attr($aspect_class); ?>" style="<?php echo esc_attr($aspect_style); ?> ---overlay-color: <?php echo esc_attr($settings['foverlay'] ?? 'rgba(0, 0, 0, 0.35)'); ?>;">
 
             <?php if ($source === 'youtube') :
@@ -293,7 +294,7 @@ class TH_Store_One_Product_Video_Frontend
             <?php else : ?>
 
                 <!-- SELF HOSTED VIDEO -->
-                <div class="th-video-wrap <?php echo esc_attr($aspect_class); ?>" data-src="<?php echo esc_url($url); ?>">
+                <div class="th-video-wrap <?php echo esc_attr($aspect_class); ?>" style="<?php echo esc_attr($aspect_style); ?>"  data-src="<?php echo esc_url($url); ?>">
 
                     <video 
                         src="<?php echo esc_url($url); ?>" 
@@ -355,6 +356,7 @@ $allowed_svg = array(
             <?php endif; ?>
 
         </div>
+</a>
     <?php
         return ob_get_clean();
     }
@@ -421,7 +423,7 @@ $allowed_svg = array(
             $aspect_class = 'th-aspect-custom';
 
             if (!empty($f_ratio_custom)) {
-                $aspect_style = '--th-g-aspect-ratio:' . esc_attr($f_ratio_custom) . ';';
+                $aspect_style = 'aspect-ratio:' . esc_attr($f_ratio_custom) . ';';
             }
         }
 
@@ -442,7 +444,8 @@ $allowed_svg = array(
             return;
         }
         ?>
-
+<a href="<?php echo esc_url(get_permalink($product_id)); ?>"
+   class="th-video-link">
         <div class="th-loop-video <?php echo esc_attr($aspect_class); ?>" style="<?php echo esc_attr($aspect_style); ?> ---overlay-color: <?php echo esc_attr($settings['foverlay'] ?? 'rgba(0, 0, 0, 0.35)'); ?>;">
 
             <?php if ($source === 'youtube') :
@@ -562,6 +565,7 @@ endif; ?>
             <?php endif; ?>
 
         </div>
+</a>
 
         <?php
     }
