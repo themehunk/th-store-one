@@ -24,16 +24,23 @@ export const S1FieldGroup = ({
   description,
   children,
   number = false,
+  shortdescription,
 }) => {
   return (
     <div className="s1-field-group">
       <div className="s1-field-group-header">
         <div className="s1-field-group-heading">
-          {number !== false && (
-            <span className="s1-field-group-number">{number}</span>
-          )}
-
-          <h4 className="s1-field-group-title">{title}</h4>
+          <div className="s1-field-group-title-wrapper">
+            {number !== false && (
+              <span className="s1-field-group-number">{number}</span>
+            )}
+            <h4 className="s1-field-group-title">{title}</h4>
+          </div>
+          <div className="s1-field-group-short-description-wrapper">
+            {shortdescription && (
+              <span className="s1-field-group-hint">{shortdescription}</span>
+            )}
+          </div>
         </div>
 
         {description && <p className="s1-field-group-desc">{description}</p>}
