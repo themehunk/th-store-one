@@ -9,6 +9,11 @@
     --s1-color-primary-light: #e7f3ff;
     --s1-color-primary-dark: #4f46e5;
 
+    /* store one red color */
+    --s1-color-primary-red: #ff4d4d;
+    --s1-color-red-light: #ffd9d947;
+     --s1-color-red-border:#ff515236;
+
     /* GRAY SCALE */
     --s1-gray-50: #fafafa;
     --s1-gray-100: #f8fafc;
@@ -285,7 +290,8 @@ display: flex;
     padding: 6px 14px !important;
 }
 .s1-module-card__body.is-premium{
-    background:#ffe4e43d;
+background: rgb(255 239 239 / 30%);
+    border: 1px solid #ff000030;
 }
 .s1-module-card__pro.is-premium{
     display: inline-flex;
@@ -455,18 +461,18 @@ box-shadow:0 4px 10px rgba(22,163,74,0.35);
 }
 .s1-module-card__icon svg,.s1-settings__title-wrap .s1-settings__icon svg {
 
-    stroke: #111;
+    stroke: var(--s1-color-primary-red);
 }
 .s1-module-card__icon {
     width: 42px;
     height: 42px;
-    border-radius: var(--s1-radius-xl);
-    color:#475569;
-    background: #f8fafc;
+    border: 1px solid var(--s1-color-red-border);
+    background: var(--s1-color-red-light);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 22px;
+    border-radius: 8px;
     
     .s1-module-card:hover & {
         
@@ -581,19 +587,19 @@ margin-left: 5px;
     border: 1px solid #f1f5f9;
     font-weight: 600;
 }
-.s1-modules__grid .is-active .components-button.s1-module-card__btn{
-    background: #0f172a;
-    color:#fff;
-}
+// .s1-modules__grid .is-active .components-button.s1-module-card__btn{
+//     background: #0f172a;
+//     color:#fff;
+// }
 
-.s1-modules__grid .is-active .components-button.s1-module-card__btn:hover{
-    background:#FF3132!important;
-    color:#fff;
-}
+// .s1-modules__grid .is-active .components-button.s1-module-card__btn:hover{
+//     background:#FF3132!important;
+//     color:#fff;
+// }
 .s1-modules__grid .components-button.s1-module-card__btn:hover{
-    background:#f8fafc!important;
-    color:#334155;
-    border: 2px solid #FF3132!important;
+    background:var(--s1-color-red-light)!important;
+    color:var(--s1-color-primary-red)!important;
+    border: 2px solid var(--s1-color-red-border)!important;
 }
 /* ------------------------------------------------------------
    Animation (icon breathing effect)
@@ -4406,28 +4412,32 @@ transform:translateX(-50%);
 }
 
 .s1-rule-card:hover {
-    border-color: #5b4df8;
+    border-color: var(--s1-color-red-border);
 }
-
+.s1-rule-icon:hover{
+    background: var(--s1-color-red-light);
+}
 .s1-rule-card.is-active {
-    border-color: #5b4df8;
-    background: #f7f7ff;
+    border-color: var(--s1-color-red-border);
+    background: var(--s1-color-red-light);
 }
-
+.s1-rule-card:hover .s1-rule-icon {
+    background: var(--s1-color-red-light);
+}
 .s1-rule-icon {
     width: 40px;
     height:40px;
-    border-radius: 14px;
+    border-radius: 8px;
     background: #f3f4f6;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #6366f1;
+    color: var(--s1-color-primary-red);
     margin-bottom: 16px;
 }
 
 .s1-rule-card.is-active .s1-rule-icon {
-    background: #5b4df8;
+    background: var(--s1-color-primary-red);
     color: #fff;
 }
 
@@ -4462,8 +4472,8 @@ transform:translateX(-50%);
 }
 
 .s1-rule-card.is-active .s1-rule-check {
-    background: #5b4df8;
-    border-color: #5b4df8;
+    background: var(--s1-color-primary-red);
+    border-color: var(--s1-color-red-border);
     color: #fff; /* white tick */
 }
 
@@ -4554,18 +4564,18 @@ display: flex;
 
 /* Rule badge */
 .s1-rule-number {
-    display: inline-flex;
+   display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 5px 14px;
-    border: 1.5px solid #cfd4ff;
-    background: #f7f8ff;
+    border: 1.5px solid var(--s1-color-red-border);
+    background: var(--s1-color-red-light);
     border-radius: 999px;
-    color: #4f46e5;
+    color: var(--s1-color-primary-red);
     font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: .5px;
+    letter-spacing: 0.5px;
     line-height: 1;
 }
 
@@ -4708,16 +4718,13 @@ display: flex;
     font-weight: 700!important;
 }
 .s1-settings__header .s1-settings__title-wrap .s1-settings__icon svg{
-   stroke:#ff3132;
+   stroke:var(--s1-color-primary-red);
 }
 .s1-settings__header .s1-settings__title-wrap .s1-settings__icon{
-    height:30px;
-    width:30px;
-    background:#ffe0e09e;
-    text-align: center;
-    line-height:30px;
+       align-items: center;
+    background: var(--s1-color-red-light);
+    border-radius: 4px;
     display: flex;
-    align-items: center;
-    justify-content: center; 
-    border-radius:4px;
+    justify-content: center;
+    padding: 8px 8px 8px 8px;
 }
