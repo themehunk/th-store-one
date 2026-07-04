@@ -10,6 +10,8 @@ export default function SmartOffersSettings({
   onRegisterSave,
   onModuleReady,
   licenseActive,
+  onRuleSaveStart,
+  onRuleSaveEnd,
 }) {
   const [loading, setLoading] = useState(true);
 
