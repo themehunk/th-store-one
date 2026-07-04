@@ -144,6 +144,7 @@ Yes, the plugin is translation-ready and supports multiple languages.
 
 == Changelog ==
 = 1.1.5=
+* Added Backend Style in Smart offer module.
 * Added Product Featured video clickable.
 * Added Product Video Gallery custom video ratio option.
 * Fixed Inactive Tab Message parse message issue.
