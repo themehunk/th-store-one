@@ -1,5 +1,5 @@
 /* ------------------------ imports ------------------------ */
-import { useEffect, useRef } from "@wordpress/element";
+import { useEffect, useRef, useState } from "@wordpress/element";
 import {
   TextControl,
   SelectControl,
@@ -9,6 +9,7 @@ import {
   RangeControl,
   TabPanel,
   Button,
+  Spinner,
 } from "@wordpress/components";
 import { __, sprintf } from "@wordpress/i18n";
 import Sortable from "sortablejs";
@@ -229,6 +230,7 @@ export default function SmartOffersRules({
   onSave,
 }) {
   const updateAll = (arr) => onChange([...arr]);
+  const [ruleSaving, setRuleSaving] = useState(false);
 
   const updateField = (i, field, val) => {
     const arr = [...rules];
@@ -995,7 +997,7 @@ export default function SmartOffersRules({
                                 )}
                               </S1FieldGroup>
 
-                              <S1FieldGroup title="Discount Rules">
+                              <S1FieldGroup number={4} title="Discount Rules">
                                 <S1Field label="Create Qty/Price table with">
                                   <SelectControl
                                     value={rule.price_fixed_trigger}
@@ -1082,23 +1084,51 @@ export default function SmartOffersRules({
                     {
                       id: "display",
                       label: "Display",
-                      icon: ICONS.DISPLAY,
+                      icon: (
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <rect
+                            x="2"
+                            y="3"
+                            width="20"
+                            height="14"
+                            rx="2"
+                          ></rect>
+                          <path d="M8 21h8M12 17v4"></path>
+                        </svg>
+                      ),
                       content: (
                         <div className="store-one-rule-body">
-                          <PlacementPriorityControl
-                            placement={rule.single_placement}
-                            priority={rule.single_priority}
-                            onPlacementChange={(v) =>
-                              updateField(index, "single_placement", v)
-                            }
-                            onPriorityChange={(v) =>
-                              updateField(index, "single_priority", v)
-                            }
-                          />
+                          <S1FieldGroup
+                            number={1}
+                            title="Placement"
+                            shortdescription="Where the offer appears"
+                          >
+                            <PlacementPriorityControl
+                              placement={rule.single_placement}
+                              priority={rule.single_priority}
+                              onPlacementChange={(v) =>
+                                updateField(index, "single_placement", v)
+                              }
+                              onPriorityChange={(v) =>
+                                updateField(index, "single_priority", v)
+                              }
+                            />
+                          </S1FieldGroup>
 
                           {/* BOGO */}
                           {rule.rule_type === "bogo" && (
-                            <S1FieldGroup title="BOGO Text Settings">
+                            <S1FieldGroup
+                              number={2}
+                              title="BOGO Text Settings"
+                              shortdescription=""
+                            >
                               <S1Field
                                 label="Offer Title"
                                 description="Main offer heading displayed on the offer card."
@@ -1110,35 +1140,39 @@ export default function SmartOffersRules({
                                   }
                                 />
                               </S1Field>
-
-                              <S1Field
-                                label="Badge Text"
-                                description="Badge label shown on the offer card."
-                              >
-                                <TextControl
-                                  value={rule.bogo_badge_text}
-                                  onChange={(v) =>
-                                    updateField(index, "bogo_badge_text", v)
-                                  }
-                                />
-                              </S1Field>
-                              <S1Field
-                                label="Price Text"
-                                description="Price information displayed with the offer."
-                              >
-                                <TextControl
-                                  value={rule.bogo_price_text}
-                                  onChange={(v) =>
-                                    updateField(index, "bogo_price_text", v)
-                                  }
-                                />
-                              </S1Field>
+                              <div className="s1-field-group-row">
+                                <S1Field
+                                  label="Badge Text"
+                                  description="Badge label shown on the offer card."
+                                >
+                                  <TextControl
+                                    value={rule.bogo_badge_text}
+                                    onChange={(v) =>
+                                      updateField(index, "bogo_badge_text", v)
+                                    }
+                                  />
+                                </S1Field>
+                                <S1Field
+                                  label="Price Text"
+                                  description="Price information displayed with the offer."
+                                >
+                                  <TextControl
+                                    value={rule.bogo_price_text}
+                                    onChange={(v) =>
+                                      updateField(index, "bogo_price_text", v)
+                                    }
+                                  />
+                                </S1Field>
+                              </div>
                             </S1FieldGroup>
                           )}
 
                           {/* Buy X Get Y */}
                           {rule.rule_type === "buyxgety" && (
-                            <S1FieldGroup title="Buy X Get Y Text Settings">
+                            <S1FieldGroup
+                              number={2}
+                              title="Buy X Get Y Text Settings"
+                            >
                               <S1Field
                                 label="Offer Title"
                                 description="Main heading displayed for the free gift offer."
@@ -1150,30 +1184,31 @@ export default function SmartOffersRules({
                                   }
                                 />
                               </S1Field>
+                              <div className="s1-field-group-row">
+                                <S1Field
+                                  label="Badge Text"
+                                  description="Badge label displayed on the gift card."
+                                >
+                                  <TextControl
+                                    value={rule.bxgy_badge_text}
+                                    onChange={(v) =>
+                                      updateField(index, "bxgy_badge_text", v)
+                                    }
+                                  />
+                                </S1Field>
 
-                              <S1Field
-                                label="Badge Text"
-                                description="Badge label displayed on the gift card."
-                              >
-                                <TextControl
-                                  value={rule.bxgy_badge_text}
-                                  onChange={(v) =>
-                                    updateField(index, "bxgy_badge_text", v)
-                                  }
-                                />
-                              </S1Field>
-
-                              <S1Field
-                                label="Price Text"
-                                description="Gift value text displayed below the badge."
-                              >
-                                <TextControl
-                                  value={rule.bxgy_price_text}
-                                  onChange={(v) =>
-                                    updateField(index, "bxgy_price_text", v)
-                                  }
-                                />
-                              </S1Field>
+                                <S1Field
+                                  label="Price Text"
+                                  description="Gift value text displayed below the badge."
+                                >
+                                  <TextControl
+                                    value={rule.bxgy_price_text}
+                                    onChange={(v) =>
+                                      updateField(index, "bxgy_price_text", v)
+                                    }
+                                  />
+                                </S1Field>
+                              </div>
 
                               <S1Field
                                 label="Short Description"
@@ -1195,7 +1230,10 @@ export default function SmartOffersRules({
 
                           {/* Buy X Get Y */}
                           {rule.rule_type === "dynamicoffer" && (
-                            <S1FieldGroup title="Dynamic Offer Text Settings">
+                            <S1FieldGroup
+                              number={2}
+                              title="Dynamic Offer Text Settings"
+                            >
                               <S1Field label="Offer Title">
                                 <TextControl
                                   value={rule.dynamic_offer_title}
@@ -1204,24 +1242,33 @@ export default function SmartOffersRules({
                                   }
                                 />
                               </S1Field>
+                              <div className="s1-field-group-row">
+                                <S1Field label="Badge Text">
+                                  <TextControl
+                                    value={rule.dynamic_badge_text}
+                                    onChange={(v) =>
+                                      updateField(
+                                        index,
+                                        "dynamic_badge_text",
+                                        v,
+                                      )
+                                    }
+                                  />
+                                </S1Field>
 
-                              <S1Field label="Badge Text">
-                                <TextControl
-                                  value={rule.dynamic_badge_text}
-                                  onChange={(v) =>
-                                    updateField(index, "dynamic_badge_text", v)
-                                  }
-                                />
-                              </S1Field>
-
-                              <S1Field label="Price Text">
-                                <TextControl
-                                  value={rule.dynamic_price_text}
-                                  onChange={(v) =>
-                                    updateField(index, "dynamic_price_text", v)
-                                  }
-                                />
-                              </S1Field>
+                                <S1Field label="Price Text">
+                                  <TextControl
+                                    value={rule.dynamic_price_text}
+                                    onChange={(v) =>
+                                      updateField(
+                                        index,
+                                        "dynamic_price_text",
+                                        v,
+                                      )
+                                    }
+                                  />
+                                </S1Field>
+                              </div>
 
                               <S1Field label="Short Description">
                                 <TextControl
@@ -1238,9 +1285,16 @@ export default function SmartOffersRules({
                             </S1FieldGroup>
                           )}
 
-                          <S1FieldGroup title="Cart & Checkout Page">
+                          <S1FieldGroup
+                            number={3}
+                            title="Cart & Checkout Page"
+                            shortdescription="Line item labels"
+                          >
                             {rule.rule_type === "bogo" && (
-                              <S1Field label="Bogo">
+                              <S1Field
+                                label="Bogo"
+                                description="Shown next to the discounted item in cart and checkout"
+                              >
                                 <TextControl
                                   value={rule.crt_page_bogo_text}
                                   onChange={(v) =>
@@ -1271,25 +1325,96 @@ export default function SmartOffersRules({
                             )}
                           </S1FieldGroup>
 
-                          <S1Field label={__("Use Shortcode", "th-store-one")}>
-                            <p>
-                              {`{DELPRICE}`} = Original Price, {`{PRICE}`} =
-                              Offer Price,
-                              {`{XQTY}`} = Required Quantity, {`{YQTY}`} =
-                              Reward/Maximum Quantity,
-                              {`{DISCOUNT}`} = Discount Value,
-                            </p>
-                          </S1Field>
+                          <S1FieldGroup
+                            number={4}
+                            title="Use Shortcode"
+                            shortdescription="Click a tag to copy"
+                          >
+                            <S1Field>
+                              <div className="s1-shortcode-grid">
+                                <div className="s1-shortcode-item">
+                                  <span className="s1-shortcode-key">
+                                    {"{DELPRICE}"}
+                                  </span>
+                                  <span className="s1-shortcode-label">
+                                    Original price
+                                  </span>
+                                </div>
+
+                                <div className="s1-shortcode-item">
+                                  <span className="s1-shortcode-key">
+                                    {"{PRICE}"}
+                                  </span>
+                                  <span className="s1-shortcode-label">
+                                    Offer price
+                                  </span>
+                                </div>
+
+                                <div className="s1-shortcode-item">
+                                  <span className="s1-shortcode-key">
+                                    {"{XQTY}"}
+                                  </span>
+                                  <span className="s1-shortcode-label">
+                                    Required quantity
+                                  </span>
+                                </div>
+
+                                <div className="s1-shortcode-item">
+                                  <span className="s1-shortcode-key">
+                                    {"{YQTY}"}
+                                  </span>
+                                  <span className="s1-shortcode-label">
+                                    Reward / max quantity
+                                  </span>
+                                </div>
+
+                                <div className="s1-shortcode-item">
+                                  <span className="s1-shortcode-key">
+                                    {"{DISCOUNT}"}
+                                  </span>
+                                  <span className="s1-shortcode-label">
+                                    Discount value
+                                  </span>
+                                </div>
+
+                                <div className="s1-shortcode-item">
+                                  <span className="s1-shortcode-key">
+                                    {"{BOGO}"}
+                                  </span>
+                                  <span className="s1-shortcode-label">
+                                    Offer type label
+                                  </span>
+                                </div>
+                              </div>
+                            </S1Field>
+                          </S1FieldGroup>
                         </div>
                       ),
                     },
                     {
                       id: "style",
                       label: "Style",
-                      icon: ICONS.DESIGN,
+                      icon: (
+                        <svg
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        >
+                          <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                          <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                          <circle cx="11" cy="11" r="2"></circle>
+                        </svg>
+                      ),
                       content: (
                         <div className="store-one-rule-body">
-                          <S1FieldGroup title="Card">
+                          <S1FieldGroup
+                            title="Card"
+                            number={1}
+                            shortdescription="Offer card surface"
+                          >
                             <S1Field
                               label={__("Choose Style", "th-store-one")}
                               visible={false}
@@ -1329,6 +1454,7 @@ export default function SmartOffersRules({
                             </S1Field>
 
                             <UniversalBorderControl
+                              number={2}
                               value={rule.card_border}
                               onChange={(v) =>
                                 updateField(index, "card_border", v)
@@ -1345,114 +1471,136 @@ export default function SmartOffersRules({
 
                           {/* TEXT */}
 
-                          <S1FieldGroup title="Typography">
-                            <S1Field>
-                              <THBackgroundControl
-                                allowGradient={true}
-                                label={__("Heading", "th-store-one")}
-                                value={rule.heading_color}
-                                onChange={(v) => {
-                                  const updatedRule = {
-                                    ...rule,
-                                    heading_color: v,
-                                  };
-                                  updateField(index, "heading_color", v);
-                                }}
-                              />
-                            </S1Field>
+                          <S1FieldGroup
+                            title="Typography"
+                            number={3}
+                            shortdescription="Text colors"
+                          >
+                            <div className="s1-field-group-row">
+                              <S1Field>
+                                <THBackgroundControl
+                                  allowGradient={true}
+                                  label={__("Heading", "th-store-one")}
+                                  value={rule.heading_color}
+                                  onChange={(v) => {
+                                    const updatedRule = {
+                                      ...rule,
+                                      heading_color: v,
+                                    };
+                                    updateField(index, "heading_color", v);
+                                  }}
+                                />
+                              </S1Field>
 
-                            <S1Field>
-                              <THBackgroundControl
-                                allowGradient={true}
-                                label={__("Text Color", "th-store-one")}
-                                value={rule.text_color}
-                                onChange={(v) => {
-                                  const updatedRule = {
-                                    ...rule,
-                                    text_color: v,
-                                  };
-                                  updateField(index, "text_color", v);
-                                }}
-                              />
-                            </S1Field>
-                            <S1Field>
-                              <THBackgroundControl
-                                allowGradient={true}
-                                label={__("Price Color", "th-store-one")}
-                                value={rule.price_color}
-                                onChange={(v) => {
-                                  const updatedRule = {
-                                    ...rule,
-                                    price_color: v,
-                                  };
-                                  updateField(index, "price_color", v);
-                                }}
-                              />
-                            </S1Field>
+                              <S1Field>
+                                <THBackgroundControl
+                                  allowGradient={true}
+                                  label={__("Text Color", "th-store-one")}
+                                  value={rule.text_color}
+                                  onChange={(v) => {
+                                    const updatedRule = {
+                                      ...rule,
+                                      text_color: v,
+                                    };
+                                    updateField(index, "text_color", v);
+                                  }}
+                                />
+                              </S1Field>
+
+                              <S1Field>
+                                <THBackgroundControl
+                                  allowGradient={true}
+                                  label={__("Price Color", "th-store-one")}
+                                  value={rule.price_color}
+                                  onChange={(v) => {
+                                    const updatedRule = {
+                                      ...rule,
+                                      price_color: v,
+                                    };
+                                    updateField(index, "price_color", v);
+                                  }}
+                                />
+                              </S1Field>
+                            </div>
                           </S1FieldGroup>
 
                           {/* BADGE */}
 
-                          <S1FieldGroup title="Badge">
-                            <S1Field>
-                              <THBackgroundControl
-                                allowGradient={true}
-                                label={__("Badge Background", "th-store-one")}
-                                value={rule.badge_bg}
-                                onChange={(v) => {
-                                  const updatedRule = { ...rule, badge_bg: v };
-                                  updateField(index, "badge_bg", v);
-                                }}
-                              />
-                            </S1Field>
+                          <S1FieldGroup
+                            title="Badge"
+                            number={4}
+                            shortdescription="Corner label"
+                          >
+                            <div className="s1-field-group-row">
+                              <S1Field>
+                                <THBackgroundControl
+                                  allowGradient={true}
+                                  label={__("Badge Background", "th-store-one")}
+                                  value={rule.badge_bg}
+                                  onChange={(v) => {
+                                    const updatedRule = {
+                                      ...rule,
+                                      badge_bg: v,
+                                    };
+                                    updateField(index, "badge_bg", v);
+                                  }}
+                                />
+                              </S1Field>
 
-                            <S1Field>
-                              <THBackgroundControl
-                                allowGradient={true}
-                                label={__("Badge Text Color", "th-store-one")}
-                                value={rule.badge_color}
-                                onChange={(v) => {
-                                  const updatedRule = {
-                                    ...rule,
-                                    badge_color: v,
-                                  };
-                                  updateField(index, "badge_color", v);
-                                }}
-                              />
-                            </S1Field>
+                              <S1Field>
+                                <THBackgroundControl
+                                  allowGradient={true}
+                                  label={__("Badge Text Color", "th-store-one")}
+                                  value={rule.badge_color}
+                                  onChange={(v) => {
+                                    const updatedRule = {
+                                      ...rule,
+                                      badge_color: v,
+                                    };
+                                    updateField(index, "badge_color", v);
+                                  }}
+                                />
+                              </S1Field>
+                            </div>
                           </S1FieldGroup>
-                          <S1FieldGroup title="Active Card">
-                            <S1Field>
-                              <THBackgroundControl
-                                allowGradient={true}
-                                label={__(
-                                  "Active Card Background",
-                                  "th-store-one",
-                                )}
-                                value={rule.card_active_bg}
-                                onChange={(v) => {
-                                  const updatedRule = {
-                                    ...rule,
-                                    card_active_bg: v,
-                                  };
-                                  updateField(index, "card_active_bg", v);
-                                }}
-                              />
-                            </S1Field>
-                            <S1Field>
-                              <THBackgroundControl
-                                allowGradient={true}
-                                label={__("Active Color", "th-store-one")}
-                                value={rule.highlight_color}
-                                onChange={(v) => {
-                                  const updatedRule = {
-                                    ...rule,
-                                    highlight_color: v,
-                                  };
-                                  updateField(index, "highlight_color", v);
-                                }}
-                              />
-                            </S1Field>
+                          <S1FieldGroup
+                            title="Active Card"
+                            number={5}
+                            shortdescription="Active Color & Background"
+                          >
+                            <div className="s1-field-group-row">
+                              <S1Field>
+                                <THBackgroundControl
+                                  allowGradient={true}
+                                  label={__(
+                                    "Active Card Background",
+                                    "th-store-one",
+                                  )}
+                                  value={rule.card_active_bg}
+                                  onChange={(v) => {
+                                    const updatedRule = {
+                                      ...rule,
+                                      card_active_bg: v,
+                                    };
+                                    updateField(index, "card_active_bg", v);
+                                  }}
+                                />
+                              </S1Field>
+                              <S1Field>
+                                <THBackgroundControl
+                                  allowGradient={true}
+                                  label={__("Active Color", "th-store-one")}
+                                  value={rule.highlight_color}
+                                  onChange={(v) => {
+                                    const updatedRule = {
+                                      ...rule,
+                                      highlight_color: v,
+                                    };
+                                    updateField(index, "highlight_color", v);
+                                  }}
+                                />
+                              </S1Field>
+                            </div>
                           </S1FieldGroup>
                         </div>
                       ),
@@ -1476,9 +1624,28 @@ export default function SmartOffersRules({
                     <button
                       type="button"
                       className="s1-rule-save-btn"
-                      onClick={() => onSave?.()}
+                      disabled={ruleSaving}
+                      onClick={() => {
+                        setRuleSaving(true);
+                        const savebar =
+                          document.querySelector(".s1-top-savebar");
+                        if (savebar) {
+                          savebar.style.display = "none";
+                        }
+                        onSave?.();
+                        setTimeout(() => {
+                          setRuleSaving(false);
+                        }, 400); // 0.4 second
+                      }}
                     >
-                      Save Rule
+                      {ruleSaving ? (
+                        <>
+                          Saving
+                          <Spinner style={{ marginLeft: 8 }} />
+                        </>
+                      ) : (
+                        "Save Rule"
+                      )}
                     </button>
                   </div>
                 </div>
@@ -1489,18 +1656,23 @@ export default function SmartOffersRules({
       </SortableWrapper>
 
       <div className="store-one-rules-footer">
-        <div className="store-one-add-rule" onClick={addRule}>
-          + Add Smart Offer Rule
+        <div className="store-one-add-rule-wrap">
+          <div className="store-one-add-rule" onClick={addRule}>
+            + Add Smart Offer Rule
+          </div>
+          <p>Create another rule with default settings</p>
         </div>
-
-        <ResetModuleButton
-          moduleId="smart-offers"
-          onReset={() => {
-            const resetRules = [newSmartOfferRule()];
-            updateAll(resetRules);
-            return { rules: resetRules };
-          }}
-        />
+        <div className="store-one-add-rule-wrap-reset">
+          <ResetModuleButton
+            moduleId="smart-offers"
+            onReset={() => {
+              const resetRules = [newSmartOfferRule()];
+              updateAll(resetRules);
+              return { rules: resetRules };
+            }}
+          />
+          <p>Reset all rules and start over</p>
+        </div>
       </div>
     </div>
   );

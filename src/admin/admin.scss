@@ -3791,7 +3791,7 @@ transform:translateX(-50%);
     background: var(--s1-color-primary);
 }
 .s1-field-wrapper .components-base-control .components-grid{
-   width:73%;
+   width:100%;
 }
 
 // plugin extension addon settings
@@ -4378,9 +4378,7 @@ transform:translateX(-50%);
     display:flex;
     gap:15px;
 }
-.s1-field-group-body .s1-field-group-row .s1-field-wrapper {
-    margin:0;
-}
+
 
 .s1-field-description{
     font-size: .75rem;
@@ -4655,4 +4653,57 @@ display: flex;
 .s1-rule-reset-btn svg {
     width: 14px;
     height: 14px;
+}
+.s1-shortcode-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.s1-shortcode-item {
+    background: #fafbfd;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 12px;
+    transition: all .2s ease;
+}
+
+.s1-shortcode-item:hover {
+    border-color: #6366f1;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, .08);
+     background:#c7d2fe;
+}
+
+.s1-shortcode-key {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #4f46e5;
+    font-family: monospace;
+    line-height: 1.2;
+    margin-bottom: 4px;
+}
+
+.s1-shortcode-label {
+    display: block;
+    font-size: 11px;
+    color:#8792a2;
+    line-height: 1.3;
+}
+.store-one-add-rule-wrap p,.store-one-add-rule-wrap-reset p{
+    margin: 0;
+    color:#8792a2;
+}
+
+.store-one-add-rule-wrap-reset{
+    text-align:right;
+}
+.store-one-rules-footer {
+    margin-bottom: 1.5rem;
+}
+
+.store-one-add-rule,
+.store-one-reset-link{
+    font-weight: 700!important;
 }

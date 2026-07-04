@@ -10,6 +10,7 @@ export default function UniversalBorderControl({
   value = {},
   onChange,
   title = __("Border", "th-store-one"),
+  number = {},
 }) {
   const border = value || {};
 
@@ -21,7 +22,7 @@ export default function UniversalBorderControl({
   };
 
   return (
-    <S1FieldGroup title={title}>
+    <S1FieldGroup title={title} number={number}>
       {/* Border Style */}
       <S1Field label={__("Border Style", "th-store-one")}>
         <SelectControl
