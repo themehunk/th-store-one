@@ -4693,7 +4693,7 @@ display: flex;
 }
 .store-one-add-rule-wrap p,.store-one-add-rule-wrap-reset p{
     margin: 0;
-    color:#8792a2;
+    color:#8792a2; 
 }
 
 .store-one-add-rule-wrap-reset{
@@ -4706,4 +4706,18 @@ display: flex;
 .store-one-add-rule,
 .store-one-reset-link{
     font-weight: 700!important;
+}
+.s1-settings__header .s1-settings__title-wrap .s1-settings__icon svg{
+   stroke:#ff3132;
+}
+.s1-settings__header .s1-settings__title-wrap .s1-settings__icon{
+    height:30px;
+    width:30px;
+    background:#ffe0e09e;
+    text-align: center;
+    line-height:30px;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    border-radius:4px;
 }
