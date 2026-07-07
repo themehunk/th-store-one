@@ -79,7 +79,7 @@ const newSmartOfferRule = () => ({
   d_product: [],
   d_categories: [],
   d_tags: [],
-  tier_create_quantity: "interval_price",
+  price_fixed_trigger: "interval_price",
   quantity_tiers: [
     {
       id: crypto.randomUUID(),
@@ -99,25 +99,25 @@ const newSmartOfferRule = () => ({
   // BOGO
   bogo_offer_title: "Buy One, Get One",
   bogo_badge_text: "BEST DEAL",
-  bogo_price_text: "",
+  bogo_price_text: "{original_price}",
 
   // BXGY
-  bxgy_offer_title: "Buy {XQTY} Products & Get This Gift FREE",
+  bxgy_offer_title: "Buy {x_qty} Products & Get This Gift FREE",
   bxgy_badge_text: "FREE GIFT",
-  bxgy_price_text: "{DELPRICE} Worth {PRICE}",
+  bxgy_price_text: "{del_price_x} Worth {discount_price}",
   bxgy_short_description: "Included with Your Purchase",
 
   // Dynamic Offer
   dynamic_offer_title:
-    "Buy from {XQTY} to {YQTY} items for {DISCOUNT} OFF per item",
-  dynamic_badge_text: "Save {DISCOUNT}",
-  dynamic_price_text: "Price {DELPRICE} {PRICE}",
-  dynamic_short_description: "{PRICE} / each item",
+    "Buy from {from_qty} to {to_qty} items for {discount} OFF per item",
+  dynamic_badge_text: "Save {discount}",
+  dynamic_price_text: "Price {del_price} {discount_price}",
+  dynamic_short_description: "{discount_price} / each item",
 
   use_shortcode: false,
   devices: ["desktop"],
 
-  crt_page_bogo_text: "{BOGO} SMART OFFER",
+  crt_page_bogo_text: "SMART OFFER",
   crt_page_xy_text: "Special BXGY Offer",
   crt_page_dyn_text: "Dynamic Discount",
   /* ================ STYLE ================= */
@@ -220,7 +220,12 @@ function SortableWrapper({ items, onSortEnd, children }) {
 
   return <div ref={ref}>{children}</div>;
 }
-
+const ShortcodeItem = ({ code, label }) => (
+  <div className="s1-shortcode-item">
+    <span className="s1-shortcode-key">{code}</span>
+    <span className="s1-shortcode-label">{label}</span>
+  </div>
+);
 /* ---------------- MAIN ---------------- */
 export default function SmartOffersRules({
   rules,
@@ -1332,59 +1337,148 @@ export default function SmartOffersRules({
                           >
                             <S1Field>
                               <div className="s1-shortcode-grid">
-                                <div className="s1-shortcode-item">
-                                  <span className="s1-shortcode-key">
-                                    {"{DELPRICE}"}
-                                  </span>
-                                  <span className="s1-shortcode-label">
-                                    Original price
-                                  </span>
-                                </div>
+                                {/* ---------------- BOGO ---------------- */}
+                                {rule.rule_type === "bogo" && (
+                                  <>
+                                    <ShortcodeItem
+                                      code="{discount_price}"
+                                      label="Discount Price"
+                                    />
+                                    <ShortcodeItem
+                                      code="{original_price}"
+                                      label="Original Price"
+                                    />
+                                    <ShortcodeItem
+                                      code="{del_price}"
+                                      label="Deleted Price"
+                                    />
+                                    <ShortcodeItem
+                                      code="{title}"
+                                      label="Product Title"
+                                    />
+                                  </>
+                                )}
 
-                                <div className="s1-shortcode-item">
-                                  <span className="s1-shortcode-key">
-                                    {"{PRICE}"}
-                                  </span>
-                                  <span className="s1-shortcode-label">
-                                    Offer price
-                                  </span>
-                                </div>
+                                {/* ---------------- BUY X GET Y ---------------- */}
+                                {rule.rule_type === "buyxgety" && (
+                                  <>
+                                    <ShortcodeItem
+                                      code="{original_price_x}"
+                                      label="Original Price (X Product)"
+                                    />
+                                    <ShortcodeItem
+                                      code="{original_price_y}"
+                                      label="Original Price (Y Product)"
+                                    />
+                                    <ShortcodeItem
+                                      code="{x_qty}"
+                                      label="Buy Quantity"
+                                    />
+                                    <ShortcodeItem
+                                      code="{y_qty}"
+                                      label="Get Quantity"
+                                    />
+                                    <ShortcodeItem
+                                      code="{discount}"
+                                      label="Discount (% or Currency)"
+                                    />
+                                    <ShortcodeItem
+                                      code="{title}"
+                                      label="Product Title"
+                                    />
+                                    <ShortcodeItem
+                                      code="{discount_price}"
+                                      label="Discount Price"
+                                    />
+                                    <ShortcodeItem
+                                      code="{difference_price}"
+                                      label="You Save Amount"
+                                    />
+                                    <ShortcodeItem
+                                      code="{del_price_x}"
+                                      label="Deleted Price (X Product)"
+                                    />
+                                    <ShortcodeItem
+                                      code="{del_price_y}"
+                                      label="Deleted Price (Y Product)"
+                                    />
+                                  </>
+                                )}
 
-                                <div className="s1-shortcode-item">
-                                  <span className="s1-shortcode-key">
-                                    {"{XQTY}"}
-                                  </span>
-                                  <span className="s1-shortcode-label">
-                                    Required quantity
-                                  </span>
-                                </div>
+                                {/* ---------------- DYNAMIC OFFER ---------------- */}
+                                {rule.rule_type === "dynamicoffer" && (
+                                  <>
+                                    {/* Interval Pricing */}
+                                    {rule.price_fixed_trigger ===
+                                      "interval_price" && (
+                                      <>
+                                        <ShortcodeItem
+                                          code="{from_qty}"
+                                          label="From Quantity"
+                                        />
+                                        <ShortcodeItem
+                                          code="{to_qty}"
+                                          label="To Quantity"
+                                        />
 
-                                <div className="s1-shortcode-item">
-                                  <span className="s1-shortcode-key">
-                                    {"{YQTY}"}
-                                  </span>
-                                  <span className="s1-shortcode-label">
-                                    Reward / max quantity
-                                  </span>
-                                </div>
+                                        <ShortcodeItem
+                                          code="{discount}"
+                                          label="Discount (% or Currency)"
+                                        />
 
-                                <div className="s1-shortcode-item">
-                                  <span className="s1-shortcode-key">
-                                    {"{DISCOUNT}"}
-                                  </span>
-                                  <span className="s1-shortcode-label">
-                                    Discount value
-                                  </span>
-                                </div>
+                                        <ShortcodeItem
+                                          code="{original_price}"
+                                          label="Original Price"
+                                        />
 
-                                <div className="s1-shortcode-item">
-                                  <span className="s1-shortcode-key">
-                                    {"{BOGO}"}
-                                  </span>
-                                  <span className="s1-shortcode-label">
-                                    Offer type label
-                                  </span>
-                                </div>
+                                        <ShortcodeItem
+                                          code="{discount_price}"
+                                          label="Discount Price"
+                                        />
+
+                                        <ShortcodeItem
+                                          code="{difference_price}"
+                                          label="You Save Amount"
+                                        />
+                                      </>
+                                    )}
+
+                                    {/* Fixed Unit Pricing */}
+                                    {rule.price_fixed_trigger ===
+                                      "fixed_unit_price" && (
+                                      <>
+                                        <ShortcodeItem
+                                          code="{qty}"
+                                          label="Quantity"
+                                        />
+
+                                        <ShortcodeItem
+                                          code="{discount}"
+                                          label="Discount (% or Currency)"
+                                        />
+
+                                        <ShortcodeItem
+                                          code="{original_price}"
+                                          label="Original Price"
+                                        />
+
+                                        <ShortcodeItem
+                                          code="{discount_price}"
+                                          label="Discount Price"
+                                        />
+
+                                        <ShortcodeItem
+                                          code="{difference_price}"
+                                          label="You Save Amount"
+                                        />
+                                        <ShortcodeItem
+                                          code="{del_price}"
+                                          label="Deleted Price"
+                                        />
+                                      </>
+                                    )}
+                                  </>
+                                )}
                               </div>
                             </S1Field>
                           </S1FieldGroup>

@@ -139,6 +139,7 @@ class Th_Store_One_Admin
 
                 // Nonce for REST security.
                 'nonce'   => wp_create_nonce('wp_rest'),
+                'currency_symbol' => get_woocommerce_currency_symbol(),
 
                 'i18n'    => array(
                     'saveSuccess' => esc_html__('Settings saved successfully.', 'th-store-one'),
