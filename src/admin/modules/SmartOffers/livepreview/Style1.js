@@ -32,10 +32,15 @@ const Style1 = ({ settings = {}, rule = {} }) => {
     );
   }
 
+  const currency = th_StoreOneAdmin?.currency_symbol || "$";
+
+  const formatPrice = (price) => `${currency}${Number(price).toFixed(2)}`;
+
   const {
     x_qty = 2,
     y_qty = 5,
-    discount_value = "20%",
+    reward_type = "free_product",
+    discount_value = "20",
     active_border_width = "2px",
     heading_color = "#111827",
     text_color = "#6b7280",
@@ -62,7 +67,7 @@ const Style1 = ({ settings = {}, rule = {} }) => {
 
     bxgy_badge_text = "FREE GIFT",
 
-    bxgy_price_text = "[DELPRICE] Worth [PRICE]",
+    bxgy_price_text = "[original_price] Worth [discount_price]",
 
     bxgy_short_description = "Included with Your Purchase",
 
@@ -70,7 +75,7 @@ const Style1 = ({ settings = {}, rule = {} }) => {
 
     dynamic_badge_text = "Save [DISCOUNT]",
 
-    dynamic_price_text = "Price [DELPRICE] [PRICE]",
+    dynamic_price_text = "Price [original_price] [discount_price]",
 
     dynamic_short_description = "[DISCOUNT] / each item",
   } = settings;
@@ -101,13 +106,12 @@ const Style1 = ({ settings = {}, rule = {} }) => {
     paddingBottom: padding?.bottom || "14px",
     paddingLeft: padding?.left || "14px",
   };
+  // for bogo only
   const shortcodeValues = {
-    DELPRICE: "$408.00",
-    PRICE: "$326.40",
-    XQTY: x_qty,
-    YQTY: y_qty,
-    DISCOUNT: discount_value,
-    REMAINING: 1,
+    original_price: formatPrice(408),
+    discount_price: formatPrice(326.4),
+    del_price: `<del>${formatPrice(408)}</del>`,
+    title: "Product Title",
   };
 
   /*
@@ -126,16 +130,19 @@ const Style1 = ({ settings = {}, rule = {} }) => {
       >
         <div className="th-offer-row">
           <div className="th-radio-mark active" />
-
           <div className="th-offer-content">
             <div
               className="th-offer-title"
               style={{
                 color: heading_color,
               }}
-            >
-              🎉 {bogo_offer_title}
-            </div>
+              dangerouslySetInnerHTML={{
+                __html: `🎉 ${replaceShortcodes(
+                  bogo_offer_title,
+                  shortcodeValues,
+                )}`,
+              }}
+            />
 
             <div
               className="th-badge"
@@ -143,31 +150,23 @@ const Style1 = ({ settings = {}, rule = {} }) => {
                 background: badge_bg || "#111827",
                 color: badge_color || "#ffffff",
               }}
-            >
-              {bogo_badge_text}
-            </div>
-
-            <div
-              className="th-price"
-              style={{
-                color: price_color,
+              dangerouslySetInnerHTML={{
+                __html: replaceShortcodes(bogo_badge_text, shortcodeValues),
               }}
-            >
-              <del
-                style={{
-                  color: price_color,
+            />
+
+            <div className="th-price" style={{ color: price_color }}>
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: replaceShortcodes(bogo_price_text, shortcodeValues),
                 }}
-              >
-                $408.00
-              </del>
-              <span>{bogo_price_text}</span>
+              />
             </div>
           </div>
         </div>
       </div>
     );
   }
-
   /*
   ==================================
   BUY X GET Y
@@ -179,26 +178,58 @@ const Style1 = ({ settings = {}, rule = {} }) => {
       bxgy_price_text,
       shortcodeValues,
     ).replace(
-      shortcodeValues.DELPRICE,
-      `<del>${shortcodeValues.DELPRICE}</del>`,
+      shortcodeValues.original_price,
+      `<del>${shortcodeValues.original_price}</del>`,
     );
 
+    const getDiscountText = () => {
+      switch (reward_type) {
+        case "free_product":
+          return "100% OFF";
+
+        case "discount_percent":
+          return `${discount_value}% OFF`;
+
+        case "discount_fixed":
+          return `-${formatPrice(discount_value)}`;
+
+        case "discount_fixed_price":
+          return formatPrice(discount_value);
+
+        default:
+          return "";
+      }
+    };
+
     const offer1Values = {
-      ...shortcodeValues,
-      XQTY: 1,
-      YQTY: 1,
-      PRICE: "$19.99",
-      DELPRICE: "$39.99",
-      DISCOUNT: "50%",
+      original_price_x: formatPrice(408.0),
+      original_price_y: formatPrice(39.99),
+
+      del_price_x: `<del>${formatPrice(408.0)}</del>`,
+      del_price_y: `<del>${formatPrice(39.99)}</del>`,
+
+      discount_price: formatPrice(19.99),
+      difference_price: formatPrice(20.0),
+
+      x_qty: 1,
+      y_qty: 1,
+
+      discount: getDiscountText(),
+
+      title: "Product Title",
     };
 
     const offer2Values = {
-      ...shortcodeValues,
-      XQTY: 2,
-      YQTY: 1,
-      PRICE: "$29.99",
-      DELPRICE: "$59.99",
-      DISCOUNT: "40%",
+      original_price_x: formatPrice(408.0),
+      original_price_y: formatPrice(59.99),
+      del_price_x: `<del>${formatPrice(408.0)}</del>`,
+      del_price_y: `<del>${formatPrice(59.99)}</del>`,
+      discount_price: formatPrice(29.99),
+      difference_price: formatPrice(30.0),
+      x_qty: 2,
+      y_qty: 1,
+      discount: getDiscountText(),
+      title: "Product Title",
     };
 
     return (
@@ -220,38 +251,39 @@ const Style1 = ({ settings = {}, rule = {} }) => {
                 <div
                   className="th-offer-title"
                   style={{ color: heading_color }}
-                >
-                  {replaceShortcodes(bxgy_offer_title, offer1Values)}
-                </div>
+                  dangerouslySetInnerHTML={{
+                    __html: replaceShortcodes(bxgy_offer_title, offer1Values),
+                  }}
+                />
               </div>
-
               <div
                 className="th-badge"
                 style={{
                   background: badge_bg || "#111827",
                   color: badge_color || "#fff",
                 }}
-              >
-                {bxgy_badge_text}
-              </div>
-
+                dangerouslySetInnerHTML={{
+                  __html: replaceShortcodes(bxgy_badge_text, offer1Values),
+                }}
+              />
               <div className="th-offer-wrp">
-                <div className="th-price" style={{ color: price_color }}>
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: replaceShortcodes(
-                        bxgy_price_text,
-                        offer1Values,
-                      ).replace(
-                        offer1Values.DELPRICE,
-                        `<del style="margin-right:3px;">${offer1Values.DELPRICE}</del>`,
-                      ),
-                    }}
-                  />
-                </div>
-                <div className="th-desc" style={{ color: text_color }}>
-                  {bxgy_short_description}
-                </div>
+                <div
+                  className="th-price"
+                  style={{ color: price_color }}
+                  dangerouslySetInnerHTML={{
+                    __html: replaceShortcodes(bxgy_price_text, offer1Values),
+                  }}
+                />
+                <div
+                  className="th-desc"
+                  style={{ color: text_color }}
+                  dangerouslySetInnerHTML={{
+                    __html: replaceShortcodes(
+                      bxgy_short_description,
+                      offer1Values,
+                    ),
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -274,9 +306,10 @@ const Style1 = ({ settings = {}, rule = {} }) => {
                 <div
                   className="th-offer-title"
                   style={{ color: heading_color }}
-                >
-                  {replaceShortcodes(bxgy_offer_title, offer2Values)}
-                </div>
+                  dangerouslySetInnerHTML={{
+                    __html: replaceShortcodes(bxgy_offer_title, offer1Values),
+                  }}
+                />
               </div>
 
               <div
@@ -285,28 +318,32 @@ const Style1 = ({ settings = {}, rule = {} }) => {
                   background: badge_bg || "#111827",
                   color: badge_color || "#fff",
                 }}
-              >
-                {bxgy_badge_text}
-              </div>
+                dangerouslySetInnerHTML={{
+                  __html: replaceShortcodes(bxgy_badge_text, offer1Values),
+                }}
+              />
 
               <div className="th-offer-wrp">
                 <div className="th-price" style={{ color: price_color }}>
-                  <span
+                  <div
+                    className="th-price"
+                    style={{ color: price_color }}
                     dangerouslySetInnerHTML={{
-                      __html: replaceShortcodes(
-                        bxgy_price_text,
-                        offer2Values,
-                      ).replace(
-                        offer2Values.DELPRICE,
-                        `<del style="margin-right:3px;">${offer2Values.DELPRICE}</del>`,
-                      ),
+                      __html: replaceShortcodes(bxgy_price_text, offer1Values),
                     }}
                   />
                 </div>
 
-                <div className="th-desc" style={{ color: text_color }}>
-                  {bxgy_short_description}
-                </div>
+                <div
+                  className="th-desc"
+                  style={{ color: text_color }}
+                  dangerouslySetInnerHTML={{
+                    __html: replaceShortcodes(
+                      bxgy_short_description,
+                      offer1Values,
+                    ),
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -321,36 +358,63 @@ const Style1 = ({ settings = {}, rule = {} }) => {
   ==================================
   */
 
-  const rows = [
-    {
-      x: 2,
-      y: 2,
-      discount: "20%",
-      price: "$326.40",
-    },
-    {
-      x: 3,
-      y: 4,
-      discount: "40%",
-      price: "$244.80",
-    },
-    {
-      x: 5,
-      y: 8,
-      discount: "60%",
-      price: "$163.20",
-    },
-  ];
+  const getTierDiscount = (offer, value) => {
+    switch (offer) {
+      case "percent":
+        return `${value}%`;
+
+      case "fixed":
+        return formatPrice(value);
+
+      case "fixed_price":
+        return formatPrice(value);
+
+      default:
+        return "";
+    }
+  };
+
+  const tiers = rule.quantity_tiers?.length
+    ? rule.quantity_tiers
+    : [
+        {
+          from_qty: 1,
+          to_qty: 5,
+          offer: "percent",
+          value: 20,
+        },
+      ];
+
+  const rows = tiers.map((tier) => ({
+    from_qty: tier.from_qty,
+    to_qty: tier.to_qty,
+    qty: tier.from_qty,
+
+    original_price: formatPrice(408),
+    del_price: `<del>${formatPrice(408)}</del>`,
+
+    discount_price: formatPrice(326.4),
+    difference_price: formatPrice(81.6),
+
+    discount: getTierDiscount(tier.offer, tier.value),
+  }));
+
   const [activeIndex, setActiveIndex] = useState(0);
   return (
     <div className="th-smart-preview">
       {rows.map((item, i) => {
         const values = {
-          DELPRICE: "$408.00",
-          PRICE: item.price,
-          XQTY: item.x,
-          YQTY: item.y,
-          DISCOUNT: item.discount,
+          from_qty: item.from_qty,
+          to_qty: item.to_qty,
+          qty: item.qty,
+
+          original_price: item.original_price,
+          del_price: item.del_price,
+
+          discount_price: item.discount_price,
+          difference_price: item.difference_price,
+
+          discount: item.discount,
         };
         const processedPrice = replaceShortcodes(
           dynamic_price_text,
@@ -378,35 +442,41 @@ const Style1 = ({ settings = {}, rule = {} }) => {
               <div className="th-offer-left">
                 <div
                   className="th-offer-title"
-                  style={{
-                    color: heading_color,
+                  style={{ color: heading_color }}
+                  dangerouslySetInnerHTML={{
+                    __html: replaceShortcodes(dynamic_offer_title, values),
                   }}
-                >
-                  {replaceShortcodes(dynamic_offer_title, values)}
-                </div>
+                />
               </div>
 
               <div
                 className="th-badge"
                 style={{
-                  background: badge_bg || "#111827",
-                  color: badge_color || "#ffffff",
+                  background: badge_bg,
+                  color: badge_color,
                 }}
-              >
-                {replaceShortcodes(dynamic_badge_text, values)}
-              </div>
+                dangerouslySetInnerHTML={{
+                  __html: replaceShortcodes(dynamic_badge_text, values),
+                }}
+              />
               <div className="th-offer-wrp">
-                <div className="th-price" style={{ color: price_color }}>
-                  <span dangerouslySetInnerHTML={{ __html: processedPrice }} />
-                </div>
+                <div
+                  className="th-price"
+                  style={{ color: price_color }}
+                  dangerouslySetInnerHTML={{
+                    __html: replaceShortcodes(dynamic_price_text, values),
+                  }}
+                />
                 <div
                   className="th-desc"
-                  style={{
-                    color: text_color,
+                  style={{ color: text_color }}
+                  dangerouslySetInnerHTML={{
+                    __html: replaceShortcodes(
+                      dynamic_short_description,
+                      values,
+                    ),
                   }}
-                >
-                  {replaceShortcodes(dynamic_short_description, values)}
-                </div>
+                />
               </div>
             </div>
           </div>

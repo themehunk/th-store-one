@@ -29,7 +29,8 @@ const Style2 = ({ settings = {}, rule = {} }) => {
   const {
     x_qty = 2,
     y_qty = 5,
-    discount_value = "20%",
+    reward_type = "free_product",
+    discount_value = "20",
     active_border_width = "2px",
     heading_color = "#0f172a",
     text_color = "#64748b",
@@ -50,10 +51,10 @@ const Style2 = ({ settings = {}, rule = {} }) => {
     bxgy_price_text = "[DELPRICE] Worth [PRICE]",
     bxgy_short_description = "Included with your purchase",
 
-    dynamic_offer_title = "Buy [XQTY], get this gift free",
-    dynamic_badge_text = "FREE GIFT",
-    dynamic_price_text = "[DELPRICE] Worth [PRICE]",
-    dynamic_short_description = "Included with your purchase",
+    dynamic_offer_title = "Buy from {from_qty} to {to_qty} items for {discount} OFF per item",
+    dynamic_badge_text = "Save {discount}",
+    dynamic_price_text = "Price {del_price} {discount_price}",
+    dynamic_short_description = "{discount_price} / each item",
     card_border = {},
     padding = {},
   } = settings;
@@ -91,37 +92,63 @@ const Style2 = ({ settings = {}, rule = {} }) => {
     paddingLeft: padding?.left || "14px",
   };
 
+  const currency = th_StoreOneAdmin?.currency_symbol || "$";
+
+  const formatPrice = (price) => `${currency}${Number(price).toFixed(2)}`;
   /* =========================================================
-     1. BOGO RULE MODE (Single Row)
-     ========================================================= */
+   1. BOGO RULE MODE (Single Row)
+   ========================================================= */
   if (ruleType === "bogo") {
-    const bogoValues = {
-      DELPRICE: "$3150",
-      PRICE: "$630",
-      XQTY: 1,
+    const shortcodeValues = {
+      original_price: formatPrice(408),
+      discount_price: formatPrice(326.4),
+      del_price: `<del>${formatPrice(408)}</del>`,
+      title: "Product Title",
     };
 
     return (
       <div className="th-offer-style-2">
         <style>{customStyles}</style>
+
         <div className="th-layout-card active" style={parentLayoutStyles}>
           <div className="th-radio-container">
             <div className="th-custom-radio" />
           </div>
 
           <div className="th-card-content">
-            <h4 className="th-card-title">
-              {replaceShortcodes(bogo_offer_title, bogoValues)}
-            </h4>
+            <h4
+              className="th-card-title"
+              style={{ color: heading_color }}
+              dangerouslySetInnerHTML={{
+                __html: replaceShortcodes(bogo_offer_title, shortcodeValues),
+              }}
+            />
+
             <div className="th-content-meta-row">
-              <span className="th-gift-badge">{bogo_badge_text}</span>
+              <span
+                className="th-gift-badge"
+                dangerouslySetInnerHTML={{
+                  __html: replaceShortcodes(bogo_badge_text, shortcodeValues),
+                }}
+              />
             </div>
-            <div className="th-price-info">
-              <span>Price</span>
-              <del>{bogoValues.DELPRICE}</del>
-              <span>{bogoValues.PRICE}</span>
-            </div>
-            <p className="th-card-desc">{bogo_price_text}</p>
+
+            <div
+              className="th-price-info"
+              dangerouslySetInnerHTML={{
+                __html: replaceShortcodes(bogo_price_text, shortcodeValues),
+              }}
+            />
+
+            <p
+              className="th-card-desc"
+              dangerouslySetInnerHTML={{
+                __html: replaceShortcodes(
+                  bogo_short_description,
+                  shortcodeValues,
+                ),
+              }}
+            />
           </div>
         </div>
       </div>
@@ -132,131 +159,185 @@ const Style2 = ({ settings = {}, rule = {} }) => {
    2. BUY X GET Y RULE MODE (Two Default Rows)
    ========================================================= */
   if (ruleType === "buyxgety") {
-    const bxgyValues1 = {
-      DELPRICE: "$2500",
-      PRICE: "$500",
-      XQTY: 3,
-      YQTY: 1,
+    const getDiscountText = () => {
+      switch (reward_type) {
+        case "free_product":
+          return "100% OFF";
+
+        case "discount_percent":
+          return `${discount_value}% OFF`;
+
+        case "discount_fixed":
+          return `-${formatPrice(discount_value)}`;
+
+        case "discount_fixed_price":
+          return formatPrice(discount_value);
+
+        default:
+          return "";
+      }
     };
 
-    const bxgyValues2 = {
-      DELPRICE: "$5000",
-      PRICE: "$1000",
-      XQTY: 5,
-      YQTY: 2,
+    const offer1Values = {
+      original_price_x: formatPrice(408),
+      original_price_y: formatPrice(39.99),
+
+      del_price_x: `<del>${formatPrice(408)}</del>`,
+      del_price_y: `<del>${formatPrice(39.99)}</del>`,
+
+      discount_price: formatPrice(19.99),
+      difference_price: formatPrice(20),
+
+      x_qty: 1,
+      y_qty: 1,
+
+      discount: getDiscountText(),
+
+      title: "Product Title",
     };
+
+    const offer2Values = {
+      original_price_x: formatPrice(408),
+      original_price_y: formatPrice(59.99),
+
+      del_price_x: `<del>${formatPrice(408)}</del>`,
+      del_price_y: `<del>${formatPrice(59.99)}</del>`,
+
+      discount_price: formatPrice(29.99),
+      difference_price: formatPrice(30),
+
+      x_qty: 2,
+      y_qty: 1,
+
+      discount: getDiscountText(),
+
+      title: "Product Title",
+    };
+
+    const renderOffer = (values, active = false) => (
+      <div
+        className={`th-layout-card ${active ? "active" : ""}`}
+        style={{
+          ...parentLayoutStyles,
+          ...(active ? {} : { marginTop: "15px" }),
+        }}
+      >
+        <div className="th-radio-container">
+          <div className="th-custom-radio" />
+        </div>
+
+        <div className="th-gift-image">🎁</div>
+
+        <div className="th-card-content">
+          <h4
+            className="th-card-title"
+            dangerouslySetInnerHTML={{
+              __html: replaceShortcodes(bxgy_offer_title, values),
+            }}
+          />
+
+          <div className="th-content-meta-row">
+            <span
+              className="th-gift-badge"
+              dangerouslySetInnerHTML={{
+                __html: replaceShortcodes(bxgy_badge_text, values),
+              }}
+            />
+          </div>
+
+          <div
+            className="th-price-info"
+            dangerouslySetInnerHTML={{
+              __html: replaceShortcodes(bxgy_price_text, values),
+            }}
+          />
+
+          <p
+            className="th-card-desc"
+            dangerouslySetInnerHTML={{
+              __html: replaceShortcodes(bxgy_short_description, values),
+            }}
+          />
+        </div>
+      </div>
+    );
 
     return (
       <div className="th-offer-style-2">
         <style>{customStyles}</style>
 
-        {/* First Offer */}
-        <div className="th-layout-card active" style={parentLayoutStyles}>
-          <div className="th-radio-container">
-            <div className="th-custom-radio" />
-          </div>
-
-          <div className="th-gift-image">🎁</div>
-
-          <div className="th-card-content">
-            <h4 className="th-card-title">
-              {replaceShortcodes(bxgy_offer_title, bxgyValues1)}
-            </h4>
-
-            <div className="th-content-meta-row">
-              <span className="th-gift-badge">{bxgy_badge_text}</span>
-            </div>
-
-            <div className="th-price-info">
-              <span>Price</span>
-              <del>{bxgyValues1.DELPRICE}</del>
-              <span>Worth {bxgyValues1.PRICE}</span>
-            </div>
-
-            <p className="th-card-desc">{bxgy_short_description}</p>
-          </div>
-        </div>
-
-        {/* Second Offer */}
-        <div
-          className="th-layout-card"
-          style={{
-            ...parentLayoutStyles,
-            marginTop: "15px",
-          }}
-        >
-          <div className="th-radio-container">
-            <div className="th-custom-radio" />
-          </div>
-
-          <div className="th-gift-image">🎁</div>
-
-          <div className="th-card-content">
-            <h4 className="th-card-title">
-              {replaceShortcodes(bxgy_offer_title, bxgyValues2)}
-            </h4>
-
-            <div className="th-content-meta-row">
-              <span className="th-gift-badge">{bxgy_badge_text}</span>
-            </div>
-
-            <div className="th-price-info">
-              <span>Price</span>
-              <del>{bxgyValues2.DELPRICE}</del>
-              <span>Worth {bxgyValues2.PRICE}</span>
-            </div>
-
-            <p className="th-card-desc">{bxgy_short_description}</p>
-          </div>
-        </div>
+        {renderOffer(offer1Values, true)}
+        {renderOffer(offer2Values)}
       </div>
     );
   }
 
   /* =========================================================
-     3. DYNAMIC OFFER MODE (3 Rows List Like image (1).png)
-     ========================================================= */
-  const rows = [
-    {
-      x: 2,
-      y: 2,
-      discount: "20%",
-      price: "$326.40",
-    },
-    {
-      x: 3,
-      y: 4,
-      discount: "40%",
-      price: "$244.80",
-    },
-    {
-      x: 5,
-      y: 8,
-      discount: "60%",
-      price: "$163.20",
-    },
-  ];
+   3. DYNAMIC OFFER MODE
+   ========================================================= */
 
-  const [activeIndex, setActiveIndex] = useState(1); // Row 2 Selected by Default
+  const getTierDiscount = (offer, value) => {
+    switch (offer) {
+      case "percent":
+        return `${value}%`;
+
+      case "fixed":
+        return formatPrice(value);
+
+      case "fixed_price":
+        return formatPrice(value);
+
+      default:
+        return "";
+    }
+  };
+
+  const tiers = rule.quantity_tiers?.length
+    ? rule.quantity_tiers
+    : [
+        {
+          from_qty: 1,
+          to_qty: 5,
+          offer: "percent",
+          value: 20,
+        },
+      ];
+
+  const rows = tiers.map((tier) => ({
+    from_qty: tier.from_qty,
+    to_qty: tier.to_qty,
+    qty: tier.from_qty,
+
+    original_price: formatPrice(408),
+    del_price: `<del>${formatPrice(408)}</del>`,
+
+    discount_price: formatPrice(326.4),
+    difference_price: formatPrice(81.6),
+
+    discount: getTierDiscount(tier.offer, tier.value),
+    del_price: `<del>${formatPrice(408)}</del>`,
+  }));
+
+  const [activeIndex, setActiveIndex] = useState(0);
 
   return (
     <div className="th-offer-style-2">
       <style>{customStyles}</style>
+
       {rows.map((item, i) => {
         const values = {
-          DELPRICE: "$408.00",
-          PRICE: item.price,
-          XQTY: item.x,
-          YQTY: item.y,
-          DISCOUNT: item.discount,
+          from_qty: item.from_qty,
+          to_qty: item.to_qty,
+          qty: item.qty,
+
+          original_price: item.original_price,
+          del_price: item.del_price,
+
+          discount_price: item.discount_price,
+          difference_price: item.difference_price,
+
+          discount: item.discount,
         };
-        const processedPrice = replaceShortcodes(
-          dynamic_price_text,
-          values,
-        ).replace(
-          values.DELPRICE,
-          `<del style="margin-right: 5px;">${values.DELPRICE}</del>`,
-        );
 
         return (
           <div
@@ -265,30 +346,40 @@ const Style2 = ({ settings = {}, rule = {} }) => {
             onClick={() => setActiveIndex(i)}
             style={parentLayoutStyles}
           >
-            {/* {row.isPopular && (
-              <div className="th-popular-ribbon">Most Popular</div>
-            )} */}
             <div className="th-radio-container">
               <div className="th-custom-radio" />
             </div>
 
             <div className="th-card-content">
-              <h4 className="th-card-title">
-                {replaceShortcodes(dynamic_offer_title, values)}
-              </h4>
+              <h4
+                className="th-card-title"
+                dangerouslySetInnerHTML={{
+                  __html: replaceShortcodes(dynamic_offer_title, values),
+                }}
+              />
+
               <div className="th-content-meta-row">
-                <span className="th-gift-badge">
-                  {replaceShortcodes(dynamic_badge_text, values)}
-                </span>
+                <span
+                  className="th-gift-badge"
+                  dangerouslySetInnerHTML={{
+                    __html: replaceShortcodes(dynamic_badge_text, values),
+                  }}
+                />
               </div>
-              <div className="th-price-info">
-                <span dangerouslySetInnerHTML={{ __html: processedPrice }} />
-              </div>
-              <p className="th-card-desc">
-                <p className="th-card-desc">
-                  {replaceShortcodes(dynamic_short_description, values)}
-                </p>
-              </p>
+
+              <div
+                className="th-price-info"
+                dangerouslySetInnerHTML={{
+                  __html: replaceShortcodes(dynamic_price_text, values),
+                }}
+              />
+
+              <p
+                className="th-card-desc"
+                dangerouslySetInnerHTML={{
+                  __html: replaceShortcodes(dynamic_short_description, values),
+                }}
+              />
             </div>
           </div>
         );
@@ -300,8 +391,6 @@ const Style2 = ({ settings = {}, rule = {} }) => {
 /* =========================================================
    COMMON REUSABLE CSS STYLES (Screenshot Matched)
    ========================================================= */
-const customStyles = `
- 
-`;
+const customStyles = ``;
 
 export default Style2;
