@@ -1380,11 +1380,11 @@ export default function SmartOffersRules({
                                     />
                                     <ShortcodeItem
                                       code="{discount}"
-                                      label="Discount (% or Currency)"
+                                      label="Discount amount(% or Currency)"
                                     />
                                     <ShortcodeItem
                                       code="{title}"
-                                      label="Product Title"
+                                      label="Product Title X"
                                     />
                                     <ShortcodeItem
                                       code="{discount_price}"

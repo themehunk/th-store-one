@@ -147,8 +147,18 @@ foreach ($rules as $rule):
 
         // Mapping structural updates for title input text fields
         $heading = str_replace(
-            ['{XQTY}', '{YQTY}', '{x}', '{y}', '{discount}', '{DISCOUNT}', '{product}', '{DELPRICE}', '{PRICE}', '{EACHPRICE}'],
-            [$x, $y, $x, $y, $formatted_discount, $formatted_discount, $product_title, $initial_del_html, $initial_price_html, $initial_each_html],
+            [
+        '{original_price}',
+        '{discount_price}',
+        '{del_price}',
+        '{title}',
+    ],
+            [
+        wp_strip_all_tags($initial_del_html),
+        wp_strip_all_tags($initial_price_html),
+        '<del>' . wp_strip_all_tags($initial_del_html) . '</del>',
+        $product_title,
+    ],
             $heading_raw
         );
 
@@ -158,12 +168,25 @@ foreach ($rules as $rule):
             $auto_selected = true;
         }
 
-        $offer_meta = ($rule_type === 'bogo') ? ($rule['bogo_badge_text'] ?? 'BEST DEAL') : ($rule['bxgy_badge_text'] ?? 'FREE GIFT');
-        //    $offer_meta = str_replace(
-        //        ['{XQTY}', '{YQTY}', '{x}', '{y}', '{discount}', '{DISCOUNT}', '{DELPRICE}', '{PRICE}'],
-        //        [$x, $y, $x, $y, $formatted_discount, $formatted_discount, $initial_del_html, $initial_price_html],
-        //        $offer_meta
-        //    );
+        $offer_meta = $rule_type === 'bogo'
+    ? ($rule['bogo_badge_text'] ?: 'BEST DEAL')
+    : ($rule['bxgy_badge_text'] ?: 'FREE GIFT');
+
+        $offer_meta = str_replace(
+            [
+        '{original_price}',
+        '{discount_price}',
+        '{del_price}',
+        '{title}',
+        ],
+            [
+            wp_strip_all_tags($initial_del_html),
+            wp_strip_all_tags($initial_price_html),
+            '<del>' . wp_strip_all_tags($initial_del_html) . '</del>',
+            $product_title,
+        ],
+            $offer_meta
+        );
 
         $bxgy_price_tpl = $rule['bxgy_price_text'] ?? '{DELPRICE} Worth {PRICE}';
         $bxgy_desc_tpl  = $rule['bxgy_short_description'] ?? '';
@@ -172,15 +195,35 @@ foreach ($rules as $rule):
         $final_price_layout_html = '';
 
         if ($rule_type === 'bogo') {
-            $bogo_price_text = $rule['bogo_price_text'] ?: '';
-            $bogo_del_price  = $r_base; // Default base price for initial quantity
-            $initial_bogo_del_html = wc_price($bogo_del_price);
+            $bogo_price_text = str_replace(
+                [
+        '{original_price}',
+        '{discount_price}',
+        '{del_price}',
+        '{title}',
+    ],
+                [
+        wp_strip_all_tags($initial_del_html),
+        wp_strip_all_tags($initial_price_html),
+        '<del>' . wp_strip_all_tags($initial_del_html) . '</del>',
+        $product_title,
+    ],
+                $rule['bogo_price_text'] ?? ''
+            );
+            $bogo_price_text = $rule['bogo_price_text'] ?? '';
 
-            $final_price_layout_html = '
-        <div class="th-price-wrap">
-            <del>' . $initial_bogo_del_html . '</del>
-            <span>' . esc_html($bogo_price_text) . '</span>
-        </div>';
+            $price_shortcodes = [
+                '{original_price}' => wp_strip_all_tags($initial_del_html),
+                '{discount_price}' => wp_strip_all_tags($initial_price_html),
+                '{del_price}'      => '<del>' . wp_strip_all_tags($initial_del_html) . '</del>',
+                '{title}'          => $product_title,
+            ];
+
+            $final_price_layout_html = str_replace(
+                array_keys($price_shortcodes),
+                array_values($price_shortcodes),
+                $bogo_price_text
+            );
         }
         ?>
 
@@ -258,7 +301,18 @@ foreach ($rules as $rule):
             </div>
              <div class="th-price-content">
                <span class="th-price">
-                    <?php echo $final_price_layout_html; ?>
+                    <?php
+    echo wp_kses(
+        $final_price_layout_html,
+        [
+            'del' => [],
+            'span' => ['class' => true],
+            'strong' => [],
+            'em' => [],
+            'br' => [],
+        ]
+    );
+        ?>
                </span>
              </div>
         </div>
