@@ -7,20 +7,12 @@ if (! defined('ABSPATH')) {
 class Th_Store_One_Inactive_Tab_Frontend
 {
     private $rules = [];
+    private $settings = [];
 
-    public function __construct()
+    public function __construct($settings = [])
     {
-
-        $modules = get_option('th_store_one_module_option', []);
-        if (empty($modules['inactive-tab'])) {
-            return;
-        }
-
-
-        $settings = get_option('th_store_one_module_set', []);
-        if (isset($settings['inactive-tab']['rules'])) {
-            $this->rules = $settings['inactive-tab']['rules'];
-        }
+        $this->settings = $settings;
+        $this->rules = $this->settings['rules'] ?? [];
 
         foreach ($this->rules as $rule) {
 

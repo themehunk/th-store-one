@@ -9,16 +9,15 @@ class Th_Store_One_Smart_Offers
     private $rules = [];
     private $is_running = false;
     private $is_adding_gift = false;
+    private $settings = [];
 
-    public function __construct()
+    public function __construct($settings = [])
     {
-        $this->settings = Th_Store_One_Module_Loader::module_settings('smart-offers');
+        $this->settings = $settings;
         $this->rules = $this->settings['rules'] ?? [];
-
         if (empty($this->rules)) {
             return;
         }
-
         /* =====================================================
            SINGLE PRODUCT PAGE INJECTION
         ===================================================== */

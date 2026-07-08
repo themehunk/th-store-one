@@ -6,21 +6,12 @@ if (! defined('ABSPATH')) {
 class Th_Store_One_Buy_To_List_Frontend
 {
     private $rules = array();
+    private $settings = [];
 
-    public function __construct()
+    public function __construct($settings = [])
     {
-
-        $modules = get_option('th_store_one_module_option', []);
-
-        if (empty($modules['buy-to-list'])) {
-            return;
-        }
-
-        $settings = get_option('th_store_one_module_set', array());
-
-        if (isset($settings['buy-to-list']['rules'])) {
-            $this->rules = $settings['buy-to-list']['rules'];
-        }
+        $this->settings = $settings;
+        $this->rules = $this->settings['rules'] ?? [];
 
         add_action('wp', array( $this, 'register_hooks' ));
         add_action('wp_enqueue_scripts', array( $this, 'add_inline_dynamic_css' ), 20);

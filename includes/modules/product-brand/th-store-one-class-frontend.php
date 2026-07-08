@@ -6,22 +6,11 @@ if (! defined('ABSPATH')) {
 class Th_Store_One_Product_Brand_Frontend
 {
     private $rules = array();
-
-    public function __construct()
+    private $settings = [];
+    public function __construct($settings = [])
     {
-
-        $modules = get_option('th_store_one_module_option', []);
-
-        if (empty($modules['product-brand'])) {
-            return;
-        }
-
-        $settings = get_option('th_store_one_module_set', array());
-
-        if (isset($settings['product-brand']['rules'])) {
-            $this->rules = $settings['product-brand']['rules'];
-        }
-
+        $this->settings = $settings;
+        $this->rules = $this->settings['rules'] ?? [];
         add_action('wp', array( $this, 'register_hooks' ));
         add_action('wp_enqueue_scripts', array( $this, 'add_inline_dynamic_css' ), 20);
         add_action('wp_enqueue_scripts', [ $this, 'enqueue_assets' ]);
