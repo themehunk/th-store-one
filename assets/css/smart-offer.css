@@ -21,6 +21,7 @@
     width: 100%;
     box-sizing: border-box; /* Padding ko width ke andar rakhega */
     flex-wrap: nowrap;     /* Content ko wrap hone se rokega */
+    margin:0!important;
 }
 
 

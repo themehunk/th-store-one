@@ -10,7 +10,7 @@ export default function UniversalBorderControl({
   value = {},
   onChange,
   title = __("Border", "th-store-one"),
-  number = {},
+  number = false,
 }) {
   const border = value || {};
 
