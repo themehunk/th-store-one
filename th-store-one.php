@@ -27,6 +27,8 @@ define('TH_STORE_ONE_PLUGIN_URL', plugin_dir_url(__FILE__));
 // ------------------ Core Loader ------------------.
 require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/class-store-one.php';
 require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/store-one-function.php';
+require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/store-one-module-loader.php';
+
 function th_store_one_run()
 {
     Th_Store_One::get_instance();
@@ -45,91 +47,91 @@ add_action(
         }
     }
 );
-// ------------------ FBT Frontend Loader ------------------.
-add_action(
-    'init',
-    function () {
+// // ------------------ FBT Frontend Loader ------------------.
+// add_action(
+//     'init',
+//     function () {
 
-        $modules = [
+//         $modules = [
 
-            'buy-to-list' => [
-                'file'  => 'includes/modules/buy-to-list/th-store-one-class-frontend.php',
-                'class' => 'Th_Store_One_Buy_To_List_Frontend',
-            ],
+//             'buy-to-list' => [
+//                 'file'  => 'includes/modules/buy-to-list/th-store-one-class-frontend.php',
+//                 'class' => 'Th_Store_One_Buy_To_List_Frontend',
+//             ],
 
-            'quick-social' => [
-                'file'  => 'includes/modules/quick-social/th-store-one-class-frontend.php',
-                'class' => 'Th_Store_One_Quick_Social',
-            ],
+//             'quick-social' => [
+//                 'file'  => 'includes/modules/quick-social/th-store-one-class-frontend.php',
+//                 'class' => 'Th_Store_One_Quick_Social',
+//             ],
 
-            'product-brand' => [
-                'file'  => 'includes/modules/product-brand/th-store-one-class-frontend.php',
-                'class' => 'Th_Store_One_Product_Brand_Frontend',
-            ],
-
-
-            'product-video' => [
-                'file'  => 'includes/modules/product-video/th-store-one-class-frontend.php',
-                'class' => 'TH_Store_One_Product_Video_Frontend',
-            ],
-
-            'sale-notification' => [
-                'file'  => 'includes/modules/sale-notification/th-store-one-class-frontend.php',
-                'class' => 'Th_Store_One_Sale_Notification_Frontend',
-            ],
-
-            'sticky-cart' => [
-                'file'  => 'includes/modules/sticky-cart/th-store-one-class-frontend.php',
-                'class' => 'Th_Store_One_Sticky_Cart_Frontend',
-            ],
-
-            'buynow-button' => [
-                'file'  => 'includes/modules/buynow-button/th-store-one-class-frontend.php',
-                'class' => 'Th_Store_One_Buy_Now_Frontend',
-            ],
-
-            'sale-countdown' => [
-                'file'  => 'includes/modules/sale-countdown/th-store-one-class-frontend.php',
-                'class' => 'Th_Store_One_Sale_Countdown_Frontend',
-            ],
-
-            'recent-view' => [
-                'file'  => 'includes/modules/recent-view/th-store-one-class-frontend.php',
-                'class' => 'Th_Store_One_Recent_View',
-            ],
-            'inactive-tab' => [
-                'file'  => 'includes/modules/Inactive-tab/th-store-one-class-frontend.php',
-                'class' => 'Th_Store_One_Inactive_Tab_Frontend',
-            ],
-            'smart-offers' => [
-                'file'  => 'includes/modules/smart-offers/smart-offer-render.php',
-                'class' => 'Th_Store_One_Smart_Offers',
-            ],
-             'shopable-list' => [
-                'file'  => 'includes/modules/shopable-list/shopable-list-render.php',
-                'class' => 'Th_Store_One_Shopable_List',
-            ],
+//             'product-brand' => [
+//                 'file'  => 'includes/modules/product-brand/th-store-one-class-frontend.php',
+//                 'class' => 'Th_Store_One_Product_Brand_Frontend',
+//             ],
 
 
+//             'product-video' => [
+//                 'file'  => 'includes/modules/product-video/th-store-one-class-frontend.php',
+//                 'class' => 'TH_Store_One_Product_Video_Frontend',
+//             ],
 
-        ];
+//             'sale-notification' => [
+//                 'file'  => 'includes/modules/sale-notification/th-store-one-class-frontend.php',
+//                 'class' => 'Th_Store_One_Sale_Notification_Frontend',
+//             ],
 
-        foreach ($modules as $module) {
+//             'sticky-cart' => [
+//                 'file'  => 'includes/modules/sticky-cart/th-store-one-class-frontend.php',
+//                 'class' => 'Th_Store_One_Sticky_Cart_Frontend',
+//             ],
 
-            $file = TH_STORE_ONE_PLUGIN_DIR . $module['file'];
+//             'buynow-button' => [
+//                 'file'  => 'includes/modules/buynow-button/th-store-one-class-frontend.php',
+//                 'class' => 'Th_Store_One_Buy_Now_Frontend',
+//             ],
 
-            if (file_exists($file)) {
+//             'sale-countdown' => [
+//                 'file'  => 'includes/modules/sale-countdown/th-store-one-class-frontend.php',
+//                 'class' => 'Th_Store_One_Sale_Countdown_Frontend',
+//             ],
 
-                require_once $file;
+//             'recent-view' => [
+//                 'file'  => 'includes/modules/recent-view/th-store-one-class-frontend.php',
+//                 'class' => 'Th_Store_One_Recent_View',
+//             ],
+//             'inactive-tab' => [
+//                 'file'  => 'includes/modules/Inactive-tab/th-store-one-class-frontend.php',
+//                 'class' => 'Th_Store_One_Inactive_Tab_Frontend',
+//             ],
+//             'smart-offers' => [
+//                 'file'  => 'includes/modules/smart-offers/smart-offer-render.php',
+//                 'class' => 'Th_Store_One_Smart_Offers',
+//             ],
+//              'shopable-list' => [
+//                 'file'  => 'includes/modules/shopable-list/shopable-list-render.php',
+//                 'class' => 'Th_Store_One_Shopable_List',
+//             ],
 
-                if (class_exists($module['class'])) {
 
-                    new $module['class']();
-                }
-            }
-        }
-    }
-);
+
+//         ];
+
+//         foreach ($modules as $module) {
+
+//             $file = TH_STORE_ONE_PLUGIN_DIR . $module['file'];
+
+//             if (file_exists($file)) {
+
+//                 require_once $file;
+
+//                 if (class_exists($module['class'])) {
+
+//                     new $module['class']();
+//                 }
+//             }
+//         }
+//     }
+// );
 
 add_action('admin_enqueue_scripts', function () {
     wp_enqueue_media();

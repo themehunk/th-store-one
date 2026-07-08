@@ -48,11 +48,6 @@ jQuery(function ($) {
     if (!selected.length) {
       syncHiddenFields("", "", "");
 
-      // Quantity ko reset karo
-      if (qty !== 1) {
-        $("input.qty").val(1);
-      }
-
       // Original button text restore karo
       if ($button.length) {
         $button.text("Add to Cart");
@@ -247,6 +242,7 @@ jQuery(function ($) {
     if (input.is(":checked")) {
       input.prop("checked", false);
       card.removeClass("offer_select th-card-active");
+      $("input.qty").val(1).trigger("change");
     } else {
       $("input[name='th_offer_select']").prop("checked", false);
       $(".th-offer-card").removeClass("offer_select th-card-active");
