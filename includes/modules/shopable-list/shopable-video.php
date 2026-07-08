@@ -20,7 +20,7 @@ class Th_Store_One_Shopable_List
 
 
         add_shortcode(
-            'th_store_one_shopable_video',
+            'th_store_one_shoppable_video',
             [$this, 'shortcode']
         );
 

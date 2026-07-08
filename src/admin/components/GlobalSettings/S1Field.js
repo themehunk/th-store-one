@@ -42,10 +42,8 @@ export const S1FieldGroup = ({
             )}
           </div>
         </div>
-
-        {description && <p className="s1-field-group-desc">{description}</p>}
       </div>
-
+      {description && <p className="s1-field-group-desc">{description}</p>}
       <div className="s1-field-group-body">{children}</div>
     </div>
   );

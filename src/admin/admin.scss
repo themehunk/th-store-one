@@ -1184,8 +1184,9 @@ button.is-tertiary,
     }
 
     textarea {
-        min-height: 80px;
+        height: 40px;
         resize: vertical;
+        background: #f1f5f9;
     }
 }
 
@@ -1869,7 +1870,7 @@ INPUT
     display: flex;
     align-items: center;
     gap: var(--s1-space-10);
-    width: 73%;
+    width:100%;
 }
 
 /* SLIDER */
@@ -4392,6 +4393,11 @@ transform:translateX(-50%);
     margin:0 0 0.4rem 0;
 }
 
+.s1-field-group-desc{
+    font-size: .75rem;
+    color:#8792a2;
+    margin:1rem 0;
+}
 // selected rule component style
 .s1-rule-selector {
     display: grid;
@@ -4727,4 +4733,14 @@ display: flex;
     display: flex;
     justify-content: center;
     padding: 8px 8px 8px 8px;
+}
+.store-one-rule-item.inner .store-one-rule-header{
+    background: #f1f5f9;
+    padding: 1rem;
+}
+
+.store-one-rule-item.inner .store-one-rule-header .s1-icon {
+    width: 18px;
+    height: 18px;
+    
 }
