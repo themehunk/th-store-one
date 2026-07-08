@@ -45,6 +45,22 @@ jQuery(function ($) {
     const qty = parseInt($("input.qty").val(), 10) || 1;
     const selected = $("input[name='th_offer_select']:checked");
 
+    if (!selected.length) {
+      syncHiddenFields("", "", "");
+
+      // Quantity ko reset karo
+      if (qty !== 1) {
+        $("input.qty").val(1);
+      }
+
+      // Original button text restore karo
+      if ($button.length) {
+        $button.text("Add to Cart");
+      }
+
+      return;
+    }
+
     let basePrice = parseFloat(wrapper.attr("data-base")) || 0;
 
     // LOOP THROUGH ALL CARDS
