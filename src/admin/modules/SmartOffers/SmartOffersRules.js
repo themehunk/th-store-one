@@ -220,12 +220,29 @@ function SortableWrapper({ items, onSortEnd, children }) {
 
   return <div ref={ref}>{children}</div>;
 }
-const ShortcodeItem = ({ code, label }) => (
-  <div className="s1-shortcode-item">
-    <span className="s1-shortcode-key">{code}</span>
-    <span className="s1-shortcode-label">{label}</span>
-  </div>
-);
+const ShortcodeItem = ({ code, label }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(code);
+
+    setCopied(true);
+
+    setTimeout(() => setCopied(false), 1500);
+  };
+
+  return (
+    <div
+      className={`s1-shortcode-item ${copied ? "copied" : ""}`}
+      onClick={handleCopy}
+      title={copied ? "Copied!" : "Click to copy"}
+      style={{ cursor: "pointer" }}
+    >
+      <span className="s1-shortcode-key">{code}</span>
+      <span className="s1-shortcode-label">{copied ? "Copied!" : label}</span>
+    </div>
+  );
+};
 /* ---------------- MAIN ---------------- */
 export default function SmartOffersRules({
   rules,
