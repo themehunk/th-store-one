@@ -12,15 +12,8 @@ class Th_Store_One_Smart_Offers
 
     public function __construct()
     {
-        $modules = get_option('th_store_one_module_option', []);
-
-
-        if (empty($modules['smart-offers'])) {
-            return;
-        }
-
-        $all = get_option('th_store_one_module_set', []);
-        $this->rules = $all['smart-offers']['rules'] ?? [];
+        $this->settings = Th_Store_One_Module_Loader::module_settings('smart-offers');
+        $this->rules = $this->settings['rules'] ?? [];
 
         if (empty($this->rules)) {
             return;
