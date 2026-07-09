@@ -8,16 +8,10 @@ class Th_Store_One_Recent_View
     private $settings = [];
     private static $rendered = [];
 
-    public function __construct()
+    public function __construct($settings = [])
     {
 
-        $modules = get_option('th_store_one_module_option', []);
-        if (empty($modules['recent-view'])) {
-            return;
-        }
-
-        $all = get_option('th_store_one_module_set', []);
-        $this->settings = $all['recent-view'] ?? [];
+        $this->settings = $settings;
 
         if (empty($this->settings)) {
             return;

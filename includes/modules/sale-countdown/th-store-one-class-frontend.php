@@ -8,17 +8,9 @@ class Th_Store_One_Sale_Countdown_Frontend
 {
     private $settings = [];
 
-    public function __construct()
+    public function __construct($settings = [])
     {
-        $modules = get_option('th_store_one_module_option', []);
-
-        if (empty($modules['sale-countdown'])) {
-            return;
-        }
-
-        $all = get_option('th_store_one_module_set', []);
-        $this->settings = $all['sale-countdown'] ?? [];
-
+        $this->settings = $settings;
         add_action('wp', [$this, 'init']);
         add_action('wp_enqueue_scripts', [$this, 'assets']);
     }

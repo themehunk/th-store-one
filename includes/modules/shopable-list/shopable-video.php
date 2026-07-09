@@ -7,17 +7,10 @@ class Th_Store_One_Shopable_List
 {
     private $settings = [];
 
-    public function __construct()
+    public function __construct($settings = [])
     {
-        $modules = get_option('th_store_one_module_option', []);
 
-        if (empty($modules['shopable-list'])) {
-            return;
-        }
-
-        $all = get_option('th_store_one_module_set', []);
-        $this->settings = $all['shopable-list'] ?? [];
-
+        $this->settings = $settings;
 
         add_shortcode(
             'th_store_one_shoppable_video',
