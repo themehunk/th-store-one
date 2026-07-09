@@ -84,7 +84,7 @@ const newSmartOfferRule = () => ({
     {
       id: crypto.randomUUID(),
       from_qty: 1,
-      to_qty: "",
+      to_qty: 2,
       offer: "percent",
       value: 10,
     },
@@ -97,9 +97,9 @@ const newSmartOfferRule = () => ({
   single_placement: "woocommerce_after_add_to_cart_form",
   single_priority: 10,
   // BOGO
-  bogo_offer_title: "Buy One, Get One",
-  bogo_badge_text: "BEST DEAL",
-  bogo_price_text: "{original_price}",
+  bogo_offer_title: "Buy 1, Get 1 FREE",
+  bogo_badge_text: "BOGO Offer",
+  bogo_price_text: "{del_price} {discount_price}",
 
   // BXGY
   bxgy_offer_title: "Buy {x_qty} Products & Get This Gift FREE",
@@ -117,7 +117,7 @@ const newSmartOfferRule = () => ({
   use_shortcode: false,
   devices: ["desktop"],
 
-  crt_page_bogo_text: "SMART OFFER",
+  crt_page_bogo_text: "BOGO Offre",
   crt_page_xy_text: "Special BXGY Offer",
   crt_page_dyn_text: "Dynamic Discount",
   /* ================ STYLE ================= */
@@ -292,9 +292,10 @@ export default function SmartOffersRules({
   };
 
   const toggleOpen = (i) => {
-    const arr = [...rules];
-
-    arr[i].open = !arr[i].open;
+    const arr = rules.map((rule, index) => ({
+      ...rule,
+      open: index === i ? !rule.open : false,
+    }));
 
     updateAll(arr);
 
@@ -336,13 +337,19 @@ export default function SmartOffersRules({
 
   useEffect(() => {
     if (hasInitialized.current) return;
+    if (!rules.length) return;
 
-    if (rules.length > 0) {
+    // Find currently opened rule
+    const activeIndex = rules.findIndex((r) => r.open);
+
+    if (activeIndex !== -1) {
+      onLivePreview?.(rules[activeIndex], activeIndex);
+    } else {
       onLivePreview?.(rules[0], 0);
     }
 
     hasInitialized.current = true;
-  }, []);
+  }, [rules]);
 
   useEffect(() => {
     const handler = (e) => {
@@ -482,36 +489,6 @@ export default function SmartOffersRules({
                           >
                             <S1Field>
                               <div className="th-rule-tabs-wrapper">
-                                {/* <TabPanel
-                                className="th-smart-offers-tab-panel"
-                                activeClass="is-active"
-                                initialTabName={rule.rule_type || "bogo"}
-                                onSelect={(tabName) => {
-                                  updateField(index, "rule_type", tabName);
-                                }}
-                                tabs={[
-                                  {
-                                    name: "bogo",
-                                    title: "Buy X Get X",
-                                  },
-                                  {
-                                    name: "buyxgety",
-                                    title: !licenseActive
-                                      ? "Buy X Get Y (PRO)"
-                                      : "Buy X Get Y",
-                                  },
-                                  {
-                                    name: "dynamicoffer",
-                                    title: !licenseActive
-                                      ? "Dynamic Offer (PRO)"
-                                      : "Dynamic Offer",
-                                  },
-                                ]}
-                              >
-                                {(activeTab) => {
-                                  return null;
-                                }}
-                              </TabPanel> */}
                                 <RuleSelector
                                   value={rule.rule_type}
                                   onChange={(v) =>
