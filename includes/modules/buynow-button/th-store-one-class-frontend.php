@@ -7,18 +7,10 @@ class Th_Store_One_Buy_Now_Frontend
 {
     private $settings = [];
 
-    public function __construct()
+    public function __construct($settings = [])
     {
-        $modules = get_option('th_store_one_module_option', []);
-        if (empty($modules['buynow-button'])) {
-            return;
-        }
-        $all = get_option('th_store_one_module_set', []);
-        $this->settings = $all['buynow-button'] ?? [];
+        $this->settings = $settings;
         $s = $this->settings;
-        if (empty($this->settings)) {
-            return;
-        }
         // SHOP PAGE
         if (!empty($s['enable_shop_page'])) {
             add_action(
