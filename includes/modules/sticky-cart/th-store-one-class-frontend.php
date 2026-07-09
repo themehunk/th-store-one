@@ -7,24 +7,14 @@ class Th_Store_One_Sticky_Cart_Frontend
 {
     private $settings = [];
 
-    public function __construct()
+    public function __construct($settings = [])
     {
-
-        $modules = get_option('th_store_one_module_option', []);
-        if (empty($modules['sticky-cart'])) {
-            return;
-        }
-
-        $all = get_option('th_store_one_module_set', []);
-        $this->settings = $all['sticky-cart'] ?? [];
-
+        $this->settings = $settings;
         if (empty($this->settings)) {
             return;
         }
-
         add_action('wp_footer', [$this, 'render']);
         add_action('wp_enqueue_scripts', [$this, 'assets']);
-
         add_filter('woocommerce_add_to_cart_redirect', [$this, 'th_buy_now_redirect']);
     }
 

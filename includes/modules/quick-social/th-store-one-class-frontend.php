@@ -7,18 +7,14 @@ class Th_Store_One_Quick_Social
 {
     private $rules = array();
     private $current_rule = array();
+    private $settings = [];
 
-    public function __construct()
+    public function __construct($settings = [])
     {
 
-        $modules = get_option('th_store_one_module_option', []);
+        $this->settings = $settings;
+        $this->rules = $this->settings['rules'] ?? [];
 
-        if (empty($modules['quick-social'])) {
-            return;
-        }
-
-        $all_modules = get_option('th_store_one_module_set', array());
-        $this->rules = $all_modules['quick-social']['rules'] ?? array();
         add_action('wp_enqueue_scripts', array( $this, 'enqueue_assets' ));
         add_action('wp_footer', array( $this, 'render_auto' ), 99);
         add_shortcode('th_store_one_quick_social', array( $this, 'shortcode' ));

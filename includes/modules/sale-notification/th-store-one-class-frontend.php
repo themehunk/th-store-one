@@ -7,24 +7,18 @@ class Th_Store_One_Sale_Notification_Frontend
 {
     private $rules = [];
     private $shortcode_rendered_on_page = false;
+    private $settings = [];
 
-    public function __construct()
+    public function __construct($settings = [])
     {
 
-        $modules = get_option('th_store_one_module_option', []);
-        if (empty($modules['sale-notification'])) {
-            return;
-        }
-
-        $all = get_option('th_store_one_module_set', []);
-        $this->rules = $all['sale-notification']['rules'] ?? [];
-
-
-
+        $this->settings = $settings;
+        $this->rules = $this->settings['rules'] ?? [];
 
         if (empty($this->rules)) {
             return;
         }
+
         add_shortcode(
             'th_store_one_sales_notification',
             [$this, 'shortcode_handler']
