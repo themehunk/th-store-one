@@ -144,6 +144,7 @@ Yes, the plugin is translation-ready and supports multiple languages.
 
 == Changelog ==
 = 1.1.5=
+* Updated Module load in front.
 * Added New shotcodes in Smart offer module.
 * Added Backend Style in Smart offer module.
 * Added Product Featured video clickable.
