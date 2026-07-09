@@ -379,13 +379,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // INITIAL RENDER LOGIC
-    // INITIAL RENDER LOGIC
+
     if (allAutoPlay) {
       cards.forEach((card) => {
         const video = card.querySelector(".th-shopable-video");
         const playBtn = card.querySelector(".th-shopable-play");
 
         if (!video) return;
+
+        // Loop enable
+        video.loop = true;
 
         card.classList.add("is-active", "is-playing");
 
@@ -908,7 +911,11 @@ document.addEventListener("DOMContentLoaded", () => {
     products.forEach((product, idx) => {
       html += `
         <div class="product-list-item" data-index="${idx}">
-        ${product.image ? `<img src="${product.image}" class="list-item-thumb">` : ""}
+        ${
+          product.image
+            ? `<img src="${product.image}" class="list-item-thumb">`
+            : ""
+        }
             
             <div style="flex:1;">
                 <p class="product-title">${product.title}</p>
