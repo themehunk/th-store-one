@@ -4732,7 +4732,8 @@ display: flex;
     border-radius: 4px;
     display: flex;
     justify-content: center;
-    padding: 8px 8px 8px 8px;
+    padding: 7px;
+    border: 1.5px solid var(--s1-color-red-border);
 }
 .store-one-rule-item.inner .store-one-rule-header{
     background: #f1f5f9;
