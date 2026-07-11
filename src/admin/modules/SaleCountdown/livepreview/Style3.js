@@ -53,14 +53,32 @@ const Style3 = ({ settings = {} }) => {
 
   const getIcon = () => {
     const map = {
+      gift: "🎁",
       fire: "🔥",
+      flash: "⚡",
+      save: "💰",
+      discount: "🏷️",
+      bogo: "🎉",
+      rocket: "🚀",
+      star: "⭐",
+      trophy: "🏆",
+      gem: "💎",
+      crown: "👑",
       cart: "🛍️",
+      ribbon: "🎀",
+      star2: "🌟",
+      magic: "🪄",
+      money: "💸",
+      package: "📦",
+      clover: "🍀",
+      party: "🥳",
+      dart: "🎯",
       clock: "⏳",
       sad: "😢",
       heart: "❤️",
     };
 
-    return map[settings?.selected_icon] || "🔥";
+    return map[settings?.selected_icon] || null;
   };
 
   return (
@@ -79,7 +97,7 @@ const Style3 = ({ settings = {} }) => {
       {/*TOP MESSAGE */}
       {showMessage && (
         <div style={{ marginBottom: "12px", fontWeight: 500 }}>
-          <span className="s1-msg-icon">{getIcon()}</span>
+          {getIcon() && <span className="s1-msg-icon">{getIcon()}</span>}
           Hurry! Only few left in stock
         </div>
       )}

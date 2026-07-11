@@ -256,12 +256,88 @@ const STYLE_DEFAULTS = {
 };
 const COUNT_ICON_OPTIONS = [
   {
+    id: "none",
+    icon: <span>🚫</span>,
+  },
+  {
+    id: "gift",
+    icon: <span>🎁</span>,
+  },
+  {
     id: "fire",
     icon: <span>🔥</span>,
   },
   {
+    id: "flash",
+    icon: <span>⚡</span>,
+  },
+  {
+    id: "save",
+    icon: <span>💰</span>,
+  },
+  {
+    id: "discount",
+    icon: <span>🏷️</span>,
+  },
+  {
+    id: "bogo",
+    icon: <span>🎉</span>,
+  },
+  {
+    id: "rocket",
+    icon: <span>🚀</span>,
+  },
+  {
+    id: "star",
+    icon: <span>⭐</span>,
+  },
+  {
+    id: "trophy",
+    icon: <span>🏆</span>,
+  },
+  {
+    id: "gem",
+    icon: <span>💎</span>,
+  },
+  {
+    id: "crown",
+    icon: <span>👑</span>,
+  },
+  {
     id: "cart",
     icon: <span>🛍️</span>,
+  },
+  {
+    id: "ribbon",
+    icon: <span>🎀</span>,
+  },
+  {
+    id: "star2",
+    icon: <span>🌟</span>,
+  },
+  {
+    id: "magic",
+    icon: <span>🪄</span>,
+  },
+  {
+    id: "money",
+    icon: <span>💸</span>,
+  },
+  {
+    id: "package",
+    icon: <span>📦</span>,
+  },
+  {
+    id: "clover",
+    icon: <span>🍀</span>,
+  },
+  {
+    id: "party",
+    icon: <span>🥳</span>,
+  },
+  {
+    id: "dart",
+    icon: <span>🎯</span>,
   },
   {
     id: "clock",

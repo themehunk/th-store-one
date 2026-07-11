@@ -52,6 +52,36 @@ if ($percent <= 0 && $has_product_stock && ($sold + $remaining) > 0) {
     $total = $sold + $remaining;
     $percent = ($sold / $total) * 100;
 }
+
+$icon_map = [
+    'none'     => '',
+    'gift'     => '🎁',
+    'fire'     => '🔥',
+    'flash'    => '⚡',
+    'save'     => '💰',
+    'discount' => '🏷️',
+    'bogo'     => '🎉',
+    'rocket'   => '🚀',
+    'star'     => '⭐',
+    'trophy'   => '🏆',
+    'gem'      => '💎',
+    'crown'    => '👑',
+    'cart'     => '🛍️',
+    'ribbon'   => '🎀',
+    'star2'    => '🌟',
+    'magic'    => '🪄',
+    'money'    => '💸',
+    'package'  => '📦',
+    'clover'   => '🍀',
+    'party'    => '🥳',
+    'dart'     => '🎯',
+    'clock'    => '⏳',
+    'sad'      => '😢',
+    'heart'    => '❤️',
+];
+
+$selected_icon = $settings['selected_icon'] ?? 'none';
+$icon = $icon_map[$selected_icon] ?? '';
 ?>
 
 <div class="th-cd th-ac th-ac3 s1-align-<?php echo esc_attr($align); ?>"
@@ -66,7 +96,9 @@ if ($percent <= 0 && $has_product_stock && ($sold + $remaining) > 0) {
   <!-- MESSAGE -->
   <?php if ($show_msg) : ?>
     <div class="th-msg" style="margin-bottom:8px; color: <?php echo esc_attr($text); ?>;">
-      <?php echo esc_html($msg); ?>
+      <?php if (!empty($icon)) : ?>
+        <span class="th-msg-icon"><?php echo esc_html($icon); ?></span>
+    <?php endif; ?> <?php echo esc_html($msg); ?>
     </div>
   <?php endif; ?>
 

@@ -398,17 +398,19 @@ font-size:12px;
   .th-sticky-cart .th-btn {
     padding: 0;
             height: 35px;
-        width: 110px;
+        width: 120px;
     font-weight: 600;
-    font-size: 14px;border-radius: 5px;
+    font-size: 14px;
+    border-radius: 5px;
+    letter-spacing: normal;
   }
     .th-sticky-cart .th-title {
     font-size: 0.89rem;}
     .th-sticky-cart .th-price {
     font-size: 0.78rem;}
     .th-sticky-cart .th-thumb img {
-    width: 55px;
-    height: 55px;
+    width: 50px;
+    height: 50px;
     }
     .s1-offer-banner {
     font-size: 0.89rem;

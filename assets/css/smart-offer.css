@@ -230,7 +230,7 @@ display: flex;
     flex-shrink: 0;
 }
 
-.th-price {
+.th-offer-wrp .th-price {
     font-size: 13px;
     font-weight: 600;
     color: #111827;
@@ -238,13 +238,13 @@ display: flex;
     text-align: right;
 }
 
-.th-price del {
+.th-offer-wrp .th-price del {
     font-size: 13px;
     color: #9ca3af;
     margin-right: 4px;
 }
 
-.th-price strong {
+.th-offer-wrp .th-price strong {
     font-size: 13px;
     line-height: 1;
     font-weight: 800;

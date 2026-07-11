@@ -74,20 +74,51 @@ $border_css = sprintf(
     esc_attr($br['bottom'] ?? '0px'),
     esc_attr($br['left'] ?? '0px')
 );
+
+$icon_map = [
+    'none'     => '',
+    'gift'     => '🎁',
+    'fire'     => '🔥',
+    'flash'    => '⚡',
+    'save'     => '💰',
+    'discount' => '🏷️',
+    'bogo'     => '🎉',
+    'rocket'   => '🚀',
+    'star'     => '⭐',
+    'trophy'   => '🏆',
+    'gem'      => '💎',
+    'crown'    => '👑',
+    'cart'     => '🛍️',
+    'ribbon'   => '🎀',
+    'star2'    => '🌟',
+    'magic'    => '🪄',
+    'money'    => '💸',
+    'package'  => '📦',
+    'clover'   => '🍀',
+    'party'    => '🥳',
+    'dart'     => '🎯',
+    'clock'    => '⏳',
+    'sad'      => '😢',
+    'heart'    => '❤️',
+];
+
+$selected_icon = $settings['selected_icon'] ?? 'none';
+$icon = $icon_map[$selected_icon] ?? '';
 ?>
 
 <div class="th-cd th-style1 s1-align-<?php echo esc_attr($align); ?>"
      data-start="<?php echo $start; ?>" 
      data-end="<?php echo $end; ?>"
      data-server-now="<?php echo esc_attr(time()); ?>"
-     
      data-expire-action="<?php echo esc_attr($settings['countdown_expire_action'] ?? 'hide'); ?>"
      data-expire-msg="<?php echo esc_attr($settings['expire_message'] ?? 'Offer expired'); ?>"
      style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>; <?php echo esc_attr($border_css); ?>; padding: <?php echo esc_attr("$pad_top $pad_right $pad_bottom $pad_left"); ?>;">
 
   <?php if ($show_msg && $msg) : ?>
     <div class="th-msg" style="color: <?php echo esc_attr($text); ?>;">
-      <?php echo esc_html($msg); ?>
+      <?php if (!empty($icon)) : ?>
+        <span class="th-msg-icon"><?php echo esc_html($icon); ?></span>
+    <?php endif; ?> <?php echo esc_html($msg); ?>
     </div>
   <?php endif; ?>
 

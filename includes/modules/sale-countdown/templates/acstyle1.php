@@ -52,6 +52,36 @@ if ($percent <= 0 && ($sold + $remaining) > 0) {
     $total = $sold + $remaining;
     $percent = ($sold / $total) * 100;
 }
+
+$icon_map = [
+    'none'     => '',
+    'gift'     => '🎁',
+    'fire'     => '🔥',
+    'flash'    => '⚡',
+    'save'     => '💰',
+    'discount' => '🏷️',
+    'bogo'     => '🎉',
+    'rocket'   => '🚀',
+    'star'     => '⭐',
+    'trophy'   => '🏆',
+    'gem'      => '💎',
+    'crown'    => '👑',
+    'cart'     => '🛍️',
+    'ribbon'   => '🎀',
+    'star2'    => '🌟',
+    'magic'    => '🪄',
+    'money'    => '💸',
+    'package'  => '📦',
+    'clover'   => '🍀',
+    'party'    => '🥳',
+    'dart'     => '🎯',
+    'clock'    => '⏳',
+    'sad'      => '😢',
+    'heart'    => '❤️',
+];
+
+$selected_icon = $settings['selected_icon'] ?? 'none';
+$icon = $icon_map[$selected_icon] ?? '';
 ?>
 
 <div class="th-cd th-ac th-ac1 s1-align-<?php echo esc_attr($align); ?>"
@@ -68,13 +98,9 @@ if ($percent <= 0 && ($sold + $remaining) > 0) {
   <?php if ($show_msg) : ?>
     <div class="th-msg" style="font-size:14px;display:flex; justify-content:<?php echo esc_attr($align); ?>; align-items:center; gap:6px; color: <?php echo esc_attr($text); ?>;">
 
-      <!-- ICON -->
-      <span class="th-icon">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-          <circle cx="12" cy="12" r="10" stroke="<?php echo esc_attr($text); ?>" stroke-width="2"/>
-          <path d="M12 6v6l4 2" stroke="<?php echo esc_attr($text); ?>" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </span>
+      <?php if (!empty($icon)) : ?>
+        <span class="th-msg-icon"><?php echo esc_html($icon); ?></span>
+    <?php endif; ?>
 
       <?php echo esc_html($msg); ?>
     </div>

@@ -34,7 +34,35 @@ const ArchiveStyle2 = ({ settings = {} }) => {
     const i = setInterval(() => setTime(getTime()), 1000);
     return () => clearInterval(i);
   }, []);
+  const getIcon = () => {
+    const map = {
+      gift: "🎁",
+      fire: "🔥",
+      flash: "⚡",
+      save: "💰",
+      discount: "🏷️",
+      bogo: "🎉",
+      rocket: "🚀",
+      star: "⭐",
+      trophy: "🏆",
+      gem: "💎",
+      crown: "👑",
+      cart: "🛍️",
+      ribbon: "🎀",
+      star2: "🌟",
+      magic: "🪄",
+      money: "💸",
+      package: "📦",
+      clover: "🍀",
+      party: "🥳",
+      dart: "🎯",
+      clock: "⏳",
+      sad: "😢",
+      heart: "❤️",
+    };
 
+    return map[settings?.selected_icon] || null;
+  };
   return (
     <div
       className={`s1-ac-style2 s1-align-${alignment}`}
@@ -48,7 +76,8 @@ const ArchiveStyle2 = ({ settings = {} }) => {
       {/* MESSAGE */}
       {showMessage && (
         <div className="s1-ac2-msg" style={{ color: text }}>
-          Hurry! Only few left
+          {getIcon() && <span className="s1-msg-icon">{getIcon()}</span>}Hurry!
+          Only few left
         </div>
       )}
 

@@ -49,6 +49,37 @@ $border_css = sprintf(
 );
 
 $msg = $settings['sale_message'] ?? 'Hurry Up! Sale ends in:';
+
+$icon_map = [
+    'none'     => '',
+    'gift'     => '🎁',
+    'fire'     => '🔥',
+    'flash'    => '⚡',
+    'save'     => '💰',
+    'discount' => '🏷️',
+    'bogo'     => '🎉',
+    'rocket'   => '🚀',
+    'star'     => '⭐',
+    'trophy'   => '🏆',
+    'gem'      => '💎',
+    'crown'    => '👑',
+    'cart'     => '🛍️',
+    'ribbon'   => '🎀',
+    'star2'    => '🌟',
+    'magic'    => '🪄',
+    'money'    => '💸',
+    'package'  => '📦',
+    'clover'   => '🍀',
+    'party'    => '🥳',
+    'dart'     => '🎯',
+    'clock'    => '⏳',
+    'sad'      => '😢',
+    'heart'    => '❤️',
+];
+
+$selected_icon = $settings['selected_icon'] ?? 'none';
+$icon = $icon_map[$selected_icon] ?? '';
+
 ?>
 
 <div
@@ -70,7 +101,9 @@ $msg = $settings['sale_message'] ?? 'Hurry Up! Sale ends in:';
         class="s1-style5-title"
         style="color: <?php echo esc_attr($text); ?>; "
     >
-        🔥 <?php echo esc_html($msg); ?>
+       <?php if (!empty($icon)) : ?>
+        <span class="th-msg-icon"><?php echo esc_html($icon); ?></span>
+    <?php endif; ?> <?php echo esc_html($msg); ?>
     </div>
 
     <div
