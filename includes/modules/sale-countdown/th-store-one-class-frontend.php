@@ -191,3 +191,38 @@ class Th_Store_One_Sale_Countdown_Frontend
         return $hooks[$pos] ?? 'woocommerce_after_shop_loop_item';
     }
 }
+
+
+if (! function_exists('th_store_one_get_countdown_icon')) {
+    function th_store_one_get_countdown_icon($icon = 'none')
+    {
+        $icons = [
+            'none'     => '',
+            'gift'     => '🎁',
+            'fire'     => '🔥',
+            'flash'    => '⚡',
+            'save'     => '💰',
+            'discount' => '🏷️',
+            'bogo'     => '🎉',
+            'rocket'   => '🚀',
+            'star'     => '⭐',
+            'trophy'   => '🏆',
+            'gem'      => '💎',
+            'crown'    => '👑',
+            'cart'     => '🛍️',
+            'ribbon'   => '🎀',
+            'star2'    => '🌟',
+            'magic'    => '🪄',
+            'money'    => '💸',
+            'package'  => '📦',
+            'clover'   => '🍀',
+            'party'    => '🥳',
+            'dart'     => '🎯',
+            'clock'    => '⏳',
+            'sad'      => '😢',
+            'heart'    => '❤️',
+        ];
+
+        return $icons[$icon] ?? '';
+    }
+}

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "@wordpress/element";
-
+import { getCountdownIcon } from "./countdownHelpers";
 const ArchiveStyle3 = ({ settings = {} }) => {
   const alignment = settings?.alignmentArchive || "center";
   const bg = settings?.archive_bg_color || "#fff";
@@ -35,35 +35,7 @@ const ArchiveStyle3 = ({ settings = {} }) => {
     const i = setInterval(() => setTime(getTime()), 1000);
     return () => clearInterval(i);
   }, []);
-  const getIcon = () => {
-    const map = {
-      gift: "🎁",
-      fire: "🔥",
-      flash: "⚡",
-      save: "💰",
-      discount: "🏷️",
-      bogo: "🎉",
-      rocket: "🚀",
-      star: "⭐",
-      trophy: "🏆",
-      gem: "💎",
-      crown: "👑",
-      cart: "🛍️",
-      ribbon: "🎀",
-      star2: "🌟",
-      magic: "🪄",
-      money: "💸",
-      package: "📦",
-      clover: "🍀",
-      party: "🥳",
-      dart: "🎯",
-      clock: "⏳",
-      sad: "😢",
-      heart: "❤️",
-    };
-
-    return map[settings?.selected_icon] || null;
-  };
+  const icon = getCountdownIcon(settings?.selected_icon);
   return (
     <div
       className={`s1-ac-style3 s1-align-${alignment}`}
@@ -80,8 +52,8 @@ const ArchiveStyle3 = ({ settings = {} }) => {
           className="s1-ac3-msg"
           style={{ marginBottom: "8px", color: text }}
         >
-          {getIcon() && <span className="s1-msg-icon">{getIcon()}</span>}Hurry!
-          Only few left
+          {icon && <span className="s1-msg-icon">{icon}</span>}Hurry! Only few
+          left
         </div>
       )}
 

@@ -283,9 +283,7 @@ foreach ($rules as $rule):
     >
     <span class="th-radio-mark" style="--th-radio-color:<?php echo esc_attr($rule['highlight_color'] ?? '#11'); ?>;"></span>
    
-            <?php if ($rule_type === 'bogo') {
-                echo '🎉';
-            } ?>
+           
     <div class="th-offer-content">
             <div class="th-offer-header">
                <h4 class="th-offer-title">

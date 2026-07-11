@@ -80,7 +80,7 @@ const DEFAULT_SETTINGS = {
   archive_sold_bar_bg_color: "#229fd8",
   archive_font_size: "11px",
   alignmentArchive: "center",
-  alignmentSingle: "left",
+  alignmentSingle: "center",
 
   border: {
     width: {

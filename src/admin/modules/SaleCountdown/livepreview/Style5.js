@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "@wordpress/element";
-
+import { getCountdownIcon } from "./countdownHelpers";
 const Style5 = ({ settings = {} }) => {
   const alignment = settings?.alignmentSingle || "center";
   const bg = settings?.single_bg_color || "#faeceb";
@@ -44,35 +44,7 @@ const Style5 = ({ settings = {} }) => {
     return () => clearInterval(i);
   }, []);
 
-  const getIcon = () => {
-    const map = {
-      gift: "🎁",
-      fire: "🔥",
-      flash: "⚡",
-      save: "💰",
-      discount: "🏷️",
-      bogo: "🎉",
-      rocket: "🚀",
-      star: "⭐",
-      trophy: "🏆",
-      gem: "💎",
-      crown: "👑",
-      cart: "🛍️",
-      ribbon: "🎀",
-      star2: "🌟",
-      magic: "🪄",
-      money: "💸",
-      package: "📦",
-      clover: "🍀",
-      party: "🥳",
-      dart: "🎯",
-      clock: "⏳",
-      sad: "😢",
-      heart: "❤️",
-    };
-
-    return map[settings?.selected_icon] || null;
-  };
+  const icon = getCountdownIcon(settings?.selected_icon);
 
   return (
     <div
@@ -93,7 +65,7 @@ const Style5 = ({ settings = {} }) => {
           color: text,
         }}
       >
-        {getIcon() && <span className="s1-msg-icon">{getIcon()}</span>}{" "}
+        {icon && <span className="s1-msg-icon">{icon}</span>}{" "}
         {settings?.sale_message || "Hurry Up! Sale ends in:"}
       </div>
 

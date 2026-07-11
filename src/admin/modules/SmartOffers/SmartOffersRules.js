@@ -97,7 +97,7 @@ const newSmartOfferRule = () => ({
   single_placement: "woocommerce_after_add_to_cart_form",
   single_priority: 10,
   // BOGO
-  bogo_offer_title: "Buy 1, Get 1 FREE",
+  bogo_offer_title: "🎉 Buy 1, Get 1 FREE",
   bogo_badge_text: "BOGO Offer",
   bogo_price_text: "{del_price} {discount_price}",
 

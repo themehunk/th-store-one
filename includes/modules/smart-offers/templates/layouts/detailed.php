@@ -285,9 +285,7 @@ foreach ($rules as $rule):
     <div class="th-offer-content">
         <div class="th-offer-left">
            
-            <?php if ($rule_type === 'bogo') {
-                echo '🎉';
-            } ?>
+           
             <h4 class="th-offer-title">
                 <?php echo wp_kses_post($heading); ?>
             </h4>

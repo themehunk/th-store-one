@@ -137,7 +137,7 @@ const Style1 = ({ settings = {}, rule = {} }) => {
                 color: heading_color,
               }}
               dangerouslySetInnerHTML={{
-                __html: `🎉 ${replaceShortcodes(
+                __html: `${replaceShortcodes(
                   bogo_offer_title,
                   shortcodeValues,
                 )}`,

@@ -35,7 +35,9 @@ const Style2 = ({ settings = {} }) => {
   const products = Number(s?.products || 6);
 
   const productInfoPosition = s?.product_info_position || "bottom";
+  const currency = th_StoreOneAdmin?.currency_symbol || "$";
 
+  const formatPrice = (price) => `${currency}${Number(price).toFixed(2)}`;
   /* SKELETON CARD */
   const SkeletonCard = () => (
     <div className="s1-shopable-card">
@@ -119,7 +121,7 @@ const Style2 = ({ settings = {} }) => {
                   color: s?.prd_price_color || "#111",
                 }}
               >
-                ₹299
+                {formatPrice(299)}
               </div>
             </div>
 
