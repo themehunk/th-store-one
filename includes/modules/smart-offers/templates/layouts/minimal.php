@@ -16,11 +16,13 @@ if ($product->is_type('variable')) {
     $default_attributes = $product->get_default_attributes();
     $variation_id = 0;
 
-    if (!empty($default_attributes)) {
-        $variation_data = wc_get_matching_product_variation($product, $default_attributes);
-        if ($variation_data) {
-            $variation_id = $variation_data;
-        }
+    if (! empty($default_attributes)) {
+        $data_store = WC_Data_Store::load('product');
+
+        $variation_id = $data_store->find_matching_product_variation(
+            $product,
+            $default_attributes
+        );
     }
 
     if ($variation_id) {
