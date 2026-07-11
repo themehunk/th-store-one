@@ -58,14 +58,32 @@ const Style1 = ({ settings }) => {
 
   const getIcon = () => {
     const map = {
+      gift: "🎁",
       fire: "🔥",
+      flash: "⚡",
+      save: "💰",
+      discount: "🏷️",
+      bogo: "🎉",
+      rocket: "🚀",
+      star: "⭐",
+      trophy: "🏆",
+      gem: "💎",
+      crown: "👑",
       cart: "🛍️",
+      ribbon: "🎀",
+      star2: "🌟",
+      magic: "🪄",
+      money: "💸",
+      package: "📦",
+      clover: "🍀",
+      party: "🥳",
+      dart: "🎯",
       clock: "⏳",
       sad: "😢",
       heart: "❤️",
     };
 
-    return map[settings?.selected_icon] || "🔥";
+    return map[settings?.selected_icon] || null;
   };
 
   return (
@@ -83,7 +101,7 @@ const Style1 = ({ settings }) => {
       {/* 1. SHOW MESSAGE CONTROL */}
       {showMessage && (
         <div className="s1-top" style={{ color: text }}>
-          <span className="s1-msg-icon">{getIcon()}</span>
+          {getIcon() && <span className="s1-msg-icon">{getIcon()}</span>}
           {saleMessage}
         </div>
       )}

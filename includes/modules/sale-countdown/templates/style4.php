@@ -79,6 +79,36 @@ $border_css = sprintf(
     esc_attr($br['bottom'] ?? '0px'),
     esc_attr($br['left'] ?? '0px')
 );
+
+$icon_map = [
+    'none'     => '',
+    'gift'     => '🎁',
+    'fire'     => '🔥',
+    'flash'    => '⚡',
+    'save'     => '💰',
+    'discount' => '🏷️',
+    'bogo'     => '🎉',
+    'rocket'   => '🚀',
+    'star'     => '⭐',
+    'trophy'   => '🏆',
+    'gem'      => '💎',
+    'crown'    => '👑',
+    'cart'     => '🛍️',
+    'ribbon'   => '🎀',
+    'star2'    => '🌟',
+    'magic'    => '🪄',
+    'money'    => '💸',
+    'package'  => '📦',
+    'clover'   => '🍀',
+    'party'    => '🥳',
+    'dart'     => '🎯',
+    'clock'    => '⏳',
+    'sad'      => '😢',
+    'heart'    => '❤️',
+];
+
+$selected_icon = $settings['selected_icon'] ?? 'none';
+$icon = $icon_map[$selected_icon] ?? '';
 ?>
 
 <div class="th-cd s4-style s4-align-<?php echo esc_attr($align); ?>"
@@ -92,7 +122,9 @@ $border_css = sprintf(
 
   <?php if ($show_msg && $msg) : ?>
     <div class="s4-message" style="color: <?php echo esc_attr($text); ?>; margin-bottom: 14px; font-size: 14px; font-weight: 500;">
-      <?php echo esc_html($msg); ?>
+       <?php if (!empty($icon)) : ?>
+        <span class="th-msg-icon"><?php echo esc_html($icon); ?></span>
+    <?php endif; ?> <?php echo esc_html($msg); ?>
     </div>
   <?php endif; ?>
 

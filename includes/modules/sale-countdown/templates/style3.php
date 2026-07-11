@@ -84,6 +84,36 @@ $pad_bottom = th_store_one_with_unit(
 $pad_left = th_store_one_with_unit(
     $padding['left'] ?? '0px'
 );
+
+$icon_map = [
+    'none'     => '',
+    'gift'     => '🎁',
+    'fire'     => '🔥',
+    'flash'    => '⚡',
+    'save'     => '💰',
+    'discount' => '🏷️',
+    'bogo'     => '🎉',
+    'rocket'   => '🚀',
+    'star'     => '⭐',
+    'trophy'   => '🏆',
+    'gem'      => '💎',
+    'crown'    => '👑',
+    'cart'     => '🛍️',
+    'ribbon'   => '🎀',
+    'star2'    => '🌟',
+    'magic'    => '🪄',
+    'money'    => '💸',
+    'package'  => '📦',
+    'clover'   => '🍀',
+    'party'    => '🥳',
+    'dart'     => '🎯',
+    'clock'    => '⏳',
+    'sad'      => '😢',
+    'heart'    => '❤️',
+];
+
+$selected_icon = $settings['selected_icon'] ?? 'none';
+$icon = $icon_map[$selected_icon] ?? '';
 ?>
 
 <div class="th-cd th-style3 s1-align-<?php echo esc_attr($align); ?>"
@@ -98,7 +128,9 @@ $pad_left = th_store_one_with_unit(
   <!-- MESSAGE -->
   <?php if ($show_msg && !empty($msg)) : ?>
     <div class="th-msg" style="color: <?php echo esc_attr($text); ?>;">
-      <?php echo esc_html($msg); ?>
+      <?php if (!empty($icon)) : ?>
+        <span class="th-msg-icon"><?php echo esc_html($icon); ?></span>
+    <?php endif; ?> <?php echo esc_html($msg); ?>
     </div>
   <?php endif; ?>
 

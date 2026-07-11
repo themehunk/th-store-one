@@ -36,6 +36,35 @@ const ArchiveStyle1 = ({ settings = {} }) => {
     return () => clearInterval(i);
   }, []);
 
+  const getIcon = () => {
+    const map = {
+      gift: "🎁",
+      fire: "🔥",
+      flash: "⚡",
+      save: "💰",
+      discount: "🏷️",
+      bogo: "🎉",
+      rocket: "🚀",
+      star: "⭐",
+      trophy: "🏆",
+      gem: "💎",
+      crown: "👑",
+      cart: "🛍️",
+      ribbon: "🎀",
+      star2: "🌟",
+      magic: "🪄",
+      money: "💸",
+      package: "📦",
+      clover: "🍀",
+      party: "🥳",
+      dart: "🎯",
+      clock: "⏳",
+      sad: "😢",
+      heart: "❤️",
+    };
+
+    return map[settings?.selected_icon] || null;
+  };
   return (
     <div
       className={`s1-ac-style1 s1-align-${alignment}`}
@@ -49,18 +78,8 @@ const ArchiveStyle1 = ({ settings = {} }) => {
       {/* MESSAGE */}
       {showMessage && (
         <div className="s1-ac-msg" style={{ color: text }}>
-          <span className="th-icon">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="10" stroke={text} strokeWidth="2" />
-              <path
-                d="M12 6v6l4 2"
-                stroke={text}
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
-          </span>{" "}
-          Hurry! Only few left
+          {getIcon() && <span className="s1-msg-icon">{getIcon()}</span>}Hurry!
+          Only few left
         </div>
       )}
 

@@ -20,7 +20,7 @@ if (! defined('ABSPATH')) {
     exit;
 }
 // ------------------ Constants ------------------.
-define('TH_STORE_ONE_VERSION', '1.1.6');
+define('TH_STORE_ONE_VERSION', '1.1.7');
 define('TH_STORE_ONE_PLUGIN_FILE', __FILE__);
 define('TH_STORE_ONE_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('TH_STORE_ONE_PLUGIN_URL', plugin_dir_url(__FILE__));
