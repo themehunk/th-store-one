@@ -581,6 +581,7 @@ class Th_Store_One_Sale_Notification_Frontend
                     'time'    => $fake['fakeTime'] ?? '',
 
                     'image' => wp_get_attachment_image_url($product->get_image_id(), 'thumbnail'),
+                    'product_id' => $pid,
                 ];
             }
             /* ================= CUSTOM PRODUCT ================= */ else {

@@ -145,12 +145,13 @@ Yes, the plugin is translation-ready and supports multiple languages.
 == Changelog ==
 = 1.1.6=
 * Added Plugin Deactivated functionlity.
+* Fixed Sales notification link and add fake list issue.
 * Fixed Smart Offer variation product to show critical error.
 * Fixed Smart Offer and Preorder addon competibilty.
 
 
 = 1.1.5=
-* Updated Sale Countdown added icon 
+* Updated Sale Countdown added icon
 * Fixed Shoppable video all auto play 
 * Updated Module load in front.
 * Added New shotcodes in Smart offer module.
