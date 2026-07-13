@@ -4,7 +4,7 @@ Author URI: : https://www.themehunk.com/
 Tags: woocommerce extensions, woocommerce addons, store one
 Requires at least: 5.5 
 Tested up to: 7.0
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 Requires PHP: 7.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -143,6 +143,12 @@ It is compatible with all [ThemeHunk themes](https://themehunk.com/free-themes/)
 Yes, the plugin is translation-ready and supports multiple languages.
 
 == Changelog ==
+= 1.1.6=
+* Added Plugin Deactivated functionlity.
+* Fixed Smart Offer variation product to show critical error.
+* Fixed Smart Offer and Preorder addon competibilty.
+
+
 = 1.1.5=
 * Updated Sale Countdown added icon 
 * Fixed Shoppable video all auto play 
