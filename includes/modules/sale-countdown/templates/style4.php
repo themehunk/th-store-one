@@ -80,35 +80,9 @@ $border_css = sprintf(
     esc_attr($br['left'] ?? '0px')
 );
 
-$icon_map = [
-    'none'     => '',
-    'gift'     => '🎁',
-    'fire'     => '🔥',
-    'flash'    => '⚡',
-    'save'     => '💰',
-    'discount' => '🏷️',
-    'bogo'     => '🎉',
-    'rocket'   => '🚀',
-    'star'     => '⭐',
-    'trophy'   => '🏆',
-    'gem'      => '💎',
-    'crown'    => '👑',
-    'cart'     => '🛍️',
-    'ribbon'   => '🎀',
-    'star2'    => '🌟',
-    'magic'    => '🪄',
-    'money'    => '💸',
-    'package'  => '📦',
-    'clover'   => '🍀',
-    'party'    => '🥳',
-    'dart'     => '🎯',
-    'clock'    => '⏳',
-    'sad'      => '😢',
-    'heart'    => '❤️',
-];
-
-$selected_icon = $settings['selected_icon'] ?? 'none';
-$icon = $icon_map[$selected_icon] ?? '';
+$icon = th_store_one_get_countdown_icon(
+    $settings['selected_icon'] ?? 'none'
+);
 ?>
 
 <div class="th-cd s4-style s4-align-<?php echo esc_attr($align); ?>"

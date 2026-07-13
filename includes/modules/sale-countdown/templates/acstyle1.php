@@ -53,35 +53,9 @@ if ($percent <= 0 && ($sold + $remaining) > 0) {
     $percent = ($sold / $total) * 100;
 }
 
-$icon_map = [
-    'none'     => '',
-    'gift'     => '🎁',
-    'fire'     => '🔥',
-    'flash'    => '⚡',
-    'save'     => '💰',
-    'discount' => '🏷️',
-    'bogo'     => '🎉',
-    'rocket'   => '🚀',
-    'star'     => '⭐',
-    'trophy'   => '🏆',
-    'gem'      => '💎',
-    'crown'    => '👑',
-    'cart'     => '🛍️',
-    'ribbon'   => '🎀',
-    'star2'    => '🌟',
-    'magic'    => '🪄',
-    'money'    => '💸',
-    'package'  => '📦',
-    'clover'   => '🍀',
-    'party'    => '🥳',
-    'dart'     => '🎯',
-    'clock'    => '⏳',
-    'sad'      => '😢',
-    'heart'    => '❤️',
-];
-
-$selected_icon = $settings['selected_icon'] ?? 'none';
-$icon = $icon_map[$selected_icon] ?? '';
+$icon = th_store_one_get_countdown_icon(
+    $settings['selected_icon'] ?? 'none'
+);
 ?>
 
 <div class="th-cd th-ac th-ac1 s1-align-<?php echo esc_attr($align); ?>"

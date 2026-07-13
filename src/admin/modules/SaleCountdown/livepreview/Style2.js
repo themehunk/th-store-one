@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "@wordpress/element";
-
+import { getCountdownIcon } from "./countdownHelpers";
 const Style2 = ({ settings = {} }) => {
   const alignment = settings?.alignmentSingle || "center";
   const bg = settings?.single_bg_color || "";
@@ -54,36 +54,7 @@ const Style2 = ({ settings = {} }) => {
   const total = 50;
   const percent = (sold / total) * 100;
 
-  const getIcon = () => {
-    const map = {
-      gift: "🎁",
-      fire: "🔥",
-      flash: "⚡",
-      save: "💰",
-      discount: "🏷️",
-      bogo: "🎉",
-      rocket: "🚀",
-      star: "⭐",
-      trophy: "🏆",
-      gem: "💎",
-      crown: "👑",
-      cart: "🛍️",
-      ribbon: "🎀",
-      star2: "🌟",
-      magic: "🪄",
-      money: "💸",
-      package: "📦",
-      clover: "🍀",
-      party: "🥳",
-      dart: "🎯",
-      clock: "⏳",
-      sad: "😢",
-      heart: "❤️",
-    };
-
-    return map[settings?.selected_icon] || null;
-  };
-
+  const icon = getCountdownIcon(settings?.selected_icon);
   return (
     <div
       className={`s1-style s1-minimal s1-align-${alignment}`}
@@ -112,7 +83,7 @@ const Style2 = ({ settings = {} }) => {
                 />
               </svg>
             </span> */}
-            {getIcon() && <span className="s1-msg-icon">{getIcon()}</span>}
+            {icon && <span className="s1-msg-icon">{icon}</span>}
             Hurry! Only few left in stock
           </span>
         )}

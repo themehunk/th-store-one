@@ -16,11 +16,13 @@ if ($product->is_type('variable')) {
     $default_attributes = $product->get_default_attributes();
     $variation_id = 0;
 
-    if (!empty($default_attributes)) {
-        $variation_data = wc_get_matching_product_variation($product, $default_attributes);
-        if ($variation_data) {
-            $variation_id = $variation_data;
-        }
+    if (! empty($default_attributes)) {
+        $data_store = WC_Data_Store::load('product');
+
+        $variation_id = $data_store->find_matching_product_variation(
+            $product,
+            $default_attributes
+        );
     }
 
     if ($variation_id) {
@@ -285,9 +287,7 @@ foreach ($rules as $rule):
     <div class="th-offer-content">
         <div class="th-offer-left">
            
-            <?php if ($rule_type === 'bogo') {
-                echo '🎉';
-            } ?>
+           
             <h4 class="th-offer-title">
                 <?php echo wp_kses_post($heading); ?>
             </h4>

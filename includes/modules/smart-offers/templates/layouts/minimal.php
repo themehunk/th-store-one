@@ -16,11 +16,13 @@ if ($product->is_type('variable')) {
     $default_attributes = $product->get_default_attributes();
     $variation_id = 0;
 
-    if (!empty($default_attributes)) {
-        $variation_data = wc_get_matching_product_variation($product, $default_attributes);
-        if ($variation_data) {
-            $variation_id = $variation_data;
-        }
+    if (! empty($default_attributes)) {
+        $data_store = WC_Data_Store::load('product');
+
+        $variation_id = $data_store->find_matching_product_variation(
+            $product,
+            $default_attributes
+        );
     }
 
     if ($variation_id) {
@@ -283,9 +285,7 @@ foreach ($rules as $rule):
     >
     <span class="th-radio-mark" style="--th-radio-color:<?php echo esc_attr($rule['highlight_color'] ?? '#11'); ?>;"></span>
    
-            <?php if ($rule_type === 'bogo') {
-                echo '🎉';
-            } ?>
+           
     <div class="th-offer-content">
             <div class="th-offer-header">
                <h4 class="th-offer-title">
