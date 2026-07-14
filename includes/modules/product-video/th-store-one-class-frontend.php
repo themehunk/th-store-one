@@ -61,6 +61,7 @@ class TH_Store_One_Product_Video_Frontend
             $enable_video = get_post_meta($product_id, '_th_enable_gallery', true);
             $videos       = get_post_meta($product_id, '_th_gallery', true);
             if ($enable_video === 'yes' && ! empty($videos)) {
+                $GLOBALS['th_store_one_video_settings'] = $this->settings;
                 $plugin_template = plugin_dir_path(__FILE__) . 'templates/product-image.php';
                 if (file_exists($plugin_template)) {
                     return $plugin_template;

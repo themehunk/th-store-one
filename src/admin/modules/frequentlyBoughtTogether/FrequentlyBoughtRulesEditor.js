@@ -1063,7 +1063,7 @@ export default function FrequentlyBoughtRulesEditor({
         </div>
         <div className="store-one-add-rule-wrap-reset">
           <ResetModuleButton
-            moduleId="buy-to-list"
+            moduleId="frequently-bought"
             onReset={() => {
               const resetRules = [newFBTRule()];
               updateAll(resetRules);

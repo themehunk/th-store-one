@@ -143,6 +143,11 @@ It is compatible with all [ThemeHunk themes](https://themehunk.com/free-themes/)
 Yes, the plugin is translation-ready and supports multiple languages.
 
 == Changelog ==
+
+=1.1.7=
+* Fixed Video Gallery critical error.
+* Fixed Buy Now Button replace add to cart button in single page.
+
 = 1.1.6=
 * Added Plugin Deactivated functionlity.
 * Fixed Sales notification link and add fake list issue.
