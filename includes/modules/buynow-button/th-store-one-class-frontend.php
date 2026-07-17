@@ -40,6 +40,7 @@ class Th_Store_One_Buy_Now_Frontend
         // shortcode support
         add_shortcode('th_store_one_shop_buy_now', [$this, 'shortcode_archive']);
         add_shortcode('th_store_one_single_buy_now', [$this, 'shortcode_single']);
+        add_filter('post_class', [ $this, 'add_product_wrapper_class' ], 10, 3);
 
     }
 
@@ -86,11 +87,12 @@ class Th_Store_One_Buy_Now_Frontend
             wp_add_inline_style(
                 'th-buy-now',
                 '
-        .single-product form.cart .single_add_to_cart_button{
-            display:none !important;
-        }
-        '
+                    .th-buy-now-enabled .single_add_to_cart_button{
+                        display:none !important;
+                    }
+                    '
             );
+
         }
     }
     /* -------------------------
@@ -547,5 +549,24 @@ class Th_Store_One_Buy_Now_Frontend
 
             'style' => trim($style),
         ];
+    }
+    public function add_product_wrapper_class($classes, $class, $post_id)
+    {
+
+        if (! is_product()) {
+            return $classes;
+        }
+
+        global $product;
+
+        if (! $product || $product->get_id() !== $post_id) {
+            return $classes;
+        }
+
+        if ($this->is_allowed($product, 'single')) {
+            $classes[] = 'th-buy-now-enabled';
+        }
+
+        return $classes;
     }
 }

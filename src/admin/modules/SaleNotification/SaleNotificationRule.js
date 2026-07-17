@@ -332,7 +332,14 @@ export default function SaleNotificationRule({
       ...list,
       {
         id: crypto.randomUUID(),
-        text: "",
+        fakeCustomerName: "",
+        fakeCustomerAddress: "{city}, {state}, {country}, {address}",
+        fakeTime: "1 Week ago",
+        fakePrductSrc: "store_product",
+        fakeProductList: [],
+        fakeCustomProduct: "{Product Name}, {Price}, {Sku}",
+        fakeprd_image_url: "",
+        fakeprd_url: "https://",
         open: true,
       },
     ]);

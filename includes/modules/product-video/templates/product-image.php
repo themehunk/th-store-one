@@ -14,7 +14,7 @@ if (class_exists('Th_Store_One_Trust_Badges_Frontend')) {
     $th_store_one_badge_instance = new Th_Store_One_Trust_Badges_Frontend();
 }
 
-$settings = th_store_one_get_video_settings();
+$settings = $GLOBALS['th_store_one_video_settings'] ?? [];
 $global_thumb  = $settings['image_url'];
 $global_icon   = $settings['icon'];
 $icon_color    = $settings['icon_clr'];
