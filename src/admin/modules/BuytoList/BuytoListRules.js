@@ -44,6 +44,12 @@ const newBlistTRule = () => ({
       link_enabled: false,
       link_url: "https://example.com",
       open: true,
+      // Icon settings per item
+      icon_enabled: true,
+      icontype: "icon",
+      selected_icon: "bolt",
+      custom_svg: "",
+      image_url: "",
     },
     {
       id: crypto.randomUUID(),
@@ -51,6 +57,12 @@ const newBlistTRule = () => ({
       link_enabled: false,
       link_url: "https://example.com",
       open: false,
+      // Icon settings per item
+      icon_enabled: true,
+      icontype: "icon",
+      selected_icon: "bolt",
+      custom_svg: "",
+      image_url: "",
     },
     {
       id: crypto.randomUUID(),
@@ -58,12 +70,17 @@ const newBlistTRule = () => ({
       link_enabled: false,
       link_url: "https://example.com",
       open: false,
+      // Icon settings per item
+      icon_enabled: true,
+      icontype: "icon",
+      selected_icon: "bolt",
+      custom_svg: "",
+      image_url: "",
     },
   ],
   buy_to_list_style: "style_1",
   placement: "woocommerce_product_meta_start",
   priority: 10,
-  icon_enabled: true,
   icontype: "icon",
   custom_svg: "",
   image_url: "",
@@ -737,6 +754,206 @@ export default function BuytoListRules({
                                           />
                                         </S1Field>
                                       )}
+                                      {/* ==================== ICON SETTINGS (Per Item) ==================== */}
+
+                                      <S1Field
+                                        label={__(
+                                          "Enable Icon",
+                                          "th-store-one",
+                                        )}
+                                        classN="s1-toggle-wrpapper"
+                                      >
+                                        <ToggleControl
+                                          checked={
+                                            item.icon_enabled ??
+                                            rule.icon_enabled
+                                          } // fallback to rule level if not set
+                                          onChange={(value) =>
+                                            updateBuyItemField(
+                                              index,
+                                              i,
+                                              "icon_enabled",
+                                              value,
+                                            )
+                                          }
+                                        />
+                                      </S1Field>
+
+                                      {(item.icon_enabled ??
+                                        rule.icon_enabled) && (
+                                        <>
+                                          <S1Field label="Icon Type">
+                                            <SelectControl
+                                              value={
+                                                item.icontype ?? rule.icontype
+                                              }
+                                              options={[
+                                                {
+                                                  label: "Icon",
+                                                  value: "icon",
+                                                },
+                                                {
+                                                  label: "Image",
+                                                  value: "image",
+                                                },
+                                                {
+                                                  label: "SVG",
+                                                  value: "custom_svg",
+                                                },
+                                              ]}
+                                              onChange={(v) =>
+                                                updateBuyItemField(
+                                                  index,
+                                                  i,
+                                                  "icontype",
+                                                  v,
+                                                )
+                                              }
+                                            />
+                                          </S1Field>
+
+                                          {((item.icontype ?? rule.icontype) ||
+                                            "icon") === "icon" && (
+                                            <S1Field classN="s1-toggle-wrpapper list-icon">
+                                              {ICON_OPTIONS.map(
+                                                ({ id, icon }) => (
+                                                  <div
+                                                    key={id}
+                                                    className={`s1-icon-option ${
+                                                      (item.selected_icon ??
+                                                        rule.selected_icon) ===
+                                                      id
+                                                        ? "active"
+                                                        : ""
+                                                    }`}
+                                                    onClick={() =>
+                                                      updateBuyItemField(
+                                                        index,
+                                                        i,
+                                                        "selected_icon",
+                                                        id,
+                                                      )
+                                                    }
+                                                  >
+                                                    {icon}
+                                                  </div>
+                                                ),
+                                              )}
+                                            </S1Field>
+                                          )}
+
+                                          {(item.icontype ?? rule.icontype) ===
+                                            "custom_svg" && (
+                                            <S1Field label="SVG Code">
+                                              <TextControl
+                                                value={
+                                                  item.custom_svg ??
+                                                  rule.custom_svg
+                                                }
+                                                onChange={(v) =>
+                                                  updateBuyItemField(
+                                                    index,
+                                                    i,
+                                                    "custom_svg",
+                                                    v,
+                                                  )
+                                                }
+                                              />
+                                            </S1Field>
+                                          )}
+
+                                          {(item.icontype ?? rule.icontype) ===
+                                            "image" && (
+                                            <S1Field label="Upload Image">
+                                              <div className="s1-image-upload-wrapper">
+                                                {item.image_url ??
+                                                rule.image_url ? (
+                                                  <div className="s1-image-card">
+                                                    <div className="s1-image-preview">
+                                                      <img
+                                                        src={
+                                                          item.image_url ??
+                                                          rule.image_url
+                                                        }
+                                                        alt=""
+                                                      />
+                                                    </div>
+                                                    <div className="s1-image-actions">
+                                                      <button
+                                                        type="button"
+                                                        className="s1-btn s1-btn-edit"
+                                                        onClick={() =>
+                                                          openMediaLibrary(
+                                                            (media) =>
+                                                              updateBuyItemField(
+                                                                index,
+                                                                i,
+                                                                "image_url",
+                                                                media.url,
+                                                              ),
+                                                          )
+                                                        }
+                                                      >
+                                                        <span className="s1-btn-icon">
+                                                          {ICONS.SETTINGS}
+                                                        </span>
+                                                        Change
+                                                      </button>
+                                                      <button
+                                                        type="button"
+                                                        className="s1-btn s1-btn-remove"
+                                                        onClick={() =>
+                                                          updateBuyItemField(
+                                                            index,
+                                                            i,
+                                                            "image_url",
+                                                            "",
+                                                          )
+                                                        }
+                                                      >
+                                                        <TrashIcon />
+                                                      </button>
+                                                    </div>
+                                                  </div>
+                                                ) : (
+                                                  <button
+                                                    type="button"
+                                                    className="s1-upload-card"
+                                                    onClick={() =>
+                                                      openMediaLibrary(
+                                                        (media) =>
+                                                          updateBuyItemField(
+                                                            index,
+                                                            i,
+                                                            "image_url",
+                                                            media.url,
+                                                          ),
+                                                      )
+                                                    }
+                                                  >
+                                                    <span className="s1-btn-icon">
+                                                      {ICONS.DISPLAY}
+                                                    </span>
+                                                    <div className="s1-upload-text">
+                                                      <strong>
+                                                        Upload Image
+                                                      </strong>
+                                                      <p>
+                                                        Select or upload an
+                                                        image file
+                                                      </p>
+                                                      <small className="s1-upload-note">
+                                                        PNG, JPG, and SVG
+                                                        formats supported
+                                                      </small>
+                                                    </div>
+                                                  </button>
+                                                )}
+                                              </div>
+                                            </S1Field>
+                                          )}
+                                        </>
+                                      )}
                                     </div>
                                   )}
                                 </div>
@@ -910,145 +1127,6 @@ export default function BuytoListRules({
                             title={__("Icon", "th-store-one")}
                             shortdescription="Icon style"
                           >
-                            <S1Field
-                              label={__("Enable Icon", "th-store-one")}
-                              classN="s1-toggle-wrpapper"
-                            >
-                              <ToggleControl
-                                checked={rule.icon_enabled}
-                                onChange={(value) =>
-                                  updateField(index, "icon_enabled", value)
-                                }
-                              />
-                            </S1Field>
-
-                            {/* IconSelector */}
-                            {rule.icon_enabled && (
-                              <>
-                                <S1Field label="Icon Type">
-                                  <SelectControl
-                                    value={rule.icontype}
-                                    options={[
-                                      { label: "Icon", value: "icon" },
-                                      { label: "Image", value: "image" },
-                                      { label: "SVG", value: "custom_svg" },
-                                    ]}
-                                    onChange={(v) =>
-                                      updateField(index, "icontype", v)
-                                    }
-                                  />
-                                </S1Field>
-                                {(rule.icontype || "icon") === "icon" && (
-                                  <S1Field classN="s1-toggle-wrpapper list-icon">
-                                    {ICON_OPTIONS.map(({ id, icon }) => (
-                                      <div
-                                        key={id}
-                                        className={`s1-icon-option ${
-                                          rule.selected_icon === id
-                                            ? "active"
-                                            : ""
-                                        }`}
-                                        onClick={() =>
-                                          updateField(
-                                            index,
-                                            "selected_icon",
-                                            id,
-                                          )
-                                        }
-                                      >
-                                        {icon}
-                                      </div>
-                                    ))}
-                                  </S1Field>
-                                )}
-                                {rule.icontype === "custom_svg" && (
-                                  <S1Field label="SVG Code">
-                                    <TextControl
-                                      value={rule.custom_svg}
-                                      onChange={(v) =>
-                                        updateField(index, "custom_svg", v)
-                                      }
-                                    />
-                                  </S1Field>
-                                )}
-                                {rule.icontype === "image" && (
-                                  <S1Field label="Upload Image">
-                                    <div className="s1-image-upload-wrapper">
-                                      {rule.image_url ? (
-                                        <div className="s1-image-card">
-                                          <div className="s1-image-preview">
-                                            <img src={rule.image_url} alt="" />
-                                          </div>
-
-                                          <div className="s1-image-actions">
-                                            <button
-                                              type="button"
-                                              className="s1-btn s1-btn-edit"
-                                              onClick={() =>
-                                                openMediaLibrary((media) =>
-                                                  updateField(
-                                                    index,
-                                                    "image_url",
-                                                    media.url,
-                                                  ),
-                                                )
-                                              }
-                                            >
-                                              <span className="s1-btn-icon">
-                                                {ICONS.SETTINGS}
-                                              </span>
-                                              Change
-                                            </button>
-
-                                            <button
-                                              type="button"
-                                              className="s1-btn s1-btn-remove"
-                                              onClick={() =>
-                                                updateField(
-                                                  index,
-                                                  "image_url",
-                                                  "",
-                                                )
-                                              }
-                                            >
-                                              <TrashIcon />
-                                            </button>
-                                          </div>
-                                        </div>
-                                      ) : (
-                                        <button
-                                          type="button"
-                                          className="s1-upload-card"
-                                          onClick={() =>
-                                            openMediaLibrary((media) =>
-                                              updateField(
-                                                index,
-                                                "image_url",
-                                                media.url,
-                                              ),
-                                            )
-                                          }
-                                        >
-                                          <span className="s1-btn-icon">
-                                            {ICONS.DISPLAY}
-                                          </span>
-                                          <div className="s1-upload-text">
-                                            <strong>Upload Image</strong>
-                                            <p>
-                                              Select or upload an image file
-                                            </p>
-                                            <small className="s1-upload-note">
-                                              PNG, JPG, and SVG formats
-                                              supported
-                                            </small>
-                                          </div>
-                                        </button>
-                                      )}
-                                    </div>
-                                  </S1Field>
-                                )}
-                              </>
-                            )}
                             <div class="s1-field-group-row">
                               <S1Field>
                                 <THBackgroundControl

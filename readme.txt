@@ -145,6 +145,7 @@ Yes, the plugin is translation-ready and supports multiple languages.
 == Changelog ==
 
 =1.1.7=
+* Update Featured List to added icon option in each list.
 * Fixed Video Gallery critical error.
 * Fixed Buy Now Button replace add to cart button in single page.
 

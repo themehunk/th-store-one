@@ -226,7 +226,7 @@ class Th_Store_One_Buy_To_List_Frontend
         ob_start();
         ?>
 
-        <div id="<?php echo esc_attr($wrapper_id); ?>" class="storeone-btl-wrapper <?php echo esc_attr($styleBlt); ?>">
+       <div id="<?php echo esc_attr($wrapper_id); ?>" class="storeone-btl-wrapper <?php echo esc_attr($styleBlt); ?>">
 
             <?php if (! empty($rule['list_title'])) : ?>
                 <h3 class="storeone-btl-title">
@@ -237,159 +237,75 @@ class Th_Store_One_Buy_To_List_Frontend
             <ul class="storeone-btl-list">
 
                 <?php foreach ($rule['buy_list'] as $item) : ?>
-                    <?php if (empty($item['text'])) {
+                    <?php
+                    if (empty($item['text'])) {
                         continue;
-                    } ?>
+                    }
+
+                    // Per Item Icon Settings
+                    $item_icon_enabled = isset($item['icon_enabled']) ? (bool)$item['icon_enabled'] : false;
+                    $item_icon_type    = $item['icontype'] ?? 'icon';
+                    $item_selected_icon = $item['selected_icon'] ?? 'check';
+                    $item_image_url    = $item['image_url'] ?? '';
+                    $item_custom_svg   = $item['custom_svg'] ?? '';
+                    ?>
 
                     <li class="storeone-btl-item">
 
-                        <?php if (! empty($rule['icon_enabled'])) : ?>
+                        <?php if ($item_icon_enabled) : ?>
 
-    <span class="storeone-btl-icon">
+                            <span class="storeone-btl-icon">
 
-        <?php
-        $icon_type = isset($rule['icontype']) ? $rule['icontype'] : 'icon';
-
-                            // 1️Preset SVG Icons
-                            if ('icon' === $icon_type) {
-                                $allowed_svg = array(
-                                 'svg' => array(
-                                     'xmlns' => true,
-                                     'viewbox' => true,
-                                     'viewBox' => true,
-                                     'width' => true,
-                                     'height' => true,
-                                     'fill' => true,
-                                     'stroke' => true,
-                                     'class' => true,
-                                     'role' => true,
-                                     'aria-hidden' => true,
-                                 ),
-                                 'path' => array(
-                                     'd' => true,
-                                     'fill' => true,
-                                     'stroke' => true,
-                                     'stroke-width' => true,
-                                     'stroke-linecap' => true,
-                                     'stroke-linejoin' => true,
-                                 ),
-                                 'img' => array(
-                                     'src' => true,
-                                     'alt' => true,
-                                     'class' => true,
-                                     'width' => true,
-                                     'height' => true,
-                                 ),
-        );
-
-                                echo wp_kses(
-                                    $this->get_icon_svg($rule['selected_icon'] ?? 'check'),
-                                    $allowed_svg
-                                );
-
-                            }
-                            // 2️Uploaded Image
-                        elseif ('image' === $icon_type && ! empty($rule['image_url'])) {
+                                <?php
+                                // 1. Preset SVG Icon
+                                if ('icon' === $item_icon_type) {
+                                    echo wp_kses(
+                                        $this->get_icon_svg($item_selected_icon),
+                                        $this->get_allowed_svg_tags()
+                                    );
+                                }
+                            // 2. Image
+                        elseif ('image' === $item_icon_type && ! empty($item_image_url)) {
                             printf(
                                 '<img src="%s" alt="%s" class="storeone-btl-icon-img" />',
-                                esc_url($rule['image_url']),
+                                esc_url($item_image_url),
                                 esc_attr__('List Icon', 'th-store-one')
                             );
-
                         }
-
-                    // 3️Custom SVG Code
-                    elseif ('custom_svg' === $icon_type && ! empty($rule['custom_svg'])) {
-
+                    // 3. Custom SVG Code
+                    elseif ('custom_svg' === $item_icon_type && ! empty($item_custom_svg)) {
                         echo wp_kses(
-                            $rule['custom_svg'],
-                            array(
-
-                                'svg' => array(
-                                    'xmlns'       => true,
-                                    'viewbox'     => true,
-                                    'width'       => true,
-                                    'height'      => true,
-                                    'fill'        => true,
-                                    'stroke'      => true,
-                                    'stroke-width' => true,
-                                    'class'       => true,
-                                    'style'       => true,
-                                    'id'          => true,
-                                ),
-
-                                'path' => array(
-                                    'd' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true,
-                                    'stroke-linecap' => true, 'stroke-linejoin' => true, 'class' => true, 'style' => true
-                                ),
-                                'circle' => array(
-                                    'cx' => true, 'cy' => true, 'r' => true, 'fill' => true, 'stroke' => true,
-                                    'stroke-width' => true, 'class' => true, 'style' => true
-                                ),
-                                'rect' => array(
-                                    'x' => true, 'y' => true, 'width' => true, 'height' => true, 'rx' => true, 'ry' => true,
-                                    'fill' => true, 'stroke' => true, 'stroke-width' => true, 'class' => true, 'style' => true
-                                ),
-                                'polyline' => array(
-                                    'points' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true,
-                                    'stroke-linecap' => true, 'stroke-linejoin' => true, 'class' => true, 'style' => true
-                                ),
-                                'line' => array(
-                                    'x1' => true, 'y1' => true, 'x2' => true, 'y2' => true, 'fill' => true, 'stroke' => true,
-                                    'stroke-width' => true, 'stroke-linecap' => true, 'class' => true, 'style' => true
-                                ),
-                                'polygon' => array(
-                                    'points' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true, 'class' => true, 'style' => true
-                                ),
-                                'ellipse' => array(
-                                    'cx' => true, 'cy' => true, 'rx' => true, 'ry' => true, 'fill' => true, 'stroke' => true, 'stroke-width' => true
-                                ),
-
-                                'g' => array(
-                                    'fill' => true, 'stroke' => true, 'stroke-width' => true, 'class' => true, 'style' => true, 'id' => true
-                                ),
-                                'defs' => array(),
-
-                                'lineargradient' => array(
-                                    'id' => true, 'x1' => true, 'y1' => true, 'x2' => true, 'y2' => true, 'gradientunits' => true
-                                ),
-                                'radialgradient' => array(
-                                    'id' => true, 'cx' => true, 'cy' => true, 'r' => true, 'fx' => true, 'fy' => true, 'gradientunits' => true
-                                ),
-                                'stop' => array(
-                                    'offset' => true, 'stop-color' => true, 'stop-opacity' => true, 'style' => true
-                                ),
-                            )
+                            $item_custom_svg,
+                            $this->get_allowed_svg_tags()
                         );
-
                     }
                     ?>
 
-    </span>
+                            </span>
 
-<?php endif; ?>
-
+                        <?php endif; ?>
 
                         <?php if (! empty($item['text'])) : ?>
 
-                    <?php if (! empty($item['link_enabled']) && ! empty($item['link_url'])) : ?>
+                            <?php if (! empty($item['link_enabled']) && ! empty($item['link_url'])) : ?>
 
-                        <a 
-                            class="storeone-btl-text storeone-btl-link"
-                            href="<?php echo esc_url($item['link_url']); ?>"
-                        >
-                            <?php echo esc_html($item['text']); ?>
-                        </a>
+                                <a 
+                                    class="storeone-btl-text storeone-btl-link"
+                                    href="<?php echo esc_url($item['link_url']); ?>"
+                                    <?php echo !empty($item['open']) ? 'target="_blank" rel="noopener noreferrer"' : ''; ?>
+                                >
+                                    <?php echo esc_html($item['text']); ?>
+                                </a>
 
-                    <?php else : ?>
+                            <?php else : ?>
 
-                        <span class="storeone-btl-text">
-                            <?php echo esc_html($item['text']); ?>
-                        </span>
+                                <span class="storeone-btl-text">
+                                    <?php echo esc_html($item['text']); ?>
+                                </span>
 
-                    <?php endif; ?>
+                            <?php endif; ?>
 
-                <?php endif; ?>
+                        <?php endif; ?>
 
                     </li>
 
@@ -401,6 +317,31 @@ class Th_Store_One_Buy_To_List_Frontend
 
         <?php
 
+    }
+
+
+    /**
+     * Allowed SVG Tags for wp_kses
+     */
+    private function get_allowed_svg_tags()
+    {
+        return array(
+            'svg' => array(
+                'xmlns' => true, 'viewbox' => true, 'viewBox' => true,
+                'width' => true, 'height' => true, 'fill' => true,
+                'stroke' => true, 'class' => true, 'role' => true,
+                'aria-hidden' => true, 'style' => true
+            ),
+            'path' => array(
+                'd' => true, 'fill' => true, 'stroke' => true,
+                'stroke-width' => true, 'stroke-linecap' => true,
+                'stroke-linejoin' => true
+            ),
+            'circle' => array('cx' => true, 'cy' => true, 'r' => true, 'fill' => true),
+            'rect' => array('x' => true, 'y' => true, 'width' => true, 'height' => true, 'rx' => true),
+            'line' => array('x1' => true, 'y1' => true, 'x2' => true, 'y2' => true),
+            // Add more as needed
+        );
     }
 
     /**
