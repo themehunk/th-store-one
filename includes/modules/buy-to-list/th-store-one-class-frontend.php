@@ -75,14 +75,13 @@ class Th_Store_One_Buy_To_List_Frontend
 
     private function rule_matches($rule, $product)
     {
-
         $product_id = $product->get_id();
 
         /* ---------------- Trigger Type ---------------- */
 
         $trigger = $rule['trigger_type'] ?? 'all_products';
         if ($trigger === 'disable') {
-            return false; //
+            return false;
         }
 
         switch ($trigger) {
@@ -197,21 +196,17 @@ class Th_Store_One_Buy_To_List_Frontend
 
         $rule = $this->rules[$index];
 
-        // shortcode enabled rules
         if (empty($rule['use_shortcode'])) {
             return '';
         }
 
         ob_start();
-
         $this->render_single_rule($rule);
-
         return ob_get_clean();
     }
 
-
     /**
-     * Render Single Rule (No Inline Style)
+     * Render Single Rule - Supports Rule Level + Per Item Icon
      */
     private function render_single_rule($rule)
     {
@@ -221,12 +216,19 @@ class Th_Store_One_Buy_To_List_Frontend
         }
 
         $wrapper_id = 'storeone-btl-' . sanitize_html_class($rule['flexible_id'] ?? uniqid());
-        $styleBlt = sanitize_html_class($rule['buy_to_list_style'] ?? 'style_1');
+        $styleBlt   = sanitize_html_class($rule['buy_to_list_style'] ?? 'style_1');
+
+        // Rule level settings (for backward compatibility)
+        $rule_icon_enabled = !empty($rule['icon_enabled']);
+        $rule_icon_type    = $rule['icontype'] ?? 'icon';
+        $rule_selected_icon = $rule['selected_icon'] ?? 'check';
+        $rule_image_url    = $rule['image_url'] ?? '';
+        $rule_custom_svg   = $rule['custom_svg'] ?? '';
 
         ob_start();
         ?>
 
-       <div id="<?php echo esc_attr($wrapper_id); ?>" class="storeone-btl-wrapper <?php echo esc_attr($styleBlt); ?>">
+        <div id="<?php echo esc_attr($wrapper_id); ?>" class="storeone-btl-wrapper <?php echo esc_attr($styleBlt); ?>">
 
             <?php if (! empty($rule['list_title'])) : ?>
                 <h3 class="storeone-btl-title">
@@ -244,43 +246,47 @@ class Th_Store_One_Buy_To_List_Frontend
 
                     // Per Item Icon Settings
                     $item_icon_enabled = isset($item['icon_enabled']) ? (bool)$item['icon_enabled'] : false;
-                    $item_icon_type    = $item['icontype'] ?? 'icon';
-                    $item_selected_icon = $item['selected_icon'] ?? 'check';
-                    $item_image_url    = $item['image_url'] ?? '';
-                    $item_custom_svg   = $item['custom_svg'] ?? '';
+
+                    // Show icon if Rule enables it OR Item enables it
+                    $show_icon = $rule_icon_enabled || $item_icon_enabled;
+
+                    // Prefer item settings, fallback to rule
+                    $icon_type     = $item['icontype'] ?? $rule_icon_type;
+                    $selected_icon = $item['selected_icon'] ?? $rule_selected_icon;
+                    $image_url     = $item['image_url'] ?? $rule_image_url;
+                    $custom_svg    = $item['custom_svg'] ?? $rule_custom_svg;
                     ?>
 
                     <li class="storeone-btl-item">
 
-                        <?php if ($item_icon_enabled) : ?>
+                        <?php if ($show_icon) : ?>
 
                             <span class="storeone-btl-icon">
 
                                 <?php
                                 // 1. Preset SVG Icon
-                                if ('icon' === $item_icon_type) {
+                                if ('icon' === $icon_type) {
                                     echo wp_kses(
-                                        $this->get_icon_svg($item_selected_icon),
+                                        $this->get_icon_svg($selected_icon),
                                         $this->get_allowed_svg_tags()
                                     );
                                 }
-                            // 2. Image
-                        elseif ('image' === $item_icon_type && ! empty($item_image_url)) {
+                            // 2. Uploaded Image
+                        elseif ('image' === $icon_type && !empty($image_url)) {
                             printf(
                                 '<img src="%s" alt="%s" class="storeone-btl-icon-img" />',
-                                esc_url($item_image_url),
+                                esc_url($image_url),
                                 esc_attr__('List Icon', 'th-store-one')
                             );
                         }
                     // 3. Custom SVG Code
-                    elseif ('custom_svg' === $item_icon_type && ! empty($item_custom_svg)) {
+                    elseif ('custom_svg' === $icon_type && !empty($custom_svg)) {
                         echo wp_kses(
-                            $item_custom_svg,
+                            $custom_svg,
                             $this->get_allowed_svg_tags()
                         );
                     }
                     ?>
-
                             </span>
 
                         <?php endif; ?>
@@ -292,7 +298,6 @@ class Th_Store_One_Buy_To_List_Frontend
                                 <a 
                                     class="storeone-btl-text storeone-btl-link"
                                     href="<?php echo esc_url($item['link_url']); ?>"
-                                    <?php echo !empty($item['open']) ? 'target="_blank" rel="noopener noreferrer"' : ''; ?>
                                 >
                                     <?php echo esc_html($item['text']); ?>
                                 </a>
@@ -317,11 +322,11 @@ class Th_Store_One_Buy_To_List_Frontend
 
         <?php
 
+        echo ob_get_clean();
     }
 
-
     /**
-     * Allowed SVG Tags for wp_kses
+     * Allowed SVG Tags (Reusable)
      */
     private function get_allowed_svg_tags()
     {
@@ -330,34 +335,33 @@ class Th_Store_One_Buy_To_List_Frontend
                 'xmlns' => true, 'viewbox' => true, 'viewBox' => true,
                 'width' => true, 'height' => true, 'fill' => true,
                 'stroke' => true, 'class' => true, 'role' => true,
-                'aria-hidden' => true, 'style' => true
+                'aria-hidden' => true, 'style' => true, 'id' => true
             ),
             'path' => array(
                 'd' => true, 'fill' => true, 'stroke' => true,
                 'stroke-width' => true, 'stroke-linecap' => true,
-                'stroke-linejoin' => true
+                'stroke-linejoin' => true, 'class' => true, 'style' => true
             ),
-            'circle' => array('cx' => true, 'cy' => true, 'r' => true, 'fill' => true),
-            'rect' => array('x' => true, 'y' => true, 'width' => true, 'height' => true, 'rx' => true),
+            'circle' => array('cx' => true, 'cy' => true, 'r' => true, 'fill' => true, 'stroke' => true),
+            'rect' => array('x' => true, 'y' => true, 'width' => true, 'height' => true, 'rx' => true, 'ry' => true),
             'line' => array('x1' => true, 'y1' => true, 'x2' => true, 'y2' => true),
-            // Add more as needed
+            'polygon' => array('points' => true),
+            'polyline' => array('points' => true),
+            'ellipse' => array('cx' => true, 'cy' => true, 'rx' => true, 'ry' => true),
         );
     }
 
     /**
-     * Dynamic CSS (No Inline Style)
+     * Dynamic CSS
      */
     public function add_inline_dynamic_css()
     {
-
         $css = '';
 
         foreach ($this->rules as $rule) {
-
             if (empty($rule['status']) || 'active' !== $rule['status']) {
                 continue;
             }
-
             $css .= $this->generate_dynamic_css($rule);
         }
 
@@ -371,7 +375,6 @@ class Th_Store_One_Buy_To_List_Frontend
      */
     protected function generate_dynamic_css($rule)
     {
-
         if (empty($rule['flexible_id'])) {
             return '';
         }
@@ -383,20 +386,19 @@ class Th_Store_One_Buy_To_List_Frontend
         $list      = th_store_one_normalize_color($rule['btl_list_clr'] ?? '#111');
         $icon_bg   = th_store_one_normalize_color($rule['btl_icon_bg_clr'] ?? '#fff');
         $icon_clr  = th_store_one_normalize_color($rule['btl_icon_clr'] ?? '#2563eb');
-        $icon_clr  = th_store_one_normalize_color($rule['btl_icon_clr'] ?? '#2563eb');
         $radius    = th_store_one_normalize_color($rule['btl_border_radius'] ?? '8px');
         $border_clr  = th_store_one_normalize_color($rule['btl_border_clr'] ?? '#e5e7eb');
-        $display_style = $rule['display_style'] ?? 'style_1';
+        $display_style = $rule['buy_to_list_style'] ?? '';
 
         if ($display_style === 'style_4') {
-            $css .= "#{$id} { background: #fff; border-color: {$border_clr};border-radius: {$radius};}";
+            $css = "#{$id} { background: #fff; border-color: {$border_clr}; border-radius: {$radius};}";
             $css .= "#{$id} .storeone-btl-item { background: {$bg}; }";
         } else {
-            $css  = "#{$id} { background: {$bg}; border-color: {$border_clr};border-radius: {$radius}; }";
+            $css = "#{$id} { background: {$bg}; border-color: {$border_clr}; border-radius: {$radius}; }";
         }
 
         if ($display_style === 'style_5') {
-            $css .= "#{$id} .storeone-btl-item{ border-color: {$border_clr};border-radius: {$radius}; }";
+            $css .= "#{$id} .storeone-btl-item{ border-color: {$border_clr}; border-radius: {$radius}; }";
         }
 
         $css .= "#{$id} .storeone-btl-title { color: {$title}; }";

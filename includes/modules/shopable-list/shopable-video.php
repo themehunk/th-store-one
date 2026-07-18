@@ -6,6 +6,7 @@ if (!defined('ABSPATH')) {
 class Th_Store_One_Shopable_List
 {
     private $settings = [];
+    private static $popup_rendered = false;
 
     public function __construct($settings = [])
     {
@@ -374,8 +375,12 @@ endforeach;
         </div>
 
         <?php
-        // POPUP SIRF EK BAAR YAHAN RENDER HOGA
-        if (!empty($rule['show_prd_popup'])) {
+
+        if (
+            !self::$popup_rendered &&
+            !empty($rule['show_prd_popup'])
+        ) {
+            self::$popup_rendered = true;
             $this->render_popup($rule);
         }
         ?>

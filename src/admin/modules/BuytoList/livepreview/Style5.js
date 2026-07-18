@@ -31,68 +31,43 @@ const Style5 = ({ settings = {} }) => {
   };
 
   /* ================= PER ITEM ICON RENDER ================= */
-  const renderItemIcon = (item) => {
-    // Safety checks
-    if (!item || typeof item !== "object") return null;
-    if (!item.icon_enabled) return null;
+  const renderItemIcon = (item = {}) => {
+    // Prefer item settings, fallback to rule
+    const iconType = item.icontype || settings.icontype || "icon";
+    const selectedIcon =
+      item.selected_icon || settings.selected_icon || "check";
 
-    const iconType = item.icontype || "icon";
+    const imageUrl = item.image_url || settings.image_url;
+    const customSvg = item.custom_svg || settings.custom_svg;
 
-    // 1. Preset SVG Icon
-
+    // 1. Preset Icon
     if (iconType === "icon") {
-      const IconComponent = iconMap[item.selected_icon] || ICONS.CheckSVG;
+      const IconComponent = iconMap[selectedIcon] || ICONS.CheckSVG;
 
-      if (IconComponent) {
-        // Method 1: Normal (most common)
-        if (typeof IconComponent === "function") {
-          return <IconComponent />;
-        }
-
-        // Method 2: Agar already JSX element hai
-        if (React.isValidElement(IconComponent)) {
-          return IconComponent;
-        }
-
-        return <ICONS.CheckSVG />; // default fallback
+      if (typeof IconComponent === "function") {
+        return <IconComponent />;
       }
-      return <ICONS.CheckSVG />;
+
+      return React.isValidElement(IconComponent) ? (
+        IconComponent
+      ) : (
+        <ICONS.CheckSVG />
+      );
     }
 
     // 2. Custom SVG
-    if (
-      iconType === "custom_svg" &&
-      typeof item.custom_svg === "string" &&
-      item.custom_svg.trim()
-    ) {
+    if (iconType === "custom_svg" && customSvg?.trim()) {
       return (
         <span
           className="s1-custom-svg"
-          dangerouslySetInnerHTML={{ __html: item.custom_svg }}
-          key={item.id}
+          dangerouslySetInnerHTML={{ __html: customSvg }}
         />
       );
     }
 
-    // 3. Image Upload
-    if (
-      iconType === "image" &&
-      typeof item.image_url === "string" &&
-      item.image_url
-    ) {
-      return (
-        <img
-          key={item.id}
-          src={item.image_url}
-          alt=""
-          className="s1-icon-image"
-          style={{
-            width: "16px",
-            height: "16px",
-            objectFit: "contain",
-          }}
-        />
-      );
+    // 3. Image
+    if (iconType === "image" && imageUrl) {
+      return <img src={imageUrl} alt="" className="s1-icon-image" />;
     }
 
     return null;
@@ -125,38 +100,45 @@ const Style5 = ({ settings = {} }) => {
             </div>
 
             <ul className="s1-btl-list">
-              {(settings.buy_list || []).map((item) => (
-                <li
-                  key={item.id}
-                  className="s1-btl-item"
-                  style={{
-                    borderColor: settings.btl_border_clr || "#fff9",
-                    borderRadius: settings.btl_border_radius || "16px",
-                  }}
-                >
-                  {item.icon_enabled && (
+              {(settings.buy_list || []).map((item) => {
+                const showIcon =
+                  Boolean(settings.icon_enabled) || Boolean(item.icon_enabled);
+
+                return (
+                  <li
+                    key={item.id}
+                    className="s1-btl-item"
+                    style={{
+                      borderColor: settings.btl_border_clr || "#fff9",
+                      borderRadius: settings.btl_border_radius || "16px",
+                    }}
+                  >
+                    {showIcon && (
+                      <span
+                        className="s1-btl-icon"
+                        style={{
+                          background:
+                            (item.icontype || settings.icontype) === "image"
+                              ? "transparent"
+                              : settings.btl_icon_bg_clr || "#fff",
+                          color: settings.btl_icon_clr || "#2563eb",
+                        }}
+                      >
+                        {renderItemIcon(item)}
+                      </span>
+                    )}
+
                     <span
-                      className="s1-btl-icon"
+                      className="s1-btl-text"
                       style={{
-                        background:
-                          item.icontype === "image"
-                            ? "transparent"
-                            : settings.btl_icon_bg_clr || "#fff",
-                        color: settings.btl_icon_clr || "#2563eb",
+                        color: settings.btl_list_clr || "#111",
                       }}
                     >
-                      {renderItemIcon(item)}
+                      {item.text || ""}
                     </span>
-                  )}
-
-                  <span
-                    className="s1-btl-text"
-                    style={{ color: settings.btl_list_clr || "#111" }}
-                  >
-                    {item.text || ""}
-                  </span>
-                </li>
-              ))}
+                  </li>
+                );
+              })}
             </ul>
           </div>
           {/* ================= END BUY TO LIST ================= */}

@@ -18,7 +18,7 @@ const Style3 = ({ settings = {} }) => {
     if (!item || typeof item !== "object") return null;
     if (!item.icon_enabled) return null;
 
-    const iconType = item.icontype || "icon";
+    const iconType = item.icontype || settings.icontype || "icon";
 
     // 1. Preset SVG Icon
 

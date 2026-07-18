@@ -12,60 +12,45 @@ const Style1 = ({ settings = {} }) => {
     rocket: ICONS.RocketSVG,
   };
 
-  /* ================= PER ITEM ICON RENDER ================= */
-  const renderItemIcon = (item) => {
-    // Safety checks
-    if (!item || typeof item !== "object") return null;
-    if (item.icon_enabled === false) return null;
+  const renderItemIcon = (item = {}) => {
+    // Prefer item settings, fallback to rule
+    const iconType = item.icontype || settings.icontype || "icon";
+    const selectedIcon =
+      item.selected_icon || settings.selected_icon || "check";
 
-    const iconType = item.icontype || "icon";
+    const imageUrl = item.image_url || settings.image_url;
+    const customSvg = item.custom_svg || settings.custom_svg;
 
-    // 1. Preset SVG Icon
-
+    // 1. Preset Icon
     if (iconType === "icon") {
-      const IconComponent = iconMap[item.selected_icon] || ICONS.CheckSVG;
+      const IconComponent = iconMap[selectedIcon] || ICONS.CheckSVG;
 
-      if (IconComponent) {
-        // Method 1: Normal (most common)
-        if (typeof IconComponent === "function") {
-          return <IconComponent />;
-        }
-
-        // Method 2: Agar already JSX element hai
-        if (React.isValidElement(IconComponent)) {
-          return IconComponent;
-        }
-
-        return <ICONS.CheckSVG />; // default fallback
+      if (typeof IconComponent === "function") {
+        return <IconComponent />;
       }
-      return <ICONS.CheckSVG />;
+
+      return React.isValidElement(IconComponent) ? (
+        IconComponent
+      ) : (
+        <ICONS.CheckSVG />
+      );
     }
 
     // 2. Custom SVG
-    if (
-      iconType === "custom_svg" &&
-      typeof item.custom_svg === "string" &&
-      item.custom_svg.trim()
-    ) {
+    if (iconType === "custom_svg" && customSvg?.trim()) {
       return (
         <span
           className="s1-custom-svg"
-          dangerouslySetInnerHTML={{ __html: item.custom_svg }}
-          key={item.id}
+          dangerouslySetInnerHTML={{ __html: customSvg }}
         />
       );
     }
 
-    // 3. Image Upload
-    if (
-      iconType === "image" &&
-      typeof item.image_url === "string" &&
-      item.image_url
-    ) {
+    // 3. Image
+    if (iconType === "image" && imageUrl) {
       return (
         <img
-          key={item.id}
-          src={item.image_url}
+          src={imageUrl}
           alt=""
           className="s1-icon-image"
           style={{
@@ -116,7 +101,6 @@ const Style1 = ({ settings = {} }) => {
             <ul className="s1-btl-list">
               {(settings.buy_list || []).map((item) => (
                 <li key={item.id} className="s1-btl-item">
-                  {/* Per Item Icon */}
                   {item.icon_enabled && (
                     <span
                       className="s1-btl-icon"
