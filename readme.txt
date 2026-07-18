@@ -4,7 +4,7 @@ Author URI: : https://www.themehunk.com/
 Tags: woocommerce extensions, woocommerce addons, store one
 Requires at least: 5.5 
 Tested up to: 7.0
-Stable tag: 1.1.6
+Stable tag: 1.1.7
 Requires PHP: 7.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -145,7 +145,8 @@ Yes, the plugin is translation-ready and supports multiple languages.
 == Changelog ==
 
 =1.1.7=
-* Fixed Shoppable multiple list added they can popup not working .
+* Fixed Plugin Deactivated.
+* Fixed Shoppable multiple list added they can popup not working.
 * Update Featured List to added icon option in each list.
 * Fixed Video Gallery critical error.
 * Fixed Buy Now Button replace add to cart button in single page.
