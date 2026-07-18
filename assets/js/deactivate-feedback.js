@@ -7,7 +7,7 @@
    * Intercept Deactivate click via event delegation.
    * This works regardless of when the link is rendered.
    * -------------------------------------------------- */
-  $(document).on("click.thapsFeedback", "a", function (e) {
+  $(document).on("click.storeOneFeedback", "a", function (e) {
     var href = $(this).attr("href") || "";
     var decoded = decodeURIComponent(href);
 
@@ -23,7 +23,7 @@
     e.stopImmediatePropagation();
     deactivateUrl = href;
     // Reset modal state
-    $('input[name="thaps_deactivate_reason"]').prop("checked", false);
+    $('input[name="th_store_one_deactivate_reason"]').prop("checked", false);
     if (detailText) detailText.value = "";
     if (detailWrap) detailWrap.style.display = "none";
     if (submitBtn) {
