@@ -39,8 +39,9 @@ class Th_Store_One
             new Th_Store_One_Admin();
             require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/product-video/product-video-admin.php';
             new TH_Store_One_Product_Video_Admin();
-            require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/admin/deactivate-feedback.php';
         }
+        // Deactivation feedback (registers a REST route, must load outside is_admin() so it's available on REST requests too).
+        require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/admin/deactivate-feedback.php';
         // Modules manager (option + REST).
         require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/admin/th-store-one-modules.php';
         Th_Store_One_Modules::get_instance();
