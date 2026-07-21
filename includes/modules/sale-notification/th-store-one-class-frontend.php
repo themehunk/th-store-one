@@ -24,7 +24,7 @@ class Th_Store_One_Sale_Notification_Frontend
             [$this, 'shortcode_handler']
         );
         add_action('wp_footer', [$this, 'render']);
-        add_action('wp_enqueue_scripts', [$this, 'assets']);
+        //add_action('wp_enqueue_scripts', [$this, 'assets']);
     }
 
     public function assets()
