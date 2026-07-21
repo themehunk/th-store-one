@@ -9,7 +9,7 @@ class Th_Store_One_Assets
     public function __construct()
     {
         add_action('wp_enqueue_scripts', [ $this, 'frontend_assets' ]);
-        add_action('admin_enqueue_scripts', [ $this, 'admin_assets' ]);
+
     }
 
     /**
