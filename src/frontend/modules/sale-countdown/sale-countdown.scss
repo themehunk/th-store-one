@@ -572,3 +572,24 @@ text-align:left!important;
     font-size:1.1rem;
     font-weight:700;
 }
+.th-cd.s4-style.s4-align-right{
+     text-align: right;
+}
+.th-cd.s4-style.s4-align-right .th-timer-box{
+     justify-content: right;
+}
+.th-cd.s4-style.s4-align-center .th-bar {
+   
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.th-cd.th-style1.s1-align-right .th-timer-box{
+     justify-content: right;
+}
+.th-cd.th-style1.s1-align-right .th-bar,.th-cd.th-style1.s1-align-center .th-bar{
+margin: auto;
+}
+.th-msg-icon{
+margin-right:5px;
+}

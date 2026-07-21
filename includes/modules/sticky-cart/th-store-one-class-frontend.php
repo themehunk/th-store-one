@@ -391,23 +391,6 @@ class Th_Store_One_Sticky_Cart_Frontend
     public function assets()
     {
 
-        wp_enqueue_style(
-            'th-sticky-bar',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/css/sticky-bar.css',
-            [],
-            TH_STORE_ONE_VERSION
-        );
-
-        wp_enqueue_script('jquery');
-
-        wp_enqueue_script(
-            'th-sticky-cart-js',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/js/sticky-bar.js',
-            ['jquery'],
-            TH_STORE_ONE_VERSION,
-            true
-        );
-
         wp_enqueue_script('wc-add-to-cart-variation');
     }
 }

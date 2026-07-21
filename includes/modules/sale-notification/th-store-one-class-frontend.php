@@ -24,27 +24,10 @@ class Th_Store_One_Sale_Notification_Frontend
             [$this, 'shortcode_handler']
         );
         add_action('wp_footer', [$this, 'render']);
-        //add_action('wp_enqueue_scripts', [$this, 'assets']);
+
     }
 
-    public function assets()
-    {
 
-        wp_enqueue_style(
-            'th-sales-notify',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/css/sales-notify.css',
-            [],
-            TH_STORE_ONE_VERSION
-        );
-
-        wp_enqueue_script(
-            'th-sales-notify',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/js/sales-notify.js',
-            [],
-            TH_STORE_ONE_VERSION,
-            true
-        );
-    }
 
     public function render()
     {

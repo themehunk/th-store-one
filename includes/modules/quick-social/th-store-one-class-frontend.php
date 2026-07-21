@@ -15,30 +15,13 @@ class Th_Store_One_Quick_Social
         $this->settings = $settings;
         $this->rules = $this->settings['rules'] ?? [];
 
-        add_action('wp_enqueue_scripts', array( $this, 'enqueue_assets' ));
+
         add_action('wp_footer', array( $this, 'render_auto' ), 99);
         add_shortcode('th_store_one_quick_social', array( $this, 'shortcode' ));
         add_action('wp', array( $this, 'register_single_hooks' ));
 
     }
 
-    public function enqueue_assets()
-    {
-
-        wp_enqueue_style(
-            'th-storeone-quick-social',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/css/quick-social.css',
-            array(),
-            TH_STORE_ONE_VERSION
-        );
-        wp_enqueue_script(
-            'th-storeone-quick-social-js',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/js/quick-social.js',
-            array(),
-            TH_STORE_ONE_VERSION,
-            true
-        );
-    }
 
     public function render_auto()
     {

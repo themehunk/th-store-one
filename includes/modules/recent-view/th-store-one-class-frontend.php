@@ -362,13 +362,6 @@ class Th_Store_One_Recent_View
             return;
         }
 
-        wp_enqueue_style(
-            'th-recent-view',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/css/recent-view.css',
-            [],
-            TH_STORE_ONE_VERSION
-        );
-
         if (!empty($this->settings['slider']['enabled'])) {
             wp_enqueue_style(
                 'swiper-css',
@@ -380,13 +373,6 @@ class Th_Store_One_Recent_View
             wp_enqueue_script(
                 'swiper-js',
                 TH_STORE_ONE_PLUGIN_URL . 'assets/js/swiper/swiper-bundle.min.js',
-                array(),
-                TH_STORE_ONE_VERSION,
-                true
-            );
-            wp_enqueue_script(
-                'recent-view-js',
-                TH_STORE_ONE_PLUGIN_URL . 'assets/js/recent-view.js',
                 array(),
                 TH_STORE_ONE_VERSION,
                 true

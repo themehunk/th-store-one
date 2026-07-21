@@ -40,7 +40,6 @@ class Th_Store_One
             require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/product-video/product-video-admin.php';
             new TH_Store_One_Product_Video_Admin();
         }
-
         require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/class-store-one-assets.php';
         new Th_Store_One_Assets();
         // Deactivation feedback (registers a REST route, must load outside is_admin() so it's available on REST requests too).

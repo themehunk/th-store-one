@@ -41,7 +41,32 @@ class Th_Store_One_Assets
             true
         );
 
-    }
+        // Enabled modules
+        $modules = Th_Store_One_Module_Loader::modules();
 
+        wp_localize_script(
+            'th-store-one-frontend',
+            'thStoreOne',
+            [
+                'modules' => [
+                    'saleNotification' => ! empty($modules['sale-notification']),
+                    'stickyCart'       => ! empty($modules['sticky-cart']),
+                    'buynowButton'     => ! empty($modules['buynow-button']),
+                    'saleCountdown'    => ! empty($modules['sale-countdown']),
+                    'buyToList'        => ! empty($modules['buy-to-list']),
+                    'inactiveTab'      => ! empty($modules['inactive-tab']),
+                    'productBrand'     => ! empty($modules['product-brand']),
+                    'recentView'       => ! empty($modules['recent-view']),
+                    'productVideo'       => ! empty($modules['product-video']),
+                    'quickSocial'       => ! empty($modules['quick-social']),
+                    'smartOffers'       => ! empty($modules['smart-offers']),
+                    'shopableList'       => ! empty($modules['shopable-list']),
+
+                ],
+
+            ]
+        );
+
+    }
 
 }

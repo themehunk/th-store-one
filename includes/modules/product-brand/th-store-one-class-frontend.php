@@ -23,12 +23,7 @@ class Th_Store_One_Product_Brand_Frontend
     public function enqueue_assets()
     {
 
-        wp_enqueue_style(
-            'th-product-brand',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/css/product-brand.css',
-            [],
-            TH_STORE_ONE_VERSION
-        );
+
         wp_enqueue_style(
             'swiper-css',
             TH_STORE_ONE_PLUGIN_URL . 'assets/css/swiper/swiper-bundle.min.css',
@@ -43,13 +38,7 @@ class Th_Store_One_Product_Brand_Frontend
             '11',
             true
         );
-        wp_enqueue_script(
-            'th-store-trust-badges',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/js/th-store-trust-badges.js',
-            array(),
-            TH_STORE_ONE_VERSION,
-            false
-        );
+
 
     }
 
@@ -365,7 +354,7 @@ class Th_Store_One_Product_Brand_Frontend
         }
 
         if (! empty($css)) {
-            wp_add_inline_style('th-product-brand', $css);
+            wp_add_inline_style('th-store-one-frontend', $css);
         }
     }
 

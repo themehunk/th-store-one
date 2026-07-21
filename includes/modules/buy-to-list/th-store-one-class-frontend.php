@@ -15,22 +15,11 @@ class Th_Store_One_Buy_To_List_Frontend
 
         add_action('wp', array( $this, 'register_hooks' ));
         add_action('wp_enqueue_scripts', array( $this, 'add_inline_dynamic_css' ), 20);
-        add_action('wp_enqueue_scripts', [ $this, 'enqueue_assets' ]);
+
         add_shortcode('th_store_one_featured_list', array( $this, 'shortcode_render' ));
     }
 
-    /* --------------------------------------------------------------------
-     * Assets
-     * ------------------------------------------------------------------ */
-    public function enqueue_assets()
-    {
-        wp_enqueue_style(
-            'th-buy-to-list',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/css/buy-to-list.css',
-            [],
-            TH_STORE_ONE_VERSION
-        );
-    }
+
 
     /**
      * Register Woo hooks
@@ -366,7 +355,7 @@ class Th_Store_One_Buy_To_List_Frontend
         }
 
         if (! empty($css)) {
-            wp_add_inline_style('th-buy-to-list', $css);
+            wp_add_inline_style('th-store-one-frontend', $css);
         }
     }
 

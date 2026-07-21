@@ -69,9 +69,8 @@ class Th_Store_One_Smart_Offers
 
     public function assets()
     {
-        wp_enqueue_style('th-smart-offer', TH_STORE_ONE_PLUGIN_URL . 'assets/css/smart-offer.css', [], TH_STORE_ONE_VERSION);
-        wp_enqueue_script('th-smart-offer', TH_STORE_ONE_PLUGIN_URL . 'assets/js/smart-offer.js', ['jquery'], TH_STORE_ONE_VERSION, true);
-        wp_localize_script('th-smart-offer', 'thSmartOffer', [
+
+        wp_localize_script('th-store-one-frontend', 'thSmartOffer', [
             'currency_symbol'       => get_woocommerce_currency_symbol(),
             'currency'              => get_woocommerce_currency(),
             'price_format'          => get_woocommerce_price_format(),

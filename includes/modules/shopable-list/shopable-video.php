@@ -34,13 +34,7 @@ class Th_Store_One_Shopable_List
 
     public function assets()
     {
-        wp_enqueue_style(
-            'th-shopable-list',
-            TH_STORE_ONE_PLUGIN_URL .
-            'assets/css/shopable-list.css',
-            [],
-            TH_STORE_ONE_VERSION
-        );
+
 
         wp_enqueue_style(
             'swiper-css',
@@ -60,17 +54,8 @@ class Th_Store_One_Shopable_List
         );
 
 
-
-        wp_enqueue_script(
-            'th-shopable-list',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/js/shopable-list.js',
-            ['swiper-js', 'jquery'],
-            TH_STORE_ONE_VERSION,
-            true
-        );
-
         // Localize - Ensure it's after enqueue
-        wp_localize_script('th-shopable-list', 'thShopable', [
+        wp_localize_script('th-store-one-frontend', 'thShopable', [
             'ajaxurl' => admin_url('admin-ajax.php'),
             'nonce'   => wp_create_nonce('th_shopable_nonce')
         ]);

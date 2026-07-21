@@ -52,26 +52,11 @@ class Th_Store_One_Buy_Now_Frontend
             return;
         }
 
-        // CSS
-        wp_enqueue_style(
-            'th-buy-now',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/css/buy-now.css',
-            [],
-            TH_STORE_ONE_VERSION
-        );
 
-        // JS
-        wp_enqueue_script(
-            'th-buy-now-js',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/js/buy-now.js',
-            ['jquery'],
-            TH_STORE_ONE_VERSION,
-            true
-        );
 
         // pass settings to JS (optional but powerful)
         wp_localize_script(
-            'th-buy-now-js',
+            'th-store-one-frontend',
             'thBuyNow',
             [
                 'ajax_url' => admin_url('admin-ajax.php'),
@@ -85,7 +70,7 @@ class Th_Store_One_Buy_Now_Frontend
         ) {
 
             wp_add_inline_style(
-                'th-buy-now',
+                'th-store-one-frontend',
                 '
                     .th-buy-now-enabled .single_add_to_cart_button{
                         display:none !important;
