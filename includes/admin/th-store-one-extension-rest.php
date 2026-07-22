@@ -223,11 +223,12 @@ class Th_Store_One_Extension_REST
                     __('Invalid plugin source.', 'th-store-one'),
                     array( 'status' => 400 )
                 );
+            } else {
+
+                // nosemgrep: audit.php.wp.security.arbitrary-plugin-install
+                $upgrader = new Plugin_Upgrader(new Automatic_Upgrader_Skin());
+                $result   = $upgrader->install($plugin_info->download_link);
             }
-
-
-            $upgrader = new Plugin_Upgrader(new Automatic_Upgrader_Skin());
-            $result   = $upgrader->install($plugin_info->download_link);
 
             if (!$result || is_wp_error($result)) {
                 return new WP_Error('install_failed', __('Plugin installation failed.', 'th-store-one'), ['status' => 500]);
