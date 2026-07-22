@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plugin Name:             Store One
+ * Plugin Name:             TH Store One
  * Description:             Store One is a powerful all in one WooCommerce toolkit designed to enhance your online store with conversion focused features and advanced customization options. It helps improve product presentation, optimize the shopping experience, and simplify store management. With lightweight performance and easy setup, Store One provides essential WooCommerce enhancements to increase engagement, improve usability, and boost sales.
  * Version:                 1.1.8
  * Author:                  ThemeHunk

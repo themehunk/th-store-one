@@ -1,4 +1,4 @@
-=== Store One — All in One Conversion & Sales Toolkit for WooCommerce  ===
+=== TH Store One — All in One Conversion & Sales Toolkit for WooCommerce  ===
 Contributors: ThemeHunk
 Author URI: : https://www.themehunk.com/
 Tags: woocommerce extensions, woocommerce addons, store one
