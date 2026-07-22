@@ -92,8 +92,8 @@ $icon = th_store_one_get_countdown_icon(
 
 <div class="th-cd th-style3 s1-align-<?php echo esc_attr($align); ?>"
      style="background: <?php echo esc_attr($bg); ?>; color: <?php echo esc_attr($text); ?>; <?php echo esc_attr($border_css); ?>; padding: <?php echo esc_attr("$pad_top $pad_right $pad_bottom $pad_left"); ?>;"
-     data-start="<?php echo $start; ?>" 
-     data-end="<?php echo $end; ?>"
+     data-start="<?php echo esc_attr($start); ?>" 
+     data-end="<?php echo esc_attr($end); ?>"
      data-server-now="<?php echo esc_attr(time()); ?>"
      data-expire-action="<?php echo esc_attr($expire_action); ?>"
      data-expire-msg="<?php echo esc_attr($expire_msg); ?>"

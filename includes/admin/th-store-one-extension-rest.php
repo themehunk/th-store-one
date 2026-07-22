@@ -214,6 +214,18 @@ class Th_Store_One_Extension_REST
                 return new WP_Error('plugin_not_found', __('Plugin could not be found.', 'th-store-one'), ['status' => 404]);
             }
 
+            if (
+                empty($plugin_info->download_link) ||
+                wp_parse_url($plugin_info->download_link, PHP_URL_HOST) !== 'downloads.wordpress.org'
+            ) {
+                return new WP_Error(
+                    'invalid_download',
+                    __('Invalid plugin source.', 'th-store-one'),
+                    array( 'status' => 400 )
+                );
+            }
+
+
             $upgrader = new Plugin_Upgrader(new Automatic_Upgrader_Skin());
             $result   = $upgrader->install($plugin_info->download_link);
 

@@ -81,8 +81,8 @@ $icon = th_store_one_get_countdown_icon(
 ?>
 
 <div class="th-cd th-style1 s1-align-<?php echo esc_attr($align); ?>"
-     data-start="<?php echo $start; ?>" 
-     data-end="<?php echo $end; ?>"
+     data-start="<?php echo esc_attr($start); ?>" 
+     data-end="<?php echo esc_attr($end); ?>"
      data-server-now="<?php echo esc_attr(time()); ?>"
      data-expire-action="<?php echo esc_attr($settings['countdown_expire_action'] ?? 'hide'); ?>"
      data-expire-msg="<?php echo esc_attr($settings['expire_message'] ?? 'Offer expired'); ?>"
@@ -118,7 +118,7 @@ $icon = th_store_one_get_countdown_icon(
 
   <?php if ($show_bar) : ?>
     <div class="th-bar">
-      <div class="th-fill" style="width: <?php echo esc_attr($percent); ?>%; background: <?php echo $bar_color; ?>;"></div>
+      <div class="th-fill" style="width: <?php echo esc_attr($percent); ?>%; background: <?php echo esc_attr($bar_color); ?>;"></div>
     </div>
   <?php endif; ?>
 

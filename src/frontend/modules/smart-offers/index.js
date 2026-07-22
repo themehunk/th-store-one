@@ -1,29 +1,36 @@
-jQuery(function ($) {
-  "use strict";
+const StoreOneSmartOffer = {
+  init() {
+    this.bindEvents();
+    this.initOffers();
+  },
 
-  function showOffers() {
+  showOffers() {
+    if (typeof jQuery === "undefined") return;
+    const $ = jQuery;
     $(".th-offer-skeleton").hide();
     $(".th-offer-wrapper").fadeIn(150);
-  }
+  },
 
-  function formatPrice(price) {
+  formatPrice(price) {
     price = parseFloat(price || 0);
-    const decimals = parseInt(thSmartOffer.decimals, 10) || 2;
-    const decimalSep = thSmartOffer.decimal_sep || ".";
-    const thousandSep = thSmartOffer.thousand_sep || ",";
-    const symbol = thSmartOffer.currency_symbol || "$";
+    const config = typeof thSmartOffer !== "undefined" ? thSmartOffer : {};
+    const decimals = parseInt(config.decimals, 10) || 2;
+    const decimalSep = config.decimal_sep || ".";
+    const thousandSep = config.thousand_sep || ",";
+    const symbol = config.currency_symbol || "$";
+    const priceFormat = config.price_format || "%1$s%2$s";
 
     let number = price.toFixed(decimals);
     let parts = number.split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, thousandSep);
     number = parts.join(decimalSep);
 
-    return thSmartOffer.price_format
-      .replace("%1$s", symbol)
-      .replace("%2$s", number);
-  }
+    return priceFormat.replace("%1$s", symbol).replace("%2$s", number);
+  },
 
-  function getAddToCartButton() {
+  getAddToCartButton() {
+    if (typeof jQuery === "undefined") return null;
+    const $ = jQuery;
     const wrapper = $(".th-offer-wrapper");
     if (!wrapper.length) return $();
 
@@ -35,10 +42,37 @@ jQuery(function ($) {
         .first();
     }
     return $btn;
-  }
+  },
 
-  function updateUI() {
-    const $button = getAddToCartButton();
+  syncHiddenFields(rewardVal, ruleVal, typeVal) {
+    if (typeof jQuery === "undefined") return;
+    const $ = jQuery;
+    const form = $("form.cart");
+    if (!form.length) return;
+
+    form
+      .find(
+        "input[name='th_reward'], input[name='th_rule'], input[name='th_rule_type']",
+      )
+      .remove();
+
+    $("<input>")
+      .attr({ type: "hidden", name: "th_reward", value: rewardVal })
+      .appendTo(form);
+    $("<input>")
+      .attr({ type: "hidden", name: "th_rule", value: ruleVal })
+      .appendTo(form);
+    $("<input>")
+      .attr({ type: "hidden", name: "th_rule_type", value: typeVal })
+      .appendTo(form);
+  },
+
+  updateUI() {
+    if (typeof jQuery === "undefined") return;
+    const $ = jQuery;
+    const self = this;
+
+    const $button = this.getAddToCartButton();
     const wrapper = $(".th-offer-wrapper");
     if (!wrapper.length) return;
 
@@ -46,10 +80,10 @@ jQuery(function ($) {
     const selected = $("input[name='th_offer_select']:checked");
 
     if (!selected.length) {
-      syncHiddenFields("", "", "");
+      this.syncHiddenFields("", "", "");
 
-      // Original button text restore karo
-      if ($button.length) {
+      // Original button text restore
+      if ($button && $button.length) {
         $button.text("Add to Cart");
       }
 
@@ -201,84 +235,85 @@ jQuery(function ($) {
         finalTotal = finalTotal;
       }
 
-      syncHiddenFields(selected.val(), selected.data("rule"), activeRuleType);
+      this.syncHiddenFields(
+        selected.val(),
+        selected.data("rule"),
+        activeRuleType,
+      );
 
-      if ($button.length) {
-        $button.text(`Add to Cart • ${formatPrice(finalTotal)}`);
+      if ($button && $button.length) {
+        $button.text(`Add to Cart • ${this.formatPrice(finalTotal)}`);
       }
     }
-  }
+  },
 
-  function syncHiddenFields(rewardVal, ruleVal, typeVal) {
-    const form = $("form.cart");
-    if (!form.length) return;
-    form
-      .find(
-        "input[name='th_reward'], input[name='th_rule'], input[name='th_rule_type']",
-      )
-      .remove();
-    $("<input>")
-      .attr({ type: "hidden", name: "th_reward", value: rewardVal })
-      .appendTo(form);
-    $("<input>")
-      .attr({ type: "hidden", name: "th_rule", value: ruleVal })
-      .appendTo(form);
-    $("<input>")
-      .attr({ type: "hidden", name: "th_rule_type", value: typeVal })
-      .appendTo(form);
-  }
+  bindEvents() {
+    if (typeof jQuery === "undefined") return;
+    const $ = jQuery;
+    const self = this;
 
-  $(document).on("click", ".th-offer-card", function (e) {
-    if ($(e.target).is("input[type='radio'], input[type='checkbox']")) {
-      updateUI();
-      return;
-    }
+    $(document).on("click", ".th-offer-card", function (e) {
+      if ($(e.target).is("input[type='radio'], input[type='checkbox']")) {
+        self.updateUI();
+        return;
+      }
 
-    e.preventDefault();
+      e.preventDefault();
 
-    const card = $(this);
-    const input = card.find("input[name='th_offer_select']");
+      const card = $(this);
+      const input = card.find("input[name='th_offer_select']");
 
-    if (input.is(":checked")) {
-      input.prop("checked", false);
-      card.removeClass("offer_select th-card-active");
-      $("input.qty").val(1).trigger("change");
-    } else {
-      $("input[name='th_offer_select']").prop("checked", false);
-      $(".th-offer-card").removeClass("offer_select th-card-active");
-      input.prop("checked", true);
-      card.addClass("offer_select th-card-active");
-      let minQty = 1;
-      if (card.data("rule-type") === "buyxgety") {
-        minQty = parseInt(card.data("x-qty"), 10) || 1;
-      } else if (card.data("rule-type") === "dynamicoffer") {
-        // const tiers = card.data("tiers") || [];
-        // minQty = tiers.length ? parseInt(tiers[0].from_qty, 10) : 1;
-        const trigger = card.data("price-fixed-trigger") || "interval_price";
-        const tiers = card.data("tiers") || [];
+      if (input.is(":checked")) {
+        input.prop("checked", false);
+        card.removeClass("offer_select th-card-active");
+        $("input.qty").val(1).trigger("change");
+      } else {
+        $("input[name='th_offer_select']").prop("checked", false);
+        $(".th-offer-card").removeClass("offer_select th-card-active");
+        input.prop("checked", true);
+        card.addClass("offer_select th-card-active");
+        let minQty = 1;
+        if (card.data("rule-type") === "buyxgety") {
+          minQty = parseInt(card.data("x-qty"), 10) || 1;
+        } else if (card.data("rule-type") === "dynamicoffer") {
+          const trigger = card.data("price-fixed-trigger") || "interval_price";
+          const tiers = card.data("tiers") || [];
 
-        if (tiers.length) {
-          if (trigger === "fixed_unit_price") {
-            minQty = parseInt(tiers[0].to_qty, 10) || 1;
-          } else {
-            minQty = parseInt(tiers[0].from_qty, 10) || 1;
+          if (tiers.length) {
+            if (trigger === "fixed_unit_price") {
+              minQty = parseInt(tiers[0].to_qty, 10) || 1;
+            } else {
+              minQty = parseInt(tiers[0].from_qty, 10) || 1;
+            }
           }
         }
+        $("input.qty").val(minQty).trigger("change");
       }
-      $("input.qty").val(minQty).trigger("change");
-    }
 
-    updateUI();
-  });
+      self.updateUI();
+    });
 
-  $(document).on("change", "input[name='th_offer_select']", updateUI);
-  $(document).on("change keyup", "input.qty", updateUI);
+    $(document).on("change", "input[name='th_offer_select']", () => {
+      this.updateUI();
+    });
 
-  setTimeout(() => {
-    $("input[name='th_offer_select']:checked")
-      .closest(".th-offer-card")
-      .addClass("offer_select th-card-active");
-    updateUI();
-    showOffers();
-  }, 400);
-});
+    $(document).on("change keyup", "input.qty", () => {
+      this.updateUI();
+    });
+  },
+
+  initOffers() {
+    if (typeof jQuery === "undefined") return;
+    const $ = jQuery;
+
+    setTimeout(() => {
+      $("input[name='th_offer_select']:checked")
+        .closest(".th-offer-card")
+        .addClass("offer_select th-card-active");
+      this.updateUI();
+      this.showOffers();
+    }, 400);
+  },
+};
+
+export default StoreOneSmartOffer;

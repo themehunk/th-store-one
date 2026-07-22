@@ -12,26 +12,10 @@ class Th_Store_One_Sale_Countdown_Frontend
     {
         $this->settings = $settings;
         add_action('wp', [$this, 'init']);
-        add_action('wp_enqueue_scripts', [$this, 'assets']);
+
     }
 
-    public function assets()
-    {
-        wp_enqueue_style(
-            'th-countdown',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/css/countdown.css',
-            [],
-            TH_STORE_ONE_VERSION
-        );
 
-        wp_enqueue_script(
-            'th-countdown',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/js/countdown.js',
-            [],
-            TH_STORE_ONE_VERSION,
-            true
-        );
-    }
 
     public function init()
     {

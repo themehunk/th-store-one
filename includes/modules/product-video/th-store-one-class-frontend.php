@@ -76,23 +76,6 @@ class TH_Store_One_Product_Video_Frontend
     public function enqueue()
     {
 
-
-
-        wp_enqueue_script(
-            'th-store-onevideo-gallery',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/js/th-store-one-video.js',
-            ['jquery'],
-            TH_STORE_ONE_VERSION,
-            true
-        );
-
-        wp_enqueue_style(
-            'th-store-onevideo-gallery',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/css/th-store-one-video.css',
-            [],
-            TH_STORE_ONE_VERSION
-        );
-
         $settings = $this->settings;
 
         wp_localize_script(

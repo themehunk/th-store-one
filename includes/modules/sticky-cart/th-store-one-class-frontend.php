@@ -21,20 +21,19 @@ class Th_Store_One_Sticky_Cart_Frontend
     public function th_buy_now_redirect($url)
     {
 
-        if (
-            isset($_REQUEST['th_buy_now']) &&
-            isset($_REQUEST['th_buy_now_nonce']) &&
-            wp_verify_nonce(
-                sanitize_text_field(
-                    wp_unslash($_REQUEST['th_buy_now_nonce'])
-                ),
-                'th_store_one_buy_now'
-            )
-        ) {
-            return wc_get_checkout_url();
+        if (! isset($_REQUEST['th_buy_now'])) {
+            return $url;
         }
 
-        return $url;
+        $nonce = isset($_REQUEST['th_buy_now_nonce'])
+            ? sanitize_text_field(wp_unslash($_REQUEST['th_buy_now_nonce']))
+            : '';
+
+        if (! wp_verify_nonce($nonce, 'th_store_one_buy_now')) {
+            return $url;
+        }
+
+        return wc_get_checkout_url();
     }
 
     /* -------------------------
@@ -390,23 +389,6 @@ class Th_Store_One_Sticky_Cart_Frontend
 
     public function assets()
     {
-
-        wp_enqueue_style(
-            'th-sticky-bar',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/css/sticky-bar.css',
-            [],
-            TH_STORE_ONE_VERSION
-        );
-
-        wp_enqueue_script('jquery');
-
-        wp_enqueue_script(
-            'th-sticky-cart-js',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/js/sticky-bar.js',
-            ['jquery'],
-            TH_STORE_ONE_VERSION,
-            true
-        );
 
         wp_enqueue_script('wc-add-to-cart-variation');
     }

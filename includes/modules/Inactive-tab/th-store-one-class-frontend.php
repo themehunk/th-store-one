@@ -66,15 +66,9 @@ class Th_Store_One_Inactive_Tab_Frontend
             return;
         }
 
-        wp_enqueue_script(
-            'th-inactive-tab',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/js/inactive-tab.js',
-            [],
-            TH_STORE_ONE_VERSION,
-            true
-        );
 
-        wp_localize_script('th-inactive-tab', 'thInactiveTabData', [
+
+        wp_localize_script('th-store-one-frontend', 'thInactiveTabData', [
             'rules' => $matched_rules
         ]);
     }
@@ -225,16 +219,9 @@ class Th_Store_One_Inactive_Tab_Frontend
             return '';
         }
 
-        wp_enqueue_script(
-            'th-inactive-tab',
-            TH_STORE_ONE_PLUGIN_URL . 'assets/js/inactive-tab.js',
-            [],
-            TH_STORE_ONE_VERSION,
-            true
-        );
 
         wp_localize_script(
-            'th-inactive-tab',
+            'th-store-one-frontend',
             'thInactiveTabData',
             [
                 'rules' => [
