@@ -334,15 +334,19 @@ class Th_Store_One_Smart_Offers
 
     public function add_cart_item_data($data, $product_id, $variation_id = 0)
     {
-        if (!isset($_POST['th_rule'])) {
+        // phpcs:disable WordPress.Security.NonceVerification.Missing
+        if (empty($_POST['th_rule'])) {
             return $data;
         }
-        $rule_id   = sanitize_text_field($_POST['th_rule']);
-        $rule_type = sanitize_text_field($_POST['th_rule_type'] ?? '');
-        $data['th_reward']    = intval($_POST['th_reward'] ?? 0);
+
+        $rule_id   = sanitize_text_field(wp_unslash($_POST['th_rule']));
+        $rule_type = isset($_POST['th_rule_type']) ? sanitize_text_field(wp_unslash($_POST['th_rule_type'])) : '';
+        $th_reward = isset($_POST['th_reward']) ? intval(wp_unslash($_POST['th_reward'])) : 0;
+        // phpcs:enable WordPress.Security.NonceVerification.Missing
+
+        $data['th_reward']    = $th_reward;
         $data['th_rule']      = $rule_id;
         $data['th_rule_type'] = $rule_type;
-
 
         return $data;
     }
@@ -379,9 +383,11 @@ class Th_Store_One_Smart_Offers
 
     public function offer_notice($message, $products)
     {
+        // phpcs:ignore WordPress.Security.NonceVerification.Missing
         if (empty($_POST['th_rule'])) {
             return $message;
         }
+
         return $message . sprintf('<div class="th-offer-notice-msg">%s</div>', __('Offer Applied!', 'th-store-one'));
     }
 }

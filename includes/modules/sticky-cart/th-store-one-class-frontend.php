@@ -21,20 +21,19 @@ class Th_Store_One_Sticky_Cart_Frontend
     public function th_buy_now_redirect($url)
     {
 
-        if (
-            isset($_REQUEST['th_buy_now']) &&
-            isset($_REQUEST['th_buy_now_nonce']) &&
-            wp_verify_nonce(
-                sanitize_text_field(
-                    wp_unslash($_REQUEST['th_buy_now_nonce'])
-                ),
-                'th_store_one_buy_now'
-            )
-        ) {
-            return wc_get_checkout_url();
+        if (! isset($_REQUEST['th_buy_now'])) {
+            return $url;
         }
 
-        return $url;
+        $nonce = isset($_REQUEST['th_buy_now_nonce'])
+            ? sanitize_text_field(wp_unslash($_REQUEST['th_buy_now_nonce']))
+            : '';
+
+        if (! wp_verify_nonce($nonce, 'th_store_one_buy_now')) {
+            return $url;
+        }
+
+        return wc_get_checkout_url();
     }
 
     /* -------------------------

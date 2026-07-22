@@ -2,7 +2,7 @@
 Contributors: ThemeHunk
 Author URI: : https://www.themehunk.com/
 Tags: woocommerce extensions, woocommerce addons, store one
-Requires at least: 5.5 
+Requires at least: 5.9.0
 Tested up to: 7.0
 Stable tag: 1.1.8
 Requires PHP: 7.0
@@ -145,6 +145,7 @@ Yes, the plugin is translation-ready and supports multiple languages.
 == Changelog ==
 
 =1.1.8=
+* Fixed all escaping and security issue.
 * Frontend JS and Css loaded at single file.
 
 =1.1.7=

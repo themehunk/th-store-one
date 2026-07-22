@@ -467,7 +467,7 @@ endforeach;
                 th-product-info-<?php echo esc_attr($product_info_position); ?>"
          data-items="<?php echo esc_attr(wp_json_encode($rotation_items)); ?>" 
          data-show-popup="<?php echo $show_popup ? 'true' : 'false'; ?>" 
-         data-muted="<?php echo $is_muted_default; ?>"
+         data-muted="<?php echo esc_attr($is_muted_default); ?>"
          >
 
         <div class="th-shopable-video-wrap product-info-<?php echo esc_attr($product_info_position); ?>">
@@ -695,7 +695,7 @@ endforeach;
                 th-product-info-<?php echo esc_attr($product_info_position); ?>"
          data-items="<?php echo esc_attr(wp_json_encode($rotation_items)); ?>" 
          data-show-popup="<?php echo $show_popup ? 'true' : 'false'; ?>" 
-         data-muted="<?php echo $is_muted_default; ?>"
+         data-muted="<?php echo esc_attr($is_muted_default); ?>"
     
     
 >
@@ -1043,7 +1043,7 @@ $has_featured = has_post_thumbnail($product_id);
         </h2>
 
         <div class="th-product-price" id="th-dynamic-price">
-            <?php echo $product->get_price_html(); ?>
+            <?php echo wp_kses_post($product->get_price_html()); ?>
         </div>
 
         <?php if (wc_review_ratings_enabled()) : ?>
@@ -1066,7 +1066,7 @@ $has_featured = has_post_thumbnail($product_id);
             <?php endif; ?>
 
             <div class="th-quantity-wrapper">
-                <label class="th-label"><?php echo esc_html__('Quantity', 'store-one'); ?></label>
+                <label class="th-label"><?php echo esc_html__('Quantity', 'th-store-one'); ?></label>
                 <div class="th-quantity-box">
                     <button type="button" class="th-qty-minus">−</button>
                     <input type="number" class="qty custom-th-qty" value="1" min="1">
@@ -1076,7 +1076,7 @@ $has_featured = has_post_thumbnail($product_id);
            <?php if ($product->get_short_description()):?>
             <div class="th-description-container">
                 <div class="th-divider"></div>
-                <div class="th-section-title"><?php echo esc_html__('Product Details', 'store-one'); ?></div>
+                <div class="th-section-title"><?php echo esc_html__('Product Details', 'th-store-one'); ?></div>
                 <div class="th-product-description" id="th-dynamic-desc">
                     <?php echo wp_kses_post(wpautop($product->get_short_description())); ?>
                 </div>
@@ -1089,7 +1089,7 @@ $has_featured = has_post_thumbnail($product_id);
 
         <div class="button-group">
             <a href="<?php echo esc_url(get_permalink($product_id)); ?>" class="button more-info">
-                <?php echo esc_html__('More Info', 'store-one'); ?>
+                <?php echo esc_html__('More Info', 'th-store-one'); ?>
             </a>
 
             <button type="button" 
@@ -1098,7 +1098,7 @@ $has_featured = has_post_thumbnail($product_id);
                     data-variation_id="0" 
                     data-quantity="1"
                     class="button add-to-cart custom_th_add_to_cart">
-                <?php echo esc_html__('Add To Cart', 'store-one'); ?>
+                <?php echo esc_html__('Add To Cart', 'th-store-one'); ?>
             </button>
         </div>
 
@@ -1114,6 +1114,4 @@ $has_featured = has_post_thumbnail($product_id);
             'product_type' => $product->get_type()
         ]);
     }
-
-
 }

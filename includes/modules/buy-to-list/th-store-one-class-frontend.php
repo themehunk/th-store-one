@@ -214,7 +214,7 @@ class Th_Store_One_Buy_To_List_Frontend
         $rule_image_url    = $rule['image_url'] ?? '';
         $rule_custom_svg   = $rule['custom_svg'] ?? '';
 
-        ob_start();
+
         ?>
 
         <div id="<?php echo esc_attr($wrapper_id); ?>" class="storeone-btl-wrapper <?php echo esc_attr($styleBlt); ?>">
@@ -311,7 +311,6 @@ class Th_Store_One_Buy_To_List_Frontend
 
         <?php
 
-        echo ob_get_clean();
     }
 
     /**
