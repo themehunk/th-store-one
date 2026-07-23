@@ -203,15 +203,7 @@ color:#fff;
 
 
 @media (max-width: 767px) {
- .th-sale-group .th-notification .th-content {
-    display: flex;
-    flex-direction: row;
-    white-space: nowrap;
-    gap:5px;
-}
-.th-sale-group .th-notification .th-inner{
-    gap:8px;
-}
+ 
 
 .th-sale-group .th-notification .th-line-1 {
     font-size:0.78rem;
@@ -225,8 +217,8 @@ color:#fff;
 }
 
 .th-sale-group  .th-notification .th-inner img {
-    width: 25px;
-    height: 25px;
+    width: 35px;
+    height: 35px;
     border-radius: 4px;
     object-fit: cover;
 }
