@@ -67,6 +67,7 @@ class Th_Store_One_Modules
             'th-variation-swatches' => true,
             'th-product-compare' => true,
             'shopable-list' => false,
+            'th-wishlist' => false,
         );
     }
     /**

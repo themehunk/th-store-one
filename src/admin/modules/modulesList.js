@@ -260,4 +260,15 @@ export const modulesList = [
     premium: true,
     featured: false,
   },
+  {
+    id: "th-wishlist",
+    label: __("Wishlist", "th-store-one"),
+    description: __(
+      "TH Wishlist is a powerful and user-friendly wishlist plugin for WooCommerce that lets your customers save their favorite.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.WISHLIST,
+    premium: true,
+    featured: false,
+  },
 ];

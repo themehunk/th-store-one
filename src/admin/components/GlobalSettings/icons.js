@@ -676,4 +676,15 @@ export const MODULE_ICONS = {
       <path d="M2 15h2" />
     </svg>
   ),
+  WISHLIST: (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M20.8 5.8a4.8 4.8 0 0 0-6.8 0L12 7.8l-2-2a4.8 4.8 0 1 0-6.8 6.8L12 21l8.8-8.4a4.8 4.8 0 0 0 0-6.8z" />
+    </svg>
+  ),
 };
