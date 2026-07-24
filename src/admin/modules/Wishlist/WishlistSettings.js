@@ -6,6 +6,7 @@ import {
   ToggleControl,
   SelectControl,
   TextControl,
+  Button,
 } from "@wordpress/components";
 import MultiWooSearchSelector from "@th-storeone-global/MultiWooSearchSelector";
 import { S1Field, S1FieldGroup } from "@th-storeone-global/S1Field";
@@ -84,8 +85,43 @@ export default function WishlistSettings({
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const [hideToast, setHideToast] = useState(false);
-
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
+
+  const [importing, setImporting] = useState(false);
+  const [hasOldData, setHasOldData] = useState(false);
+
+  // Check Old Data
+  useEffect(() => {
+    apiFetch({
+      path: `${th_StoreOneAdmin.restUrl}check-old-option?option=thwl_settings`,
+    })
+      .then((res) => setHasOldData(res.has_data))
+      .catch(() => setHasOldData(false));
+  }, []);
+
+  // Import Old Data
+  const importOldData = async () => {
+    setImporting(true);
+    try {
+      const res = await apiFetch({
+        path: `${th_StoreOneAdmin.restUrl}module/${MODULE_ID}/import-old`,
+        method: "POST",
+        data: { option_name: "thwl_settings" },
+      });
+
+      if (res.success) {
+        setSettings(res.settings);
+        setSuccess("Old TH Wishlist settings imported successfully!");
+        setHasOldData(false);
+      } else {
+        setError(res.message || "Import failed");
+      }
+    } catch (e) {
+      setError("Failed to import old data");
+    } finally {
+      setImporting(false);
+    }
+  };
 
   /* Load Settings */
   useEffect(() => {
@@ -178,6 +214,16 @@ export default function WishlistSettings({
           )}
 
           <h3 className="store-one-section-title">TH Wishlist</h3>
+          {hasOldData && (
+            <Button
+              variant="secondary"
+              style={{ marginLeft: "15px" }}
+              isBusy={importing}
+              onClick={importOldData}
+            >
+              {importing ? "Importing..." : "Import Old Settings"}
+            </Button>
+          )}
 
           <div className="store-one-rule-item">
             <TabSwitcher
