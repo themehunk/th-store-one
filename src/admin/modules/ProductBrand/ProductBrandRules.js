@@ -15,7 +15,7 @@ import THBackgroundControl from "@th-storeone-control/color";
 import UniversalRangeControl from "@th-storeone-global/UniversalRangeControl";
 import PlacementPriorityControl from "@th-storeone-global/PlacementPriorityControl";
 import SliderControl from "@th-storeone-global/SliderControl";
-
+import AlignmentControl from "@th-storeone-control/AlignmentControl";
 import UniversalBorderControl from "@th-storeone-control/UniversalBorderControl";
 import {
   CopyIcon,
@@ -83,6 +83,7 @@ const newBrlistTRule = () => ({
   exclude_roles: [],
   exclude_users: [],
   exclude_users_enabled: false,
+  alignment: "left",
   //color
   btl_title_clr: "#111",
   btl_list_clr: "#111",
@@ -833,6 +834,12 @@ export default function BuytoListRules({ rules, onChange, onLivePreview }) {
                     icon: ICONS[menuItems[2].icon],
                     content: (
                       <div className="store-one-rule-body">
+                        {rule.slider?.enabled === false && (
+                          <AlignmentControl
+                            value={rule.alignment}
+                            onChange={(v) => updateField(index, "alignment", v)}
+                          />
+                        )}
                         <UniversalRangeControl
                           label="Margin Top"
                           value={rule.margin_top}

@@ -28,6 +28,14 @@ const PreviewProductBrand = ({ settings = {} }) => {
     borderBottomLeftRadius: border?.radius?.left || "4px",
   });
 
+  const Alignment = settings.alignment || "left";
+
+  const justifyContentMap = {
+    left: "flex-start",
+    center: "center",
+    right: "flex-end",
+  };
+
   return (
     <div className="s1-product-preview product-brand ">
       <div className="s1-main-product">
@@ -67,7 +75,9 @@ const PreviewProductBrand = ({ settings = {} }) => {
               <Swiper
                 modules={[Navigation, Autoplay]}
                 slidesPerView={slidesToShow}
-                spaceBetween={settings.image_gap ? `${settings.image_gap}` : "15px"}
+                spaceBetween={
+                  settings.image_gap ? `${settings.image_gap}` : "15px"
+                }
                 navigation={settings?.slider?.navigation}
                 autoplay={settings?.slider?.autoplay ? { delay: 2000 } : false}
                 style={{ padding: "5px 0" }}
@@ -152,6 +162,7 @@ const PreviewProductBrand = ({ settings = {} }) => {
                 style={{
                   display: "flex",
                   gap: settings.image_gap ? `${settings.image_gap}` : "15px",
+                  justifyContent: justifyContentMap[Alignment],
                 }}
               >
                 {hasBrands

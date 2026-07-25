@@ -139,13 +139,13 @@
 
 
 /* 1. Thumbnails ko Square (1:1) banane ke liye */
-.flex-control-thumbs li {
+.flex-control-thumbs li.th-video-thumb {
     aspect-ratio: 1 / 1; /* Force Square Ratio */
     overflow: hidden;
     position: relative;
 }
 
-.flex-control-thumbs li img {
+.flex-control-thumbs li.th-video-thumb img {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover; 

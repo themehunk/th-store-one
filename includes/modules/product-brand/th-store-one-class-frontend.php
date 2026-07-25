@@ -231,9 +231,17 @@ class Th_Store_One_Product_Brand_Frontend
         }
 
         $wrapper_id = 'storeone-product-brand-' . sanitize_html_class($rule['flexible_id'] ?? uniqid());
+        $alignment = $rule['alignment'] ?? 'left';
 
+        $justify = [
+            'left'   => 'left',
+            'center' => 'center',
+            'right'  => 'right',
+        ];
+
+        $justify_a = $justify[$alignment] ?? 'left';
         ?>
-    <div id="<?php echo esc_attr($wrapper_id); ?>" 
+    <div id="<?php echo esc_attr($wrapper_id); ?>"  style="text-align:<?php echo esc_attr($justify_a); ?>;"
          class="storeone-product-brand-wrapper <?php echo ! empty($rule['black_image_enabled']) ? 's1-bw-mode' : ''; ?>"">
 
         <?php if (! empty($rule['list_title'])) : ?>
@@ -294,7 +302,7 @@ class Th_Store_One_Product_Brand_Frontend
 
 <?php else : ?>
 
-        <ul class="storeone-product-brand-list">
+        <ul class="storeone-product-brand-list" >
 
             <?php foreach ($rule['brand_list'] as $item) : ?>
 

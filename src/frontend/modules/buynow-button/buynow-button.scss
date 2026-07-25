@@ -18,9 +18,9 @@
 .th-buy-now-form {
   margin-top: 10px;
 }
-.th-buy-now-form.s1-archive{
-    text-align:center;
-}
+// .th-buy-now-form.s1-archive{
+//     text-align:center;
+// }
 
 .th-buy-now-form.s1-single{
     display:flex;
@@ -55,6 +55,23 @@
            var(--th-buy-pad-right)
            var(--th-buy-pad-bottom)
            var(--th-buy-pad-left);
-
            line-height: normal;
+
+         
+}
+
+.th-buy-now-form.s1-single .th-buy-now-btn.button.th-buy-now-custom,.th-buy-now-btn.button.th-buy-now-single{
+ width:var(--th-buy-width);
+}
+.th-buy-now-custom.th-buy-now-single.th-buy-align-center{
+margin: 0 auto;
+display: block;
+}
+.th-buy-now-custom.th-buy-now-single.th-buy-align-left{
+margin-left: 0;
+display: block;
+}
+.th-buy-now-custom.th-buy-now-single.th-buy-align-right{
+margin-left: auto;
+display: block;
 }

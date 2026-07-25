@@ -22,7 +22,7 @@ import { CopyIcon } from "@radix-ui/react-icons";
 import UniversalRangeControl from "@th-storeone-global/UniversalRangeControl";
 import UniversalBorderControl from "@th-storeone-control/UniversalBorderControl";
 import UniversalDimensionControl from "@th-storeone-control/UniversalDimensionControl";
-
+import AlignmentControl from "@th-storeone-control/AlignmentControl";
 const MODULE_ID = "buynow-button";
 
 /* ---------------------------------
@@ -98,6 +98,8 @@ const DEFAULT_SETTINGS = {
     bottom: "10px",
     left: "15px",
   },
+  buy_btn_width: "100%",
+  alignment: "left",
 };
 
 export default function BuyNowButtonSettings({
@@ -915,6 +917,31 @@ export default function BuyNowButtonSettings({
                               })
                             }
                           />
+                          <S1FieldGroup
+                            title={__("Single page", "th-store-one")}
+                          >
+                            <UniversalRangeControl
+                              label={__("Width", "th-store-one")}
+                              responsive={false}
+                              units={["%"]}
+                              value={settings.buy_btn_width}
+                              onChange={(v) =>
+                                setSettings({
+                                  ...settings,
+                                  buy_btn_width: v,
+                                })
+                              }
+                            />
+                            <AlignmentControl
+                              value={settings.alignment}
+                              onChange={(v) =>
+                                setSettings({
+                                  ...settings,
+                                  alignment: v,
+                                })
+                              }
+                            />
+                          </S1FieldGroup>
                         </>
                       )}
                     </>
