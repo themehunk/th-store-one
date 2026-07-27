@@ -114,6 +114,10 @@ class Th_Store_One_Module_Loader
                 'file'  => 'includes/modules/shopable-list/shopable-list-render.php',
                 'class' => 'Th_Store_One_Shopable_List',
             ],
+            'th-wishlist' => [
+                'file'  => 'includes/modules/wishlist/th-store-one-class-frontend.php',
+                'class' => 'Th_Store_One_Wishlist_Frontend',
+            ],
         ];
 
 

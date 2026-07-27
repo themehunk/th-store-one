@@ -258,6 +258,7 @@ class Th_Store_One_Buy_Now_Frontend
         $btn = $this->get_button_style();
 
 
+
         $is_block_theme = function_exists('wp_is_block_theme') && wp_is_block_theme();
         $is_theme_style = isset($s['btn_style']) && $s['btn_style'] === 'default_btn_style';
 
@@ -515,7 +516,15 @@ class Th_Store_One_Buy_Now_Frontend
 
             $width = ! empty($s['buy_btn_width']) ? $s['buy_btn_width'] : '100%';
 
+            $alignment = $s['alignment'] ?? 'left';
 
+            $justify = [
+                'left'   => 'flex-start',
+                'center' => 'center',
+                'right'  => 'flex-end',
+            ];
+
+            $justify_content = $justify[$alignment] ?? 'flex-start';
 
 
 

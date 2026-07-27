@@ -33,6 +33,7 @@ require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/store-one-module-loader.php';
 function th_store_one_run()
 {
     Th_Store_One::get_instance();
+
 }
 add_action('plugins_loaded', 'th_store_one_run');
 // ------------------ HPOS Compatibility ------------------.

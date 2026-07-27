@@ -1,0 +1,30 @@
+.thw-add-to-wishlist-button-wrap {
+    display: flex!important;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+.thw-add-to-wishlist-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+}
+.thw-add-to-wishlist-button {
+    color: #111;
+    font-size: 14px;
+    font-weight: normal;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: none;
+    background: none;
+}
+.thw-add-to-wishlist-button .thw-icon {
+    margin: 0 4px;
+    font-size: 1.2em;
+    line-height: 1;
+}

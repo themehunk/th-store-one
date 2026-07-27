@@ -31,6 +31,7 @@ const DEFAULT_SETTINGS = {
   thw_in_loop_position: "after_crt_btn",
   thw_show_in_product: true,
   thw_in_single_position: "after_crt_btn",
+  thw_in_single_priority: "10",
   thw_redirect_to_cart: false,
   thw_show_social_share: false,
   thw_redirect_wishlist_page: false,
