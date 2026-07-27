@@ -48,6 +48,7 @@ const DEFAULT_SETTINGS = {
   thw_wishlist_table_bg_color: "#fff",
   thw_wishlist_table_brd_color: "#eee",
   thw_wishlist_table_txt_color: "#111",
+  wishlist_table_style: "classic",
 };
 const WISHLIST_ICON_OPTIONS = [
   {
@@ -186,6 +187,66 @@ export default function WishlistSettings({
     setSettings((prev) => ({ ...prev, [key]: value }));
   };
 
+  const applyStyleDefaults = (settings, style, type) => {
+    const defaults = {};
+    let updated = { ...settings };
+
+    Object.keys(defaults).forEach((key) => {
+      const autoKey = `${key}_auto`;
+
+      if (settings[autoKey] !== false) {
+        updated[key] = defaults[key];
+        updated[autoKey] = true;
+      }
+    });
+
+    return updated;
+  };
+
+  useEffect(() => {
+    const handler = (e) => {
+      const { style } = e.detail || {};
+
+      if (!style) return;
+
+      const updated = {
+        ...settings,
+        wishlist_table_style: style,
+      };
+
+      setSettings(updated);
+
+      onSettingsChange?.(updated);
+    };
+
+    window.addEventListener("storeone:updateWishlistTableStyle", handler);
+
+    return () => {
+      window.removeEventListener("storeone:updateWishlistTableStyle", handler);
+    };
+  }, [settings]);
+
+  useEffect(() => {
+    const handler = (e) => {
+      const { preview } = e.detail;
+
+      const updated = {
+        ...settings,
+        wishlist_preview: preview,
+      };
+
+      setSettings(updated);
+
+      onSettingsChange?.(updated);
+    };
+
+    window.addEventListener("storeone:changeWishlistPreview", handler);
+
+    return () => {
+      window.removeEventListener("storeone:changeWishlistPreview", handler);
+    };
+  }, [settings]);
+
   return (
     <div className="storeone-module-settings s1-no-rule">
       {loading && (
@@ -214,16 +275,6 @@ export default function WishlistSettings({
           )}
 
           <h3 className="store-one-section-title">TH Wishlist</h3>
-          {hasOldData && (
-            <Button
-              variant="secondary"
-              style={{ marginLeft: "15px" }}
-              isBusy={importing}
-              onClick={importOldData}
-            >
-              {importing ? "Importing..." : "Import Old Settings"}
-            </Button>
-          )}
 
           <div className="store-one-rule-item">
             <TabSwitcher
@@ -235,6 +286,30 @@ export default function WishlistSettings({
                   icon: ICONS.SETTINGS,
                   content: (
                     <>
+                      {hasOldData && (
+                        <div className="th-import-card">
+                          <div className="th-import-card__content">
+                            <h3>Import Existing Wishlist Settings</h3>
+                            <p>
+                              We found an existing <strong>TH Wishlist</strong>{" "}
+                              configuration on your site. Import your current
+                              settings into <strong>Store One</strong> to
+                              continue using the same configuration without
+                              setting everything up again.
+                            </p>
+
+                            <Button
+                              variant="primary"
+                              isBusy={importing}
+                              onClick={importOldData}
+                            >
+                              {importing
+                                ? "Importing Settings..."
+                                : "Import Settings"}
+                            </Button>
+                          </div>
+                        </div>
+                      )}
                       <S1FieldGroup
                         number={1}
                         title="Basic"
@@ -616,6 +691,28 @@ export default function WishlistSettings({
                       </S1FieldGroup>
 
                       <S1FieldGroup number={3} title="Wishlist Table">
+                        <S1Field label="Wishlist Table Style" visible={false}>
+                          <SelectControl
+                            value={settings.wishlist_table_style || "style1"}
+                            options={[
+                              { label: "Style 1", value: "classic" },
+                              { label: "Style 2", value: "modern" },
+                              { label: "Style 3", value: "minimal" },
+                            ]}
+                            onChange={(v) => {
+                              const updated = applyStyleDefaults(
+                                {
+                                  ...settings,
+                                  wishlist_table_style: v,
+                                },
+                                v,
+                              );
+
+                              setSettings(updated);
+                              onSettingsChange?.(updated);
+                            }}
+                          />
+                        </S1Field>
                         <S1Field>
                           <THBackgroundControl
                             label={__("Background", "th-store-one")}

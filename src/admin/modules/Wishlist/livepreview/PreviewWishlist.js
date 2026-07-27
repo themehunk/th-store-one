@@ -5,18 +5,10 @@ import "./live-style.css";
 import { __ } from "@wordpress/i18n";
 
 const PreviewWishlist = ({ settings = {} }) => {
-  const [preview, setPreview] = useState(
-    settings?.wishlist_preview || "button",
-  );
+  const [preview, setPreview] = useState("button");
 
   const changePreview = (value) => {
     setPreview(value);
-
-    window.dispatchEvent(
-      new CustomEvent("storeone:changeWishlistPreview", {
-        detail: { preview: value },
-      }),
-    );
   };
 
   return (

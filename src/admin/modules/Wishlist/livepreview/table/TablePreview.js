@@ -6,7 +6,16 @@ import Modern from "./Modern";
 import Traditional from "./Traditional";
 
 const TablePreview = ({ settings = {} }) => {
-  const [style, setStyle] = useState("classic");
+  const style = settings?.wishlist_table_style || "classic";
+  const changeStyle = (value) => {
+    window.dispatchEvent(
+      new CustomEvent("storeone:updateWishlistTableStyle", {
+        detail: {
+          style: value,
+        },
+      }),
+    );
+  };
 
   return (
     <div className="s1-table-preview">
@@ -25,14 +34,14 @@ const TablePreview = ({ settings = {} }) => {
           className={`s1-table-style-tab ${
             style === "classic" ? "active" : ""
           }`}
-          onClick={() => setStyle("classic")}
+          onClick={() => changeStyle("classic")}
         >
           {__("Classic", "th-store-one")}
         </button>
 
         <button
           className={`s1-table-style-tab ${style === "modern" ? "active" : ""}`}
-          onClick={() => setStyle("modern")}
+          onClick={() => changeStyle("modern")}
         >
           {__("Modern", "th-store-one")}
         </button>
@@ -41,7 +50,7 @@ const TablePreview = ({ settings = {} }) => {
           className={`s1-table-style-tab ${
             style === "minimal" ? "active" : ""
           }`}
-          onClick={() => setStyle("minimal")}
+          onClick={() => changeStyle("minimal")}
         >
           {__("Minimal", "th-store-one")}
         </button>

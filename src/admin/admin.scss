@@ -4766,3 +4766,36 @@ display: flex;
 .storeone-module-settings.s1-no-rule .s1-field-group-header{
     margin-top:1rem;
 }
+.th-import-card {
+  margin: 24px 0;
+  padding: 20px;
+  border: 1px solid #dcdcde;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.th-import-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.th-import-card__content h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #1d2327;
+}
+
+.th-import-card__content p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #50575e;
+  max-width: 700px;
+}
+
+.th-import-card .components-button {
+  align-self: flex-start;
+}
