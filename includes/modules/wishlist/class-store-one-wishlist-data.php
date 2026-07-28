@@ -7,9 +7,9 @@ if (! defined('ABSPATH')) {
 /**
  * Handles data operations for the TH Wishlist.
  *
- * @class THWL_Data
+ * @class Th_Store_One_Wishlist_Data
  */
-class THWL_Data
+class Th_Store_One_Wishlist_Data
 {
     /**
      * Cache wishlist per request so we don't create/select it multiple times.
@@ -126,7 +126,7 @@ class THWL_Data
                     "{$wpdb->prefix}thwl_wishlists",
                     array(
                         'user_id'       => $user_id,
-                        'wishlist_name' => __('My Wishlist', 'th-wishlist'),
+                        'wishlist_name' => __('My Wishlist', 'th-store-one'),
                         'wishlist_token' => wp_generate_password(32, false),
                         'is_default'    => 1,
                         'privacy'       => 'public',
@@ -182,7 +182,7 @@ class THWL_Data
                     "{$wpdb->prefix}thwl_wishlists",
                     array(
                         'session_id'    => $guest_uniqid,
-                        'wishlist_name' => __('My Wishlist', 'th-wishlist'),
+                        'wishlist_name' => __('My Wishlist', 'th-store-one'),
                         'wishlist_token' => wp_generate_password(32, false),
                         'is_default'    => 1,
                         'privacy'       => 'public',

@@ -21,9 +21,10 @@ class Th_Store_One_Wishlist_Frontend
      *
      * @param array $settings Module settings.
      */
-    public function __construct($settings = array())
+    public function __construct($settings)
     {
         $this->settings = $settings;
+
 
         add_action('wp', array( $this, 'init' ));
         add_action(
@@ -52,6 +53,50 @@ class Th_Store_One_Wishlist_Frontend
     public function enqueue_assets()
     {
 
+        $wishlist_page_id = ! empty($this->settings['thwl_page_id'])
+            ? absint($this->settings['thwl_page_id'])
+            : 0;
+
+        wp_localize_script(
+            'th-store-one-frontend',
+            'storeOneWishlist',
+            array(
+                'ajax_url'              => admin_url('admin-ajax.php'),
+
+                'add_nonce'            => wp_create_nonce('store-one-add-nonce'),
+                'remove_nonce'         => wp_create_nonce('store-one-remove-nonce'),
+                'update_qty_nonce'     => wp_create_nonce('store-one-update-qty-nonce'),
+                'add_all_nonce'        => wp_create_nonce('store-one-add-all-nonce'),
+                'redirect_nonce'       => wp_create_nonce('store-one-wishlist-redirect-nonce'),
+
+                'wishlist_page_url'    => $wishlist_page_id
+                    ? get_permalink($wishlist_page_id)
+                    : '',
+
+                'cart_url'             => wc_get_cart_url(),
+
+                'redirect_to_cart'     => ! empty($this->settings['thw_redirect_to_cart']),
+
+                'icon_style'           => $this->settings['thw_button_display_style']
+                    ?? 'icon_text',
+
+                'browse_icon'          => $this->settings['th_wishlist_brws_icon']
+                    ?? 'heart-filled',
+
+                'i18n_added'           => $this->settings['thw_browse_wishlist_text']
+                    ?? __('Wishlist', 'th-store-one'),
+
+                'i18n_error'           => __(
+                    'An error occurred. Please try again.',
+                    'th-store-one'
+                ),
+
+                'i18n_empty_wishlist'  => __(
+                    'Your wishlist is currently empty.',
+                    'th-store-one'
+                ),
+            )
+        );
     }
 
     private function register_shortcodes()
@@ -86,6 +131,20 @@ class Th_Store_One_Wishlist_Frontend
         add_shortcode(
             'thwl_add_to_wishlist',
             array( $this, 'flexible_shortcode' )
+        );
+
+        // wishlist table
+
+        add_shortcode(
+            'th_store_one_wishlist',
+            array($this,'wishlist_shortcode')
+        );
+
+        remove_shortcode('thwl_wishlist');
+
+        add_shortcode(
+            'thwl_wishlist',
+            array($this,'wishlist_shortcode')
         );
 
 
@@ -285,12 +344,8 @@ class Th_Store_One_Wishlist_Frontend
         /**
          * Wishlist state.
          */
-        $wishlist    = null;
-        $in_wishlist = false;
-
-        /*
-        Example:
         $wishlist = Th_Store_One_Wishlist_Data::get_or_create_wishlist();
+
         $in_wishlist = $wishlist
             ? Th_Store_One_Wishlist_Data::is_product_in_wishlist(
                 $wishlist->id,
@@ -298,7 +353,6 @@ class Th_Store_One_Wishlist_Frontend
                 $variation_id
             )
             : false;
-        */
 
         $atts['variation_id'] = $variation_id;
         $atts['in_wishlist']   = $in_wishlist;
@@ -554,13 +608,6 @@ class Th_Store_One_Wishlist_Frontend
          * Replace with Store One wishlist logic.
          */
 
-        $wishlist = null;
-
-        $in_wishlist = false;
-
-        /*
-        Example:
-
         $wishlist = Th_Store_One_Wishlist_Data::get_or_create_wishlist();
 
         $in_wishlist = $wishlist
@@ -570,11 +617,9 @@ class Th_Store_One_Wishlist_Frontend
                 $variation_id
             )
             : false;
-        */
 
         $atts['variation_id'] = $variation_id;
         $atts['in_wishlist']  = $in_wishlist;
-
         /*
          * Render.
          */
@@ -584,7 +629,6 @@ class Th_Store_One_Wishlist_Frontend
             $atts
         );
     }
-
 
     /**
  * Render wishlist button.
@@ -781,5 +825,363 @@ class Th_Store_One_Wishlist_Frontend
 
 
         return function_exists('wp_kses') ? wp_kses($icons[ $icon ], $allowed_svg) : $icons[ $icon ];
+    }
+
+    /**
+ * Wishlist Page Shortcode.
+ *
+ * Examples:
+ *
+ * [th_store_one_wishlist]
+ * [th_store_one_wishlist layout="modern"]
+ * [th_store_one_wishlist layout="traditional"]
+ * [th_store_one_wishlist layout="classic"]
+ *
+ * Compatible:
+ * [thwl_wishlist]
+ *
+ * @param array $atts Shortcode attributes.
+ * @return string
+ */
+    public function wishlist_shortcode($atts = array())
+    {
+
+
+
+        $atts = shortcode_atts(
+            array(
+
+                /**
+                 * Layout
+                 *
+                 * Empty = Store One setting use karega.
+                 */
+                'layout' => '',
+
+                /**
+                 * Wishlist ID
+                 *
+                 * Future use.
+                 */
+                'wishlist_id' => '',
+
+                /**
+                 * Show Header
+                 */
+                'show_header' => '',
+
+                /**
+                 * Show Share Button
+                 */
+                'show_share' => '',
+
+                /**
+                 * Custom Class
+                 */
+                'class' => '',
+
+            ),
+            $atts,
+            'th_store_one_wishlist'
+        );
+
+        /*
+         * Layout fallback
+         *
+         * Shortcode > Settings
+         */
+        if (empty($atts['layout'])) {
+            $atts['layout'] = $this->settings['wishlist_table_style'] ?? 'classic';
+        }
+
+        /*
+         * Header fallback
+         */
+        if ('' === $atts['show_header']) {
+            $atts['show_header'] = true;
+        } else {
+            $atts['show_header'] = filter_var(
+                $atts['show_header'],
+                FILTER_VALIDATE_BOOLEAN
+            );
+        }
+
+        /*
+         * Share fallback
+         */
+        if ('' === $atts['show_share']) {
+            $atts['show_share'] = ! empty(
+                $this->settings['thw_show_social_share']
+            );
+        } else {
+            $atts['show_share'] = filter_var(
+                $atts['show_share'],
+                FILTER_VALIDATE_BOOLEAN
+            );
+        }
+
+        /*
+        * Wishlist ID fallback.
+        */
+        if (empty($atts['wishlist_id'])) {
+
+            $wishlist = Th_Store_One_Wishlist_Data::get_or_create_wishlist();
+
+            $atts['wishlist_id'] = $wishlist ? absint($wishlist->id) : 0;
+        }
+
+        /*
+         * Render Table
+         */
+        return $this->render_table($atts);
+    }
+
+    /**
+     * Render wishlist table.
+     *
+     * @param array $args Shortcode / render arguments.
+     * @return string
+     */
+    private function render_table($args = array())
+    {
+
+        /*
+         * Layout
+         *
+         * Shortcode > Settings
+         */
+        $layout = ! empty($args['layout'])
+            ? sanitize_key($args['layout'])
+            : ($this->settings['wishlist_table_style'] ?? 'classic');
+
+
+
+        /*
+ * Wishlist
+ */
+        $wishlist = Th_Store_One_Wishlist_Data::get_or_create_wishlist();
+
+        if (! $wishlist) {
+            return '';
+        }
+
+        /*
+         * Wishlist Items
+         */
+        $items = Th_Store_One_Wishlist_Data::get_wishlist_items(
+            $wishlist->id
+        );
+
+        /*
+         * Common data passed to template.
+         */
+        $data = array(
+            'settings' => $this->settings,
+            'wishlist' => $wishlist,
+            'items'    => $items,
+            'args'     => $args,
+        );
+
+        /*
+         * Template
+         */
+        switch ($layout) {
+
+            case 'modern':
+                $template = TH_STORE_ONE_PLUGIN_DIR .
+                    'includes/modules/wishlist/templates/modern.php';
+                break;
+
+            case 'minimal':
+                $template = TH_STORE_ONE_PLUGIN_DIR .
+                    'includes/modules/wishlist/templates/traditional.php';
+                break;
+
+            case 'classic':
+            default:
+                $template = TH_STORE_ONE_PLUGIN_DIR .
+                    'includes/modules/wishlist/templates/classic.php';
+                break;
+        }
+
+        /*
+         * Template not found.
+         */
+        if (! file_exists($template)) {
+            return '';
+        }
+
+        /*
+         * Make variables available inside template.
+         */
+        extract($data, EXTR_SKIP);
+
+        ob_start();
+
+        include $template;
+
+        return ob_get_clean();
+    }
+
+    /**
+ * Render social share links.
+ *
+ * @param object $wishlist Wishlist object.
+ * @return string
+ */
+    private function render_social_share_links($wishlist)
+    {
+
+        if (
+            empty($this->settings['thw_show_social_share']) ||
+            empty($wishlist) ||
+            empty($wishlist->wishlist_token)
+        ) {
+            return '';
+        }
+
+        $wishlist_page_id = ! empty($this->settings['thwl_page_id'])
+            ? absint($this->settings['thwl_page_id'])
+            : 0;
+
+        if (! $wishlist_page_id) {
+            return '';
+        }
+
+        $share_url = add_query_arg(
+            array(
+                'wishlist_token'  => $wishlist->wishlist_token,
+                'wishlist_action' => 'view',
+            ),
+            get_permalink($wishlist_page_id)
+        );
+
+        $encoded_url   = rawurlencode($share_url);
+        $encoded_title = rawurlencode(
+            __('My Wishlist', 'th-store-one')
+        );
+
+
+        ?>
+
+    <div class="thwl-social-share">
+
+        <span class="thwl-social-title">
+            <?php esc_html_e('Share:', 'th-store-one'); ?>
+        </span>
+
+        <a
+            href="<?php echo esc_url('https://www.facebook.com/sharer/sharer.php?u=' . $encoded_url); ?>"
+            target="_blank"
+            rel="noopener"
+            class="thwl-share-facebook"
+            title="<?php esc_attr_e('Facebook', 'th-store-one'); ?>"
+        >
+            <span class="dashicons dashicons-facebook"></span>
+        </a>
+
+        <a
+            href="<?php echo esc_url('https://twitter.com/intent/tweet?url=' . $encoded_url . '&text=' . $encoded_title); ?>"
+            target="_blank"
+            rel="noopener"
+            class="thwl-share-twitter"
+            title="<?php esc_attr_e('X', 'th-store-one'); ?>"
+        >
+            <span class="dashicons dashicons-twitter"></span>
+        </a>
+
+        <a
+            href="<?php echo esc_url('https://api.whatsapp.com/send?text=' . $encoded_title . '%20' . $encoded_url); ?>"
+            target="_blank"
+            rel="noopener"
+            class="thwl-share-whatsapp"
+            title="<?php esc_attr_e('WhatsApp', 'th-store-one'); ?>"
+        >
+            <span class="dashicons dashicons-whatsapp"></span>
+        </a>
+
+        <a
+            href="<?php echo esc_url('https://pinterest.com/pin/create/button/?url=' . $encoded_url); ?>"
+            target="_blank"
+            rel="noopener"
+            class="thwl-share-pinterest"
+            title="<?php esc_attr_e('Pinterest', 'th-store-one'); ?>"
+        >
+            <span class="dashicons dashicons-pinterest"></span>
+        </a>
+
+        <a
+            href="<?php echo esc_url('mailto:?subject=' . $encoded_title . '&body=' . $encoded_url); ?>"
+            class="thwl-share-email"
+            title="<?php esc_attr_e('Email', 'th-store-one'); ?>"
+        >
+            <span class="dashicons dashicons-email"></span>
+        </a>
+
+        <a
+            href="#"
+            class="thwl-copy-link"
+            data-url="<?php echo esc_attr($share_url); ?>"
+            title="<?php esc_attr_e('Copy Link', 'th-store-one'); ?>"
+        >
+            <span class="dashicons dashicons-admin-links"></span>
+        </a>
+
+    </div>
+
+    <?php
+
+
+    }
+
+    /**
+ * Render Add to Cart button.
+ *
+ * @param WC_Product $product Product object.
+ * @param object     $item    Wishlist item.
+ * @return void
+ */
+    private function render_add_to_cart_button($product, $item)
+    {
+
+        if (! $product->is_purchasable() || ! $product->is_in_stock()) {
+            ?>
+        <span class="thwl-cart-disabled">
+            <?php esc_html_e('Unavailable', 'th-store-one'); ?>
+        </span>
+        <?php
+            return;
+        }
+
+        if (! empty($this->settings['thw_redirect_to_cart'])) {
+            ?>
+
+        <button
+            type="button"
+            class="button thwl-cart-btn thwl-add-to-cart-manage"
+            data-product-id="<?php echo esc_attr($product->get_id()); ?>"
+            data-item-id="<?php echo esc_attr($item->id); ?>"
+            data-quantity="<?php echo esc_attr($item->quantity); ?>"
+        >
+            <?php esc_html_e('Add to Cart', 'th-store-one'); ?>
+        </button>
+
+        <?php
+        } else {
+            ?>
+
+        <a
+            href="<?php echo esc_url('?add-to-cart=' . $product->get_id()); ?>"
+            class="button thwl-cart-btn ajax_add_to_cart add_to_cart_button"
+            data-product_id="<?php echo esc_attr($product->get_id()); ?>"
+            data-product_sku="<?php echo esc_attr($product->get_sku()); ?>"
+            data-quantity="<?php echo esc_attr($item->quantity); ?>"
+            rel="nofollow"
+        >
+            <?php esc_html_e('Add to Cart', 'th-store-one'); ?>
+        </a>
+
+        <?php
+        }
     }
 }

@@ -61,6 +61,7 @@ class Th_Store_One_Assets
                     'quickSocial'       => ! empty($modules['quick-social']),
                     'smartOffers'       => ! empty($modules['smart-offers']),
                     'shopableList'       => ! empty($modules['shopable-list']),
+                    'thWishlist'       => ! empty($modules['th-wishlist']),
 
                 ],
 

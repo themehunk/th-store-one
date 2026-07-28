@@ -584,7 +584,10 @@ export default function WishlistSettings({
                       </S1FieldGroup>
 
                       <S1FieldGroup number={3} title="Wishlist Page">
-                        <S1Field label="Redirect to Cart after Add">
+                        <S1Field
+                          label="Redirect to Cart after Add"
+                          description="Remove Product in Wishlist table and Redirect to the cart page after adding item(s) from the wishlist."
+                        >
                           <ToggleControl
                             checked={settings.thw_redirect_to_cart}
                             onChange={(v) => update("thw_redirect_to_cart", v)}
