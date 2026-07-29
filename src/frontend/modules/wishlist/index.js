@@ -160,7 +160,9 @@ const StoreOneWishlist = {
     e.preventDefault();
 
     const $this = $(e.currentTarget);
-    const $parent = $this.closest(".thwl-item-row");
+    const $parent = $this.closest(
+      ".thwl-item-row, .s1-tr-row, .thwl-modern-card",
+    );
 
     if (!$parent.length) return;
 
@@ -217,13 +219,46 @@ const StoreOneWishlist = {
               .html(`<p>${storeOneWishlist.i18n_empty_wishlist}</p>`);
           }
 
+          if ($parent.hasClass("s1-tr-row")) {
+            const $wrapper = $parent.closest(".s1-traditional");
+
+            $parent.remove();
+
+            if ($wrapper.find(".s1-tr-row").length === 0) {
+              $wrapper.append(`
+            <div class="s1-tr-row">
+                <div class="info">
+                    <h4>${storeOneWishlist.i18n_empty_wishlist}</h4>
+                </div>
+            </div>
+            `);
+            }
+
+            return;
+          }
+
+          if ($parent.hasClass("thwl-modern-card")) {
+            const $grid = $parent.closest(".thwl-modern-grid");
+
+            $parent.remove();
+
+            if ($grid.find(".thwl-modern-card").length === 0) {
+              $grid.html(`
+      <div class="thwl-modern-empty">
+        ${storeOneWishlist.i18n_empty_wishlist}
+      </div>
+    `);
+            }
+
+            return;
+          }
+
           $parent.remove();
         });
       },
 
       error() {
         $parent.css("opacity", "1");
-        alert("Unable to remove item.");
       },
     });
   },
@@ -318,7 +353,11 @@ const StoreOneWishlist = {
     const item_id = $btn.data("item-id");
     const token = $btn.data("wishlist-token");
 
-    const $row = $(`.thwl-item-row[data-item-id="${item_id}"]`);
+    const $row = $(
+      `.thwl-item-row[data-item-id="${item_id}"],
+   .s1-tr-row[data-item-id="${item_id}"],
+   .thwl-modern-card[data-item-id="${item_id}"]`,
+    );
 
     $btn.prop("disabled", true).addClass("loading");
 
@@ -343,6 +382,48 @@ const StoreOneWishlist = {
         }
 
         $row.fadeOut(300, () => {
+          if ($row.hasClass("thwl-modern-card")) {
+            const $grid = $row.closest(".thwl-modern-grid");
+
+            $row.remove();
+
+            if ($grid.find(".thwl-modern-card").length === 0) {
+              $grid.html(`
+      <div class="thwl-modern-empty">
+        ${storeOneWishlist.i18n_empty_wishlist}
+      </div>
+    `);
+            }
+
+            if (storeOneWishlist.redirect_to_cart) {
+              window.location.href = storeOneWishlist.cart_url;
+            }
+
+            return;
+          }
+
+          if ($row.hasClass("s1-tr-row")) {
+            const $wrapper = $row.closest(".s1-traditional");
+
+            $row.remove();
+
+            if ($wrapper.find(".s1-tr-row").length === 0) {
+              $wrapper.append(`
+                <div class="s1-tr-row">
+                    <div class="info">
+                        <h4>${storeOneWishlist.i18n_empty_wishlist}</h4>
+                    </div>
+                </div>
+            `);
+            }
+
+            if (storeOneWishlist.redirect_to_cart) {
+              window.location.href = storeOneWishlist.cart_url;
+            }
+
+            return;
+          }
+
           const $tbody = $row.closest("tbody");
 
           $row.remove();
@@ -363,16 +444,12 @@ const StoreOneWishlist = {
 
       error() {
         $btn.prop("disabled", false).removeClass("loading");
-
-        alert("Something went wrong.");
       },
     });
   },
 
   loginRequired(e) {
     e.preventDefault();
-
-    alert($(e.currentTarget).data("alert"));
   },
 };
 

@@ -14,6 +14,7 @@ class Th_Store_One_Wishlist
     public function __construct($settings = array())
     {
         $this->settings = $settings;
+
         // Create tables if needed.
         new Th_Store_One_Wishlist_Install();
 

@@ -2,8 +2,13 @@
 if (! defined('ABSPATH')) {
     exit;
 }
+
 ?>
-<div class="thwl-normal">
+<div class="thwl-normal"  style="
+        --thwl-table-bg: <?php echo esc_attr($settings['thw_wishlist_table_bg_color'] ?? ''); ?>;
+        --thwl-table-text: <?php echo esc_attr($settings['thw_wishlist_table_txt_color'] ?? ''); ?>;
+        --thwl-table-border: <?php echo esc_attr($settings['thw_wishlist_table_brd_color'] ?? ''); ?>;
+    ">
 
 	<?php if (! empty($args['show_header'])) : ?>
 
@@ -12,19 +17,19 @@ if (! defined('ABSPATH')) {
 			<div class="thwl-normal-title">
 				<h3><?php esc_html_e('Wishlist', 'th-store-one'); ?></h3>
 
-				<span class="thwl-badge">
+				<!-- <span class="thwl-badge">
 					<?php esc_html_e('Public', 'th-store-one'); ?>
-				</span>
+				</span> -->
 			</div>
 
 			<?php
         if (! empty($args['show_share'])) : ?>
 
 				<div class="thwl-wishlist-share">
-    <div class="thwl-social-share">
-        <?php $this->render_social_share_links($wishlist); ?>
-    </div>
-</div>
+               
+                    <?php $this->render_social_share_links($wishlist); ?>
+                
+            </div>
 
 			<?php endif; ?>
 

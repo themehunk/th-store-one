@@ -579,12 +579,24 @@ class Th_Store_One_Wishlist_Ajax
 
 
 
-        if (
-            ! empty($this->settings['thw_redirect_to_cart'])
-        ) {
+        $current_user_id = get_current_user_id();
+
+        $guest_token = isset($_COOKIE['thwl_guest_uniqid'])
+            ? sanitize_text_field(
+                wp_unslash($_COOKIE['thwl_guest_uniqid'])
+            )
+            : '';
+
+        $owner_id = $wishlist->user_id
+            ? $current_user_id
+            : 0;
+
+        if (! empty($this->settings['thw_redirect_to_cart'])) {
 
             Th_Store_One_Wishlist_Data::remove_item(
-                $item_id
+                $item_id,
+                $owner_id,
+                $guest_token
             );
         }
 

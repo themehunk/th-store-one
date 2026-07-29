@@ -24,9 +24,9 @@ const DEFAULT_SETTINGS = {
   thwl_page_id: "",
   thw_require_login: false,
   thw_button_display_style: "icon_text",
-  thw_add_to_wishlist_text: "Add to Wishlist",
-  thw_browse_wishlist_text: "Browse Wishlist",
-  thw_btn_style_theme: false,
+  thw_add_to_wishlist_text: "Wishlist",
+  thw_browse_wishlist_text: "Wishlist",
+  thw_btn_style_theme: true,
   thw_show_in_loop: true,
   thw_in_loop_position: "after_crt_btn",
   thw_show_in_product: true,
@@ -112,8 +112,8 @@ export default function WishlistSettings({
       });
 
       if (res.success) {
-        setSettings(res.settings);
-        setSuccess("Old TH Wishlist settings imported successfully!");
+        setSettings({ ...DEFAULT_SETTINGS, ...res.settings });
+
         setHasOldData(false);
       } else {
         setError(res.message || "Import failed");
@@ -139,6 +139,7 @@ export default function WishlistSettings({
       })
       .catch(() => setError(__("Failed to load settings.", "th-store-one")))
       .finally(() => setLoading(false));
+    onModuleReady?.();
   }, []);
 
   /* Notify Parent */
@@ -455,7 +456,7 @@ export default function WishlistSettings({
                             <div className="s1-shortcode-wrapper">
                               <textarea
                                 readOnly
-                                value={`[th_store_one_wishlist_page]`}
+                                value={`[th_store_one_wishlist]`}
                                 className="s1-shortcode-textarea"
                               />
 
@@ -464,7 +465,7 @@ export default function WishlistSettings({
                                 className="s1-shortcode-copy"
                                 onClick={() => {
                                   navigator.clipboard.writeText(
-                                    `[th_store_one_wishlist_page"]`,
+                                    `[th_store_one_wishlist"]`,
                                   );
                                 }}
                               >
@@ -474,7 +475,7 @@ export default function WishlistSettings({
                           </S1Field>
                         )}
 
-                        <S1Field
+                        {/* <S1Field
                           label={__(
                             "Use Shortcode For Redirect",
                             "th-store-one",
@@ -518,7 +519,7 @@ export default function WishlistSettings({
                               </button>
                             </div>
                           </S1Field>
-                        )}
+                        )} */}
                       </S1FieldGroup>
                     </>
                   ),
@@ -538,7 +539,7 @@ export default function WishlistSettings({
                           />
                         </S1Field>
 
-                        {settings.thw_show_in_loop && (
+                        {/* {settings.thw_show_in_loop && (
                           <S1Field label="Position">
                             <SelectControl
                               value={settings.thw_in_loop_position}
@@ -558,7 +559,7 @@ export default function WishlistSettings({
                               }
                             />
                           </S1Field>
-                        )}
+                        )} */}
                       </S1FieldGroup>
 
                       <S1FieldGroup number={2} title="Single Product Page">
@@ -569,7 +570,7 @@ export default function WishlistSettings({
                           />
                         </S1Field>
 
-                        {settings.thw_show_in_product && (
+                        {/* {settings.thw_show_in_product && (
                           <PlacementPriorityControl
                             placement={settings.thw_in_single_position}
                             priority={settings.thw_in_single_priority || 10}
@@ -580,7 +581,7 @@ export default function WishlistSettings({
                               update("thw_in_single_priority", v)
                             }
                           />
-                        )}
+                        )} */}
                       </S1FieldGroup>
 
                       <S1FieldGroup number={3} title="Wishlist Page">

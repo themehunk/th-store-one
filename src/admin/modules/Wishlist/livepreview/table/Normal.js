@@ -11,8 +11,8 @@ const Normal = ({ settings }) => {
     <div className="thwl-normal">
       <div className="thwl-normal-header">
         <div className="thwl-normal-title">
-          <h3>Wishlist1</h3>
-          <span className="thwl-badge">Public</span>
+          <h3>Wishlist</h3>
+          {/* <span className="thwl-badge">Public</span> */}
         </div>
 
         <button className="thwl-share-btn">
@@ -20,12 +20,19 @@ const Normal = ({ settings }) => {
         </button>
       </div>
 
-      <table className="thwl-table">
+      <table
+        className="thwl-table"
+        style={{
+          "--thwl-table-bg": settings.thw_wishlist_table_bg_color,
+          "--thwl-table-text": settings.thw_wishlist_table_txt_color,
+          "--thwl-table-border": settings.thw_wishlist_table_brd_color,
+        }}
+      >
         <thead>
           <tr>
-            <th className="thwl-check-col">
+            {/* <th className="thwl-check-col">
               <span className="thwl-checkbox"></span>
-            </th>
+            </th> */}
             <th>Product</th>
             <th>Title</th>
             <th>Price</th>
@@ -37,11 +44,11 @@ const Normal = ({ settings }) => {
         </thead>
 
         <tbody>
-          {[1].map((item) => (
+          {[1, 2].map((item) => (
             <tr key={item}>
-              <td>
+              {/* <td>
                 <span className="thwl-checkbox"></span>
-              </td>
+              </td> */}
 
               <td>
                 <div className="thwl-image-skeleton">

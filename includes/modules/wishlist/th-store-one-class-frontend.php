@@ -26,6 +26,7 @@ class Th_Store_One_Wishlist_Frontend
         $this->settings = $settings;
 
 
+
         add_action('wp', array( $this, 'init' ));
         add_action(
             'wp_enqueue_scripts',
@@ -953,12 +954,9 @@ class Th_Store_One_Wishlist_Frontend
         $layout = ! empty($args['layout'])
             ? sanitize_key($args['layout'])
             : ($this->settings['wishlist_table_style'] ?? 'classic');
-
-
-
         /*
- * Wishlist
- */
+        * Wishlist
+        */
         $wishlist = Th_Store_One_Wishlist_Data::get_or_create_wishlist();
 
         if (! $wishlist) {
@@ -1024,11 +1022,11 @@ class Th_Store_One_Wishlist_Frontend
     }
 
     /**
- * Render social share links.
- *
- * @param object $wishlist Wishlist object.
- * @return string
- */
+     * Render social share links.
+     *
+     * @param object $wishlist Wishlist object.
+     * @return string
+     */
     private function render_social_share_links($wishlist)
     {
 
@@ -1170,7 +1168,7 @@ class Th_Store_One_Wishlist_Frontend
         } else {
             ?>
 
-        <a
+        <button
             href="<?php echo esc_url('?add-to-cart=' . $product->get_id()); ?>"
             class="button thwl-cart-btn ajax_add_to_cart add_to_cart_button"
             data-product_id="<?php echo esc_attr($product->get_id()); ?>"
@@ -1178,9 +1176,8 @@ class Th_Store_One_Wishlist_Frontend
             data-quantity="<?php echo esc_attr($item->quantity); ?>"
             rel="nofollow"
         >
-            <?php esc_html_e('Add to Cart', 'th-store-one'); ?>
-        </a>
-
+        <?php esc_html_e('Add to Cart', 'th-store-one'); ?>
+        </button>
         <?php
         }
     }

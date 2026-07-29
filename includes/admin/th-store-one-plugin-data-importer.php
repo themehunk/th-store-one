@@ -59,9 +59,6 @@ class TH_StoreOne_Wishlist_Importer
         );
     }
 
-    /**
-     * Import Old TH Wishlist Settings
-     */
     public function import_old_data($request)
     {
         $old = get_option('thwl_settings', array());
@@ -69,11 +66,11 @@ class TH_StoreOne_Wishlist_Importer
         if (empty($old)) {
             return array(
                 'success' => false,
-                'message' => 'No old data found in thwl_settings'
+                'message' => 'No old data found in thwl_settings',
             );
         }
 
-        // Map old settings to new Store One structure
+        // Map old settings + fill missing keys with defaults
         $new_settings = array(
             'thwl_page_id'                         => $old['thwl_page_id'] ?? '',
             'thw_require_login'                    => ! empty($old['thw_require_login']),
@@ -85,9 +82,17 @@ class TH_StoreOne_Wishlist_Importer
             'thw_in_loop_position'                 => $old['thw_in_loop_position'] ?? 'after_crt_btn',
             'thw_show_in_product'                  => ! empty($old['thw_show_in_product']),
             'thw_in_single_position'               => $old['thw_in_single_position'] ?? 'after_crt_btn',
+            'thw_in_single_priority'               => $old['thw_in_single_priority'] ?? '10',
             'thw_redirect_to_cart'                 => ! empty($old['thw_redirect_to_cart']),
             'thw_show_social_share'                => ! empty($old['thw_show_social_share']),
             'thw_redirect_wishlist_page'           => ! empty($old['thw_redirect_wishlist_page']),
+            'thw_wishlist_add_icon'                => $old['th_wishlist_add_icon'] ?? $old['thw_wishlist_add_icon'] ?? 'heart-outline',
+            'th_wishlist_brws_icon'                => $old['th_wishlist_brws_icon'] ?? 'heart-filled',
+            'use_shortcode'                        => true,
+            'use_shortcode_btn'                    => true,
+            'use_shortcode_redirect'               => true,
+
+            // Style
             'thw_wishlist_add_icon_color'          => $old['thw_wishlist_add_icon_color'] ?? '#111',
             'thw_wishlist_btn_bg_color'            => $old['thw_wishlist_btn_bg_color'] ?? '#6a4df5',
             'thw_wishlist_btn_txt_color'           => $old['thw_wishlist_btn_txt_color'] ?? '#fff',
@@ -95,19 +100,23 @@ class TH_StoreOne_Wishlist_Importer
             'thw_wishlist_table_bg_color'          => $old['thw_wishlist_table_bg_color'] ?? '#fff',
             'thw_wishlist_table_brd_color'         => $old['thw_wishlist_table_brd_color'] ?? '#eee',
             'thw_wishlist_table_txt_color'         => $old['thw_wishlist_table_txt_color'] ?? '#111',
-            'thw_wishlist_add_icon'                => $old['th_wishlist_add_icon'] ?? 'heart-outline',
-            'th_wishlist_brws_icon'                => $old['th_wishlist_brws_icon'] ?? 'heart-filled',
+            'wishlist_table_style'                 => $old['wishlist_table_style'] ?? 'classic',
         );
 
-        // Save in Store One Module Format
-        update_option('th_store_one_module_th-wishlist', array(
-            'settings' => $new_settings
-        ));
+        $all = get_option('th_store_one_module_set', array());
+
+        if (! is_array($all)) {
+            $all = array();
+        }
+
+        $all['th-wishlist'] = $new_settings;
+
+        update_option('th_store_one_module_set', $all);
 
         return array(
             'success'  => true,
             'settings' => $new_settings,
-            'message'  => 'Old TH Wishlist settings imported successfully!'
+            'message'  => 'Old TH Wishlist settings imported successfully!',
         );
     }
 }

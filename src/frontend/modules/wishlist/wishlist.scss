@@ -126,14 +126,14 @@
     color: #111827;
     padding: 16px;
     text-align: center;
-    border-bottom: 1px solid #ececec;
+    border: 1px solid #ececec;
 }
 
 .thwl-normal .thwl-table tbody td {
     padding: 18px 16px;
     text-align: center;
     vertical-align: middle;
-    border-bottom: 1px solid #f3f4f6;
+    border: 1px solid #f3f4f6;
     border-top: none; /* Kisi outer CSS se aane wali top border overwrite ko rokne ke liye */
 }
 
@@ -283,7 +283,7 @@
     min-width:170px;
 }
 
-.thwl-normal .thwl-product-action .thwl-cart-btn{
+.thwl-product-action .thwl-cart-btn,.button.thwl-cart-btn{
     display:inline-flex;
     align-items:center;
     justify-content:center;
@@ -299,6 +299,7 @@
     font-weight:600;
     transition:.25s;
     cursor:pointer;
+    margin:0!important;
 }
 
 .thwl-normal .thwl-cart-btn:hover{
@@ -316,11 +317,11 @@
    Remove
 ====================================== */
 
-.thwl-normal .thwl-product-remove{
+.thwl-product-remove{
     width:70px;
 }
 
-.thwl-normal .thwl-remove-item{
+ .thwl-remove-item{
     display:inline-flex;
     align-items:center;
     justify-content:center;
@@ -333,12 +334,12 @@
     text-decoration: none!important;
 }
 
-.thwl-normal .thwl-remove-item:hover{
+.thwl-remove-item:hover{
     background:#fee2e2;
     color:#dc2626;
 }
 
-.thwl-normal .thwl-remove-item .dashicons{
+.thwl-remove-item .dashicons{
     width:18px;
     height:18px;
     font-size:18px;
@@ -456,7 +457,7 @@
     border-radius:4px;
 }
 
-.s1-tr-image-skeleton{
+.s1-tr-image{
     width:90px;
     height:90px;
     border:1px solid #ececec;
@@ -467,36 +468,6 @@
     justify-content:center;
 }
 
-.s1-tr-image-icon{
-    width:42px;
-    height:42px;
-    border:2px solid #d4d4d4;
-    border-radius:6px;
-    position:relative;
-}
-
-.s1-tr-image-icon:before{
-    content:"";
-    position:absolute;
-    width:8px;
-    height:8px;
-    border:2px solid #d4d4d4;
-    border-radius:50%;
-    right:5px;
-    top:5px;
-}
-
-.s1-tr-image-icon:after{
-    content:"";
-    position:absolute;
-    left:5px;
-    bottom:5px;
-    width:18px;
-    height:12px;
-    border-left:2px solid #d4d4d4;
-    border-bottom:2px solid #d4d4d4;
-    transform:skew(-28deg);
-}
 
 .s1-tr-row .info{
     flex:1;
@@ -628,83 +599,142 @@
     padding:24px;
 }
 
+/* Card */
+
 .thwl-modern-card{
     position:relative;
     background:#fff;
     border:1px solid #ececec;
     border-radius:14px;
     overflow:hidden;
-    transition:.25s;
+    transition:.3s ease;
 }
 
 .thwl-modern-card:hover{
-    transform:translateY(-4px);
-    box-shadow:0 10px 24px rgba(0,0,0,.08);
+    transform:translateY(-5px);
+    box-shadow:0 12px 28px rgba(0,0,0,.08);
 }
 
-.thwl-card-top{
-    position:absolute;
-    top:16px;
-    left:16px;
-    right:16px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    z-index:10;
+/* Top */
+
+.thwl-card-top {
+    position: absolute;
+    top: 10px;
+    left: auto;
+    right: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 20;
 }
+
+/* Checkbox */
 
 .thwl-modern-card .thwl-checkbox{
     width:18px;
     height:18px;
     border:2px solid #444;
     border-radius:4px;
+    background:#fff;
 }
 
+/* Remove */
+
 .thwl-modern-card .thwl-remove{
+    width:34px;
+    height:34px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#fff;
     color:#ef4444;
+    border-radius:50%;
+    text-decoration:none;
     font-size:20px;
-    cursor:pointer;
+    font-weight:600;
+    line-height:1;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
     transition:.25s;
 }
 
 .thwl-modern-card .thwl-remove:hover{
-    transform:scale(1.1);
+    background:#fee2e2;
+    color:#dc2626;
+    transform:scale(1.08);
 }
 
-.thwl-modern-card .thwl-image-skeleton{
+/* Image */
+
+.thwl-modern-card .thwl-image-morden{
     margin:18px;
-    margin-top:48px;
-    height:200px;
-    width:auto;
+    margin-top:52px;
     border:1px solid #ececec;
     border-radius:12px;
-    background:#fafafa;
+    background:#fff;
+    overflow:hidden;
     display:flex;
     justify-content:center;
     align-items:center;
 }
 
+.thwl-modern-card .thwl-image-morden a{
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-decoration:none;
+}
+
+.thwl-modern-card .thwl-image-morden img{
+
+    width:auto;
+    height:auto;
+    object-fit:contain;
+    transition:.3s;
+}
+
+.thwl-modern-card:hover .thwl-image-morden img{
+    transform:scale(1.05);
+}
+
+/* Title */
+
 .thwl-modern-card h4{
     margin:0 20px;
     font-size:17px;
     font-weight:600;
-    color:#111827;
     line-height:1.5;
 }
 
+.thwl-modern-card h4 a {
+    color: #111827;
+    text-decoration: none;
+    transition: 0.25s;
+    text-decoration: none !important;
+}
+
+.thwl-modern-card h4 a:hover{
+    color:#6b4df7;
+}
+
+/* Price */
+
 .thwl-modern-card .thwl-price{
     margin:10px 20px;
-    font-size:16px;
+    font-size:17px;
     font-weight:700;
     color:#111827;
 }
+
+/* Stock */
 
 .thwl-modern-card .thwl-stock{
     display:inline-flex;
     align-items:center;
     gap:6px;
-    margin:0 20px 18px;
-    padding:5px 14px;
+    margin:0 20px 20px;
+    padding:6px 14px;
     background:#ecfdf3;
     color:#16a34a;
     border-radius:20px;
@@ -712,17 +742,29 @@
     font-weight:600;
 }
 
-.thwl-modern-card .thwl-stock:before{
+.thwl-modern-card .thwl-stock::before{
     content:"";
     width:8px;
     height:8px;
-    background:#16a34a;
     border-radius:50%;
+    background:#16a34a;
 }
 
-.thwl-modern-card .thwl-cart-btn{
+.thwl-modern-card .thwl-stock.out-stock{
+    background:#fee2e2;
+    color:#dc2626;
+}
+
+.thwl-modern-card .thwl-stock.out-stock::before{
+    background:#dc2626;
+}
+
+/* Add to cart */
+
+.thwl-modern-card .thwl-cart-btn,
+.thwl-modern-card .thwl-add-to-cart-manage{
     width:calc(100% - 40px);
-    margin:0 20px 20px;
+   
     height:42px;
     border:none;
     border-radius:10px;
@@ -732,18 +774,59 @@
     font-weight:600;
     cursor:pointer;
     transition:.25s;
+    margin-bottom:20px!important;
+    margin-left:20px!important;
+    margin-right:20px!important;
 }
 
-.thwl-modern-card .thwl-cart-btn:hover{
+.thwl-modern-card .thwl-cart-btn:hover,
+.thwl-modern-card .thwl-add-to-cart-manage:hover{
     background:#5b3ef2;
 }
 
-@media(max-width:768px){
+/* Empty */
+
+.thwl-modern-empty{
+    grid-column:1 / -1;
+    background:#fff;
+    border:1px dashed #d1d5db;
+    border-radius:12px;
+    padding:40px 20px;
+    text-align:center;
+    font-size:16px;
+    font-weight:500;
+    color:#6b7280;
+}
+
+/* Share */
+
+.thwl-wishlist-share{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+}
+
+/* Responsive */
+
+@media (max-width:768px){
 
     .thwl-modern-grid{
         grid-template-columns:1fr;
+        gap:20px;
+        padding:20px;
     }
 
+    .thwl-modern-header{
+        padding:18px;
+    }
+
+    .thwl-modern-title h3{
+        font-size:20px;
+    }
+
+    .thwl-modern-card .thwl-image-morden{
+        height:200px;
+    }
 }
 
 
@@ -814,4 +897,50 @@
     background: #ff6b35;
     border-color: #ff6b35;
     color: #fff;
+}
+
+.button.thwl-cart-btn.loading::after{
+    top: 0em!important;
+}
+
+.button.thwl-cart-btn.add_to_cart_button.added{
+    display:none;
+}
+
+
+.thwl-normal .thwl-table thead th{
+    background: var(--thwl-table-bg, #fafafa);
+    color: var(--thwl-table-text, #111827);
+    
+    border: 1px solid var(--thwl-table-border, #ececec)!important;;
+}
+
+.thwl-normal .thwl-table tbody td {
+    background: var(--thwl-table-bg, #fff);
+    color: var(--thwl-table-text, #111827);
+   
+    border: 1px solid var(--thwl-table-border, #f3f4f6)!important;
+
+}
+
+.thwl-normal .thwl-title-link{
+    color: var(--thwl-table-text, #111827)!important;
+}
+
+.thwl-modern-card {
+    background: var(--thwl-card-bg, #fff)!important;;
+    color: var(--thwl-card-text, #333)!important;;
+    border: 1px solid var(--thwl-card-border, #e5e5e5)!important;;
+}
+
+.thwl-modern-card h4,
+.thwl-modern-card h4 a,
+.thwl-modern-card .thwl-price,
+.thwl-modern-card .thwl-stock,
+.thwl-modern-card .thwl-remove {
+    color: var(--thwl-card-text, #333)!important;
+}
+
+.thwl-modern-card .thwl-image-morden {
+    border-color: var(--thwl-card-border, #e5e5e5)!important;
 }

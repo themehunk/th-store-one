@@ -5,31 +5,29 @@ const Traditional = ({ settings }) => {
     <div
       className="s1-traditional"
       style={{
-        background: settings.thw_wishlist_table_bg_color,
-        color: settings.thw_wishlist_table_txt_color,
-        borderColor: settings.thw_wishlist_table_brd_color,
+        "--thwl-bg": settings.thw_wishlist_table_bg_color,
+        "--thwl-text": settings.thw_wishlist_table_txt_color,
+        "--thwl-border": settings.thw_wishlist_table_brd_color,
       }}
     >
       <div className="s1-tr-header">
         <div className="s1-tr-title">
-          <h3>Wishlist1</h3>
-          <span className="s1-tr-badge">Public</span>
+          <h3>Wishlist</h3>
         </div>
-        <span class="dashicons dashicons-share"></span>
+
+        <span className="dashicons dashicons-share"></span>
       </div>
 
-      {[1, 2, 3].map((i) => (
+      {[1, 2].map((i) => (
         <div className="s1-tr-row" key={i}>
           <div className="s1-tr-left">
-            <span className="s1-tr-checkbox"></span>
-
             <div className="s1-tr-image-skeleton">
               <div className="s1-tr-image-icon"></div>
             </div>
           </div>
 
           <div className="info">
-            <h4>Leather Backpack</h4>
+            <h4>Sample Product</h4>
 
             <span className="price">£89.00</span>
 

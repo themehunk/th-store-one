@@ -52,7 +52,7 @@ const TablePreview = ({ settings = {} }) => {
           }`}
           onClick={() => changeStyle("minimal")}
         >
-          {__("Minimal", "th-store-one")}
+          {__("Traditional", "th-store-one")}
         </button>
       </div>
 

@@ -4,86 +4,137 @@ if (! defined('ABSPATH')) {
 }
 ?>
 
-<div class="s1-traditional">
+<div class="s1-traditional"  style="
+        --thwl-bg: <?php echo esc_attr($settings['thw_wishlist_table_bg_color'] ?? ''); ?>;
+        --thwl-text: <?php echo esc_attr($settings['thw_wishlist_table_txt_color'] ?? ''); ?>;
+        --thwl-border: <?php echo esc_attr($settings['thw_wishlist_table_brd_color'] ?? ''); ?>;
+    ">
 
-	<?php if (! empty($args['show_header'])) : ?>
+    <?php if (! empty($args['show_header'])) : ?>
 
-	<div class="s1-tr-header">
+        <div class="s1-tr-header">
 
-		<div class="s1-tr-title">
+            <div class="s1-tr-title">
 
-			<h3><?php esc_html_e('Wishlist', 'th-store-one'); ?></h3>
+                <h3><?php esc_html_e('Wishlist', 'th-store-one'); ?></h3>
 
-			<span class="s1-tr-badge">
+                <!-- <span class="s1-tr-badge">
+                    <?php esc_html_e('Public', 'th-store-one'); ?>
+                </span> -->
 
-				<?php esc_html_e('Public', 'th-store-one'); ?>
+            </div>
 
-			</span>
+            <?php if (! empty($args['show_share'])) : ?>
 
-		</div>
+                
 
-		<?php if (! empty($args['show_share'])) : ?>
+                   <div class="thwl-wishlist-share">
+               
+                    <?php $this->render_social_share_links($wishlist); ?>
+                
+            </div>
 
-			<button class="s1-tr-share-btn">
+            
 
-				<span class="dashicons dashicons-share"></span>
+            <?php endif; ?>
 
-			</button>
+        </div>
 
-		<?php endif; ?>
+    <?php endif; ?>
 
-	</div>
+    <?php if (empty($items)) : ?>
 
-	<?php endif; ?>
+        <div class="s1-tr-row">
 
-	<?php foreach ($items as $item) : ?>
+            <div class="info">
 
-		<div class="s1-tr-row">
+                <h4><?php esc_html_e('Your wishlist is empty.', 'th-store-one'); ?></h4>
 
-			<div class="s1-tr-left">
+            </div>
 
-				<div class="s1-tr-checkbox"></div>
+        </div>
 
-				<div class="s1-tr-image-skeleton">
+    <?php else : ?>
 
-					<div class="s1-tr-image-icon"></div>
+        <?php foreach ($items as $item) :
 
-				</div>
+            $product = wc_get_product(
+                $item->variation_id ? $item->variation_id : $item->product_id
+            );
 
-			</div>
+            if (! $product) {
+                continue;
+            }
+            ?>
 
-			<div class="info">
+            <div class="s1-tr-row thwl-item-row"
+                data-item-id="<?php echo esc_attr($item->id); ?>"
+                data-product-id="<?php echo esc_attr($product->get_id()); ?>">
 
-				<h4><?php echo esc_html($item['title']); ?></h4>
+                <div class="s1-tr-left">
 
-				<span class="price">
+                    <div class="s1-tr-image">
 
-					<?php echo esc_html($item['price']); ?>
+                        <a href="<?php echo esc_url($product->get_permalink()); ?>">
 
-				</span>
+                            <?php echo wp_kses_post($product->get_image('woocommerce_thumbnail')); ?>
 
-				<span class="stock">
+                        </a>
 
-					<?php echo esc_html($item['stock']); ?>
+                    </div>
 
-				</span>
+                </div>
 
-			</div>
+                <div class="info">
 
-			<div class="s1-tr-actions">
+                    <h4>
 
-				<button>
+                        <a href="<?php echo esc_url($product->get_permalink()); ?>">
 
-					<?php esc_html_e('Add to Cart', 'th-store-one'); ?>
+                            <?php echo esc_html($product->get_name()); ?>
 
-				</button>
+                        </a>
 
-				<span class="s1-tr-remove">&times;</span>
+                    </h4>
 
-			</div>
+                    <span class="price">
 
-		</div>
+                        <?php echo wp_kses_post($product->get_price_html()); ?>
 
-	<?php endforeach; ?>
+                    </span>
+
+                    <span class="stock">
+
+                        <?php
+                            echo esc_html(
+                                $product->is_in_stock()
+                                    ? __('In Stock', 'th-store-one')
+                                    : __('Out of Stock', 'th-store-one')
+                            );
+            ?>
+
+                    </span>
+
+                </div>
+
+                <div class="s1-tr-actions">
+
+                    <?php $this->render_add_to_cart_button($product, $item); ?>
+
+                    <a href="#"
+                        class="s1-tr-remove thwl-remove-item"
+                        aria-label="<?php esc_attr_e('Remove from wishlist', 'th-store-one'); ?>">
+
+                        &times;
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        <?php endforeach; ?>
+
+    <?php endif; ?>
 
 </div>

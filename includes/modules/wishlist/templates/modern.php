@@ -6,81 +6,117 @@ if (! defined('ABSPATH')) {
 
 <div class="thwl-modern">
 
-	<?php if (! empty($args['show_header'])) : ?>
+    <?php if (! empty($args['show_header'])) : ?>
 
-	<div class="thwl-modern-header">
+        <div class="thwl-modern-header">
 
-		<div class="thwl-modern-title">
+            <div class="thwl-modern-title">
 
-			<h3><?php esc_html_e('Wishlist', 'th-store-one'); ?></h3>
+                <h3><?php esc_html_e('Wishlist', 'th-store-one'); ?></h3>
 
-			<span class="thwl-badge">
-				<?php esc_html_e('Public', 'th-store-one'); ?>
-			</span>
+            </div>
 
-		</div>
+            <?php if (! empty($args['show_share'])) : ?>
 
-		<?php if (! empty($args['show_share'])) : ?>
+                <div class="thwl-wishlist-share">
+                    <?php $this->render_social_share_links($wishlist); ?>
+                </div>
 
-			<button class="thwl-share-btn" type="button">
-				<span class="dashicons dashicons-share"></span>
-			</button>
+            <?php endif; ?>
 
-		<?php endif; ?>
+        </div>
 
-	</div>
+    <?php endif; ?>
 
-	<?php endif; ?>
+    <div class="thwl-modern-grid">
 
-	<div class="thwl-modern-grid">
+        <?php if (empty($items)) : ?>
 
-		<?php foreach ($items as $item) : ?>
+            <div class="thwl-modern-empty">
+                <?php esc_html_e('Your wishlist is empty.', 'th-store-one'); ?>
+            </div>
 
-			<div
-				class="thwl-modern-card"
-				style="
-					background:<?php echo esc_attr($settings['thw_wishlist_table_bg_color']); ?>;
-					color:<?php echo esc_attr($settings['thw_wishlist_table_txt_color']); ?>;
-					border-color:<?php echo esc_attr($settings['thw_wishlist_table_brd_color']); ?>;
-				"
-			>
+        <?php else : ?>
 
-				<div class="thwl-card-top">
+            <?php foreach ($items as $item) :
 
-					<span class="thwl-checkbox"></span>
+                $product = wc_get_product(
+                    $item->variation_id ? $item->variation_id : $item->product_id
+                );
 
-					<span class="thwl-remove">&times;</span>
+                if (! $product) {
+                    continue;
+                }
+                ?>
 
-				</div>
+                <div
+                    class="thwl-modern-card thw-wishlist-card"
+                    data-item-id="<?php echo esc_attr($item->id); ?>"
+                    data-product-id="<?php echo esc_attr($product->get_id()); ?>"
+                    style="
+        --thwl-card-bg: <?php echo esc_attr($settings['thw_wishlist_table_bg_color'] ?? ''); ?>;
+        --thwl-card-text: <?php echo esc_attr($settings['thw_wishlist_table_txt_color'] ?? ''); ?>;
+        --thwl-card-border: <?php echo esc_attr($settings['thw_wishlist_table_brd_color'] ?? ''); ?>;
+    ">
 
-				<div class="thwl-image-skeleton">
-					<div class="thwl-image-icon"></div>
-				</div>
+                    <div class="thwl-card-top">
 
-				<h4><?php echo esc_html($item['title']); ?></h4>
+                        <!-- <span class="thwl-checkbox"></span> -->
 
-				<div class="thwl-price">
+                        <a href="#"
+                            class="thwl-remove thwl-remove-item"
+                            aria-label="<?php esc_attr_e('Remove from wishlist', 'th-store-one'); ?>">
+                            &times;
+                        </a>
 
-					<?php echo esc_html($item['price']); ?>
+                    </div>
 
-				</div>
+                    <div class="thwl-image-morden">
 
-				<span class="thwl-stock">
+                        <a href="<?php echo esc_url($product->get_permalink()); ?>">
 
-					<?php echo esc_html($item['stock']); ?>
+                            <?php echo wp_kses_post($product->get_image('woocommerce_thumbnail')); ?>
 
-				</span>
+                        </a>
 
-				<button class="thwl-cart-btn">
+                    </div>
 
-					<?php esc_html_e('Add to Cart', 'th-store-one'); ?>
+                    <h4>
 
-				</button>
+                        <a href="<?php echo esc_url($product->get_permalink()); ?>">
 
-			</div>
+                            <?php echo esc_html($product->get_name()); ?>
 
-		<?php endforeach; ?>
+                        </a>
 
-	</div>
+                    </h4>
+
+                    <div class="thwl-price">
+
+                        <?php echo wp_kses_post($product->get_price_html()); ?>
+
+                    </div>
+
+                    <span class="thwl-stock <?php echo $product->is_in_stock() ? 'in-stock' : 'out-stock'; ?>">
+
+                        <?php
+                            echo esc_html(
+                                $product->is_in_stock()
+                                    ? __('In Stock', 'th-store-one')
+                                    : __('Out of Stock', 'th-store-one')
+                            );
+                ?>
+
+                    </span>
+
+                    <?php $this->render_add_to_cart_button($product, $item); ?>
+
+                </div>
+
+            <?php endforeach; ?>
+
+        <?php endif; ?>
+
+    </div>
 
 </div>

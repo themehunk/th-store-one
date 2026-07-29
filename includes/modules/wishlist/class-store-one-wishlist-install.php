@@ -109,13 +109,12 @@ class Th_Store_One_Wishlist_Install
         $page_id = wp_insert_post(
             array(
                 'post_title'     => __('Wishlist', 'th-store-one'),
-                'post_content'   => '[thwl_wishlist]',
+                'post_content'   => '[th_store_one_wishlist]',
                 'post_status'    => 'publish',
                 'post_type'      => 'page',
                 'comment_status' => 'closed',
             )
         );
-
         if (! is_wp_error($page_id) && $page_id) {
             update_option('thwl_page_id', $page_id);
         }

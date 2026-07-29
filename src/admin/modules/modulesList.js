@@ -268,7 +268,7 @@ export const modulesList = [
       "th-store-one",
     ),
     icon: MODULE_ICONS.WISHLIST,
-    premium: true,
+    premium: false,
     featured: false,
   },
 ];
