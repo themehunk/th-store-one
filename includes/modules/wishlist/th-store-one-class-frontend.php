@@ -184,7 +184,7 @@ class Th_Store_One_Wishlist_Frontend
 
         $hook = th_store_one_get_hook_from_placement(
             $this->settings['thw_in_single_position']
-                ?? 'woocommerce_single_product_summary'
+                ?? 'woocommerce_after_add_to_cart_button'
         );
 
         $priority = absint(
@@ -192,9 +192,9 @@ class Th_Store_One_Wishlist_Frontend
         );
 
         add_action(
-            $hook,
+            'woocommerce_after_add_to_cart_button',
             array( $this, 'render_single_button' ),
-            $priority
+            10
         );
     }
 
@@ -418,7 +418,38 @@ class Th_Store_One_Wishlist_Frontend
             $button_classes[] = $atts['custom_class'];
         }
 
-        // Direct Output Buffering Start
+        $button_style = '';
+        $icon_style   = '';
+
+        if (empty($atts['theme_style'])) {
+
+            $button_styles = array();
+
+            if (! empty($this->settings['thw_wishlist_btn_bg_color'])) {
+                $button_styles[] = 'background:' . sanitize_text_field($this->settings['thw_wishlist_btn_bg_color']);
+            }
+
+            if (! empty($this->settings['thw_wishlist_btn_txt_color'])) {
+                $button_styles[] = 'color:' . sanitize_text_field($this->settings['thw_wishlist_btn_txt_color']);
+            }
+
+            $button_style = implode(';', $button_styles);
+            $icon_styles = array();
+
+            if (! empty($this->settings['thw_wishlist_add_icon_color'])) {
+                $icon_styles[] = '--icon-color:' . sanitize_text_field($this->settings['thw_wishlist_add_icon_color']);
+            }
+
+            if (! empty($this->settings['thw_redirect_wishlist_page_icon_size'])) {
+                $size = absint($this->settings['thw_redirect_wishlist_page_icon_size']);
+
+                $icon_styles[] = '--svg-width:' . $size . 'px';
+                $icon_styles[] = '--svg-height:' . $size . 'px';
+                $icon_styles[] = '--svg-font-size:' . $size . 'px';
+            }
+
+            $icon_style = implode(';', $icon_styles);
+        }
 
         ?>
 
@@ -426,6 +457,7 @@ class Th_Store_One_Wishlist_Frontend
         <a
             href="#"
             class="<?php echo esc_attr(implode(' ', $button_classes)); ?>"
+            style="<?php echo esc_attr($button_style); ?>"
             role="button"
             aria-label="<?php echo esc_attr($text); ?>"
 
@@ -444,13 +476,13 @@ class Th_Store_One_Wishlist_Frontend
             data-in-wishlist="<?php echo esc_attr((int) $in_wishlist); ?>"
         >
             <?php if (in_array($display, array( 'icon', 'icon_text', 'icon_only_no_style' ), true)) : ?>
-                <span class="thw-icon">
+                <span class="thw-icon" style="<?php echo esc_attr($icon_style); ?>">
                     <?php echo $this->get_button_icon($icon); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped?>
                 </span>
             <?php endif; ?>
 
             <?php if ('icon' !== $display && 'icon_only_no_style' !== $display) : ?>
-                <span class="thw-button-text">
+                <span class="thw-to-add-text">
                     <?php echo esc_html($text); ?>
                 </span>
             <?php endif; ?>
@@ -673,10 +705,11 @@ class Th_Store_One_Wishlist_Frontend
             : $args['add_text'];
 
         $icon = $in_wishlist
-            ? $args['add_browse_icon']
-            : $args['add_icon'];
+    ? $args['add_browse_icon']
+    : $args['add_icon'];
 
         $display = $args['display_style'];
+
 
         $theme_class = ! empty($args['theme_style'])
             ? 'thw-btn-theme-style'
@@ -694,7 +727,7 @@ class Th_Store_One_Wishlist_Frontend
         );
 
         $button_classes = array(
-            'thw-add-to-wishlist-button',
+            'thw-add-to-wishlist-button'
         );
 
         switch ($display) {
@@ -758,7 +791,7 @@ class Th_Store_One_Wishlist_Frontend
 
                 <span class="thw-icon">
                     <?php
-                        echo $this->get_button_icon($icon); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                       echo $this->get_button_icon($icon);// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 ?>
                 </span>
 
@@ -766,7 +799,7 @@ class Th_Store_One_Wishlist_Frontend
 
             <?php if ('icon' !== $display && 'icon_only_no_style' !== $display) : ?>
 
-                <span class="thw-button-text">
+                <span class="thw-to-add-text">
                     <?php echo esc_html($text); ?>
                 </span>
 
@@ -820,8 +853,13 @@ class Th_Store_One_Wishlist_Frontend
             ),
         );
 
-        if (empty($icons[ $icon ])) {
-            return '';
+        if (! isset($icons[$icon])) {
+
+            if (false !== strpos((string) $icon, 'favorite')) {
+                $icon = 'heart-filled';
+            } else {
+                $icon = 'heart-outline';
+            }
         }
 
 
@@ -1075,7 +1113,9 @@ class Th_Store_One_Wishlist_Frontend
             class="thwl-share-facebook"
             title="<?php esc_attr_e('Facebook', 'th-store-one'); ?>"
         >
-            <span class="dashicons dashicons-facebook"></span>
+           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.88 3.77-3.88 1.09 0 2.23.19 2.23.19v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z"/>
+</svg>
         </a>
 
         <a
@@ -1085,7 +1125,9 @@ class Th_Store_One_Wishlist_Frontend
             class="thwl-share-twitter"
             title="<?php esc_attr_e('X', 'th-store-one'); ?>"
         >
-            <span class="dashicons dashicons-twitter"></span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M18.901 1H22.58l-8.04 9.19L24 23h-7.406l-5.8-7.584L4.16 23H.48l8.6-9.83L0 1h7.594l5.243 6.932L18.901 1Zm-1.29 19.8h2.04L6.47 3.1H4.28L17.61 20.8Z"/>
+</svg>
         </a>
 
         <a
@@ -1095,7 +1137,9 @@ class Th_Store_One_Wishlist_Frontend
             class="thwl-share-whatsapp"
             title="<?php esc_attr_e('WhatsApp', 'th-store-one'); ?>"
         >
-            <span class="dashicons dashicons-whatsapp"></span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M20.52 3.48A11.85 11.85 0 0 0 12.04 0C5.4 0 0 5.4 0 12.04c0 2.12.55 4.2 1.6 6.04L0 24l6.09-1.58a12.04 12.04 0 0 0 5.95 1.52h.01C18.69 23.94 24 18.63 24 12c0-3.2-1.25-6.21-3.48-8.52ZM12.05 21.9a9.9 9.9 0 0 1-5.04-1.37l-.36-.21-3.61.94.96-3.52-.23-.37a9.86 9.86 0 1 1 8.28 4.53Zm5.42-7.39c-.3-.15-1.79-.88-2.07-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.96 1.18-.18.2-.35.23-.65.08-.3-.15-1.27-.47-2.42-1.5-.9-.8-1.5-1.78-1.67-2.08-.18-.3-.02-.46.13-.61.14-.14.3-.35.45-.53.15-.18.2-.3.3-.5.1-.2.05-.38-.02-.53-.08-.15-.68-1.64-.93-2.24-.25-.6-.5-.52-.68-.53h-.58c-.2 0-.53.08-.8.38-.28.3-1.06 1.03-1.06 2.52s1.09 2.93 1.24 3.13c.15.2 2.14 3.27 5.18 4.58.72.31 1.29.49 1.73.63.73.23 1.39.2 1.91.12.58-.09 1.79-.73 2.04-1.43.25-.7.25-1.31.18-1.43-.08-.13-.28-.2-.58-.35Z"/>
+</svg>
         </a>
 
         <a
@@ -1105,7 +1149,9 @@ class Th_Store_One_Wishlist_Frontend
             class="thwl-share-pinterest"
             title="<?php esc_attr_e('Pinterest', 'th-store-one'); ?>"
         >
-            <span class="dashicons dashicons-pinterest"></span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M12 0C5.37 0 0 5.37 0 12c0 4.92 2.98 9.15 7.23 10.98-.1-.93-.18-2.37.04-3.39.2-.87 1.3-5.53 1.3-5.53s-.33-.66-.33-1.63c0-1.53.89-2.67 2-2.67.94 0 1.39.7 1.39 1.55 0 .94-.6 2.35-.91 3.65-.26 1.09.55 1.98 1.62 1.98 1.95 0 3.45-2.06 3.45-5.03 0-2.63-1.89-4.47-4.59-4.47-3.13 0-4.97 2.35-4.97 4.78 0 .95.37 1.97.82 2.53.09.11.1.21.08.33-.09.36-.29 1.1-.33 1.25-.05.2-.17.25-.38.15-1.43-.67-2.32-2.78-2.32-4.47 0-3.64 2.65-6.99 7.65-6.99 4.02 0 7.14 2.87 7.14 6.71 0 4-2.52 7.22-6.02 7.22-1.17 0-2.28-.61-2.66-1.34l-.72 2.73c-.26.99-.97 2.23-1.45 2.99A12 12 0 1 0 12 0Z"/>
+</svg>
         </a>
 
         <a
@@ -1113,7 +1159,9 @@ class Th_Store_One_Wishlist_Frontend
             class="thwl-share-email"
             title="<?php esc_attr_e('Email', 'th-store-one'); ?>"
         >
-            <span class="dashicons dashicons-email"></span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 2-8 5L4 6h16Zm0 12H4V8l8 5 8-5v10Z"/>
+</svg>
         </a>
 
         <a

@@ -23,6 +23,7 @@ if (! defined('ABSPATH')) {
 			</div>
 
 			<?php
+
         if (! empty($args['show_share'])) : ?>
 
 				<div class="thwl-wishlist-share">

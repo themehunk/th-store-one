@@ -7,7 +7,7 @@ if (! defined('ABSPATH')) {
 /**
  * Handles Import from Old TH Wishlist Settings
  */
-class TH_StoreOne_Wishlist_Importer
+class TH_StoreOne_Old_Plugin_Importer
 {
     /**
      * Constructor
@@ -93,14 +93,14 @@ class TH_StoreOne_Wishlist_Importer
             'use_shortcode_redirect'               => true,
 
             // Style
-            'thw_wishlist_add_icon_color'          => $old['thw_wishlist_add_icon_color'] ?? '#111',
-            'thw_wishlist_btn_bg_color'            => $old['thw_wishlist_btn_bg_color'] ?? '#6a4df5',
-            'thw_wishlist_btn_txt_color'           => $old['thw_wishlist_btn_txt_color'] ?? '#fff',
+            'thw_wishlist_add_icon_color'          => $old['th_wishlist_add_icon_color'] ?? '#111',
+            'thw_wishlist_btn_bg_color'            => $old['th_wishlist_btn_bg_color'] ?? '#6a4df5',
+            'thw_wishlist_btn_txt_color'           => $old['th_wishlist_btn_txt_color'] ?? '#fff',
             'thw_redirect_wishlist_page_icon_size' => $old['thw_redirect_wishlist_page_icon_size'] ?? '24',
-            'thw_wishlist_table_bg_color'          => $old['thw_wishlist_table_bg_color'] ?? '#fff',
-            'thw_wishlist_table_brd_color'         => $old['thw_wishlist_table_brd_color'] ?? '#eee',
-            'thw_wishlist_table_txt_color'         => $old['thw_wishlist_table_txt_color'] ?? '#111',
-            'wishlist_table_style'                 => $old['wishlist_table_style'] ?? 'classic',
+            'thw_wishlist_table_bg_color'          => $old['th_wishlist_table_bg_color'] ?? '#fff',
+            'thw_wishlist_table_brd_color'         => $old['th_wishlist_table_brd_color'] ?? '#eee',
+            'thw_wishlist_table_txt_color'         => $old['th_wishlist_table_txt_color'] ?? '#111',
+            'wishlist_table_style'                 => $old['thwl_wishlist_page_layout'] ?? 'classic',
         );
 
         $all = get_option('th_store_one_module_set', array());
@@ -122,4 +122,4 @@ class TH_StoreOne_Wishlist_Importer
 }
 
 // Initialize the class
-new TH_StoreOne_Wishlist_Importer();
+new TH_StoreOne_Old_Plugin_Importer();

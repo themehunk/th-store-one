@@ -9,6 +9,14 @@ const PreviewWishlist = ({ settings = {} }) => {
 
   const changePreview = (value) => {
     setPreview(value);
+
+    window.dispatchEvent(
+      new CustomEvent("storeone:changeWishlistPreview", {
+        detail: {
+          preview: value,
+        },
+      }),
+    );
   };
 
   return (

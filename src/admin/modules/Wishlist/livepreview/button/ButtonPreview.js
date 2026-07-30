@@ -55,39 +55,52 @@ const ButtonPreview = ({ settings = {} }) => {
 
       {preview === "shop" && (
         <div
-          className="s1-preview-product-card"
+          className="s1-preview-shop-grid"
           style={{
-            maxWidth: "100%",
-            margin: "0 auto",
-            padding: "20px",
-            background: "#fff",
-            borderRadius: "12px",
-            textAlign: "-webkit-center",
+            display: "grid",
+            gridTemplateColumns: "repeat(2, 1fr)",
+            gap: "20px",
           }}
         >
-          <div className="s1-sk s1-sk-image"></div>
-
-          <div className="s1-sk s1-sk-title"></div>
-
-          <div className="s1-sk s1-sk-price"></div>
-
-          <div className="s1-sk s1-sk-rating"></div>
-          <div className="s1-sk s1-sk-cart"></div>
-          <div className="s1-sk-buttons">
-            <button
-              className={`s1-preview-btn ${
-                thw_btn_style_theme ? "theme-style" : ""
-              }`}
-              style={buttonStyle}
+          {[1, 2].map((item) => (
+            <div
+              key={item}
+              className="s1-preview-product-card"
+              style={{
+                maxWidth: "100%",
+                padding: "20px",
+                background: "#fff",
+                borderRadius: "12px",
+                textAlign: "-webkit-center",
+              }}
             >
-              <WishlistIcon
-                icon={thw_wishlist_add_icon}
-                color={thw_wishlist_add_icon_color}
-                size={thw_redirect_wishlist_page_icon_size}
-              />
-              <span>{thw_add_to_wishlist_text}</span>
-            </button>
-          </div>
+              <div className="s1-sk s1-sk-image"></div>
+
+              <div className="s1-sk s1-sk-title"></div>
+
+              <div className="s1-sk s1-sk-price"></div>
+
+              <div className="s1-sk s1-sk-rating"></div>
+
+              <div className="s1-sk s1-sk-cart"></div>
+
+              <div className="s1-sk-buttons">
+                <button
+                  className={`s1-preview-btn ${
+                    thw_btn_style_theme ? "theme-style" : ""
+                  }`}
+                  style={buttonStyle}
+                >
+                  <WishlistIcon
+                    icon={thw_wishlist_add_icon}
+                    color={thw_wishlist_add_icon_color}
+                    size={thw_redirect_wishlist_page_icon_size}
+                  />
+                  <span>{thw_add_to_wishlist_text}</span>
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       )}
 

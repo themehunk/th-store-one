@@ -3,6 +3,7 @@
     align-items: center;
     justify-content: center;
     position: relative;
+    margin:5px 0;
 }
 .thw-add-to-wishlist-button {
     display: inline-flex;
@@ -24,9 +25,14 @@
     background: none;
 }
 .thw-add-to-wishlist-button .thw-icon {
-    margin: 0 4px;
-    font-size: 1.2em;
+    margin-right: 4px;
+    font-size: 0;
     line-height: 1;
+}
+
+.thw-btn-custom-style .thw-add-to-wishlist-button{
+padding: 6px 15px;
+border-radius: 4px;
 }
 
 
@@ -564,8 +570,8 @@
 ========================================== */
 
 .thwl-modern{
-    background:#f8fafc;
-    border:1px solid #e5e7eb;
+ 
+    
     border-radius:14px;
     overflow:hidden;
 }
@@ -576,7 +582,7 @@
     align-items:center;
     padding:20px 24px;
     background:#fff;
-    border-bottom:1px solid #ececec;
+    
 }
 
 .thwl-modern-title{
@@ -588,7 +594,7 @@
 .thwl-modern-title h3{
     margin:0;
     font-size:22px;
-    font-weight:700;
+    font-weight:500;
     color:#111827;
 }
 
@@ -941,6 +947,40 @@
     color: var(--thwl-card-text, #333)!important;
 }
 
-.thwl-modern-card .thwl-image-morden {
-    border-color: var(--thwl-card-border, #e5e5e5)!important;
+.s1-traditional .s1-tr-row {
+    background: var(--thwl-bg, #fff)!important;
 }
+
+.s1-traditional .info h4,
+.s1-traditional .info h4 a,
+.s1-traditional .price,
+.s1-traditional .stock,
+.s1-traditional .s1-tr-remove {
+    color: var(--thwl-text, #111827)!important;}
+   
+
+
+.s1-traditional{
+    border-color: var(--thwl-border,#ececec)!important;
+}
+
+.s1-traditional .s1-tr-row, .s1-traditional .s1-tr-header{
+    border-bottom-color: var(--thwl-border,#ececec)!important;
+}
+
+
+// buttonstyle
+.thw-add-to-wishlist-button-wrap.thw-btn-custom-style .thw-icon{
+        color:var(--icon-color);
+    }
+    
+    .thw-add-to-wishlist-button-wrap.thw-btn-custom-style .thw-icon svg{
+        width:var(--svg-width);
+        height:var(--svg-height);
+        font-size:var(--svg-font-size);
+}
+
+ .thw-add-to-wishlist-button-wrap.th-wishlist-single .thw-icon,
+ .thw-add-to-wishlist-button-wrap.th-wishlist-single{ 
+        margin:0;
+    }
