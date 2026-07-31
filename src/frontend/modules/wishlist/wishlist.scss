@@ -20,7 +20,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
-    overflow: hidden;
+   
     box-shadow: none;
     background: none;
 }
@@ -984,3 +984,93 @@ border-radius: 4px;
  .thw-add-to-wishlist-button-wrap.th-wishlist-single{ 
         margin:0;
     }
+
+    
+
+.thw-add-to-wishlist-button {
+    position: relative;
+    overflow: visible;
+}
+
+.thw-add-to-wishlist-button[data-enable-tooltip="1"]::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 10px);
+    transform: translateX(-50%) translateY(5px);
+
+    background: #1f2937;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    white-space: nowrap;
+
+    opacity: 0;
+    visibility: hidden;
+    transition: .2s ease;
+    z-index: 999;
+}
+
+.thw-add-to-wishlist-button[data-enable-tooltip="1"]::before {
+    content: "";
+    position: absolute;
+
+    left: 50%;
+       bottom: calc(100% + 5px);
+
+    transform: translateX(-50%) translateY(5px);
+
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid #1f2937;
+
+    opacity: 0;
+    visibility: hidden;
+    transition: .2s ease;
+    z-index: 998;
+}
+
+.thw-add-to-wishlist-button[data-enable-tooltip="1"]:hover::after,
+.thw-add-to-wishlist-button[data-enable-tooltip="1"]:hover::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+.thw-add-to-wishlist-button.loading {
+    pointer-events: none;
+    opacity: .8;
+}
+
+.thw-add-to-wishlist-button.loading .thw-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.thw-loader {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+
+    border: 1.5px solid currentColor;
+    border-top-color: transparent;
+
+    border-radius: 50%;
+    box-sizing: border-box;
+
+    animation: thwSpin .7s linear infinite;
+    will-change: transform;
+}
+
+@keyframes thwSpin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

@@ -40,6 +40,7 @@ const DEFAULT_SETTINGS = {
   use_shortcode: true,
   use_shortcode_btn: true,
   use_shortcode_redirect: true,
+  thw_btn_tooltip: false,
 
   // Style
   thw_wishlist_add_icon_color: "#111",
@@ -377,7 +378,7 @@ export default function WishlistSettings({
                           />
                         </S1Field>
 
-                        <S1Field label="Add to Wishlist Text">
+                        <S1Field label="Add to Wishlist Text / Tooltip Text">
                           <TextControl
                             value={settings.thw_add_to_wishlist_text}
                             onChange={(v) =>
@@ -386,24 +387,12 @@ export default function WishlistSettings({
                           />
                         </S1Field>
 
-                        <S1Field label="Browse Wishlist Text">
+                        <S1Field label="Browse Wishlist Text / Tooltip Text">
                           <TextControl
                             value={settings.thw_browse_wishlist_text}
                             onChange={(v) =>
                               update("thw_browse_wishlist_text", v)
                             }
-                          />
-                        </S1Field>
-                        <S1Field
-                          label="Theme Default Style"
-                          description={__(
-                            "Choose to Wishlist button style as theme",
-                            "th-store-one",
-                          )}
-                        >
-                          <ToggleControl
-                            checked={settings.thw_btn_style_theme}
-                            onChange={(v) => update("thw_btn_style_theme", v)}
                           />
                         </S1Field>
                       </S1FieldGroup>
@@ -628,93 +617,121 @@ export default function WishlistSettings({
                     <>
                       {previewType === "button" && (
                         <>
-                          <S1FieldGroup number={1} title="Choose Icon">
-                            <S1Field label="Wishlist Icon" classN="list-icon">
-                              {WISHLIST_ICON_OPTIONS.map(({ id, svg }) => (
-                                <div
-                                  key={id}
-                                  className={`s1-icon-option ${
-                                    settings.thw_wishlist_add_icon === id
-                                      ? "active"
-                                      : ""
-                                  }`}
-                                  onClick={() =>
-                                    update("thw_wishlist_add_icon", id)
-                                  }
-                                  dangerouslySetInnerHTML={{ __html: svg }}
-                                />
-                              ))}
-                            </S1Field>
+                          <S1FieldGroup number={1} title="Choose Style">
                             <S1Field
-                              label="Browse Wishlist Icon"
-                              classN="list-icon"
+                              label="Button Style"
+                              description={__(
+                                "Choose to Wishlist button style as theme",
+                                "th-store-one",
+                              )}
                             >
-                              {WISHLIST_ICON_OPTIONS.map(({ id, svg }) => (
-                                <div
-                                  key={id}
-                                  className={`s1-icon-option ${
-                                    settings.th_wishlist_brws_icon === id
-                                      ? "active"
-                                      : ""
-                                  }`}
-                                  onClick={() =>
-                                    update("th_wishlist_brws_icon", id)
+                              <ToggleControl
+                                checked={settings.thw_btn_style_theme}
+                                onChange={(v) =>
+                                  update("thw_btn_style_theme", v)
+                                }
+                              />
+                            </S1Field>
+                            {settings.thw_btn_style_theme === false && (
+                              <>
+                                <S1Field
+                                  label="Wishlist Icon"
+                                  classN="list-icon"
+                                >
+                                  {WISHLIST_ICON_OPTIONS.map(({ id, svg }) => (
+                                    <div
+                                      key={id}
+                                      className={`s1-icon-option ${
+                                        settings.thw_wishlist_add_icon === id
+                                          ? "active"
+                                          : ""
+                                      }`}
+                                      onClick={() =>
+                                        update("thw_wishlist_add_icon", id)
+                                      }
+                                      dangerouslySetInnerHTML={{ __html: svg }}
+                                    />
+                                  ))}
+                                </S1Field>
+                                <S1Field
+                                  label="Browse Wishlist Icon"
+                                  classN="list-icon"
+                                >
+                                  {WISHLIST_ICON_OPTIONS.map(({ id, svg }) => (
+                                    <div
+                                      key={id}
+                                      className={`s1-icon-option ${
+                                        settings.th_wishlist_brws_icon === id
+                                          ? "active"
+                                          : ""
+                                      }`}
+                                      onClick={() =>
+                                        update("th_wishlist_brws_icon", id)
+                                      }
+                                      dangerouslySetInnerHTML={{ __html: svg }}
+                                    />
+                                  ))}
+                                </S1Field>
+                              </>
+                            )}
+                          </S1FieldGroup>
+                          {settings.thw_btn_style_theme === false && (
+                            <S1FieldGroup number={2} title="Button & Icon">
+                              <S1Field>
+                                <THBackgroundControl
+                                  label={__("Color", "th-store-one")}
+                                  value={settings.thw_wishlist_add_icon_color}
+                                  onChange={(v) =>
+                                    update("thw_wishlist_add_icon_color", v)
                                   }
-                                  dangerouslySetInnerHTML={{ __html: svg }}
+                                  allowGradient={false}
                                 />
-                              ))}
-                            </S1Field>
-                          </S1FieldGroup>
+                              </S1Field>
 
-                          <S1FieldGroup number={2} title="Button & Icon">
-                            <S1Field>
-                              <THBackgroundControl
-                                label={__("Color", "th-store-one")}
-                                value={settings.thw_wishlist_add_icon_color}
-                                onChange={(v) =>
-                                  update("thw_wishlist_add_icon_color", v)
+                              <S1Field>
+                                <THBackgroundControl
+                                  label={__("Background", "th-store-one")}
+                                  allowGradient={true}
+                                  value={settings.thw_wishlist_btn_bg_color}
+                                  onChange={(v) =>
+                                    update("thw_wishlist_btn_bg_color", v)
+                                  }
+                                />
+                              </S1Field>
+
+                              <S1Field>
+                                <THBackgroundControl
+                                  label={__("Text", "th-store-one")}
+                                  value={settings.thw_wishlist_btn_txt_color}
+                                  onChange={(v) =>
+                                    update("thw_wishlist_btn_txt_color", v)
+                                  }
+                                  allowGradient={false}
+                                />
+                              </S1Field>
+
+                              <UniversalRangeControl
+                                label="Icon Size"
+                                value={
+                                  settings.thw_redirect_wishlist_page_icon_size ||
+                                  "24"
                                 }
-                                allowGradient={false}
-                              />
-                            </S1Field>
-
-                            <S1Field>
-                              <THBackgroundControl
-                                label={__("Background", "th-store-one")}
-                                allowGradient={true}
-                                value={settings.thw_wishlist_btn_bg_color}
                                 onChange={(v) =>
-                                  update("thw_wishlist_btn_bg_color", v)
+                                  update(
+                                    "thw_redirect_wishlist_page_icon_size",
+                                    v,
+                                  )
                                 }
+                                units={["px"]}
                               />
-                            </S1Field>
-
-                            <S1Field>
-                              <THBackgroundControl
-                                label={__("Text", "th-store-one")}
-                                value={settings.thw_wishlist_btn_txt_color}
-                                onChange={(v) =>
-                                  update("thw_wishlist_btn_txt_color", v)
-                                }
-                                allowGradient={false}
-                              />
-                            </S1Field>
-
-                            <UniversalRangeControl
-                              label="Icon Size"
-                              value={
-                                settings.thw_redirect_wishlist_page_icon_size ||
-                                "24"
-                              }
-                              onChange={(v) =>
-                                update(
-                                  "thw_redirect_wishlist_page_icon_size",
-                                  v,
-                                )
-                              }
-                              units={["px"]}
-                            />
-                          </S1FieldGroup>
+                              <S1Field label="Enable Tooltip">
+                                <ToggleControl
+                                  checked={settings.thw_btn_tooltip}
+                                  onChange={(v) => update("thw_btn_tooltip", v)}
+                                />
+                              </S1Field>
+                            </S1FieldGroup>
+                          )}
                         </>
                       )}
                       {previewType === "table" && (

@@ -92,11 +92,18 @@ const ButtonPreview = ({ settings = {} }) => {
                   style={buttonStyle}
                 >
                   <WishlistIcon
-                    icon={thw_wishlist_add_icon}
+                    icon={
+                      item === 1 ? thw_wishlist_add_icon : th_wishlist_brws_icon
+                    }
                     color={thw_wishlist_add_icon_color}
                     size={thw_redirect_wishlist_page_icon_size}
                   />
-                  <span>{thw_add_to_wishlist_text}</span>
+
+                  <span>
+                    {item === 1
+                      ? thw_add_to_wishlist_text
+                      : thw_browse_wishlist_text}
+                  </span>
                 </button>
               </div>
             </div>

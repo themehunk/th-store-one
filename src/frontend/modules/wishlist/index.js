@@ -86,6 +86,8 @@ const StoreOneWishlist = {
 
       beforeSend() {
         $button.addClass("loading");
+
+        $button.find(".thw-icon").html('<span class="thw-loader"></span>');
       },
 
       success: (response) => {
@@ -117,6 +119,10 @@ const StoreOneWishlist = {
         }
 
         $button.addClass("in-wishlist");
+
+        if ($button.data("enable-tooltip")) {
+          $button.attr("data-tooltip", $button.attr("data-browse-text"));
+        }
 
         if (
           ["icon", "icon_text", "icon_only_no_style"].includes(

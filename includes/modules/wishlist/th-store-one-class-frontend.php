@@ -474,6 +474,9 @@ class Th_Store_One_Wishlist_Frontend
             data-tooltip="<?php echo esc_attr($text); ?>"
             data-login-required="<?php echo esc_attr((int) $atts['login_required']); ?>"
             data-in-wishlist="<?php echo esc_attr((int) $in_wishlist); ?>"
+            data-enable-tooltip="<?php echo esc_attr(
+                ! empty($this->settings['thw_btn_tooltip'])
+            ); ?>"
         >
             <?php if (in_array($display, array( 'icon', 'icon_text', 'icon_only_no_style' ), true)) : ?>
                 <span class="thw-icon" style="<?php echo esc_attr($icon_style); ?>">
@@ -785,6 +788,9 @@ class Th_Store_One_Wishlist_Frontend
             data-tooltip="<?php echo esc_attr($text); ?>"
             data-login-required="<?php echo esc_attr((int) $args['login_required']); ?>"
             data-in-wishlist="<?php echo esc_attr((int) $in_wishlist); ?>"
+            data-enable-tooltip="<?php echo esc_attr(
+                ! empty($this->settings['thw_btn_tooltip'])
+            ); ?>"
         >
 
             <?php if (in_array($display, array( 'icon', 'icon_text', 'icon_only_no_style' ), true)) : ?>
