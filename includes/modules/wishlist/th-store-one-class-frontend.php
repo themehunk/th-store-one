@@ -32,6 +32,10 @@ class Th_Store_One_Wishlist_Frontend
             'wp_enqueue_scripts',
             array( $this, 'enqueue_assets' )
         );
+        add_action(
+            'wp_footer',
+            array( $this, 'render_footer' )
+        );
     }
 
     /**
@@ -416,6 +420,15 @@ class Th_Store_One_Wishlist_Frontend
 
         if (! empty($atts['custom_class'])) {
             $button_classes[] = $atts['custom_class'];
+        }
+
+        $multi_enabled = apply_filters(
+            'store_one_wishlist_multi_enabled',
+            false
+        );
+
+        if ($multi_enabled) {
+            $button_classes[] = 'create-multi';
         }
 
         $button_style = '';
@@ -1234,5 +1247,13 @@ class Th_Store_One_Wishlist_Frontend
         </button>
         <?php
         }
+    }
+
+    public function render_footer()
+    {
+        do_action(
+            'store_one_wishlist_footer',
+            $this->settings
+        );
     }
 }

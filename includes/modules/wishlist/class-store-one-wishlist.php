@@ -11,6 +11,7 @@ require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/wishlist/th-store-one-c
 
 class Th_Store_One_Wishlist
 {
+    private $settings = array();
     public function __construct($settings = array())
     {
         $this->settings = $settings;

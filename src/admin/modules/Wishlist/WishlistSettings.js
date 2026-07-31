@@ -42,6 +42,14 @@ const DEFAULT_SETTINGS = {
   use_shortcode_redirect: true,
   thw_btn_tooltip: false,
 
+  // pro setting
+  thw_multi_wishlist: false,
+  thw_multi_pp_slc_text: "Select Wishlist",
+  thw_multi_pp_crt_text: "+ Create New Wishlist",
+  thw_multi_apy_text: "Apply",
+  thw_multi_pp_crt_btn_text: "Create & Add",
+  thw_multi_pp_cncl_btn_text: "Cancel",
+
   // Style
   thw_wishlist_add_icon_color: "#111",
   thw_wishlist_btn_bg_color: "#6a4df5",
@@ -82,6 +90,7 @@ export default function WishlistSettings({
   onSettingsChange,
   onRegisterSave,
   onModuleReady,
+  licenseActive,
 }) {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -396,8 +405,72 @@ export default function WishlistSettings({
                           />
                         </S1Field>
                       </S1FieldGroup>
+                      <S1FieldGroup
+                        number={3}
+                        title="Multi Wishlist"
+                        pro={licenseActive ? false : true}
+                      >
+                        <S1Field
+                          label="Enable Multi Wishlist"
+                          description="Allow customers to create and manage multiple wishlists."
+                        >
+                          <ToggleControl
+                            checked={settings.thw_multi_wishlist}
+                            onChange={(v) => update("thw_multi_wishlist", v)}
+                          />
+                        </S1Field>
+
+                        {settings.thw_multi_wishlist && (
+                          <>
+                            <S1Field label="Popup Select Wishlist Text">
+                              <TextControl
+                                value={settings.thw_multi_pp_slc_text}
+                                onChange={(v) =>
+                                  update("thw_multi_pp_slc_text", v)
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field label="Popup Create Wishlist Text">
+                              <TextControl
+                                value={settings.thw_multi_pp_crt_text}
+                                onChange={(v) =>
+                                  update("thw_multi_pp_crt_text", v)
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field label="Apply Button Text">
+                              <TextControl
+                                value={settings.thw_multi_apy_text}
+                                onChange={(v) =>
+                                  update("thw_multi_apy_text", v)
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field label="Create & Add Button Text">
+                              <TextControl
+                                value={settings.thw_multi_pp_crt_btn_text}
+                                onChange={(v) =>
+                                  update("thw_multi_pp_crt_btn_text", v)
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field label="Cancel Button Text">
+                              <TextControl
+                                value={settings.thw_multi_pp_cncl_btn_text}
+                                onChange={(v) =>
+                                  update("thw_multi_pp_cncl_btn_text", v)
+                                }
+                              />
+                            </S1Field>
+                          </>
+                        )}
+                      </S1FieldGroup>
                       {/* SHORTCODE */}
-                      <S1FieldGroup number={3} title="Shortcode">
+                      <S1FieldGroup number={4} title="Shortcode">
                         <S1Field
                           label={__("Use Shortcode For Button", "th-store-one")}
                         >
