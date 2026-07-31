@@ -632,48 +632,44 @@ export default function WishlistSettings({
                                 }
                               />
                             </S1Field>
-                            {settings.thw_btn_style_theme === false && (
-                              <>
-                                <S1Field
-                                  label="Wishlist Icon"
-                                  classN="list-icon"
-                                >
-                                  {WISHLIST_ICON_OPTIONS.map(({ id, svg }) => (
-                                    <div
-                                      key={id}
-                                      className={`s1-icon-option ${
-                                        settings.thw_wishlist_add_icon === id
-                                          ? "active"
-                                          : ""
-                                      }`}
-                                      onClick={() =>
-                                        update("thw_wishlist_add_icon", id)
-                                      }
-                                      dangerouslySetInnerHTML={{ __html: svg }}
-                                    />
-                                  ))}
-                                </S1Field>
-                                <S1Field
-                                  label="Browse Wishlist Icon"
-                                  classN="list-icon"
-                                >
-                                  {WISHLIST_ICON_OPTIONS.map(({ id, svg }) => (
-                                    <div
-                                      key={id}
-                                      className={`s1-icon-option ${
-                                        settings.th_wishlist_brws_icon === id
-                                          ? "active"
-                                          : ""
-                                      }`}
-                                      onClick={() =>
-                                        update("th_wishlist_brws_icon", id)
-                                      }
-                                      dangerouslySetInnerHTML={{ __html: svg }}
-                                    />
-                                  ))}
-                                </S1Field>
-                              </>
-                            )}
+
+                            <>
+                              <S1Field label="Wishlist Icon" classN="list-icon">
+                                {WISHLIST_ICON_OPTIONS.map(({ id, svg }) => (
+                                  <div
+                                    key={id}
+                                    className={`s1-icon-option ${
+                                      settings.thw_wishlist_add_icon === id
+                                        ? "active"
+                                        : ""
+                                    }`}
+                                    onClick={() =>
+                                      update("thw_wishlist_add_icon", id)
+                                    }
+                                    dangerouslySetInnerHTML={{ __html: svg }}
+                                  />
+                                ))}
+                              </S1Field>
+                              <S1Field
+                                label="Browse Wishlist Icon"
+                                classN="list-icon"
+                              >
+                                {WISHLIST_ICON_OPTIONS.map(({ id, svg }) => (
+                                  <div
+                                    key={id}
+                                    className={`s1-icon-option ${
+                                      settings.th_wishlist_brws_icon === id
+                                        ? "active"
+                                        : ""
+                                    }`}
+                                    onClick={() =>
+                                      update("th_wishlist_brws_icon", id)
+                                    }
+                                    dangerouslySetInnerHTML={{ __html: svg }}
+                                  />
+                                ))}
+                              </S1Field>
+                            </>
                           </S1FieldGroup>
                           {settings.thw_btn_style_theme === false && (
                             <S1FieldGroup number={2} title="Button & Icon">
