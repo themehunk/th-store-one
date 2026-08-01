@@ -60,7 +60,6 @@ const StoreOneWishlist = {
 
     if ($button.hasClass("create-multi")) {
       $(document).trigger("store_one_multi_wishlist_open", [$button]);
-
       return;
     }
 

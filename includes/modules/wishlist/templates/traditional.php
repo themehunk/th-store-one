@@ -16,11 +16,21 @@ if (! defined('ABSPATH')) {
 
             <div class="s1-tr-title">
 
-                <h3><?php esc_html_e('Wishlist', 'th-store-one'); ?></h3>
+                <h3><?php
+                echo ! empty($wishlist->wishlist_name)
+                    ? esc_html($wishlist->wishlist_name)
+                    : esc_html__('Wishlist', 'th-store-one');
+        ?></h3>
 
-                <!-- <span class="s1-tr-badge">
-                    <?php esc_html_e('Public', 'th-store-one'); ?>
-                </span> -->
+               
+
+                <?php if (class_exists('THWL_Pro_Data') && ! empty($wishlist->privacy)) : ?>
+
+                <span class="s1-tr-badge thwl-badge-<?php echo esc_attr($wishlist->privacy); ?>">
+                    <?php echo esc_html(ucfirst($wishlist->privacy)); ?>
+                </span>
+
+            <?php endif; ?>
 
             </div>
 
@@ -38,9 +48,43 @@ if (! defined('ABSPATH')) {
 
             <?php endif; ?>
 
+            
+
         </div>
 
     <?php endif; ?>
+
+    <?php if (class_exists('THWL_Pro_Data')) :
+
+        $wishlists = THWL_Pro_Data::get_user_wishlists(get_current_user_id());
+
+        $active_id = ! empty($wishlist->id) ? absint($wishlist->id) : 0;
+
+        if (! empty($wishlists)) :
+            ?>
+
+<div class="s1-thwl-wishlist-tabs">
+
+    <?php foreach ($wishlists as $wl) : ?>
+
+        <a
+            href="<?php echo esc_url(add_query_arg('wishlist_id', $wl->id)); ?>"
+            class="thwl-wishlist-tab <?php echo ($active_id === (int) $wl->id) ? 'active' : ''; ?>"
+        >
+
+            <?php echo esc_html($wl->wishlist_name); ?>
+
+        </a>
+
+    <?php endforeach; ?>
+
+</div>
+
+<?php
+        endif;
+    endif;
+?>
+
 
     <?php if (empty($items)) : ?>
 

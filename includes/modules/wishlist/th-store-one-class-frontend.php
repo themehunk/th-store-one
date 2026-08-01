@@ -349,15 +349,42 @@ class Th_Store_One_Wishlist_Frontend
         /**
          * Wishlist state.
          */
-        $wishlist = Th_Store_One_Wishlist_Data::get_or_create_wishlist();
+        if (class_exists('THWL_Pro_Data')) {
 
-        $in_wishlist = $wishlist
-            ? Th_Store_One_Wishlist_Data::is_product_in_wishlist(
-                $wishlist->id,
+            $wishlist_id = isset($_GET['wishlist_id'])
+                ? absint($_GET['wishlist_id'])
+                : 0;
+
+            if ($wishlist_id) {
+                $wishlist = THWL_Pro_Data::get_wishlist_by_id($wishlist_id);
+            } else {
+                $wishlist = Th_Store_One_Wishlist_Data::get_or_create_wishlist();
+            }
+
+        } else {
+
+            $wishlist = Th_Store_One_Wishlist_Data::get_or_create_wishlist();
+
+        }
+
+        if (class_exists('THWL_Pro_Data')) {
+
+            $in_wishlist = THWL_Pro_Data::is_product_in_any_wishlist(
                 $product->get_id(),
-                $variation_id
-            )
-            : false;
+                $variation_id,
+                get_current_user_id()
+            );
+
+        } else {
+
+            $in_wishlist = $wishlist
+                ? Th_Store_One_Wishlist_Data::is_product_in_wishlist(
+                    $wishlist->id,
+                    $product->get_id(),
+                    $variation_id
+                )
+                : false;
+        }
 
         $atts['variation_id'] = $variation_id;
         $atts['in_wishlist']   = $in_wishlist;
@@ -657,15 +684,28 @@ class Th_Store_One_Wishlist_Frontend
          * Replace with Store One wishlist logic.
          */
 
-        $wishlist = Th_Store_One_Wishlist_Data::get_or_create_wishlist();
+        if (class_exists('THWL_Pro_Data')) {
 
-        $in_wishlist = $wishlist
-            ? Th_Store_One_Wishlist_Data::is_product_in_wishlist(
-                $wishlist->id,
+            $wishlist = THWL_Pro_Data::get_wishlist_by_id($wishlist_id);
+
+            $in_wishlist = THWL_Pro_Data::is_product_in_any_wishlist(
                 $product->get_id(),
-                $variation_id
-            )
-            : false;
+                $variation_id,
+                get_current_user_id()
+            );
+
+        } else {
+
+            $wishlist = Th_Store_One_Wishlist_Data::get_or_create_wishlist();
+
+            $in_wishlist = $wishlist
+                ? Th_Store_One_Wishlist_Data::is_product_in_wishlist(
+                    $wishlist->id,
+                    $product->get_id(),
+                    $variation_id
+                )
+                : false;
+        }
 
         $atts['variation_id'] = $variation_id;
         $atts['in_wishlist']  = $in_wishlist;
@@ -983,9 +1023,21 @@ class Th_Store_One_Wishlist_Frontend
         */
         if (empty($atts['wishlist_id'])) {
 
-            $wishlist = Th_Store_One_Wishlist_Data::get_or_create_wishlist();
+            if (class_exists('THWL_Pro_Data')) {
 
-            $atts['wishlist_id'] = $wishlist ? absint($wishlist->id) : 0;
+                $atts['wishlist_id'] = isset($_GET['wishlist_id'])
+                    ? absint($_GET['wishlist_id'])
+                    : 0;
+
+            } else {
+
+                $wishlist = Th_Store_One_Wishlist_Data::get_or_create_wishlist();
+
+                $atts['wishlist_id'] = $wishlist
+                    ? absint($wishlist->id)
+                    : 0;
+
+            }
         }
 
         /*
@@ -1014,7 +1066,17 @@ class Th_Store_One_Wishlist_Frontend
         /*
         * Wishlist
         */
-        $wishlist = Th_Store_One_Wishlist_Data::get_or_create_wishlist();
+        if (class_exists('THWL_Pro_Data') && ! empty($args['wishlist_id'])) {
+
+            $wishlist = THWL_Pro_Data::get_wishlist_by_id(
+                absint($args['wishlist_id'])
+            );
+
+        } else {
+
+            $wishlist = Th_Store_One_Wishlist_Data::get_or_create_wishlist();
+
+        }
 
         if (! $wishlist) {
             return '';

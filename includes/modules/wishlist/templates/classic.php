@@ -12,31 +12,75 @@ if (! defined('ABSPATH')) {
 
 	<?php if (! empty($args['show_header'])) : ?>
 
-		<div class="thwl-normal-header">
+    <div class="thwl-normal-header">
 
-			<div class="thwl-normal-title">
-				<h3><?php esc_html_e('Wishlist', 'th-store-one'); ?></h3>
+        <div class="thwl-normal-title">
 
-				<!-- <span class="thwl-badge">
-					<?php esc_html_e('Public', 'th-store-one'); ?>
-				</span> -->
-			</div>
+            <h3>
+                <?php
+                echo ! empty($wishlist->wishlist_name)
+                    ? esc_html($wishlist->wishlist_name)
+                    : esc_html__('Wishlist', 'th-store-one');
+	    ?>
+            </h3>
 
-			<?php
+            <?php if (class_exists('THWL_Pro_Data') && ! empty($wishlist->privacy)) : ?>
 
-        if (! empty($args['show_share'])) : ?>
+                <span class="thwl-badge thwl-badge-<?php echo esc_attr($wishlist->privacy); ?>">
+                    <?php echo esc_html(ucfirst($wishlist->privacy)); ?>
+                </span>
 
-				<div class="thwl-wishlist-share">
-               
-                    <?php $this->render_social_share_links($wishlist); ?>
-                
+            <?php endif; ?>
+
+        </div>
+
+        <?php if (! empty($args['show_share'])) : ?>
+
+            <div class="thwl-wishlist-share">
+
+                <?php $this->render_social_share_links($wishlist); ?>
+
             </div>
 
-			<?php endif; ?>
+        <?php endif; ?>
 
-		</div>
+    </div>
 
-	<?php endif; ?>
+<?php endif; ?>
+
+
+<?php if (class_exists('THWL_Pro_Data')) :
+
+    $wishlists = THWL_Pro_Data::get_user_wishlists(get_current_user_id());
+
+    $active_id = ! empty($wishlist->id) ? absint($wishlist->id) : 0;
+
+    if (! empty($wishlists)) :
+        ?>
+
+<div class="s1-thwl-wishlist-tabs">
+
+    <?php foreach ($wishlists as $wl) : ?>
+
+        <a
+            href="<?php echo esc_url(add_query_arg('wishlist_id', $wl->id)); ?>"
+            class="thwl-wishlist-tab <?php echo ($active_id === (int) $wl->id) ? 'active' : ''; ?>"
+        >
+
+            <?php echo esc_html($wl->wishlist_name); ?>
+
+        </a>
+
+    <?php endforeach; ?>
+
+</div>
+
+<?php
+    endif;
+endif;
+?>
+
+
 
 	<table class="thwl-table">
 

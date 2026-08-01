@@ -8,6 +8,8 @@ require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/wishlist/class-store-on
 require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/wishlist/class-store-one-wishlist-install.php';
 require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/wishlist/class-store-one-wishlist-ajax.php';
 require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/wishlist/th-store-one-class-frontend.php';
+require_once TH_STORE_ONE_PLUGIN_DIR . 'includes/modules/wishlist/class-store-one-wishlist-track.php';
+
 
 class Th_Store_One_Wishlist
 {
@@ -24,5 +26,7 @@ class Th_Store_One_Wishlist
 
         // Frontend.
         new Th_Store_One_Wishlist_Frontend($this->settings);
+
+        new Store_One_Wishlist_Tracking();
     }
 }
