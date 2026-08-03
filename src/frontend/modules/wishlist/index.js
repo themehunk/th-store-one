@@ -42,7 +42,7 @@ const StoreOneWishlist = {
       this.addAllToCart(e),
     );
 
-    $(document).on("click", ".thw-copy-link-button", (e) => this.copyLink(e));
+    $(document).on("click", ".thwl-copy-link", (e) => this.copyLink(e));
 
     $(document).on("click", ".thwl-add-to-cart-manage", (e) =>
       this.addToCart(e),
@@ -55,14 +55,11 @@ const StoreOneWishlist = {
 
   addToWishlist(e) {
     e.preventDefault();
-
     const $button = $(e.currentTarget);
-
     if ($button.hasClass("create-multi")) {
       $(document).trigger("store_one_multi_wishlist_open", [$button]);
       return;
     }
-
     const isShortcode = $button.hasClass("is-shortcode");
     const product_id = $button.data("product-id");
     const variation_id = $button.data("variation-id");
@@ -310,7 +307,6 @@ const StoreOneWishlist = {
     });
 
     if (!items.length) {
-      alert("Please select products.");
       return;
     }
 
@@ -343,11 +339,29 @@ const StoreOneWishlist = {
   },
 
   copyLink(e) {
-    const link = $(e.currentTarget).data("link");
+    e.preventDefault();
 
-    navigator.clipboard.writeText(link);
+    const $btn = $(e.currentTarget);
+    const link = $btn.data("url");
 
-    alert("Wishlist link copied to clipboard!");
+    if (!link) {
+      return;
+    }
+
+    navigator.clipboard
+      .writeText(link)
+      .then(() => {
+        const original = $btn.html();
+
+        $btn.html('<span class="dashicons dashicons-yes-alt"></span>');
+
+        setTimeout(() => {
+          $btn.html(original);
+        }, 2000);
+      })
+      .catch(() => {
+        alert("Failed to copy link.");
+      });
   },
 
   addToCart(e) {

@@ -405,70 +405,7 @@ export default function WishlistSettings({
                           />
                         </S1Field>
                       </S1FieldGroup>
-                      <S1FieldGroup
-                        number={3}
-                        title="Multi Wishlist"
-                        pro={licenseActive ? false : true}
-                      >
-                        <S1Field
-                          label="Enable Multi Wishlist"
-                          description="Allow customers to create and manage multiple wishlists."
-                        >
-                          <ToggleControl
-                            checked={settings.thw_multi_wishlist}
-                            onChange={(v) => update("thw_multi_wishlist", v)}
-                          />
-                        </S1Field>
 
-                        {settings.thw_multi_wishlist && (
-                          <>
-                            <S1Field label="Popup Select Wishlist Text">
-                              <TextControl
-                                value={settings.thw_multi_pp_slc_text}
-                                onChange={(v) =>
-                                  update("thw_multi_pp_slc_text", v)
-                                }
-                              />
-                            </S1Field>
-
-                            <S1Field label="Popup Create Wishlist Text">
-                              <TextControl
-                                value={settings.thw_multi_pp_crt_text}
-                                onChange={(v) =>
-                                  update("thw_multi_pp_crt_text", v)
-                                }
-                              />
-                            </S1Field>
-
-                            <S1Field label="Apply Button Text">
-                              <TextControl
-                                value={settings.thw_multi_apy_text}
-                                onChange={(v) =>
-                                  update("thw_multi_apy_text", v)
-                                }
-                              />
-                            </S1Field>
-
-                            <S1Field label="Create & Add Button Text">
-                              <TextControl
-                                value={settings.thw_multi_pp_crt_btn_text}
-                                onChange={(v) =>
-                                  update("thw_multi_pp_crt_btn_text", v)
-                                }
-                              />
-                            </S1Field>
-
-                            <S1Field label="Cancel Button Text">
-                              <TextControl
-                                value={settings.thw_multi_pp_cncl_btn_text}
-                                onChange={(v) =>
-                                  update("thw_multi_pp_cncl_btn_text", v)
-                                }
-                              />
-                            </S1Field>
-                          </>
-                        )}
-                      </S1FieldGroup>
                       {/* SHORTCODE */}
                       <S1FieldGroup number={4} title="Shortcode">
                         <S1Field
@@ -681,6 +618,105 @@ export default function WishlistSettings({
                     </>
                   ),
                 },
+                {
+                  id: "multi-wishlist",
+                  label: "Multi Wishlist",
+                  icon: (
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <rect
+                        x="3"
+                        y="5"
+                        width="18"
+                        height="14"
+                        rx="2"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                      />
+                      <line
+                        x1="8"
+                        y1="5"
+                        x2="8"
+                        y2="19"
+                        stroke="currentColor"
+                        stroke-width="1.8"
+                      />
+                      <path
+                        d="M15 10.5L15.6 9.9C16.2 9.3 17.2 9.3 17.8 9.9C18.4 10.5 18.4 11.5 17.8 12.1L15 15L12.2 12.1C11.6 11.5 11.6 10.5 12.2 9.9C12.8 9.3 13.8 9.3 14.4 9.9L15 10.5Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  ),
+                  content: (
+                    <S1FieldGroup
+                      number={3}
+                      title="Multi Wishlist"
+                      pro={licenseActive ? false : true}
+                    >
+                      <S1Field
+                        label="Enable Multi Wishlist"
+                        description="Allow customers to create and manage multiple wishlists."
+                      >
+                        <ToggleControl
+                          checked={settings.thw_multi_wishlist}
+                          onChange={(v) => update("thw_multi_wishlist", v)}
+                        />
+                      </S1Field>
+
+                      {settings.thw_multi_wishlist && (
+                        <>
+                          <S1Field label="Popup Select Wishlist Text">
+                            <TextControl
+                              value={settings.thw_multi_pp_slc_text}
+                              onChange={(v) =>
+                                update("thw_multi_pp_slc_text", v)
+                              }
+                            />
+                          </S1Field>
+
+                          <S1Field label="Popup Create Wishlist Text">
+                            <TextControl
+                              value={settings.thw_multi_pp_crt_text}
+                              onChange={(v) =>
+                                update("thw_multi_pp_crt_text", v)
+                              }
+                            />
+                          </S1Field>
+
+                          <S1Field label="Apply Button Text">
+                            <TextControl
+                              value={settings.thw_multi_apy_text}
+                              onChange={(v) => update("thw_multi_apy_text", v)}
+                            />
+                          </S1Field>
+
+                          <S1Field label="Create & Add Button Text">
+                            <TextControl
+                              value={settings.thw_multi_pp_crt_btn_text}
+                              onChange={(v) =>
+                                update("thw_multi_pp_crt_btn_text", v)
+                              }
+                            />
+                          </S1Field>
+
+                          <S1Field label="Cancel Button Text">
+                            <TextControl
+                              value={settings.thw_multi_pp_cncl_btn_text}
+                              onChange={(v) =>
+                                update("thw_multi_pp_cncl_btn_text", v)
+                              }
+                            />
+                          </S1Field>
+                        </>
+                      )}
+                    </S1FieldGroup>
+                  ),
+                },
 
                 {
                   id: "style",
@@ -692,7 +728,7 @@ export default function WishlistSettings({
                         <>
                           <S1FieldGroup number={1} title="Choose Style">
                             <S1Field
-                              label="Button Style"
+                              label="Theme Style"
                               description={__(
                                 "Choose to Wishlist button style as theme",
                                 "th-store-one",

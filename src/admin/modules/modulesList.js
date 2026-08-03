@@ -25,6 +25,17 @@ export const modulesList = [
     featured: true,
   },
   {
+    id: "th-wishlist",
+    label: __("Wishlist", "th-store-one"),
+    description: __(
+      "Wishlist is a powerful and user-friendly wishlist plugin for WooCommerce that lets your customers save their favorite.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.WISHLIST,
+    premium: false,
+    featured: true,
+  },
+  {
     id: "sale-notification",
     label: __("Sale Notification", "th-store-one"),
     description: __(
@@ -258,17 +269,6 @@ export const modulesList = [
     ),
     icon: MODULE_ICONS.STKSC,
     premium: true,
-    featured: false,
-  },
-  {
-    id: "th-wishlist",
-    label: __("Wishlist", "th-store-one"),
-    description: __(
-      "TH Wishlist is a powerful and user-friendly wishlist plugin for WooCommerce that lets your customers save their favorite.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.WISHLIST,
-    premium: false,
     featured: false,
   },
 ];

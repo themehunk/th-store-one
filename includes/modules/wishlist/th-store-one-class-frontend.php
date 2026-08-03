@@ -1208,7 +1208,7 @@ class Th_Store_One_Wishlist_Frontend
             class="thwl-share-twitter"
             title="<?php esc_attr_e('X', 'th-store-one'); ?>"
         >
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
     <path d="M18.901 1H22.58l-8.04 9.19L24 23h-7.406l-5.8-7.584L4.16 23H.48l8.6-9.83L0 1h7.594l5.243 6.932L18.901 1Zm-1.29 19.8h2.04L6.47 3.1H4.28L17.61 20.8Z"/>
 </svg>
         </a>
