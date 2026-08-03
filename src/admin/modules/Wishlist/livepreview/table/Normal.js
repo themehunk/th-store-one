@@ -12,13 +12,31 @@ const Normal = ({ settings }) => {
       <div className="thwl-normal-header">
         <div className="thwl-normal-title">
           <h3>Wishlist</h3>
-          {/* <span className="thwl-badge">Public</span> */}
+          {settings.thw_multi_wishlist && (
+            <span className="thwl-badge">Public</span>
+          )}
         </div>
 
         <button className="thwl-share-btn">
           <span class="dashicons dashicons-share"></span>
         </button>
       </div>
+
+      {settings.thw_multi_wishlist && (
+        <div className="s1-thwl-wishlist-tabs">
+          <a href="#" className="thwl-wishlist-tab active">
+            {__("My Wishlist", "th-store-one")}
+          </a>
+
+          <a href="#" className="thwl-wishlist-tab">
+            {__("Birthday", "th-store-one")}
+          </a>
+
+          <a href="#" className="thwl-wishlist-tab">
+            {__("Favorites", "th-store-one")}
+          </a>
+        </div>
+      )}
 
       <table
         className="thwl-table"

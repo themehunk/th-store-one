@@ -6,12 +6,31 @@ const Modern = ({ settings }) => {
       <div className="thwl-modern-header">
         <div className="thwl-modern-title">
           <h3>Wishlist</h3>
+          {settings.thw_multi_wishlist && (
+            <span className="thwl-badge">Public</span>
+          )}
         </div>
 
         <button className="thwl-share-btn">
           <span className="dashicons dashicons-share"></span>
         </button>
       </div>
+
+      {settings.thw_multi_wishlist && (
+        <div className="s1-thwl-wishlist-tabs">
+          <a href="#" className="thwl-wishlist-tab active">
+            {__("My Wishlist", "th-store-one")}
+          </a>
+
+          <a href="#" className="thwl-wishlist-tab">
+            {__("Birthday", "th-store-one")}
+          </a>
+
+          <a href="#" className="thwl-wishlist-tab">
+            {__("Favorites", "th-store-one")}
+          </a>
+        </div>
+      )}
 
       <div className="thwl-modern-grid">
         {[1, 2].map((i) => (

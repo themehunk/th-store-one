@@ -1157,9 +1157,11 @@ class Th_Store_One_Wishlist_Frontend
             return '';
         }
 
+
+
         $wishlist_page_id = ! empty($this->settings['thwl_page_id'])
             ? absint($this->settings['thwl_page_id'])
-            : 0;
+            : '';
 
         if (! $wishlist_page_id) {
             return '';

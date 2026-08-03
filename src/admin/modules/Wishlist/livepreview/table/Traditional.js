@@ -13,10 +13,28 @@ const Traditional = ({ settings }) => {
       <div className="s1-tr-header">
         <div className="s1-tr-title">
           <h3>Wishlist</h3>
+          {settings.thw_multi_wishlist && (
+            <span className="thwl-badge">Public</span>
+          )}
         </div>
 
         <span className="dashicons dashicons-share"></span>
       </div>
+      {settings.thw_multi_wishlist && (
+        <div className="s1-thwl-wishlist-tabs">
+          <a href="#" className="thwl-wishlist-tab active">
+            {__("My Wishlist", "th-store-one")}
+          </a>
+
+          <a href="#" className="thwl-wishlist-tab">
+            {__("Birthday", "th-store-one")}
+          </a>
+
+          <a href="#" className="thwl-wishlist-tab">
+            {__("Favorites", "th-store-one")}
+          </a>
+        </div>
+      )}
 
       {[1, 2].map((i) => (
         <div className="s1-tr-row" key={i}>

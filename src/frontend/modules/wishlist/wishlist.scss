@@ -1079,7 +1079,7 @@ border-radius: 4px;
     display:flex;
     align-items:center;
     gap:12px;
-    margin:20px 0;
+    margin-bottom:1rem;
     padding:8px;
     border-radius:14px;
     overflow-x:auto;
@@ -1124,4 +1124,8 @@ border-radius: 4px;
 .s1-thwl-wishlist-tabs .thwl-wishlist-tab:not(.active) .thwl-tab-count{
     background:#e2e8f0;
     color:#475569;
+}
+.thwl-wishlist-share .thwl-social-share a:focus,
+.s1-thwl-wishlist-tabs a:focus{
+    outline:none;
 }

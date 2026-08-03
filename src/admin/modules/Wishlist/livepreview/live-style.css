@@ -924,3 +924,31 @@ justify-content: center;
 .s1-traditional .s1-tr-image-skeleton {
     border: 1px solid var(--thwl-border, #e5e5e5);
 }
+
+.s1-thwl-wishlist-tabs {
+    display: flex;
+    gap: 10px;
+    margin: 18px 0;
+    flex-wrap: wrap;
+    padding:0 20px;
+}
+
+.thwl-wishlist-tab {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border: none;
+    background: #fbfbfb;
+    color: #475569;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    pointer-events: none; /* Preview only */
+}
+
+.thwl-wishlist-tab.active {
+   background: #2563eb;
+    color: #fff;
+}
