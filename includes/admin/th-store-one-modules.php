@@ -68,6 +68,7 @@ class Th_Store_One_Modules
             'th-product-compare' => true,
             'shopable-list' => false,
             'th-wishlist' => false,
+            'th-cart' => false,
         );
     }
     /**
