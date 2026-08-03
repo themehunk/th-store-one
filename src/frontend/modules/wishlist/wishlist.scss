@@ -366,7 +366,9 @@ border-radius: 4px;
     font-size:16px;
     font-weight:500;
 }
-
+.thwl-normal .thwl-product-link:focus{
+    outline:none;
+}
 /* ======================================
    Responsive
 ====================================== */
@@ -464,16 +466,18 @@ border-radius: 4px;
 }
 
 .s1-tr-image{
-    width:90px;
-    height:90px;
-    border:1px solid #ececec;
+    width:100px;
+    height:auto;
     border-radius:10px;
-    background:#fafafa;
+   
     display:flex;
     align-items:center;
     justify-content:center;
 }
-
+.s1-tr-image img{
+    max-width: 100%;
+    height: auto;
+}
 
 .s1-tr-row .info{
     flex:1;
