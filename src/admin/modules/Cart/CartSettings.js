@@ -26,6 +26,8 @@ import {
   HeartIcon,
 } from "@radix-ui/react-icons";
 
+import { CART_ICON_OPTIONS } from "./livepreview/cart-icons";
+
 const MODULE_ID = "th-cart";
 const DEFAULT_SETTINGS = {
   /* General */
@@ -109,129 +111,69 @@ const DEFAULT_SETTINGS = {
   taiowc_custom_svg: "",
   taiowc_image_url: "",
   taiowc_cart_icon: "icon-1",
+
+  /* Side Cart */
+
+  taiowc_cart_pan_hdr_bg_clr: "#ffffff",
+
+  taiowc_cart_pan_hd_clr: "#111111",
+
+  taiowc_cart_pan_icon_clr: "#111111",
+
+  taiowc_cart_pan_cls_clr: "#666666",
+
+  /* Cart Content */
+
+  taiowc_cart_pan_bg_clr: "#fafafa",
+
+  taiowc_cart_pan_prd_bg_clr: "#ffffff",
+
+  taiowc_cart_pan_prd_tle_clr: "#111111",
+
+  taiowc_cart_pan_prd_txt_clr: "#666666",
+
+  taiowc_cart_pan_prd_brd_clr: "#e9e9e9",
+
+  taiowc_cart_pan_prd_rat_clr: "#ffb400",
+
+  taiowc_cart_pan_prd_dlt_clr: "#999999",
+
+  /* Cart Order */
+
+  taiowc_cart_pan_pay_bg_clr: "#ffffff",
+
+  taiowc_cart_pan_pay_txt_clr: "#111111",
+
+  taiowc_cart_pan_pay_hd_bg_clr: "#f7f7f7",
+
+  taiowc_cart_pan_pay_hd_clr: "#111111",
+
+  taiowc_cart_pan_pay_link_clr: "#111111",
+
+  taiowc_cart_pan_pay_btn_bg_clr: "#111111",
+
+  taiowc_cart_pan_pay_btn_clr: "#ffffff",
+
+  taiowc_cart_pan_pay_cart_bg_clr: "#ffffff",
+
+  taiowc_cart_pan_pay_cart_clr: "#111111",
+  /* Free Shipping */
+
+  taiowc_shipping_bg: "#f8f5ed", // Card Background
+
+  taiowc_shipping_track: "#e5e5e5", // Progress Track
+
+  taiowc_shipping_fill: "#22591f", // Filled Progress
+
+  taiowc_shipping_icon_bg: "#ffffff", // Truck Circle Background
+
+  taiowc_shipping_icon_border: "#38b44a", // Truck Circle Border
+
+  taiowc_shipping_text: "#333333", // Text Color
+
+  taiowc_shipping_amount: "#111111", // ₹258.00 Color
 };
-const CART_ICON_OPTIONS = [
-  {
-    id: "icon-1",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-        <path
-          d="M7 8V6a5 5 0 0 1 10 0v2"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-        />
-        <path
-          d="M5 8h14l-1 11a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 8Z"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-  },
-  {
-    id: "icon-2",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-        <path
-          d="M8 8 12 3l4 5"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-        />
-        <path
-          d="M4 8h16l-1.5 11H5.5L4 8Z"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M8 12v4M12 12v4M16 12v4"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-        />
-      </svg>
-    ),
-  },
-  {
-    id: "icon-3",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-        <circle cx="9" cy="20" r="1.2" fill="currentColor" />
-        <circle cx="18" cy="20" r="1.2" fill="currentColor" />
-        <path
-          d="M3 4h2l2.2 10.5a2 2 0 0 0 2 1.5h8.3a2 2 0 0 0 2-1.6L21 7H7"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-  },
 
-  {
-    id: "icon-5",
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-        <path d="M7 8 12 3l5 5" stroke="currentColor" strokeWidth="1.8" />
-        <path
-          d="M4 8h16l-2 11H6L4 8Z"
-          stroke="currentColor"
-          strokeWidth="1.8"
-        />
-      </svg>
-    ),
-  },
-  {
-    id: "icon-6",
-    icon: (
-      <svg
-        width="28"
-        height="28"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {/* Cart */}
-        <path
-          d="M3 4H5L7.2 14.2C7.35 14.95 8.02 15.5 8.8 15.5H17.7C18.45 15.5 19.1 15.02 19.3 14.3L21 7H6.4"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-
-        {/* Wheels */}
-        <circle
-          cx="9"
-          cy="19"
-          r="1.4"
-          stroke="currentColor"
-          strokeWidth="1.6"
-        />
-        <circle
-          cx="18"
-          cy="19"
-          r="1.4"
-          stroke="currentColor"
-          strokeWidth="1.6"
-        />
-
-        {/* Heart */}
-        <path
-          d="M12 12.8L11.2 12.05C9.7 10.65 8.7 9.7 8.7 8.45C8.7 7.45 9.45 6.7 10.45 6.7C11.05 6.7 11.62 6.98 12 7.45C12.38 6.98 12.95 6.7 13.55 6.7C14.55 6.7 15.3 7.45 15.3 8.45C15.3 9.7 14.3 10.65 12.8 12.05L12 12.8Z"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    ),
-  },
-];
 export default function CartSettings({
   onSettingsChange,
   onRegisterSave,
@@ -517,7 +459,10 @@ export default function CartSettings({
 
                   content: (
                     <>
-                      <S1FieldGroup number={1} title="Content Visibility">
+                      <S1FieldGroup
+                        number={1}
+                        title="Floating Cart Content Visibility"
+                      >
                         <S1Field
                           classN="s1-exclude-header"
                           label="Show Product Image"
@@ -731,10 +676,7 @@ export default function CartSettings({
                                 label: "Slide Left",
                                 value: "taiowc-slide-left",
                               },
-                              {
-                                label: "Dropdown On Click",
-                                value: "taiowc-click-dropdown",
-                              },
+
                               {
                                 label: "Cart Page",
                                 value: "taiowc-click-cart",
@@ -948,7 +890,7 @@ export default function CartSettings({
                         </S1Field>
                       </S1FieldGroup>
                       <S1FieldGroup number={3} title="Fixed Cart">
-                        <S1Field label="Cart Style">
+                        {/* <S1Field label="Cart Style">
                           <SelectControl
                             value={settings.taiowc_cart_style}
                             options={[
@@ -963,7 +905,7 @@ export default function CartSettings({
                             ]}
                             onChange={(v) => update("taiowc_cart_style", v)}
                           />
-                        </S1Field>
+                        </S1Field> */}
 
                         <S1Field label="Show Quantity">
                           <ToggleControl
@@ -1193,17 +1135,6 @@ export default function CartSettings({
 
                         <S1Field>
                           <THBackgroundControl
-                            label={__("Heading Background", "th-store-one")}
-                            value={settings.taiowc_cart_pan_pay_hd_bg_clr}
-                            onChange={(v) =>
-                              update("taiowc_cart_pan_pay_hd_bg_clr", v)
-                            }
-                            allowGradient={true}
-                          />
-                        </S1Field>
-
-                        <S1Field>
-                          <THBackgroundControl
                             label={__("Heading Color", "th-store-one")}
                             value={settings.taiowc_cart_pan_pay_hd_clr}
                             onChange={(v) =>
@@ -1266,6 +1197,76 @@ export default function CartSettings({
                             value={settings.taiowc_cart_pan_pay_cart_clr}
                             onChange={(v) =>
                               update("taiowc_cart_pan_pay_cart_clr", v)
+                            }
+                            allowGradient={false}
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+                      <S1FieldGroup number={7} title="Free Shipping Bar">
+                        <S1Field>
+                          <THBackgroundControl
+                            label={__("Background", "th-store-one")}
+                            value={settings.taiowc_shipping_bg}
+                            onChange={(v) => update("taiowc_shipping_bg", v)}
+                            allowGradient={true}
+                          />
+                        </S1Field>
+
+                        <S1Field>
+                          <THBackgroundControl
+                            label={__("Track Color", "th-store-one")}
+                            value={settings.taiowc_shipping_track}
+                            onChange={(v) => update("taiowc_shipping_track", v)}
+                            allowGradient={false}
+                          />
+                        </S1Field>
+
+                        <S1Field>
+                          <THBackgroundControl
+                            label={__("Progress Color", "th-store-one")}
+                            value={settings.taiowc_shipping_fill}
+                            onChange={(v) => update("taiowc_shipping_fill", v)}
+                            allowGradient={false}
+                          />
+                        </S1Field>
+
+                        <S1Field>
+                          <THBackgroundControl
+                            label={__("Icon Background", "th-store-one")}
+                            value={settings.taiowc_shipping_icon_bg}
+                            onChange={(v) =>
+                              update("taiowc_shipping_icon_bg", v)
+                            }
+                            allowGradient={false}
+                          />
+                        </S1Field>
+
+                        <S1Field>
+                          <THBackgroundControl
+                            label={__("Icon Border", "th-store-one")}
+                            value={settings.taiowc_shipping_icon_border}
+                            onChange={(v) =>
+                              update("taiowc_shipping_icon_border", v)
+                            }
+                            allowGradient={false}
+                          />
+                        </S1Field>
+
+                        <S1Field>
+                          <THBackgroundControl
+                            label={__("Text Color", "th-store-one")}
+                            value={settings.taiowc_shipping_text}
+                            onChange={(v) => update("taiowc_shipping_text", v)}
+                            allowGradient={false}
+                          />
+                        </S1Field>
+
+                        <S1Field>
+                          <THBackgroundControl
+                            label={__("Amount Color", "th-store-one")}
+                            value={settings.taiowc_shipping_amount}
+                            onChange={(v) =>
+                              update("taiowc_shipping_amount", v)
                             }
                             allowGradient={false}
                           />
