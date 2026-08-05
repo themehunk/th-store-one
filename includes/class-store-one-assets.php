@@ -62,6 +62,7 @@ class Th_Store_One_Assets
                     'smartOffers'       => ! empty($modules['smart-offers']),
                     'shopableList'       => ! empty($modules['shopable-list']),
                     'thWishlist'       => ! empty($modules['th-wishlist']),
+                    'thCart'            => ! empty($modules['th-cart'])
 
                 ],
 

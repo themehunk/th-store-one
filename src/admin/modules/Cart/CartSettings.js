@@ -338,6 +338,21 @@ export default function CartSettings({
 
     frame.open();
   };
+
+  const [previewType, setPreviewType] = useState("menu-cart");
+  useEffect(() => {
+    const handler = (e) => {
+      console.log("Received", e.detail);
+      setPreviewType(e.detail.preview);
+    };
+
+    window.addEventListener("storeone:changeCartPreview", handler);
+
+    return () => {
+      window.removeEventListener("storeone:changeCartPreview", handler);
+    };
+  }, []);
+
   return (
     <div className="storeone-module-settings s1-no-rule">
       {loading && (
@@ -459,84 +474,96 @@ export default function CartSettings({
 
                   content: (
                     <>
-                      <S1FieldGroup
-                        number={1}
-                        title="Floating Cart Content Visibility"
-                      >
-                        <S1Field
-                          classN="s1-exclude-header"
-                          label="Show Product Image"
+                      {previewType === "floating-cart" && (
+                        <S1FieldGroup
+                          number={1}
+                          title="Floating Cart Content Visibility"
                         >
-                          <ToggleControl
-                            checked={settings.taiowc_show_prd_img}
-                            onChange={(v) => update("taiowc_show_prd_img", v)}
-                          />
-                        </S1Field>
+                          <S1Field
+                            classN="s1-exclude-header"
+                            label="Show Product Image"
+                          >
+                            <ToggleControl
+                              checked={settings.taiowc_show_prd_img}
+                              onChange={(v) => update("taiowc_show_prd_img", v)}
+                            />
+                          </S1Field>
 
-                        <S1Field
-                          classN="s1-exclude-header"
-                          label="Show Product Title"
-                        >
-                          <ToggleControl
-                            checked={settings.taiowc_show_prd_title}
-                            onChange={(v) => update("taiowc_show_prd_title", v)}
-                          />
-                        </S1Field>
+                          <S1Field
+                            classN="s1-exclude-header"
+                            label="Show Product Title"
+                          >
+                            <ToggleControl
+                              checked={settings.taiowc_show_prd_title}
+                              onChange={(v) =>
+                                update("taiowc_show_prd_title", v)
+                              }
+                            />
+                          </S1Field>
 
-                        <S1Field
-                          classN="s1-exclude-header"
-                          label="Show Product Price"
-                        >
-                          <ToggleControl
-                            checked={settings.taiowc_show_prd_price}
-                            onChange={(v) => update("taiowc_show_prd_price", v)}
-                          />
-                        </S1Field>
+                          <S1Field
+                            classN="s1-exclude-header"
+                            label="Show Product Price"
+                          >
+                            <ToggleControl
+                              checked={settings.taiowc_show_prd_price}
+                              onChange={(v) =>
+                                update("taiowc_show_prd_price", v)
+                              }
+                            />
+                          </S1Field>
 
-                        <S1Field
-                          classN="s1-exclude-header"
-                          label="Show Product Quantity"
-                        >
-                          <ToggleControl
-                            checked={settings.taiowc_show_prd_quantity}
-                            onChange={(v) =>
-                              update("taiowc_show_prd_quantity", v)
-                            }
-                          />
-                        </S1Field>
+                          <S1Field
+                            classN="s1-exclude-header"
+                            label="Show Product Quantity"
+                          >
+                            <ToggleControl
+                              checked={settings.taiowc_show_prd_quantity}
+                              onChange={(v) =>
+                                update("taiowc_show_prd_quantity", v)
+                              }
+                            />
+                          </S1Field>
 
-                        <S1Field
-                          classN="s1-exclude-header"
-                          label="Show Product Rating"
-                        >
-                          <ToggleControl
-                            checked={settings.taiowc_show_prd_rating}
-                            onChange={(v) =>
-                              update("taiowc_show_prd_rating", v)
-                            }
-                          />
-                        </S1Field>
-                      </S1FieldGroup>
+                          <S1Field
+                            classN="s1-exclude-header"
+                            label="Show Product Rating"
+                          >
+                            <ToggleControl
+                              checked={settings.taiowc_show_prd_rating}
+                              onChange={(v) =>
+                                update("taiowc_show_prd_rating", v)
+                              }
+                            />
+                          </S1Field>
+                        </S1FieldGroup>
+                      )}
+                      {previewType === "menu-cart" && (
+                        <S1FieldGroup number={1} title="Menu Cart">
+                          <S1Field
+                            classN="s1-exclude-header"
+                            label="Show Price"
+                          >
+                            <ToggleControl
+                              checked={settings.taiowc_show_price}
+                              onChange={(v) => update("taiowc_show_price", v)}
+                            />
+                          </S1Field>
 
-                      <S1FieldGroup number={2} title="Menu Cart">
-                        <S1Field classN="s1-exclude-header" label="Show Price">
-                          <ToggleControl
-                            checked={settings.taiowc_show_price}
-                            onChange={(v) => update("taiowc_show_price", v)}
-                          />
-                        </S1Field>
-
-                        <S1Field
-                          classN="s1-exclude-header"
-                          label="Show Quantity"
-                        >
-                          <ToggleControl
-                            checked={settings.taiowc_show_quantity}
-                            onChange={(v) => update("taiowc_show_quantity", v)}
-                          />
-                        </S1Field>
-                      </S1FieldGroup>
-                      <S1FieldGroup number={3} title="Visibility Rules">
+                          <S1Field
+                            classN="s1-exclude-header"
+                            label="Show Quantity"
+                          >
+                            <ToggleControl
+                              checked={settings.taiowc_show_quantity}
+                              onChange={(v) =>
+                                update("taiowc_show_quantity", v)
+                              }
+                            />
+                          </S1Field>
+                        </S1FieldGroup>
+                      )}
+                      <S1FieldGroup number={2} title="Visibility Rules">
                         <S1Field
                           classN="s1-exclude-header"
                           label="Hide on Cart Page"
@@ -744,7 +771,11 @@ export default function CartSettings({
                   icon: ICONS.DESIGN,
                   content: (
                     <>
-                      <S1FieldGroup number={1} title="Cart Icon">
+                      <S1FieldGroup
+                        number={1}
+                        title="Cart Icon"
+                        shortdescription="Choose the cart icon type and customize it"
+                      >
                         <S1Field label="Icon Type">
                           <SelectControl
                             value={settings.taiowc_icontype}
@@ -843,54 +874,59 @@ export default function CartSettings({
                           </S1Field>
                         )}
                       </S1FieldGroup>
-                      <S1FieldGroup number={2} title="Menu Cart Style">
-                        <S1Field>
-                          <THBackgroundControl
-                            label={__("Background", "th-store-one")}
-                            value={settings.taiowc_bg_color}
-                            onChange={(v) => update("taiowc_bg_color", v)}
-                            allowGradient={true}
-                          />
-                        </S1Field>
+                      {previewType === "menu-cart" && (
+                        <S1FieldGroup number={2} title="Menu Cart Style">
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Background", "th-store-one")}
+                              value={settings.taiowc_bg_color}
+                              onChange={(v) => update("taiowc_bg_color", v)}
+                              allowGradient={true}
+                            />
+                          </S1Field>
 
-                        <S1Field>
-                          <THBackgroundControl
-                            label={__("Price Color", "th-store-one")}
-                            value={settings.taiowc_price_color}
-                            onChange={(v) => update("taiowc_price_color", v)}
-                            allowGradient={false}
-                          />
-                        </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Price Color", "th-store-one")}
+                              value={settings.taiowc_price_color}
+                              onChange={(v) => update("taiowc_price_color", v)}
+                              allowGradient={false}
+                            />
+                          </S1Field>
 
-                        <S1Field>
-                          <THBackgroundControl
-                            label={__("Quantity Background", "th-store-one")}
-                            value={settings.taiowc_quantity_bg}
-                            onChange={(v) => update("taiowc_quantity_bg", v)}
-                            allowGradient={false}
-                          />
-                        </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Quantity Background", "th-store-one")}
+                              value={settings.taiowc_quantity_bg}
+                              onChange={(v) => update("taiowc_quantity_bg", v)}
+                              allowGradient={false}
+                            />
+                          </S1Field>
 
-                        <S1Field>
-                          <THBackgroundControl
-                            label={__("Quantity Text Color", "th-store-one")}
-                            value={settings.taiowc_quantity_color}
-                            onChange={(v) => update("taiowc_quantity_color", v)}
-                            allowGradient={false}
-                          />
-                        </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Quantity Text Color", "th-store-one")}
+                              value={settings.taiowc_quantity_color}
+                              onChange={(v) =>
+                                update("taiowc_quantity_color", v)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
 
-                        <S1Field>
-                          <THBackgroundControl
-                            label={__("Cart Icon Color", "th-store-one")}
-                            value={settings.taiowc_icon_color}
-                            onChange={(v) => update("taiowc_icon_color", v)}
-                            allowGradient={false}
-                          />
-                        </S1Field>
-                      </S1FieldGroup>
-                      <S1FieldGroup number={3} title="Fixed Cart">
-                        {/* <S1Field label="Cart Style">
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Cart Icon Color", "th-store-one")}
+                              value={settings.taiowc_icon_color}
+                              onChange={(v) => update("taiowc_icon_color", v)}
+                              allowGradient={false}
+                            />
+                          </S1Field>
+                        </S1FieldGroup>
+                      )}
+                      {previewType === "floating-cart" && (
+                        <S1FieldGroup number={2} title="Floating Cart">
+                          {/* <S1Field label="Cart Style">
                           <SelectControl
                             value={settings.taiowc_cart_style}
                             options={[
@@ -907,87 +943,94 @@ export default function CartSettings({
                           />
                         </S1Field> */}
 
-                        <S1Field label="Show Quantity">
-                          <ToggleControl
-                            checked={settings.taiowc_fixed_show_quantity}
-                            onChange={(v) =>
-                              update("taiowc_fixed_show_quantity", v)
-                            }
-                          />
-                        </S1Field>
+                          <S1Field label="Show Quantity">
+                            <ToggleControl
+                              checked={settings.taiowc_fixed_show_quantity}
+                              onChange={(v) =>
+                                update("taiowc_fixed_show_quantity", v)
+                              }
+                            />
+                          </S1Field>
 
-                        <S1Field label="Position">
-                          <SelectControl
-                            value={settings.taiowc_fixed_position}
-                            options={[
-                              {
-                                label: "Right",
-                                value: "fxd-right",
-                              },
-                              {
-                                label: "Left",
-                                value: "fxd-left",
-                              },
-                            ]}
-                            onChange={(v) => update("taiowc_fixed_position", v)}
-                          />
-                        </S1Field>
+                          <S1Field label="Position">
+                            <SelectControl
+                              value={settings.taiowc_fixed_position}
+                              options={[
+                                {
+                                  label: "Right",
+                                  value: "fxd-right",
+                                },
+                                {
+                                  label: "Left",
+                                  value: "fxd-left",
+                                },
+                              ]}
+                              onChange={(v) =>
+                                update("taiowc_fixed_position", v)
+                              }
+                            />
+                          </S1Field>
 
-                        <S1Field>
-                          <THBackgroundControl
-                            label={__("Background", "th-store-one")}
-                            value={settings.taiowc_fixed_bg}
-                            onChange={(v) => update("taiowc_fixed_bg", v)}
-                            allowGradient={true}
-                          />
-                        </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Background", "th-store-one")}
+                              value={settings.taiowc_fixed_bg}
+                              onChange={(v) => update("taiowc_fixed_bg", v)}
+                              allowGradient={true}
+                            />
+                          </S1Field>
 
-                        <S1Field>
-                          <THBackgroundControl
-                            label={__("Icon Color", "th-store-one")}
-                            value={settings.taiowc_fixed_icon_color}
-                            onChange={(v) =>
-                              update("taiowc_fixed_icon_color", v)
-                            }
-                            allowGradient={false}
-                          />
-                        </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Icon Color", "th-store-one")}
+                              value={settings.taiowc_fixed_icon_color}
+                              onChange={(v) =>
+                                update("taiowc_fixed_icon_color", v)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
 
-                        <S1Field>
-                          <THBackgroundControl
-                            label={__("Price Color", "th-store-one")}
-                            value={settings.taiowc_fixed_price_color}
-                            onChange={(v) =>
-                              update("taiowc_fixed_price_color", v)
-                            }
-                            allowGradient={false}
-                          />
-                        </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Price Color", "th-store-one")}
+                              value={settings.taiowc_fixed_price_color}
+                              onChange={(v) =>
+                                update("taiowc_fixed_price_color", v)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
 
-                        <S1Field>
-                          <THBackgroundControl
-                            label={__("Quantity Background", "th-store-one")}
-                            value={settings.taiowc_fixed_quantity_bg}
-                            onChange={(v) =>
-                              update("taiowc_fixed_quantity_bg", v)
-                            }
-                            allowGradient={false}
-                          />
-                        </S1Field>
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Quantity Background", "th-store-one")}
+                              value={settings.taiowc_fixed_quantity_bg}
+                              onChange={(v) =>
+                                update("taiowc_fixed_quantity_bg", v)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
 
-                        <S1Field>
-                          <THBackgroundControl
-                            label={__("Quantity Text", "th-store-one")}
-                            value={settings.taiowc_fixed_quantity_color}
-                            onChange={(v) =>
-                              update("taiowc_fixed_quantity_color", v)
-                            }
-                            allowGradient={false}
-                          />
-                        </S1Field>
-                      </S1FieldGroup>
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Quantity Text", "th-store-one")}
+                              value={settings.taiowc_fixed_quantity_color}
+                              onChange={(v) =>
+                                update("taiowc_fixed_quantity_color", v)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+                        </S1FieldGroup>
+                      )}
 
-                      <S1FieldGroup number={4} title="Cart Header Area">
+                      <S1FieldGroup
+                        number={3}
+                        title="Cart Header Area"
+                        shortdescription="Side cart Panel Style"
+                      >
                         <S1Field>
                           <THBackgroundControl
                             label={__("Header Background", "th-store-one")}
@@ -1032,7 +1075,11 @@ export default function CartSettings({
                           />
                         </S1Field>
                       </S1FieldGroup>
-                      <S1FieldGroup number={5} title="Cart Content Area">
+                      <S1FieldGroup
+                        number={4}
+                        title="Cart Content Area"
+                        shortdescription="Side cart Panel Style"
+                      >
                         <S1Field>
                           <THBackgroundControl
                             label={__("Background", "th-store-one")}
@@ -1110,7 +1157,11 @@ export default function CartSettings({
                           />
                         </S1Field>
                       </S1FieldGroup>
-                      <S1FieldGroup number={6} title="Cart Order Area">
+                      <S1FieldGroup
+                        number={5}
+                        title="Cart Order Area"
+                        shortdescription="Side cart Panel Style"
+                      >
                         <S1Field>
                           <THBackgroundControl
                             label={__("Background", "th-store-one")}
@@ -1202,7 +1253,11 @@ export default function CartSettings({
                           />
                         </S1Field>
                       </S1FieldGroup>
-                      <S1FieldGroup number={7} title="Free Shipping Bar">
+                      <S1FieldGroup
+                        number={6}
+                        title="Free Shipping Bar"
+                        shortdescription="Side cart Panel Style"
+                      >
                         <S1Field>
                           <THBackgroundControl
                             label={__("Background", "th-store-one")}

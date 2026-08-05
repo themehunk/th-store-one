@@ -43,81 +43,62 @@ export const CART_ICON_OPTIONS = [
   {
     id: "icon-4",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M5 9H19L17.8 19H6.2L5 9Z"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinejoin="round"
-        />
-        <path
-          d="M8 9L11 5"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-        />
-        <path
-          d="M16 9L13 5"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-        />
-        <path
-          d="M9 12V16"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-        />
-        <path
-          d="M12 12V16"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-        />
-        <path
-          d="M15 12V16"
-          stroke="currentColor"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-        />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M5.6 5.5h12.8A1.6 1.6 0 0 1 20 7.1v9.6A3.3 3.3 0 0 1 16.7 20H7.3A3.3 3.3 0 0 1 4 16.7V7.1a1.6 1.6 0 0 1 1.6-1.6Z" />
+        <path d="M9 9.2a3 3 0 0 0 6 0" />
       </svg>
     ),
   },
   {
     id: "icon-5",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path
-          d="M3 5H5L7 14H17L19 8H8"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-
-        <circle
-          cx="9"
-          cy="18"
-          r="1.3"
-          stroke="currentColor"
-          strokeWidth="1.6"
-        />
-
-        <circle
-          cx="17"
-          cy="18"
-          r="1.3"
-          stroke="currentColor"
-          strokeWidth="1.6"
-        />
-
-        <path
-          d="M12 11.5L11.3 10.8C10.4 10 9.8 9.4 9.8 8.6C9.8 7.9 10.3 7.4 11 7.4C11.4 7.4 11.8 7.6 12 7.9C12.2 7.6 12.6 7.4 13 7.4C13.7 7.4 14.2 7.9 14.2 8.6C14.2 9.4 13.6 10 12.7 10.8L12 11.5Z"
-          stroke="currentColor"
-          strokeWidth="1.4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M8.6 8.6 10.7 3.6" />
+        <path d="M15.4 8.6 13.3 3.6" />
+        <path d="M2.8 8.6h18.4l-1.6 9.9A2 2 0 0 1 17.6 20.2H6.4a2 2 0 0 1-2-1.7Z" />
+        <path d="M9.2 12.1v4.6" />
+        <path d="M12 12.1v4.6" />
+        <path d="M14.8 12.1v4.6" />
+      </svg>
+    ),
+  },
+  {
+    id: "icon-6",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M2.4 3.4h2.3l2.6 11.4a1.7 1.7 0 0 0 1.7 1.3h8.4a1.7 1.7 0 0 0 1.7-1.3l1.5-6.6H5.9" />
+        <circle cx="9.6" cy="19.6" r="1.5" />
+        <circle cx="17.4" cy="19.6" r="1.5" />
       </svg>
     ),
   },
