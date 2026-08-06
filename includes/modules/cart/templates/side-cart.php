@@ -42,7 +42,7 @@ if (! empty($settings['taiowc_show_free_shipping_bar'])) {
 
 }
 ?>
-<div class="s1-cart-notices"></div>
+
 		<div class="s1-side-cart-body">
 			<?php
     if (WC()->cart && ! WC()->cart->is_empty()) {

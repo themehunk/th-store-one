@@ -30,11 +30,43 @@ $checkout_url = wc_get_checkout_url();
 		<?php esc_html_e('ORDER SUMMARY', 'th-store-one'); ?>
 	</h4>
 
-	<div class="s1-summary-row">
-		<span><?php esc_html_e('Subtotal', 'th-store-one'); ?></span>
+	<?php
+if (! empty($settings['taiowc_show_coupon'])) {
+    do_action('storeone_cart_coupon', $settings);
+}
+if (! empty($settings['taiowc_show_shipping'])) {
+    do_action('storeone_cart_shipping', $settings);
+}
 
-		<strong><?php echo wp_kses_post(WC()->cart->get_cart_subtotal()); ?></strong>
-	</div>
+?>
+
+
+	
+	<div class="s1-summary-row">
+    <span><?php esc_html_e('Subtotal', 'th-store-one'); ?></span>
+
+    <strong><?php echo wp_kses_post(WC()->cart->get_cart_subtotal()); ?></strong>
+</div>
+
+<?php
+$discount_total = WC()->cart->get_discount_total();
+$discount_tax   = WC()->cart->get_discount_tax();
+$total_discount = $discount_total + $discount_tax;
+
+if ($total_discount > 0) :
+    ?>
+
+    <div class="s1-summary-row s1-summary-discount">
+
+        <span><?php esc_html_e('Discount', 'th-store-one'); ?></span>
+
+        <strong>
+            -<?php echo wp_kses_post(wc_price($total_discount)); ?>
+        </strong>
+
+    </div>
+
+<?php endif; ?>
 
 	<div class="s1-summary-row s1-summary-total">
 		<span><?php esc_html_e('ORDER TOTAL', 'th-store-one'); ?></span>
@@ -63,15 +95,15 @@ $checkout_url = wc_get_checkout_url();
 
 
 	<?php
-    /**
-     * Extra footer content.
-     *
-     * Coupon
-     * Trust badges
-     * Payment icons
-     * Cross sell
-     */
-    do_action('storeone_cart_footer_after', $settings);
+        /**
+         * Extra footer content.
+         *
+         * Coupon
+         * Trust badges
+         * Payment icons
+         * Cross sell
+         */
+        do_action('storeone_cart_footer_after', $settings);
 ?>
 
 </div>

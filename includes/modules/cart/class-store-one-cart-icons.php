@@ -178,7 +178,7 @@ if (! class_exists('Th_Store_One_Cart_Icons')) {
 
                 'svg' => array(
                     'xmlns'             => true,
-                    'viewBox'           => true,
+                    'viewbox'      => true,
                     'fill'              => true,
                     'width'             => true,
                     'height'            => true,

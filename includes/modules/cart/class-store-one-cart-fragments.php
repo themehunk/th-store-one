@@ -79,6 +79,12 @@ if (! class_exists('Th_Store_One_Cart_Fragments')) {
         public function refresh_fragments($fragments)
         {
 
+            if (WC()->cart) {
+
+                WC()->cart->calculate_shipping();
+                WC()->cart->calculate_totals();
+
+            }
             /*
              * Cart Count
              */
@@ -131,16 +137,7 @@ if (! class_exists('Th_Store_One_Cart_Fragments')) {
 
             $fragments['.store-one-floating-cart'] = ob_get_clean();
 
-            /*
-            * Notices
-            */
-            ob_start();
 
-            wc_print_notices();
-
-            $fragments['.s1-cart-notices'] = ob_get_clean();
-
-            wc_clear_notices();
 
             return $fragments;
         }

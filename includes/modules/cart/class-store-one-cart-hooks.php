@@ -179,7 +179,7 @@ if (! class_exists('Th_Store_One_Cart_Hooks')) {
         {
 
             include TH_STORE_ONE_PLUGIN_DIR .
-                'includes/modules/cart/templates/partials/empty.php';
+                'includes/modules/cart/templates/partials/empty-cart.php';
         }
 
         /**

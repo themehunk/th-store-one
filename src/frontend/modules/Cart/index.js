@@ -7,7 +7,9 @@ const StoreOneCart = {
 
     this.bindEvents();
 
-    this.updateShippingProgress();
+    this.initShipping();
+
+    this.initCouponSlider();
   },
 
   cache() {
@@ -57,12 +59,29 @@ const StoreOneCart = {
      * Coupon
      */
 
+    $(document).on("click", ".s1-coupon-toggle", (e) => this.toggleCoupon(e));
+
     $(document).on("submit", ".s1-cart-coupon form", (e) =>
       this.applyCoupon(e),
     );
+    $(document).on("click", ".s1-apply-coupon", (e) => this.applyCouponCard(e));
 
-    $(document).on("click", ".woocommerce-remove-coupon", (e) =>
-      this.removeCoupon(e),
+    $(document).on("click", ".s1-remove-coupon", (e) => this.removeCoupon(e));
+
+    // shipping
+    $(document).on("click", ".s1-shipping-head", (e) => this.toggleShipping(e));
+    $(document).on("click", ".shipping-calculator-button", (e) =>
+      this.toggleShippingCalculator(e),
+    );
+
+    $(document).on(
+      "change",
+      'select.shipping_method, :input[name^="shipping_method"]',
+      () => this.shippingMethodSelected(),
+    );
+
+    $(document).on("submit", "form.woocommerce-shipping-calculator", (e) =>
+      this.shippingCalculatorSubmit(e),
     );
   },
 
@@ -259,7 +278,10 @@ const StoreOneCart = {
 
     this.openCart();
 
-    this.updateShippingProgress();
+    this.initShipping();
+    setTimeout(() => {
+      this.initCouponSlider();
+    }, 50);
   },
 
   /*
@@ -283,13 +305,13 @@ const StoreOneCart = {
 
     const $form = $(e.currentTarget);
 
-    const coupon = $.trim($form.find('input[name="coupon"]').val());
+    const coupon = $.trim($form.find('input[name="coupon_code"]').val());
 
     if (!coupon.length) {
       return;
     }
 
-    this.loading(true);
+    this.couponLoading(true);
 
     this.ajax({
       action: "storeone_cart_apply_coupon",
@@ -302,7 +324,7 @@ const StoreOneCart = {
         }
       })
       .always(() => {
-        this.loading(false);
+        this.couponLoading(false);
       });
   },
 
@@ -317,7 +339,7 @@ const StoreOneCart = {
 
     const coupon = $(e.currentTarget).data("coupon");
 
-    this.loading(true);
+    this.couponLoading(true);
 
     this.ajax({
       action: "storeone_cart_remove_coupon",
@@ -329,8 +351,60 @@ const StoreOneCart = {
         }
       })
       .always(() => {
-        this.loading(false);
+        this.couponLoading(false);
       });
+  },
+
+  /*
+   * ----------------------------
+   * Apply Coupon Card
+   * ----------------------------
+   */
+
+  applyCouponCard(e) {
+    e.preventDefault();
+
+    const $btn = $(e.currentTarget);
+
+    if ($btn.prop("disabled")) {
+      return;
+    }
+
+    const coupon = $btn.data("coupon");
+
+    this.couponLoading(true);
+
+    this.ajax({
+      action: "storeone_cart_apply_coupon",
+      coupon,
+    })
+      .done((response) => {
+        if (response.success) {
+          this.refreshFragments(response.data.fragments);
+
+          this.showNotice(response.data.notice, response.data.type);
+        }
+      })
+      .always(() => {
+        this.couponLoading(false);
+      });
+  },
+
+  /*
+   * ----------------------------
+   * Coupon Toggle
+   * ----------------------------
+   *
+   */
+
+  toggleCoupon(e) {
+    e.preventDefault();
+
+    const $coupon = $(e.currentTarget).closest(".s1-cart-coupon");
+
+    $coupon.toggleClass("active");
+
+    $(e.currentTarget).attr("aria-expanded", $coupon.hasClass("active"));
   },
 
   /*
@@ -350,34 +424,134 @@ const StoreOneCart = {
     });
   },
 
+  initCouponSlider() {
+    const $slider = $(".s1-coupon-swiper");
+
+    if (!$slider.length) {
+      return;
+    }
+
+    if (this.couponSwiper) {
+      this.couponSwiper.destroy(true, true);
+      this.couponSwiper = null;
+    }
+
+    setTimeout(() => {
+      this.couponSwiper = new Swiper(".s1-coupon-swiper", {
+        slidesPerView: 1,
+        spaceBetween: 12,
+        observer: true,
+        observeParents: true,
+        observeSlideChildren: true,
+        watchOverflow: true,
+        updateOnWindowResize: true,
+
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+      });
+
+      this.couponSwiper.update();
+    }, 50);
+  },
+  couponLoading(state) {
+    $(".s1-cart-coupon").toggleClass("loading", state);
+  },
+
   /*
    * ----------------------------
-   * Free Shipping Progress
+   * Shipping Accordion
    * ----------------------------
    */
 
-  updateShippingProgress() {
-    const $bar = $(".s1-progress-fill");
+  initShipping() {
+    $(".shipping-calculator-form").hide();
+    $(".s1-shipping").removeClass("active");
+  },
 
-    if (!$bar.length) {
-      return;
-    }
+  toggleShipping(e) {
+    e.preventDefault();
 
-    const current = Number($bar.data("current")) || 0;
+    $(e.currentTarget).closest(".s1-shipping").toggleClass("active");
+  },
 
-    const target = Number($bar.data("target")) || 0;
+  toggleShippingCalculator(e) {
+    e.preventDefault();
 
-    if (!target) {
-      return;
-    }
+    const $btn = $(e.currentTarget);
 
-    let percent = (current / target) * 100;
+    const $form = $btn
+      .closest(".s1-shipping-calculator")
+      .find(".shipping-calculator-form");
 
-    percent = Math.max(0, Math.min(percent, 100));
+    $form.stop(true, true).slideToggle(250);
 
-    $bar.css("width", percent + "%");
+    $(document.body).trigger("country_to_state_changed");
+  },
+  shippingMethodSelected() {
+    const shippingMethods = {};
 
-    $(".s1-progress-icon").css("left", percent + "%");
+    $(
+      'select.shipping_method, :input[name^="shipping_method"]:checked, :input[name^="shipping_method"][type="hidden"]',
+    ).each(function () {
+      shippingMethods[$(this).data("index")] = $(this).val();
+    });
+
+    this.loading(true);
+
+    $.ajax({
+      type: "POST",
+
+      url: storeOneCart.wcAjaxUrl.replace(
+        "%%endpoint%%",
+        "storeone_cart_update_shipping",
+      ),
+
+      data: {
+        security: storeOneCart.updateShippingNonce,
+        shipping_method: shippingMethods,
+      },
+
+      success: () => {
+        $(document.body).trigger("wc_fragment_refresh");
+      },
+
+      complete: () => {
+        this.loading(false);
+      },
+    });
+  },
+  shippingCalculatorSubmit(e) {
+    e.preventDefault();
+
+    const $form = $(e.currentTarget);
+
+    this.loading(true);
+
+    this.ajax({
+      action: "storeone_cart_calculate_shipping",
+
+      calc_shipping_country: $form.find('[name="calc_shipping_country"]').val(),
+
+      calc_shipping_state: $form.find('[name="calc_shipping_state"]').val(),
+
+      calc_shipping_city: $form.find('[name="calc_shipping_city"]').val(),
+
+      calc_shipping_postcode: $form
+        .find('[name="calc_shipping_postcode"]')
+        .val(),
+    })
+      .done((response) => {
+        if (response.success) {
+          this.refreshFragments(response.data.fragments);
+
+          this.showNotice(response.data.notice, response.data.type);
+        }
+      })
+      .always(() => {
+        this.loading(false);
+      });
   },
 
   showNotice(message, type = "success") {
@@ -385,17 +559,24 @@ const StoreOneCart = {
       return;
     }
 
+    const noticeClass =
+      type === "error"
+        ? "woocommerce-error"
+        : type === "info"
+        ? "woocommerce-info"
+        : "woocommerce-message";
+
     $(".s1-cart-notices").html(`
-        <div class="woocommerce-${type}">
-            ${message}
-        </div>
-    `);
+    <div class="${noticeClass}">
+      ${message}
+    </div>
+  `);
 
     setTimeout(() => {
       $(".s1-cart-notices").fadeOut(300, function () {
         $(this).html("").show();
       });
-    }, 2500);
+    }, 2000);
   },
 };
 /*
@@ -417,7 +598,8 @@ $(document.body).on("removed_from_cart", () => {
 $(document.body).on("wc_fragments_refreshed", () => {
   StoreOneCart.cache();
 
-  StoreOneCart.updateShippingProgress();
+  StoreOneCart.initShipping();
+  StoreOneCart.initCouponSlider();
 });
 
 export default StoreOneCart;

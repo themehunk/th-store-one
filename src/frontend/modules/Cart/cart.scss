@@ -50,14 +50,17 @@
 .store-one-cart .s1-menu-cart-toggle{
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:2px;
     border:none;
     background:none;
     cursor:pointer;
     padding:0;
     position:relative;
+        padding: 0 10px;
 }
-
+.store-one-cart .s1-menu-cart-toggle:focus{
+    outline:none;
+}
 .store-one-cart .s1-preview-cart-icon{
     display:flex;
     align-items:center;
@@ -108,7 +111,7 @@
     font-size:11px;
     font-weight:600;
     line-height:1;
-    background:#ff4b4b;
+    background:#111;
     color:#fff;
 }
 
@@ -259,7 +262,7 @@
 .store-one-cart .s1-side-cart-title{
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:6px;
 }
 
 .store-one-cart .s1-side-cart-title .s1-preview-cart-icon{
@@ -447,8 +450,15 @@
     align-content: end;
     flex-direction: column;
     width: 100%;
+    gap: 5px;
+}
+.s1-side-cart-body .s1-cart-title,.s1-side-cart-body .s1-cart-rating{
+    margin: 0;
 }
 
+.s1-side-cart-body .star-rating span:before{
+    color:#f6b01e;
+}
 .store-one-cart .s1-cart-title {
    
     font-size:15px;
@@ -488,7 +498,7 @@
 ====================================================*/
 
 .store-one-cart .s1-cart-rating{
-    margin:8px 0;
+    
     display:flex;
     align-items:center;
 }
@@ -503,11 +513,9 @@
 = PRICE
 =
 ====================================================*/
-
 .store-one-cart .s1-cart-price{
-  
     font-size:15px;
-    font-weight:600;
+    font-weight:700;
     line-height:1.2;
 }
 
@@ -534,8 +542,8 @@
     position:absolute;
     top:-10px;
     right:-10px;
-    width:28px;
-    height:28px;
+    width:24px;
+    height:24px;
     border:none;
     border-radius:50%;
     background:#fff!important;
@@ -551,7 +559,10 @@
 .s1-cart-remove:hover{
     transform:scale(1.08);
 }
-
+.s1-cart-remove svg{
+    width:12px;
+    height:12px;
+}
 /*====================================================
 =
 = QUANTITY
@@ -617,52 +628,6 @@
 .store-one-cart .s1-cart-qty::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
-}
-/*====================================================
-=
-= COUPON
-=
-====================================================*/
-
-.store-one-cart .s1-cart-coupon{
-    padding:20px;
-    border-top:1px solid #efefef;
-}
-
-.store-one-cart .s1-cart-coupon form{
-    display:flex;
-    gap:10px;
-}
-
-.store-one-cart .s1-cart-coupon input[type="text"]{
-    flex:1;
-    height:42px;
-    padding:0 14px;
-    border:1px solid #ddd;
-    border-radius:6px;
-    font-size:14px;
-    transition:.25s;
-}
-
-.store-one-cart .s1-cart-coupon input[type="text"]:focus{
-    border-color:#111;
-}
-
-.store-one-cart .s1-cart-coupon button{
-    height:42px;
-    padding:0 18px;
-    border-radius:6px;
-    background:#111;
-    color:#fff;
-    font-size:14px;
-    font-weight:600;
-}
-
-.store-one-cart .woocommerce-remove-coupon{
-    font-size:13px;
-    color:#e53935;
-    margin-top:10px;
-    display:inline-block;
 }
 
 /*====================================================
@@ -808,7 +773,7 @@
     width:70px;
     height:70px;
     opacity:.2;
-    margin-bottom:20px;
+    margin-bottom:10px;
 }
 
 .store-one-cart .s1-empty-cart h3{
@@ -920,43 +885,52 @@
     }
 }
 
-// notice
-
-.s1-cart-notices{
-    padding: 12px 16px 0;
-    display: block;
+/* Notice Container */
+.s1-side-cart-header {
+    position: relative;
+}
+.s1-cart-notices {
+    position: absolute;
+    top: 10px;
+    left: 16px;
+    right: 16px;
+    z-index: 100;
+    pointer-events: none;
 }
 
-.s1-cart-notices:empty{
+.s1-cart-notices:empty {
     display: none;
 }
 
+/* Notice */
 .s1-cart-notices .woocommerce-message,
 .s1-cart-notices .woocommerce-error,
-.s1-cart-notices .woocommerce-info{
+.s1-cart-notices .woocommerce-info {
     position: relative;
     margin: 0;
-    padding: 12px 16px 12px 42px;
-    border-radius: 10px;
-    border: 1px solid #d7f1dc;
+    padding: 14px 16px 14px 46px;
+    border-radius: 12px;
     background: #f2fff5;
+    border: 1px solid #d7f1dc;
     color: #1f6b35;
     font-size: 14px;
     line-height: 1.5;
-    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .12);
     animation: s1NoticeIn .25s ease;
+    pointer-events: auto;
 }
 
-.s1-cart-notices .woocommerce-message::before{
+/* Success Icon */
+.s1-cart-notices .woocommerce-message::before {
     content: "✓";
     position: absolute;
     left: 14px;
     top: 50%;
     transform: translateY(-50%);
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    background: #2eb85c;
+    background: #22c55e;
     color: #fff;
     font-size: 12px;
     font-weight: 700;
@@ -965,35 +939,651 @@
     justify-content: center;
 }
 
-.s1-cart-notices .woocommerce-error{
+/* Error */
+.s1-cart-notices .woocommerce-error {
     background: #fff5f5;
-    border-color: #ffd2d2;
-    color: #c53030;
+    border-color: #fecaca;
+    color: #b91c1c;
 }
 
-.s1-cart-notices .woocommerce-error::before{
+.s1-cart-notices .woocommerce-error::before {
     content: "!";
-    background: #e53e3e;
+    background: #ef4444;
 }
 
-.s1-cart-notices .woocommerce-info{
-    background: #eef7ff;
-    border-color: #cfe8ff;
-    color: #0c63e7;
+/* Info */
+.s1-cart-notices .woocommerce-info {
+    background: #eff6ff;
+    border-color: #bfdbfe;
+    color: #1d4ed8;
 }
 
-.s1-cart-notices .woocommerce-info::before{
+.s1-cart-notices .woocommerce-info::before {
     content: "i";
-    background: #0c63e7;
+    background: #2563eb;
 }
 
-@keyframes s1NoticeIn{
-    from{
-        opacity:0;
-        transform:translateY(-10px);
+/* Animation */
+@keyframes s1NoticeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
     }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/*------------------------------------
+ Coupon Wrapper
+------------------------------------*/
+
+.s1-cart-coupon{
+    padding:15px 0;
+    border-top:1px solid #eceff3;
+    background:#fff;
+}
+
+/*------------------------------------
+ Coupon Form
+------------------------------------*/
+
+/* Coupon Form */
+
+.s1-side-cart-footer .s1-coupon-form{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-bottom:14px;
+    padding:4px;
+    background:#f8fafc;
+    border:1px solid #e5e7eb;
+    border-radius:999px;
+    transition:.25s;
+}
+
+.s1-side-cart-footer .s1-coupon-form .s1-coupon-form:focus{
+    border-color:none;
+    box-shadow:none;
+    background-color: transparent;
+}
+
+.s1-side-cart-footer .s1-coupon-form .s1-coupon-input{
+    flex:1;
+    height:36px;
+    padding:0 16px;
+    border:none;
+    outline:none;
+    background:transparent;
+    font-size:13px;
+    font-weight:500;
+    color:#111827;
+    border: #ddd;
+    box-shadow: none;
+    background: transparent;
+}
+
+.s1-side-cart-footer .s1-coupon-form .s1-coupon-input::placeholder{
+    color:#9ca3af;
+}
+
+.s1-side-cart-footer .s1-coupon-form .s1-coupon-btn{
+    height:34px;
+    min-width:82px;
+    padding:0 16px;
+    border:none;
+    border-radius:999px;
+    background:#111827;
+    color:#fff;
+    font-size:12px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.s1-side-cart-footer .s1-coupon-form .s1-coupon-btn:hover{
+    background:#000;
+    transform:translateY(-1px);
+}
+
+/*------------------------------------
+ Coupon Slider
+------------------------------------*/
+
+.s1-side-cart-footer .s1-coupon-slider{
+    margin-bottom:14px;
+}
+
+.s1-side-cart-footer .s1-coupon-card{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-direction:column;
+    gap:6px;
+    padding:10px;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+    background:#fff;
+    transition:.25s;
+}
+
+.s1-side-cart-footer .s1-coupon-card:hover{
+    border-color:#111827;
+   
+}
+
+.s1-side-cart-footer .s1-coupon-left{
+    flex:1;
+    min-width:0;
+}
+
+.s1-side-cart-footer .s1-coupon-code{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    margin-bottom:3px;
+    font-size:14px;
+    font-weight:700;
+    color:#111827;
+}
+
+
+
+.s1-side-cart-footer .s1-coupon-desc{
+    font-size:12px;
+    color:#6b7280;
+    line-height:1.5;
+}
+
+.s1-side-cart-footer .s1-apply-coupon{
+    min-width:62px;
+    height:30px;
+    border:none;
+    border-radius:999px;
+    background:#111827;
+    color:#fff;
+    font-size:12px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.s1-side-cart-footer .s1-apply-coupon:hover{
+    background:#000;
+}
+
+.s1-side-cart-footer .s1-coupon-card.is-applied{
+    background:#f0fdf4;
+    border-color:#22c55e;
+}
+
+.s1-side-cart-footer .s1-coupon-code{
+    color:#16a34a;
+}
+
+.s1-side-cart-footer .s1-apply-coupon.is-applied,
+.s1-side-cart-footer .s1-apply-coupon:disabled{
+    background:#22c55e;
+    cursor:not-allowed;
+}
+
+/*------------------------------------
+ Applied Coupons
+------------------------------------*/
+
+.s1-side-cart-footer .s1-applied-coupons{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:10px;
+    margin:0;
+    padding:0;
+    list-style:none;
+}
+
+.s1-side-cart-footer .s1-applied-coupons li{
+    position:relative;
+    flex:1 1 calc(50% - 5px);
+    max-width:calc(50% - 5px);
+    min-height:48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:12px 34px 12px 14px;
+    border:1px solid #e5e7eb;
+    border-radius:10px;
+    background:#f8fafc;
+    transition:.25s;
+}
+
+.s1-side-cart-footer .s1-applied-coupons li:only-child{
+    flex:0 1 220px;
+    max-width:220px;
+}
+
+.s1-side-cart-footer .s1-applied-coupons li:hover{
+    border-color:#111827;
+}
+
+.s1-side-cart-footer .s1-applied-coupons li span{
+    width:100%;
+    text-align:center;
+    font-size:13px;
+    font-weight:600;
+    color:#111827;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+/*------------------------------------
+ Remove Coupon
+------------------------------------*/
+
+.s1-side-cart-footer .s1-remove-coupon{
+    position:absolute;
+    top:-10px;
+    right:-5px;
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    padding:0;
+    border:none;
+    background:#111;
+    color:#fff;
+    font-size:15px;
+    line-height:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.s1-side-cart-footer .s1-remove-coupon:hover{
+    color:#ef4444;
+}
+
+/*------------------------------------
+ Swiper
+------------------------------------*/
+
+.s1-side-cart-footer .s1-coupon-slider .swiper-pagination{
+    position:static;
+    margin-top:10px;
+}
+
+.s1-side-cart-footer .s1-coupon-slider .swiper-pagination-bullet{
+    width:7px;
+    height:7px;
+    opacity:.4;
+}
+
+.s1-side-cart-footer .s1-coupon-slider .swiper-pagination-bullet-active{
+    width:20px;
+    border-radius:20px;
+    opacity:1;
+}
+
+/*----------------------------------
+ Coupon Loading
+-----------------------------------*/
+
+.s1-cart-coupon{
+    position:relative;
+}
+
+.s1-cart-coupon.loading{
+    pointer-events:none;
+}
+
+.s1-cart-coupon.loading::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:rgba(255,255,255,.7);
+    backdrop-filter:blur(2px);
+    z-index:20;
+    border-radius:12px;
+}
+
+.s1-cart-coupon.loading::after{
+    content:"";
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:26px;
+    height:26px;
+    margin:-13px;
+    border:2px solid #e5e7eb;
+    border-top-color:#111827;
+    border-radius:50%;
+    animation:s1Spin .6s linear infinite;
+    z-index:21;
+}
+
+@keyframes s1Spin{
     to{
-        opacity:1;
-        transform:translateY(0);
+        transform:rotate(360deg);
     }
+}
+
+/*-----------------------------------
+ Coupon Toggle
+------------------------------------*/
+
+.s1-cart-coupon .s1-coupon-toggle{
+    width:100%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0;
+    border:none;
+    cursor:pointer;
+    transition:.3s ease;
+    font-weight:600;
+}
+
+.s1-cart-coupon .s1-coupon-toggle:hover{
+    background:#fff;
+   
+    
+}
+.s1-cart-coupon .s1-coupon-toggle:focus{
+    outline:none;
+}
+
+.s1-cart-coupon .s1-coupon-toggle-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.s1-cart-coupon .s1-coupon-icon{
+    width:34px;
+    height:34px;
+    border-radius:50%;
+    background:#eef2ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:15px;
+}
+
+.s1-coupon-title{
+    font-size:14px;
+    font-weight:600;
+    color:#111827;
+}
+
+.s1-coupon-arrow{
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:.35s ease;
+    color:#6b7280;
+}
+
+.s1-cart-coupon.active .s1-coupon-arrow{
+    transform:rotate(180deg);
+    background:#111827;
+    color:#fff;
+}
+
+/*-----------------------------------
+ Animated Content
+------------------------------------*/
+
+.s1-coupon-content{
+    max-height:0;
+    overflow:hidden;
+    opacity:0;
+    transform:translateY(-8px);
+    transition:
+        max-height .45s ease,
+        opacity .3s ease,
+        transform .35s ease,
+        margin-top .3s ease;
+    margin-top:0;
+}
+
+.s1-cart-coupon.active .s1-coupon-content{
+    max-height:700px;
+    opacity:1;
+    transform:translateY(0);
+    margin-top:14px;
+}
+
+// free shipping
+/*=====================================
+ Shipping
+======================================*/
+
+ .s1-shipping{
+    margin-bottom:16px;
+    background:#fff;
+    
+    
+    overflow:hidden;
+    transition:.25s;
+}
+
+
+/*=====================================
+ Header
+======================================*/
+
+.s1-shipping-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    
+    cursor:pointer;
+}
+
+.s1-shipping-title{
+    flex:1;
+    min-width:0;
+}
+
+.s1-shipping-title strong{
+    display:block;
+    font-size:14px;
+    font-weight:600;
+    color:#111827;
+    line-height:1.2;
+}
+
+.s1-shipping-title span{
+    display:block;
+    margin-top:3px;
+    font-size:12px;
+    font-weight:500;
+    color:#16a34a;
+}
+
+/*=====================================
+ Arrow
+======================================*/
+
+.s1-shipping-arrow{
+    width:28px;
+    height:28px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    
+    border-radius:50%;
+    color:#6b7280;
+    transition:.25s;
+    flex-shrink:0;
+}
+
+.s1-shipping.active .s1-shipping-arrow{
+    transform:rotate(180deg);
+    background:#111827;
+    color:#fff;
+}
+
+/*=====================================
+ Content
+======================================*/
+
+.s1-shipping-content{
+    max-height:0;
+    opacity:0;
+    overflow:hidden;
+    transition:max-height .35s ease,opacity .25s ease,padding .25s ease;
+    padding:0;
+}
+
+.s1-shipping.active .s1-shipping-content{
+    max-height:420px;
+    opacity:1;
+    overflow-y:auto;
+    padding:0;
+    border-top:1px solid #eceff3;
+        margin-top: 10px;
+}
+
+/* Scrollbar */
+
+.s1-shipping.active .s1-shipping-content::-webkit-scrollbar{
+    width:6px;
+}
+
+.s1-shipping.active .s1-shipping-content::-webkit-scrollbar-thumb{
+    background:#d1d5db;
+    border-radius:20px;
+}
+
+.s1-shipping.active .s1-shipping-content::-webkit-scrollbar-track{
+    background:transparent;
+}
+
+/*=====================================
+ Address
+======================================*/
+
+.s1-shipping-address{
+    margin:0 0 14px;
+    padding:10px 12px;
+    border-radius:8px;
+    background:#f8fafc;
+    font-size:12px;
+    color:#6b7280;
+    line-height:1.5;
+}
+
+.s1-shipping-address strong{
+    color:#111827;
+}
+
+/*=====================================
+ Shipping Methods
+======================================*/
+
+.s1-shipping-content .woocommerce-shipping-methods{
+    margin:0;
+    padding:0;
+    list-style:none;
+    
+    display: inline-block;
+    overflow:hidden;
+}
+
+.s1-shipping-content .woocommerce-shipping-methods li{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:12px;
+    border-bottom:1px solid #eef2f7;
+    background:#fff;
+}
+
+.s1-shipping-content .woocommerce-shipping-methods li:last-child{
+    border-bottom:none;
+}
+
+.s1-shipping-content .woocommerce-shipping-methods input{
+    margin:0;
+    accent-color:#111827;
+}
+
+.s1-shipping-content .woocommerce-shipping-methods label{
+    flex:1;
+    font-size:13px;
+    color:#374151;
+    cursor:pointer;
+}
+
+/*=====================================
+ Calculator
+======================================*/
+.store-one-cart a:focus{
+outline:none;
+}
+.s1-shipping-calculator{
+    margin-top:14px;
+    padding:10px;
+    border-top:1px dashed #e5e7eb;
+}
+
+.s1-shipping-calculator p{
+    margin:0 0 10px;
+}
+
+.s1-shipping-calculator select,
+.s1-shipping-calculator input{
+    width:100%;
+    height:38px;
+    padding:0 12px;
+    border:1px solid #d1d5db;
+    border-radius:8px;
+    background:#fff;
+    font-size:13px;
+    transition:.25s;
+}
+
+.s1-shipping-calculator select:focus,
+.s1-shipping-calculator input:focus{
+    border-color:#111827;
+    outline:none;
+    box-shadow:0 0 0 3px rgba(17,24,39,.08);
+}
+
+.s1-shipping-calculator button{
+    width:100%;
+    height:38px;
+    border:none;
+    border-radius:8px;
+    background:#111827;
+    color:#fff;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.25s;
+}
+
+.s1-shipping-calculator button:hover{
+    background:#000;
+    color:#fff;
+}
+
+/*=====================================
+ Loading
+======================================*/
+
+.s1-shipping.loading{
+    opacity:.6;
+    pointer-events:none;
+}
+
+.woocommerce-shipping-calculator a{
+font-size:13px;
 }

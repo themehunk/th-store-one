@@ -62,6 +62,24 @@ if (! class_exists('Th_Store_One_Cart_Assets')) {
         private function enqueue_scripts()
         {
 
+            wp_enqueue_style(
+                'swiper-css',
+                TH_STORE_ONE_PLUGIN_URL .
+            'assets/css/swiper/swiper-bundle.min.css',
+                [],
+                TH_STORE_ONE_VERSION
+            );
+
+            wp_enqueue_script(
+                'swiper-js',
+                TH_STORE_ONE_PLUGIN_URL .
+                'assets/js/swiper/swiper-bundle.min.js',
+                [],
+                TH_STORE_ONE_VERSION,
+                true
+            );
+
+
             wp_localize_script(
                 'th-store-one-frontend',
                 'storeOneCart',
@@ -79,32 +97,36 @@ if (! class_exists('Th_Store_One_Cart_Assets')) {
 
             return array(
 
-                'ajaxUrl'          => admin_url('admin-ajax.php'),
-                'wcAjaxUrl'       => WC_AJAX::get_endpoint('%%endpoint%%'),
-                'nonce'             => wp_create_nonce('store-one-cart'),
+    'ajaxUrl'               => admin_url('admin-ajax.php'),
 
-                'cartOpen'         => $this->get_setting(
-                    'taiowc_cart_open',
-                    'simple-open'
-                ),
+    'wcAjaxUrl'             => WC_AJAX::get_endpoint('%%endpoint%%'),
 
-                'cartVisibility'   => (bool) $this->get_setting(
-                    'taiowc_cart_visibility',
-                    true
-                ),
+    'nonce'                 => wp_create_nonce('store-one-cart'),
 
-                'isCart'           => is_cart(),
+    'updateShippingNonce'   => wp_create_nonce('update-shipping-method'),
 
-                'isCheckout'       => is_checkout(),
+    'cartOpen'              => $this->get_setting(
+        'taiowc_cart_open',
+        'simple-open'
+    ),
 
-                'cartUrl'          => wc_get_cart_url(),
+    'cartVisibility'        => (bool) $this->get_setting(
+        'taiowc_cart_visibility',
+        true
+    ),
 
-                'checkoutUrl'      => wc_get_checkout_url(),
+    'isCart'                => is_cart(),
 
-                'currencySymbol'   => get_woocommerce_currency_symbol(),
+    'isCheckout'            => is_checkout(),
 
-                'is_logged_in'      => is_user_logged_in(),
-            );
+    'cartUrl'               => wc_get_cart_url(),
+
+    'checkoutUrl'           => wc_get_checkout_url(),
+
+    'currencySymbol'        => get_woocommerce_currency_symbol(),
+
+    'is_logged_in'          => is_user_logged_in(),
+);
         }
 
         /**

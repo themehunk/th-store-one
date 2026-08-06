@@ -17,7 +17,7 @@ $show_count = ! empty($settings['taiowc_show_quantity']);
 ?>
 
 <div class="s1-side-cart-header">
-
+	<div class="s1-cart-notices"></div>
 	<div class="s1-side-cart-title">
 
 		<div class="s1-preview-cart-icon">

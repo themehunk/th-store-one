@@ -91,6 +91,26 @@ if (! class_exists('Th_Store_One_Cart_Ajax')) {
                 'wp_ajax_nopriv_storeone_cart_refresh',
                 array( $this, 'refresh_cart' )
             );
+
+            add_action(
+                'wp_ajax_storeone_cart_update_shipping',
+                array( $this, 'update_shipping_method' )
+            );
+
+            add_action(
+                'wp_ajax_nopriv_storeone_cart_update_shipping',
+                array( $this, 'update_shipping_method' )
+            );
+
+            add_action(
+                'wp_ajax_storeone_cart_calculate_shipping',
+                array( $this, 'calculate_shipping' )
+            );
+
+            add_action(
+                'wp_ajax_nopriv_storeone_cart_calculate_shipping',
+                array( $this, 'calculate_shipping' )
+            );
         }
 
         /**
@@ -239,6 +259,85 @@ if (! class_exists('Th_Store_One_Cart_Ajax')) {
             array()
         ),
     )
+            );
+        }
+
+        /**
+ * Update shipping method.
+ *
+ * @return void
+ */
+        public function update_shipping_method()
+        {
+
+            check_ajax_referer('store-one-cart', 'nonce');
+
+            if (! WC()->session || ! WC()->cart) {
+                wp_send_json_error();
+            }
+
+            $methods = wp_unslash($_POST['shipping_method'] ?? array());
+
+            WC()->session->set('chosen_shipping_methods', $methods);
+
+            WC()->cart->calculate_totals();
+
+            wp_send_json_success(
+                array(
+                    'notice'    => __('Shipping method updated.', 'th-store-one'),
+                    'type'      => 'success',
+                    'fragments' => apply_filters(
+                        'woocommerce_add_to_cart_fragments',
+                        array()
+                    ),
+                )
+            );
+        }
+        /**
+ * Calculate shipping.
+ *
+ * @return void
+ */
+        public function calculate_shipping()
+        {
+
+            check_ajax_referer('store-one-cart', 'nonce');
+
+            if (! WC()->customer || ! WC()->cart) {
+                wp_send_json_error();
+            }
+
+            WC()->customer->set_shipping_country(
+                sanitize_text_field($_POST['calc_shipping_country'] ?? '')
+            );
+
+            WC()->customer->set_shipping_state(
+                sanitize_text_field($_POST['calc_shipping_state'] ?? '')
+            );
+
+            WC()->customer->set_shipping_postcode(
+                sanitize_text_field($_POST['calc_shipping_postcode'] ?? '')
+            );
+
+            WC()->customer->set_shipping_city(
+                sanitize_text_field($_POST['calc_shipping_city'] ?? '')
+            );
+
+            WC()->customer->save();
+
+            WC()->cart->calculate_shipping();
+
+            WC()->cart->calculate_totals();
+
+            wp_send_json_success(
+                array(
+                    'notice'    => __('Shipping updated.', 'th-store-one'),
+                    'type'      => 'success',
+                    'fragments' => apply_filters(
+                        'woocommerce_add_to_cart_fragments',
+                        array()
+                    ),
+                )
             );
         }
 

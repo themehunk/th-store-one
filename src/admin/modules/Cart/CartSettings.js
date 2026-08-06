@@ -52,6 +52,9 @@ const DEFAULT_SETTINGS = {
   taiowc_hide_home_page: false,
   taiowc_hide_blog_page: false,
 
+  taiowc_show_coupon: true,
+  taiowc_show_shipping: true,
+
   /* Menu Cart */
 
   taiowc_show_price: true,
@@ -637,6 +640,28 @@ export default function CartSettings({
                           <ToggleControl
                             checked={settings.taiowc_hide_blog_page}
                             onChange={(v) => update("taiowc_hide_blog_page", v)}
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+                      <S1FieldGroup
+                        number={3}
+                        title="Coupons & Shipping"
+                        shortdescription="Coupon Visible in side cart panel"
+                      >
+                        <S1Field classN="s1-exclude-header" label="Show Coupon">
+                          <ToggleControl
+                            checked={settings.taiowc_show_coupon}
+                            onChange={(v) => update("taiowc_show_coupon", v)}
+                          />
+                        </S1Field>
+
+                        <S1Field
+                          classN="s1-exclude-header"
+                          label="Show Shipping"
+                        >
+                          <ToggleControl
+                            checked={settings.taiowc_show_shipping}
+                            onChange={(v) => update("taiowc_show_shipping", v)}
                           />
                         </S1Field>
                       </S1FieldGroup>
