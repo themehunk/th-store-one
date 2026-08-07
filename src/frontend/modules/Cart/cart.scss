@@ -1581,3 +1581,30 @@ outline:none;
 .woocommerce-shipping-calculator a{
 font-size:13px;
 }
+
+// flying cart
+.storeone-cart-shake{
+
+    animation:storeoneCartShake .4s;
+
+}
+
+@keyframes storeoneCartShake{
+
+    20%{transform:translateX(-4px)}
+
+    40%{transform:translateX(4px)}
+
+    60%{transform:translateX(-4px)}
+
+    80%{transform:translateX(4px)}
+
+}
+
+.storeone-hidden{
+    display:none;
+}
+
+.cart-contents .store-one-cart{
+    display:flex;
+}

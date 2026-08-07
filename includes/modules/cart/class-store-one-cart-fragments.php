@@ -86,19 +86,21 @@ if (! class_exists('Th_Store_One_Cart_Fragments')) {
 
             }
             /*
-             * Cart Count
-             */
+ * Cart Count
+ */
             ob_start();
 
-            ?>
+            $cart_count = WC()->cart->get_cart_contents_count();
 
-			<span class="store-one-cart-count">
+            if ($cart_count > 0) :
+                ?>
 
-				<?php echo absint(WC()->cart->get_cart_contents_count()); ?>
+    <span class="store-one-cart-count">
+        <?php echo absint($cart_count); ?>
+    </span>
 
-			</span>
-
-			<?php
+<?php
+            endif;
 
             $fragments['.store-one-cart-count'] = ob_get_clean();
 
@@ -132,9 +134,7 @@ if (! class_exists('Th_Store_One_Cart_Fragments')) {
              * Floating Cart
              */
             ob_start();
-
             echo $this->render->render_floating_cart();
-
             $fragments['.store-one-floating-cart'] = ob_get_clean();
 
 

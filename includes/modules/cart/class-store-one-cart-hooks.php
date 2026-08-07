@@ -249,11 +249,6 @@ if (! class_exists('Th_Store_One_Cart_Hooks')) {
                 return;
             }
 
-            // Floating cart disabled.
-            if (empty($this->settings['taiowc_cart_visibility'])) {
-                return;
-            }
-
             echo $this->render->render_floating_cart();
         }
 
