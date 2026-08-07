@@ -71,6 +71,11 @@ const StoreOneWishlist = {
       return;
     }
 
+    if ($button.hasClass("create-multi")) {
+      $(document).trigger("store_one_multi_wishlist_open", [$button]);
+      return;
+    }
+
     $.ajax({
       type: "POST",
       url: storeOneWishlist.ajax_url,
@@ -83,21 +88,22 @@ const StoreOneWishlist = {
       },
 
       beforeSend() {
-        $button.addClass("loading");
+        const $icon = $button.find(".thw-icon");
 
-        $button.find(".thw-icon").html('<span class="thw-loader"></span>');
+        if ($icon.length) {
+          $icon.data("original-icon", $icon.html());
+          $icon.html('<span class="thw-loader"></span>');
+        }
       },
 
       success: (response) => {
         if (!response.success) {
-          console.log(storeOneWishlist.i18n_error);
           return;
         }
 
         if (storeOneWishlist.icon_style !== "icon") {
           if (isShortcode) {
             const browseText = $button.attr("data-browse-text");
-
             if (browseText) {
               $button
                 .find("span")
@@ -156,7 +162,14 @@ const StoreOneWishlist = {
       },
 
       complete() {
-        $button.removeClass("loading");
+        const $icon = $button.find(".thw-icon");
+
+        const originalIcon = $icon.data("original-icon");
+
+        if (originalIcon) {
+          $icon.html(originalIcon);
+          $icon.removeData("original-icon");
+        }
       },
     });
   },

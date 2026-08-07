@@ -2,7 +2,6 @@ const $ = window.jQuery;
 
 const StoreOneCart = {
   init() {
-    console.count("StoreOneCart.init");
     this.cache();
 
     this.bindEvents();
@@ -245,8 +244,6 @@ const StoreOneCart = {
       cart_key: cartKey,
     })
       .done((response) => {
-        console.log(response);
-
         if (response.success) {
           this.refreshFragments(response.data.fragments);
           this.showNotice(response.data.notice, response.data.type);

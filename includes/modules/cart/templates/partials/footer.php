@@ -31,9 +31,9 @@ $checkout_url = wc_get_checkout_url();
 	</h4>
 
 	<?php
-if (! empty($settings['taiowc_show_coupon'])) {
-    do_action('storeone_cart_coupon', $settings);
-}
+    if (! empty($settings['taiowc_show_coupon'])) {
+        do_action('storeone_cart_coupon', $settings);
+    }
 if (! empty($settings['taiowc_show_shipping'])) {
     do_action('storeone_cart_shipping', $settings);
 }

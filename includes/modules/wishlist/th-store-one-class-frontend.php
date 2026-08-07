@@ -454,7 +454,7 @@ class Th_Store_One_Wishlist_Frontend
             false
         );
 
-        if ($multi_enabled) {
+        if ($multi_enabled && ! $in_wishlist) {
             $button_classes[] = 'create-multi';
         }
 
@@ -545,7 +545,7 @@ class Th_Store_One_Wishlist_Frontend
             isset($product) &&
             $product instanceof WC_Product
         ) ? $product->get_id() : '';
-
+        $raw_atts = $atts;
         $atts = shortcode_atts(
             array(
 
@@ -597,21 +597,20 @@ class Th_Store_One_Wishlist_Frontend
         /*
          * Text fallback.
          */
-
-        if ('' === $atts['add_text']) {
-
+        if (! array_key_exists('add_text', $raw_atts)) {
             $atts['add_text'] =
                 $this->settings['thw_add_to_wishlist_text']
                 ?? __('Add to Wishlist', 'th-store-one');
-
+        } elseif (is_null($raw_atts['add_text'])) {
+            $atts['add_text'] = "";
         }
 
-        if ('' === $atts['browse_text']) {
-
+        if (! array_key_exists('browse_text', $raw_atts)) {
             $atts['browse_text'] =
                 $this->settings['thw_browse_wishlist_text']
                 ?? __('Browse Wishlist', 'th-store-one');
-
+        } elseif (is_null($raw_atts['browse_text'])) {
+            $atts['browse_text'] = "";
         }
 
         /*
@@ -815,6 +814,15 @@ class Th_Store_One_Wishlist_Frontend
 
         if (! empty($args['custom_class'])) {
             $button_classes[] = $args['custom_class'];
+        }
+
+        $multi_enabled = apply_filters(
+            'store_one_wishlist_multi_enabled',
+            false
+        );
+
+        if ($multi_enabled && ! $in_wishlist) {
+            $button_classes[] = 'create-multi';
         }
 
         ob_start();

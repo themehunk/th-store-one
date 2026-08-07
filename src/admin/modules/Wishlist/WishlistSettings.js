@@ -375,10 +375,7 @@ export default function WishlistSettings({
                             options={[
                               { label: "Icon + Text", value: "icon_text" },
                               { label: "Icon Only", value: "icon" },
-                              {
-                                label: "Icon Only (No Style)",
-                                value: "icon_only_no_style",
-                              },
+
                               { label: "Text Only", value: "text" },
                             ]}
                             onChange={(v) =>
