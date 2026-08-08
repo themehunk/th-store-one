@@ -1,3 +1,26 @@
+
+<?php
+/**
+ * Cart Body.
+ *
+ * @package StoreOne
+ */
+
+if (! defined('ABSPATH')) {
+    exit;
+}
+$coupon_posts = get_posts(
+    array(
+        'posts_per_page' => 1,
+        'post_type'      => 'shop_coupon',
+        'post_status'    => 'publish',
+        'fields'         => 'ids',
+    )
+);
+
+if (! empty($coupon_posts)) :
+    ?>
+
 <div class="s1-cart-coupon">
 	<button
         type="button"
@@ -36,18 +59,10 @@
     </form>
 
     <?php
-$args = array(
-    'posts_per_page' => -1,
-    'post_type'      => 'shop_coupon',
-    'post_status'    => 'publish',
-    'orderby'        => 'title',
-    'order'          => 'ASC',
-);
 
-        $coupon_posts = get_posts($args);
 
-        if (!empty($coupon_posts)) :
-            ?>
+    if (!empty($coupon_posts)) :
+        ?>
 
 <div class="s1-coupon-slider">
 
@@ -112,8 +127,8 @@ $args = array(
     <?php
     $coupons = WC()->cart ? WC()->cart->get_coupons() : array();
 
-        if (! empty($coupons)) :
-            ?>
+    if (! empty($coupons)) :
+        ?>
 
         <ul class="s1-applied-coupons">
 
@@ -141,3 +156,4 @@ $args = array(
 
 </div>
 </div>
+<?php endif;?>

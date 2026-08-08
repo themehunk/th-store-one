@@ -61,4 +61,4 @@ if (!$show_when_empty && $cart_count == 0) {
 <?php endif; ?>
 
 </div>
-	</div>
+</div>

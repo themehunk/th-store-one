@@ -12,6 +12,18 @@ if (! defined('ABSPATH')) {
 $title = $settings['taiowc_empty_title'] ?? __('Your cart is empty', 'th-store-one');
 
 $text = $settings['taiowc_empty_text'] ?? __('Looks like you have not added anything yet.', 'th-store-one');
+
+$show_cart_button = ! empty(
+    $settings['taiowc_cart_pan_cart_shw']
+);
+
+$empty_cart_text = ! empty($settings['taiowc_empty_cart_txt'])
+    ? $settings['taiowc_empty_cart_txt']
+    : __('Continue Shopping', 'th-store-one');
+
+$empty_cart_url = ! empty($settings['taiowc_empty_cart_url'])
+    ? $settings['taiowc_empty_cart_url']
+    : wc_get_page_permalink('shop');
 ?>
 
 <div class="s1-empty-cart">
@@ -34,13 +46,15 @@ $text = $settings['taiowc_empty_text'] ?? __('Looks like you have not added anyt
 
 	</p>
 
-	<a
-		class="button s1-return-shop"
-		href="<?php echo esc_url(wc_get_page_permalink('shop')); ?>"
-	>
+	<?php if ($show_cart_button) : ?>
 
-		<?php esc_html_e('Continue Shopping', 'th-store-one'); ?>
+    <a
+        class="button s1-return-shop"
+        href="<?php echo esc_url($empty_cart_url); ?>"
+    >
+        <?php echo esc_html($empty_cart_text); ?>
+    </a>
 
-	</a>
+<?php endif; ?>
 
 </div>

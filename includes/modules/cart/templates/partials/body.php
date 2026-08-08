@@ -14,18 +14,31 @@ if (! defined('ABSPATH')) {
 
 	<?php
 
-    if (WC()->cart && ! WC()->cart->is_empty()) {
+if (WC()->cart && ! WC()->cart->is_empty()) {
 
-        foreach (WC()->cart->get_cart() as $cart_item_key => $cart_item) {
+    $cart = WC()->cart->get_cart();
 
-            include TH_STORE_ONE_PLUGIN_DIR .
-                'includes/modules/cart/templates/partials/items.php';
-        }
+    /**
+     * Cart item order.
+     *
+     * prd_first = Newest First
+     * prd_last  = Newest Last
+     */
+    $cart_order = $settings['taiowc_cart_item_order'] ?? 'prd_first';
 
-    } else {
-
-        do_action('storeone_cart_empty', $settings);
+    if ('prd_first' === $cart_order) {
+        $cart = array_reverse($cart, true);
     }
 
-?>
+    foreach ($cart as $cart_item_key => $cart_item) {
 
+        include TH_STORE_ONE_PLUGIN_DIR .
+            'includes/modules/cart/templates/partials/items.php';
+    }
+
+} else {
+
+    do_action('storeone_cart_empty', $settings);
+}
+
+?>

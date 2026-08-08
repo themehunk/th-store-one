@@ -35,6 +35,8 @@ const DEFAULT_SETTINGS = {
   taiowc_show_cart: true,
   taiowc_cart_open: "simple-open",
   taiowc_cart_visibility: true,
+  taiowc_show_ai_suggestion: false,
+  taiowc_ai_suggestion_heading: "✨ AI Product Suggestions",
 
   taiowc_icon_url: "",
   /* Content */
@@ -52,8 +54,9 @@ const DEFAULT_SETTINGS = {
   taiowc_hide_home_page: false,
   taiowc_hide_blog_page: false,
 
-  taiowc_show_coupon: true,
-  taiowc_show_shipping: true,
+  taiowc_show_coupon: false,
+  taiowc_show_shipping: false,
+  taiowc_show_shipping_bar: false,
 
   /* Menu Cart */
 
@@ -175,6 +178,24 @@ const DEFAULT_SETTINGS = {
   taiowc_shipping_text: "#333333", // Text Color
 
   taiowc_shipping_amount: "#111111", // ₹258.00 Color
+
+  /* Mobile */
+
+  // Menu Cart / Shortcode Cart
+  taiowcp_dsble_mnu_crt: false,
+  taiowcp_dsble_mnu_crt_qnty: false,
+  taiowcp_dsble_mnu_crt_price: false,
+
+  // Fixed / Floating Cart
+  taiowcp_dsble_fxd_crt: false,
+  taiowcp_dsble_fxd_crt_qnty: false,
+  taiowcp_fxd_cart_mobile_position: "",
+
+  // Cart Panel
+  taiowcp_cart_mobile_effect: "mobiletopslide",
+  taiowcp_dsble_mob_rel_prd_crt: false,
+  taiowcp_dsble_mob_ship: false,
+  taiowcp_dsble_mob_coupan: false,
 };
 
 export default function CartSettings({
@@ -467,6 +488,27 @@ export default function CartSettings({
                           />
                         </S1Field>
                       </S1FieldGroup>
+                      <S1FieldGroup number={2} title="AI Suggestion Products">
+                        <S1Field
+                          label="Enable AI Suggestion Products"
+                          description="Check to show product recommendation with AI"
+                        >
+                          <ToggleControl
+                            checked={settings.taiowc_show_ai_suggestion}
+                            onChange={(v) =>
+                              update("taiowc_show_ai_suggestion", v)
+                            }
+                          />
+                        </S1Field>
+                        <S1Field label="Heading">
+                          <TextControl
+                            value={settings.taiowc_ai_suggestion_heading}
+                            onChange={(v) =>
+                              update("taiowc_ai_suggestion_heading", v)
+                            }
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
                     </>
                   ),
                 },
@@ -662,6 +704,17 @@ export default function CartSettings({
                           <ToggleControl
                             checked={settings.taiowc_show_shipping}
                             onChange={(v) => update("taiowc_show_shipping", v)}
+                          />
+                        </S1Field>
+                        <S1Field
+                          classN="s1-exclude-header"
+                          label="Show Shipping Bar"
+                        >
+                          <ToggleControl
+                            checked={settings.taiowc_show_shipping_bar}
+                            onChange={(v) =>
+                              update("taiowc_show_shipping_bar", v)
+                            }
                           />
                         </S1Field>
                       </S1FieldGroup>
@@ -1349,6 +1402,169 @@ export default function CartSettings({
                               update("taiowc_shipping_amount", v)
                             }
                             allowGradient={false}
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+                    </>
+                  ),
+                },
+                {
+                  id: "mobile",
+                  label: "Mobile",
+                  icon: (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <rect x="6" y="2" width="12" height="20" rx="2" />
+                      <line x1="10" y1="18" x2="14" y2="18" />
+                    </svg>
+                  ),
+                  content: (
+                    <>
+                      {/* Menu Cart / Shortcode Cart */}
+                      <S1FieldGroup
+                        number={1}
+                        title="Menu Cart"
+                        shortdescription="Control cart visibility and content on mobile devices"
+                      >
+                        <S1Field
+                          label="Disable"
+                          description="Disable Menu Cart / Shortcode Cart on mobile"
+                        >
+                          <ToggleControl
+                            checked={settings.taiowcp_dsble_mnu_crt}
+                            onChange={(v) => update("taiowcp_dsble_mnu_crt", v)}
+                          />
+                        </S1Field>
+
+                        <S1Field label="Disable Cart Quantity">
+                          <ToggleControl
+                            checked={settings.taiowcp_dsble_mnu_crt_qnty}
+                            onChange={(v) =>
+                              update("taiowcp_dsble_mnu_crt_qnty", v)
+                            }
+                          />
+                        </S1Field>
+
+                        <S1Field label="Disable Cart Price">
+                          <ToggleControl
+                            checked={settings.taiowcp_dsble_mnu_crt_price}
+                            onChange={(v) =>
+                              update("taiowcp_dsble_mnu_crt_price", v)
+                            }
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+
+                      {/* Fixed / Floating Cart */}
+                      <S1FieldGroup
+                        number={2}
+                        title="Fixed & Floating Cart"
+                        shortdescription="Control fixed cart behavior on mobile devices"
+                      >
+                        <S1Field
+                          label="Disable"
+                          description="Disable Fixed Cart on mobile"
+                        >
+                          <ToggleControl
+                            checked={settings.taiowcp_dsble_fxd_crt}
+                            onChange={(v) => update("taiowcp_dsble_fxd_crt", v)}
+                          />
+                        </S1Field>
+
+                        <S1Field label="Disable Quantity">
+                          <ToggleControl
+                            checked={settings.taiowcp_dsble_fxd_crt_qnty}
+                            onChange={(v) =>
+                              update("taiowcp_dsble_fxd_crt_qnty", v)
+                            }
+                          />
+                        </S1Field>
+
+                        <S1Field
+                          label="Position"
+                          description="This will override the Global Position Setting"
+                        >
+                          <SelectControl
+                            value={settings.taiowcp_fxd_cart_mobile_position}
+                            options={[
+                              {
+                                label: "Default",
+                                value: "",
+                              },
+                              {
+                                label: "Right",
+                                value: "fxd-right",
+                              },
+                              {
+                                label: "Left",
+                                value: "fxd-left",
+                              },
+                            ]}
+                            onChange={(v) =>
+                              update("taiowcp_fxd_cart_mobile_position", v)
+                            }
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+
+                      {/* Cart Panel */}
+                      <S1FieldGroup
+                        number={3}
+                        title="Cart Panel"
+                        shortdescription="Control cart panel behavior on mobile devices"
+                      >
+                        <S1Field label="Open Style">
+                          <SelectControl
+                            value={settings.taiowcp_cart_mobile_effect}
+                            options={[
+                              {
+                                label: "Default",
+                                value: "global",
+                              },
+                              {
+                                label: "Mobile Bottom",
+                                value: "mobiletopslide",
+                              },
+                            ]}
+                            onChange={(v) =>
+                              update("taiowcp_cart_mobile_effect", v)
+                            }
+                          />
+                        </S1Field>
+
+                        <S1Field label="Disable Product You May Like">
+                          <ToggleControl
+                            checked={settings.taiowcp_dsble_mob_rel_prd_crt}
+                            onChange={(v) =>
+                              update("taiowcp_dsble_mob_rel_prd_crt", v)
+                            }
+                          />
+                        </S1Field>
+
+                        <S1Field label="Disable Shipping">
+                          <ToggleControl
+                            checked={settings.taiowcp_dsble_mob_ship}
+                            onChange={(v) =>
+                              update("taiowcp_dsble_mob_ship", v)
+                            }
+                          />
+                        </S1Field>
+
+                        <S1Field label="Disable Coupon">
+                          <ToggleControl
+                            checked={settings.taiowcp_dsble_mob_coupan}
+                            onChange={(v) =>
+                              update("taiowcp_dsble_mob_coupan", v)
+                            }
                           />
                         </S1Field>
                       </S1FieldGroup>

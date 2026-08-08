@@ -9,6 +9,12 @@ const StoreOneCart = {
     this.initShipping();
 
     this.initCouponSlider();
+
+    this.restoreAISuggestion();
+
+    $(document.body).on("wc_fragments_loaded wc_fragments_refreshed", () => {
+      this.restoreAISuggestion();
+    });
   },
 
   cache() {
@@ -92,6 +98,16 @@ const StoreOneCart = {
         this.lastCartButton = $(e.currentTarget);
       },
     );
+
+    /*
+     * AI Suggestion
+     */
+
+    $(document).on("click", ".s1-ai-suggest-btn", (e) => this.aiSuggest(e));
+
+    $(document).on("click", ".s1-ai-product-btn .th-button", (e) =>
+      this.aiAddToCart(e),
+    );
   },
 
   /*
@@ -103,6 +119,15 @@ const StoreOneCart = {
   openCart(e) {
     if (e) {
       e.preventDefault();
+    }
+
+    const cartEffect = this.$wrapper
+      .closest(".store-one-side-cart")
+      .data("cart-effect");
+
+    if (cartEffect === "taiowc-click-cart") {
+      window.location.href = storeOneCart.cartUrl;
+      return;
     }
 
     this.cache();
@@ -682,6 +707,275 @@ const StoreOneCart = {
       },
     );
   },
+  /*
+   * ----------------------------
+   * AI Suggestion
+   * ----------------------------
+   */
+
+  /*
+   * ----------------------------
+   * AI Suggestion
+   * ----------------------------
+   */
+
+  aiSuggestCookie: "storeone_ai_suggest",
+
+  cartHashKey() {
+    return typeof wc_cart_fragments_params !== "undefined" &&
+      wc_cart_fragments_params.cart_hash_key
+      ? wc_cart_fragments_params.cart_hash_key
+      : "wc_cart_hash";
+  },
+
+  currentCartHash() {
+    return localStorage.getItem(this.cartHashKey()) || "";
+  },
+
+  saveAISuggestion(data) {
+    data.cartHash = this.currentCartHash();
+
+    const expires = new Date(Date.now() + 60 * 60 * 1000).toUTCString();
+
+    document.cookie =
+      this.aiSuggestCookie +
+      "=" +
+      encodeURIComponent(JSON.stringify(data)) +
+      "; expires=" +
+      expires +
+      "; path=/; SameSite=Lax";
+  },
+
+  readAISuggestion() {
+    const match = document.cookie.match(
+      new RegExp("(?:^|;\\s*)" + this.aiSuggestCookie + "=([^;]*)"),
+    );
+
+    if (!match) {
+      return null;
+    }
+
+    try {
+      return JSON.parse(decodeURIComponent(match[1]));
+    } catch (e) {
+      return null;
+    }
+  },
+
+  deleteAISuggestion() {
+    document.cookie =
+      this.aiSuggestCookie +
+      "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  },
+
+  renderAISuggestion($result, data) {
+    const intro = data.intro ? `<p class="s1-ai-intro">${data.intro}</p>` : "";
+
+    $result.html(intro + (data.html || "")).show();
+  },
+
+  restoreAISuggestion() {
+    const $result = $(".s1-ai-suggest-result");
+
+    if (!$result.length) {
+      return;
+    }
+
+    const data = this.readAISuggestion();
+
+    if (!data) {
+      return;
+    }
+
+    /*
+     * Cart changed after suggestion was generated.
+     */
+    if (data.cartHash && data.cartHash !== this.currentCartHash()) {
+      this.deleteAISuggestion();
+
+      $result.hide().html("");
+
+      return;
+    }
+
+    this.renderAISuggestion($result, data);
+  },
+
+  clearAISuggestion() {
+    this.deleteAISuggestion();
+
+    $(".s1-ai-suggest-result").hide().html("");
+  },
+
+  aiSuggest(e) {
+    e.preventDefault();
+
+    const $btn = $(e.currentTarget);
+
+    const $result = $btn.siblings(".s1-ai-suggest-result");
+
+    if ($btn.hasClass("s1-ai-loading")) {
+      return;
+    }
+
+    $btn.addClass("s1-ai-loading").prop("disabled", true);
+
+    $result.hide().html("");
+
+    this.ajax({
+      action: "th_store_one_ai_suggest",
+    })
+      .done((response) => {
+        if (response && response.success) {
+          const data = {
+            intro: response.data.intro || "",
+            html: response.data.html || "",
+          };
+
+          /*
+           * Save suggestion for 1 hour.
+           */
+          this.saveAISuggestion(data);
+
+          /*
+           * Render immediately.
+           */
+          this.renderAISuggestion($result, data);
+        } else {
+          const message =
+            response && response.data && response.data.message
+              ? response.data.message
+              : "AI suggestion failed.";
+
+          $result
+            .html(`<span class="s1-ai-error">${message}</span>`)
+            .fadeIn("fast");
+        }
+      })
+      .fail(() => {
+        $result
+          .html(
+            '<span class="s1-ai-error">Connection error. Please try again.</span>',
+          )
+          .fadeIn("fast");
+      })
+      .always(() => {
+        $btn.removeClass("s1-ai-loading").prop("disabled", false);
+      });
+  },
+  refreshCartSilently(fragments) {
+    if (!fragments) {
+      return;
+    }
+
+    $.each(fragments, (selector, html) => {
+      $(selector).replaceWith(html);
+    });
+
+    $(document.body).trigger("wc_fragments_refreshed");
+
+    this.cache();
+
+    this.initShipping();
+
+    setTimeout(() => {
+      this.initCouponSlider();
+    }, 50);
+
+    if (
+      fragments[".store-one-floating-cart"] &&
+      !$(".store-one-floating-cart").length
+    ) {
+      $("body").append(fragments[".store-one-floating-cart"]);
+    }
+  },
+  aiAddToCart(e) {
+    e.preventDefault();
+
+    const $btn = $(e.currentTarget);
+    const productId = $btn.data("product_id");
+
+    if (!productId || $btn.hasClass("s1-ai-add-loading")) {
+      return;
+    }
+
+    $btn.addClass("s1-ai-add-loading");
+
+    this.ajax({
+      action: "storeone_cart_add_item",
+      product_id: productId,
+      quantity: 1,
+    })
+      .done((response) => {
+        if (!response.success) {
+          this.showNotice(
+            response.data?.message || "Unable to add product.",
+            "error",
+          );
+
+          return;
+        }
+
+        /*
+         * Update cart fragments only.
+         * DO NOT call refreshCart()
+         */
+        this.refreshFragmentsWithoutOpen(response.data.fragments);
+
+        /*
+         * Same notice as quantity/remove.
+         */
+        this.showNotice(response.data.notice, response.data.type);
+
+        /*
+         * AI suggestion is now invalid
+         * because cart composition changed.
+         */
+        this.clearAISuggestion();
+      })
+      .fail(() => {
+        this.showNotice("Unable to add product. Please try again.", "error");
+      })
+      .always(() => {
+        $btn.removeClass("s1-ai-add-loading");
+      });
+  },
+  refreshFragmentsWithoutOpen(fragments) {
+    if (!fragments) {
+      return;
+    }
+
+    // Current cart state save karo
+    const wasOpen = this.$wrapper && this.$wrapper.hasClass("active");
+
+    $.each(fragments, (selector, html) => {
+      $(selector).replaceWith(html);
+    });
+
+    $(document.body).trigger("wc_fragments_refreshed");
+
+    this.cache();
+
+    this.initShipping();
+
+    setTimeout(() => {
+      this.initCouponSlider();
+    }, 50);
+
+    if (
+      fragments[".store-one-floating-cart"] &&
+      !$(".store-one-floating-cart").length
+    ) {
+      $("body").append(fragments[".store-one-floating-cart"]);
+    }
+
+    // AI add-to-cart ke baad cart state restore karo
+    if (wasOpen) {
+      this.$wrapper.addClass("active");
+      this.$body.addClass("store-one-cart-open");
+      this.$body.css("overflow", "hidden");
+    }
+  },
 };
 /*
 |--------------------------------------------------------------------------
@@ -690,6 +984,7 @@ const StoreOneCart = {
 */
 
 $(document.body).on("added_to_cart", (event, fragments, cart_hash, $button) => {
+  StoreOneCart.clearAISuggestion();
   const btn = $button || StoreOneCart.lastCartButton;
 
   if (storeOneCart.cartOpen === "fly-image-open") {
@@ -702,6 +997,7 @@ $(document.body).on("added_to_cart", (event, fragments, cart_hash, $button) => {
 });
 
 $(document.body).on("removed_from_cart", () => {
+  StoreOneCart.clearAISuggestion();
   StoreOneCart.refreshCart();
 });
 

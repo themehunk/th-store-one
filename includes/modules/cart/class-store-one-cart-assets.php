@@ -114,6 +114,9 @@ if (! class_exists('Th_Store_One_Cart_Assets')) {
         'taiowc_cart_visibility',
         true
     ),
+     'aiSuggestNonce' => wp_create_nonce(
+         'th_store_one_ai_suggest'
+     ),
 
     'isCart'                => is_cart(),
 

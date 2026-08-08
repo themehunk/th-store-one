@@ -127,6 +127,13 @@ if (! class_exists('Th_Store_One_Cart_Hooks')) {
                 10,
                 1
             );
+
+            add_action(
+                'storeone_cart_ai_suggestion',
+                array($this, 'render_ai_suggestion'),
+                10,
+                1
+            );
         }		/**
          * Header.
          *
@@ -304,6 +311,39 @@ if (! class_exists('Th_Store_One_Cart_Hooks')) {
         {
 
             return ! empty($this->settings['taiowc_show_cart']);
+        }
+
+        public function render_ai_suggestion($settings = array())
+        {
+            if (! WC()->cart || WC()->cart->is_empty()) {
+                return;
+            }
+
+            if (empty($settings['taiowc_show_ai_suggestion'])) {
+                return;
+            }
+
+            $heading = ! empty($settings['taiowc_ai_suggestion_heading'])
+                ? $settings['taiowc_ai_suggestion_heading']
+                : __('✨ AI Product Suggestions', 'th-store-one');
+
+            ?>
+            <div class="s1-ai-suggest-wrap">
+
+                <button
+                    type="button"
+                    class="s1-ai-suggest-btn"
+                >
+                    <?php echo esc_html($heading); ?>
+                </button>
+
+                <div
+                    class="s1-ai-suggest-result"
+                    style="display:none;"
+                ></div>
+
+            </div>
+            <?php
         }
     }
 }

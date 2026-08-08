@@ -115,5 +115,27 @@ if (! class_exists('Th_Store_One_Cart_Render')) {
 
             return ob_get_clean();
         }
+
+        public function store_one_cart_add_to_cart_url($product)
+        {
+            $quantity = 1;
+
+            $html = sprintf(
+                '<a href="%s"
+            rel="nofollow"
+            data-product_id="%s"
+            data-product_sku="%s"
+            data-quantity="%s"
+            class="button th-button s1-ai-add-to-cart">
+            <span class="dashicons dashicons-plus-alt2"></span>
+        </a>',
+                esc_url($product->add_to_cart_url()),
+                esc_attr($product->get_id()),
+                esc_attr($product->get_sku()),
+                esc_attr($quantity)
+            );
+
+            return $html;
+        }
     }
 }
