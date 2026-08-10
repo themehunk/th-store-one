@@ -23,6 +23,34 @@ $icon = $settings['taiowc_cart_icon'] ?? 'icon-1';
 $image = $settings['taiowc_image_url'] ?? '';
 
 $custom_svg = $settings['taiowc_custom_svg'] ?? '';
+// color
+$menu_cart_bg = $settings['taiowc_bg_color'] ?? '';
+$menu_price_color = $settings['taiowc_price_color'] ?? '';
+$menu_quantity_bg = $settings['taiowc_quantity_bg'] ?? '';
+$menu_quantity_color = $settings['taiowc_quantity_color'] ?? '';
+$menu_icon_color = $settings['taiowc_icon_color'] ?? '';
+
+$menu_cart_style = '';
+
+if (! empty($menu_cart_bg)) {
+    $menu_cart_style .= '--s1-menu-cart-bg:' . esc_attr($menu_cart_bg) . ';';
+}
+
+if (! empty($menu_price_color)) {
+    $menu_cart_style .= '--s1-menu-cart-price:' . esc_attr($menu_price_color) . ';';
+}
+
+if (! empty($menu_quantity_bg)) {
+    $menu_cart_style .= '--s1-menu-cart-quantity-bg:' . esc_attr($menu_quantity_bg) . ';';
+}
+
+if (! empty($menu_quantity_color)) {
+    $menu_cart_style .= '--s1-menu-cart-quantity-color:' . esc_attr($menu_quantity_color) . ';';
+}
+
+if (! empty($menu_icon_color)) {
+    $menu_cart_style .= '--s1-menu-cart-icon:' . esc_attr($menu_icon_color) . ';';
+}
 ?>
 <div class="store-one-cart">
 <div
@@ -34,6 +62,7 @@ $custom_svg = $settings['taiowc_custom_svg'] ?? '';
 		type="button"
 		class="s1-menu-cart-toggle storeone-cart-toggle"
 		aria-label="<?php esc_attr_e('Open Cart', 'th-store-one'); ?>"
+		 style="<?php echo esc_attr($menu_cart_style); ?>"
 	>
 
 		<span class="s1-preview-cart-icon">

@@ -1080,7 +1080,7 @@ export default function CartSettings({
                             />
                           </S1Field>
 
-                          <S1Field>
+                          {/* <S1Field>
                             <THBackgroundControl
                               label={__("Price Color", "th-store-one")}
                               value={settings.taiowc_fixed_price_color}
@@ -1089,7 +1089,7 @@ export default function CartSettings({
                               }
                               allowGradient={false}
                             />
-                          </S1Field>
+                          </S1Field> */}
 
                           <S1Field>
                             <THBackgroundControl

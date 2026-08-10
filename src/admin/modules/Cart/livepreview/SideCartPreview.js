@@ -255,6 +255,7 @@ const SideCartPreview = ({ settings = {}, previewType }) => {
         className={`s1-side-cart-preview ${
           position === "left" ? "position-left" : "position-right"
         }`}
+        style={{ background: getBg(settings.taiowc_cart_pan_bg_clr) }}
       >
         <div className="s1-side-cart-header" style={headerStyle}>
           <div className="s1-side-cart-title">

@@ -56,7 +56,8 @@
     cursor:pointer;
     padding:0;
     position:relative;
-        padding: 0 10px;
+    border-radius: 15px;
+        padding:10px;
 }
 .store-one-cart .s1-menu-cart-toggle:focus{
     outline:none;
@@ -2016,4 +2017,476 @@ font-size:13px;
     to {
         transform: rotate(360deg);
     }
+}
+
+
+// color setting
+.s1-menu-cart-toggle {
+    background: var(--s1-menu-cart-bg, transparent) !important;
+}
+
+.s1-menu-cart-toggle .s1-menu-cart-price {
+    color: var(--s1-menu-cart-price, inherit) !important;
+}
+
+.s1-menu-cart-toggle .s1-menu-cart-count {
+    background: var(--s1-menu-cart-quantity-bg, #111827) !important;
+    color: var(--s1-menu-cart-quantity-color, #fff) !important;
+}
+
+.s1-menu-cart-toggle .s1-preview-cart-icon {
+    color: var(--s1-menu-cart-icon, inherit) !important;
+}
+
+.store-one-cart .s1-preview-cart-svg svg{
+   color: var(--s1-menu-cart-icon, inherit) !important;
+}
+
+/* =========================================================
+   FLOATING CART STYLE
+========================================================= */
+
+.store-one-floating-cart .s1-floating-cart {
+    background: var(
+        --s1-floating-bg,
+        #111827
+    ) !important;
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.store-one-floating-cart .s1-preview-cart-icon {
+    color: var(
+        --s1-floating-icon,
+        #ffffff
+    ) !important;
+}
+
+.store-one-floating-cart .s1-preview-cart-icon svg {
+    color: var(
+        --s1-floating-icon,
+        #ffffff
+    ) !important;
+
+    width: 100%;
+    height: 100%;
+}
+
+
+/* =========================================================
+   QUANTITY
+========================================================= */
+
+.store-one-floating-cart .s1-floating-cart-count {
+    background: var(
+        --s1-floating-quantity-bg,
+        #ffffff
+    ) !important;
+
+    color: var(
+        --s1-floating-quantity-color,
+        #111827
+    ) !important;
+}
+
+
+.s1-side-cart-header {
+    background: var(--s1-cart-header-bg);
+}
+
+.s1-side-cart-title {
+    color: var(--s1-cart-header-heading);
+}
+
+.s1-side-cart-title .s1-preview-cart-icon {
+    color: var(--s1-cart-header-icon);
+}
+
+.s1-side-cart-header .dashicons-no-alt {
+    color: var(--s1-cart-header-close);
+}
+
+/* =========================================================
+   STORE ONE - SIDE CART COLOR SETTINGS
+   IMPORTANT: Keep this CSS after normal side-cart CSS.
+========================================================= */
+
+
+/* =========================================================
+   CART BODY
+========================================================= */
+
+.s1-side-cart-preview .s1-side-cart-body {
+    background: var(--s1-cart-bg, #fff) !important;
+}
+
+
+/* =========================================================
+   PRODUCT CARD
+========================================================= */
+
+.s1-side-cart-preview .s1-cart-item {
+    background: var(--s1-product-bg, #fff) !important;
+
+    border-color: var(
+        --s1-product-border,
+        #e5e5e5
+    ) !important;
+}
+
+
+/* =========================================================
+   PRODUCT TITLE
+========================================================= */
+
+.s1-side-cart-preview .s1-cart-item .s1-cart-title,
+.s1-side-cart-preview .s1-cart-item .s1-cart-title a {
+    color: var(
+        --s1-product-title,
+        #111827
+    ) !important;
+}
+
+
+/* =========================================================
+   PRODUCT TEXT
+========================================================= */
+
+.s1-side-cart-preview .s1-cart-item .s1-cart-content,
+.s1-side-cart-preview .s1-cart-item .s1-cart-content p {
+    color: var(
+        --s1-product-text,
+        #555
+    ) !important;
+}
+
+
+/* =========================================================
+   PRODUCT PRICE
+========================================================= */
+
+.s1-side-cart-preview .s1-cart-item .s1-cart-price,
+.s1-side-cart-preview .s1-cart-item .s1-cart-price *,
+.s1-side-cart-preview
+.s1-cart-item
+.woocommerce-Price-amount,
+.s1-side-cart-preview
+.s1-cart-item
+.woocommerce-Price-currencySymbol {
+    color: var(
+        --s1-product-text,
+        #111827
+    ) !important;
+}
+
+
+/* =========================================================
+   QUANTITY
+========================================================= */
+
+.s1-side-cart-preview .s1-cart-item .s1-woo-cart-qty {
+    border-color: var(
+        --s1-product-border,
+        #e5e5e5
+    ) !important;
+}
+
+.s1-side-cart-preview .s1-cart-item .s1-woo-cart-qty button,
+.s1-side-cart-preview .s1-cart-item .s1-woo-cart-qty input {
+    color: var(
+        --s1-product-text,
+        #111827
+    ) !important;
+
+    background: transparent !important;
+}
+
+
+/* =========================================================
+   RATING
+========================================================= */
+
+.s1-side-cart-preview .s1-cart-rating,
+.s1-side-cart-preview .s1-cart-rating * {
+    color: var(
+        --s1-product-rating,
+        #f5b301
+    ) !important;
+}
+
+
+/* =========================================================
+   DELETE ICON
+========================================================= */
+
+.s1-side-cart-preview .s1-cart-delete,
+.s1-side-cart-preview .s1-remove-cart-item,
+.s1-side-cart-preview .s1-cart-remove {
+    color: var(
+        --s1-product-delete,
+        #111827
+    ) !important;
+}
+
+
+/* =========================================================
+   SHIPPING
+========================================================= */
+
+.s1-side-cart-preview .s1-shipping-progress,
+.s1-side-cart-preview .s1-progress-wrap {
+    background: var(
+        --s1-shipping-bg,
+        #f8f5ed
+    ) !important;
+}
+
+
+/* Track */
+
+.s1-side-cart-preview .s1-progress-track {
+    background: var(
+        --s1-shipping-track,
+        #e3e3e3
+    ) !important;
+}
+
+
+/* Progress Fill */
+
+.s1-side-cart-preview .s1-progress-fill {
+    background: var(
+        --s1-shipping-fill,
+        #216b29
+    ) !important;
+}
+
+
+/* Truck Circle */
+
+.s1-side-cart-preview .s1-progress-icon {
+    background: var(
+        --s1-shipping-icon-bg,
+        #fff
+    ) !important;
+
+    border-color: var(
+        --s1-shipping-icon-border,
+        #38b44a
+    ) !important;
+}
+
+
+/* Shipping Text */
+
+.s1-side-cart-preview .s1-shipping-text {
+    color: var(
+        --s1-shipping-text,
+        #333
+    ) !important;
+}
+
+
+/* Shipping Amount */
+
+.s1-side-cart-preview .s1-shipping-text .s1-shipping-amount,
+.s1-side-cart-preview
+.s1-shipping-text
+.s1-shipping-amount *,
+.s1-side-cart-preview
+.s1-shipping-text
+.woocommerce-Price-amount,
+.s1-side-cart-preview
+.s1-shipping-text
+.woocommerce-Price-currencySymbol {
+    color: var(
+        --s1-shipping-amount,
+        #111
+    ) !important;
+}
+
+
+/* =========================================================
+   COUPON SECTION
+========================================================= */
+
+.s1-side-cart-preview .s1-coupon-section {
+    background: var(
+        --s1-cart-bg,
+        #fff
+    ) !important;
+}
+
+
+/* Coupon Toggle */
+
+.s1-side-cart-preview .s1-coupon-toggle {
+    color: var(
+        --s1-order-text,
+        #111827
+    ) !important;
+}
+
+
+/* Coupon Arrow */
+
+.s1-side-cart-preview .s1-coupon-arrow {
+    color: var(
+        --s1-order-text,
+        #fff
+    ) !important;
+}
+
+
+/* Coupon Form */
+
+.s1-side-cart-preview .s1-coupon-form,
+.s1-side-cart-preview ,.s1-shipping-bar{
+    background: var(
+        --s1-cart-bg,
+        #f8f9fb
+    ) !important;
+}
+
+
+/* Coupon Cards */
+
+.s1-side-cart-preview .s1-coupon-card {
+    background: var(
+        --s1-product-bg,
+        #fff
+    ) !important;
+
+    border-color: var(
+        --s1-product-border,
+        #e1e4e9
+    ) !important;
+}
+
+
+/* Coupon Code */
+
+.s1-side-cart-preview .s1-coupon-code {
+    color: var(
+        --s1-product-rating,
+        #18a34a
+    ) !important;
+}
+
+
+/* Apply Coupon */
+
+.s1-side-cart-preview .s1-apply-coupon {
+    color: #fff !important;
+}
+
+
+/* =========================================================
+   FOOTER / ORDER AREA
+========================================================= */
+
+.s1-side-cart-preview .s1-side-cart-footer {
+    background: var(
+        --s1-order-bg,
+        #fff
+    ) !important;
+
+    color: var(
+        --s1-order-text,
+        #111827
+    ) !important;
+}
+
+
+/* Footer Heading */
+
+.s1-side-cart-preview .s1-footer-heading {
+    color: var(
+        --s1-order-heading,
+        #111827
+    ) !important;
+}
+
+
+/* Summary Rows */
+
+.s1-side-cart-preview .s1-summary-row {
+    color: var(
+        --s1-order-text,
+        #111827
+    ) !important;
+}
+
+.s1-side-cart-preview .s1-summary-row span,
+.s1-side-cart-preview .s1-summary-row strong,
+.s1-side-cart-preview .s1-summary-row .woocommerce-Price-amount,
+.s1-side-cart-preview .s1-summary-row .woocommerce-Price-currencySymbol {
+    color: inherit !important;
+}
+
+
+/* Total */
+
+.s1-side-cart-preview .s1-summary-total {
+    color: var(
+        --s1-order-heading,
+        #111827
+    ) !important;
+}
+
+
+/* =========================================================
+   FOOTER LINKS
+========================================================= */
+
+// .s1-side-cart-preview .s1-side-cart-footer a {
+//     color: var(
+//         --s1-order-link,
+//         #111827
+//     ) !important;
+// }
+
+
+/* =========================================================
+   VIEW CART
+========================================================= */
+
+.s1-side-cart-preview .s1-view-cart-btn {
+    background: var(
+        --s1-cart-button-bg,
+        #fff
+    ) !important;
+
+    color: var(
+        --s1-cart-button-text,
+        #111827
+    ) !important;
+}
+
+
+/* =========================================================
+   CHECKOUT
+========================================================= */
+
+.s1-side-cart-preview .s1-checkout-btn {
+    background: var(
+        --s1-checkout-bg,
+        #111827
+    ) !important;
+
+    color: var(
+        --s1-checkout-text,
+        #fff
+    ) !important;
+}
+
+
+/* WooCommerce nested elements */
+
+.s1-side-cart-preview .s1-view-cart-btn *,
+.s1-side-cart-preview .s1-checkout-btn * {
+    color: inherit !important;
 }
