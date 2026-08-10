@@ -366,7 +366,6 @@ export default function CartSettings({
   const [previewType, setPreviewType] = useState("menu-cart");
   useEffect(() => {
     const handler = (e) => {
-      console.log("Received", e.detail);
       setPreviewType(e.detail.preview);
     };
 
@@ -410,7 +409,10 @@ export default function CartSettings({
 
           <div className="store-one-rule-item">
             <TabSwitcher
-              defaultTab="settings"
+              key={previewType}
+              defaultTab={
+                previewType === "side-cart" ? "cartpanel" : "settings"
+              }
               tabs={[
                 {
                   id: "settings",
@@ -488,27 +490,6 @@ export default function CartSettings({
                           />
                         </S1Field>
                       </S1FieldGroup>
-                      <S1FieldGroup number={2} title="AI Suggestion Products">
-                        <S1Field
-                          label="Enable AI Suggestion Products"
-                          description="Check to show product recommendation with AI"
-                        >
-                          <ToggleControl
-                            checked={settings.taiowc_show_ai_suggestion}
-                            onChange={(v) =>
-                              update("taiowc_show_ai_suggestion", v)
-                            }
-                          />
-                        </S1Field>
-                        <S1Field label="Heading">
-                          <TextControl
-                            value={settings.taiowc_ai_suggestion_heading}
-                            onChange={(v) =>
-                              update("taiowc_ai_suggestion_heading", v)
-                            }
-                          />
-                        </S1Field>
-                      </S1FieldGroup>
                     </>
                   ),
                 },
@@ -519,70 +500,6 @@ export default function CartSettings({
 
                   content: (
                     <>
-                      {previewType === "floating-cart" && (
-                        <S1FieldGroup
-                          number={1}
-                          title="Floating Cart Content Visibility"
-                        >
-                          <S1Field
-                            classN="s1-exclude-header"
-                            label="Show Product Image"
-                          >
-                            <ToggleControl
-                              checked={settings.taiowc_show_prd_img}
-                              onChange={(v) => update("taiowc_show_prd_img", v)}
-                            />
-                          </S1Field>
-
-                          <S1Field
-                            classN="s1-exclude-header"
-                            label="Show Product Title"
-                          >
-                            <ToggleControl
-                              checked={settings.taiowc_show_prd_title}
-                              onChange={(v) =>
-                                update("taiowc_show_prd_title", v)
-                              }
-                            />
-                          </S1Field>
-
-                          <S1Field
-                            classN="s1-exclude-header"
-                            label="Show Product Price"
-                          >
-                            <ToggleControl
-                              checked={settings.taiowc_show_prd_price}
-                              onChange={(v) =>
-                                update("taiowc_show_prd_price", v)
-                              }
-                            />
-                          </S1Field>
-
-                          <S1Field
-                            classN="s1-exclude-header"
-                            label="Show Product Quantity"
-                          >
-                            <ToggleControl
-                              checked={settings.taiowc_show_prd_quantity}
-                              onChange={(v) =>
-                                update("taiowc_show_prd_quantity", v)
-                              }
-                            />
-                          </S1Field>
-
-                          <S1Field
-                            classN="s1-exclude-header"
-                            label="Show Product Rating"
-                          >
-                            <ToggleControl
-                              checked={settings.taiowc_show_prd_rating}
-                              onChange={(v) =>
-                                update("taiowc_show_prd_rating", v)
-                              }
-                            />
-                          </S1Field>
-                        </S1FieldGroup>
-                      )}
                       {previewType === "menu-cart" && (
                         <S1FieldGroup number={1} title="Menu Cart">
                           <S1Field
@@ -608,119 +525,100 @@ export default function CartSettings({
                           </S1Field>
                         </S1FieldGroup>
                       )}
-                      <S1FieldGroup number={2} title="Visibility Rules">
-                        <S1Field
-                          classN="s1-exclude-header"
-                          label="Hide on Cart Page"
+                      {previewType === "floating-cart" && (
+                        <S1FieldGroup
+                          number={1}
+                          title="Float cart Visibility Rules"
                         >
-                          <ToggleControl
-                            checked={settings.taiowc_hide_cart_page}
-                            onChange={(v) => update("taiowc_hide_cart_page", v)}
-                          />
-                        </S1Field>
+                          <S1Field
+                            classN="s1-exclude-header"
+                            label="Hide on Cart Page"
+                          >
+                            <ToggleControl
+                              checked={settings.taiowc_hide_cart_page}
+                              onChange={(v) =>
+                                update("taiowc_hide_cart_page", v)
+                              }
+                            />
+                          </S1Field>
 
-                        <S1Field
-                          label="Hide on Checkout Page"
-                          classN="s1-exclude-header"
-                        >
-                          <ToggleControl
-                            checked={settings.taiowc_hide_checkout_page}
-                            onChange={(v) =>
-                              update("taiowc_hide_checkout_page", v)
-                            }
-                          />
-                        </S1Field>
+                          <S1Field
+                            label="Hide on Checkout Page"
+                            classN="s1-exclude-header"
+                          >
+                            <ToggleControl
+                              checked={settings.taiowc_hide_checkout_page}
+                              onChange={(v) =>
+                                update("taiowc_hide_checkout_page", v)
+                              }
+                            />
+                          </S1Field>
 
-                        <S1Field
-                          label="Hide on Shop Page"
-                          classN="s1-exclude-header"
-                        >
-                          <ToggleControl
-                            checked={settings.taiowc_hide_shop_page}
-                            onChange={(v) => update("taiowc_hide_shop_page", v)}
-                          />
-                        </S1Field>
+                          <S1Field
+                            label="Hide on Shop Page"
+                            classN="s1-exclude-header"
+                          >
+                            <ToggleControl
+                              checked={settings.taiowc_hide_shop_page}
+                              onChange={(v) =>
+                                update("taiowc_hide_shop_page", v)
+                              }
+                            />
+                          </S1Field>
 
-                        <S1Field
-                          label="Hide on Account Page"
-                          classN="s1-exclude-header"
-                        >
-                          <ToggleControl
-                            checked={settings.taiowc_hide_account_page}
-                            onChange={(v) =>
-                              update("taiowc_hide_account_page", v)
-                            }
-                          />
-                        </S1Field>
+                          <S1Field
+                            label="Hide on Account Page"
+                            classN="s1-exclude-header"
+                          >
+                            <ToggleControl
+                              checked={settings.taiowc_hide_account_page}
+                              onChange={(v) =>
+                                update("taiowc_hide_account_page", v)
+                              }
+                            />
+                          </S1Field>
 
-                        <S1Field
-                          label="Hide on Single Product"
-                          classN="s1-exclude-header"
-                        >
-                          <ToggleControl
-                            checked={settings.taiowc_hide_single_page}
-                            onChange={(v) =>
-                              update("taiowc_hide_single_page", v)
-                            }
-                          />
-                        </S1Field>
+                          <S1Field
+                            label="Hide on Single Product"
+                            classN="s1-exclude-header"
+                          >
+                            <ToggleControl
+                              checked={settings.taiowc_hide_single_page}
+                              onChange={(v) =>
+                                update("taiowc_hide_single_page", v)
+                              }
+                            />
+                          </S1Field>
 
-                        <S1Field
-                          label="Hide on Home Page"
-                          classN="s1-exclude-header"
-                        >
-                          <ToggleControl
-                            checked={settings.taiowc_hide_home_page}
-                            onChange={(v) => update("taiowc_hide_home_page", v)}
-                          />
-                        </S1Field>
+                          <S1Field
+                            label="Hide on Home Page"
+                            classN="s1-exclude-header"
+                          >
+                            <ToggleControl
+                              checked={settings.taiowc_hide_home_page}
+                              onChange={(v) =>
+                                update("taiowc_hide_home_page", v)
+                              }
+                            />
+                          </S1Field>
 
-                        <S1Field
-                          label="Hide on Blog Page"
-                          classN="s1-exclude-header"
-                        >
-                          <ToggleControl
-                            checked={settings.taiowc_hide_blog_page}
-                            onChange={(v) => update("taiowc_hide_blog_page", v)}
-                          />
-                        </S1Field>
-                      </S1FieldGroup>
-                      <S1FieldGroup
-                        number={3}
-                        title="Coupons & Shipping"
-                        shortdescription="Coupon Visible in side cart panel"
-                      >
-                        <S1Field classN="s1-exclude-header" label="Show Coupon">
-                          <ToggleControl
-                            checked={settings.taiowc_show_coupon}
-                            onChange={(v) => update("taiowc_show_coupon", v)}
-                          />
-                        </S1Field>
-
-                        <S1Field
-                          classN="s1-exclude-header"
-                          label="Show Shipping"
-                        >
-                          <ToggleControl
-                            checked={settings.taiowc_show_shipping}
-                            onChange={(v) => update("taiowc_show_shipping", v)}
-                          />
-                        </S1Field>
-                        <S1Field
-                          classN="s1-exclude-header"
-                          label="Show Shipping Bar"
-                        >
-                          <ToggleControl
-                            checked={settings.taiowc_show_shipping_bar}
-                            onChange={(v) =>
-                              update("taiowc_show_shipping_bar", v)
-                            }
-                          />
-                        </S1Field>
-                      </S1FieldGroup>
+                          <S1Field
+                            label="Hide on Blog Page"
+                            classN="s1-exclude-header"
+                          >
+                            <ToggleControl
+                              checked={settings.taiowc_hide_blog_page}
+                              onChange={(v) =>
+                                update("taiowc_hide_blog_page", v)
+                              }
+                            />
+                          </S1Field>
+                        </S1FieldGroup>
+                      )}
                     </>
                   ),
                 },
+
                 {
                   id: "cartpanel",
                   label: "Cart Panel",
@@ -836,6 +734,119 @@ export default function CartSettings({
                             checked={settings.taiowc_cart_pan_cart_shw}
                             onChange={(v) =>
                               update("taiowc_cart_pan_cart_shw", v)
+                            }
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+                      <S1FieldGroup
+                        number={2}
+                        title="Floating Cart Content Visibility"
+                      >
+                        <S1Field
+                          classN="s1-exclude-header"
+                          label="Show Product Image"
+                        >
+                          <ToggleControl
+                            checked={settings.taiowc_show_prd_img}
+                            onChange={(v) => update("taiowc_show_prd_img", v)}
+                          />
+                        </S1Field>
+
+                        <S1Field
+                          classN="s1-exclude-header"
+                          label="Show Product Title"
+                        >
+                          <ToggleControl
+                            checked={settings.taiowc_show_prd_title}
+                            onChange={(v) => update("taiowc_show_prd_title", v)}
+                          />
+                        </S1Field>
+
+                        <S1Field
+                          classN="s1-exclude-header"
+                          label="Show Product Price"
+                        >
+                          <ToggleControl
+                            checked={settings.taiowc_show_prd_price}
+                            onChange={(v) => update("taiowc_show_prd_price", v)}
+                          />
+                        </S1Field>
+
+                        <S1Field
+                          classN="s1-exclude-header"
+                          label="Show Product Quantity"
+                        >
+                          <ToggleControl
+                            checked={settings.taiowc_show_prd_quantity}
+                            onChange={(v) =>
+                              update("taiowc_show_prd_quantity", v)
+                            }
+                          />
+                        </S1Field>
+
+                        <S1Field
+                          classN="s1-exclude-header"
+                          label="Show Product Rating"
+                        >
+                          <ToggleControl
+                            checked={settings.taiowc_show_prd_rating}
+                            onChange={(v) =>
+                              update("taiowc_show_prd_rating", v)
+                            }
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+
+                      <S1FieldGroup number={3} title="AI Suggestion Products">
+                        <S1Field
+                          label="Enable AI Suggestion Products"
+                          description="Check to show product recommendation with AI"
+                        >
+                          <ToggleControl
+                            checked={settings.taiowc_show_ai_suggestion}
+                            onChange={(v) =>
+                              update("taiowc_show_ai_suggestion", v)
+                            }
+                          />
+                        </S1Field>
+                        <S1Field label="Heading">
+                          <TextControl
+                            value={settings.taiowc_ai_suggestion_heading}
+                            onChange={(v) =>
+                              update("taiowc_ai_suggestion_heading", v)
+                            }
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+                      <S1FieldGroup
+                        number={3}
+                        title="Coupons & Shipping"
+                        shortdescription="Coupon Visible in side cart panel"
+                      >
+                        <S1Field classN="s1-exclude-header" label="Show Coupon">
+                          <ToggleControl
+                            checked={settings.taiowc_show_coupon}
+                            onChange={(v) => update("taiowc_show_coupon", v)}
+                          />
+                        </S1Field>
+
+                        <S1Field
+                          classN="s1-exclude-header"
+                          label="Show Shipping"
+                        >
+                          <ToggleControl
+                            checked={settings.taiowc_show_shipping}
+                            onChange={(v) => update("taiowc_show_shipping", v)}
+                          />
+                        </S1Field>
+                        <S1Field
+                          classN="s1-exclude-header"
+                          label="Show Shipping Bar"
+                        >
+                          <ToggleControl
+                            checked={settings.taiowc_show_shipping_bar}
+                            onChange={(v) =>
+                              update("taiowc_show_shipping_bar", v)
                             }
                           />
                         </S1Field>
@@ -1003,7 +1014,7 @@ export default function CartSettings({
                         </S1FieldGroup>
                       )}
                       {previewType === "floating-cart" && (
-                        <S1FieldGroup number={2} title="Floating Cart">
+                        <S1FieldGroup number={2} title="Cart">
                           {/* <S1Field label="Cart Style">
                           <SelectControl
                             value={settings.taiowc_cart_style}
@@ -1411,6 +1422,7 @@ export default function CartSettings({
                 {
                   id: "mobile",
                   label: "Mobile",
+
                   icon: (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -1431,6 +1443,7 @@ export default function CartSettings({
                     <>
                       {/* Menu Cart / Shortcode Cart */}
                       <S1FieldGroup
+                        pro={licenseActive ? false : true}
                         number={1}
                         title="Menu Cart"
                         shortdescription="Control cart visibility and content on mobile devices"
@@ -1466,6 +1479,7 @@ export default function CartSettings({
 
                       {/* Fixed / Floating Cart */}
                       <S1FieldGroup
+                        pro={licenseActive ? false : true}
                         number={2}
                         title="Fixed & Floating Cart"
                         shortdescription="Control fixed cart behavior on mobile devices"
@@ -1518,6 +1532,7 @@ export default function CartSettings({
 
                       {/* Cart Panel */}
                       <S1FieldGroup
+                        pro={licenseActive ? false : true}
                         number={3}
                         title="Cart Panel"
                         shortdescription="Control cart panel behavior on mobile devices"

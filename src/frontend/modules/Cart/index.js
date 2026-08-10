@@ -654,7 +654,6 @@ const StoreOneCart = {
 
     // Last fallback
     if (!$image.length) {
-      console.log("Store One: Product image not found.");
       if (callback) callback();
       return;
     }

@@ -33,14 +33,14 @@ $position = 'taiowc-slide-left' === $cart_effect
 ?>
 
 		<?php
-/**
- * Shipping Progress
- */
-if (! empty($settings['taiowc_show_free_shipping_bar'])) {
+        /**
+         * Shipping Progress
+         */
+        if (! empty($settings['taiowc_show_shipping_bar'])) {
 
-    do_action('storeone_cart_shipping', $settings);
+            do_action('storeone_cart_shipping_bar', $settings);
 
-}
+        }
 ?>
 
 		<div class="s1-side-cart-body">

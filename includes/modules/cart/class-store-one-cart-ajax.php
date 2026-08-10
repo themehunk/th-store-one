@@ -21,6 +21,8 @@ if (! class_exists('Th_Store_One_Cart_Ajax')) {
          */
         private $settings = array();
 
+        private $render;
+
         /**
          * Constructor.
          *

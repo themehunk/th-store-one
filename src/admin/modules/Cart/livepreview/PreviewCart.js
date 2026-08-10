@@ -4,11 +4,11 @@ import { __ } from "@wordpress/i18n";
 import MenuCartPreview from "./MenuCartPreview";
 import SideCartPreview from "./SideCartPreview";
 import FloatingCartPreview from "./FloatingCartPreview";
+import MobileSideCartPreview from "./MobileSideCartPreview";
 
 import "./live-style.css";
 
 const PreviewCart = ({ settings = {} }) => {
-  // By default first tab open
   const [preview, setPreview] = useState("menu-cart");
 
   const changePreview = (value) => {
@@ -24,15 +24,18 @@ const PreviewCart = ({ settings = {} }) => {
   };
 
   return (
-    <div className="s1-cart-preview-wrap">
+    <div className="s1-cart-preview">
       <div className="s1-style-tabs">
+        {/* Menu Cart */}
         <button
           type="button"
           className={`s1-style-tab ${preview === "menu-cart" ? "active" : ""}`}
           onClick={() => changePreview("menu-cart")}
         >
-          <span>{__("Menu Cart", "th-store-one")}</span>
+          {__("Menu Cart", "th-store-one")}
         </button>
+
+        {/* Floating Cart */}
         <button
           type="button"
           className={`s1-style-tab ${
@@ -40,25 +43,40 @@ const PreviewCart = ({ settings = {} }) => {
           }`}
           onClick={() => changePreview("floating-cart")}
         >
-          <span>{__("Floating Cart", "th-store-one")}</span>
+          {__("Floating Cart", "th-store-one")}
         </button>
 
+        {/* Side Cart */}
         <button
           type="button"
           className={`s1-style-tab ${preview === "side-cart" ? "active" : ""}`}
           onClick={() => changePreview("side-cart")}
         >
-          <span>{__("Side Cart", "th-store-one")}</span>
+          {__("Side Cart", "th-store-one")}
+        </button>
+
+        {/* Mobile */}
+        <button
+          type="button"
+          className={`s1-style-tab ${preview === "mobile" ? "active" : ""}`}
+          onClick={() => changePreview("mobile")}
+        >
+          {__("Mobile Cart", "th-store-one")}
         </button>
       </div>
 
       <div className="s1-cart-preview-content">
         {preview === "menu-cart" && <MenuCartPreview settings={settings} />}
 
-        {preview === "side-cart" && <SideCartPreview settings={settings} />}
         {preview === "floating-cart" && (
           <FloatingCartPreview settings={settings} />
         )}
+
+        {preview === "side-cart" && (
+          <SideCartPreview settings={settings} previewType={preview} />
+        )}
+
+        {preview === "mobile" && <MobileSideCartPreview settings={settings} />}
       </div>
     </div>
   );

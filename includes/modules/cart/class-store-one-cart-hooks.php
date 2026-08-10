@@ -94,6 +94,13 @@ if (! class_exists('Th_Store_One_Cart_Hooks')) {
             );
 
             add_action(
+                'storeone_cart_shipping_bar',
+                array( $this, 'cart_shipping_bar' ),
+                10,
+                1
+            );
+
+            add_action(
                 'storeone_cart_items',
                 array( $this, 'cart_items' ),
                 10,
@@ -159,6 +166,20 @@ if (! class_exists('Th_Store_One_Cart_Hooks')) {
 
             include TH_STORE_ONE_PLUGIN_DIR .
                 'includes/modules/cart/templates/partials/free-shipping.php';
+        }
+
+        /**
+         * ShippingBar.
+         *
+         * @param array $settings Settings.
+         *
+         * @return void
+         */
+        public function cart_shipping_bar($settings)
+        {
+
+            include TH_STORE_ONE_PLUGIN_DIR .
+                'includes/modules/cart/templates/partials/shipping-bar.php';
         }
 
         /**

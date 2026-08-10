@@ -218,7 +218,7 @@
     width:420px;
     max-width:100%;
     height:100%;
-    background:#fff;
+    background:#fafafa;
     display:flex;
     flex-direction:column;
     overflow:hidden;
@@ -311,61 +311,7 @@
     width:20px;
     height:20px;
 }
-/*====================================================
-=
-= FREE SHIPPING
-=
-====================================================*/
 
-.store-one-cart .s1-free-shipping{
-    padding:20px;
-    border-bottom:1px solid #ececec;
-}
-
-.store-one-cart .s1-progress-wrap{
-    position:relative;
-    margin-bottom:14px;
-}
-
-.store-one-cart .s1-progress-track{
-    width:100%;
-    height:8px;
-    background:#ececec;
-    border-radius:30px;
-    overflow:hidden;
-}
-
-.store-one-cart .s1-progress-fill{
-    width:0;
-    height:100%;
-    border-radius:30px;
-    transition:width .35s ease;
-}
-
-.store-one-cart .s1-progress-icon{
-    position:absolute;
-    top:50%;
-    transform:translate(-50%,-50%);
-    width:30px;
-    height:30px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#fff;
-    border:2px solid #ddd;
-    font-size:14px;
-    transition:left .35s ease;
-}
-
-.store-one-cart .s1-free-shipping-text{
-    font-size:14px;
-    line-height:1.5;
-}
-
-.store-one-cart .s1-free-shipping-text strong{
-    font-weight:600;
-}
 
 /*====================================================
 =
@@ -391,7 +337,161 @@
     background:#d4d4d4;
     border-radius:30px;
 }
+/* Free Shipping Progress */
 
+.s1-progress-wrap {
+    position: relative;
+    width: 100%;
+    padding: 24px 30px 20px;
+    margin: 0;
+    background: #f8f5ed;
+    border-radius: 22px;
+    box-sizing: border-box;
+    overflow: visible !important;
+}
+
+.s1-progress-track {
+    position: relative;
+    width: 100%;
+    height: 10px;
+    margin: 0;
+    padding: 0;
+    background: #e3e3e3;
+    border-radius: 50px;
+    box-sizing: border-box;
+    overflow: visible !important;
+}
+
+.s1-progress-fill {
+    display: block;
+    height: 10px;
+    margin: 0;
+    padding: 0;
+    background: #216b29;
+    border-radius: 50px;
+    transition: width .35s ease;
+}
+
+.s1-progress-icon {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 34px;
+    height: 34px;
+    background: #fff;
+    border: 3px solid #39b54a;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .12);
+}
+
+.s1-shipping-text {
+    position: relative;
+    width: 100%;
+    margin: 15px 0 0;
+    padding: 0;
+
+    text-align: center;
+
+    font-size: 1rem;
+    line-height: 1.25;
+    font-weight: 500;
+    color: #333;
+
+    letter-spacing: -.3px;
+}
+
+.s1-shipping-amount,
+.s1-shipping-amount .woocommerce-Price-amount,
+.s1-shipping-amount .amount,
+.s1-shipping-amount .woocommerce-Price-currencySymbol {
+    color: #111;
+    font-weight: 700;
+}
+
+.s1-shipping-amount {
+    white-space: nowrap;
+}
+
+.s1-shipping-bar {
+    position: relative;
+    width: 100%;
+
+    padding: 15px;
+    
+    background:#fff;
+}
+
+
+/* Tablet */
+
+@media (max-width: 768px) {
+    .s1-progress-wrap {
+        padding: 21px 24px 18px;
+        border-radius: 20px;
+    }
+
+    .s1-progress-track,
+    .s1-progress-fill {
+        height: 16px;
+    }
+
+    .s1-progress-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 18px;
+    }
+
+    .s1-shipping-text {
+        margin-top: 22px;
+        font-size: 22px;
+    }
+}
+
+
+/* Mobile */
+
+@media (max-width: 480px) {
+    .s1-progress-wrap {
+        padding: 18px 18px 16px;
+        border-radius: 18px;
+    }
+
+    .s1-progress-track,
+    .s1-progress-fill {
+        height: 14px;
+    }
+
+    .s1-progress-icon {
+        width: 26px;
+        height: 26px;
+        font-size: 16px;
+        border-width: 2px;
+    }
+
+    .s1-shipping-text {
+        margin-top: 20px;
+        font-size: 18px;
+        line-height: 1.3;
+    }
+}
+
+
+/* Small Mobile */
+
+@media (max-width: 360px) {
+    .s1-progress-wrap {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .s1-shipping-text {
+        font-size: 17px;
+    }
+}
 /*====================================================
 =
 = ITEMS

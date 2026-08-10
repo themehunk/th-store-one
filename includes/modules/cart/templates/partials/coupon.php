@@ -61,6 +61,16 @@ if (! empty($coupon_posts)) :
     <?php
 
 
+$coupon_posts = get_posts(
+    array(
+        'post_type'      => 'shop_coupon',
+        'post_status'    => 'publish',
+        'posts_per_page' => -1,
+        'orderby'        => 'date',
+        'order'          => 'DESC',
+    )
+);
+
     if (!empty($coupon_posts)) :
         ?>
 

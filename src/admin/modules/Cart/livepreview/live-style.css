@@ -640,3 +640,1501 @@
 .s1-progress-fill {
     width: 72% !important;
 }
+
+.preview-pane-box .s1-ai-suggestion-header {
+    
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #6379e8, #7847a5);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom:10px;
+}
+.preview-pane-box .s1-ai-add-button {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    border-radius: 8px;
+    background: #111;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* =========================================================
+   Coupon Preview
+========================================================= */
+
+.preview-pane-box .s1-coupon-section {
+    width: 100%;
+    padding: 8px 0px;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+.preview-pane-box .s1-coupon-toggle {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #111827;
+    cursor: pointer;
+}
+
+.preview-pane-box .s1-coupon-title {
+    font-size: 14px;
+    line-height: 1.2;
+    font-weight: 600;
+}
+
+.preview-pane-box .s1-coupon-arrow {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #111827;
+    color: #fff;
+}
+
+.preview-pane-box .s1-coupon-arrow svg {
+    width: 12px;
+    height: 12px;
+}
+
+
+/* =========================================================
+   Coupon Form
+========================================================= */
+
+.preview-pane-box .s1-coupon-form {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 38px;
+    margin-top: 8px;
+    padding: 2px;
+    background: #f8f9fb;
+    border: 1px solid #e2e5ea;
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
+.preview-pane-box .s1-coupon-input {
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    padding: 0 10px;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #111827;
+    font-size: 11px;
+    line-height: 1;
+}
+
+.preview-pane-box .s1-coupon-input::placeholder {
+    color: #a1a8b7;
+    opacity: 1;
+}
+
+.preview-pane-box .s1-coupon-btn {
+    height: 32px;
+    min-width: 62px;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 17px;
+    background: #111827;
+    color: #fff;
+    font-size: 11px;
+    line-height: 1;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   Coupon Cards
+========================================================= */
+
+.preview-pane-box .s1-coupon-preview-list {
+    display: flex;
+    width: 100%;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+.preview-pane-box .s1-coupon-card {
+    position: relative;
+    flex: 0 0 100%;
+    min-height: 78px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 10px 8px;
+    background: #fff;
+    border: 1px solid #e1e4e9;
+    border-radius: 11px;
+    box-sizing: border-box;
+}
+
+.preview-pane-box .s1-coupon-left {
+    width: 100%;
+    text-align: center;
+}
+
+.preview-pane-box .s1-coupon-code {
+    font-size: 14px;
+    line-height: 1.2;
+    font-weight: 700;
+    color: #18a34a;
+}
+
+.preview-pane-box .s1-coupon-desc {
+    margin-top: 2px;
+    font-size: 9px;
+    line-height: 1.2;
+    color: #737b89;
+}
+
+
+/* =========================================================
+   Apply Coupon
+========================================================= */
+
+.preview-pane-box .s1-apply-coupon {
+    position: absolute;
+    left: 50%;
+    bottom: 6px;
+    transform: translateX(-50%);
+
+    min-width: 62px;
+    height: 26px;
+
+    padding: 0 10px;
+
+    border: 0;
+    border-radius: 14px;
+
+    background: #111827;
+    color: #fff;
+
+    font-size: 11px;
+    line-height: 1;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+.preview-pane-box .s1-apply-coupon.is-applied {
+    background: #18a34a;
+}
+
+
+/* =========================================================
+   Pagination
+========================================================= */
+
+.preview-pane-box .s1-coupon-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 7px;
+}
+
+.preview-pane-box .s1-coupon-pagination span {
+    display: block;
+    width: 5px;
+    height: 5px;
+    padding: 0;
+    border-radius: 50%;
+    background: #999;
+}
+
+.preview-pane-box .s1-coupon-pagination span.active {
+    width: 18px;
+    border-radius: 8px;
+    background: #1683f5;
+}
+
+
+/* =========================================================
+   Applied Coupon
+========================================================= */
+
+.preview-pane-box .s1-applied-coupons {
+    display: flex;
+    justify-content: center;
+    margin-top: 9px;
+}
+
+.preview-pane-box .s1-applied-coupon {
+    position: relative;
+    width: 68%;
+    min-height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 4px 22px 4px 8px;
+
+    background: #f8f9fb;
+    border: 1px solid #e2e5ea;
+    border-radius: 8px;
+
+    box-sizing: border-box;
+
+    color: #111827;
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 600;
+}
+
+.preview-pane-box .s1-remove-coupon {
+    position: absolute;
+    top: -7px;
+    right: -6px;
+
+    width: 17px;
+    height: 17px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: #111;
+    color: #fff;
+
+    font-size: 11px;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   Small Preview
+========================================================= */
+
+@media (max-width: 480px) {
+
+    .preview-pane-box .s1-coupon-section {
+        padding: 7px 5px;
+    }
+
+    .preview-pane-box .s1-coupon-title {
+        font-size: 13px;
+    }
+
+    .preview-pane-box .s1-coupon-arrow {
+        width: 24px;
+        height: 24px;
+    }
+
+    .preview-pane-box .s1-coupon-form {
+        height: 36px;
+        margin-top: 7px;
+    }
+
+    .preview-pane-box .s1-coupon-input {
+        padding: 0 8px;
+        font-size: 10px;
+    }
+
+    .preview-pane-box .s1-coupon-btn {
+        height: 30px;
+        min-width: 58px;
+        font-size: 10px;
+    }
+
+    .preview-pane-box .s1-coupon-card {
+        min-height: 72px;
+        padding: 9px 7px;
+    }
+
+    .preview-pane-box .s1-coupon-code {
+        font-size: 13px;
+    }
+
+    .preview-pane-box .s1-apply-coupon {
+        height: 24px;
+        min-width: 58px;
+        font-size: 10px;
+    }
+
+    .preview-pane-box .s1-applied-coupon {
+        min-height: 34px;
+        font-size: 11px;
+    }
+}
+
+/* =========================================================
+   MOBILE LIVE PREVIEW
+========================================================= */
+.s1-mobile-preview-cart-svg svg{
+    height:20px;
+    width:20px;
+}
+.s1-mobile-side-cart-preview {
+    position: relative !important;
+
+    width: 100% !important;
+    max-width:400px !important;
+    min-height: 620px !important;
+
+    margin: 0 auto !important;
+
+    background: #ffffff !important;
+
+    border: 1px solid #e7e7e7 !important;
+    border-radius: 22px !important;
+
+    box-sizing: border-box !important;
+
+    overflow: hidden !important;
+
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06) !important;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.s1-mobile-preview-header {
+    position: relative !important;
+
+    width: 100% !important;
+
+    min-height: 58px !important;
+
+    padding: 10px 14px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    background: #ffffff !important;
+
+    border-bottom: 1px solid #eeeeee !important;
+
+    box-sizing: border-box !important;
+}
+
+
+.s1-mobile-preview-brand {
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 8px !important;
+
+    color: #202b40 !important;
+
+    font-size: 13px !important;
+    line-height: 1 !important;
+}
+
+
+.s1-mobile-preview-brand-icon {
+    width: 30px !important;
+    height: 30px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    background: #4f46e5 !important;
+    color: #ffffff !important;
+
+    border-radius: 8px !important;
+
+    font-size: 13px !important;
+    font-weight: 700 !important;
+}
+
+
+.s1-mobile-preview-menu-cart {
+    position: relative !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 6px !important;
+
+    min-height: 34px !important;
+
+    padding: 6px 9px !important;
+
+    border: 1px solid #e8e8e8 !important;
+    border-radius: 12px !important;
+
+    background: #ffffff !important;
+
+    color: #111111 !important;
+
+    font-size: 11px !important;
+
+    box-sizing: border-box !important;
+}
+
+
+.s1-mobile-preview-cart-icon {
+    font-size: 16px !important;
+    line-height: 1 !important;
+}
+
+
+.s1-mobile-preview-cart-count {
+    position: absolute !important;
+
+    top: -6px !important;
+    left: 17px !important;
+
+    width: 16px !important;
+    height: 16px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    background: #111111 !important;
+    color: #ffffff !important;
+
+    border-radius: 50% !important;
+
+    font-size: 9px !important;
+    font-weight: 600 !important;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.s1-mobile-preview-content {
+    position: relative !important;
+
+    width: 100% !important;
+
+    padding: 18px 14px 80px !important;
+
+    box-sizing: border-box !important;
+
+    background: #fafafa !important;
+}
+
+
+/* =========================================================
+   HERO SKELETON
+========================================================= */
+
+.s1-mobile-preview-hero {
+    width: 100% !important;
+    height: 100px !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+
+    gap: 8px !important;
+
+    padding: 18px !important;
+
+    background: #eeeeee !important;
+
+    border-radius: 14px !important;
+
+    box-sizing: border-box !important;
+}
+
+
+.s1-mobile-preview-hero span {
+    display: block !important;
+
+    height: 9px !important;
+
+    border-radius: 10px !important;
+
+    background: #dddddd !important;
+}
+
+
+.s1-mobile-preview-hero span:first-child {
+    width: 45% !important;
+}
+
+
+.s1-mobile-preview-hero span:last-child {
+    width: 28% !important;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.s1-mobile-preview-title {
+    display: flex !important;
+    flex-direction: column !important;
+
+    gap: 7px !important;
+
+    margin: 18px 2px 0 !important;
+}
+
+
+.s1-mobile-preview-title span {
+    display: block !important;
+
+    height: 9px !important;
+
+    border-radius: 8px !important;
+
+    background: #dddddd !important;
+}
+
+
+.s1-mobile-preview-title span:first-child {
+    width: 48% !important;
+}
+
+
+.s1-mobile-preview-title span:last-child {
+    width: 30% !important;
+}
+
+
+/* =========================================================
+   PRODUCTS
+========================================================= */
+
+.s1-mobile-preview-products {
+    display: grid !important;
+
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+
+    gap: 12px !important;
+
+    margin-top: 18px !important;
+}
+
+
+.s1-mobile-preview-product {
+    position: relative !important;
+
+    min-width: 0 !important;
+
+    padding: 8px !important;
+
+    background: #ffffff !important;
+
+    border: 1px solid #eeeeee !important;
+
+    border-radius: 14px !important;
+
+    box-sizing: border-box !important;
+}
+
+
+.s1-mobile-preview-product-image {
+    width: 100% !important;
+    height: 105px !important;
+
+    background: #eeeeee !important;
+
+    border-radius: 10px !important;
+}
+
+
+/* =========================================================
+   PRODUCT LINES
+========================================================= */
+
+.s1-mobile-preview-product-lines {
+    display: flex !important;
+    flex-direction: column !important;
+
+    gap: 6px !important;
+
+    margin-top: 9px !important;
+
+    padding-right: 32px !important;
+}
+
+
+.s1-mobile-preview-product-lines span {
+    display: block !important;
+
+    height: 7px !important;
+
+    border-radius: 8px !important;
+
+    background: #dddddd !important;
+}
+
+
+.s1-mobile-preview-product-lines span:first-child {
+    width: 100% !important;
+}
+
+
+.s1-mobile-preview-product-lines span:last-child {
+    width: 65% !important;
+}
+
+
+/* =========================================================
+   ADD BUTTON
+========================================================= */
+
+.s1-mobile-preview-add {
+    position: absolute !important;
+
+    right: 8px !important;
+    bottom: 8px !important;
+
+    width: 27px !important;
+    height: 27px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 0 !important;
+
+    border: 0 !important;
+
+    border-radius: 50% !important;
+
+    background: #2864e8 !important;
+    color: #ffffff !important;
+
+    font-size: 18px !important;
+    line-height: 1 !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* =========================================================
+   FIXED CART
+========================================================= */
+
+.s1-mobile-preview-fixed-cart {
+    position: absolute !important;
+
+    bottom: 18px !important;
+
+    width: 44px !important;
+    height: 44px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    background: #ffffff !important;
+
+    border: 1px solid #eeeeee !important;
+
+    border-radius: 50% !important;
+
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.12) !important;
+
+    z-index: 20 !important;
+}
+
+
+.s1-mobile-preview-fixed-cart.right {
+    right: 18px !important;
+}
+
+
+.s1-mobile-preview-fixed-cart.left {
+    left: 18px !important;
+}
+
+
+.s1-mobile-preview-fixed-cart span {
+    font-size: 19px !important;
+    line-height: 1 !important;
+}
+
+
+.s1-mobile-preview-fixed-cart b {
+    position: absolute !important;
+
+    top: -4px !important;
+    right: -3px !important;
+
+    width: 17px !important;
+    height: 17px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    background: #111111 !important;
+    color: #ffffff !important;
+
+    border-radius: 50% !important;
+
+    font-size: 9px !important;
+    font-weight: 600 !important;
+}
+
+/* =========================================================
+   MOBILE CART OVERLAY
+========================================================= */
+
+.s1-mobile-cart-overlay {
+    position: absolute !important;
+    inset: 0 !important;
+
+    z-index: 25 !important;
+
+    background: rgba(0, 0, 0, 0.28) !important;
+
+    cursor: pointer !important;
+}
+
+
+/* =========================================================
+   CART PANEL BASE
+========================================================= */
+
+.s1-mobile-cart-panel {
+    position: absolute !important;
+
+    z-index: 30 !important;
+
+    background: #fff !important;
+
+    box-sizing: border-box !important;
+
+    box-shadow: 0 0 25px rgba(0, 0, 0, .15) !important;
+
+    overflow: hidden !important;
+
+    transition:
+        transform .3s ease,
+        opacity .3s ease !important;
+
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+
+/* =========================================================
+   RIGHT SIDE
+========================================================= */
+
+.s1-mobile-cart-panel.is-right {
+    top: 0 !important;
+    right: 0 !important;
+
+    width: 82% !important;
+    height: 100% !important;
+
+    border-radius: 18px 0 0 18px !important;
+
+    transform: translateX(100%) !important;
+}
+
+
+/* =========================================================
+   LEFT SIDE
+========================================================= */
+
+.s1-mobile-cart-panel.is-left {
+    top: 0 !important;
+    left: 0 !important;
+
+    width: 82% !important;
+    height: 100% !important;
+
+    border-radius: 0 18px 18px 0 !important;
+
+    transform: translateX(-100%) !important;
+}
+
+
+/* =========================================================
+   BOTTOM
+========================================================= */
+
+.s1-mobile-cart-panel.is-bottom {
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+
+    width: 100% !important;
+    height: 72% !important;
+
+    border-radius: 20px 20px 0 0 !important;
+
+    transform: translateY(100%) !important;
+}
+
+
+/* =========================================================
+   OPEN
+========================================================= */
+
+.s1-mobile-cart-panel.is-open {
+    opacity: 1 !important;
+
+    pointer-events: auto !important;
+}
+
+.s1-mobile-cart-panel.is-right.is-open {
+    transform: translateX(0) !important;
+}
+
+.s1-mobile-cart-panel.is-left.is-open {
+    transform: translateX(0) !important;
+}
+
+.s1-mobile-cart-panel.is-bottom.is-open {
+    transform: translateY(0) !important;
+}
+
+
+/* =========================================================
+   PANEL HEADER
+========================================================= */
+
+.s1-mobile-cart-panel-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    padding: 12px 14px !important;
+
+    border-bottom: 1px solid #eee !important;
+}
+
+.s1-mobile-cart-panel-title {
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 7px !important;
+
+    font-size: 13px !important;
+}
+
+.s1-mobile-cart-panel-title
+.s1-mobile-preview-cart-svg svg {
+    width: 17px !important;
+    height: 17px !important;
+}
+
+.s1-mobile-panel-count {
+    min-width: 18px !important;
+    height: 18px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 0 5px !important;
+
+    border-radius: 10px !important;
+
+    background: #111 !important;
+    color: #fff !important;
+
+    font-size: 9px !important;
+}
+
+
+.s1-mobile-cart-panel-close {
+    width: 25px !important;
+    height: 25px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 0 !important;
+
+    border: 0 !important;
+    border-radius: 50% !important;
+
+    background: #f2f2f2 !important;
+    color: #111 !important;
+
+    font-size: 17px !important;
+    line-height: 1 !important;
+
+    cursor: pointer !important;
+}
+
+
+/* =========================================================
+   PRODUCT
+========================================================= */
+
+.s1-mobile-cart-panel-products {
+    padding: 8px 12px !important;
+}
+
+.s1-mobile-panel-product {
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 9px !important;
+
+    padding: 8px 0 !important;
+
+    border-bottom: 1px solid #eee !important;
+}
+
+.s1-mobile-panel-product-image {
+    width: 48px !important;
+    height: 48px !important;
+
+    flex: 0 0 48px !important;
+
+    background: #eee !important;
+
+    border-radius: 8px !important;
+}
+
+.s1-mobile-panel-product-info {
+    flex: 1 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+
+    gap: 5px !important;
+}
+
+.s1-mobile-panel-product-info span {
+    width: 70% !important;
+    height: 6px !important;
+
+    background: #e5e5e5 !important;
+
+    border-radius: 6px !important;
+}
+
+.s1-mobile-panel-product-info span:nth-child(2) {
+    width: 45% !important;
+}
+
+.s1-mobile-panel-product-info strong {
+    font-size: 11px !important;
+}
+
+
+/* =========================================================
+   SHIPPING
+========================================================= */
+
+.s1-mobile-panel-shipping {
+margin: 8px 12px !important;
+    padding: 8px !important;
+    background: rgb(248, 245, 237);
+    border-radius: 9px !important;
+}
+
+.s1-mobile-panel-shipping-track {
+    height: 5px !important;
+
+    background: #ddd !important;
+
+    border-radius: 10px !important;
+
+    overflow: hidden !important;
+}
+
+.s1-mobile-panel-shipping-track span {
+    display: block !important;
+
+    width: 72% !important;
+    height: 100% !important;
+
+    background: #28a745 !important;
+
+    border-radius: inherit !important;
+}
+
+.s1-mobile-panel-shipping small {
+    display: block !important;
+
+    margin-top: 5px !important;
+
+    font-size: 9px !important;
+
+    color: #555 !important;
+}
+
+
+/* =========================================================
+   COUPON
+========================================================= */
+
+.s1-mobile-panel-coupon {
+    margin: 8px 12px !important;
+}
+
+.s1-mobile-panel-coupon-title {
+    margin-bottom: 6px !important;
+
+    font-size: 11px !important;
+    font-weight: 600 !important;
+}
+
+.s1-mobile-panel-coupon-form {
+    height: 34px !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    border: 1px solid #ddd !important;
+    border-radius: 18px !important;
+
+    overflow: hidden !important;
+}
+
+.s1-mobile-panel-coupon-form span {
+    flex: 1 !important;
+
+    padding-left: 10px !important;
+
+    color: #999 !important;
+
+    font-size: 9px !important;
+}
+
+.s1-mobile-panel-coupon-form button {
+    height: 28px !important;
+
+    margin-right: 3px !important;
+    padding: 0 10px !important;
+
+    border: 0 !important;
+    border-radius: 15px !important;
+
+    background: #111 !important;
+    color: #fff !important;
+
+    font-size: 9px !important;
+}
+
+
+/* =========================================================
+   YOU MAY LIKE
+========================================================= */
+
+.s1-mobile-panel-related {
+    margin: 9px 12px !important;
+}
+
+.s1-mobile-panel-related > strong {
+    display: block !important;
+
+    margin-bottom: 7px !important;
+
+    font-size: 11px !important;
+}
+
+.s1-mobile-panel-related-items {
+    display: flex !important;
+    gap: 8px !important;
+}
+
+.s1-mobile-related-product {
+    width: 52px !important;
+}
+
+.s1-mobile-related-product > div {
+    width: 52px !important;
+    height: 52px !important;
+
+    background: #eee !important;
+
+    border-radius: 8px !important;
+}
+
+.s1-mobile-related-product span {
+    display: block !important;
+
+    width: 80% !important;
+    height: 5px !important;
+
+    margin-top: 5px !important;
+
+    background: #ddd !important;
+
+    border-radius: 5px !important;
+}
+
+
+/* =========================================================
+   TOTAL
+========================================================= */
+
+.s1-mobile-panel-total {
+    display: flex !important;
+    justify-content: space-between !important;
+
+    margin: 10px 12px 7px !important;
+
+    padding-top: 9px !important;
+
+    border-top: 1px solid #eee !important;
+
+    font-size: 11px !important;
+}
+
+
+/* =========================================================
+   CHECKOUT
+========================================================= */
+
+.s1-mobile-panel-checkout {
+    width: calc(100% - 24px) !important;
+    height: 34px !important;
+
+    margin: 0 12px 12px !important;
+
+    border: 0 !important;
+    border-radius: 18px !important;
+
+    background: #111827 !important;
+    color: #fff !important;
+
+    font-size: 11px !important;
+    font-weight: 600 !important;
+
+    cursor: pointer !important;
+}
+
+
+/* =========================================================
+   CART ICON IMAGE / SVG
+========================================================= */
+
+.s1-mobile-preview-cart-icon img {
+    width: 18px !important;
+    height: 18px !important;
+
+    display: block !important;
+
+    object-fit: contain !important;
+}
+
+.s1-mobile-preview-cart-svg {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    line-height: 1 !important;
+}
+
+.s1-mobile-preview-cart-svg svg {
+    width: 18px !important;
+    height: 18px !important;
+
+    display: block !important;
+}
+/* =========================================================
+   ORDER SUMMARY
+========================================================= */
+
+.s1-mobile-panel-summary {
+    margin: 10px 12px 8px !important;
+    padding: 10px 0 0 !important;
+
+    border-top: 1px solid #eeeeee !important;
+}
+
+.s1-mobile-panel-summary h5 {
+    margin: 0 0 8px !important;
+    padding: 0 !important;
+
+    color: #111827 !important;
+
+    font-size: 10px !important;
+    line-height: 1.2 !important;
+    font-weight: 700 !important;
+
+    letter-spacing: .3px !important;
+}
+
+.s1-mobile-panel-summary-row {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    margin: 0 0 6px !important;
+
+    color: #666 !important;
+
+    font-size: 10px !important;
+    line-height: 1.2 !important;
+}
+
+.s1-mobile-panel-summary-row.total {
+    margin: 8px 0 0 !important;
+    padding-top: 8px !important;
+
+    border-top: 1px solid #eeeeee !important;
+
+    color: #111827 !important;
+
+    font-size: 11px !important;
+}
+
+.s1-mobile-panel-summary-row.total strong {
+    color: #111827 !important;
+    font-weight: 700 !important;
+}
+/* =========================================================
+   MOBILE SHIPPING PROGRESS
+========================================================= */
+
+.s1-mobile-panel-shipping {
+    margin: 8px 12px !important;
+    padding: 9px 10px 8px !important;
+
+    background: #f8f5ed !important;
+
+    border-radius: 10px !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* Progress wrapper */
+
+.s1-mobile-shipping-wrap {
+    position: relative !important;
+
+    width: 100% !important;
+
+    height: 18px !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* Track */
+
+.s1-mobile-shipping-track {
+    position: absolute !important;
+
+    left: 0 !important;
+    right: 0 !important;
+    top: 50% !important;
+
+    height: 7px !important;
+
+    transform: translateY(-50%) !important;
+
+    background: #dedede !important;
+
+    border-radius: 20px !important;
+
+    overflow: visible !important;
+}
+
+
+/* Fill */
+
+.s1-mobile-shipping-fill {
+    height: 7px !important;
+
+    background: #216b29 !important;
+
+    border-radius: 20px !important;
+
+    box-sizing: border-box !important;
+}
+
+
+/* Truck circle */
+
+.s1-mobile-shipping-icon {
+    position: absolute !important;
+
+    top: 50% !important;
+
+    width: 22px !important;
+    height: 22px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    transform: translate(-50%, -50%) !important;
+
+    background: #ffffff !important;
+
+    border: 2px solid #38b44a !important;
+
+    border-radius: 50% !important;
+
+    box-sizing: border-box !important;
+
+    font-size: 11px !important;
+    line-height: 1 !important;
+
+    z-index: 5 !important;
+
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .08) !important;
+}
+
+
+/* Text */
+
+.s1-mobile-shipping-text {
+    margin-top: 7px !important;
+
+    text-align: center !important;
+
+    color: #555 !important;
+
+    font-size: 9px !important;
+
+    line-height: 1.3 !important;
+}
+
+.s1-mobile-shipping-text strong {
+    color: #111 !important;
+
+    font-weight: 700 !important;
+}
+/* =========================================================
+   MOBILE COUPON TOGGLE
+========================================================= */
+
+.s1-mobile-panel-coupon {
+    margin: 8px 12px !important;
+}
+
+.s1-mobile-panel-coupon-toggle {
+    width: 100% !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    padding: 0 !important;
+
+    border: 0 !important;
+    background: transparent !important;
+
+    color: #111827 !important;
+
+    cursor: pointer !important;
+}
+
+.s1-mobile-panel-coupon-title {
+    margin: 0 !important;
+
+    font-size: 11px !important;
+    line-height: 1.2 !important;
+    font-weight: 600 !important;
+}
+
+.s1-mobile-panel-coupon-arrow {
+    width: 22px !important;
+    height: 22px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    border-radius: 50% !important;
+
+    background: #111827 !important;
+    color: #fff !important;
+
+    transition: transform .2s ease !important;
+}
+
+.s1-mobile-panel-coupon-arrow svg {
+    width: 12px !important;
+    height: 12px !important;
+
+    display: block !important;
+}
+
+.s1-mobile-panel-coupon-arrow.is-open svg {
+    transform: rotate(180deg) !important;
+}
+
+
+/* =========================================================
+   COUPON FORM
+========================================================= */
+
+.s1-mobile-panel-coupon-form {
+    display: flex !important;
+    align-items: center !important;
+
+    width: 100% !important;
+    height: 32px !important;
+
+    margin-top: 7px !important;
+
+    border: 1px solid #ddd !important;
+    border-radius: 17px !important;
+
+    background: #f8f9fb !important;
+
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+.s1-mobile-panel-coupon-form span {
+    flex: 1 !important;
+    min-width: 0 !important;
+
+    padding-left: 10px !important;
+
+    color: #999 !important;
+
+    font-size: 9px !important;
+}
+
+.s1-mobile-panel-coupon-form button {
+    height: 26px !important;
+
+    margin-right: 3px !important;
+    padding: 0 10px !important;
+
+    border: 0 !important;
+    border-radius: 14px !important;
+
+    background: #111827 !important;
+    color: #fff !important;
+
+    font-size: 9px !important;
+    line-height: 1 !important;
+
+    cursor: pointer !important;
+}

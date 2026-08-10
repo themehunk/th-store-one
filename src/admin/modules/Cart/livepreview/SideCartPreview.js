@@ -1,27 +1,59 @@
 import { __ } from "@wordpress/i18n";
 import { CART_ICON_OPTIONS } from "./cart-icons";
+import { useState } from "@wordpress/element";
 const currency = th_StoreOneAdmin?.currency_symbol || "$";
 
 const formatPrice = (price) => `${currency}${Number(price).toFixed(2)}`;
 
-const products = [
-  {
-    id: 1,
-    name: "Classic Red Sneakers",
-    price: 900,
-    qty: 1,
-    rating: 5,
-  },
-  {
-    id: 2,
-    name: "Minimalist White Tee",
-    price: 108,
-    qty: 1,
-    rating: 5,
-  },
-];
+const SideCartPreview = ({ settings = {}, previewType }) => {
+  const [couponOpen, setCouponOpen] = useState(false);
+  const products = [
+    {
+      id: 1,
+      name: "Classic Red Sneakers",
+      price: 900,
+      qty: 1,
+      rating: 5,
+    },
 
-const SideCartPreview = ({ settings = {} }) => {
+    ...(settings?.taiowc_show_ai_suggestion === false
+      ? [
+          {
+            id: 2,
+            name: "Minimalist White Tee",
+            price: 108,
+            qty: 1,
+            rating: 5,
+            isAi: false,
+          },
+        ]
+      : ""),
+  ];
+
+  const aiProducts = [
+    {
+      id: 101,
+      name: "Ribbed Tank",
+      price: 99,
+      qty: 1,
+      rating: 0,
+    },
+  ];
+
+  const coupons = [
+    {
+      id: 1,
+      code: "8677pjcz",
+      description: "",
+      applied: false,
+    },
+    {
+      id: 2,
+      code: "9dva2d2r",
+      description: "",
+      applied: true,
+    },
+  ];
   const getBg = (value) => {
     if (!value) {
       return undefined;
@@ -244,36 +276,37 @@ const SideCartPreview = ({ settings = {} }) => {
         </div>
 
         {/* Shipping */}
+        {settings.taiowc_show_shipping_bar == true && (
+          <div className="s1-shipping-progress" style={shippingStyle}>
+            <div className="s1-progress-wrap">
+              <div className="s1-progress-track" style={trackStyle}>
+                <div
+                  className="s1-progress-fill"
+                  style={{
+                    ...fillStyle,
+                    width: "72%",
+                  }}
+                ></div>
+              </div>
 
-        <div className="s1-shipping-progress" style={shippingStyle}>
-          <div className="s1-progress-wrap">
-            <div className="s1-progress-track" style={trackStyle}>
               <div
-                className="s1-progress-fill"
+                className="s1-progress-icon"
                 style={{
-                  ...fillStyle,
-                  width: "72%",
+                  ...iconCircleStyle,
+                  left: "72%",
                 }}
-              ></div>
+              >
+                🚚
+              </div>
             </div>
 
-            <div
-              className="s1-progress-icon"
-              style={{
-                ...iconCircleStyle,
-                left: "72%",
-              }}
-            >
-              🚚
-            </div>
+            <p style={shippingTextStyle}>
+              {__("Spend", "th-store-one")}{" "}
+              <strong style={shippingAmountStyle}>{formatPrice(258)}</strong>{" "}
+              {__("more for free shipping", "th-store-one")}
+            </p>
           </div>
-
-          <p style={shippingTextStyle}>
-            {__("Spend", "th-store-one")}{" "}
-            <strong style={shippingAmountStyle}>{formatPrice(258)}</strong>{" "}
-            {__("more for free shipping", "th-store-one")}
-          </p>
-        </div>
+        )}
 
         {/* Products */}
 
@@ -313,6 +346,50 @@ const SideCartPreview = ({ settings = {} }) => {
               )}
             </div>
           ))}
+
+          {/* AI Product Suggestions */}
+
+          {settings.taiowc_show_ai_suggestion === true && (
+            <div className="s1-ai-suggestion">
+              {/* AI Heading */}
+              <div className="s1-ai-suggestion-header">
+                <span>
+                  {settings.taiowc_ai_suggestion_heading ||
+                    __("AI Product Suggestions", "th-store-one")}
+                </span>
+              </div>
+
+              {/* AI Products */}
+              {aiProducts.map((product) => (
+                <div
+                  className="s1-cart-item s1-ai-cart-item"
+                  style={productStyle}
+                  key={product.id}
+                >
+                  {settings.taiowc_show_prd_img && (
+                    <div className="s1-cart-thumb"></div>
+                  )}
+
+                  <div className="s1-cart-content">
+                    {settings.taiowc_show_prd_title && (
+                      <h4 style={titleStyle}>{product.name}</h4>
+                    )}
+
+                    {settings.taiowc_show_prd_price && (
+                      <div className="s1-cart-price" style={textStyle}>
+                        {formatPrice(product.price)}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* AI Add Button */}
+                  <button type="button" className="s1-ai-add-button">
+                    +
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Footer */}
@@ -321,6 +398,110 @@ const SideCartPreview = ({ settings = {} }) => {
           <h5 style={footerHeadingStyle}>
             {__("ORDER SUMMARY", "th-store-one")}
           </h5>
+
+          {/* Coupons */}
+
+          {settings.taiowc_show_coupon === true && (
+            <div className="s1-coupon-section">
+              {/* Coupon Header */}
+
+              <button
+                type="button"
+                className="s1-coupon-toggle"
+                onClick={() => setCouponOpen((open) => !open)}
+              >
+                <span className="s1-coupon-title">
+                  {__("Coupons", "th-store-one")}
+                </span>
+
+                <span className="s1-coupon-arrow">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    style={{
+                      transform: couponOpen ? "rotate(180deg)" : "rotate(0deg)",
+                      transition: "transform .2s ease",
+                    }}
+                  >
+                    <path
+                      d="M6 9L12 15L18 9"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </span>
+              </button>
+
+              {/* Coupon Slider */}
+
+              {couponOpen && (
+                <>
+                  <div className="s1-coupon-form">
+                    <input
+                      type="text"
+                      className="s1-coupon-input"
+                      placeholder={__("Coupon code", "th-store-one")}
+                    />
+
+                    <button type="button" className="s1-coupon-btn">
+                      {__("Apply", "th-store-one")}
+                    </button>
+                  </div>
+
+                  <div className="s1-coupon-preview-list">
+                    {coupons.map((coupon) => (
+                      <div
+                        className={`s1-coupon-card ${
+                          coupon.applied ? "is-applied" : ""
+                        }`}
+                        key={coupon.id}
+                      >
+                        <div className="s1-coupon-left">
+                          <div className="s1-coupon-code">{coupon.code}</div>
+
+                          {coupon.description && (
+                            <div className="s1-coupon-desc">
+                              {coupon.description}
+                            </div>
+                          )}
+                        </div>
+
+                        <button
+                          type="button"
+                          className={`s1-apply-coupon ${
+                            coupon.applied ? "is-applied" : ""
+                          }`}
+                        >
+                          {coupon.applied
+                            ? __("Applied", "th-store-one")
+                            : __("Apply", "th-store-one")}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="s1-coupon-pagination">
+                    <span className="active"></span>
+                    <span></span>
+                  </div>
+
+                  <div className="s1-applied-coupons">
+                    <div className="s1-applied-coupon">
+                      <span>9dva2d2r</span>
+
+                      <button type="button" className="s1-remove-coupon">
+                        ×
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
 
           <div className="s1-summary-row">
             <span>{__("Subtotal", "th-store-one")}</span>
