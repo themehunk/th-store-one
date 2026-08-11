@@ -108,6 +108,139 @@ const MobileSideCartPreview = ({ settings = {} }) => {
     setCartOpen(false);
   };
 
+  const getBg = (value) => {
+    if (!value) {
+      return undefined;
+    }
+
+    if (typeof value === "string") {
+      return value;
+    }
+
+    return (
+      value.background ||
+      value.gradient ||
+      value.color ||
+      value.value ||
+      undefined
+    );
+  };
+
+  const headerStyle = {
+    background: getBg(settings.taiowc_cart_pan_hdr_bg_clr),
+  };
+
+  const headerTitleStyle = {
+    color: getBg(settings.taiowc_cart_pan_hd_clr),
+  };
+
+  const headerIconStyle = {
+    color: getBg(settings.taiowc_cart_pan_icon_clr),
+  };
+
+  const closeStyle = {
+    color: getBg(settings.taiowc_cart_pan_cls_clr),
+  };
+
+  const bodyStyle = {
+    background: getBg(settings.taiowc_cart_pan_bg_clr),
+  };
+
+  const productStyle = {
+    background: getBg(settings.taiowc_cart_pan_prd_bg_clr),
+    borderColor: "transparent",
+  };
+
+  const titleStyle = {
+    color: getBg(settings.taiowc_cart_pan_prd_tle_clr),
+  };
+
+  const textStyle = {
+    color: getBg(settings.taiowc_cart_pan_prd_txt_clr),
+  };
+
+  const ratingStyle = {
+    color: getBg(settings.taiowc_cart_pan_prd_rat_clr),
+  };
+
+  const footerStyle = {
+    background: getBg(settings.taiowc_cart_pan_pay_bg_clr),
+    color: getBg(settings.taiowc_cart_pan_pay_txt_clr),
+  };
+
+  const footerHeadingStyle = {
+    color: getBg(settings.taiowc_cart_pan_pay_hd_clr),
+  };
+
+  const cartButtonStyle = {
+    background: getBg(settings.taiowc_cart_pan_pay_cart_bg_clr),
+    color: getBg(settings.taiowc_cart_pan_pay_cart_clr),
+  };
+
+  const checkoutButtonStyle = {
+    background: getBg(settings.taiowc_cart_pan_pay_btn_bg_clr),
+    color: getBg(settings.taiowc_cart_pan_pay_btn_clr),
+  };
+
+  const shippingStyle = {
+    background: getBg(settings.taiowc_shipping_bg),
+  };
+
+  const trackStyle = {
+    background: getBg(settings.taiowc_shipping_track),
+  };
+
+  const fillStyle = {
+    background: getBg(settings.taiowc_shipping_fill),
+  };
+
+  const iconCircleStyle = {
+    background: getBg(settings.taiowc_shipping_icon_bg),
+    borderColor: getBg(settings.taiowc_shipping_icon_border),
+  };
+
+  const shippingTextStyle = {
+    color: getBg(settings.taiowc_shipping_text),
+  };
+
+  const shippingAmountStyle = {
+    color: getBg(settings.taiowc_shipping_amount),
+  };
+
+  const mobileMenuCartStyle = {
+    background: getBg(settings.taiowc_bg_color),
+  };
+
+  const mobileMenuCartIconStyle = {
+    color: getBg(settings.taiowc_icon_color),
+  };
+
+  const mobileMenuCartCountStyle = {
+    background: getBg(settings.taiowc_quantity_bg),
+    color: getBg(settings.taiowc_quantity_color),
+  };
+
+  const mobileMenuCartPriceStyle = {
+    color: getBg(settings.taiowc_price_color),
+  };
+
+  const mobilecartStyle = {
+    background: getBg(settings.taiowc_fixed_bg),
+  };
+
+  const mobileiconStyle = {
+    color: getBg(settings.taiowc_fixed_icon_color),
+  };
+
+  const mobilepriceStyle = {
+    color: getBg(settings.taiowc_fixed_price_color),
+  };
+
+  const mobileqtyStyle = {
+    background: getBg(settings.taiowc_fixed_quantity_bg),
+    color: getBg(settings.taiowc_fixed_quantity_color),
+  };
+
   return (
     <div
       className={`s1-mobile-side-cart-preview ${
@@ -133,16 +266,27 @@ const MobileSideCartPreview = ({ settings = {} }) => {
               type="button"
               className="s1-mobile-preview-menu-cart"
               onClick={openCart}
+              style={mobileMenuCartStyle}
             >
-              <span className="s1-mobile-preview-cart-icon">
+              <span
+                className="s1-mobile-preview-cart-icon"
+                style={mobileMenuCartIconStyle}
+              >
                 <CartIcon />
               </span>
 
               {!menuQuantityDisabled && (
-                <span className="s1-mobile-preview-cart-count">2</span>
+                <span
+                  className="s1-mobile-preview-cart-count"
+                  style={mobileMenuCartCountStyle}
+                >
+                  2
+                </span>
               )}
 
-              {!menuPriceDisabled && <strong>₹1,008.00</strong>}
+              {!menuPriceDisabled && (
+                <strong style={mobileMenuCartPriceStyle}>₹1,008.00</strong>
+              )}
             </button>
           </header>
         )}
@@ -187,12 +331,16 @@ const MobileSideCartPreview = ({ settings = {} }) => {
             type="button"
             className={`s1-mobile-preview-fixed-cart ${fixedPosition}`}
             onClick={openCart}
+            style={mobilecartStyle}
           >
-            <span className="s1-mobile-preview-cart-icon">
+            <span
+              className="s1-mobile-preview-cart-icon"
+              style={mobileiconStyle}
+            >
               <CartIcon />
             </span>
 
-            {!fixedQuantityDisabled && <b>2</b>}
+            {!fixedQuantityDisabled && <b style={mobileqtyStyle}>2</b>}
           </button>
         )}
       </div>
@@ -220,13 +368,16 @@ const MobileSideCartPreview = ({ settings = {} }) => {
       >
         {/* Panel Header */}
 
-        <div className="s1-mobile-cart-panel-header">
+        <div className="s1-mobile-cart-panel-header" style={headerStyle}>
           <div className="s1-mobile-cart-panel-title">
-            <span className="s1-mobile-preview-cart-icon">
+            <span
+              className="s1-mobile-preview-cart-icon"
+              style={headerIconStyle}
+            >
               <CartIcon />
             </span>
 
-            <strong>
+            <strong style={headerTitleStyle}>
               {settings.taiowc_cart_hd || __("Your Cart", "th-store-one")}
             </strong>
 
@@ -237,6 +388,7 @@ const MobileSideCartPreview = ({ settings = {} }) => {
             type="button"
             className="s1-mobile-cart-panel-close"
             onClick={closeCart}
+            style={closeStyle}
           >
             ×
           </button>
@@ -244,51 +396,61 @@ const MobileSideCartPreview = ({ settings = {} }) => {
 
         {/* Products */}
 
-        <div className="s1-mobile-cart-panel-products">
+        <div className="s1-mobile-cart-panel-products" style={bodyStyle}>
           {!disableShipping && (
-            <div className="s1-mobile-panel-shipping">
+            <div className="s1-mobile-panel-shipping" style={shippingStyle}>
               <div className="s1-mobile-shipping-wrap">
-                <div className="s1-mobile-shipping-track">
+                <div className="s1-mobile-shipping-track" style={trackStyle}>
                   <div
                     className="s1-mobile-shipping-fill"
-                    style={{ width: "72%" }}
+                    style={{
+                      ...fillStyle,
+                      width: "72%",
+                    }}
                   ></div>
                 </div>
 
                 <div
                   className="s1-mobile-shipping-icon"
-                  style={{ left: "72%" }}
+                  style={{
+                    ...iconCircleStyle,
+                    left: "72%",
+                  }}
                 >
                   🚚
                 </div>
               </div>
 
-              <div className="s1-mobile-shipping-text">
-                {__("Spend", "th-store-one")} <strong>₹258.00</strong>{" "}
+              <div
+                className="s1-mobile-shipping-text"
+                style={shippingTextStyle}
+              >
+                {__("Spend", "th-store-one")}{" "}
+                <strong style={shippingAmountStyle}>₹258.00</strong>{" "}
                 {__("more for FREE shipping.", "th-store-one")}
               </div>
             </div>
           )}
 
-          <div className="s1-mobile-panel-product">
+          <div className="s1-mobile-panel-product" style={productStyle}>
             <div className="s1-mobile-panel-product-image"></div>
 
             <div className="s1-mobile-panel-product-info">
-              <span></span>
-              <span></span>
+              <span style={titleStyle}></span>
+              <span style={titleStyle}></span>
 
-              <strong>₹900.00</strong>
+              <strong style={textStyle}>₹900.00</strong>
             </div>
           </div>
 
-          <div className="s1-mobile-panel-product">
+          <div className="s1-mobile-panel-product" style={productStyle}>
             <div className="s1-mobile-panel-product-image"></div>
 
             <div className="s1-mobile-panel-product-info">
-              <span></span>
-              <span></span>
+              <span style={titleStyle}></span>
+              <span style={titleStyle}></span>
 
-              <strong>₹108.00</strong>
+              <strong style={textStyle}>₹108.00</strong>
             </div>
           </div>
         </div>
@@ -296,7 +458,7 @@ const MobileSideCartPreview = ({ settings = {} }) => {
         {/* Coupon */}
 
         {!disableCoupon && (
-          <div className="s1-mobile-panel-coupon">
+          <div className="s1-mobile-panel-coupon" style={footerStyle}>
             <button
               type="button"
               className="s1-mobile-panel-coupon-toggle"
@@ -359,8 +521,10 @@ const MobileSideCartPreview = ({ settings = {} }) => {
     ORDER SUMMARY
 ===================================================== */}
 
-        <div className="s1-mobile-panel-summary">
-          <h5>{__("ORDER SUMMARY", "th-store-one")}</h5>
+        <div className="s1-mobile-panel-summary" style={footerStyle}>
+          <h5 style={footerHeadingStyle}>
+            {__("ORDER SUMMARY", "th-store-one")}
+          </h5>
 
           <div className="s1-mobile-panel-summary-row">
             <span>{__("Subtotal", "th-store-one")}</span>
@@ -373,11 +537,14 @@ const MobileSideCartPreview = ({ settings = {} }) => {
 
             <strong>₹720.00</strong>
           </div>
+          <button
+            style={checkoutButtonStyle}
+            type="button"
+            className="s1-mobile-panel-checkout"
+          >
+            {__("Checkout", "th-store-one")}
+          </button>
         </div>
-
-        <button type="button" className="s1-mobile-panel-checkout">
-          {__("Checkout", "th-store-one")}
-        </button>
       </div>
     </div>
   );

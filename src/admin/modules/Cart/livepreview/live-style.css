@@ -678,7 +678,7 @@
 .preview-pane-box .s1-coupon-section {
     width: 100%;
     padding: 8px 0px;
-    background: #fff;
+ 
     box-sizing: border-box;
 }
 
@@ -1089,9 +1089,9 @@
     border: 1px solid #e8e8e8 !important;
     border-radius: 12px !important;
 
-    background: #ffffff !important;
+    background: #ffffff;
 
-    color: #111111 !important;
+    color: #111111;
 
     font-size: 11px !important;
 
@@ -1118,8 +1118,8 @@
     align-items: center !important;
     justify-content: center !important;
 
-    background: #111111 !important;
-    color: #ffffff !important;
+    background: #111111;
+    color: #ffffff;
 
     border-radius: 50% !important;
 
@@ -1353,7 +1353,7 @@
     align-items: center !important;
     justify-content: center !important;
 
-    background: #ffffff !important;
+    background: #ffffff;
 
     border: 1px solid #eeeeee !important;
 
@@ -1394,8 +1394,8 @@
     align-items: center !important;
     justify-content: center !important;
 
-    background: #111111 !important;
-    color: #ffffff !important;
+    background: #111111;
+    color: #ffffff;
 
     border-radius: 50% !important;
 
@@ -1696,7 +1696,7 @@ margin: 8px 12px !important;
 ========================================================= */
 
 .s1-mobile-panel-coupon {
-    margin: 8px 12px !important;
+    padding: 8px 12px !important;
 }
 
 .s1-mobile-panel-coupon-title {
@@ -1818,7 +1818,7 @@ margin: 8px 12px !important;
     width: calc(100% - 24px) !important;
     height: 34px !important;
 
-    margin: 0 12px 12px !important;
+    margin:12px !important;
 
     border: 0 !important;
     border-radius: 18px !important;
@@ -1865,9 +1865,7 @@ margin: 8px 12px !important;
 ========================================================= */
 
 .s1-mobile-panel-summary {
-    margin: 10px 12px 8px !important;
-    padding: 10px 0 0 !important;
-
+    padding: 10px 12px 8px !important;
     border-top: 1px solid #eeeeee !important;
 }
 
@@ -2032,7 +2030,7 @@ margin: 8px 12px !important;
 ========================================================= */
 
 .s1-mobile-panel-coupon {
-    margin: 8px 12px !important;
+    padding: 8px 12px !important;
 }
 
 .s1-mobile-panel-coupon-toggle {

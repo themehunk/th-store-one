@@ -82,13 +82,19 @@ if (! empty($menu_icon_color)) {
 
 		<?php if ($show_quantity) : ?>
 
-			<span class="s1-menu-cart-count">
+    <span class="s1-menu-cart-count-wrapper">
 
-				<?php echo absint($cart_count); ?>
+        <?php if ($cart_count > 0) : ?>
 
-			</span>
+            <span class="s1-menu-cart-count">
+                <?php echo absint($cart_count); ?>
+            </span>
 
-		<?php endif; ?>
+        <?php endif; ?>
+
+    </span>
+
+<?php endif; ?>
 
 	</button>
 

@@ -99,21 +99,20 @@ if (! class_exists('Th_Store_One_Cart_Render')) {
         public function render_side_cart()
         {
 
-            ob_start();
+
 
             $this->get_template('side-cart.php');
 
-            return ob_get_clean();
         }
 
         public function render_floating_cart()
         {
 
-            ob_start();
+
 
             $this->get_template('floating-cart.php');
 
-            return ob_get_clean();
+
         }
 
         public function store_one_cart_add_to_cart_url($product)

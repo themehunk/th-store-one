@@ -78,67 +78,60 @@ if (! class_exists('Th_Store_One_Cart_Fragments')) {
          */
         public function refresh_fragments($fragments)
         {
-
-            if (WC()->cart) {
-
-                WC()->cart->calculate_shipping();
-                WC()->cart->calculate_totals();
-
+            if (! WC()->cart) {
+                return $fragments;
             }
+
+            /*
+             * Recalculate cart.
+             */
+            WC()->cart->calculate_shipping();
+            WC()->cart->calculate_totals();
+
+
             /*
  * Cart Count
  */
             ob_start();
 
             $cart_count = WC()->cart->get_cart_contents_count();
-
-            if ($cart_count > 0) :
-                ?>
-
-    <span class="store-one-cart-count">
-        <?php echo absint($cart_count); ?>
-    </span>
-
-<?php
-            endif;
-
-            $fragments['.store-one-cart-count'] = ob_get_clean();
-
-            /*
-             * Cart Total
-             */
-            ob_start();
-
             ?>
 
-			<span class="store-one-cart-total">
+<span class="s1-menu-cart-count-wrapper">
 
-				<?php echo wp_kses_post(WC()->cart->get_cart_total()); ?>
+    <?php if ($cart_count > 0) : ?>
 
-			</span>
+        <span class="s1-menu-cart-count">
+            <?php echo absint($cart_count); ?>
+        </span>
 
-			<?php
+    <?php endif; ?>
 
-            $fragments['.store-one-cart-total'] = ob_get_clean();
+</span>
 
+<?php
+
+            $fragments['.s1-menu-cart-count-wrapper'] = ob_get_clean();
+            ?>
+
+    <span class="s1-menu-cart-price">
+        <?php echo wp_kses_post(WC()->cart->get_cart_total()); ?>
+    </span>
+
+    <?php
+            $fragments['.s1-menu-cart-price'] = ob_get_clean();
             /*
              * Side Cart
              */
             ob_start();
-
-            echo $this->render->render_side_cart();
-
+            $this->render->render_side_cart();
             $fragments['.store-one-side-cart'] = ob_get_clean();
-
             /*
              * Floating Cart
              */
             ob_start();
-            echo $this->render->render_floating_cart();
+            $this->render->render_floating_cart();
             $fragments['.store-one-floating-cart'] = ob_get_clean();
-
-
-
             return $fragments;
         }
     }

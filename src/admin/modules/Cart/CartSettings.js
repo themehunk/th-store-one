@@ -225,12 +225,21 @@ export default function CartSettings({
       ...prev,
       [key]: value,
     }));
-  }; /* Check Old Data */
+  };
+
+  /* Check Old Data */
   useEffect(() => {
-    apiFetch({
-      path: `${th_StoreOneAdmin.restUrl}check-old-option?option=taiowc_options`,
-    })
-      .then((res) => setHasOldData(res.has_data))
+    Promise.all([
+      apiFetch({
+        path: `${th_StoreOneAdmin.restUrl}check-old-option?option=taiowcp`,
+      }),
+      apiFetch({
+        path: `${th_StoreOneAdmin.restUrl}check-old-option?option=taiowc`,
+      }),
+    ])
+      .then(([pro, lite]) => {
+        setHasOldData(Boolean(pro?.has_data || lite?.has_data));
+      })
       .catch(() => setHasOldData(false));
   }, []);
 
@@ -963,7 +972,8 @@ export default function CartSettings({
                           </S1Field>
                         )}
                       </S1FieldGroup>
-                      {previewType === "menu-cart" && (
+                      {(previewType === "menu-cart" ||
+                        previewType === "mobile") && (
                         <S1FieldGroup number={2} title="Menu Cart Style">
                           <S1Field>
                             <THBackgroundControl
@@ -1013,7 +1023,8 @@ export default function CartSettings({
                           </S1Field>
                         </S1FieldGroup>
                       )}
-                      {previewType === "floating-cart" && (
+                      {(previewType === "floating-cart" ||
+                        previewType === "mobile") && (
                         <S1FieldGroup number={2} title="Cart">
                           {/* <S1Field label="Cart Style">
                           <SelectControl

@@ -1381,11 +1381,6 @@
     font-weight:600;
 }
 
-.s1-cart-coupon .s1-coupon-toggle:hover{
-    background:#fff;
-   
-    
-}
 .s1-cart-coupon .s1-coupon-toggle:focus{
     outline:none;
 }
@@ -2388,7 +2383,7 @@ font-size:13px;
    FOOTER / ORDER AREA
 ========================================================= */
 
-.s1-side-cart-preview .s1-side-cart-footer {
+.s1-side-cart-preview .s1-side-cart-footer,.s1-cart-coupon {
     background: var(
         --s1-order-bg,
         #fff
