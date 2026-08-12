@@ -196,6 +196,29 @@ const DEFAULT_SETTINGS = {
   taiowcp_dsble_mob_rel_prd_crt: false,
   taiowcp_dsble_mob_ship: false,
   taiowcp_dsble_mob_coupan: false,
+  // milestone
+  taiowcp_free_shipping_style_type: "shipping-bar",
+
+  taiowcp_show_milestones_bar_style: "style-1",
+  taiowcp_milestone_unlock_text: "All rewards unlocked! Congrats!",
+
+  taiowcp_milestone_1_amount: "50.00",
+  taiowcp_milestone_1_label: "10% Discount",
+  taiowcp_milestone_1_icon: "discount",
+  taiowcp_milestone_1_discount_pct: "10",
+  taiowcp_milestone_1_gift_product: "",
+
+  taiowcp_milestone_2_amount: "75.00",
+  taiowcp_milestone_2_label: "Free Gift",
+  taiowcp_milestone_2_icon: "gift",
+  taiowcp_milestone_2_discount_pct: "",
+  taiowcp_milestone_2_gift_product: "",
+
+  taiowcp_milestone_3_amount: "100.00",
+  taiowcp_milestone_3_label: "Free Shipping",
+  taiowcp_milestone_3_icon: "shipping",
+  taiowcp_milestone_3_discount_pct: "",
+  taiowcp_milestone_3_gift_product: "",
 };
 
 export default function CartSettings({
@@ -859,7 +882,300 @@ export default function CartSettings({
                             }
                           />
                         </S1Field>
+
+                        {settings.taiowc_show_shipping_bar && (
+                          <S1Field
+                            classN="s1-exclude-header"
+                            label="Choose Bar"
+                          >
+                            <SelectControl
+                              value={settings.taiowcp_free_shipping_style_type}
+                              options={[
+                                {
+                                  label: "Shipping Bar",
+                                  value: "shipping-bar",
+                                },
+                                {
+                                  label: "Milestone Bar",
+                                  value: "milestone",
+                                },
+                              ]}
+                              onChange={(v) =>
+                                update("taiowcp_free_shipping_style_type", v)
+                              }
+                            />
+                          </S1Field>
+                        )}
                       </S1FieldGroup>
+                      {settings.taiowc_show_shipping_bar &&
+                        settings.taiowcp_free_shipping_style_type ===
+                          "milestone" && (
+                          <>
+                            <S1FieldGroup number={4} title="Milestones Bar">
+                              <div className="s1-field-group-row">
+                                <S1Field label="Unlock Reward Text">
+                                  <TextControl
+                                    value={
+                                      settings.taiowcp_milestone_unlock_text
+                                    }
+                                    onChange={(v) =>
+                                      update("taiowcp_milestone_unlock_text", v)
+                                    }
+                                  />
+                                </S1Field>
+                              </div>
+                            </S1FieldGroup>
+
+                            {/* Milestones 1 */}
+                            <S1FieldGroup number={5} title="Milestones 1">
+                              <div className="s1-field-group-row">
+                                <S1Field
+                                  label="Milestone 1 — Amount"
+                                  description="Spend amount to unlock milestone 1 (e.g. 50)"
+                                >
+                                  <TextControl
+                                    value={settings.taiowcp_milestone_1_amount}
+                                    onChange={(v) =>
+                                      update("taiowcp_milestone_1_amount", v)
+                                    }
+                                  />
+                                </S1Field>
+
+                                <S1Field
+                                  label="Milestone 1 — Label"
+                                  description="Reward label shown below the milestone icon (e.g. 10% Discount)"
+                                >
+                                  <TextControl
+                                    value={settings.taiowcp_milestone_1_label}
+                                    onChange={(v) =>
+                                      update("taiowcp_milestone_1_label", v)
+                                    }
+                                  />
+                                </S1Field>
+                              </div>
+                              <div className="s1-field-group-row">
+                                <S1Field label="Milestone 1 — Icon">
+                                  <SelectControl
+                                    value={settings.taiowcp_milestone_1_icon}
+                                    options={[
+                                      {
+                                        label: "Discount ($)",
+                                        value: "discount",
+                                      },
+                                      {
+                                        label: "Gift (🎁)",
+                                        value: "gift",
+                                      },
+                                    ]}
+                                    onChange={(v) =>
+                                      update("taiowcp_milestone_1_icon", v)
+                                    }
+                                  />
+                                </S1Field>
+
+                                <S1Field
+                                  label="Milestone 1 — Discount %"
+                                  description="Only used when Icon = Discount. Enter a number 1–100 (e.g. 10 for 10% off)."
+                                >
+                                  <TextControl
+                                    value={
+                                      settings.taiowcp_milestone_1_discount_pct
+                                    }
+                                    onChange={(v) =>
+                                      update(
+                                        "taiowcp_milestone_1_discount_pct",
+                                        v,
+                                      )
+                                    }
+                                  />
+                                </S1Field>
+                              </div>
+
+                              <S1Field
+                                label="Milestone 1 — Gift Product ID"
+                                description="Only used when Icon = Gift. Enter the WooCommerce product ID to auto-add as a free item."
+                              >
+                                <TextControl
+                                  value={
+                                    settings.taiowcp_milestone_1_gift_product
+                                  }
+                                  onChange={(v) =>
+                                    update(
+                                      "taiowcp_milestone_1_gift_product",
+                                      v,
+                                    )
+                                  }
+                                />
+                              </S1Field>
+                            </S1FieldGroup>
+
+                            {/* Milestones 2 */}
+                            <S1FieldGroup number={6} title="Milestones 2">
+                              <div className="s1-field-group-row">
+                                <S1Field
+                                  label="Milestone 2 — Amount"
+                                  description="Leave blank to disable milestone 2"
+                                >
+                                  <TextControl
+                                    value={settings.taiowcp_milestone_2_amount}
+                                    onChange={(v) =>
+                                      update("taiowcp_milestone_2_amount", v)
+                                    }
+                                  />
+                                </S1Field>
+
+                                <S1Field label="Milestone 2 — Label">
+                                  <TextControl
+                                    value={settings.taiowcp_milestone_2_label}
+                                    onChange={(v) =>
+                                      update("taiowcp_milestone_2_label", v)
+                                    }
+                                  />
+                                </S1Field>
+                              </div>
+                              <div className="s1-field-group-row">
+                                <S1Field label="Milestone 2 — Icon">
+                                  <SelectControl
+                                    value={settings.taiowcp_milestone_2_icon}
+                                    options={[
+                                      {
+                                        label: "Discount ($)",
+                                        value: "discount",
+                                      },
+                                      {
+                                        label: "Gift (🎁)",
+                                        value: "gift",
+                                      },
+                                      {
+                                        label: "Shipping (🚚)",
+                                        value: "shipping",
+                                      },
+                                    ]}
+                                    onChange={(v) =>
+                                      update("taiowcp_milestone_2_icon", v)
+                                    }
+                                  />
+                                </S1Field>
+
+                                <S1Field
+                                  label="Milestone 2 — Discount %"
+                                  description="Only used when Icon = Discount. Enter a number 1–100."
+                                >
+                                  <TextControl
+                                    value={
+                                      settings.taiowcp_milestone_2_discount_pct
+                                    }
+                                    onChange={(v) =>
+                                      update(
+                                        "taiowcp_milestone_2_discount_pct",
+                                        v,
+                                      )
+                                    }
+                                  />
+                                </S1Field>
+                              </div>
+                              <S1Field
+                                label="Milestone 2 — Gift Product ID"
+                                description="Only used when Icon = Gift. Enter the WooCommerce product ID to auto-add as a free item."
+                              >
+                                <TextControl
+                                  value={
+                                    settings.taiowcp_milestone_2_gift_product
+                                  }
+                                  onChange={(v) =>
+                                    update(
+                                      "taiowcp_milestone_2_gift_product",
+                                      v,
+                                    )
+                                  }
+                                />
+                              </S1Field>
+                            </S1FieldGroup>
+
+                            {/* Milestones 3 */}
+                            <S1FieldGroup number={7} title="Milestones 3">
+                              <div className="s1-field-group-row">
+                                <S1Field
+                                  label="Milestone 3 — Amount"
+                                  description="Leave blank to disable milestone 3"
+                                >
+                                  <TextControl
+                                    value={settings.taiowcp_milestone_3_amount}
+                                    onChange={(v) =>
+                                      update("taiowcp_milestone_3_amount", v)
+                                    }
+                                  />
+                                </S1Field>
+
+                                <S1Field label="Milestone 3 — Label">
+                                  <TextControl
+                                    value={settings.taiowcp_milestone_3_label}
+                                    onChange={(v) =>
+                                      update("taiowcp_milestone_3_label", v)
+                                    }
+                                  />
+                                </S1Field>
+                              </div>
+                              <div className="s1-field-group-row">
+                                <S1Field label="Milestone 3 — Icon">
+                                  <SelectControl
+                                    value={settings.taiowcp_milestone_3_icon}
+                                    options={[
+                                      {
+                                        label: "Discount ($)",
+                                        value: "discount",
+                                      },
+                                      {
+                                        label: "Gift (🎁)",
+                                        value: "gift",
+                                      },
+                                      {
+                                        label: "Shipping (🚚)",
+                                        value: "shipping",
+                                      },
+                                    ]}
+                                    onChange={(v) =>
+                                      update("taiowcp_milestone_3_icon", v)
+                                    }
+                                  />
+                                </S1Field>
+
+                                <S1Field
+                                  label="Milestone 3 — Discount %"
+                                  description="Only used when Icon = Discount. Enter a number 1–100."
+                                >
+                                  <TextControl
+                                    value={
+                                      settings.taiowcp_milestone_3_discount_pct
+                                    }
+                                    onChange={(v) =>
+                                      update(
+                                        "taiowcp_milestone_3_discount_pct",
+                                        v,
+                                      )
+                                    }
+                                  />
+                                </S1Field>
+                              </div>
+                              <S1Field
+                                label="Milestone 3 — Gift Product ID"
+                                description="Only used when Icon = Gift. Enter the WooCommerce product ID to auto-add as a free item."
+                              >
+                                <TextControl
+                                  value={
+                                    settings.taiowcp_milestone_3_gift_product
+                                  }
+                                  onChange={(v) =>
+                                    update(
+                                      "taiowcp_milestone_3_gift_product",
+                                      v,
+                                    )
+                                  }
+                                />
+                              </S1Field>
+                            </S1FieldGroup>
+                          </>
+                        )}
                     </>
                   ),
                 },

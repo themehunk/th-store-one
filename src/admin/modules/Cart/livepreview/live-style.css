@@ -244,6 +244,250 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
     position: relative;
 }
+
+/* ========================================
+   Milestone Progress Preview
+======================================== */
+
+.s1-milestone-preview {
+    margin: 10px 16px;
+    padding: 10px 14px 12px;
+    background: #f8f6ee;
+    border-radius: 12px;
+    box-sizing: border-box;
+}
+
+
+/* Title */
+
+.s1-milestone-title {
+    margin: 0 0 8px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.2;
+    color: #444;
+    font-weight: 500;
+}
+
+
+/* Milestone row */
+
+.s1-milestone-progress {
+    position: relative;
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+}
+
+
+/* Single continuous line */
+
+.s1-milestone-progress::before {
+    content: "";
+    position: absolute;
+
+    top: 14px;
+    left: 0;
+    right: 0;
+
+    height: 7px;
+
+    background: #e5e5e5;
+    border-radius: 999px;
+
+    z-index: 0;
+}
+
+
+/* Each milestone */
+
+.s1-milestone-item {
+    position: relative;
+
+    flex: 1;
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    text-align: center;
+
+    z-index: 1;
+}
+
+
+/*
+ * DOM order:
+ *
+ * amount
+ * line-wrap
+ * label
+ *
+ * Visual order:
+ *
+ * line-wrap
+ * amount
+ * label
+ */
+
+.s1-milestone-line-wrap {
+    position: relative;
+
+    order: 1;
+
+    width: 100%;
+    height: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* Hide individual lines */
+
+.s1-milestone-line {
+    display: none;
+}
+
+
+/* Circle */
+
+.s1-milestone-icon {
+    position: relative;
+
+    z-index: 2;
+
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    margin: 0 auto;
+
+    box-sizing: border-box;
+
+    background: #f8f6ee;
+
+    border: 3px solid #39b54a;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 15px;
+    line-height: 1;
+
+    color: #333;
+
+    box-shadow: none;
+}
+
+
+/* Amount */
+
+.s1-milestone-amount {
+    order: 2;
+
+    margin: 5px 0 0;
+
+    font-size: 12px;
+    line-height: 1.1;
+
+    color: #111;
+
+    font-weight: 700;
+}
+
+
+/* Label */
+
+.s1-milestone-label {
+    order: 3;
+
+    margin: 4px 0 0;
+
+    font-size: 12px;
+    line-height: 1.2;
+
+    color: #444;
+
+    font-weight: 500;
+}
+
+
+/* ========================================
+   Mobile
+======================================== */
+
+@media (max-width: 600px) {
+
+    .s1-milestone-preview {
+        margin: 8px 12px;
+        padding: 8px 10px 10px;
+    }
+
+    .s1-milestone-title {
+        margin-bottom: 7px;
+        font-size: 15px;
+    }
+
+    .s1-milestone-progress::before {
+        top: 12px;
+        height: 6px;
+    }
+
+    .s1-milestone-line-wrap {
+        height: 30px;
+    }
+
+    .s1-milestone-icon {
+        width: 30px;
+        height: 30px;
+
+        border-width: 3px;
+
+        font-size: 13px;
+    }
+
+    .s1-milestone-amount {
+        margin-top: 4px;
+        font-size: 14px;
+    }
+
+    .s1-milestone-label {
+        margin-top: 3px;
+        font-size: 13px;
+    }
+}
+
+/* Progress Track */
+.s1-milestone-progress::before {
+    content: "";
+    position: absolute;
+    top: 14px;
+    left: 0;
+    right: 0;
+    height: 7px;
+    background: #e5e5e5;
+    border-radius: 999px;
+    z-index: 0;
+}
+
+/* Progress Fill - 50% */
+.s1-milestone-progress::after {
+    content: "";
+    position: absolute;
+    top: 14px;
+    left: 0;
+    width: 50%;
+    height: 7px;
+    background: #24591f;
+    border-radius: 999px 0 0 999px;
+    z-index: 0;
+}
 /* Side Cart Website Preview Wrapper */
 
 .s1-side-cart-wrapper {
@@ -2135,4 +2379,110 @@ margin: 8px 12px !important;
     line-height: 1 !important;
 
     cursor: pointer !important;
+}
+
+/* Mobile Milestone Preview */
+
+.s1-mobile-milestone-preview {
+    padding: 7px 6px 8px;
+    background: #f8f6ee;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+.s1-mobile-milestone-title {
+    margin: 0 0 6px;
+    text-align: center;
+    font-size: 13px;
+    line-height: 1.15;
+    color: #444;
+    font-weight: 500;
+}
+
+.s1-mobile-milestone-progress {
+    position: relative;
+    display: flex;
+    width: 100%;
+}
+
+/* Track */
+.s1-mobile-milestone-progress::before {
+    content: "";
+    position: absolute;
+    top: 11px;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: #e5e5e5;
+    border-radius: 999px;
+    z-index: 0;
+}
+
+/* 50% Fill */
+.s1-mobile-milestone-progress::after {
+    content: "";
+    position: absolute;
+    top: 11px;
+    left: 0;
+    width: 50%;
+    height: 5px;
+    background: #24591f;
+    border-radius: 999px 0 0 999px;
+    z-index: 0;
+}
+
+.s1-mobile-milestone-item {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    text-align: center;
+    z-index: 1;
+}
+
+.s1-mobile-milestone-line-wrap {
+    height: 27px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.s1-mobile-milestone-icon {
+    position: relative;
+    z-index: 2;
+
+    width: 27px;
+    height: 27px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f8f6ee;
+    border: 2px solid #39b54a;
+    border-radius: 50%;
+
+    font-size: 12px;
+    line-height: 1;
+}
+
+.s1-mobile-milestone-amount {
+    margin-top: 3px;
+
+    font-size: 12px;
+    line-height: 1.1;
+
+    color: #111;
+    font-weight: 700;
+}
+
+.s1-mobile-milestone-label {
+    margin-top: 2px;
+
+    font-size: 11px;
+    line-height: 1.15;
+
+    color: #444;
+    font-weight: 500;
 }

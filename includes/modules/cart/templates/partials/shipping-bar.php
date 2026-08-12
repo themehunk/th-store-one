@@ -9,6 +9,8 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
+
+
 $goal = (float) ($settings['taiowc_free_shipping_amount'] ?? 1000);
 
 $subtotal = WC()->cart ? (float) WC()->cart->get_subtotal() : 0;
@@ -44,8 +46,6 @@ $truck_position = min(95, max(5, $percentage));
     </div>
 
 </div>
-
-        
 
         <p class="s1-shipping-text">
 

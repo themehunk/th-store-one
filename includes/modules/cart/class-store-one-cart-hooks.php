@@ -168,18 +168,21 @@ if (! class_exists('Th_Store_One_Cart_Hooks')) {
                 'includes/modules/cart/templates/partials/free-shipping.php';
         }
 
-        /**
-         * ShippingBar.
-         *
-         * @param array $settings Settings.
-         *
-         * @return void
-         */
         public function cart_shipping_bar($settings)
         {
-
-            include TH_STORE_ONE_PLUGIN_DIR .
+            $template = TH_STORE_ONE_PLUGIN_DIR .
                 'includes/modules/cart/templates/partials/shipping-bar.php';
+
+
+            $template = apply_filters(
+                'th_store_one_shipping_progress_template',
+                $template,
+                $settings
+            );
+
+            if (file_exists($template)) {
+                include $template;
+            }
         }
 
         /**

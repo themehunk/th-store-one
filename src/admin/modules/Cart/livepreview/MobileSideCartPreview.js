@@ -1,7 +1,9 @@
 import { useState } from "@wordpress/element";
 import { __ } from "@wordpress/i18n";
 import { CART_ICON_OPTIONS } from "./cart-icons";
+const currency = th_StoreOneAdmin?.currency_symbol || "$";
 
+const formatPrice = (price) => `${currency}${Number(price).toFixed(2)}`;
 const MobileSideCartPreview = ({ settings = {} }) => {
   const [cartOpen, setCartOpen] = useState(false);
   const [couponOpen, setCouponOpen] = useState(false);
@@ -397,40 +399,118 @@ const MobileSideCartPreview = ({ settings = {} }) => {
         {/* Products */}
 
         <div className="s1-mobile-cart-panel-products" style={bodyStyle}>
-          {!disableShipping && (
-            <div className="s1-mobile-panel-shipping" style={shippingStyle}>
-              <div className="s1-mobile-shipping-wrap">
-                <div className="s1-mobile-shipping-track" style={trackStyle}>
+          {!disableShipping &&
+            (settings.taiowcp_free_shipping_style_type === "milestone" ? (
+              <div className="s1-mobile-panel-shipping s1-mobile-milestone-preview">
+                <div className="s1-mobile-milestone-title">
+                  {settings.taiowcp_milestone_unlock_text ||
+                    "All rewards unlocked! Congrats!"}
+                </div>
+
+                <div className="s1-mobile-milestone-progress">
+                  {/* Milestone 1 */}
+                  <div className="s1-mobile-milestone-item">
+                    <div className="s1-mobile-milestone-line-wrap">
+                      <div className="s1-mobile-milestone-icon">
+                        {settings.taiowcp_milestone_1_icon === "gift"
+                          ? "🎁"
+                          : "$"}
+                      </div>
+                    </div>
+
+                    <div className="s1-mobile-milestone-amount">
+                      {formatPrice(
+                        parseFloat(settings.taiowcp_milestone_1_amount) || 50,
+                      )}
+                    </div>
+
+                    <div className="s1-mobile-milestone-label">
+                      {settings.taiowcp_milestone_1_label || "10% Discount"}
+                    </div>
+                  </div>
+
+                  {/* Milestone 2 */}
+                  <div className="s1-mobile-milestone-item">
+                    <div className="s1-mobile-milestone-line-wrap">
+                      <div className="s1-mobile-milestone-icon">
+                        {settings.taiowcp_milestone_2_icon === "discount"
+                          ? "$"
+                          : settings.taiowcp_milestone_2_icon === "shipping"
+                          ? "🚚"
+                          : "🎁"}
+                      </div>
+                    </div>
+
+                    <div className="s1-mobile-milestone-amount">
+                      {formatPrice(
+                        parseFloat(settings.taiowcp_milestone_2_amount) || 75,
+                      )}
+                    </div>
+
+                    <div className="s1-mobile-milestone-label">
+                      {settings.taiowcp_milestone_2_label || "Free Gift"}
+                    </div>
+                  </div>
+
+                  {/* Milestone 3 */}
+                  <div className="s1-mobile-milestone-item">
+                    <div className="s1-mobile-milestone-line-wrap">
+                      <div className="s1-mobile-milestone-icon">
+                        {settings.taiowcp_milestone_3_icon === "discount"
+                          ? "$"
+                          : settings.taiowcp_milestone_3_icon === "gift"
+                          ? "🎁"
+                          : "🚚"}
+                      </div>
+                    </div>
+
+                    <div className="s1-mobile-milestone-amount">
+                      {formatPrice(
+                        parseFloat(settings.taiowcp_milestone_3_amount) || 100,
+                      )}
+                    </div>
+
+                    <div className="s1-mobile-milestone-label">
+                      {settings.taiowcp_milestone_3_label || "Free Shipping"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              /* Normal Mobile Shipping Bar */
+              <div className="s1-mobile-panel-shipping" style={shippingStyle}>
+                <div className="s1-mobile-shipping-wrap">
+                  <div className="s1-mobile-shipping-track" style={trackStyle}>
+                    <div
+                      className="s1-mobile-shipping-fill"
+                      style={{
+                        ...fillStyle,
+                        width: "72%",
+                      }}
+                    ></div>
+                  </div>
+
                   <div
-                    className="s1-mobile-shipping-fill"
+                    className="s1-mobile-shipping-icon"
                     style={{
-                      ...fillStyle,
-                      width: "72%",
+                      ...iconCircleStyle,
+                      left: "72%",
                     }}
-                  ></div>
+                  >
+                    🚚
+                  </div>
                 </div>
 
                 <div
-                  className="s1-mobile-shipping-icon"
-                  style={{
-                    ...iconCircleStyle,
-                    left: "72%",
-                  }}
+                  className="s1-mobile-shipping-text"
+                  style={shippingTextStyle}
                 >
-                  🚚
+                  {__("Spend", "th-store-one")}{" "}
+                  <strong style={shippingAmountStyle}>₹258.00</strong>{" "}
+                  {__("more for FREE shipping.", "th-store-one")}
                 </div>
               </div>
-
-              <div
-                className="s1-mobile-shipping-text"
-                style={shippingTextStyle}
-              >
-                {__("Spend", "th-store-one")}{" "}
-                <strong style={shippingAmountStyle}>₹258.00</strong>{" "}
-                {__("more for FREE shipping.", "th-store-one")}
-              </div>
-            </div>
-          )}
+            ))}
 
           <div className="s1-mobile-panel-product" style={productStyle}>
             <div className="s1-mobile-panel-product-image"></div>

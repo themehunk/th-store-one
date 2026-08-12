@@ -277,37 +277,115 @@ const SideCartPreview = ({ settings = {}, previewType }) => {
         </div>
 
         {/* Shipping */}
-        {settings.taiowc_show_shipping_bar == true && (
-          <div className="s1-shipping-progress" style={shippingStyle}>
-            <div className="s1-progress-wrap">
-              <div className="s1-progress-track" style={trackStyle}>
-                <div
-                  className="s1-progress-fill"
-                  style={{
-                    ...fillStyle,
-                    width: "72%",
-                  }}
-                ></div>
+        {settings.taiowc_show_shipping_bar === true &&
+          (settings.taiowcp_free_shipping_style_type === "milestone" ? (
+            <div className="s1-milestone-preview">
+              <div className="s1-milestone-title">
+                {settings.taiowcp_milestone_unlock_text ||
+                  "All rewards unlocked! Congrats!"}
               </div>
 
-              <div
-                className="s1-progress-icon"
-                style={{
-                  ...iconCircleStyle,
-                  left: "72%",
-                }}
-              >
-                🚚
+              <div className="s1-milestone-progress">
+                {/* Milestone 1 */}
+                <div className="s1-milestone-item">
+                  <div className="s1-milestone-amount">
+                    {formatPrice(settings.taiowcp_milestone_1_amount || 50)}
+                  </div>
+
+                  <div className="s1-milestone-line-wrap">
+                    <div className="s1-milestone-line"></div>
+
+                    <div className="s1-milestone-icon">
+                      {settings.taiowcp_milestone_1_icon === "gift"
+                        ? "🎁"
+                        : "$"}
+                    </div>
+                  </div>
+
+                  <div className="s1-milestone-label">
+                    {settings.taiowcp_milestone_1_label || "10% Discount"}
+                  </div>
+                </div>
+
+                {/* Milestone 2 */}
+                <div className="s1-milestone-item">
+                  <div className="s1-milestone-amount">
+                    {formatPrice(settings.taiowcp_milestone_2_amount || 75)}
+                  </div>
+
+                  <div className="s1-milestone-line-wrap">
+                    <div className="s1-milestone-line"></div>
+
+                    <div className="s1-milestone-icon">
+                      {settings.taiowcp_milestone_2_icon === "discount"
+                        ? "$"
+                        : settings.taiowcp_milestone_2_icon === "shipping"
+                        ? "🚚"
+                        : "🎁"}
+                    </div>
+                  </div>
+
+                  <div className="s1-milestone-label">
+                    {settings.taiowcp_milestone_2_label || "Free Gift"}
+                  </div>
+                </div>
+
+                {/* Milestone 3 */}
+                <div className="s1-milestone-item">
+                  <div className="s1-milestone-amount">
+                    {formatPrice(settings.taiowcp_milestone_3_amount || 100)}
+                  </div>
+
+                  <div className="s1-milestone-line-wrap">
+                    <div className="s1-milestone-line"></div>
+
+                    <div className="s1-milestone-icon">
+                      {settings.taiowcp_milestone_3_icon === "discount"
+                        ? "$"
+                        : settings.taiowcp_milestone_3_icon === "gift"
+                        ? "🎁"
+                        : "🚚"}
+                    </div>
+                  </div>
+
+                  <div className="s1-milestone-label">
+                    {settings.taiowcp_milestone_3_label || "Free Shipping"}
+                  </div>
+                </div>
               </div>
             </div>
+          ) : (
+            /* Normal Shipping Bar */
+            <div className="s1-shipping-progress" style={shippingStyle}>
+              <div className="s1-progress-wrap">
+                <div className="s1-progress-track" style={trackStyle}>
+                  <div
+                    className="s1-progress-fill"
+                    style={{
+                      ...fillStyle,
+                      width: "72%",
+                    }}
+                  ></div>
+                </div>
 
-            <p style={shippingTextStyle}>
-              {__("Spend", "th-store-one")}{" "}
-              <strong style={shippingAmountStyle}>{formatPrice(258)}</strong>{" "}
-              {__("more for free shipping", "th-store-one")}
-            </p>
-          </div>
-        )}
+                <div
+                  className="s1-progress-icon"
+                  style={{
+                    ...iconCircleStyle,
+                    left: "72%",
+                  }}
+                >
+                  🚚
+                </div>
+              </div>
+
+              <p style={shippingTextStyle}>
+                {__("Spend", "th-store-one")}{" "}
+                <strong style={shippingAmountStyle}>{formatPrice(258)}</strong>{" "}
+                {__("more for free shipping", "th-store-one")}
+              </p>
+            </div>
+          ))}
 
         {/* Products */}
 

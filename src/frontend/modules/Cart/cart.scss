@@ -2485,3 +2485,369 @@ font-size:13px;
 .s1-side-cart-preview .s1-checkout-btn * {
     color: inherit !important;
 }
+
+
+/* =========================================================
+   Milestone Shipping Progress
+   ========================================================= */
+
+.s1-milestone-preview {
+    width: 100%;
+    margin: 8px 0;
+    padding: 8px 10px 10px;
+    box-sizing: border-box;
+
+    background: #f8f6ee;
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   Message
+   ========================================================= */
+
+.s1-milestone-title {
+    margin: 0 0 9px;
+    padding: 0;
+
+    text-align: center;
+
+    font-size: 12px;
+    line-height: 1.25;
+    font-weight: 500;
+
+    color: #444;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.s1-milestone-title strong {
+    color: #222;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   Progress Area
+   ========================================================= */
+
+.s1-milestone-progress {
+    position: relative;
+
+    width:90%;
+    height: 60px;
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   Background Track
+   ========================================================= */
+
+.s1-milestone-progress::before {
+    content: "";
+
+    position: absolute;
+
+    /*
+     * Same horizontal area as milestone positions.
+     */
+    left: 10%;
+    right: 0;
+
+    top: 11px;
+
+    height: 5px;
+
+    background: #dedede;
+
+    border-radius: 999px;
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   Filled Track
+   ========================================================= */
+
+.s1-milestone-progress::after {
+    content: "";
+
+    position: absolute;
+
+    left: 10%;
+
+    top: 11px;
+
+    width: calc(
+        var(--s1-milestone-progress) - 10%
+    );
+
+    max-width: 90%;
+
+    height: 5px;
+
+    background: #24591f;
+
+    border-radius: 999px;
+
+    z-index: 1;
+}
+
+
+/* =========================================================
+   Milestone Item
+   ========================================================= */
+
+.s1-milestone-item {
+    position: absolute;
+
+    top: 0;
+
+    width: 52px;
+
+    margin: 0;
+    padding: 0;
+
+    transform: translateX(-50%);
+
+    text-align: center;
+
+    box-sizing: border-box;
+
+    z-index: 3;
+}
+
+
+/*
+ * IMPORTANT:
+ * Do NOT change first/last transform.
+ *
+ * Every circle stays centered exactly
+ * on its PHP left position.
+ */
+
+
+/* =========================================================
+   Circle Wrapper
+   ========================================================= */
+
+.s1-milestone-line-wrap {
+    position: relative;
+
+    width: 100%;
+    height: 27px;
+
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   Milestone Circle
+   ========================================================= */
+
+.s1-milestone-icon {
+    position: relative;
+
+    width: 24px;
+    height: 24px;
+
+    flex: 0 0 24px;
+
+    box-sizing: border-box;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f8f6ee;
+
+    border: 2px solid #39b54a;
+
+    border-radius: 50%;
+
+    font-size: 10px;
+    line-height: 1;
+
+    color: #24591f;
+
+    z-index: 5;
+
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   Unlocked Circle
+   ========================================================= */
+
+.s1-milestone-item.is-unlocked
+.s1-milestone-icon {
+    background: #24591f;
+
+    border-color: #24591f;
+
+    color: #fff;
+}
+
+
+/* =========================================================
+   Amount
+   ========================================================= */
+
+.s1-milestone-amount {
+    width: 100%;
+
+    margin: 2px 0 0;
+    padding: 0;
+
+    font-size: 10px;
+    line-height: 1.15;
+
+    color: #111;
+
+    font-weight: 700;
+
+    text-align: center;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   Label
+   ========================================================= */
+
+.s1-milestone-label {
+    width: 100%;
+
+    margin: 2px 0 0;
+    padding: 0;
+
+    font-size: 9px;
+    line-height: 1.1;
+
+    color: #555;
+
+    font-weight: 500;
+
+    text-align: center;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   Mobile
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    .s1-milestone-preview {
+        width: 100%;
+
+        margin: 6px 0;
+
+        padding: 7px 7px 8px;
+
+        border-radius: 9px;
+    }
+
+
+    .s1-milestone-title {
+        margin-bottom: 7px;
+
+        font-size: 11px;
+    }
+
+
+    .s1-milestone-progress {
+        height: 51px;
+    }
+
+
+    .s1-milestone-progress::before {
+        left: 10%;
+
+        top: 10px;
+
+        height: 4px;
+    }
+
+
+    .s1-milestone-progress::after {
+        left: 10%;
+
+        top: 10px;
+
+        width: calc(
+            var(--s1-milestone-progress) - 10%
+        );
+
+        max-width: 90%;
+
+        height: 4px;
+    }
+
+
+    .s1-milestone-item {
+        width: 44px;
+    }
+
+
+    .s1-milestone-line-wrap {
+        height: 24px;
+    }
+
+
+    .s1-milestone-icon {
+        width: 21px;
+        height: 21px;
+
+        flex-basis: 21px;
+
+        font-size: 9px;
+
+        border-width: 2px;
+    }
+
+
+    .s1-milestone-amount {
+        margin-top: 2px;
+
+        font-size: 9px;
+    }
+
+
+    .s1-milestone-label {
+        margin-top: 1px;
+
+        font-size: 8px;
+    }
+}
