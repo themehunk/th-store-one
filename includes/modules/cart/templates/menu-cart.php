@@ -51,11 +51,21 @@ if (! empty($menu_quantity_color)) {
 if (! empty($menu_icon_color)) {
     $menu_cart_style .= '--s1-menu-cart-icon:' . esc_attr($menu_icon_color) . ';';
 }
+$mobile_settings = $this->mobile_settings;
 ?>
 <div class="store-one-cart">
 <div
 	class="s1-menu-cart storeone-menu-cart"
 	data-cart-type="menu"
+	data-mobile-disable="<?php echo ! empty(
+	    $mobile_settings['taiowcp_dsble_mnu_crt']
+	) ? 'true' : 'false'; ?>"
+    data-mobile-disable-quantity="<?php echo ! empty(
+        $mobile_settings['taiowcp_dsble_mnu_crt_qnty']
+    ) ? 'true' : 'false'; ?>"
+    data-mobile-disable-price="<?php echo ! empty(
+        $mobile_settings['taiowcp_dsble_mnu_crt_price']
+    ) ? 'true' : 'false'; ?>"
 >
 
 	<button

@@ -53,10 +53,32 @@ const DEFAULT_SETTINGS = {
   taiowc_hide_single_page: false,
   taiowc_hide_home_page: false,
   taiowc_hide_blog_page: false,
-
+  /* Coupon Settings */
   taiowc_show_coupon: false,
+  taiowcp_coupon_hd: "Coupon",
+  taiowcp_coupon_plchdr_txt: "Enter your Promo Code",
+  taiowcp_coupon_aply_txt: "Apply",
+  taiowcp_show_coupon_list: true,
+  taiowcp_coupon_btn_txt: "View Coupons",
+  taiowcp_show_added_coupon: true,
+
   taiowc_show_shipping: false,
   taiowc_show_shipping_bar: false,
+
+  taiowcp_pay_hd: "ORDER SUMMARY",
+  taiowcp_sub_total: "Sub Total",
+
+  taiowcp_show_shipping: true,
+
+  taiowcp_show_discount: true,
+  taiowcp_discount_txt: "Discount",
+
+  taiowcp_total_txt: "ORDER TOTAL",
+
+  taiowcp_show_copyright: true,
+  taiowcp_custom_copyright: "ThemeHunk",
+  taiowcp_custom_copyright_link:
+    "https://themehunk.com/th-all-in-one-woo-cart/",
 
   /* Menu Cart */
 
@@ -851,9 +873,10 @@ export default function CartSettings({
                         </S1Field>
                       </S1FieldGroup>
                       <S1FieldGroup
-                        number={3}
+                        number={4}
                         title="Coupons & Shipping"
                         shortdescription="Coupon Visible in side cart panel"
+                        pro={licenseActive ? false : true}
                       >
                         <S1Field classN="s1-exclude-header" label="Show Coupon">
                           <ToggleControl
@@ -861,6 +884,67 @@ export default function CartSettings({
                             onChange={(v) => update("taiowc_show_coupon", v)}
                           />
                         </S1Field>
+                        {settings.taiowc_show_coupon && (
+                          <>
+                            <S1Field
+                              classN="s1-exclude-header"
+                              label="Coupon Heading"
+                            >
+                              <TextControl
+                                value={settings.taiowcp_coupon_hd}
+                                onChange={(v) => update("taiowcp_coupon_hd", v)}
+                              />
+                            </S1Field>
+
+                            <S1Field
+                              classN="s1-exclude-header"
+                              label="Placeholder Text"
+                            >
+                              <TextControl
+                                value={settings.taiowcp_coupon_plchdr_txt}
+                                onChange={(v) =>
+                                  update("taiowcp_coupon_plchdr_txt", v)
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field
+                              classN="s1-exclude-header"
+                              label="Apply Coupon Button Text"
+                            >
+                              <TextControl
+                                value={settings.taiowcp_coupon_aply_txt}
+                                onChange={(v) =>
+                                  update("taiowcp_coupon_aply_txt", v)
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field
+                              classN="s1-exclude-header"
+                              label="Show Coupon List"
+                            >
+                              <ToggleControl
+                                checked={settings.taiowcp_show_coupon_list}
+                                onChange={(v) =>
+                                  update("taiowcp_show_coupon_list", v)
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field
+                              classN="s1-exclude-header"
+                              label="Show Added Coupon"
+                            >
+                              <ToggleControl
+                                checked={settings.taiowcp_show_added_coupon}
+                                onChange={(v) =>
+                                  update("taiowcp_show_added_coupon", v)
+                                }
+                              />
+                            </S1Field>
+                          </>
+                        )}
 
                         <S1Field
                           classN="s1-exclude-header"
@@ -911,7 +995,11 @@ export default function CartSettings({
                         settings.taiowcp_free_shipping_style_type ===
                           "milestone" && (
                           <>
-                            <S1FieldGroup number={4} title="Milestones Bar">
+                            <S1FieldGroup
+                              pro={licenseActive ? false : true}
+                              number={1}
+                              title="Milestones Bar"
+                            >
                               <div className="s1-field-group-row">
                                 <S1Field label="Unlock Reward Text">
                                   <TextControl
@@ -927,7 +1015,11 @@ export default function CartSettings({
                             </S1FieldGroup>
 
                             {/* Milestones 1 */}
-                            <S1FieldGroup number={5} title="Milestones 1">
+                            <S1FieldGroup
+                              pro={licenseActive ? false : true}
+                              number={2}
+                              title="Milestones 1"
+                            >
                               <div className="s1-field-group-row">
                                 <S1Field
                                   label="Milestone 1 — Amount"
@@ -1010,7 +1102,11 @@ export default function CartSettings({
                             </S1FieldGroup>
 
                             {/* Milestones 2 */}
-                            <S1FieldGroup number={6} title="Milestones 2">
+                            <S1FieldGroup
+                              pro={licenseActive ? false : true}
+                              number={3}
+                              title="Milestones 2"
+                            >
                               <div className="s1-field-group-row">
                                 <S1Field
                                   label="Milestone 2 — Amount"
@@ -1093,7 +1189,11 @@ export default function CartSettings({
                             </S1FieldGroup>
 
                             {/* Milestones 3 */}
-                            <S1FieldGroup number={7} title="Milestones 3">
+                            <S1FieldGroup
+                              pro={licenseActive ? false : true}
+                              number={4}
+                              title="Milestones 3"
+                            >
                               <div className="s1-field-group-row">
                                 <S1Field
                                   label="Milestone 3 — Amount"
@@ -1176,6 +1276,106 @@ export default function CartSettings({
                             </S1FieldGroup>
                           </>
                         )}
+
+                      <S1FieldGroup
+                        pro={licenseActive ? false : true}
+                        number={5}
+                        title="Payment Settings"
+                      >
+                        <S1Field
+                          classN="s1-exclude-header"
+                          label="Payment Heading"
+                        >
+                          <TextControl
+                            value={settings.taiowcp_pay_hd}
+                            onChange={(v) => update("taiowcp_pay_hd", v)}
+                          />
+                        </S1Field>
+
+                        <S1Field
+                          classN="s1-exclude-header"
+                          label="Sub Total Text"
+                        >
+                          <TextControl
+                            value={settings.taiowcp_sub_total}
+                            onChange={(v) => update("taiowcp_sub_total", v)}
+                          />
+                        </S1Field>
+
+                        <S1Field
+                          classN="s1-exclude-header"
+                          label="Show Discount"
+                        >
+                          <ToggleControl
+                            checked={settings.taiowcp_show_discount}
+                            onChange={(v) => update("taiowcp_show_discount", v)}
+                          />
+                        </S1Field>
+
+                        {settings.taiowcp_show_discount && (
+                          <S1Field
+                            classN="s1-exclude-header"
+                            label="Discount Text"
+                          >
+                            <TextControl
+                              value={settings.taiowcp_discount_txt}
+                              onChange={(v) =>
+                                update("taiowcp_discount_txt", v)
+                              }
+                            />
+                          </S1Field>
+                        )}
+
+                        <S1Field classN="s1-exclude-header" label="Total Text">
+                          <TextControl
+                            value={settings.taiowcp_total_txt}
+                            onChange={(v) => update("taiowcp_total_txt", v)}
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+
+                      <S1FieldGroup
+                        pro={licenseActive ? false : true}
+                        number={6}
+                        title="Footer Text"
+                      >
+                        <S1Field
+                          classN="s1-exclude-header"
+                          label="Show Footer Text"
+                        >
+                          <ToggleControl
+                            checked={settings.taiowcp_show_copyright}
+                            onChange={(v) =>
+                              update("taiowcp_show_copyright", v)
+                            }
+                          />
+                        </S1Field>
+
+                        {settings.taiowcp_show_copyright && (
+                          <>
+                            <S1Field
+                              classN="s1-exclude-header"
+                              label="Footer Text"
+                            >
+                              <TextControl
+                                value={settings.taiowcp_custom_copyright}
+                                onChange={(v) =>
+                                  update("taiowcp_custom_copyright", v)
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field classN="s1-exclude-header" label="Link">
+                              <TextControl
+                                value={settings.taiowcp_custom_copyright_link}
+                                onChange={(v) =>
+                                  update("taiowcp_custom_copyright_link", v)
+                                }
+                              />
+                            </S1Field>
+                          </>
+                        )}
+                      </S1FieldGroup>
                     </>
                   ),
                 },
@@ -1883,14 +2083,14 @@ export default function CartSettings({
                           />
                         </S1Field>
 
-                        <S1Field label="Disable Product You May Like">
+                        {/* <S1Field label="Disable Product You May Like">
                           <ToggleControl
                             checked={settings.taiowcp_dsble_mob_rel_prd_crt}
                             onChange={(v) =>
                               update("taiowcp_dsble_mob_rel_prd_crt", v)
                             }
                           />
-                        </S1Field>
+                        </S1Field> */}
 
                         <S1Field label="Disable Shipping">
                           <ToggleControl

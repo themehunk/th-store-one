@@ -207,9 +207,22 @@ foreach ($variables as $property => $value) {
         $style .= $property . ':' . esc_attr($value) . ';';
     }
 }
-
+$mobile_settings = $this->mobile_settings;
+$mobile_cart_effect = $mobile_settings[
+    'taiowcp_cart_mobile_effect'
+] ?? 'global';
 ?>
-<div class="store-one-side-cart store-one-cart" data-cart-effect="<?php echo esc_attr($cart_effect); ?>">
+<div class="store-one-side-cart store-one-cart" data-cart-effect="<?php echo esc_attr($cart_effect); ?>" 
+    data-mobile-disable-shipping="<?php echo ! empty(
+        $mobile_settings['taiowcp_dsble_mob_ship']
+    ) ? 'true' : 'false'; ?>"
+    data-mobile-disable-coupon="<?php echo ! empty(
+        $mobile_settings['taiowcp_dsble_mob_coupan']
+    ) ? 'true' : 'false'; ?>"
+
+    data-mobile-cart-effect="<?php echo esc_attr($mobile_cart_effect); ?>"
+    >
+
 <div class="s1-side-cart-wrapper">
 
 	<div class="s1-side-cart-overlay"></div>

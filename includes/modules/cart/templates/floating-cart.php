@@ -140,12 +140,20 @@ $classes = array(
 $classes[] = ('fxd-left' === $position)
     ? 's1-floating-left'
     : 's1-floating-right';
-
+$mobile_settings = $this->mobile_settings;
 ?>
 
 <div
     class="store-one-floating-cart store-one-cart <?php echo esc_attr($hidden); ?>"
-    style="<?php echo esc_attr($floating_style); ?>"
+    style="<?php echo esc_attr($floating_style); ?>" data-mobile-disable="<?php echo ! empty(
+        $mobile_settings['taiowcp_dsble_fxd_crt']
+    ) ? 'true' : 'false'; ?>"
+    data-mobile-disable-quantity="<?php echo ! empty(
+        $mobile_settings['taiowcp_dsble_fxd_crt_qnty']
+    ) ? 'true' : 'false'; ?>"
+    data-mobile-position="<?php echo esc_attr(
+        $mobile_settings['taiowcp_fxd_cart_mobile_position']
+    ); ?>"
 >
 
     <div
