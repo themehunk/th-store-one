@@ -262,6 +262,13 @@ $mobile_cart_effect = $mobile_settings[
             do_action('storeone_cart_ai_suggestion', $settings);
         }
 
+        /**
+         * Products You May Also Like.
+         *
+         * Rendered by Cart Pro when enabled.
+         */
+        do_action('storeone_cart_related_products', $settings);
+
     } else {
 
         do_action('storeone_cart_empty', $settings);
@@ -273,7 +280,7 @@ $mobile_cart_effect = $mobile_settings[
 
 		<?php
 
-        do_action('storeone_cart_footer', $settings);
+    do_action('storeone_cart_footer', $settings);
 
 ?>
 

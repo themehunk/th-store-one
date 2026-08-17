@@ -35,9 +35,11 @@ if (! class_exists('Th_Store_One_Cart_Render')) {
          *
          * @param array $settings Module settings.
          */
-        public function __construct($settings)
+        public function __construct($settings = array(), $render = null)
         {
             $this->settings = $settings;
+            $this->render   = $render;
+
 
 
 

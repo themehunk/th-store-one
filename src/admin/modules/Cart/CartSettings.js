@@ -241,6 +241,13 @@ const DEFAULT_SETTINGS = {
   taiowcp_milestone_3_icon: "shipping",
   taiowcp_milestone_3_discount_pct: "",
   taiowcp_milestone_3_gift_product: "",
+
+  /* Related / Product You May Also Like */
+
+  taiowcp_show_rld_product: false,
+  taiowcpduct_may_like_tle: "Products you may like",
+  taiowcp_choose_prdct_like: "cross-sell",
+  taiowcpduct_may_like_id: [],
 };
 
 export default function CartSettings({
@@ -1337,6 +1344,80 @@ export default function CartSettings({
                       <S1FieldGroup
                         pro={licenseActive ? false : true}
                         number={6}
+                        title="Products You May Also Like"
+                        shortdescription="Show recommended products below the cart product list"
+                      >
+                        <S1Field
+                          label="Enable"
+                          description="Enable/Disable Product You May Also Like section on the Cart Panel below the product list"
+                        >
+                          <ToggleControl
+                            checked={settings.taiowcp_show_rld_product}
+                            onChange={(v) =>
+                              update("taiowcp_show_rld_product", v)
+                            }
+                          />
+                        </S1Field>
+
+                        {settings.taiowcp_show_rld_product && (
+                          <>
+                            <S1Field label="Heading">
+                              <TextControl
+                                value={settings.taiowcpduct_may_like_tle}
+                                onChange={(v) =>
+                                  update("taiowcpduct_may_like_tle", v)
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field label="Choose Product">
+                              <SelectControl
+                                value={settings.taiowcp_choose_prdct_like}
+                                options={[
+                                  {
+                                    label: "Cross Sell",
+                                    value: "cross-sell",
+                                  },
+                                  {
+                                    label: "Up Sell",
+                                    value: "up-sell",
+                                  },
+                                  {
+                                    label: "Related",
+                                    value: "related",
+                                  },
+                                  {
+                                    label: "Your Products",
+                                    value: "product-by-slug",
+                                  },
+                                ]}
+                                onChange={(v) =>
+                                  update("taiowcp_choose_prdct_like", v)
+                                }
+                              />
+                            </S1Field>
+
+                            {settings.taiowcp_choose_prdct_like ===
+                              "product-by-slug" && (
+                              <S1Field>
+                                <MultiWooSearchSelector
+                                  searchType="product"
+                                  label={__("Select Products", "th-store-one")}
+                                  value={settings.taiowcpduct_may_like_id || []}
+                                  onChange={(items) =>
+                                    update("taiowcpduct_may_like_id", items)
+                                  }
+                                  detailedView={true}
+                                />
+                              </S1Field>
+                            )}
+                          </>
+                        )}
+                      </S1FieldGroup>
+
+                      <S1FieldGroup
+                        pro={licenseActive ? false : true}
+                        number={7}
                         title="Footer Text"
                       >
                         <S1Field

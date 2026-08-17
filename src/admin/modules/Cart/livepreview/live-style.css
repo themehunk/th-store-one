@@ -1801,7 +1801,7 @@
     align-items: center !important;
     justify-content: center !important;
 
-    padding: 0 5px !important;
+   border-radius:50%!important;
 
     border-radius: 10px !important;
 
