@@ -25,6 +25,7 @@ export const S1FieldGroup = ({
   children,
   number = false,
   shortdescription,
+  pro,
 }) => {
   return (
     <div className="s1-field-group">
@@ -35,6 +36,7 @@ export const S1FieldGroup = ({
               <span className="s1-field-group-number">{number}</span>
             )}
             <h4 className="s1-field-group-title">{title}</h4>
+            {pro && <span className="s1-field-group-pro-badge">PRO</span>}
           </div>
           <div className="s1-field-group-short-description-wrapper">
             {shortdescription && (

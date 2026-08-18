@@ -25,6 +25,28 @@ export const modulesList = [
     featured: true,
   },
   {
+    id: "th-wishlist",
+    label: __("Wishlist", "th-store-one"),
+    description: __(
+      "Wishlist is a powerful and user-friendly wishlist plugin for WooCommerce that lets your customers save their favorite.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.WISHLIST,
+    premium: false,
+    featured: true,
+  },
+  {
+    id: "th-cart",
+    label: __("Cart", "th-store-one"),
+    description: __(
+      "Cart enhances the WooCommerce shopping cart with powerful features, AJAX functionality, and a seamless checkout experience.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.CART,
+    premium: false,
+    featured: true,
+  },
+  {
     id: "sale-notification",
     label: __("Sale Notification", "th-store-one"),
     description: __(

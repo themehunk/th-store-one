@@ -18,6 +18,8 @@ import PreviewSmartOffers from "../../modules/SmartOffers/livepreview/PreviewSma
 import PreviewPeopleView from "../../modules/PeopleView/livepreview/PreviewPeopleView";
 import PreviewPreOrder from "../../modules/PreOrder/livepreview/PreviewPreOrder";
 import PreviewShopable from "../../modules/ShopableList/livepreview/PreviewShopable";
+import PreviewWishlist from "../../modules/Wishlist/livepreview/PreviewWishlist";
+import PreviewCart from "../../modules/Cart/livepreview/PreviewCart";
 
 import { useSelect } from "@wordpress/data";
 
@@ -140,6 +142,12 @@ const PreviewPane = ({ currentModule, settings }) => {
               )}
               {currentModule?.id === "shopable-list" && activeRule && (
                 <PreviewShopable key={currentModule.id} settings={activeRule} />
+              )}
+              {currentModule?.id === "th-wishlist" && activeRule && (
+                <PreviewWishlist key={currentModule.id} settings={activeRule} />
+              )}
+              {currentModule?.id === "th-cart" && activeRule && (
+                <PreviewCart key={currentModule.id} settings={activeRule} />
               )}
             </div>
           </div>

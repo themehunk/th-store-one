@@ -258,6 +258,7 @@ class Th_Store_One_Buy_Now_Frontend
         $btn = $this->get_button_style();
 
 
+
         $is_block_theme = function_exists('wp_is_block_theme') && wp_is_block_theme();
         $is_theme_style = isset($s['btn_style']) && $s['btn_style'] === 'default_btn_style';
 
@@ -294,10 +295,10 @@ class Th_Store_One_Buy_Now_Frontend
         ?>
 
     <!--NORMAL BUY NOW FORM -->
-   <?php if ($type === 'single' && $is_variable): ?>
-
+   <?php if ($type === 'single' && $is_variable):
+       $alignment = $s['alignment'] ?? 'left';?>
 <button type="button"
-    class="<?php echo esc_attr($btn['class'] . ' th-buy-now-single'); ?>"
+    class="<?php echo esc_attr($btn['class'] . ' th-buy-now-single th-buy-align-' . sanitize_html_class($alignment)); ?>"
     <?php if (!empty($btn['style'])) : ?>
         style="<?php echo esc_attr($btn['style']); ?>"
     <?php endif; ?>
@@ -305,9 +306,20 @@ class Th_Store_One_Buy_Now_Frontend
     <?php echo esc_html($text); ?>
 </button>
 
-<?php else: ?> 
+<?php else:
+    $alignment = $s['alignment'] ?? 'left';
 
-<form class="th-buy-now-form s1-<?php echo esc_attr($type); ?>" method="post">
+    $justify = [
+        'left'   => 'flex-start',
+        'center' => 'center',
+        'right'  => 'flex-end',
+    ];
+
+    $justify_content = $justify[$alignment] ?? 'flex-start';
+
+    ?> 
+
+<form class="th-buy-now-form s1-<?php echo esc_attr($type); ?>"  style="justify-content:<?php echo esc_attr($justify_content);?>" method="post">
     <input type="hidden" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>">
     <input type="hidden" name="th_buy_now" value="1">
     <input type="hidden" name="quantity" value="<?php echo esc_attr($qty); ?>">
@@ -501,6 +513,21 @@ class Th_Store_One_Buy_Now_Frontend
                 $border['color'] ?? '#e5e7eb'
             );
 
+
+            $width = ! empty($s['buy_btn_width']) ? $s['buy_btn_width'] : '100%';
+
+            $alignment = $s['alignment'] ?? 'left';
+
+            $justify = [
+                'left'   => 'flex-start',
+                'center' => 'center',
+                'right'  => 'flex-end',
+            ];
+
+            $justify_content = $justify[$alignment] ?? 'flex-start';
+
+
+
             /* =========================
              * CSS VARIABLES
              * ========================= */
@@ -526,7 +553,9 @@ class Th_Store_One_Buy_Now_Frontend
             --th-buy-radius-right: {$radius_right};
             --th-buy-radius-bottom: {$radius_bottom};
             --th-buy-radius-left: {$radius_left};
-        ";
+             --th-buy-width: {$width};
+             --th-buy-align: {$justify_content};
+             ";
         }
 
         return [

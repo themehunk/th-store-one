@@ -10,6 +10,8 @@ import StoreOneProductVideo from "./modules/product-video";
 import StoreOneQuickSocial from "./modules/quick-social";
 import StoreOneSmartOffer from "./modules/smart-offers";
 import StoreOneShopableList from "./modules/shopable-list";
+import StoreOneWishlist from "./modules/wishlist";
+import StoreOneCart from "./modules/Cart";
 
 document.addEventListener("DOMContentLoaded", () => {
   if (thStoreOne.modules.saleNotification) {
@@ -44,5 +46,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   if (thStoreOne.modules.shopableList) {
     StoreOneShopableList.init();
+  }
+  if (thStoreOne.modules.thWishlist) {
+    StoreOneWishlist.init();
+  }
+  if (thStoreOne.modules.thCart) {
+    StoreOneCart.init();
   }
 });
