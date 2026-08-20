@@ -18,6 +18,7 @@ import TabSwitcher from "@th-storeone-global/TabSwitcher";
 import ResetModuleButton from "@th-storeone-global/ResetModuleButton";
 import THBackgroundControl from "@th-storeone-control/color";
 import UniversalRangeControl from "@th-storeone-global/UniversalRangeControl";
+
 import { ICONS } from "@th-storeone-global/icons";
 import {
   ShoppingCartIcon,
@@ -107,16 +108,8 @@ const DEFAULT_SETTINGS = {
   taiowc_fixed_show_quantity: true,
 
   taiowc_fixed_position: "fxd-right",
-
-  taiowc_fixed_right: 29,
-
-  taiowc_fixed_left: 29,
-
-  taiowc_fixed_bottom: 36,
-
-  taiowc_fixed_icon_size: 24,
-
-  taiowc_fixed_radius: 100,
+  taiowc_fixed_horizontal: "15",
+  taiowc_fixed_bottom: "90",
 
   taiowc_fixed_bg: "#ffffff70",
 
@@ -1622,7 +1615,7 @@ export default function CartSettings({
                       )}
                       {(previewType === "floating-cart" ||
                         previewType === "mobile") && (
-                        <S1FieldGroup number={2} title="Cart">
+                        <S1FieldGroup number={2} title="Floating Cart">
                           {/* <S1Field label="Cart Style">
                           <SelectControl
                             value={settings.taiowc_cart_style}
@@ -1667,7 +1660,29 @@ export default function CartSettings({
                               }
                             />
                           </S1Field>
+                          <UniversalRangeControl
+                            label={
+                              settings.taiowc_fixed_position === "fxd-left"
+                                ? "Left"
+                                : "Right"
+                            }
+                            value={String(
+                              settings.taiowc_fixed_horizontal ?? "15",
+                            )}
+                            onChange={(v) =>
+                              update("taiowc_fixed_horizontal", v)
+                            }
+                            min={0}
+                            max={500}
+                          />
 
+                          <UniversalRangeControl
+                            label="Margin Bottom"
+                            value={String(settings.taiowc_fixed_bottom ?? "90")}
+                            onChange={(v) => update("taiowc_fixed_bottom", v)}
+                            min={0}
+                            max={500}
+                          />
                           <S1Field>
                             <THBackgroundControl
                               label={__("Background", "th-store-one")}

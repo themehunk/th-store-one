@@ -349,14 +349,14 @@ class Th_Store_One_Wishlist_Frontend
         /**
          * Wishlist state.
          */
-        if (class_exists('THWL_Pro_Data')) {
+        if (class_exists('Th_Store_One_Wishlist_Data_Pro_Data')) {
 
             $wishlist_id = isset($_GET['wishlist_id'])
                 ? absint($_GET['wishlist_id'])
                 : 0;
 
             if ($wishlist_id) {
-                $wishlist = THWL_Pro_Data::get_wishlist_by_id($wishlist_id);
+                $wishlist = Th_Store_One_Wishlist_Data_Pro_Data::get_wishlist_by_id($wishlist_id);
             } else {
                 $wishlist = Th_Store_One_Wishlist_Data::get_or_create_wishlist();
             }
@@ -367,9 +367,9 @@ class Th_Store_One_Wishlist_Frontend
 
         }
 
-        if (class_exists('THWL_Pro_Data')) {
+        if (class_exists('Th_Store_One_Wishlist_Data_Pro_Data')) {
 
-            $in_wishlist = THWL_Pro_Data::is_product_in_any_wishlist(
+            $in_wishlist = Th_Store_One_Wishlist_Data_Pro_Data::is_product_in_any_wishlist(
                 $product->get_id(),
                 $variation_id,
                 get_current_user_id()
@@ -683,11 +683,19 @@ class Th_Store_One_Wishlist_Frontend
          * Replace with Store One wishlist logic.
          */
 
-        if (class_exists('THWL_Pro_Data')) {
+        if (class_exists('Th_Store_One_Wishlist_Data_Pro_Data')) {
 
-            $wishlist = THWL_Pro_Data::get_wishlist_by_id($wishlist_id);
+            $wishlist_id = isset($_GET['wishlist_id'])
+            ? absint($_GET['wishlist_id'])
+            : '';
 
-            $in_wishlist = THWL_Pro_Data::is_product_in_any_wishlist(
+            if ($wishlist_id) {
+                $wishlist = Th_Store_One_Wishlist_Data_Pro_Data::get_wishlist_by_id($wishlist_id);
+            } else {
+                $wishlist = null;
+            }
+
+            $in_wishlist = Th_Store_One_Wishlist_Data_Pro_Data::is_product_in_any_wishlist(
                 $product->get_id(),
                 $variation_id,
                 get_current_user_id()
@@ -1031,7 +1039,7 @@ class Th_Store_One_Wishlist_Frontend
         */
         if (empty($atts['wishlist_id'])) {
 
-            if (class_exists('THWL_Pro_Data')) {
+            if (class_exists('Th_Store_One_Wishlist_Data_Pro_Data')) {
 
                 $atts['wishlist_id'] = isset($_GET['wishlist_id'])
                     ? absint($_GET['wishlist_id'])
@@ -1074,9 +1082,9 @@ class Th_Store_One_Wishlist_Frontend
         /*
         * Wishlist
         */
-        if (class_exists('THWL_Pro_Data') && ! empty($args['wishlist_id'])) {
+        if (class_exists('Th_Store_One_Wishlist_Data_Pro_Data') && ! empty($args['wishlist_id'])) {
 
-            $wishlist = THWL_Pro_Data::get_wishlist_by_id(
+            $wishlist = Th_Store_One_Wishlist_Data_Pro_Data::get_wishlist_by_id(
                 absint($args['wishlist_id'])
             );
 

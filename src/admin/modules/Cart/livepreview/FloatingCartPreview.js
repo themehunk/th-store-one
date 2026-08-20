@@ -70,6 +70,16 @@ const FloatingCartPreview = ({ settings = {} }) => {
   };
 
   const position = settings?.taiowc_fixed_position || "fxd-right";
+  const horizontal = Number(settings?.taiowc_fixed_horizontal ?? 15);
+
+  const bottom = Number(settings?.taiowc_fixed_bottom ?? 90);
+
+  const floatingPositionStyle = {
+    bottom: `${bottom}px`,
+    ...(position === "fxd-left"
+      ? { left: `${horizontal}px` }
+      : { right: `${horizontal}px` }),
+  };
   return (
     <div className="s1-menu-preview">
       {/* Header - Same as Menu Cart */}
@@ -109,7 +119,10 @@ const FloatingCartPreview = ({ settings = {} }) => {
         className={`s1-floating-cart ${
           position === "fxd-left" ? "s1-floating-left" : "s1-floating-right"
         }`}
-        style={cartStyle}
+        style={{
+          ...cartStyle,
+          ...floatingPositionStyle,
+        }}
       >
         <div className="s1-preview-cart-icon" style={iconStyle}>
           <CartIcon />

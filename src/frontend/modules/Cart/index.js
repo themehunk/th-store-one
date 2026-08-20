@@ -301,7 +301,15 @@ const StoreOneCart = {
     }
 
     $.each(fragments, (selector, html) => {
-      $(selector).replaceWith(html);
+      const $target = $(selector);
+
+      if ($target.length) {
+        $target.replaceWith(html);
+      } else {
+        if (selector === ".store-one-floating-cart") {
+          $("body").append(html);
+        }
+      }
     });
 
     $(document.body).trigger("wc_fragments_refreshed");
@@ -314,15 +322,7 @@ const StoreOneCart = {
     setTimeout(() => {
       this.initCouponSlider();
     }, 50);
-
-    if (
-      fragments[".store-one-floating-cart"] &&
-      !$(".store-one-floating-cart").length
-    ) {
-      $("body").append(fragments[".store-one-floating-cart"]);
-    }
   },
-
   /*
    * ----------------------------
    * Loading
@@ -984,6 +984,9 @@ const StoreOneCart = {
 
 $(document.body).on("added_to_cart", (event, fragments, cart_hash, $button) => {
   StoreOneCart.clearAISuggestion();
+  if (!storeOneCart.cartFoatVisible) {
+    return;
+  }
   const btn = $button || StoreOneCart.lastCartButton;
 
   if (storeOneCart.cartOpen === "fly-image-open") {

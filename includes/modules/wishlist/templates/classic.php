@@ -24,7 +24,7 @@ if (! defined('ABSPATH')) {
 	    ?>
             </h3>
 
-            <?php if (class_exists('THWL_Pro_Data') && ! empty($wishlist->privacy)) : ?>
+            <?php if (class_exists('Th_Store_One_Wishlist_Data_Pro_Data') && ! empty($wishlist->privacy)) : ?>
 
                 <span class="thwl-badge thwl-badge-<?php echo esc_attr($wishlist->privacy); ?>">
                     <?php echo esc_html(ucfirst($wishlist->privacy)); ?>
@@ -49,9 +49,9 @@ if (! defined('ABSPATH')) {
 <?php endif; ?>
 
 
-<?php if (class_exists('THWL_Pro_Data')) :
+<?php if (class_exists('Th_Store_One_Wishlist_Data_Pro_Data')) :
 
-    $wishlists = THWL_Pro_Data::get_user_wishlists(get_current_user_id());
+    $wishlists = Th_Store_One_Wishlist_Data_Pro_Data::get_user_wishlists(get_current_user_id());
 
     $active_id = ! empty($wishlist->id) ? absint($wishlist->id) : 0;
 

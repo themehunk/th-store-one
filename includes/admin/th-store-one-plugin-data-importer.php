@@ -76,6 +76,28 @@ class TH_StoreOne_Old_Plugin_Importer
             );
         }
 
+        /*
+         * Old option => Store One module.
+         */
+        $module_map = array(
+            'thwl_settings' => 'th-wishlist',
+
+            // TH All In One Woo Cart.
+            'taiowc'         => 'th-cart',
+            'taiowcp'        => 'th-cart',
+        );
+
+        $module = $module_map[$option] ?? '';
+
+        /*
+         * Already imported.
+         */
+        if ($module && $this->is_module_imported($module)) {
+            return array(
+                'has_data' => false,
+            );
+        }
+
         $data = get_option($option, array());
 
         return array(
@@ -83,8 +105,37 @@ class TH_StoreOne_Old_Plugin_Importer
         );
     }
 
+    private function mark_module_imported($module)
+    {
+        $imported = get_option(
+            'th_store_one_imported_modules',
+            array()
+        );
 
+        if (! is_array($imported)) {
+            $imported = array();
+        }
 
+        if (! in_array($module, $imported, true)) {
+            $imported[] = $module;
+        }
+
+        update_option(
+            'th_store_one_imported_modules',
+            $imported
+        );
+    }
+
+    private function is_module_imported($module)
+    {
+        $imported = get_option('th_store_one_imported_modules', array());
+
+        if (! is_array($imported)) {
+            $imported = array();
+        }
+
+        return in_array($module, $imported, true);
+    }
 
     public function import_old_data($request)
     {
@@ -139,6 +190,11 @@ class TH_StoreOne_Old_Plugin_Importer
         $all['th-wishlist'] = $new_settings;
 
         update_option('th_store_one_module_set', $all);
+
+        /*
+        * Mark Wishlist as imported.
+        */
+        $this->mark_module_imported('th-wishlist');
 
         return array(
             'success'  => true,
@@ -417,6 +473,11 @@ class TH_StoreOne_Old_Plugin_Importer
             'th_store_one_module_set',
             $all
         );
+
+        /*
+        * Mark Cart as imported.
+        */
+        $this->mark_module_imported('th-cart');
 
 
         return array(
