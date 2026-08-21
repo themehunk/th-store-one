@@ -102,6 +102,10 @@ export default function WishlistSettings({
   const [importing, setImporting] = useState(false);
   const [hasOldData, setHasOldData] = useState(false);
 
+  const [hasActiveOldWishlistPlugin, setHasActiveOldWishlistPlugin] =
+    useState(false);
+  const [deactivating, setDeactivating] = useState(false);
+
   const [previewType, setPreviewType] = useState("button");
 
   useEffect(() => {
@@ -125,6 +129,45 @@ export default function WishlistSettings({
       .catch(() => setHasOldData(false));
   }, []);
 
+  useEffect(() => {
+    apiFetch({
+      path: `${th_StoreOneAdmin.restUrl}check-old-option?option=thwl_settings`,
+    })
+      .then((res) => {
+        setHasOldData(res.has_data);
+        setHasActiveOldWishlistPlugin(res.has_active_old_plugin);
+      })
+      .catch(() => {
+        setHasOldData(false);
+        setHasActiveOldWishlistPlugin(false);
+      });
+  }, []);
+
+  const deactivateOldWishlistPlugin = async () => {
+    setDeactivating(true);
+
+    try {
+      const res = await apiFetch({
+        path: `${th_StoreOneAdmin.restUrl}deactivate-old-plugins`,
+        method: "POST",
+        data: {
+          type: "wishlist",
+        },
+      });
+
+      if (res.success) {
+        setHasActiveOldWishlistPlugin(false);
+      } else {
+        setError(
+          res.message || __("Failed to deactivate plugin.", "th-store-one"),
+        );
+      }
+    } catch (e) {
+      setError(__("Failed to deactivate old Wishlist plugin.", "th-store-one"));
+    } finally {
+      setDeactivating(false);
+    }
+  };
   // Import Old Data
   const importOldData = async () => {
     setImporting(true);
@@ -332,6 +375,36 @@ export default function WishlistSettings({
                               {importing
                                 ? "Importing Settings..."
                                 : "Import Settings"}
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                      {hasActiveOldWishlistPlugin && (
+                        <div className="th-import-card">
+                          <div className="th-import-card__content">
+                            <h3>Deactivate Existing Wishlist Plugin</h3>
+
+                            <p>
+                              We found an active
+                              <strong> TH Wishlist </strong>
+                              plugin on your site. Deactivate the old Wishlist
+                              plugin to avoid conflicts and continue using
+                              <strong> Store One </strong>
+                              for your wishlist configuration.
+                            </p>
+
+                            <Button
+                              variant="secondary"
+                              isBusy={deactivating}
+                              onClick={deactivateOldWishlistPlugin}
+                              disabled={deactivating}
+                            >
+                              {deactivating
+                                ? __("Deactivating Plugin...", "th-store-one")
+                                : __(
+                                    "Deactivate Old Wishlist Plugin",
+                                    "th-store-one",
+                                  )}
                             </Button>
                           </div>
                         </div>

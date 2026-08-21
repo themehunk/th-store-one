@@ -47,6 +47,16 @@ class TH_StoreOne_Old_Plugin_Importer
                 'permission_callback' => array($this, 'permission_callback'),
             )
         );
+
+        register_rest_route(
+            'th-store-one/v1',
+            '/deactivate-old-plugins',
+            array(
+        'methods'             => 'POST',
+        'callback'            => array( $this, 'deactivate_old_plugins' ),
+        'permission_callback' => array( $this, 'permission_callback' ),
+    )
+        );
     }
 
     /**
@@ -72,7 +82,8 @@ class TH_StoreOne_Old_Plugin_Importer
 
         if (empty($option)) {
             return array(
-                'has_data' => false,
+                'has_data'              => false,
+                'has_active_old_plugin' => false,
             );
         }
 
@@ -83,25 +94,58 @@ class TH_StoreOne_Old_Plugin_Importer
             'thwl_settings' => 'th-wishlist',
 
             // TH All In One Woo Cart.
-            'taiowc'         => 'th-cart',
-            'taiowcp'        => 'th-cart',
+            'taiowc'  => 'th-cart',
+            'taiowcp' => 'th-cart',
         );
 
         $module = $module_map[$option] ?? '';
 
         /*
+         * Get old data.
+         *
+         * We do NOT delete old data.
+         */
+        $data = get_option($option, array());
+
+        /*
+         * Check active old plugin.
+         */
+        if (! function_exists('is_plugin_active')) {
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
+
+        $has_active_old_plugin = false;
+
+        if ($option === 'thwl_settings') {
+
+            $has_active_old_plugin =
+                is_plugin_active('th-wishlist-pro/th-wishlist-pro.php') ||
+                is_plugin_active('th-wishlist/th-wishlist.php');
+
+        } elseif (in_array($option, array('taiowc', 'taiowcp'), true)) {
+
+            $has_active_old_plugin =
+                is_plugin_active('th-all-in-one-woo-cart-pro/th-all-in-one-woo-cart-pro.php') ||
+                is_plugin_active('th-all-in-one-woo-cart/th-all-in-one-woo-cart.php');
+        }
+
+        /*
          * Already imported.
+         *
+         * Do not show Import button again,
+         * but still return active plugin status
+         * so Deactivate button can be shown.
          */
         if ($module && $this->is_module_imported($module)) {
             return array(
-                'has_data' => false,
+                'has_data'              => false,
+                'has_active_old_plugin' => $has_active_old_plugin,
             );
         }
 
-        $data = get_option($option, array());
-
         return array(
-            'has_data' => ! empty($data),
+            'has_data'              => ! empty($data),
+            'has_active_old_plugin' => $has_active_old_plugin,
         );
     }
 
@@ -484,6 +528,54 @@ class TH_StoreOne_Old_Plugin_Importer
             'success'  => true,
             'settings' => $new_settings,
             'message'  => 'Old TH All In One Woo Cart settings imported successfully!',
+        );
+    }
+
+    // deactivate plugin
+
+    public function deactivate_old_plugins($request)
+    {
+        if (! function_exists('deactivate_plugins')) {
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+        }
+
+        $plugin_map = array(
+            'cart' => array(
+                'th-all-in-one-woo-cart-pro/th-all-in-one-woo-cart-pro.php',
+                'th-all-in-one-woo-cart/th-all-in-one-woo-cart.php',
+            ),
+
+            'wishlist' => array(
+                'th-wishlist-pro/th-wishlist-pro.php',
+                'th-wishlist/th-wishlist.php',
+            ),
+        );
+
+        $type = sanitize_key($request->get_param('type'));
+
+        if (empty($type) || ! isset($plugin_map[ $type ])) {
+            return new WP_Error(
+                'invalid_plugin_type',
+                'Invalid plugin type.',
+                array( 'status' => 400 )
+            );
+        }
+
+        $plugins     = $plugin_map[ $type ];
+        $deactivated = array();
+
+        foreach ($plugins as $plugin) {
+            if (is_plugin_active($plugin)) {
+                deactivate_plugins($plugin);
+                $deactivated[] = $plugin;
+            }
+        }
+
+        return array(
+            'success'     => true,
+            'type'        => $type,
+            'deactivated' => $deactivated,
+            'message'     => ucfirst($type) . ' plugins deactivated successfully.',
         );
     }
 }

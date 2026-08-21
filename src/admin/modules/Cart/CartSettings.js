@@ -284,8 +284,15 @@ export default function CartSettings({
     ])
       .then(([pro, lite]) => {
         setHasOldData(Boolean(pro?.has_data || lite?.has_data));
+
+        setHasActiveOldCartPlugin(
+          Boolean(pro?.has_active_old_plugin || lite?.has_active_old_plugin),
+        );
       })
-      .catch(() => setHasOldData(false));
+      .catch(() => {
+        setHasOldData(false);
+        setHasActiveOldCartPlugin(false);
+      });
   }, []);
 
   /* Import Old Data */
@@ -430,6 +437,43 @@ export default function CartSettings({
     };
   }, []);
 
+  // deactivate plugin
+  const [hasActiveOldCartPlugin, setHasActiveOldCartPlugin] = useState(false);
+  const [deactivating, setDeactivating] = useState(false);
+
+  const deactivateOldPlugins = async () => {
+    setDeactivating(true);
+    setError("");
+    setSuccess("");
+
+    try {
+      const res = await apiFetch({
+        path: `${th_StoreOneAdmin.restUrl}deactivate-old-plugins`,
+        method: "POST",
+        data: {
+          type: "cart",
+        },
+      });
+
+      if (res.success) {
+        setHasActiveOldCartPlugin(false);
+
+        setSuccess(
+          __("Old cart plugins deactivated successfully.", "th-store-one"),
+        );
+      } else {
+        setError(
+          res.message ||
+            __("Failed to deactivate old cart plugins.", "th-store-one"),
+        );
+      }
+    } catch (e) {
+      setError(__("Failed to deactivate old cart plugins.", "th-store-one"));
+    } finally {
+      setDeactivating(false);
+    }
+  };
+
   return (
     <div className="storeone-module-settings s1-no-rule">
       {loading && (
@@ -497,6 +541,37 @@ export default function CartSettings({
                               {importing
                                 ? "Importing Settings..."
                                 : "Import Settings"}
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+
+                      {hasActiveOldCartPlugin && (
+                        <div className="th-import-card">
+                          <div className="th-import-card__content">
+                            <h3>Deactivate Existing Cart Plugins</h3>
+
+                            <p>
+                              We found an active
+                              <strong> TH All In One Woo Cart </strong>
+                              plugin on your site. Deactivate the old cart
+                              plugin to avoid conflicts and continue using
+                              <strong> Store One </strong>
+                              for your cart configuration.
+                            </p>
+
+                            <Button
+                              variant="secondary"
+                              isBusy={deactivating}
+                              onClick={deactivateOldPlugins}
+                              disabled={deactivating}
+                            >
+                              {deactivating
+                                ? __("Deactivating Plugins...", "th-store-one")
+                                : __(
+                                    "Deactivate Old Cart Plugins",
+                                    "th-store-one",
+                                  )}
                             </Button>
                           </div>
                         </div>
