@@ -786,6 +786,13 @@
     box-shadow: 0 12px 30px rgba(0,0,0,.15);
     z-index: 10;
 }
+.s1-floating-cart.s1-floating-left{
+    position: absolute;
+    right:auto;
+    left: 28px;
+    bottom: 28px;
+   
+}
 
 .s1-floating-cart .dashicons {
     font-size: 30px;

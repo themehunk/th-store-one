@@ -45,10 +45,9 @@ if (! class_exists('Th_Store_One_Cart_Assets')) {
         public function enqueue_assets()
         {
 
-            if (! $this->is_enabled()) {
-                return;
-            }
-
+            // if (! $this->is_enabled()) {
+            //     return;
+            // }
 
             $this->enqueue_scripts();
         }
@@ -114,6 +113,11 @@ if (! class_exists('Th_Store_One_Cart_Assets')) {
         'taiowc_cart_visibility',
         true
     ),
+    'cartFoatVisible'        => (bool) $this->get_setting(
+        'taiowc_show_cart',
+        true
+    ),
+
      'aiSuggestNonce' => wp_create_nonce(
          'th_store_one_ai_suggest'
      ),
@@ -129,7 +133,7 @@ if (! class_exists('Th_Store_One_Cart_Assets')) {
     'currencySymbol'        => get_woocommerce_currency_symbol(),
 
     'is_logged_in'          => is_user_logged_in(),
-);
+     );
         }
 
         /**
