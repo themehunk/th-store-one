@@ -485,7 +485,7 @@ export default function CartSettings({
                               <strong> TH All In One Woo Cart </strong>
                               configuration on your site. Import your current
                               settings into
-                              <strong> Store One</strong>
+                              <strong> Store One </strong>
                               to continue using the same configuration.
                             </p>
 
