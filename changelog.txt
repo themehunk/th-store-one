@@ -1,0 +1,99 @@
+== Changelog ==
+
+= 1.1.10 =
+* Added New Cart addon.
+* Added New wishlist addon.
+* Improve style option Buy Now button and Trust Badges.
+* Fixed Sales Notification style in mobile view.
+
+=1.1.9=
+* Fixed issue Potential unsafe usage of Plugin_Upgrader()->install()
+
+=1.1.8=
+* Fixed all escaping and security issue.
+* Frontend JS and Css loaded at single file.
+
+=1.1.7=
+* Fixed Plugin Deactivated.
+* Fixed Shoppable multiple list added they can popup not working.
+* Update Featured List to added icon option in each list.
+* Fixed Video Gallery critical error.
+* Fixed Buy Now Button replace add to cart button in single page.
+
+= 1.1.6=
+* Added Plugin Deactivated functionlity.
+* Fixed Sales notification link and add fake list issue.
+* Fixed Smart Offer variation product to show critical error.
+* Fixed Smart Offer and Preorder addon competibilty.
+
+
+= 1.1.5=
+* Updated Sale Countdown added icon
+* Fixed Shoppable video all auto play 
+* Updated Module load in front.
+* Added New shotcodes in Smart offer module.
+* Added Backend Style in Smart offer module.
+* Added Product Featured video clickable.
+* Added Product Video Gallery custom video ratio option.
+* Fixed Inactive Tab Message parse message issue.
+
+= 1.1.4=
+* Added limitaion only BOGO workign in lite version.
+* Added 3 Types of Smart Offer BOGO , BUY X GET Y and Dyanamic.
+* Added Smart Offer Added Two new style.
+* Added Shoppable Video option added all video auto play.
+* Added Shoppable Video navigation potision change to choose product information showing in top.
+* Added Shoppable Video Module in lite version
+* Added Plugin Installation option in Setting page.
+* Added Available Plugin Tab in Dashboard.
+* updated video gallery style improve.
+
+= 1.1.3=
+Update:Sales Countdown, Sticky Cart and Buynow Button Addon Improved
+Fix:Style issue.
+
+= 1.1.2=
+Update: sale countdown Addon Improve.
+Fix: sales notify js issue.
+Update: Plugin Extension Added.
+
+= 1.1.1 =
+Update: Addon style improved.
+Fix: Fixed bugs and improved code loading speed.
+Fix: Resolved theme compatibility issues.
+
+= 1.1.0 =
+New: Added Sale Notification addon for real-time purchase updates.
+New: Added Sticky Cart Bar and Buy Now Button for faster checkout.
+New: Added Sale Countdown to create urgency for offers.
+New: Added Recently Viewed and Pre-Order addons.
+Update: Optimized CSS and JavaScript to improve overall performance and user experience.
+Fix: Fixed bugs and improved code loading speed.
+Fix: Resolved theme compatibility issues.
+
+= 1.0.5 =
+New: Added Product Video Gallery addon.
+Update: Updated dashboard style and design.
+Fix: Fixed style and frontend issues.
+
+= 1.0.4 =
+Update: Sales Notification addon added.
+Fix: Updated plugin name and content to resolve trademark issues.
+
+= 1.0.3 =
+Fix: style issue fixed.
+
+= 1.0.2 =
+Fix: Resolved license and security issues.
+Fix: Corrected prefix issue.
+
+= 1.0.1 =
+Fix: Slug and permission issue fixed.
+
+= 1.1.1 =
+Update: Addon style improved.
+Fix: Fixed bugs and improved code loading speed.
+Fix: Resolved theme compatibility issues.
+
+= 1.0.0 =
+* Initial release.
