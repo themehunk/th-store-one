@@ -145,10 +145,12 @@ Yes, the plugin is translation-ready and supports multiple languages.
 == Changelog ==
 
 = 1.1.10 =
+* Added Remove Wishlist feature.
 * Added New Cart addon.
 * Added New wishlist addon.
 * Improve style option Buy Now button and Trust Badges.
 * Fixed Sales Notification style in mobile view.
+* Fixed Cart visiblity issue in mobile view.
 
 =1.1.9=
 * Fixed issue Potential unsafe usage of Plugin_Upgrader()->install()
