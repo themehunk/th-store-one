@@ -1,0 +1,472 @@
+
+
+
+
+/* ---------------------------------------------------------
+ * Product Image Skeleton
+ * --------------------------------------------------------- */
+
+.s1-variation-preview-wrap .s1-main-thumb {
+  width: 35%;
+}
+
+.s1-variation-preview-wrap .static-main-img {
+  position: relative;
+  width: 100%;
+  min-height: 330px;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #f2f4f7;
+}
+
+.s1-variation-preview-wrap .static-main-img::after,
+.s1-variation-preview-wrap .static-catalog-img::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.55),
+    transparent
+  );
+  transform: translateX(-100%);
+  animation: s1-preview-shimmer 1.8s infinite;
+}
+
+
+/* ---------------------------------------------------------
+ * Product Information
+ * --------------------------------------------------------- */
+
+.s1-variation-preview-wrap .s1-main-info {
+  min-width: 0;
+  padding: 5px 0;
+}
+
+.s1-variation-preview-wrap .static-title {
+  width: 85%;
+  height: 20px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  background: #eaecf0;
+}
+
+.s1-variation-preview-wrap .static-price {
+  width: 35%;
+  height: 18px;
+  margin-bottom: 28px;
+  border-radius: 4px;
+  background: #eaecf0;
+}
+
+.s1-variation-preview-wrap .static-cart {
+  width: 100%;
+  height: 44px;
+  margin-top: 24px;
+  border-radius: 5px;
+  background: #eaecf0;
+}
+
+
+/* =========================================================
+ * SINGLE VARIATION
+ * ========================================================= */
+
+.s1-single-variation-preview {
+  width: 100%;
+}
+
+.s1-preview-attribute {
+  margin-bottom: 24px;
+}
+
+.s1-preview-attribute:last-child {
+  margin-bottom: 0;
+}
+
+.s1-preview-attribute-title {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-bottom: 10px;
+  color: #344054;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.s1-preview-attribute-title span {
+  font-weight: 500;
+}
+
+.s1-preview-attribute-title strong {
+  color: #101828;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+ * COLOR SWATCHES
+ * ========================================================= */
+
+.s1-preview-swatches {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.s1-color-swatch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  padding: 0;
+  background: #fff;
+  border: 1px solid #d0d5dd;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: 0.15s ease;
+}
+
+.s1-color-swatch:hover {
+  transform: translateY(-1px);
+}
+
+.s1-color-swatch.selected {
+  border-width: 2px;
+  box-shadow: 0 0 0 1px rgba(17, 24, 39, 0.08);
+}
+
+.s1-color {
+  display: block;
+  width: 72%;
+  height: 72%;
+  border-radius: 50%;
+}
+
+.s1-color.blue {
+  background: #2f3eea;
+}
+
+.s1-color.green {
+  background: #39c900;
+}
+
+.s1-color.orange {
+  background: #ff6200;
+}
+
+.s1-color.yellow {
+  background: #f3ed00;
+}
+
+
+/* =========================================================
+ * TOOLTIP
+ * ========================================================= */
+
+.s1-tooltip-wrapper {
+  position: relative;
+  display: flex;
+}
+
+.s1-variation-tooltip {
+  position: absolute;
+  z-index: 10;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  padding: 6px 9px;
+  border-radius: 4px;
+  background: #111827;
+  color: #fff;
+  font-size: 11px;
+  line-height: 1;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.s1-variation-tooltip::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  border-top: 4px solid #111827;
+  border-right: 4px solid transparent;
+  border-left: 4px solid transparent;
+  transform: translateX(-50%);
+}
+
+
+/* =========================================================
+ * BUTTON SWATCHES
+ * ========================================================= */
+
+.s1-preview-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.s1-preview-buttons button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  border: 1px solid #d0d5dd;
+  background: #fff;
+  font-weight: 500;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.s1-preview-buttons button.selected {
+  font-weight: 600;
+}
+
+
+/* =========================================================
+ * DISABLED VARIATIONS
+ * ========================================================= */
+
+.s1-disabled-buttons {
+  gap: 7px;
+}
+
+.s1-disabled {
+  position: relative;
+  overflow: hidden;
+  background: #f5f6f7 !important;
+  color: #98a2b3 !important;
+  border-color: #e4e7ec !important;
+  cursor: default !important;
+}
+
+.s1-disabled-cross {
+  position: absolute;
+  top: 50%;
+  left: -15%;
+  width: 130%;
+  height: 1px;
+  background: #98a2b3;
+  transform: rotate(-45deg);
+  pointer-events: none;
+}
+
+.s1-hidden-disabled {
+  display: none !important;
+}
+
+
+/* =========================================================
+ * CATALOG
+ * ========================================================= */
+
+.s1-catalog-preview {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 8px 0 20px;
+  box-sizing: border-box;
+}
+
+.s1-catalog-product {
+  width: 100%;
+  max-width: 320px;
+  overflow: hidden;
+  border: 1px solid #eaecf0;
+  border-radius: 7px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+
+/* ---------------------------------------------------------
+ * Catalog Image Skeleton
+ * --------------------------------------------------------- */
+
+.s1-catalog-image {
+  position: relative;
+  width: 100%;
+}
+
+.static-catalog-img {
+  position: relative;
+  width: 100%;
+  height: 210px;
+  overflow: hidden;
+  background: #f2f4f7;
+}
+
+
+/* ---------------------------------------------------------
+ * Catalog Product Info
+ * --------------------------------------------------------- */
+
+.s1-catalog-product-info {
+  padding: 15px;
+}
+
+.static-catalog-title {
+  width: 75%;
+  height: 16px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  background: #eaecf0;
+}
+
+.static-catalog-price {
+  width: 32%;
+  height: 15px;
+  margin-bottom: 18px;
+  border-radius: 4px;
+  background: #eaecf0;
+}
+
+.static-catalog-button {
+  width: 100%;
+  height: 38px;
+  margin-top: 18px;
+  border-radius: 4px;
+  background: #eaecf0;
+}
+
+
+/* =========================================================
+ * CATALOG VARIATION
+ * ========================================================= */
+
+.s1-catalog-variation {
+  width: 100%;
+}
+
+.s1-catalog-variation .s1-preview-attribute {
+  margin-bottom: 14px;
+}
+
+.s1-catalog-variation
+  .s1-preview-attribute-title {
+  margin-bottom: 7px;
+  font-size: 12px;
+}
+
+.s1-catalog-swatches {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.s1-catalog-color {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  padding: 0;
+  background: #fff;
+  border: 1px solid #d0d5dd;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: 0.15s ease;
+}
+
+.s1-catalog-color:hover {
+  transform: translateY(-1px);
+}
+
+.s1-catalog-color.selected {
+  border-width: 2px;
+}
+
+
+/* ---------------------------------------------------------
+ * Catalog Size
+ * --------------------------------------------------------- */
+
+.s1-catalog-size {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.s1-catalog-size > span {
+  margin-right: 2px;
+  color: #344054;
+  font-weight: 500;
+}
+
+.s1-catalog-size button {
+  min-width: 29px;
+  height: 28px;
+  padding: 3px 7px;
+  border: 1px solid #d0d5dd;
+  border-radius: 4px;
+  background: #fff;
+  color: #344054;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.s1-catalog-size button.selected {
+  font-weight: 600;
+}
+
+
+/* =========================================================
+ * CLEAR
+ * ========================================================= */
+
+.s1-catalog-clear {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #667085;
+  font-size: 11px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.s1-catalog-clear:hover {
+  color: #111827;
+}
+
+
+/* =========================================================
+ * SKELETON ANIMATION
+ * ========================================================= */
+
+@keyframes s1-preview-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+
+/* =========================================================
+ * RESPONSIVE
+ * ========================================================= */
+
+@media (max-width: 782px) {
+  .s1-main-product {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .static-main-img {
+    min-height: 240px;
+  }
+
+  .s1-catalog-product {
+    max-width: 290px;
+  }
+}

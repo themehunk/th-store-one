@@ -704,4 +704,34 @@ export const MODULE_ICONS = {
       <path d="M3 4h2l2.4 12.1a2 2 0 0 0 2 1.6h7.9a2 2 0 0 0 2-1.7L21 8H7" />
     </svg>
   ),
+  VARIATIONS: (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M4 5.5C4 4.672 4.672 4 5.5 4H10v6H4V5.5Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M14 4h4.5c.828 0 1.5.672 1.5 1.5V10h-6V4Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M4 14h6v6H5.5A1.5 1.5 0 0 1 4 18.5V14Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+      <path
+        d="M14 14h6v4.5c0 .828-.672 1.5-1.5 1.5H14v-6Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+      />
+    </svg>
+  ),
 };
