@@ -124,7 +124,7 @@ class Th_Store_One_Module_Loader
             ],
             'th-variationSwatches' => [
                 'file'  => 'includes/modules/variation-swatches/th-store-one-class-frontend.php',
-                'class' => '',
+                'class' => 'TH_Store_One_Variation_Swatches_Frontend',
             ],
         ];
 

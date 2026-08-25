@@ -1,0 +1,182 @@
+.th-store-one-field {
+	margin-bottom: 20px;
+}
+
+.th-store-one-field > label {
+	display: block;
+	font-weight: 600;
+	margin-bottom: 8px;
+}
+
+.th-store-one-field .description {
+	margin-top: 6px;
+}
+
+.th-store-one-image-preview {
+	width: 110px;
+	min-height: 50px;
+	padding: 8px;
+	margin-bottom: 10px;
+	border: 1px solid #dcdcde;
+	background: #fff;
+	box-sizing: border-box;
+}
+
+.th-store-one-image-preview img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+.th-store-one-color-preview,
+.th-store-one-dual-preview {
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	border: 1px solid #dcdcde;
+	border-radius: 50%;
+	vertical-align: middle;
+	box-sizing: border-box;
+}
+
+.th-store-one-term-image {
+	display: block;
+	width: 40px;
+	height: 40px;
+	object-fit: cover;
+	border: 1px solid #dcdcde;
+}
+
+.th-store-one-button-preview {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 45px;
+	min-height: 30px;
+	padding: 4px 10px;
+	border: 1px solid #c3c4c7;
+	border-radius: 3px;
+	background: #fff;
+	box-sizing: border-box;
+}
+
+/* Variation Swatches - Admin Fields */
+.form-field.th-store-one-field {
+	padding: 14px 16px !important;
+	margin: 0 0 10px !important;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 6px;
+	box-sizing: border-box;
+}
+
+.form-field.th-store-one-field > label {
+	display: block;
+	margin: 0 0 7px;
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.4;
+	color: #1d2327;
+}
+
+.form-field.th-store-one-field input[type="text"],
+.form-field.th-store-one-field select {
+	width: 100%;
+	max-width: 320px;
+	height: 36px;
+	padding: 5px 10px;
+	border: 1px solid #c9ced6;
+	border-radius: 5px;
+	background: #fff;
+	color: #1d2327;
+	font-size: 13px;
+	box-shadow: none;
+	transition:
+		border-color 0.15s ease,
+		box-shadow 0.15s ease;
+}
+
+.form-field.th-store-one-field input[type="text"]:focus,
+.form-field.th-store-one-field select:focus {
+	border-color: #2271b1;
+	box-shadow: 0 0 0 1px #2271b1;
+	outline: none;
+}
+
+.form-field.th-store-one-field .description {
+	margin: 6px 0 0;
+	color: #646970;
+	font-size: 12px;
+	line-height: 1.45;
+}
+
+/* Color picker */
+.form-field.th-store-one-field
+.wp-picker-container {
+	display: inline-flex;
+	align-items: center;
+}
+
+.form-field.th-store-one-field
+.wp-picker-container .wp-color-result {
+	margin: 0 6px 0 0;
+	height: 32px;
+	border-radius: 5px;
+	box-shadow: none;
+}
+
+/* Image preview */
+.th-store-one-image-preview {
+	width: 64px;
+	height: 64px;
+	min-height: 0;
+	padding: 4px;
+	margin: 0 0 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid #dcdcde;
+	border-radius: 5px;
+	background: #f6f7f7;
+	box-sizing: border-box;
+}
+
+.th-store-one-image-preview img {
+	display: block;
+	max-width: 100%;
+	max-height: 100%;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	border-radius: 3px;
+}
+
+
+
+/* Remove image */
+.form-field.th-store-one-field
+.th-store-one-remove-image {
+	margin-left: 4px;
+}
+
+/* Dual color */
+.th-store-one-secondary-color {
+	margin-top: -2px !important;
+}
+
+/* Button preview */
+.th-store-one-field .th-store-one-button-preview {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 45px;
+	min-height: 30px;
+	padding: 4px 12px;
+	border: 1px solid #c9ced6;
+	border-radius: 5px;
+	background: #f6f7f7;
+	color: #1d2327;
+	font-size: 12px;
+	font-weight: 500;
+	box-sizing: border-box;
+}
