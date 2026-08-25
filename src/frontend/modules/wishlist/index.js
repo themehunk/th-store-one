@@ -65,7 +65,9 @@ const StoreOneWishlist = {
     const variation_id = $button.data("variation-id");
 
     if ($button.hasClass("in-wishlist")) {
-      if (storeOneWishlist.wishlist_page_url) {
+      if (storeOneWishlist.remove_on_second_click) {
+        this.removeFromWishlistButton(e);
+      } else if (storeOneWishlist.wishlist_page_url) {
         window.location.href = storeOneWishlist.wishlist_page_url;
       }
       return;
@@ -278,6 +280,146 @@ const StoreOneWishlist = {
         $parent.css("opacity", "1");
       },
     });
+  },
+
+  // remove double click
+  removeFromWishlistButton(e) {
+    e.preventDefault();
+
+    const $button = $(e.currentTarget);
+
+    const product_id = $button.data("product-id");
+    const variation_id = $button.data("variation-id");
+
+    if (!product_id) {
+      return;
+    }
+
+    if ($button.hasClass("loading")) {
+      return;
+    }
+
+    $button.addClass("loading");
+
+    const $icon = $button.find(".thw-icon");
+
+    if ($icon.length) {
+      $icon.data("original-icon", $icon.html());
+      $icon.html('<span class="thw-loader"></span>');
+    }
+
+    $.ajax({
+      type: "POST",
+      url: storeOneWishlist.ajax_url,
+
+      data: {
+        action: "store_one_remove_product_from_wishlist",
+        nonce: storeOneWishlist.remove_nonce,
+        product_id,
+        variation_id,
+      },
+
+      success: (response) => {
+        if (!response.success) {
+          return;
+        }
+
+        $button.removeClass("in-wishlist").attr("data-in-wishlist", "0");
+
+        /*
+         * Restore ADD icon.
+         */
+        const addIcon = $button.attr("data-add-icon");
+
+        if (addIcon && this.icons[addIcon]) {
+          $button
+            .find(".thw-icon")
+            .removeClass("browse")
+            .addClass("add")
+            .html(this.icons[addIcon]);
+        }
+
+        /*
+         * Restore ADD text.
+         */
+        const addText = $button.attr("data-add-text");
+
+        if (addText) {
+          $button
+            .find(".thw-to-add-text, .thw-to-browse-text")
+            .first()
+            .text(addText);
+        }
+
+        /*
+         * Show temporary removed tooltip.
+         */
+        this.showRemoveTooltip($button, storeOneWishlist.remove_tooltip_text);
+      },
+
+      error: () => {
+        // Keep current wishlist state on error.
+      },
+
+      complete: () => {
+        $button.removeClass("loading");
+      },
+    });
+  },
+  showRemoveTooltip($button, message) {
+    if (!message) {
+      return;
+    }
+
+    /*
+     * Save the existing tooltip text.
+     */
+    const originalTooltip = $button.attr("data-tooltip");
+
+    /*
+     * Clear any previous remove timer.
+     */
+    const oldTimer = $button.data("remove-tooltip-timer");
+
+    if (oldTimer) {
+      clearTimeout(oldTimer);
+    }
+
+    /*
+     * Temporarily change the existing tooltip text.
+     */
+    $button.attr("data-tooltip", message);
+
+    /*
+     * Trigger the SAME hover state that the existing
+     * tooltip uses.
+     *
+     * Do not create another tooltip.
+     */
+    $button.trigger("mouseenter");
+
+    /*
+     * Keep it visible for 2.5 seconds.
+     */
+    const timer = setTimeout(() => {
+      /*
+       * Restore original tooltip text.
+       */
+      if (originalTooltip !== undefined) {
+        $button.attr("data-tooltip", originalTooltip);
+      } else {
+        $button.removeAttr("data-tooltip");
+      }
+
+      /*
+       * Trigger normal tooltip hide.
+       */
+      $button.trigger("mouseleave");
+
+      $button.removeData("remove-tooltip-timer");
+    }, 2500);
+
+    $button.data("remove-tooltip-timer", timer);
   },
 
   updateQuantity(e) {

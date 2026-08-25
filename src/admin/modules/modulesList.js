@@ -47,6 +47,17 @@ export const modulesList = [
     featured: true,
   },
   {
+    id: "th-variationSwatches",
+    label: __("Product Variations", "th-store-one"),
+    description: __(
+      "Display product variations as attractive color, image, button, and label swatches to help customers choose options quickly.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.VARIATIONS,
+    premium: false,
+    featured: true,
+  },
+  {
     id: "sale-notification",
     label: __("Sale Notification", "th-store-one"),
     description: __(
@@ -57,6 +68,7 @@ export const modulesList = [
     premium: false,
     featured: false,
   },
+
   {
     id: "product-video",
     label: __("Product Video Gallery", "th-store-one"),

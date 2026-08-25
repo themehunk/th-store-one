@@ -20,7 +20,7 @@ import PreviewPreOrder from "../../modules/PreOrder/livepreview/PreviewPreOrder"
 import PreviewShopable from "../../modules/ShopableList/livepreview/PreviewShopable";
 import PreviewWishlist from "../../modules/Wishlist/livepreview/PreviewWishlist";
 import PreviewCart from "../../modules/Cart/livepreview/PreviewCart";
-
+import PreviewVariationSwatches from "../../modules/VariationSwatches/livepreview/PreviewVariationSwatches";
 import { useSelect } from "@wordpress/data";
 
 import { STORE_NAME } from "@th-storeone/store/productVideoStore";
@@ -148,6 +148,12 @@ const PreviewPane = ({ currentModule, settings }) => {
               )}
               {currentModule?.id === "th-cart" && activeRule && (
                 <PreviewCart key={currentModule.id} settings={activeRule} />
+              )}
+              {currentModule?.id === "th-variationSwatches" && activeRule && (
+                <PreviewVariationSwatches
+                  key={currentModule.id}
+                  settings={activeRule}
+                />
               )}
             </div>
           </div>

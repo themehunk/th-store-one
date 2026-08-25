@@ -62,6 +62,8 @@ import ShopableList from "../../modules/ShopableList/ShopableListSettings";
 import Wishlist from "../../modules/Wishlist/WishlistSettings";
 
 import Cart from "../../modules/Cart/CartSettings";
+
+import VariationSwatches from "../../modules/VariationSwatches/VariationSwatchesSettings";
 /* =========================
  * MODULE COMPONENT MAP
  * ========================= */
@@ -113,6 +115,7 @@ const moduleComponents = {
 
   "th-wishlist": Wishlist,
   "th-cart": Cart,
+  "th-variationSwatches": VariationSwatches,
 };
 
 /* =========================

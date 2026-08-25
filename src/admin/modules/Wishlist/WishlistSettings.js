@@ -26,6 +26,8 @@ const DEFAULT_SETTINGS = {
   thw_button_display_style: "icon_text",
   thw_add_to_wishlist_text: "Wishlist",
   thw_browse_wishlist_text: "Wishlist",
+  thw_remove_on_second_click: false,
+  thw_remove_tooltip_text: "Removed from Wishlist",
   thw_btn_style_theme: true,
   thw_show_in_loop: true,
   thw_in_loop_position: "after_crt_btn",
@@ -40,7 +42,7 @@ const DEFAULT_SETTINGS = {
   use_shortcode: true,
   use_shortcode_btn: true,
   use_shortcode_redirect: true,
-  thw_btn_tooltip: false,
+  thw_btn_tooltip: true,
 
   // pro setting
   thw_multi_wishlist: false,
@@ -474,6 +476,40 @@ export default function WishlistSettings({
                             }
                           />
                         </S1Field>
+                      </S1FieldGroup>
+
+                      <S1FieldGroup number={3} title="Remove Wishlist">
+                        <S1Field
+                          label={__("Remove on Second Click", "th-store-one")}
+                          description={__(
+                            "Remove the product from the wishlist when an already-added wishlist button is clicked again. If disabled, clicking the button again will redirect to the wishlist page.",
+                            "th-store-one",
+                          )}
+                        >
+                          <ToggleControl
+                            checked={settings.thw_remove_on_second_click}
+                            onChange={(v) =>
+                              update("thw_remove_on_second_click", v)
+                            }
+                          />
+                        </S1Field>
+
+                        {settings.thw_remove_on_second_click && (
+                          <S1Field
+                            label={__("Remove Text", "th-store-one")}
+                            description={__(
+                              "Message shown briefly after a product is removed from the wishlist.",
+                              "th-store-one",
+                            )}
+                          >
+                            <TextControl
+                              value={settings.thw_remove_tooltip_text}
+                              onChange={(v) =>
+                                update("thw_remove_tooltip_text", v)
+                              }
+                            />
+                          </S1Field>
+                        )}
                       </S1FieldGroup>
 
                       {/* SHORTCODE */}

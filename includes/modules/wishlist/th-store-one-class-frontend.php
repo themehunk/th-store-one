@@ -36,6 +36,16 @@ class Th_Store_One_Wishlist_Frontend
             'wp_footer',
             array( $this, 'render_footer' )
         );
+
+        add_action(
+            'wp_ajax_store_one_remove_product_from_wishlist',
+            array($this, 'ajax_remove_product_from_wishlist')
+        );
+
+        add_action(
+            'wp_ajax_nopriv_store_one_remove_product_from_wishlist',
+            array($this, 'ajax_remove_product_from_wishlist')
+        );
     }
 
     /**
@@ -100,6 +110,12 @@ class Th_Store_One_Wishlist_Frontend
                     'Your wishlist is currently empty.',
                     'th-store-one'
                 ),
+                'remove_on_second_click' => ! empty(
+                    $this->settings['thw_remove_on_second_click']
+                ),
+
+               'remove_tooltip_text' => $this->settings['thw_remove_tooltip_text']
+    ?? __('Removed from Wishlist', 'th-store-one'),
             )
         );
     }
@@ -517,6 +533,9 @@ class Th_Store_One_Wishlist_Frontend
             data-enable-tooltip="<?php echo esc_attr(
                 ! empty($this->settings['thw_btn_tooltip'])
             ); ?>"
+            data-remove-on-second-click="<?php echo esc_attr(
+                ! empty($this->settings['thw_remove_on_second_click']) ? '1' : '0'
+            ); ?>"
         >
             <?php if (in_array($display, array( 'icon', 'icon_text', 'icon_only_no_style' ), true)) : ?>
                 <span class="thw-icon" style="<?php echo esc_attr($icon_style); ?>">
@@ -860,13 +879,16 @@ class Th_Store_One_Wishlist_Frontend
             data-enable-tooltip="<?php echo esc_attr(
                 ! empty($this->settings['thw_btn_tooltip'])
             ); ?>"
+            data-remove-on-second-click="<?php echo esc_attr(
+                ! empty($this->settings['thw_remove_on_second_click']) ? '1' : '0'
+            ); ?>"
         >
 
             <?php if (in_array($display, array( 'icon', 'icon_text', 'icon_only_no_style' ), true)) : ?>
 
                 <span class="thw-icon">
                     <?php
-                       echo $this->get_button_icon($icon);// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+                                   echo $this->get_button_icon($icon);// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 ?>
                 </span>
 
@@ -1335,5 +1357,243 @@ class Th_Store_One_Wishlist_Frontend
             'store_one_wishlist_footer',
             $this->settings
         );
+    }
+
+    public function ajax_remove_product_from_wishlist()
+    {
+        check_ajax_referer(
+            'store-one-remove-nonce',
+            'nonce'
+        );
+
+        $product_id = isset($_POST['product_id'])
+            ? absint($_POST['product_id'])
+            : 0;
+
+        $variation_id = isset($_POST['variation_id'])
+            ? absint($_POST['variation_id'])
+            : 0;
+
+        if (! $product_id) {
+            wp_send_json_error(
+                array(
+                    'message' => __(
+                        'Invalid product.',
+                        'th-store-one'
+                    ),
+                ),
+                400
+            );
+        }
+
+        $user_id = get_current_user_id();
+
+        $guest_token = isset($_COOKIE['thwl_guest_uniqid'])
+            ? sanitize_text_field(
+                wp_unslash($_COOKIE['thwl_guest_uniqid'])
+            )
+            : '';
+
+        $removed = false;
+
+        /*
+         * ---------------------------------------------------------
+         * Pro Multi Wishlist.
+         * ---------------------------------------------------------
+         *
+         * If Pro data class exists, check all user's wishlists.
+         */
+        if (class_exists('Th_Store_One_Wishlist_Data_Pro_Data')) {
+
+            $wishlists = is_user_logged_in()
+                ? Th_Store_One_Wishlist_Data_Pro_Data::get_user_wishlists(
+                    $user_id
+                )
+                : Th_Store_One_Wishlist_Data_Pro_Data::get_guest_wishlists();
+
+            foreach ($wishlists as $wishlist) {
+
+                $items = Th_Store_One_Wishlist_Data::get_wishlist_items(
+                    (int) $wishlist->id
+                );
+
+                if (empty($items)) {
+                    continue;
+                }
+
+                foreach ($items as $item) {
+
+                    if (
+                        (int) $item->product_id !== $product_id
+                        || (int) $item->variation_id !== $variation_id
+                    ) {
+                        continue;
+                    }
+
+                    $result = Th_Store_One_Wishlist_Data::remove_item(
+                        (int) $item->id,
+                        $user_id,
+                        $guest_token
+                    );
+
+                    if ($result) {
+                        $removed = true;
+                    }
+                }
+            }
+
+        } else {
+
+            /*
+             * -----------------------------------------------------
+             * Lite Wishlist.
+             * -----------------------------------------------------
+             */
+            $wishlist = Th_Store_One_Wishlist_Data::get_or_create_wishlist();
+
+            if (! $wishlist) {
+                wp_send_json_error(
+                    array(
+                        'message' => __(
+                            'Wishlist not found.',
+                            'th-store-one'
+                        ),
+                    ),
+                    404
+                );
+            }
+
+            $items = Th_Store_One_Wishlist_Data::get_wishlist_items(
+                $wishlist->id
+            );
+
+            foreach ($items as $item) {
+
+                if (
+                    (int) $item->product_id !== $product_id
+                    || (int) $item->variation_id !== $variation_id
+                ) {
+                    continue;
+                }
+
+                $removed = Th_Store_One_Wishlist_Data::remove_item(
+                    (int) $item->id,
+                    $user_id,
+                    $guest_token
+                );
+
+                if ($removed) {
+                    break;
+                }
+            }
+        }
+
+        if ($removed) {
+            wp_send_json_success(
+                array(
+                    'message' => __(
+                        'Removed from Wishlist',
+                        'th-store-one'
+                    ),
+                )
+            );
+        }
+
+        wp_send_json_error(
+            array(
+                'message' => __(
+                    'Product was not found in the wishlist.',
+                    'th-store-one'
+                ),
+            ),
+            404
+        );
+    }
+
+    public static function remove_product_from_all_wishlists(
+        $product_id,
+        $variation_id = 0,
+        $user_id = 0
+    ) {
+        global $wpdb;
+
+        $product_id   = absint($product_id);
+        $variation_id = absint($variation_id);
+        $user_id      = absint($user_id);
+
+        if (! $product_id) {
+            return false;
+        }
+
+        /*
+         * Get all wishlists for current user.
+         */
+        if ($user_id) {
+            $wishlists = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT id
+                FROM {$wpdb->prefix}thwl_wishlists
+                WHERE user_id = %d",
+                    $user_id
+                )
+            );
+        } else {
+            $guest_token = isset($_COOKIE['thwl_guest_uniqid'])
+                ? sanitize_text_field(
+                    wp_unslash($_COOKIE['thwl_guest_uniqid'])
+                )
+                : '';
+
+            if (empty($guest_token)) {
+                return false;
+            }
+
+            $wishlists = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT id
+                FROM {$wpdb->prefix}thwl_wishlists
+                WHERE session_id = %s",
+                    $guest_token
+                )
+            );
+        }
+
+        if (empty($wishlists)) {
+            return false;
+        }
+
+        $removed = false;
+
+        foreach ($wishlists as $wishlist) {
+
+            $items = self::get_wishlist_items(
+                (int) $wishlist->id
+            );
+
+            if (empty($items)) {
+                continue;
+            }
+
+            foreach ($items as $item) {
+
+                if (
+                    (int) $item->product_id !== $product_id
+                    || (int) $item->variation_id !== $variation_id
+                ) {
+                    continue;
+                }
+
+                if (
+                    self::remove_item(
+                        (int) $item->id,
+                        $user_id
+                    )
+                ) {
+                    $removed = true;
+                }
+            }
+        }
+
+        return $removed;
     }
 }

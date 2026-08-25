@@ -122,6 +122,10 @@ class Th_Store_One_Module_Loader
                 'file'  => 'includes/modules/cart/class-store-one-cart.php',
                 'class' => 'Th_Store_One_Cart',
             ],
+            'th-variationSwatches' => [
+                'file'  => 'includes/modules/variation-swatches/th-store-one-class-frontend.php',
+                'class' => '',
+            ],
         ];
 
 
