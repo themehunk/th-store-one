@@ -14,7 +14,7 @@ import { ICONS } from "@th-storeone-global/icons";
 import THBackgroundControl from "@th-storeone-control/color";
 import UniversalRangeControl from "@th-storeone-global/UniversalRangeControl";
 
-const MODULE_ID = "th-variationSwatches";
+const MODULE_ID = "th-variationswatches";
 
 /**
  * Default settings.

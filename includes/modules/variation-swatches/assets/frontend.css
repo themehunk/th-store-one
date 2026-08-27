@@ -123,7 +123,6 @@
 .th-store-one-swatch-image {
 	width: var(--th-store-one-width, 36px);
 	height: var(--th-store-one-width, 36px);
-	
 	background: #fff;
 	border-radius: inherit;
 }

@@ -5,6 +5,8 @@
 
   const settings = config.settings || {};
 
+  console.log(settings);
+
   /**
    * Convert value to boolean.
    */
@@ -252,9 +254,17 @@
       const value = $swatch.attr("data-value");
 
       /*
-       * Set native WooCommerce select.
+       * Clear selected attribute when the same swatch
+       * is clicked again, if the setting is enabled.
        */
-      $select.val(value).trigger("change");
+      if (
+        toBool(settings.clear_on_reselect) &&
+        $swatch.hasClass("th-store-one-selected")
+      ) {
+        $select.val("").trigger("change");
+      } else {
+        $select.val(value).trigger("change");
+      }
 
       syncSelected($wrapper);
     },

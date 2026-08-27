@@ -92,6 +92,13 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
             100,
             3
         );
+
+        add_filter(
+            'woocommerce_ajax_variation_threshold',
+            [$this, 'variation_threshold'],
+            10,
+            1
+        );
     }
 
     /**
@@ -204,6 +211,9 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
                             'attribute_behavior',
                             'blur'
                         ),
+                        'clear_on_reselect' =>
+                            $this->get_setting('clear_on_reselect', false),
+
                         'tooltip' => $this->to_bool(
                             $this->get_setting(
                                 'tooltip',
@@ -1051,5 +1061,18 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
             ),
             true
         );
+    }
+
+    public function variation_threshold($threshold)
+    {
+        $configured_threshold = absint(
+            $this->settings['threshold'] ?? 30
+        );
+
+        if ($configured_threshold < 1) {
+            return 1;
+        }
+
+        return $configured_threshold;
     }
 }

@@ -20,7 +20,7 @@ class TH_Store_One_Variation_Swatches_Frontend
      *
      * @var array
      */
-    private $settings = array();
+    private $settings = [];
 
     /**
      * Frontend instance.
@@ -41,12 +41,14 @@ class TH_Store_One_Variation_Swatches_Frontend
      *
      * @param array $settings Module settings.
      */
-    public function __construct($settings = array())
+    public function __construct($settings = [])
     {
 
-        $this->settings = is_array($settings)
-            ? $settings
-            : array();
+
+
+        $this->settings = $settings;
+
+
 
         $this->load_files();
 
