@@ -115,7 +115,7 @@ const moduleComponents = {
 
   "th-wishlist": Wishlist,
   "th-cart": Cart,
-  "th-variationSwatches": VariationSwatches,
+  "th-variationswatches": VariationSwatches,
 };
 
 /* =========================

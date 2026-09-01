@@ -47,7 +47,7 @@ export const modulesList = [
     featured: true,
   },
   {
-    id: "th-variationSwatches",
+    id: "th-variationswatches",
     label: __("Product Variations", "th-store-one"),
     description: __(
       "Display product variations as attractive color, image, button, and label swatches to help customers choose options quickly.",

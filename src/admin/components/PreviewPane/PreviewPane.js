@@ -149,7 +149,7 @@ const PreviewPane = ({ currentModule, settings }) => {
               {currentModule?.id === "th-cart" && activeRule && (
                 <PreviewCart key={currentModule.id} settings={activeRule} />
               )}
-              {currentModule?.id === "th-variationSwatches" && activeRule && (
+              {currentModule?.id === "th-variationswatches" && activeRule && (
                 <PreviewVariationSwatches
                   key={currentModule.id}
                   settings={activeRule}

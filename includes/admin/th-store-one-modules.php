@@ -69,7 +69,7 @@ class Th_Store_One_Modules
             'shopable-list' => false,
             'th-wishlist' => false,
             'th-cart' => false,
-            'th-variationSwatches' => false,
+            'th-variationswatches' => false,
         );
     }
     /**
