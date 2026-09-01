@@ -13,6 +13,7 @@ import TabSwitcher from "@th-storeone-global/TabSwitcher";
 import { ICONS } from "@th-storeone-global/icons";
 import THBackgroundControl from "@th-storeone-control/color";
 import UniversalRangeControl from "@th-storeone-global/UniversalRangeControl";
+import AlignmentControl from "@th-storeone-control/AlignmentControl";
 
 const MODULE_ID = "th-variationswatches";
 
@@ -41,7 +42,6 @@ const DEFAULT_SETTINGS = {
   attr_brdr_size: "1",
   attr_text_color: "",
   attr_bg_btn_color: "",
-  default_to_button: true,
 
   // Hover & Selected Attribute Style.
   attr_brdr_hvr_color: "#111",
@@ -385,7 +385,7 @@ export default function VariationSwatchesSettings({
                     <>
                       <S1FieldGroup
                         number={1}
-                        title={__("Display Setting", "th-store-one")}
+                        title={__("Variation", "th-store-one")}
                       >
                         <S1Field
                           label={__("Clear Attribute Setting", "th-store-one")}
@@ -423,27 +423,223 @@ export default function VariationSwatchesSettings({
                           />
                         </S1Field>
                       </S1FieldGroup>
-
                       <S1FieldGroup
                         number={2}
-                        title={__("Filter Attribute Widget", "th-store-one")}
+                        title={__("Stock", "th-store-one")}
                       >
-                        <S1Field
-                          label={__("Filter Attribute Style", "th-store-one")}
-                        >
-                          <SelectControl
-                            value={settings.filter_widget_style}
-                            options={FILTER_WIDGET_OPTIONS}
-                            onChange={(value) =>
-                              update("filter_widget_style", value)
-                            }
-                          />
-                        </S1Field>
+                        <div className="s1-field-group-row">
+                          <S1Field
+                            label={__("Enable Stock", "th-store-one")}
+                            description={__(
+                              "Show Stock availability in Product single page.",
+                              "th-store-one",
+                            )}
+                          >
+                            <ToggleControl
+                              checked={settings.show_stock_available}
+                              onChange={(value) =>
+                                update("show_stock_available", value)
+                              }
+                            />
+                          </S1Field>
+
+                          {settings.show_stock_available && (
+                            <S1Field
+                              label={__("Stock Threshold", "th-store-one")}
+                              description={__(
+                                "When stock reaches this amount, the stock label will be shown.",
+                                "th-store-one",
+                              )}
+                            >
+                              <TextControl
+                                type="number"
+                                value={settings.stock_display_threshold}
+                                min={0}
+                                max={200}
+                                onChange={(value) =>
+                                  update(
+                                    "stock_display_threshold",
+                                    value === "" ? "" : Number(value),
+                                  )
+                                }
+                              />
+                            </S1Field>
+                          )}
+                        </div>
                       </S1FieldGroup>
                     </>
                   ),
                 },
 
+                /**
+                 * =========================================================
+                 * CATALOG TAB
+                 * =========================================================
+                 */
+                {
+                  id: "catalog",
+                  label: __("Display ", "th-store-one"),
+                  icon: ICONS.DISPLAY,
+                  content: (
+                    <>
+                      <S1FieldGroup
+                        number={1}
+                        title={__("Product Page", "th-store-one")}
+                      >
+                        <S1Field
+                          label={__("Enable Single Swatches", "th-store-one")}
+                          description={__(
+                            "Show attribute at product single pages.",
+                            "th-store-one",
+                          )}
+                        >
+                          <ToggleControl
+                            checked={settings.show_single_swatches_on_shop}
+                            onChange={(value) =>
+                              update("show_single_swatches_on_shop", value)
+                            }
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+                      <S1FieldGroup
+                        number={2}
+                        title={__("Product Catalog", "th-store-one")}
+                      >
+                        <S1Field
+                          label={__("Enable Swatches", "th-store-one")}
+                          description={__(
+                            "Show Swatches in Catalog on Shop / Archive Page.",
+                            "th-store-one",
+                          )}
+                        >
+                          <ToggleControl
+                            checked={settings.show_swatches_shop}
+                            onChange={(value) =>
+                              update("show_swatches_shop", value)
+                            }
+                          />
+                        </S1Field>
+
+                        {settings.show_swatches_shop && (
+                          <S1Field
+                            label={__("Select Attribute", "th-store-one")}
+                            description={__(
+                              "Choose an attribute to show in catalog.",
+                              "th-store-one",
+                            )}
+                          >
+                            <SelectControl
+                              value={settings.show_swatches_shop_attr}
+                              options={attributeSelectOptions}
+                              onChange={(value) =>
+                                update("show_swatches_shop_attr", value)
+                              }
+                            />
+                          </S1Field>
+                        )}
+
+                        <S1Field
+                          label={__("Enable Variation Slider", "th-store-one")}
+                        >
+                          <ToggleControl
+                            checked={settings.show_swatches_shop_attr_slider}
+                            onChange={(value) =>
+                              update("show_swatches_shop_attr_slider", value)
+                            }
+                          />
+                        </S1Field>
+
+                        <S1Field
+                          label={__("Enable Clear Link", "th-store-one")}
+                        >
+                          <ToggleControl
+                            checked={settings.show_swatches_shop_clear_link}
+                            onChange={(value) =>
+                              update("show_swatches_shop_clear_link", value)
+                            }
+                          />
+                        </S1Field>
+
+                        {/* <SelectControl
+                            value={settings.show_swatches_shop_attr_alignment}
+                            options={ALIGNMENT_OPTIONS}
+                            onChange={(value) =>
+                              update("show_swatches_shop_attr_alignment", value)
+                            }
+                          /> */}
+                        <AlignmentControl
+                          label={__("Swatches Alignment", "th-store-one")}
+                          value={settings.show_swatches_shop_attr_alignment}
+                          onChange={(value) =>
+                            update("show_swatches_shop_attr_alignment", value)
+                          }
+                        />
+                      </S1FieldGroup>
+
+                      <S1FieldGroup
+                        number={3}
+                        title={__("Image Tooltip", "th-store-one")}
+                      >
+                        <S1Field
+                          label={__("Enable Image Tooltip", "th-store-one")}
+                          description={__(
+                            "Show Image Tooltip in Product single page.",
+                            "th-store-one",
+                          )}
+                        >
+                          <ToggleControl
+                            checked={settings.show_tootip_image}
+                            onChange={(value) =>
+                              update("show_tootip_image", value)
+                            }
+                          />
+                        </S1Field>
+
+                        {settings.show_tootip_image && (
+                          <>
+                            <S1Field
+                              label={__(
+                                "Select Tooltip Attribute",
+                                "th-store-one",
+                              )}
+                              description={__(
+                                "Choose an attribute to show Tooltip in Product Single Page on hover.",
+                                "th-store-one",
+                              )}
+                            >
+                              <SelectControl
+                                value={settings.show_tootip_image_attr}
+                                options={attributeSelectOptions}
+                                onChange={(value) =>
+                                  update("show_tootip_image_attr", value)
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field
+                              label={__("Width", "th-store-one")}
+                              description={__(
+                                "Tooltip Image maintains a 1:1 ratio.",
+                                "th-store-one",
+                              )}
+                            >
+                              <UniversalRangeControl
+                                label={__("Width", "th-store-one")}
+                                value={String(settings.tootip_image_width)}
+                                onChange={(value) =>
+                                  update("tootip_image_width", value)
+                                }
+                                units={["px"]}
+                                min={10}
+                                max={300}
+                              />
+                            </S1Field>
+                          </>
+                        )}
+                      </S1FieldGroup>
+                    </>
+                  ),
+                },
                 /**
                  * =========================================================
                  * STYLE TAB
@@ -457,7 +653,7 @@ export default function VariationSwatchesSettings({
                     <>
                       <S1FieldGroup
                         number={1}
-                        title={__("Attribute Style", "th-store-one")}
+                        title={__("Single Product Attribute", "th-store-one")}
                       >
                         <S1Field
                           label={__(
@@ -616,65 +812,9 @@ export default function VariationSwatchesSettings({
                             }
                           />
                         </S1Field>
-
-                        <S1Field
-                          label={__("Auto Dropdowns to Button", "th-store-one")}
-                          description={__(
-                            "Convert default dropdowns to button type.",
-                            "th-store-one",
-                          )}
-                        >
-                          <ToggleControl
-                            checked={settings.default_to_button}
-                            onChange={(value) =>
-                              update("default_to_button", value)
-                            }
-                          />
-                        </S1Field>
                       </S1FieldGroup>
-
                       <S1FieldGroup
                         number={2}
-                        title={__(
-                          "Hover & Selected Attribute Style",
-                          "th-store-one",
-                        )}
-                      >
-                        <S1Field>
-                          <THBackgroundControl
-                            label={__("Border Color", "th-store-one")}
-                            value={settings.attr_brdr_hvr_color}
-                            onChange={(value) =>
-                              update("attr_brdr_hvr_color", value)
-                            }
-                            allowGradient={false}
-                          />
-                        </S1Field>
-
-                        <S1Field>
-                          <THBackgroundControl
-                            label={__("Text Color", "th-store-one")}
-                            value={settings.attr_text_hvr_color}
-                            onChange={(value) =>
-                              update("attr_text_hvr_color", value)
-                            }
-                            allowGradient={false}
-                          />
-                        </S1Field>
-
-                        <S1Field>
-                          <THBackgroundControl
-                            label={__("Background Color", "th-store-one")}
-                            value={settings.attr_bg_btn_hvr_color}
-                            onChange={(value) =>
-                              update("attr_bg_btn_hvr_color", value)
-                            }
-                          />
-                        </S1Field>
-                      </S1FieldGroup>
-
-                      <S1FieldGroup
-                        number={3}
                         title={__("Tooltip", "th-store-one")}
                       >
                         <S1Field
@@ -731,250 +871,83 @@ export default function VariationSwatchesSettings({
                           </>
                         )}
                       </S1FieldGroup>
-                    </>
-                  ),
-                },
-
-                /**
-                 * =========================================================
-                 * CATALOG TAB
-                 * =========================================================
-                 */
-                {
-                  id: "catalog",
-                  label: __("Catalog", "th-store-one"),
-                  icon: ICONS.DISPLAY,
-                  content: (
-                    <>
-                      <S1FieldGroup
-                        number={1}
-                        title={__("Product Catalog", "th-store-one")}
-                      >
-                        <S1Field
-                          label={__("Enable Swatches", "th-store-one")}
-                          description={__(
-                            "Show Swatches in Catalog on Shop / Archive Page.",
-                            "th-store-one",
-                          )}
-                        >
-                          <ToggleControl
-                            checked={settings.show_swatches_shop}
-                            onChange={(value) =>
-                              update("show_swatches_shop", value)
-                            }
-                          />
-                        </S1Field>
-
-                        <S1Field
-                          label={__("Enable Single Swatches", "th-store-one")}
-                          description={__(
-                            "Show single attribute as catalog mode on shop / archive pages.",
-                            "th-store-one",
-                          )}
-                        >
-                          <ToggleControl
-                            checked={settings.show_single_swatches_on_shop}
-                            onChange={(value) =>
-                              update("show_single_swatches_on_shop", value)
-                            }
-                          />
-                        </S1Field>
-
-                        {settings.show_swatches_shop && (
-                          <S1Field
-                            label={__("Select Attribute", "th-store-one")}
-                            description={__(
-                              "Choose an attribute to show in catalog.",
-                              "th-store-one",
-                            )}
-                          >
-                            <SelectControl
-                              value={settings.show_swatches_shop_attr}
-                              options={attributeSelectOptions}
-                              onChange={(value) =>
-                                update("show_swatches_shop_attr", value)
-                              }
-                            />
-                          </S1Field>
-                        )}
-
-                        <S1Field
-                          label={__("Enable Variation Slider", "th-store-one")}
-                        >
-                          <ToggleControl
-                            checked={settings.show_swatches_shop_attr_slider}
-                            onChange={(value) =>
-                              update("show_swatches_shop_attr_slider", value)
-                            }
-                          />
-                        </S1Field>
-
-                        <S1Field
-                          label={__("Enable Clear Link", "th-store-one")}
-                        >
-                          <ToggleControl
-                            checked={settings.show_swatches_shop_clear_link}
-                            onChange={(value) =>
-                              update("show_swatches_shop_clear_link", value)
-                            }
-                          />
-                        </S1Field>
-
-                        <S1Field
-                          label={__("Swatches Alignment", "th-store-one")}
-                        >
-                          <SelectControl
-                            value={settings.show_swatches_shop_attr_alignment}
-                            options={ALIGNMENT_OPTIONS}
-                            onChange={(value) =>
-                              update("show_swatches_shop_attr_alignment", value)
-                            }
-                          />
-                        </S1Field>
-
-                        <S1Field
-                          label={__("Width", "th-store-one")}
-                          description={__(
-                            "Circular attributes are managed by width option only.",
-                            "th-store-one",
-                          )}
-                        >
-                          <UniversalRangeControl
-                            label={__("Width", "th-store-one")}
-                            value={String(settings.swatches_shop_width)}
-                            onChange={(value) =>
-                              update("swatches_shop_width", value)
-                            }
-                            units={["px"]}
-                            min={10}
-                            max={200}
-                          />
-                        </S1Field>
-
-                        <S1Field
-                          label={__("Font Size", "th-store-one")}
-                          description={__(
-                            "Variation item font size.",
-                            "th-store-one",
-                          )}
-                        >
-                          <UniversalRangeControl
-                            label={__("Font Size", "th-store-one")}
-                            value={String(settings.swatches_shop_font_size)}
-                            onChange={(value) =>
-                              update("swatches_shop_font_size", value)
-                            }
-                            units={["px"]}
-                            min={8}
-                            max={50}
-                          />
-                        </S1Field>
-                      </S1FieldGroup>
-
-                      <S1FieldGroup
-                        number={2}
-                        title={__("Image Tooltip", "th-store-one")}
-                      >
-                        <S1Field
-                          label={__("Enable Image Tooltip", "th-store-one")}
-                          description={__(
-                            "Show Image Tooltip in Product single page.",
-                            "th-store-one",
-                          )}
-                        >
-                          <ToggleControl
-                            checked={settings.show_tootip_image}
-                            onChange={(value) =>
-                              update("show_tootip_image", value)
-                            }
-                          />
-                        </S1Field>
-
-                        {settings.show_tootip_image && (
-                          <>
-                            <S1Field
-                              label={__(
-                                "Select Tooltip Attribute",
-                                "th-store-one",
-                              )}
-                              description={__(
-                                "Choose an attribute to show Tooltip in Product Single Page on hover.",
-                                "th-store-one",
-                              )}
-                            >
-                              <SelectControl
-                                value={settings.show_tootip_image_attr}
-                                options={attributeSelectOptions}
-                                onChange={(value) =>
-                                  update("show_tootip_image_attr", value)
-                                }
-                              />
-                            </S1Field>
-
-                            <S1Field
-                              label={__("Width", "th-store-one")}
-                              description={__(
-                                "Tooltip Image maintains a 1:1 ratio.",
-                                "th-store-one",
-                              )}
-                            >
-                              <UniversalRangeControl
-                                label={__("Width", "th-store-one")}
-                                value={String(settings.tootip_image_width)}
-                                onChange={(value) =>
-                                  update("tootip_image_width", value)
-                                }
-                                units={["px"]}
-                                min={10}
-                                max={300}
-                              />
-                            </S1Field>
-                          </>
-                        )}
-                      </S1FieldGroup>
 
                       <S1FieldGroup
                         number={3}
-                        title={__("Stock", "th-store-one")}
+                        title={__(
+                          "Hover & Selected Attribute Style",
+                          "th-store-one",
+                        )}
                       >
-                        <S1Field
-                          label={__("Enable Stock", "th-store-one")}
-                          description={__(
-                            "Show Stock availability in Product single page.",
-                            "th-store-one",
-                          )}
-                        >
-                          <ToggleControl
-                            checked={settings.show_stock_available}
+                        <S1Field>
+                          <THBackgroundControl
+                            label={__("Border Color", "th-store-one")}
+                            value={settings.attr_brdr_hvr_color}
                             onChange={(value) =>
-                              update("show_stock_available", value)
+                              update("attr_brdr_hvr_color", value)
                             }
+                            allowGradient={false}
                           />
                         </S1Field>
 
-                        {settings.show_stock_available && (
-                          <S1Field
-                            label={__("Stock Threshold", "th-store-one")}
-                            description={__(
-                              "When stock reaches this amount, the stock label will be shown.",
-                              "th-store-one",
-                            )}
-                          >
-                            <TextControl
-                              type="number"
-                              value={settings.stock_display_threshold}
-                              min={0}
-                              max={200}
-                              onChange={(value) =>
-                                update(
-                                  "stock_display_threshold",
-                                  value === "" ? "" : Number(value),
-                                )
-                              }
-                            />
-                          </S1Field>
-                        )}
+                        <S1Field>
+                          <THBackgroundControl
+                            label={__("Text Color", "th-store-one")}
+                            value={settings.attr_text_hvr_color}
+                            onChange={(value) =>
+                              update("attr_text_hvr_color", value)
+                            }
+                            allowGradient={false}
+                          />
+                        </S1Field>
+
+                        <S1Field>
+                          <THBackgroundControl
+                            label={__("Background Color", "th-store-one")}
+                            value={settings.attr_bg_btn_hvr_color}
+                            onChange={(value) =>
+                              update("attr_bg_btn_hvr_color", value)
+                            }
+                          />
+                        </S1Field>
                       </S1FieldGroup>
+                      {/* <S1Field
+                        label={__("Width", "th-store-one")}
+                        description={__(
+                          "Circular attributes are managed by width option only.",
+                          "th-store-one",
+                        )}
+                      >
+                        <UniversalRangeControl
+                          label={__("Width", "th-store-one")}
+                          value={String(settings.swatches_shop_width)}
+                          onChange={(value) =>
+                            update("swatches_shop_width", value)
+                          }
+                          units={["px"]}
+                          min={10}
+                          max={200}
+                        />
+                      </S1Field>
+
+                      <S1Field
+                        label={__("Font Size", "th-store-one")}
+                        description={__(
+                          "Variation item font size.",
+                          "th-store-one",
+                        )}
+                      >
+                        <UniversalRangeControl
+                          label={__("Font Size", "th-store-one")}
+                          value={String(settings.swatches_shop_font_size)}
+                          onChange={(value) =>
+                            update("swatches_shop_font_size", value)
+                          }
+                          units={["px"]}
+                          min={8}
+                          max={50}
+                        />
+                      </S1Field> */}
                     </>
                   ),
                 },

@@ -409,7 +409,15 @@
 .th-store-one-swatch:not([data-tooltip])::after {
 	display: none !important;
 }
+.th-store-one-stock-availability {
+  margin-top:0px;
+  font-size: 14px;
+  font-weight: 600;
+}
 
+.th-store-one-stock-out {
+  color: #d63638;
+}
 @media (max-width: 767px) {
 
 	.th-store-one-swatches {

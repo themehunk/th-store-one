@@ -281,6 +281,18 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
             return $html;
         }
 
+        // Single product page swatches enable/disable.
+        if (
+            ! $this->to_bool(
+                $this->get_setting(
+                    'show_single_swatches_on_shop',
+                    false
+                )
+            )
+        ) {
+            return $html;
+        }
+
         $attribute = isset($args['attribute'])
             ? sanitize_title($args['attribute'])
             : '';
@@ -1011,6 +1023,20 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
 
         $variation['th_store_one'] = array(
             'id' => $variation_product->get_id(),
+
+            'show_stock_available' => $this->to_bool(
+                $this->get_setting(
+                    'show_stock_available',
+                    false
+                )
+            ),
+
+            'stock_display_threshold' => absint(
+                $this->get_setting(
+                    'stock_display_threshold',
+                    0
+                )
+            ),
         );
 
         return $variation;

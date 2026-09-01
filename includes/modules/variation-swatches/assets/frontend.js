@@ -165,6 +165,54 @@
   }
 
   /**
+   * Render selected variation stock availability.
+   */
+  function renderStockAvailability($form, variation) {
+    $form.find(".th-store-one-stock-availability").remove();
+
+    if (!variation) {
+      return;
+    }
+
+    const variationSettings = variation.th_store_one || {};
+
+    // Stock display disabled from settings.
+    if (!toBool(variationSettings.show_stock_available)) {
+      return;
+    }
+
+    /*
+     * Only show stock when WooCommerce
+     * "Manage stock?" is enabled for this variation.
+     */
+    if (!variation.is_in_stock || !variation.manage_stock) {
+      return;
+    }
+
+    const stockQuantity = Number(variation.max_qty);
+
+    if (!Number.isFinite(stockQuantity)) {
+      return;
+    }
+
+    const threshold = Number(variationSettings.stock_display_threshold || 0);
+
+    /*
+     * 0 = always show stock.
+     * Otherwise show when stock reaches threshold.
+     */
+    if (threshold !== 0 && stockQuantity > threshold) {
+      return;
+    }
+
+    const $stock = $('<div class="th-store-one-stock-availability"></div>');
+
+    $stock.text("Stock: " + stockQuantity);
+
+    $form.find(".variations").after($stock);
+  }
+
+  /**
    * Mark unavailable swatches.
    */
   function syncAvailability($wrapper) {
@@ -290,27 +338,33 @@
   );
 
   $(document).on("reset_data", ".variations_form", function () {
-    $(this)
-      .find(".th-store-one-swatches")
-      .each(function () {
-        syncSelected($(this));
+    const $form = $(this);
 
-        syncAvailability($(this));
-      });
+    $form.find(".th-store-one-stock-availability").remove();
+
+    $form.find(".th-store-one-swatches").each(function () {
+      syncSelected($(this));
+      syncAvailability($(this));
+    });
   });
 
   /**
    * WooCommerce found variation.
    */
-  $(document).on("found_variation", ".variations_form", function () {
-    $(this)
-      .find(".th-store-one-swatches")
-      .each(function () {
-        syncSelected($(this));
+  $(document).on(
+    "found_variation",
+    ".variations_form",
+    function (event, variation) {
+      const $form = $(this);
 
+      $form.find(".th-store-one-swatches").each(function () {
+        syncSelected($(this));
         syncAvailability($(this));
       });
-  });
+
+      renderStockAvailability($form, variation);
+    },
+  );
 
   /**
    * Clear shop swatches.
