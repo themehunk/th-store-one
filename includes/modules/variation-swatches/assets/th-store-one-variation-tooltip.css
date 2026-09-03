@@ -1,0 +1,1557 @@
+/* custom attribute */
+
+/* =========================================================
+ * TH STORE ONE — VARIATION SWATCHES PRO
+ * Complete Admin UI
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options {
+
+    --thvs-primary: #635bff;
+    --thvs-primary-dark: #5148e5;
+    --thvs-purple: #8b5cf6;
+    --thvs-blue: #3b82f6;
+
+    --thvs-text: #1f2937;
+    --thvs-muted: #64748b;
+
+    --thvs-border: #e4e7f0;
+    --thvs-border-hover: #cfd4e5;
+
+    --thvs-bg: #f7f8fc;
+    --thvs-card: #ffffff;
+
+    --thvs-radius: 9px;
+
+    color: var(--thvs-text);
+}
+
+
+/* =========================================================
+ * RESET / BOX SIZING
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options *,
+#th-store-one-product-variable-swatches-options *::before,
+#th-store-one-product-variable-swatches-options *::after {
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+ * MAIN PANEL
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.thvs-pro-product-variable-swatches-options {
+
+    width: 100%;
+
+    padding: 18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f7f8ff 0%,
+            #f7faff 52%,
+            #faf8ff 100%
+        );
+}
+
+
+/* =========================================================
+ * NOTICE
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options-notice {
+
+    width: 100%;
+
+    margin: 0 0 16px;
+
+    padding: 10px 14px;
+
+    border-radius: 8px;
+
+    font-size: 13px;
+
+    box-sizing: border-box;
+}
+
+#th-store-one-product-variable-swatches-options-notice p {
+    margin: 0;
+}
+
+
+/* =========================================================
+ * ATTRIBUTE CARD
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.thvs-pro-variable-swatches-attribute-wrapper {
+
+    width: 100%;
+
+    margin: 0 0 14px !important;
+
+    padding: 0 !important;
+
+    border: 1px solid #e1e5f1 !important;
+
+    border-radius: var(--thvs-radius) !important;
+
+    background: var(--thvs-card) !important;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 1px 2px rgba(30, 41, 59, .03),
+        0 5px 18px rgba(79, 70, 229, .035);
+}
+
+
+/* =========================================================
+ * ATTRIBUTE HEADER
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-attribute-header {
+
+    position: relative;
+
+    width: 100%;
+
+    min-height: 58px;
+
+    margin: 0 !important;
+
+    padding: 9px 14px !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    gap: 12px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #f2f1ff 0%,
+            #f7f8ff 52%,
+            #f1f7ff 100%
+        ) !important;
+
+    border: 0 !important;
+
+    border-bottom: 1px solid #e5e7f3 !important;
+
+    cursor: pointer;
+
+    transition:
+        background .18s ease,
+        box-shadow .18s ease;
+}
+
+
+/* Left accent */
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-attribute-header::before {
+
+    content: "";
+
+    width: 4px;
+    min-width: 4px;
+
+    height: 28px;
+
+    border-radius: 5px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #635bff,
+            #8b5cf6,
+            #3b82f6
+        );
+}
+
+
+/* Hover */
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-attribute-header:hover {
+
+    background:
+        linear-gradient(
+            90deg,
+            #eeecff 0%,
+            #f4f6ff 55%,
+            #edf6ff 100%
+        ) !important;
+}
+
+
+/* =========================================================
+ * ATTRIBUTE NAME
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-attribute-header
+.attribute_name {
+
+    display: block;
+
+    min-width: 0;
+
+    flex: 0 1 auto;
+
+    color: #20263d;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    line-height: 20px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+ * ATTRIBUTE TYPE WRAPPER
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-attribute-header
+.attribute-type-wrapper {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: flex-end;
+
+    gap: 9px;
+
+    margin-left: auto;
+
+    min-width: 0;
+
+    flex-shrink: 1;
+}
+
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-attribute-header
+.attribute-type-wrapper > strong {
+
+    color: #667085;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+ * ATTRIBUTE TYPE DROPDOWN
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-attribute-header
+.thvs-pro-swatch-option-type {
+
+    width: 190px !important;
+
+    min-width: 150px !important;
+
+    max-width: 220px !important;
+
+    height: 36px !important;
+
+    margin: 0 !important;
+
+    padding: 0 36px 0 11px !important;
+
+    border: 1px solid #d3d7e6 !important;
+
+    border-radius: 7px !important;
+
+    background-color: #fff !important;
+
+    color: #30374a !important;
+
+    font-size: 12px !important;
+
+    font-weight: 500 !important;
+
+    line-height: 34px !important;
+
+    cursor: pointer;
+
+    outline: none !important;
+
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, .03) !important;
+
+    appearance: none !important;
+
+    -webkit-appearance: none !important;
+
+    background-image:
+        linear-gradient(45deg, transparent 50%, #635bff 50%),
+        linear-gradient(135deg, #635bff 50%, transparent 50%),
+        linear-gradient(to right, #e6e8f1, #e6e8f1) !important;
+
+    background-position:
+        calc(100% - 15px) 14px,
+        calc(100% - 10px) 14px,
+        calc(100% - 31px) 0 !important;
+
+    background-size:
+        5px 5px,
+        5px 5px,
+        1px 100% !important;
+
+    background-repeat: no-repeat !important;
+}
+
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-attribute-header
+.thvs-pro-swatch-option-type:hover {
+
+    border-color: #aaa6ef !important;
+}
+
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-attribute-header
+.thvs-pro-swatch-option-type:focus {
+
+    border-color: var(--thvs-primary) !important;
+
+    box-shadow:
+        0 0 0 3px rgba(99, 91, 255, .10) !important;
+}
+
+
+/* =========================================================
+ * ATTRIBUTE CONTENT
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-attribute-data {
+
+    width: 100%;
+
+    padding: 10px 18px 16px !important;
+
+    background: #fff;
+}
+
+
+/* =========================================================
+ * ATTRIBUTE TABLE
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-attribute-data > table {
+
+    width: 100% !important;
+
+    margin: 0 !important;
+
+    border-collapse: collapse !important;
+
+    table-layout: auto !important;
+}
+
+
+/* =========================================================
+ * ATTRIBUTE ROW
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-attribute-data > table > tbody > tr > td {
+
+    padding: 9px 0 !important;
+
+    vertical-align: middle !important;
+}
+
+
+/* Label */
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-attribute-data
+.thvs-pro-global-label-td {
+
+    width: 175px !important;
+
+    padding-right: 20px !important;
+
+    color: #374151;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+ * NORMAL SELECTS
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-attribute-data
+select {
+
+    width: 100%;
+
+    max-width: 300px;
+
+    height: 38px;
+
+    margin: 0 !important;
+
+    padding: 0 36px 0 11px !important;
+
+    border: 1px solid #d5d9e5 !important;
+
+    border-radius: 7px !important;
+
+    background-color: #fff !important;
+
+    color: #30374a !important;
+
+    font-size: 13px !important;
+
+    line-height: 36px !important;
+
+    cursor: pointer;
+
+    appearance: none !important;
+
+    -webkit-appearance: none !important;
+
+    background-image:
+        linear-gradient(45deg, transparent 50%, #635bff 50%),
+        linear-gradient(135deg, #635bff 50%, transparent 50%),
+        linear-gradient(to right, #e7e8f0, #e7e8f0) !important;
+
+    background-position:
+        calc(100% - 15px) 15px,
+        calc(100% - 10px) 15px,
+        calc(100% - 31px) 0 !important;
+
+    background-size:
+        5px 5px,
+        5px 5px,
+        1px 100% !important;
+
+    background-repeat: no-repeat !important;
+
+    box-shadow:
+        0 1px 2px rgba(15, 23, 42, .025) !important;
+}
+
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-attribute-data
+select:hover {
+
+    border-color: #aaa6ef !important;
+}
+
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-attribute-data
+select:focus {
+
+    border-color: var(--thvs-primary) !important;
+
+    box-shadow:
+        0 0 0 3px rgba(99, 91, 255, .09) !important;
+
+    outline: none !important;
+}
+
+
+/* =========================================================
+ * TERM / TAXONOMY CARD
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.thvs-pro-variable-swatches-attribute-tax-wrapper {
+
+    width: 100%;
+
+    margin: 8px 0 !important;
+
+    border: 1px solid #e5e8f2 !important;
+
+    border-radius: 8px !important;
+
+    background: #fafbfe !important;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+ * TERM HEADER
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-taxonomy-header {
+
+    position: relative;
+
+    width: 100%;
+
+    min-height: 48px;
+
+    margin: 0 !important;
+
+    padding: 7px 12px !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    gap: 10px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #faf9ff,
+            #f7faff
+        ) !important;
+
+    border: 0 !important;
+
+    border-bottom: 1px solid #e8eaf3 !important;
+}
+
+
+/* Term accent */
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-taxonomy-header::before {
+
+    content: "";
+
+    width: 3px;
+    min-width: 3px;
+
+    height: 22px;
+
+    border-radius: 4px;
+
+    background: linear-gradient(
+        180deg,
+        #8b5cf6,
+        #3b82f6
+    );
+}
+
+
+/* Term name */
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-taxonomy-header
+.attribute_name {
+
+    min-width: 0;
+
+    max-width: 45%;
+
+    color: #30374a;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    line-height: 20px;
+
+    overflow: hidden;
+
+    white-space: nowrap;
+
+    text-overflow: ellipsis;
+}
+
+
+/* Term type area */
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-taxonomy-header
+.attribute-type-wrapper {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin-left: auto;
+
+    min-width: 0;
+}
+
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-taxonomy-header
+.attribute-type-wrapper > strong {
+
+    color: #727b91;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+/* Term dropdown */
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-taxonomy-header
+.thvs-pro-swatch-tax-type {
+
+    width: 180px !important;
+
+    min-width: 140px !important;
+
+    max-width: 210px !important;
+
+    height: 34px !important;
+
+    padding: 0 34px 0 10px !important;
+
+    border: 1px solid #d8dbea !important;
+
+    border-radius: 6px !important;
+
+    background-color: #fff !important;
+
+    color: #3b4254 !important;
+
+    font-size: 12px !important;
+
+    appearance: none !important;
+
+    -webkit-appearance: none !important;
+
+    background-image:
+        linear-gradient(45deg, transparent 50%, #635bff 50%),
+        linear-gradient(135deg, #635bff 50%, transparent 50%),
+        linear-gradient(to right, #e7e8f0, #e7e8f0) !important;
+
+    background-position:
+        calc(100% - 14px) 13px,
+        calc(100% - 9px) 13px,
+        calc(100% - 29px) 0 !important;
+
+    background-size:
+        5px 5px,
+        5px 5px,
+        1px 100% !important;
+
+    background-repeat: no-repeat !important;
+}
+
+
+/* =========================================================
+ * TAXONOMY CONTENT
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-taxonomy-data {
+
+    width: 100%;
+
+    padding: 8px 14px 12px !important;
+
+    background: #fff;
+}
+
+
+/* =========================================================
+ * TAXONOMY TABLE
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-taxonomy-data table {
+
+    width: 100% !important;
+
+    margin: 0 !important;
+
+    border-collapse: collapse !important;
+
+    table-layout: auto !important;
+}
+
+
+/* =========================================================
+ * TAX ROW
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-taxonomy-data
+tr > td {
+
+    padding: 8px 0 !important;
+
+    vertical-align: middle !important;
+}
+
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-taxonomy-data
+.thvs-pro-global-label-td {
+
+    width: 150px !important;
+
+    padding-right: 18px !important;
+
+    color: #4b5563;
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+ * TEXT INPUT
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-taxonomy-data
+input[type="text"] {
+
+    width: 100%;
+
+    max-width: 420px;
+
+    height: 37px;
+
+    margin: 0 !important;
+
+    padding: 0 11px !important;
+
+    border: 1px solid #d7dbe7 !important;
+
+    border-radius: 7px !important;
+
+    background: #fff !important;
+
+    color: #30374a !important;
+
+    font-size: 13px !important;
+
+    box-shadow: none !important;
+}
+
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-taxonomy-data
+input[type="text"]:hover {
+
+    border-color: #aaa6ef !important;
+}
+
+
+#th-store-one-product-variable-swatches-options
+.variable-swatches-taxonomy-data
+input[type="text"]:focus {
+
+    border-color: var(--thvs-primary) !important;
+
+    box-shadow:
+        0 0 0 3px rgba(99, 91, 255, .09) !important;
+
+    outline: none !important;
+}
+
+
+/* =========================================================
+ * COLOR PICKER
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.thvs-color-picker-container {
+
+    vertical-align: middle !important;
+}
+
+
+#th-store-one-product-variable-swatches-options
+.wp-picker-container {
+
+    display: inline-flex !important;
+
+    align-items: center !important;
+
+    gap: 6px;
+
+    vertical-align: middle;
+}
+
+
+#th-store-one-product-variable-swatches-options
+.wp-picker-container
+.wp-color-result {
+
+    width: 48px !important;
+
+    height: 34px !important;
+
+    margin: 0 !important;
+
+    padding: 0 !important;
+
+    border: 2px solid #fff !important;
+
+    border-radius: 7px !important;
+
+    box-shadow:
+        0 0 0 1px #d2d6e2,
+        0 2px 5px rgba(15, 23, 42, .08) !important;
+}
+
+
+/* Hide unnecessary text inside picker button */
+
+#th-store-one-product-variable-swatches-options
+.wp-picker-container
+.wp-color-result-text {
+
+    display: none !important;
+}
+
+
+/* =========================================================
+ * DUAL COLOR
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.thvs-pro-item-secondary-color-item {
+
+    transition:
+        opacity .15s ease,
+        visibility .15s ease;
+}
+
+
+/* =========================================================
+ * IMAGE FIELD
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.meta-image-field-wrapper {
+
+    width: 100%;
+
+    display: flex !important;
+
+    align-items: center !important;
+
+    gap: 10px;
+
+    flex-wrap: wrap !important;
+}
+
+
+/* Preview */
+
+#th-store-one-product-variable-swatches-options
+.meta-image-field-wrapper
+.image-preview {
+
+    width: 54px;
+
+    height: 54px;
+
+    min-width: 54px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border: 1px dashed #bfc4ed;
+
+    border-radius: 8px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f4f2ff,
+            #f0f7ff
+        );
+
+    overflow: hidden;
+}
+
+
+#th-store-one-product-variable-swatches-options
+.meta-image-field-wrapper
+.image-preview img {
+
+    display: block;
+
+    width: 100% !important;
+
+    height: 100% !important;
+
+    object-fit: cover;
+}
+
+
+/* Button wrapper */
+
+#th-store-one-product-variable-swatches-options
+.meta-image-field-wrapper
+.button-wrapper {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    flex-wrap: wrap;
+}
+
+
+/* =========================================================
+ * IMAGE BUTTONS
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.thvs_upload_image_button,
+#th-store-one-product-variable-swatches-options
+.thvs_remove_image_button {
+
+    height: 34px !important;
+
+    min-height: 34px !important;
+
+    margin: 0 !important;
+
+    padding: 0 11px !important;
+
+    border-radius: 6px !important;
+
+    font-size: 12px !important;
+
+    font-weight: 500 !important;
+
+    line-height: 32px !important;
+
+    box-shadow: none !important;
+}
+
+
+/* Upload */
+
+#th-store-one-product-variable-swatches-options
+.thvs_upload_image_button {
+
+    border: 1px solid #c9c5f8 !important;
+
+    background: #f4f2ff !important;
+
+    color: #584fd3 !important;
+}
+
+
+#th-store-one-product-variable-swatches-options
+.thvs_upload_image_button:hover {
+
+    border-color: #635bff !important;
+
+    background: #ebe9ff !important;
+
+    color: #4f46e5 !important;
+}
+
+
+/* Remove */
+
+#th-store-one-product-variable-swatches-options
+.thvs_remove_image_button {
+
+    border: 1px solid #f3c7c7 !important;
+
+    background: #fff7f7 !important;
+
+    color: #d14343 !important;
+}
+
+
+#th-store-one-product-variable-swatches-options
+.thvs_remove_image_button:hover {
+
+    border-color: #ef4444 !important;
+
+    background: #fff0f0 !important;
+
+    color: #dc2626 !important;
+}
+
+
+/* =========================================================
+ * SAVE TOOLBAR
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.toolbar {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 9px;
+
+    margin-top: 18px;
+
+    padding: 14px 0 2px;
+
+    border-top: 1px solid #e4e7f0;
+}
+
+
+/* Save */
+
+#th-store-one-product-variable-swatches-options
+.thvs_pro_save_product_attributes {
+
+    height: 40px !important;
+
+    min-height: 40px !important;
+
+    margin: 0 !important;
+
+    padding: 0 18px !important;
+
+    border: 0 !important;
+
+    border-radius: 7px !important;
+
+    background:
+        linear-gradient(
+            135deg,
+            #635bff,
+            #7c5cff
+        ) !important;
+
+    color: #fff !important;
+
+    font-size: 13px !important;
+
+    font-weight: 600 !important;
+
+    line-height: 40px !important;
+
+    box-shadow:
+        0 4px 10px rgba(99, 91, 255, .20) !important;
+
+    cursor: pointer;
+
+    transition:
+        transform .15s ease,
+        box-shadow .15s ease;
+}
+
+
+#th-store-one-product-variable-swatches-options
+.thvs_pro_save_product_attributes:hover {
+
+    background:
+        linear-gradient(
+            135deg,
+            #5148e5,
+            #6848e8
+        ) !important;
+
+    box-shadow:
+        0 5px 14px rgba(99, 91, 255, .26) !important;
+
+    transform: translateY(-1px);
+}
+
+
+/* Reset */
+
+#th-store-one-product-variable-swatches-options
+.thvs_pro_reset_product_attributes {
+
+    height: 40px !important;
+
+    min-height: 40px !important;
+
+    margin: 0 !important;
+
+    padding: 0 16px !important;
+
+    border: 1px solid #dfe2ea !important;
+
+    border-radius: 7px !important;
+
+    background: #fff !important;
+
+    color: #667085 !important;
+
+    font-size: 13px !important;
+
+    font-weight: 600 !important;
+
+    line-height: 38px !important;
+
+    box-shadow: none !important;
+}
+
+
+#th-store-one-product-variable-swatches-options
+.thvs_pro_reset_product_attributes:hover {
+
+    border-color: #f0b7b7 !important;
+
+    background: #fff8f8 !important;
+
+    color: #d14343 !important;
+}
+
+
+/* =========================================================
+ * CHECKBOX
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+input[type="checkbox"] {
+
+    width: 17px;
+
+    height: 17px;
+
+    margin: 0 6px 0 0;
+
+    vertical-align: middle;
+
+    accent-color: var(--thvs-primary);
+}
+
+
+/* =========================================================
+ * WOO METABOX ARROW
+ * Keep WooCommerce functionality,
+ * just improve appearance.
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.wc-metabox
+.handlediv {
+
+    opacity: .75;
+}
+
+
+#th-store-one-product-variable-swatches-options
+.wc-metabox
+.handlediv:hover {
+
+    opacity: 1;
+}
+
+
+/* =========================================================
+ * OPEN STATE
+ * ========================================================= */
+
+#th-store-one-product-variable-swatches-options
+.thvs-pro-variable-swatches-attribute-wrapper:not(.closed)
+.variable-swatches-attribute-header {
+
+    box-shadow:
+        inset 0 -1px 0 #dedcf8;
+}
+
+
+#th-store-one-product-variable-swatches-options
+.thvs-pro-variable-swatches-attribute-tax-wrapper:not(.closed)
+.variable-swatches-taxonomy-header {
+
+    background:
+        linear-gradient(
+            90deg,
+            #f5f3ff,
+            #f4f8ff
+        ) !important;
+}
+
+
+/* =========================================================
+ * TABLET
+ * ========================================================= */
+
+@media screen and (max-width: 960px) {
+
+    #th-store-one-product-variable-swatches-options
+    .thvs-pro-product-variable-swatches-options {
+
+        padding: 14px;
+    }
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-attribute-header {
+
+        gap: 9px;
+    }
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-attribute-header
+    .attribute-type-wrapper {
+
+        gap: 6px;
+    }
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-attribute-header
+    .attribute-type-wrapper > strong {
+
+        display: none;
+    }
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-attribute-header
+    .thvs-pro-swatch-option-type {
+
+        width: 170px !important;
+    }
+}
+
+
+/* =========================================================
+ * MOBILE
+ * ========================================================= */
+
+@media screen and (max-width: 782px) {
+
+    #th-store-one-product-variable-swatches-options
+    .thvs-pro-product-variable-swatches-options {
+
+        padding: 10px;
+    }
+
+
+    /* Header */
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-attribute-header {
+
+        min-height: auto;
+
+        padding: 10px 11px !important;
+
+        flex-wrap: wrap;
+
+        gap: 8px;
+    }
+
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-attribute-header
+    .attribute_name {
+
+        flex: 1 1 100%;
+
+        max-width: calc(100% - 15px);
+    }
+
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-attribute-header
+    .attribute-type-wrapper {
+
+        width: 100%;
+
+        margin-left: 15px;
+
+        justify-content: flex-start;
+    }
+
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-attribute-header
+    .thvs-pro-swatch-option-type {
+
+        width: 100% !important;
+
+        max-width: 100% !important;
+    }
+
+
+    /* Content */
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-attribute-data {
+
+        padding: 8px 11px 12px !important;
+    }
+
+
+    /* Labels */
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-attribute-data
+    .thvs-pro-global-label-td {
+
+        width: 135px !important;
+
+        padding-right: 12px !important;
+
+        white-space: normal;
+
+        font-size: 12px;
+    }
+
+
+    /* Fields */
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-attribute-data
+    select {
+
+        max-width: 100%;
+    }
+
+
+    /* Term header */
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-taxonomy-header {
+
+        min-height: auto;
+
+        padding: 9px 10px !important;
+
+        flex-wrap: wrap;
+    }
+
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-taxonomy-header
+    .attribute_name {
+
+        max-width: calc(100% - 15px);
+
+        flex: 1 1 100%;
+    }
+
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-taxonomy-header
+    .attribute-type-wrapper {
+
+        width: 100%;
+
+        margin-left: 13px;
+    }
+
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-taxonomy-header
+    .thvs-pro-swatch-tax-type {
+
+        width: 100% !important;
+
+        max-width: 100% !important;
+    }
+
+
+    /* Taxonomy content */
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-taxonomy-data {
+
+        padding: 7px 10px 10px !important;
+    }
+
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-taxonomy-data
+    .thvs-pro-global-label-td {
+
+        width: 125px !important;
+
+        padding-right: 10px !important;
+
+        white-space: normal;
+    }
+
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-taxonomy-data
+    input[type="text"] {
+
+        max-width: 100%;
+    }
+
+
+    /* Image */
+
+    #th-store-one-product-variable-swatches-options
+    .meta-image-field-wrapper {
+
+        align-items: flex-start !important;
+    }
+
+
+    /* Toolbar */
+
+    #th-store-one-product-variable-swatches-options
+    .toolbar {
+
+        flex-wrap: wrap;
+
+        gap: 8px;
+    }
+
+
+    #th-store-one-product-variable-swatches-options
+    .thvs_pro_save_product_attributes,
+    #th-store-one-product-variable-swatches-options
+    .thvs_pro_reset_product_attributes {
+
+        flex: 1 1 auto;
+
+        text-align: center;
+    }
+}
+
+
+/* =========================================================
+ * VERY SMALL SCREEN
+ * ========================================================= */
+
+@media screen and (max-width: 480px) {
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-attribute-data
+    > table,
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-taxonomy-data
+    table {
+
+        display: block;
+    }
+
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-attribute-data
+    tbody,
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-taxonomy-data
+    tbody {
+
+        display: block;
+
+        width: 100%;
+    }
+
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-attribute-data
+    tr,
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-taxonomy-data
+    tr {
+
+        display: grid;
+
+        grid-template-columns: 1fr;
+
+        gap: 5px;
+
+        padding: 7px 0;
+    }
+
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-attribute-data
+    tr > td,
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-taxonomy-data
+    tr > td {
+
+        width: 100% !important;
+
+        padding: 3px 0 !important;
+    }
+
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-attribute-data
+    .thvs-pro-global-label-td,
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-taxonomy-data
+    .thvs-pro-global-label-td {
+
+        width: 100% !important;
+
+        padding-right: 0 !important;
+    }
+
+
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-attribute-data
+    select,
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-taxonomy-data
+    select,
+    #th-store-one-product-variable-swatches-options
+    .variable-swatches-taxonomy-data
+    input[type="text"] {
+
+        width: 100%;
+
+        max-width: 100%;
+    }
+
+
+    #th-store-one-product-variable-swatches-options
+    .meta-image-field-wrapper
+    .button-wrapper {
+
+        width: 100%;
+    }
+
+
+    #th-store-one-product-variable-swatches-options
+    .meta-image-field-wrapper
+    .button-wrapper
+    button {
+
+        flex: 1 1 auto;
+    }
+}

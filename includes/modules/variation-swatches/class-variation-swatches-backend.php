@@ -45,11 +45,12 @@ class TH_Store_One_Variation_Swatches_Backend
         /*
          * Attribute types.
          */
-        add_filter(
-            'product_attributes_type_selector',
-            array( $this, 'product_attributes_types' )
-        );
-
+        if ($this->is_product_attributes_page()) {
+            add_filter(
+                'product_attributes_type_selector',
+                array($this, 'product_attributes_types')
+            );
+        }
         /*
          * Register term meta.
          */
@@ -1263,5 +1264,16 @@ class TH_Store_One_Variation_Swatches_Backend
         if (function_exists('wc_delete_shop_order_transients')) {
             wc_delete_shop_order_transients();
         }
+    }
+
+    private function is_product_attributes_page()
+    {
+        return (
+            is_admin()
+            && isset($_GET['page'])
+            && 'product_attributes' === sanitize_key(
+                wp_unslash($_GET['page'])
+            )
+        );
     }
 }

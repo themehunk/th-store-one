@@ -57,6 +57,7 @@ const DEFAULT_SETTINGS = {
   // Catalog Page Variations.
   show_swatches_shop: false,
   show_single_swatches_on_shop: false,
+  show_single_swatches_on_attr_shop: false,
   show_swatches_shop_attr: "",
   show_swatches_shop_attr_slider: true,
   show_swatches_shop_clear_link: false,
@@ -520,23 +521,39 @@ export default function VariationSwatchesSettings({
                           />
                         </S1Field>
 
-                        {settings.show_swatches_shop && (
-                          <S1Field
-                            label={__("Select Attribute", "th-store-one")}
-                            description={__(
-                              "Choose an attribute to show in catalog.",
-                              "th-store-one",
-                            )}
-                          >
-                            <SelectControl
-                              value={settings.show_swatches_shop_attr}
-                              options={attributeSelectOptions}
-                              onChange={(value) =>
-                                update("show_swatches_shop_attr", value)
-                              }
-                            />
-                          </S1Field>
-                        )}
+                        <S1Field
+                          label={__("Enable Single Swatches", "th-store-one")}
+                          description={__(
+                            "Show single attribute as catalog mode on shop / archive pages",
+                            "th-store-one",
+                          )}
+                        >
+                          <ToggleControl
+                            checked={settings.show_single_swatches_on_attr_shop}
+                            onChange={(value) =>
+                              update("show_single_swatches_on_attr_shop", value)
+                            }
+                          />
+                        </S1Field>
+
+                        {settings.show_swatches_shop &&
+                          settings.show_single_swatches_on_attr_shop && (
+                            <S1Field
+                              label={__("Select Attribute", "th-store-one")}
+                              description={__(
+                                "Choose an attribute to show in catalog.",
+                                "th-store-one",
+                              )}
+                            >
+                              <SelectControl
+                                value={settings.show_swatches_shop_attr}
+                                options={attributeSelectOptions}
+                                onChange={(value) =>
+                                  update("show_swatches_shop_attr", value)
+                                }
+                              />
+                            </S1Field>
+                          )}
 
                         <S1Field
                           label={__("Enable Variation Slider", "th-store-one")}
@@ -655,7 +672,7 @@ export default function VariationSwatchesSettings({
                         number={1}
                         title={__("Single Product Attribute", "th-store-one")}
                       >
-                        <S1Field
+                        {/* <S1Field
                           label={__(
                             "Swatches Style In Single Page",
                             "th-store-one",
@@ -668,7 +685,7 @@ export default function VariationSwatchesSettings({
                               update("th-swatches-style", value)
                             }
                           />
-                        </S1Field>
+                        </S1Field> */}
 
                         <S1Field
                           label={__("Attribute Shape Style", "th-store-one")}

@@ -5,8 +5,6 @@
 
   const settings = config.settings || {};
 
-  console.log(settings);
-
   /**
    * Convert value to boolean.
    */
@@ -101,6 +99,42 @@
     }
   }
 
+  function initImageTooltip() {
+    if (!toBool(settings.image_tooltip)) {
+      return;
+    }
+
+    const width = parseInt(settings.image_tooltip_width || 120, 10);
+
+    document.documentElement.style.setProperty(
+      "--th-store-one-tooltip-image-width",
+      width + "px",
+    );
+
+    $(document).on(
+      "mouseenter",
+      ".th-store-one-swatch[data-tooltip-image]",
+      function () {
+        const $swatch = $(this);
+        const imageUrl = $swatch.attr("data-tooltip-image");
+
+        if (!imageUrl) {
+          return;
+        }
+
+        $swatch.addClass("th-store-one-image-tooltip-active");
+      },
+    );
+
+    $(document).on(
+      "mouseleave",
+      ".th-store-one-swatch[data-tooltip-image]",
+      function () {
+        $(this).removeClass("th-store-one-image-tooltip-active");
+      },
+    );
+  }
+
   /**
    * Get matching select.
    */
@@ -115,6 +149,79 @@
       .closest(".variations_form")
       .find('select[name="' + attribute + '"]')
       .first();
+  }
+
+  /**
+   * Update variation attribute labels with selected value.
+   *
+   * Example:
+   * Color : Yellow
+   * Size : XL
+   */
+  function syncVariationLabels($form) {
+    if (!$form || !$form.length) {
+      return;
+    }
+
+    // Only single product page.
+    if (!$form.closest(".single-product").length) {
+      return;
+    }
+
+    const separator = settings.variation_label_separator || ":";
+
+    $form.find(".th-store-one-swatches").each(function () {
+      const $wrapper = $(this);
+      const $select = getSelect($wrapper);
+
+      if (!$select.length) {
+        return;
+      }
+
+      const value = $select.val() || "";
+
+      // WooCommerce attribute row.
+      const $row = $select.closest("tr");
+
+      if (!$row.length) {
+        return;
+      }
+
+      const $label = $row.find("label").first();
+
+      if (!$label.length) {
+        return;
+      }
+
+      // Save original label only once.
+      if (!$label.data("th-store-one-original-label")) {
+        $label.data("th-store-one-original-label", $.trim($label.text()));
+      }
+
+      const originalLabel = $label.data("th-store-one-original-label");
+
+      // No selected value → show original label.
+      if (!value) {
+        $label.text(originalLabel);
+        return;
+      }
+
+      const $option = $select.find('option[value="' + cssEscape(value) + '"]');
+
+      if (!$option.length) {
+        $label.text(originalLabel);
+        return;
+      }
+
+      const selectedText = $.trim($option.text());
+
+      if (!selectedText) {
+        $label.text(originalLabel);
+        return;
+      }
+
+      $label.text(originalLabel + " " + separator + " " + selectedText);
+    });
   }
 
   /**
@@ -315,6 +422,7 @@
       }
 
       syncSelected($wrapper);
+      syncVariationLabels($swatch.closest(".variations_form"));
     },
   );
 
@@ -334,6 +442,7 @@
 
         syncAvailability($wrapper);
       });
+      syncVariationLabels($form);
     },
   );
 
@@ -346,6 +455,7 @@
       syncSelected($(this));
       syncAvailability($(this));
     });
+    syncVariationLabels($form);
   });
 
   /**
@@ -361,7 +471,7 @@
         syncSelected($(this));
         syncAvailability($(this));
       });
-
+      syncVariationLabels($form);
       renderStockAvailability($form, variation);
     },
   );
@@ -413,11 +523,18 @@
   $(function () {
     applySettings();
     initSingleProduct();
+    initImageTooltip();
 
-    /*
-     * WooCommerce can initialize variation
-     * forms after DOM ready.
-     */
-    setTimeout(initSingleProduct, 100);
+    $(".single-product .variations_form").each(function () {
+      syncVariationLabels($(this));
+    });
+
+    setTimeout(function () {
+      initSingleProduct();
+
+      $(".single-product .variations_form").each(function () {
+        syncVariationLabels($(this));
+      });
+    }, 100);
   });
 })(jQuery);
