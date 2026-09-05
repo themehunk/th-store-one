@@ -211,6 +211,10 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
                             'attribute_behavior',
                             'blur'
                         ),
+                        'variation_label_separator' => $this->get_setting(
+                            'variation_label_separator',
+                            ':'
+                        ),
                         'clear_on_reselect' =>
                             $this->get_setting('clear_on_reselect', false),
 
@@ -250,6 +254,7 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
                                 120
                             )
                         ),
+
                     ),
                 )
             );
@@ -541,6 +546,46 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
         $term_id = absint($term->term_id);
         $label   = $term->name;
 
+
+        $tooltip_image_url = '';
+
+        $tooltip_attribute = sanitize_title(
+            $this->get_setting(
+                'show_tootip_image_attr',
+                ''
+            )
+        );
+
+        if (
+            $this->to_bool(
+                $this->get_setting(
+                    'show_tootip_image',
+                    false
+                )
+            )
+            && $tooltip_attribute
+            && $this->same_attribute(
+                $attribute,
+                $tooltip_attribute
+            )
+        ) {
+            echo $tooltip_image_id = absint(
+                get_term_meta(
+                    $term_id,
+                    'product_attribute_image',
+                    true
+                )
+            );
+
+
+            if ($tooltip_image_id) {
+                $tooltip_image_url = wp_get_attachment_image_url(
+                    $tooltip_image_id,
+                    'thumbnail'
+                );
+            }
+        }
+
         /*
          * ---------------------------------------------------------
          * COLOR
@@ -610,6 +655,9 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
 				    $label
 				); ?>"
                 data-tooltip="<?php echo esc_attr($label); ?>"
+                <?php if ($tooltip_image_url) : ?>
+    data-tooltip-image="<?php echo esc_url($tooltip_image_url); ?>"
+<?php endif; ?>
 				aria-label="<?php echo esc_attr(
 				    $label
 				); ?>"
@@ -661,6 +709,9 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
 				    $label
 				); ?>"
                 data-tooltip="<?php echo esc_attr($label); ?>"
+                <?php if ($tooltip_image_url) : ?>
+    data-tooltip-image="<?php echo esc_url($tooltip_image_url); ?>"
+<?php endif; ?>
 				aria-label="<?php echo esc_attr(
 				    $label
 				); ?>"
@@ -713,6 +764,9 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
 				    $label
 				); ?>"
                 data-tooltip="<?php echo esc_attr($label); ?>"
+                <?php if ($tooltip_image_url) : ?>
+    data-tooltip-image="<?php echo esc_url($tooltip_image_url); ?>"
+<?php endif; ?>
 				aria-label="<?php echo esc_attr(
 				    $label
 				); ?>"
