@@ -45,12 +45,12 @@ class TH_Store_One_Variation_Swatches_Backend
         /*
          * Attribute types.
          */
-        if ($this->is_product_attributes_page()) {
-            add_filter(
-                'product_attributes_type_selector',
-                array($this, 'product_attributes_types')
-            );
-        }
+
+        add_filter(
+            'product_attributes_type_selector',
+            array($this, 'product_attributes_types')
+        );
+
         /*
          * Register term meta.
          */
