@@ -1,285 +1,107 @@
-(function ($) {
+jQuery(function ($) {
   "use strict";
 
   const config = window.THStoreOneVariationTooltip || {};
 
-  const $panel = $("#th-store-one-product-variable-swatches-options");
-  const $options = $panel.find(".thvs-pro-product-variable-swatches-options");
-  const $notice = $("#thvs-pro-product-variable-swatches-options-notice");
+  const $container = $("#th-store-one-product-variable-swatches-options");
 
   /**
-   * Show notice.
+   * ---------------------------------------------------------
+   * Helpers
+   * ---------------------------------------------------------
    */
-  function showNotice(message, type) {
-    const noticeClass =
-      type === "error" ? "woocommerce-error" : "woocommerce-message";
 
-    $notice
-      .removeClass("woocommerce-message woocommerce-error")
-      .addClass(noticeClass)
-      .html("<p>" + message + "</p>")
-      .show();
+  function getOptionsContainer() {
+    return $container.find(".thvs-pro-product-variable-swatches-options");
   }
 
-  /**
-   * Convert serialized form data to object.
-   *
-   * PHP accepts both serialized string and array,
-   * so sending serialize() is safe.
-   */
-  function getProductSwatchesData() {
-    return $options.find(":input").serialize();
+  function getAttributeTypes() {
+    /*
+     * Same concept as reference:
+     * THVSPluginMetaObject.attribute_types
+     *
+     * Store One localizes this as:
+     * config.attribute_types
+     */
+    return config.attribute_types || {};
   }
 
-  /**
-   * Update visibility based on selected attribute type.
-   */
-  function updateAttributeVisibility($wrapper) {
-    const type = $wrapper.find(".thvs-pro-swatch-option-type").val();
-
-    $wrapper
-      .removeClass(function (index, className) {
-        return (className.match(/visible_if_[^\s]+/g) || []).join(" ");
+  function getVisibilityClasses(prefix) {
+    return Object.keys(getAttributeTypes())
+      .map(function (type) {
+        return prefix + type;
       })
-      .addClass("visible_if_" + type);
-
-    $wrapper
-      .find(".variable-swatches-attribute-data")
-      .find("tr")
-      .each(function () {
-        const $row = $(this);
-
-        const classes = $row.attr("class") || "";
-
-        const visibleClasses = classes.match(/visible_if_[^\s]+/g) || [];
-
-        if (!visibleClasses.length) {
-          return;
-        }
-
-        let visible = false;
-
-        visibleClasses.forEach(function (className) {
-          if (className === "visible_if_" + type) {
-            visible = true;
-          }
-        });
-
-        $row.toggle(visible);
-      });
+      .join(" ");
   }
 
-  /**
-   * Update term visibility.
-   */
-  function updateTermVisibility($wrapper) {
-    const type = $wrapper.find(".thvs-pro-swatch-tax-type").val();
-
-    $wrapper
-      .removeClass(function (index, className) {
-        return (className.match(/visible_if_tax_[^\s]+/g) || []).join(" ");
-      })
-      .addClass("visible_if_tax_" + type);
-
-    $wrapper.find(".variable-swatches-taxonomy-data tr").each(function () {
-      const $row = $(this);
-      const classes = $row.attr("class") || "";
-
-      const visibleClasses = classes.match(/visible_if_tax_[^\s]+/g) || [];
-
-      if (!visibleClasses.length) {
-        return;
-      }
-
-      let visible = false;
-
-      visibleClasses.forEach(function (className) {
-        if (className === "visible_if_tax_" + type) {
-          visible = true;
-        }
-      });
-
-      $row.toggle(visible);
-    });
-  }
-
-  /**
-   * Tooltip type visibility.
-   */
-  function updateTooltipVisibility($wrapper) {
-    const tooltipType = $wrapper.find(".thvs-pro-item-tooltip-type").val();
-
-    $wrapper.find(".thvs-pro-item-tooltip-type-item").hide();
-
-    if (!tooltipType) {
-      return;
-    }
-
-    $wrapper.find(".thvs-pro-item-tooltip-type-" + tooltipType).show();
-  }
-
-  /**
-   * Dual color visibility.
-   */
-  function updateDualColorVisibility($wrapper) {
-    const value = $wrapper.find(".thvs-pro-item-tooltip-is-dual-color").val();
-
-    $wrapper
-      .find(".thvs-pro-item-secondary-color-item")
-      .toggle(value === "yes");
-  }
-
-  /**
-   * Initialize all controls.
-   */
-  function initializeControls(context) {
-    const $context = context ? $(context) : $panel;
-
-    $context.find(".thvs-pro-swatch-option-type").each(function () {
-      updateAttributeVisibility(
-        $(this).closest(".thvs-pro-variable-swatches-attribute-wrapper"),
-      );
-    });
-
-    $context.find(".thvs-pro-swatch-tax-type").each(function () {
-      updateTermVisibility(
-        $(this).closest(".thvs-pro-variable-swatches-attribute-tax-wrapper"),
-      );
-    });
-
-    $context.find(".thvs-pro-item-tooltip-type").each(function () {
-      updateTooltipVisibility(
-        $(this).closest(".thvs-pro-variable-swatches-attribute-tax-wrapper"),
-      );
-    });
-
-    $context.find(".thvs-pro-item-tooltip-is-dual-color").each(function () {
-      updateDualColorVisibility(
-        $(this).closest(".thvs-pro-variable-swatches-attribute-tax-wrapper"),
-      );
-    });
-
-    $context.find(".thvs-color-picker").each(function () {
-      const $input = $(this);
-
-      if (!$input.hasClass("wp-color-picker")) {
-        $input.wpColorPicker();
-      }
-    });
-  }
-
-  /**
-   * Attribute type change.
-   */
-  $(document).on("change", ".thvs-pro-swatch-option-type", function () {
-    const $wrapper = $(this).closest(
-      ".thvs-pro-variable-swatches-attribute-wrapper",
-    );
-
-    updateAttributeVisibility($wrapper);
-  });
-
-  /**
-   * Term type change.
-   */
-  $(document).on("change", ".thvs-pro-swatch-tax-type", function () {
-    const $wrapper = $(this).closest(
-      ".thvs-pro-variable-swatches-attribute-tax-wrapper",
-    );
-
-    updateTermVisibility($wrapper);
-  });
-
-  /**
-   * Tooltip type change.
-   */
-  $(document).on("change", ".thvs-pro-item-tooltip-type", function () {
-    const $wrapper = $(this).closest(
-      ".thvs-pro-variable-swatches-attribute-tax-wrapper",
-    );
-
-    updateTooltipVisibility($wrapper);
-  });
-
-  /**
-   * Dual color change.
-   */
-  $(document).on("change", ".thvs-pro-item-tooltip-is-dual-color", function () {
-    const $wrapper = $(this).closest(
-      ".thvs-pro-variable-swatches-attribute-tax-wrapper",
-    );
-
-    updateDualColorVisibility($wrapper);
-  });
-
-  /**
-   * Open media uploader.
-   */
-  $(document).on("click", ".thvs_upload_image_button", function (event) {
-    event.preventDefault();
-
-    const $button = $(this);
-    const $wrapper = $button.closest(".meta-image-field-wrapper");
-
-    const $input = $wrapper.find('input[type="hidden"]');
-
-    const $image = $wrapper.find(".image-preview img");
-
-    const $removeButton = $wrapper.find(".thvs_remove_image_button");
-
-    const frame = wp.media({
-      title: "Select image",
-      button: {
-        text: "Use this image",
+  function blockContainer() {
+    $container.block({
+      message: null,
+      overlayCSS: {
+        background: "#fff",
+        opacity: 0.6,
+        cursor: "wait",
       },
-      multiple: false,
     });
+  }
 
-    frame.on("select", function () {
-      const attachment = frame.state().get("selection").first().toJSON();
-
-      if (!attachment || !attachment.id) {
-        return;
-      }
-
-      $input.val(attachment.id);
-
-      $image.attr("src", attachment.url);
-
-      $removeButton.show();
-    });
-
-    frame.open();
-  });
+  function unblockContainer() {
+    $container.unblock();
+  }
 
   /**
-   * Remove image.
+   * ---------------------------------------------------------
+   * Load Product Attributes
+   * ---------------------------------------------------------
    */
-  $(document).on("click", ".thvs_remove_image_button", function (event) {
-    event.preventDefault();
 
-    const $button = $(this);
-    const $wrapper = $button.closest(".meta-image-field-wrapper");
+  function loadProductAttributes() {
+    wp.ajax.send("th_store_one_load_product_attributes", {
+      success: function (data) {
+        $container.html(data);
 
-    const $input = $wrapper.find('input[type="hidden"]');
+        /*
+         * Re-initialize all controls after AJAX HTML replacement.
+         */
+        initializeControls();
 
-    const $image = $wrapper.find(".image-preview img");
+        $(document.body).trigger(
+          "th_store_one_product_swatches_variation_loaded",
+        );
+      },
 
-    $input.val("");
+      error: function (error) {
+        console.error(error);
+      },
 
-    const placeholder = $image.data("placeholder");
+      data: {
+        post_id: config.post_id || $("#post_ID").val(),
 
-    if (placeholder) {
-      $image.attr("src", placeholder);
-    }
-
-    $button.hide();
-  });
+        nonce: config.nonce,
+      },
+    });
+  }
 
   /**
-   * Save swatch settings.
+   * ---------------------------------------------------------
+   * WooCommerce Variations Loaded
+   * ---------------------------------------------------------
    */
-  $(document).on(
+
+  $("#woocommerce-product-data").on(
+    "woocommerce_variations_loaded",
+    function () {
+      loadProductAttributes();
+    },
+  );
+
+  /**
+   * ---------------------------------------------------------
+   * Save Product Attributes
+   * ---------------------------------------------------------
+   */
+
+  $(document.body).on(
     "click",
     ".thvs_pro_save_product_attributes",
     function (event) {
@@ -291,67 +113,77 @@
         return;
       }
 
-      const postId = config.post_id || $("#post_ID").val();
-
-      if (!postId) {
-        showNotice("Invalid product ID.", "error");
-        return;
-      }
-
-      const data = getProductSwatchesData();
+      const data = $container.find(":input:not(.thvs-skip-field)").serialize();
 
       $button.addClass("disabled").prop("disabled", true);
 
-      $options.block({
-        message: null,
-        overlayCSS: {
-          cursor: "wait",
-        },
-      });
+      blockContainer();
 
-      $.ajax({
-        url: config.ajaxurl,
-        type: "POST",
-        data: {
-          action: "th_store_one_save_product_attributes",
-          nonce: config.nonce,
-          post_id: postId,
-          data: data,
-        },
+      wp.ajax.send("th_store_one_save_product_attributes", {
         success: function (response) {
-          if (response && response.success) {
-            showNotice(response.data.message || "Settings saved", "success");
-          } else {
-            showNotice(
-              response && response.data
-                ? response.data
-                : "Unable to save settings.",
-              "error",
-            );
-          }
-        },
-        error: function () {
-          showNotice("Unable to save settings.", "error");
-        },
-        complete: function () {
+          unblockContainer();
+
           $button.removeClass("disabled").prop("disabled", false);
 
-          $options.unblock();
+          const message =
+            response && response.message
+              ? response.message
+              : "Settings saved successfully.";
+
+          const noticeClass =
+            response && response.class ? response.class : "updated";
+
+          $("#thvs-pro-product-variable-swatches-options-notice")
+            .removeClass(
+              "notice updated error woocommerce-message woocommerce-error",
+            )
+            .html(message)
+            .addClass(noticeClass);
+        },
+
+        error: function (error) {
+          console.error(error);
+
+          unblockContainer();
+
+          $button.removeClass("disabled").prop("disabled", false);
+
+          $("#thvs-pro-product-variable-swatches-options-notice")
+            .removeClass(
+              "notice updated error woocommerce-message woocommerce-error",
+            )
+            .html("Ajax error. Please check console.")
+            .addClass("error");
+        },
+
+        data: {
+          post_id: config.post_id || $("#post_ID").val(),
+
+          nonce: config.nonce,
+
+          data: data,
         },
       });
     },
   );
 
   /**
-   * Reset settings.
+   * ---------------------------------------------------------
+   * Reset Product Attributes
+   * ---------------------------------------------------------
    */
-  $(document).on(
+
+  $(document.body).on(
     "click",
     ".thvs_pro_reset_product_attributes",
     function (event) {
       event.preventDefault();
 
       const $button = $(this);
+
+      if ($button.hasClass("disabled")) {
+        return;
+      }
 
       if (
         !window.confirm(
@@ -362,113 +194,479 @@
         return;
       }
 
-      const postId = config.post_id || $("#post_ID").val();
-
-      if (!postId) {
-        showNotice("Invalid product ID.", "error");
-        return;
-      }
-
       $button.addClass("disabled").prop("disabled", true);
 
-      $options.block({
-        message: null,
-        overlayCSS: {
-          cursor: "wait",
-        },
-      });
+      blockContainer();
 
-      $.ajax({
-        url: config.ajaxurl,
-        type: "POST",
-        data: {
-          action: "th_store_one_reset_product_attributes",
-          nonce: config.nonce,
-          post_id: postId,
+      wp.ajax.send("th_store_one_reset_product_attributes", {
+        success: function () {
+          /*
+           * Reference behavior:
+           * Reload the complete swatch settings.
+           */
+          loadProductAttributes();
         },
-        success: function (response) {
-          if (response && response.success) {
-            loadProductAttributes();
-          } else {
-            showNotice("Unable to reset settings.", "error");
-          }
-        },
-        error: function () {
-          showNotice("Unable to reset settings.", "error");
-        },
-        complete: function () {
+
+        error: function (error) {
+          console.error(error);
+
+          unblockContainer();
+
           $button.removeClass("disabled").prop("disabled", false);
+        },
 
-          $options.unblock();
+        complete: function () {
+          /*
+           * loadProductAttributes() handles its own
+           * re-rendering. Keep button state safe.
+           */
+          $button.removeClass("disabled").prop("disabled", false);
+        },
+
+        data: {
+          post_id: config.post_id || $("#post_ID").val(),
+
+          nonce: config.nonce,
         },
       });
     },
   );
 
   /**
-   * Load product swatch settings.
+   * ---------------------------------------------------------
+   * Attribute Type
+   * ---------------------------------------------------------
+   *
+   * Reference behavior:
+   *
+   * Attribute Type
+   *       ↓
+   * Taxonomy Type
+   *       ↓
+   * Visibility
+   *
    */
-  function loadProductAttributes() {
-    const postId = config.post_id || $("#post_ID").val();
 
-    if (!postId) {
+  $.fn.thvs_pro_product_attribute_type = function () {
+    return this.each(function () {
+      const $field = $(this);
+
+      const $wrapper = $field.closest(
+        ".thvs-pro-variable-swatches-attribute-wrapper",
+      );
+
+      function changeClasses() {
+        const value = String($field.val() || "");
+
+        const visibleClass = "visible_if_" + value;
+
+        const existingClasses = getVisibilityClasses("visible_if_");
+
+        /*
+         * Remove all previous type classes.
+         */
+        if (existingClasses) {
+          $wrapper.removeClass(existingClasses);
+        }
+
+        /*
+         * Explicitly remove custom as reference does.
+         */
+        $wrapper.removeClass("visible_if_custom");
+
+        /*
+         * Add currently selected type.
+         */
+        if (value) {
+          $wrapper.addClass(visibleClass);
+        }
+
+        return value;
+      }
+
+      /*
+       * Normal change.
+       */
+      $field.on("change", function () {
+        const value = changeClasses();
+
+        /*
+         * IMPORTANT:
+         * Keep taxonomy type synchronized
+         * with main Attribute Type.
+         */
+        $wrapper
+          .find(".thvs-pro-swatch-tax-type")
+          .val(value)
+          .trigger("change.taxonomy");
+      });
+
+      /*
+       * Internal attribute update.
+       */
+      $field.on("change.attribute", function () {
+        changeClasses();
+      });
+
+      /*
+       * Initial state.
+       */
+      changeClasses();
+    });
+  };
+
+  /**
+   * ---------------------------------------------------------
+   * Taxonomy / Term Type
+   * ---------------------------------------------------------
+   *
+   * Reference behavior:
+   *
+   * All term types same
+   *       ↓
+   * Main Attribute Type = same type
+   *
+   * Different term types
+   *       ↓
+   * Main Attribute Type = custom
+   *
+   */
+
+  $.fn.thvs_pro_product_taxonomy_type = function () {
+    return this.each(function () {
+      const $field = $(this);
+
+      const $wrapper = $field.closest(
+        ".thvs-pro-variable-swatches-attribute-tax-wrapper",
+      );
+
+      const $mainWrapper = $field.closest(
+        ".thvs-pro-variable-swatches-attribute-wrapper",
+      );
+
+      function changeClasses() {
+        const value = String($field.val() || "");
+
+        const visibleClass = "visible_if_tax_" + value;
+
+        const existingClasses = getVisibilityClasses("visible_if_tax_");
+
+        if (existingClasses) {
+          $wrapper.removeClass(existingClasses);
+        }
+
+        if (value) {
+          $wrapper.addClass(visibleClass);
+        }
+
+        return value;
+      }
+
+      /*
+       * Normal taxonomy type change.
+       */
+      $field.on("change", function () {
+        changeClasses();
+
+        const allValues = [];
+
+        $mainWrapper.find(".thvs-pro-swatch-tax-type").each(function () {
+          const value = String($(this).val() || "");
+
+          if (value) {
+            allValues.push(value);
+          }
+        });
+
+        /*
+         * Remove duplicates.
+         */
+        const uniqueValues = _.uniq(allValues);
+
+        const isAllTaxSame = uniqueValues.length === 1;
+
+        /*
+         * If every term uses same type,
+         * main Attribute Type follows it.
+         *
+         * Otherwise main type becomes custom.
+         */
+        if (isAllTaxSame) {
+          $mainWrapper
+            .find(".thvs-pro-swatch-option-type")
+            .val(uniqueValues[0])
+            .trigger("change.attribute");
+        } else {
+          $mainWrapper
+            .find(".thvs-pro-swatch-option-type")
+            .val("custom")
+            .trigger("change.attribute");
+        }
+      });
+
+      /*
+       * Attribute Type -> Taxonomy Type
+       *
+       * Do NOT execute the reverse logic here.
+       */
+      $field.on("change.taxonomy", function () {
+        changeClasses();
+      });
+
+      /*
+       * Initial state.
+       */
+      changeClasses();
+    });
+  };
+
+  /**
+   * ---------------------------------------------------------
+   * Tooltip Type
+   * ---------------------------------------------------------
+   */
+
+  $.fn.thvs_pro_product_taxonomy_item_tooltip_type = function () {
+    return this.each(function () {
+      const $field = $(this);
+
+      const $wrapper = $field.closest("tbody");
+
+      function changeClasses() {
+        const value = String($field.val() || "");
+
+        const visibleClass = "visible_if_item_tooltip_type_" + value;
+
+        const existingClasses = ["", "text", "image", "no"]
+          .map(function (type) {
+            return "visible_if_item_tooltip_type_" + type;
+          })
+          .join(" ");
+
+        $wrapper
+          .find(".thvs-pro-item-tooltip-type-item")
+          .removeClass(existingClasses)
+          .addClass(visibleClass);
+      }
+
+      $field.on("change", function () {
+        changeClasses();
+      });
+
+      changeClasses();
+    });
+  };
+
+  /**
+   * ---------------------------------------------------------
+   * Dual Color
+   * ---------------------------------------------------------
+   */
+
+  $.fn.thvs_pro_product_taxonomy_item_dual_color = function () {
+    return this.each(function () {
+      const $field = $(this);
+
+      const $wrapper = $field.closest("tbody");
+
+      function changeClasses() {
+        const value = String($field.val() || "");
+
+        const visibleClass = "visible_if_item_dual_color_" + value;
+
+        const existingClasses = ["", "yes", "no"]
+          .map(function (type) {
+            return "visible_if_item_dual_color_" + type;
+          })
+          .join(" ");
+
+        $wrapper
+          .find(".thvs-pro-item-secondary-color-item")
+          .removeClass(existingClasses)
+          .addClass(visibleClass);
+      }
+
+      $field.on("change", function () {
+        changeClasses();
+      });
+
+      changeClasses();
+    });
+  };
+
+  /**
+   * ---------------------------------------------------------
+   * Color Picker
+   * ---------------------------------------------------------
+   */
+
+  function initializeColorPicker() {
+    if (typeof $.fn.wpColorPicker !== "function") {
       return;
     }
 
-    $options.block({
-      message: null,
-      overlayCSS: {
-        cursor: "wait",
-      },
-    });
+    $container.find(".thvs-color-picker").each(function () {
+      const $input = $(this);
 
-    $.ajax({
-      url: config.ajaxurl,
-      type: "POST",
-      data: {
-        action: "th_store_one_load_product_attributes",
-        nonce: config.nonce,
-        post_id: postId,
-      },
-      success: function (response) {
-        if (response && response.success) {
-          $options.html(response.data);
-
-          initializeControls($options);
-
-          $(document.body).trigger("th_store_one_product_attributes_loaded");
-        } else {
-          showNotice(
-            response && response.data
-              ? response.data
-              : "Unable to load settings.",
-            "error",
-          );
-        }
-      },
-      error: function () {
-        showNotice("Unable to load settings.", "error");
-      },
-      complete: function () {
-        $options.unblock();
-      },
+      if (!$input.hasClass("wp-color-picker")) {
+        $input.wpColorPicker();
+      }
     });
   }
 
   /**
-   * WooCommerce variations loaded.
-   *
-   * Load swatch panel after variation data
-   * has been loaded.
+   * ---------------------------------------------------------
+   * WordPress Media Uploader
+   * ---------------------------------------------------------
    */
-  $(document.body).on("woocommerce_variations_loaded", function () {
-    loadProductAttributes();
-  });
+  function initializeMediaUploader() {
+    $(document)
+      .off("click.thStoreOne", ".thvs_upload_image_button")
+      .on("click.thStoreOne", ".thvs_upload_image_button", function (event) {
+        event.preventDefault();
+
+        const $button = $(this);
+        const $wrapper = $button.closest(".meta-image-field-wrapper");
+        const $input = $wrapper.find('input[type="hidden"]');
+        const $preview = $wrapper.find(".image-preview");
+        const $removeButton = $wrapper.find(".thvs_remove_image_button");
+
+        if (typeof wp === "undefined" || !wp.media) {
+          console.error("WordPress Media Library is not available.");
+          return;
+        }
+
+        const frame = wp.media({
+          title: "Select Image",
+          button: {
+            text: "Use this image",
+          },
+          multiple: false,
+          library: {
+            type: "image",
+          },
+        });
+
+        frame.on("select", function () {
+          const attachment = frame.state().get("selection").first().toJSON();
+
+          if (!attachment || !attachment.id) {
+            return;
+          }
+
+          $input.val(attachment.id);
+
+          const imageUrl =
+            attachment.sizes && attachment.sizes.thumbnail
+              ? attachment.sizes.thumbnail.url
+              : attachment.url;
+
+          $preview.html(
+            $("<img>", {
+              src: imageUrl,
+              width: 60,
+              height: 60,
+              alt: "",
+            }),
+          );
+
+          $removeButton.show();
+        });
+
+        frame.open();
+      });
+
+    $(document)
+      .off("click.thStoreOne", ".thvs_remove_image_button")
+      .on("click.thStoreOne", ".thvs_remove_image_button", function (event) {
+        event.preventDefault();
+
+        const $button = $(this);
+        const $wrapper = $button.closest(".meta-image-field-wrapper");
+
+        $wrapper.find('input[type="hidden"]').val("");
+        $wrapper.find(".image-preview").empty();
+
+        $button.hide();
+      });
+  }
 
   /**
-   * Also initialize existing HTML.
+   * ---------------------------------------------------------
+   * Initialize All Controls
+   * ---------------------------------------------------------
    */
-  $(function () {
-    initializeControls($options);
-  });
-})(jQuery);
+
+  function initializeControls() {
+    const $context = getOptionsContainer();
+
+    if (!$context.length) {
+      return;
+    }
+
+    /*
+     * Attribute Type
+     */
+    $context
+      .find(".thvs-pro-swatch-option-type")
+      .thvs_pro_product_attribute_type();
+
+    /*
+     * Taxonomy Type
+     */
+    $context.find(".thvs-pro-swatch-tax-type").thvs_pro_product_taxonomy_type();
+
+    /*
+     * Tooltip Type
+     */
+    $context
+      .find(".thvs-pro-item-tooltip-type")
+      .thvs_pro_product_taxonomy_item_tooltip_type();
+
+    /*
+     * Dual Color
+     */
+    $context
+      .find(".thvs-pro-item-tooltip-is-dual-color")
+      .thvs_pro_product_taxonomy_item_dual_color();
+
+    /*
+     * Color picker
+     */
+    initializeColorPicker();
+    initializeMediaUploader();
+  }
+
+  /**
+   * ---------------------------------------------------------
+   * Re-init after AJAX Load
+   * ---------------------------------------------------------
+   */
+
+  $(document.body).on(
+    "th_store_one_product_swatches_variation_loaded",
+    function () {
+      initializeControls();
+    },
+  );
+
+  /*
+   * Also support the reference event name.
+   * This makes migration easier if any old code
+   * still triggers it.
+   */
+  $(document.body).on(
+    "thvs_pro_product_swatches_variation_loaded",
+    function () {
+      initializeControls();
+    },
+  );
+
+  /**
+   * ---------------------------------------------------------
+   * Initial Init
+   * ---------------------------------------------------------
+   */
+
+  initializeControls();
+});

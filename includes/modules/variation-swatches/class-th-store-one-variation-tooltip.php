@@ -153,6 +153,7 @@ if (! class_exists('TH_Store_One_Variation_Tooltip')) :
             $attributes                    = $product_object->get_attributes();
             $product_id                    = $product_object->get_id();
             $attribute_types               = wc_get_attribute_types();
+
             $attribute_types['custom']     = esc_html__(
                 'Custom',
                 'th-store-one'
@@ -915,9 +916,7 @@ if (! class_exists('TH_Store_One_Variation_Tooltip')) :
 
                 if (defined('TH_STORE_ONE_PLUGIN_URL')) {
 
-                    $image =
-                        TH_STORE_ONE_PLUGIN_URL .
-                        'assets/images/placeholder.png';
+                    $image = wc_placeholder_img_src();
 
                 } else {
 
@@ -1283,60 +1282,59 @@ if (! class_exists('TH_Store_One_Variation_Tooltip')) :
                 TH_STORE_ONE_PLUGIN_URL
             . 'includes/modules/variation-swatches/assets/th-store-one-variation-tooltip.js';
 
-            if (file_exists($css_file)) {
 
-                wp_enqueue_style(
-                    'th-store-one-variation-tooltip',
-                    TH_STORE_ONE_PLUGIN_URL
+
+            wp_enqueue_style(
+                'th-store-one-variation-tooltip',
+                TH_STORE_ONE_PLUGIN_URL
             . 'includes/modules/variation-swatches/assets/th-store-one-variation-tooltip.css',
-                    array('wp-color-picker'),
-                    defined('TH_STORE_ONE_VERSION')
-                        ? TH_STORE_ONE_VERSION
-                        : false
-                );
-            }
+                array('wp-color-picker'),
+                defined('TH_STORE_ONE_VERSION')
+                    ? TH_STORE_ONE_VERSION
+                    : false
+            );
 
-            if (file_exists($js_file)) {
 
-                wp_enqueue_script(
-                    'th-store-one-variation-tooltip',
-                    TH_STORE_ONE_PLUGIN_URL
+
+            wp_enqueue_script(
+                'th-store-one-variation-tooltip',
+                TH_STORE_ONE_PLUGIN_URL
             . 'includes/modules/variation-swatches/assets/th-store-one-variation-tooltip.js',
-                    array(
-                        'jquery',
-                        'serializejson',
-                        'wp-color-picker',
-                        'wp-util',
-                        'jquery-blockui',
-                    ),
-                    defined('TH_STORE_ONE_VERSION')
-                        ? TH_STORE_ONE_VERSION
-                        : false,
-                    true
-                );
+                array(
+                    'jquery',
+                    'serializejson',
+                    'wp-color-picker',
+                    'wp-util',
+                    'jquery-blockui',
+                ),
+                defined('TH_STORE_ONE_VERSION')
+                    ? TH_STORE_ONE_VERSION
+                    : false,
+                true
+            );
 
-                wp_localize_script(
-                    'th-store-one-variation-tooltip',
-                    'THStoreOneVariationTooltip',
-                    array(
-                        'ajaxurl'        => esc_url(
-                            admin_url(
-                                'admin-ajax.php',
-                                'relative'
-                            )
-                        ),
-                        'nonce'          => wp_create_nonce(),
-                        'attribute_types' => $this->get_attribute_types_for_js(),
-                        'post_id'        => isset($post->ID)
-                            ? absint($post->ID)
-                            : '',
-                        'reset_notice'   => esc_html__(
-                            'Are you sure you want to reset it to default setting?',
-                            'th-store-one'
-                        ),
-                    )
-                );
-            }
+            wp_localize_script(
+                'th-store-one-variation-tooltip',
+                'THStoreOneVariationTooltip',
+                array(
+                    'ajaxurl'        => esc_url(
+                        admin_url(
+                            'admin-ajax.php',
+                            'relative'
+                        )
+                    ),
+                    'nonce'          => wp_create_nonce(),
+                    'attribute_types' => $this->get_attribute_types_for_js(),
+                    'post_id'        => isset($post->ID)
+                        ? absint($post->ID)
+                        : '',
+                    'reset_notice'   => esc_html__(
+                        'Are you sure you want to reset it to default setting?',
+                        'th-store-one'
+                    ),
+                )
+            );
+
         }
 
         /**
