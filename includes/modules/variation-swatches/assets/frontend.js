@@ -99,11 +99,145 @@
     }
   }
 
-  function initImageTooltip() {
-    if (!toBool(settings.image_tooltip)) {
+  /**
+   * Get the effective tooltip mode for a swatch.
+   *
+   * Product-level PHP resolves Global/Hide/Text/Image and term-level
+   * Default/Text/Image/No/Text + Image into data-tooltip-type.
+   */
+  function getTooltipMode($swatch) {
+    let mode = String($swatch.attr("data-tooltip-type") || "").toLowerCase();
+
+    if (!mode || mode === "default" || mode === "global") {
+      mode = toBool(settings.tooltip) ? "text" : "no";
+
+      // Preserve the existing global image-tooltip attribute feature.
+      if (
+        mode === "text" &&
+        toBool(settings.show_tootip_image) &&
+        settings.show_tootip_image_attr
+      ) {
+        const wrapperAttribute = String(
+          $swatch.closest(".th-store-one-swatches").data("attribute") || "",
+        ).toLowerCase();
+
+        const configuredAttribute = String(
+          settings.show_tootip_image_attr || "",
+        ).toLowerCase();
+
+        if (
+          wrapperAttribute &&
+          configuredAttribute &&
+          (wrapperAttribute === configuredAttribute ||
+            wrapperAttribute === "pa-" + configuredAttribute ||
+            "pa-" + wrapperAttribute === configuredAttribute)
+        ) {
+          mode = "image";
+        }
+      }
+    }
+
+    if (mode === "hide" || mode === "none" || mode === "false") {
+      mode = "no";
+    }
+
+    if (mode === "text+image" || mode === "text_image") {
+      mode = "text-image";
+    }
+
+    if (["no", "text", "image", "text-image"].indexOf(mode) === -1) {
+      mode = toBool(settings.tooltip) ? "text" : "no";
+    }
+
+    return mode;
+  }
+
+  /**
+   * Apply the effective tooltip mode to one swatch.
+   *
+   * This prevents the global tooltip behavior from overriding
+   * Product Edit settings.
+   */
+  function applySwatchTooltip($swatch) {
+    if (!$swatch || !$swatch.length) {
       return;
     }
 
+    const mode = getTooltipMode($swatch);
+    const text = String(
+      $swatch.attr("data-tooltip-text") ||
+        $swatch.attr("data-tooltip") ||
+        $swatch.attr("aria-label") ||
+        "",
+    ).trim();
+
+    const imageUrl = String($swatch.attr("data-tooltip-image") || "").trim();
+
+    // Never allow the browser's native title tooltip to bypass "Hide".
+    $swatch.removeAttr("title");
+
+    $swatch.removeClass(
+      "th-store-one-has-image-tooltip " + "th-store-one-image-tooltip-active",
+    );
+
+    if (mode === "no") {
+      $swatch
+        .removeAttr("data-tooltip")
+        .removeAttr("data-tooltip-text")
+        .removeAttr("data-tooltip-image");
+
+      return;
+    }
+
+    if (mode === "image") {
+      if (!imageUrl) {
+        // Do not fall back to global text when Image is explicitly selected.
+        $swatch
+          .removeAttr("data-tooltip")
+          .removeAttr("data-tooltip-text")
+          .removeAttr("data-tooltip-image");
+        return;
+      }
+
+      $swatch
+        .removeAttr("data-tooltip")
+        .removeAttr("data-tooltip-text")
+        .attr("data-tooltip-image", imageUrl)
+        .addClass("th-store-one-has-image-tooltip");
+
+      return;
+    }
+
+    if (mode === "text-image") {
+      if (text) {
+        $swatch.attr("data-tooltip", text).attr("data-tooltip-text", text);
+      } else {
+        $swatch.removeAttr("data-tooltip").removeAttr("data-tooltip-text");
+      }
+
+      if (imageUrl) {
+        $swatch
+          .attr("data-tooltip-image", imageUrl)
+          .addClass("th-store-one-has-image-tooltip");
+      } else {
+        $swatch.removeAttr("data-tooltip-image");
+      }
+
+      return;
+    }
+
+    // Text mode: explicitly remove the image source so a global image
+    // tooltip cannot leak into Product Edit "Text".
+    if (text) {
+      $swatch.attr("data-tooltip", text).attr("data-tooltip-text", text);
+    } else {
+      $swatch.removeAttr("data-tooltip").removeAttr("data-tooltip-text");
+    }
+
+    $swatch.removeAttr("data-tooltip-image");
+  }
+
+  function initImageTooltip() {
     const width = parseInt(settings.image_tooltip_width || 120, 10);
 
     document.documentElement.style.setProperty(
@@ -111,28 +245,47 @@
       width + "px",
     );
 
-    $(document).on(
-      "mouseenter",
-      ".th-store-one-swatch[data-tooltip-image]",
-      function () {
-        const $swatch = $(this);
-        const imageUrl = $swatch.attr("data-tooltip-image");
+    // Apply Product Edit tooltip settings immediately.
+    $(".th-store-one-swatch").each(function () {
+      applySwatchTooltip($(this));
+    });
 
-        if (!imageUrl) {
-          return;
-        }
+    $(document).on("mouseenter", ".th-store-one-swatch", function () {
+      const $swatch = $(this);
+      const mode = getTooltipMode($swatch);
 
-        $swatch.addClass("th-store-one-image-tooltip-active");
-      },
-    );
+      if (mode !== "image" && mode !== "text-image") {
+        return;
+      }
 
-    $(document).on(
-      "mouseleave",
-      ".th-store-one-swatch[data-tooltip-image]",
-      function () {
-        $(this).removeClass("th-store-one-image-tooltip-active");
-      },
-    );
+      const imageUrl = $swatch.attr("data-tooltip-image");
+
+      if (!imageUrl) {
+        return;
+      }
+
+      $swatch.css(
+        "--th-store-one-tooltip-image",
+        'url("' + imageUrl.replace(/"/g, '\\"') + '")',
+      );
+
+      $swatch.addClass("th-store-one-image-tooltip-active");
+    });
+
+    $(document).on("mouseleave", ".th-store-one-swatch", function () {
+      $(this).removeClass("th-store-one-image-tooltip-active");
+    });
+  }
+
+  /**
+   * Re-apply tooltip settings after WooCommerce/AJAX replaces swatches.
+   */
+  function refreshSwatchTooltips($scope) {
+    const $root = $scope && $scope.length ? $scope : $(document);
+
+    $root.find(".th-store-one-swatch").each(function () {
+      applySwatchTooltip($(this));
+    });
   }
 
   /**
@@ -438,6 +591,7 @@
       $form.find(".th-store-one-swatches").each(function () {
         const $wrapper = $(this);
 
+        refreshSwatchTooltips($wrapper);
         syncSelected($wrapper);
 
         syncAvailability($wrapper);
@@ -452,6 +606,7 @@
     $form.find(".th-store-one-stock-availability").remove();
 
     $form.find(".th-store-one-swatches").each(function () {
+      refreshSwatchTooltips($(this));
       syncSelected($(this));
       syncAvailability($(this));
     });
@@ -468,6 +623,7 @@
       const $form = $(this);
 
       $form.find(".th-store-one-swatches").each(function () {
+        refreshSwatchTooltips($(this));
         syncSelected($(this));
         syncAvailability($(this));
       });

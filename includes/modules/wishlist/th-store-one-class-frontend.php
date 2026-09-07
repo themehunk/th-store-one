@@ -46,6 +46,10 @@ class Th_Store_One_Wishlist_Frontend
             'wp_ajax_nopriv_store_one_remove_product_from_wishlist',
             array($this, 'ajax_remove_product_from_wishlist')
         );
+
+        $this->register_shortcodes();
+
+
     }
 
     /**
@@ -55,7 +59,7 @@ class Th_Store_One_Wishlist_Frontend
      */
     public function init()
     {
-        $this->register_shortcodes();
+
         $this->register_shop_hooks();
         $this->register_single_hooks();
     }
