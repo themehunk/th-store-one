@@ -555,7 +555,7 @@ export default function VariationSwatchesSettings({
                             </S1Field>
                           )}
 
-                        <S1Field
+                        {/* <S1Field
                           label={__("Enable Variation Slider", "th-store-one")}
                         >
                           <ToggleControl
@@ -564,7 +564,7 @@ export default function VariationSwatchesSettings({
                               update("show_swatches_shop_attr_slider", value)
                             }
                           />
-                        </S1Field>
+                        </S1Field> */}
 
                         <S1Field
                           label={__("Enable Clear Link", "th-store-one")}
