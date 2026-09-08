@@ -448,6 +448,76 @@
 .th-store-one-swatch:not([data-tooltip])::after {
 	display: none !important;
 }
+
+/* =========================================================
+   IMAGE TOOLTIP - TEXT TOOLTIP COMPLETELY HIDDEN
+   ========================================================= */
+
+.th-store-one-swatch.th-store-one-has-image-tooltip::before {
+    content: none !important;
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+
+/* =========================================================
+   IMAGE TOOLTIP - SHOW ONLY WHEN ACTIVE
+   ========================================================= */
+
+.th-store-one-swatch.th-store-one-has-image-tooltip.th-store-one-image-tooltip-active::before {
+    content: "" !important;
+    display: block !important;
+
+    width: var(
+        --th-store-one-tooltip-image-width,
+        120px
+    ) !important;
+
+    height: var(
+        --th-store-one-tooltip-image-width,
+        120px
+    ) !important;
+
+    padding: 0 !important;
+
+    box-sizing: border-box !important;
+
+    background-image: var(
+        --th-store-one-tooltip-image
+    ) !important;
+
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+
+    background-color: #fff !important;
+
+    border: 1px solid var(
+        --th-store-one-tooltip-border,
+        #111
+    ) !important;
+
+    border-radius: 6px !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+
+/* =========================================================
+   ARROW
+   ========================================================= */
+
+.th-store-one-swatch.th-store-one-has-image-tooltip::after {
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+.th-store-one-swatch.th-store-one-has-image-tooltip.th-store-one-image-tooltip-active::after {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
 .th-store-one-stock-availability {
   margin-top:0px;
   font-size: 14px;

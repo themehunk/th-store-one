@@ -51,23 +51,9 @@ class TH_Store_One_Variation_Swatches_Backend
             array($this, 'product_attributes_types')
         );
 
-        /*
-         * Register term meta.
-         */
-        add_action(
-            'init',
-            array( $this, 'register_taxonomy_meta' ),
-            20
-        );
 
-        /*
-         * Register taxonomy term hooks.
-         */
-        add_action(
-            'init',
-            array( $this, 'register_taxonomy_term_hooks' ),
-            30
-        );
+        add_action('init', array($this, 'register_taxonomy_meta'), 10);
+        add_action('init', array($this, 'register_taxonomy_term_hooks'), 11);
 
         /*
          * Admin assets.
@@ -116,7 +102,21 @@ class TH_Store_One_Variation_Swatches_Backend
      */
     public function product_attributes_types($types)
     {
+        // On WooCommerce Product Edit screen,
+        // do NOT expose custom Store One attribute types.
+        // This prevents WooCommerce product save from breaking
+        // attributes/variations.
 
+        if (is_admin()) {
+            $screen = get_current_screen();
+
+            if ($screen && 'product' === $screen->id) {
+                return $types;
+            }
+        }
+
+        // Keep custom types available on the global
+        // WooCommerce Attributes page.
         $types['select'] = __('Select', 'th-store-one');
         $types['color']  = __('Color', 'th-store-one');
         $types['image']  = __('Image', 'th-store-one');

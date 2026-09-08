@@ -310,7 +310,7 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
             return $html;
         }
 
-        $type = $this->get_attribute_type($attribute);
+        $type = $this->get_attribute_type($attribute, $product);
 
         /*
          * Select remains normal WooCommerce select.
@@ -343,28 +343,37 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
     }
 
     /**
-     * Get WooCommerce attribute type.
+     * Get effective attribute type.
      *
-     * @param string $attribute Attribute taxonomy.
+     * Product-level type overrides the global WooCommerce attribute type.
+     * Empty/Global falls back to the global attribute type.
+     *
+     * @param string          $attribute Attribute taxonomy/name.
+     * @param WC_Product|false $product Product.
      * @return string
      */
-    private function get_attribute_type($attribute)
+    private function get_attribute_type($attribute, $product = false)
     {
-
-        $taxonomy = $this->get_taxonomy_name(
+        $product_settings = $this->get_product_attribute_settings(
+            $product,
             $attribute
         );
+
+        if ($this->has_product_setting($product_settings, 'type')) {
+            $type = sanitize_key($product_settings['type']);
+
+            if (in_array($type, array('color', 'image', 'button', 'select'), true)) {
+                return $type;
+            }
+        }
+
+        $taxonomy = $this->get_taxonomy_name($attribute);
 
         if (! taxonomy_exists($taxonomy)) {
             return 'select';
         }
 
-        $attribute_name = str_replace(
-            'pa_',
-            '',
-            $taxonomy
-        );
-
+        $attribute_name = str_replace('pa_', '', $taxonomy);
         $attribute_taxonomies = wc_get_attribute_taxonomies();
 
         if (empty($attribute_taxonomies)) {
@@ -372,40 +381,22 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
         }
 
         foreach ($attribute_taxonomies as $attribute_data) {
-
             if (
-                sanitize_title(
-                    $attribute_data->attribute_name
-                ) !== sanitize_title(
-                    $attribute_name
-                )
+                sanitize_title($attribute_data->attribute_name) !==
+                sanitize_title($attribute_name)
             ) {
                 continue;
             }
 
-            $type = isset(
-                $attribute_data->attribute_type
-            )
-                ? sanitize_key(
-                    $attribute_data->attribute_type
-                )
+            $type = isset($attribute_data->attribute_type)
+                ? sanitize_key($attribute_data->attribute_type)
                 : 'select';
 
-            if (
-                in_array(
-                    $type,
-                    array(
-                        'color',
-                        'image',
-                        'button',
-                    ),
-                    true
-                )
-            ) {
-                return $type;
-            }
-
-            return 'select';
+            return in_array(
+                $type,
+                array('color', 'image', 'button'),
+                true
+            ) ? $type : 'select';
         }
 
         return 'select';
@@ -484,7 +475,8 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
 			    $this->render_swatch(
 			        $type,
 			        $attribute,
-			        $option
+			        $option,
+			        $product
 			    );
 			    ?>
 
@@ -505,116 +497,249 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
      * @param string $option Option.
      * @return void
      */
+    /**
+     * Render one swatch.
+     *
+     * Product-level settings are applied first. Empty/Default values fall back
+     * to the global Store One settings and then to the global term meta.
+     *
+     * @param string              $type      Type.
+     * @param string              $attribute Attribute.
+     * @param string              $option    Option/term slug.
+     * @param WC_Product|false    $product   Product.
+     * @return void
+     */
     private function render_swatch(
         $type,
         $attribute,
-        $option
+        $option,
+        $product = false
     ) {
-
-        $taxonomy = $this->get_taxonomy_name(
-            $attribute
-        );
-
-        $term = false;
+        $taxonomy = $this->get_taxonomy_name($attribute);
+        $term     = false;
+        $term_id  = 0;
+        $label    = $option;
 
         if (taxonomy_exists($taxonomy)) {
+            $term = get_term_by('slug', $option, $taxonomy);
 
-            $term = get_term_by(
-                'slug',
-                $option,
-                $taxonomy
-            );
-        }
+            if (! $term || is_wp_error($term)) {
+                $term = get_term_by('name', $option, $taxonomy);
+            }
 
-        /*
-         * Some WooCommerce attributes can pass
-         * the term name instead of slug.
-         */
-        if (! $term || is_wp_error($term)) {
-
-            $term = get_term_by(
-                'name',
-                $option,
-                $taxonomy
-            );
-        }
-
-        if (! $term || is_wp_error($term)) {
-            return;
-        }
-
-        $term_id = absint($term->term_id);
-        $label   = $term->name;
-
-
-        $tooltip_image_url = '';
-
-        $tooltip_attribute = sanitize_title(
-            $this->get_setting(
-                'show_tootip_image_attr',
-                ''
-            )
-        );
-
-        if (
-            $this->to_bool(
-                $this->get_setting(
-                    'show_tootip_image',
-                    false
-                )
-            )
-            && $tooltip_attribute
-            && $this->same_attribute(
-                $attribute,
-                $tooltip_attribute
-            )
-        ) {
-            echo $tooltip_image_id = absint(
-                get_term_meta(
-                    $term_id,
-                    'product_attribute_image',
-                    true
-                )
-            );
-
-
-            if ($tooltip_image_id) {
-                $tooltip_image_url = wp_get_attachment_image_url(
-                    $tooltip_image_id,
-                    'thumbnail'
-                );
+            if ($term && ! is_wp_error($term)) {
+                $term_id = absint($term->term_id);
+                $label   = $term->name;
             }
         }
 
-        /*
-         * ---------------------------------------------------------
-         * COLOR
-         * ---------------------------------------------------------
-         */
-        if ('color' === $type) {
+        // Custom attributes do not have taxonomy terms. They are still valid
+        // swatch options, so use the option itself as the term key.
+        if (! $term_id && ! taxonomy_exists($taxonomy)) {
+            $term_id = sanitize_title($option);
+            $label   = $option;
+        }
 
-            $color = get_term_meta(
-                $term_id,
-                'product_attribute_color',
-                true
+        if (! $term_id) {
+            return;
+        }
+
+        $attribute_settings = $this->get_product_attribute_settings(
+            $product,
+            $attribute
+        );
+
+        $term_settings = $this->get_product_term_settings(
+            $attribute_settings,
+            $term_id,
+            $option
+        );
+
+        // -------------------------------------------------------------
+        // Effective type/style.
+        // -------------------------------------------------------------
+        $effective_type = $type;
+
+        if ($this->has_product_setting($term_settings, 'type')) {
+            $term_type = sanitize_key($term_settings['type']);
+
+            if (in_array($term_type, array('color', 'image', 'button', 'select'), true)) {
+                $effective_type = $term_type;
+            }
+        }
+
+        if ('select' === $effective_type) {
+            return;
+        }
+
+        $shape = $this->has_product_setting($attribute_settings, 'style')
+            ? sanitize_html_class($attribute_settings['style'])
+            : sanitize_html_class($this->get_setting('style', 'rounded'));
+
+        $swatch_style = sanitize_html_class(
+            $this->get_setting('th-swatches-style', 'thswatche')
+        );
+
+        $classes = array(
+            'th-store-one-swatch',
+            'th-store-one-swatch-' . sanitize_html_class($effective_type),
+        );
+
+        if ($shape) {
+            $classes[] = 'th-store-one-shape-' . $shape;
+        }
+
+        if ($swatch_style) {
+            $classes[] = 'th-store-one-style-' . $swatch_style;
+        }
+
+        // -------------------------------------------------------------
+        // Effective tooltip mode.
+        // Attribute-level setting: Global | Hide | Text | Image.
+        // Term-level setting: Default | Text | Image | No | Text + Image.
+        // -------------------------------------------------------------
+        $global_tooltip_enabled = $this->to_bool(
+            $this->get_setting('tooltip', true)
+        );
+
+        $attribute_tooltip = $this->has_product_setting(
+            $attribute_settings,
+            'show_tooltip'
+        ) ? sanitize_key($attribute_settings['show_tooltip']) : '';
+
+        if ('no' === $attribute_tooltip) {
+            $tooltip_mode = 'no';
+        } elseif (in_array($attribute_tooltip, array('text', 'image'), true)) {
+            $tooltip_mode = $attribute_tooltip;
+        } else {
+            $tooltip_mode = $global_tooltip_enabled ? 'text' : 'no';
+
+            // Preserve the existing global "image tooltip attribute" feature.
+            $global_image_tooltip = $this->to_bool(
+                $this->get_setting('show_tootip_image', false)
+            );
+            $global_image_attribute = sanitize_title(
+                $this->get_setting('show_tootip_image_attr', '')
             );
 
-            $is_dual_color = get_term_meta(
-                $term_id,
-                'is_dual_color',
-                true
-            );
+            if (
+                $global_tooltip_enabled &&
+                $global_image_tooltip &&
+                $global_image_attribute &&
+                $this->same_attribute($attribute, $global_image_attribute)
+            ) {
+                $tooltip_mode = 'image';
+            }
+        }
 
-            $secondary_color = get_term_meta(
-                $term_id,
-                'secondary_color',
-                true
-            );
+        $term_tooltip = $this->has_product_setting(
+            $term_settings,
+            'tooltip_type'
+        ) ? sanitize_key($term_settings['tooltip_type']) : '';
 
-            $classes = array(
-                'th-store-one-swatch',
-                'th-store-one-swatch-color',
+        if ($term_tooltip) {
+            if ('no' === $term_tooltip) {
+                $tooltip_mode = 'no';
+            } elseif (in_array($term_tooltip, array('text', 'image', 'text-image'), true)) {
+                $tooltip_mode = $term_tooltip;
+            }
+        }
+
+        // If the parent attribute explicitly says Hide, never let a term
+        // setting turn the tooltip back on.
+        if ('no' === $attribute_tooltip) {
+            $tooltip_mode = 'no';
+        }
+
+        $tooltip_text = $label;
+
+        if ($this->has_product_setting($term_settings, 'tooltip_text')) {
+            $custom_tooltip_text = trim((string) $term_settings['tooltip_text']);
+
+            if ('' !== $custom_tooltip_text) {
+                $tooltip_text = $custom_tooltip_text;
+            }
+        }
+
+        // -------------------------------------------------------------
+        // Effective tooltip image.
+        // Product term image overrides the global image source.
+        // -------------------------------------------------------------
+        $tooltip_image_id = $this->has_product_setting(
+            $term_settings,
+            'tooltip_image'
+        ) ? absint($term_settings['tooltip_image']) : 0;
+
+        $tooltip_image_url = '';
+
+        if ($tooltip_image_id) {
+            $tooltip_image_url = wp_get_attachment_image_url(
+                $tooltip_image_id,
+                'thumbnail'
             );
+        }
+
+        // -------------------------------------------------------------
+        // Common data attributes. JS can use these for the tooltip without
+        // needing to know anything about the product meta structure.
+        // -------------------------------------------------------------
+        $data_tooltip_type = $tooltip_mode;
+        $data_tooltip_text = $tooltip_text;
+
+        $tooltip_attrs = sprintf(
+            'data-tooltip-type="%1$s" data-tooltip="%2$s" data-tooltip-text="%2$s"',
+            esc_attr($data_tooltip_type),
+            esc_attr($data_tooltip_text)
+        );
+
+        if ($tooltip_image_url) {
+            $classes[] = 'th-store-one-tooltip-image';
+            $tooltip_attrs .= sprintf(
+                ' data-tooltip-image="%s"',
+                esc_url($tooltip_image_url)
+            );
+        }
+
+        // -------------------------------------------------------------
+        // COLOR
+        // Product color/dual-color values override global term meta.
+        // -------------------------------------------------------------
+        if ('color' === $effective_type) {
+            $color = '';
+            $is_dual_color = '';
+            $secondary_color = '';
+
+            if ($this->has_product_setting($term_settings, 'color')) {
+                $color = sanitize_hex_color($term_settings['color']);
+            }
+
+            if (! $color && $term) {
+                $color = sanitize_hex_color(
+                    get_term_meta($term_id, 'product_attribute_color', true)
+                );
+            }
+
+            if ($this->has_product_setting($term_settings, 'is_dual_color')) {
+                $is_dual_color = sanitize_key($term_settings['is_dual_color']);
+            }
+
+            if ('' === $is_dual_color && $term) {
+                $is_dual_color = sanitize_key(
+                    get_term_meta($term_id, 'is_dual_color', true)
+                );
+            }
+
+            if ($this->has_product_setting($term_settings, 'secondary_color')) {
+                $secondary_color = sanitize_hex_color(
+                    $term_settings['secondary_color']
+                );
+            }
+
+            if (! $secondary_color && $term) {
+                $secondary_color = sanitize_hex_color(
+                    get_term_meta($term_id, 'secondary_color', true)
+                );
+            }
 
             $style = '';
 
@@ -623,158 +748,102 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
                 $color &&
                 $secondary_color
             ) {
-
-                $classes[] =
-                    'th-store-one-swatch-dual';
-
+                $classes[] = 'th-store-one-swatch-dual';
                 $style = sprintf(
                     '--th-store-one-color:%1$s;--th-store-one-secondary-color:%2$s;',
                     esc_attr($color),
                     esc_attr($secondary_color)
                 );
-
             } elseif ($color) {
-
                 $style = sprintf(
                     '--th-store-one-color:%s;',
                     esc_attr($color)
                 );
             }
-
             ?>
 
-			<button
-				type="button"
-				class="<?php echo esc_attr(
-				    implode(' ', $classes)
-				); ?>"
-				data-value="<?php echo esc_attr(
-				    $option
-				); ?>"
-				title="<?php echo esc_attr(
-				    $label
-				); ?>"
-                data-tooltip="<?php echo esc_attr($label); ?>"
-                <?php if ($tooltip_image_url) : ?>
-    data-tooltip-image="<?php echo esc_url($tooltip_image_url); ?>"
-<?php endif; ?>
-				aria-label="<?php echo esc_attr(
-				    $label
-				); ?>"
-				style="<?php echo esc_attr(
-				    $style
-				); ?>"
-			>
-				
-			</button>
+            <button
+                type="button"
+                class="<?php echo esc_attr(implode(' ', $classes)); ?>"
+                data-value="<?php echo esc_attr($option); ?>"
+                title="<?php echo esc_attr($label); ?>"
+                <?php echo $tooltip_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped?>
+                aria-label="<?php echo esc_attr($label); ?>"
+                style="<?php echo esc_attr($style); ?>"
+            ></button>
 
-			<?php
+            <?php
             return;
         }
 
-        /*
-         * ---------------------------------------------------------
-         * IMAGE
-         * ---------------------------------------------------------
-         */
-        if ('image' === $type) {
+        // -------------------------------------------------------------
+        // IMAGE
+        // Product image_id overrides global term image meta.
+        // -------------------------------------------------------------
+        if ('image' === $effective_type) {
+            $image_id = $this->has_product_setting(
+                $term_settings,
+                'image_id'
+            ) ? absint($term_settings['image_id']) : 0;
 
-            $image_id = absint(
-                get_term_meta(
-                    $term_id,
-                    'product_attribute_image',
-                    true
-                )
-            );
-
-            $image_url = '';
-
-            if ($image_id) {
-
-                $image_url = wp_get_attachment_image_url(
-                    $image_id,
-                    'thumbnail'
+            if (! $image_id && $term) {
+                $image_id = absint(
+                    get_term_meta(
+                        $term_id,
+                        'product_attribute_image',
+                        true
+                    )
                 );
             }
 
+            $image_url = $image_id
+                ? wp_get_attachment_image_url($image_id, 'thumbnail')
+                : '';
             ?>
 
-			<button
-				type="button"
-				class="th-store-one-swatch th-store-one-swatch-image"
-				data-value="<?php echo esc_attr(
-				    $option
-				); ?>"
-				title="<?php echo esc_attr(
-				    $label
-				); ?>"
-                data-tooltip="<?php echo esc_attr($label); ?>"
-                <?php if ($tooltip_image_url) : ?>
-    data-tooltip-image="<?php echo esc_url($tooltip_image_url); ?>"
-<?php endif; ?>
-				aria-label="<?php echo esc_attr(
-				    $label
-				); ?>"
-			>
+            <button
+                type="button"
+                class="<?php echo esc_attr(implode(' ', $classes)); ?>"
+                data-value="<?php echo esc_attr($option); ?>"
+                title="<?php echo esc_attr($label); ?>"
+                <?php echo $tooltip_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped?>
+                aria-label="<?php echo esc_attr($label); ?>"
+            >
+                <?php if ($image_url) : ?>
+                    <img
+                        src="<?php echo esc_url($image_url); ?>"
+                        alt="<?php echo esc_attr($label); ?>"
+                        loading="lazy"
+                    />
+                <?php else : ?>
+                    <span class="th-store-one-image-fallback">
+                        <?php echo esc_html($label); ?>
+                    </span>
+                <?php endif; ?>
+            </button>
 
-				<?php if ($image_url) : ?>
-
-					<img
-						src="<?php echo esc_url(
-						    $image_url
-						); ?>"
-						alt="<?php echo esc_attr(
-						    $label
-						); ?>"
-						loading="lazy"
-					/>
-
-				<?php else : ?>
-
-					<span class="th-store-one-image-fallback">
-						<?php echo esc_html(
-						    $label
-						); ?>
-					</span>
-
-				<?php endif; ?>
-
-			</button>
-
-			<?php
+            <?php
             return;
         }
 
-        /*
-         * ---------------------------------------------------------
-         * BUTTON
-         * ---------------------------------------------------------
-         */
-        if ('button' === $type) {
-
+        // -------------------------------------------------------------
+        // BUTTON
+        // -------------------------------------------------------------
+        if ('button' === $effective_type) {
             ?>
 
-			<button
-				type="button"
-				class="th-store-one-swatch th-store-one-swatch-button"
-				data-value="<?php echo esc_attr(
-				    $option
-				); ?>"
-				title="<?php echo esc_attr(
-				    $label
-				); ?>"
-                data-tooltip="<?php echo esc_attr($label); ?>"
-                <?php if ($tooltip_image_url) : ?>
-    data-tooltip-image="<?php echo esc_url($tooltip_image_url); ?>"
-<?php endif; ?>
-				aria-label="<?php echo esc_attr(
-				    $label
-				); ?>"
-			>
-				<?php echo esc_html($label); ?>
-			</button>
+            <button
+                type="button"
+                class="<?php echo esc_attr(implode(' ', $classes)); ?>"
+                data-value="<?php echo esc_attr($option); ?>"
+                title="<?php echo esc_attr($label); ?>"
+                <?php echo $tooltip_attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped?>
+                aria-label="<?php echo esc_attr($label); ?>"
+            >
+                <?php echo esc_html($label); ?>
+            </button>
 
-			<?php
+            <?php
         }
     }
 
@@ -917,7 +986,8 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
         }
 
 			    $type = $this->get_attribute_type(
-			        $attribute
+			        $attribute,
+			        $product
 			    );
 
 			    if ('select' === $type) {
@@ -1004,7 +1074,8 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
 			    $this->render_swatch(
 			        $type,
 			        $attribute,
-			        $option
+			        $option,
+			        $product
 			    );
 			    ?>
 
@@ -1031,6 +1102,108 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
             $first
         ) === wc_variation_attribute_name(
             $second
+        );
+    }
+
+    /**
+     * Get product-level Store One attribute settings.
+     *
+     * Empty values mean Global/Default and therefore fall back to the
+     * global Store One/WooCommerce settings.
+     *
+     * @param WC_Product|false $product   Product.
+     * @param string           $attribute Attribute name.
+     * @return array
+     */
+    private function get_product_attribute_settings($product, $attribute)
+    {
+        if (! $product instanceof WC_Product) {
+            return array();
+        }
+
+        $settings = get_post_meta(
+            $product->get_id(),
+            '_th_store_one_product_attributes',
+            true
+        );
+
+        if (! is_array($settings)) {
+            return array();
+        }
+
+        $keys = array_unique(
+            array(
+                $attribute,
+                sanitize_title($attribute),
+                $this->get_taxonomy_name($attribute),
+            )
+        );
+
+        foreach ($keys as $key) {
+            if (isset($settings[$key]) && is_array($settings[$key])) {
+                return $settings[$key];
+            }
+        }
+
+        return array();
+    }
+
+    /**
+     * Get product-level settings for one term/option.
+     *
+     * @param array  $attribute_settings Attribute settings.
+     * @param mixed  $term_id            Term ID/custom key.
+     * @param string $option             Original option.
+     * @return array
+     */
+    private function get_product_term_settings(
+        $attribute_settings,
+        $term_id,
+        $option = ''
+    ) {
+        if (
+            ! is_array($attribute_settings) ||
+            empty($attribute_settings['terms']) ||
+            ! is_array($attribute_settings['terms'])
+        ) {
+            return array();
+        }
+
+        $keys = array(
+            $term_id,
+            (string) $term_id,
+        );
+
+        if ('' !== (string) $option) {
+            $keys[] = $option;
+            $keys[] = sanitize_title($option);
+        }
+
+        foreach (array_unique($keys) as $key) {
+            if (
+                isset($attribute_settings['terms'][$key]) &&
+                is_array($attribute_settings['terms'][$key])
+            ) {
+                return $attribute_settings['terms'][$key];
+            }
+        }
+
+        return array();
+    }
+
+    /**
+     * Check whether a product setting has an explicit value.
+     *
+     * @param array  $settings Settings.
+     * @param string $key      Key.
+     * @return bool
+     */
+    private function has_product_setting($settings, $key)
+    {
+        return (
+            is_array($settings) &&
+            array_key_exists($key, $settings) &&
+            '' !== trim((string) $settings[$key])
         );
     }
 

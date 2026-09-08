@@ -55,13 +55,13 @@ if (! class_exists('TH_Store_One_Variation_Tooltip')) :
             /**
              * Normal WooCommerce product save.
              */
-            add_action(
-                'woocommerce_process_product_meta_variable',
-                array(
-                    $this,
-                    'prepare_for_save_product_attributes',
-                )
-            );
+            // add_action(
+            //     'woocommerce_process_product_meta_variable',
+            //     array(
+            //         $this,
+            //         'prepare_for_save_product_attributes',
+            //     )
+            // );
 
             /**
              * AJAX reset.
