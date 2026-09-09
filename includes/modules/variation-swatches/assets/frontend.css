@@ -147,8 +147,8 @@
  * --------------------------------------------------------- */
 
 .th-store-one-swatch-button {
-	min-height: var(--th-store-one-width, 36px);
-	padding: 0 14px;
+	
+	padding: 10px 14px;
 	background: var(
 		--th-store-one-button-background,
 		transparent
@@ -274,7 +274,56 @@
 	.th-store-one-disabled {
 	display: none !important;
 }
+.th-store-one-swatch {
+    border: var(--th-store-one-border-size, 1px) solid
+        var(--th-store-one-border-color, #EBEBEB);
+    color: var(--th-store-one-text-color, inherit);
+    font-size: var(--th-store-one-font-size, 14px);
+}
 
+.th-store-one-swatch:hover,
+.th-store-one-swatch.selected,
+.th-store-one-swatch.active {
+    border-color: var(--th-store-one-hover-border-color, #111);
+    color: var(--th-store-one-hover-text-color, #fff);
+    background-color: var(--th-store-one-hover-bg-color, #111);
+}
+
+.th-store-one-shop-swatches .th-store-one-swatch {
+    
+    font-size: var(--th-store-one-shop-font-size, 14px);
+    border-color: var(--th-store-one-border-color, #EBEBEB);
+    border-width: var(--th-store-one-border-size, 1px);
+    color: var(--th-store-one-text-color, inherit);
+    
+}
+
+.th-store-one-swatches .th-store-one-swatch-color,.th-store-one-swatches .th-store-one-swatch-image{
+    width: var(--th-store-one-swatch-width);
+    height:var(--th-store-one-swatch-width);
+}
+
+.th-store-one-shop-swatches .th-store-one-swatch:hover,
+.th-store-one-shop-swatches .th-store-one-swatch.selected,
+.th-store-one-shop-swatches .th-store-one-swatch.active {
+    border-color: var(--th-store-one-hover-border-color, #111);
+    color: var(--th-store-one-hover-text-color, #fff);
+    background-color: var(--th-store-one-hover-bg-color, #111);
+}
+
+.th-store-one-tooltip {
+    background: var(--th-store-one-tooltip-bg, #111);
+    color: var(--th-store-one-tooltip-text, #fff);
+    border-color: var(--th-store-one-tooltip-border, #7100e2);
+}
+
+.th-store-one-variation-swatches-enabled .variations th.label{
+    font-size: var(--th-store-one-attr-title-font-size, 12px);
+}
+
+button.th-store-one-swatches-button{
+background-color: var(--th-store-one-bg-color, transparent);
+}
 /* ---------------------------------------------------------
  * Shop
  * --------------------------------------------------------- */

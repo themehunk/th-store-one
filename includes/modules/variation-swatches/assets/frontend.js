@@ -24,13 +24,6 @@
   function applySettings() {
     const root = document.documentElement;
 
-    if (settings.width) {
-      root.style.setProperty(
-        "--th-store-one-width",
-        parseInt(settings.width, 10) + "px",
-      );
-    }
-
     if (settings.font_size) {
       root.style.setProperty(
         "--th-store-one-font-size",

@@ -109,6 +109,25 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
             'wp_ajax_nopriv_th_store_one_catalog_add_to_cart',
             array( $this, 'catalog_add_to_cart' )
         );
+
+        add_filter(
+            'body_class',
+            array( $this, 'add_variation_swatches_body_class' )
+        );
+    }
+
+    /**
+ * Add variation swatches body class.
+ *
+ * @param array $classes Body classes.
+ * @return array
+ */
+    public function add_variation_swatches_body_class($classes)
+    {
+
+        $classes[] = 'th-store-one-variation-swatches-enabled';
+
+        return $classes;
     }
 
     /**
@@ -138,6 +157,14 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
                 defined('TH_STORE_ONE_VERSION')
                     ? TH_STORE_ONE_VERSION
                     : filemtime($css_file)
+            );
+            wp_add_inline_style(
+                'th-store-one-variation-swatches',
+                ':root {
+        --th-store-one-attr-title-font-size: ' .
+        absint($this->get_setting('attr_title_font_size', 14)) .
+        'px;
+    }'
             );
         }
 
@@ -478,17 +505,69 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
 			    $product->get_id()
 			); ?>"
 			data-type="<?php echo esc_attr($type); ?>"
+
+            style="
+            --th-store-one-attr-title-font-size: <?php echo esc_attr(
+                absint($this->get_setting('attr_title_font_size', 12))
+            ); ?>px;
+        --th-store-one-swatch-width: <?php echo esc_attr(
+            absint($this->get_setting('width', 36))
+        ); ?>px;
+
+        --th-store-one-font-size: <?php echo esc_attr(
+            absint($this->get_setting('single_font_size', 14))
+        ); ?>px;
+
+        --th-store-one-border-color: <?php echo esc_attr(
+            $this->get_setting('attr_brdr_color', '#EBEBEB')
+        ); ?>;
+
+        --th-store-one-border-size: <?php echo esc_attr(
+            absint($this->get_setting('attr_brdr_size', 1))
+        ); ?>px;
+
+        --th-store-one-text-color: <?php echo esc_attr(
+            $this->get_setting('attr_text_color', '')
+        ); ?>;
+
+        --th-store-one-bg-color: <?php echo esc_attr(
+            $this->get_setting('attr_bg_btn_color', '')
+        ); ?>;
+
+        --th-store-one-hover-border-color: <?php echo esc_attr(
+            $this->get_setting('attr_brdr_hvr_color', '#111')
+        ); ?>;
+
+        --th-store-one-hover-text-color: <?php echo esc_attr(
+            $this->get_setting('attr_text_hvr_color', '#fff')
+        ); ?>;
+
+        --th-store-one-hover-bg-color: <?php echo esc_attr(
+            $this->get_setting('attr_bg_btn_hvr_color', '#111')
+        ); ?>;
+
+        --th-store-one-tooltip-bg: <?php echo esc_attr(
+            $this->get_setting('tooltip_background_color', '')
+        ); ?>;
+
+        --th-store-one-tooltip-text: <?php echo esc_attr(
+            $this->get_setting('tooltip_text_color', '')
+        ); ?>;
+
+        --th-store-one-tooltip-border: <?php echo esc_attr(
+            $this->get_setting('tooltip_border_color', '#7100e2')
+        ); ?>;"
 		>
 
 			<?php foreach ($options as $option) : ?>
 
 				<?php
-			    $this->render_swatch(
-			        $type,
-			        $attribute,
-			        $option,
-			        $product
-			    );
+                $this->render_swatch(
+                    $type,
+                    $attribute,
+                    $option,
+                    $product
+                );
 			    ?>
 
 			<?php endforeach; ?>
@@ -993,9 +1072,60 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
     data-product-variations="<?php echo esc_attr($variations_attr); ?>"
      data-align="<?php echo esc_attr($this->get_setting('show_swatches_shop_attr_alignment', 'left')); ?>"
     style="
-    --th-store-one-shop-swatch-width: <?php echo esc_attr(absint($this->get_setting('swatches_shop_width', 36))); ?>px;
-    --th-store-one-shop-font-size: <?php echo esc_attr(absint($this->get_setting('swatches_shop_font_size', 14))); ?>px;
-    --th-store-one-shop-align: <?php echo esc_attr($this->get_setting('show_swatches_shop_attr_alignment', 'left')); ?>;
+    --th-store-one-attr-title-font-size: <?php echo esc_attr(
+        absint($this->get_setting('attr_title_font_size', 12))
+    ); ?>px;
+    --th-store-one-shop-swatch-width: <?php echo esc_attr(
+        absint($this->get_setting('swatches_shop_width', 36))
+    ); ?>px;
+
+    --th-store-one-shop-font-size: <?php echo esc_attr(
+        absint($this->get_setting('swatches_shop_font_size', 14))
+    ); ?>px;
+
+    --th-store-one-shop-align: <?php echo esc_attr(
+        $this->get_setting('show_swatches_shop_attr_alignment', 'left')
+    ); ?>;
+
+    --th-store-one-border-color: <?php echo esc_attr(
+        $this->get_setting('attr_brdr_color', '#EBEBEB')
+    ); ?>;
+
+    --th-store-one-border-size: <?php echo esc_attr(
+        absint($this->get_setting('attr_brdr_size', 1))
+    ); ?>px;
+
+    --th-store-one-text-color: <?php echo esc_attr(
+        $this->get_setting('attr_text_color', '')
+    ); ?>;
+
+    --th-store-one-bg-color: <?php echo esc_attr(
+        $this->get_setting('attr_bg_btn_color', '')
+    ); ?>;
+
+    --th-store-one-hover-border-color: <?php echo esc_attr(
+        $this->get_setting('attr_brdr_hvr_color', '#111')
+    ); ?>;
+
+    --th-store-one-hover-text-color: <?php echo esc_attr(
+        $this->get_setting('attr_text_hvr_color', '#fff')
+    ); ?>;
+
+    --th-store-one-hover-bg-color: <?php echo esc_attr(
+        $this->get_setting('attr_bg_btn_hvr_color', '#111')
+    ); ?>;
+
+    --th-store-one-tooltip-bg: <?php echo esc_attr(
+        $this->get_setting('tooltip_background_color', '')
+    ); ?>;
+
+    --th-store-one-tooltip-text: <?php echo esc_attr(
+        $this->get_setting('tooltip_text_color', '')
+    ); ?>;
+
+    --th-store-one-tooltip-border: <?php echo esc_attr(
+        $this->get_setting('tooltip_border_color', '#7100e2')
+    ); ?>;
 "
     >
 
