@@ -147,8 +147,8 @@
  * --------------------------------------------------------- */
 
 .th-store-one-swatch-button {
-	min-height: var(--th-store-one-width, 36px);
-	padding: 0 14px;
+	
+	padding: 10px 14px;
 	background: var(
 		--th-store-one-button-background,
 		transparent
@@ -274,7 +274,56 @@
 	.th-store-one-disabled {
 	display: none !important;
 }
+.th-store-one-swatch {
+    border: var(--th-store-one-border-size, 1px) solid
+        var(--th-store-one-border-color, #EBEBEB);
+    color: var(--th-store-one-text-color, inherit);
+    font-size: var(--th-store-one-font-size, 14px);
+}
 
+.th-store-one-swatch:hover,
+.th-store-one-swatch.selected,
+.th-store-one-swatch.active {
+    border-color: var(--th-store-one-hover-border-color, #111);
+    color: var(--th-store-one-hover-text-color, #fff);
+    background-color: var(--th-store-one-hover-bg-color, #111);
+}
+
+.th-store-one-shop-swatches .th-store-one-swatch {
+    
+    font-size: var(--th-store-one-shop-font-size, 14px);
+    border-color: var(--th-store-one-border-color, #EBEBEB);
+    border-width: var(--th-store-one-border-size, 1px);
+    color: var(--th-store-one-text-color, inherit);
+    
+}
+
+.th-store-one-swatches .th-store-one-swatch-color,.th-store-one-swatches .th-store-one-swatch-image{
+    width: var(--th-store-one-swatch-width);
+    height:var(--th-store-one-swatch-width);
+}
+
+.th-store-one-shop-swatches .th-store-one-swatch:hover,
+.th-store-one-shop-swatches .th-store-one-swatch.selected,
+.th-store-one-shop-swatches .th-store-one-swatch.active {
+    border-color: var(--th-store-one-hover-border-color, #111);
+    color: var(--th-store-one-hover-text-color, #fff);
+    background-color: var(--th-store-one-hover-bg-color, #111);
+}
+
+.th-store-one-tooltip {
+    background: var(--th-store-one-tooltip-bg, #111);
+    color: var(--th-store-one-tooltip-text, #fff);
+    border-color: var(--th-store-one-tooltip-border, #7100e2);
+}
+
+.th-store-one-variation-swatches-enabled .variations th.label{
+    font-size: var(--th-store-one-attr-title-font-size, 12px);
+}
+
+button.th-store-one-swatches-button{
+background-color: var(--th-store-one-bg-color, transparent);
+}
 /* ---------------------------------------------------------
  * Shop
  * --------------------------------------------------------- */
@@ -533,4 +582,196 @@
 		gap: 6px;
 	}
 
+}
+
+/* =========================================================
+   Store One - Catalog / Shop Variation Swatches
+   ========================================================= */
+
+.th-store-one-shop-swatches {
+    width: 100%;
+    margin: 12px 0 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+/* Attribute group */
+.th-store-one-shop-attribute {
+    width: 100%;
+    margin: 0 0 10px;
+    padding: 0;
+}
+
+/* Attribute swatch group */
+.th-store-one-shop-swatches-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 7px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Individual swatch */
+.th-store-one-shop-swatches-group .th-store-one-swatch {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    min-height: 36px;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 500;
+
+    border: 1px solid #ddd;
+    border-radius: 4px;
+   
+
+    cursor: pointer;
+    position: relative;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease,
+        opacity 0.2s ease;
+}
+
+/* Color swatch */
+.th-store-one-shop-swatches-group
+.th-store-one-swatch-color {
+    overflow: hidden;
+}
+
+/* Image swatch */
+.th-store-one-shop-swatches-group
+.th-store-one-swatch-image {
+    overflow: hidden;
+}
+
+.th-store-one-shop-swatches-group
+.th-store-one-swatch-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin: 0;
+    padding: 0;
+}
+
+/* Button / text swatch */
+.th-store-one-shop-swatches-group
+.th-store-one-swatch-button {
+    padding: 0 10px;
+    width: auto;
+    min-width: 36px;
+}
+
+/* Hover */
+.th-store-one-shop-swatches-group
+.th-store-one-swatch:not(.disabled):not([disabled]):hover {
+    border-color: #111;
+    transform: translateY(-1px);
+}
+
+/* Selected */
+.th-store-one-shop-swatches-group
+.th-store-one-swatch.selected {
+    border-color: #111;
+    box-shadow: 0 0 0 1px #111;
+}
+
+/* Disabled / unavailable */
+.th-store-one-shop-swatches-group
+.th-store-one-swatch.disabled,
+.th-store-one-shop-swatches-group
+.th-store-one-swatch[disabled],
+.th-store-one-shop-swatches-group
+.th-store-one-swatch.th-store-one-disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Disabled cross */
+.th-store-one-shop-swatches-group
+.th-store-one-swatch.disabled::after,
+.th-store-one-shop-swatches-group
+.th-store-one-swatch.th-store-one-disabled::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 70%;
+    height: 1px;
+    background: #555;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    pointer-events: none;
+}
+
+/* Clear button */
+.th-store-one-shop-clear {
+    display: none;
+}
+
+/* =========================================================
+   Catalog product image
+   ========================================================= */
+
+.product .th-store-one-shop-swatches ~ a img,
+.product .th-store-one-shop-swatches ~ img {
+    transition: opacity 0.2s ease;
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+
+@media (max-width: 767px) {
+
+    .th-store-one-shop-swatches {
+        margin-top: 10px;
+    }
+
+    .th-store-one-shop-swatches-group {
+        gap: 6px;
+    }
+
+    .th-store-one-shop-swatches-group .th-store-one-swatch {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
+        min-height: 36px;
+        font-size: 14px;
+    }
+}
+.th-store-one-shop-swatches {
+    text-align: var(--th-store-one-shop-align, left);
+}
+
+.th-store-one-shop-swatches-group {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.th-store-one-shop-swatches[data-align="center"] .th-store-one-shop-swatches-group {
+    justify-content: center;
+}
+
+.th-store-one-shop-swatches[data-align="right"] .th-store-one-shop-swatches-group {
+    justify-content: flex-end;
+}
+.th-store-one-swatch.th-store-one-swatch-color.th-store-one-shape-rounded,.th-store-one-swatch.th-store-one-swatch-image.th-store-one-shape-rounded  {
+    border-radius: 50%;
+    overflow: hidden;
 }

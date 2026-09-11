@@ -14,7 +14,7 @@ import { ICONS } from "@th-storeone-global/icons";
 import THBackgroundControl from "@th-storeone-control/color";
 import UniversalRangeControl from "@th-storeone-global/UniversalRangeControl";
 import AlignmentControl from "@th-storeone-control/AlignmentControl";
-
+import ResetModuleButton from "@th-storeone-global/ResetModuleButton";
 const MODULE_ID = "th-variationswatches";
 
 /**
@@ -33,7 +33,7 @@ const DEFAULT_SETTINGS = {
   // Attribute Style.
   "th-swatches-style": "thswatche",
   style: "rounded",
-  attr_title_font_size: "12",
+  attr_title_font_size: "14",
   variation_label_separator: ":",
   attribute_behavior: "blur",
   width: 36,
@@ -56,7 +56,7 @@ const DEFAULT_SETTINGS = {
 
   // Catalog Page Variations.
   show_swatches_shop: false,
-  show_single_swatches_on_shop: false,
+  show_single_swatches_on_shop: true,
   show_single_swatches_on_attr_shop: false,
   show_swatches_shop_attr: "",
   show_swatches_shop_attr_slider: true,
@@ -555,7 +555,7 @@ export default function VariationSwatchesSettings({
                             </S1Field>
                           )}
 
-                        <S1Field
+                        {/* <S1Field
                           label={__("Enable Variation Slider", "th-store-one")}
                         >
                           <ToggleControl
@@ -564,7 +564,7 @@ export default function VariationSwatchesSettings({
                               update("show_swatches_shop_attr_slider", value)
                             }
                           />
-                        </S1Field>
+                        </S1Field> */}
 
                         <S1Field
                           label={__("Enable Clear Link", "th-store-one")}
@@ -969,6 +969,12 @@ export default function VariationSwatchesSettings({
                   ),
                 },
               ]}
+            />
+          </div>
+          <div className="store-one-rules-footer">
+            <ResetModuleButton
+              moduleId={MODULE_ID}
+              onReset={() => setSettings(DEFAULT_SETTINGS)}
             />
           </div>
         </>
