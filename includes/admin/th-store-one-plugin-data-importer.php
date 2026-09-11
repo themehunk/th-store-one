@@ -57,6 +57,26 @@ class TH_StoreOne_Old_Plugin_Importer
         'permission_callback' => array( $this, 'permission_callback' ),
     )
         );
+        // Import Old TH Variation Swatches Data (Lite + Pro).
+        register_rest_route(
+            'th-store-one/v1',
+            '/module/th-variationswatches/import-old',
+            array(
+                'methods'             => 'POST',
+                'callback'            => array($this, 'import_old_variation_swatches_data'),
+                'permission_callback' => array($this, 'permission_callback'),
+            )
+        );
+
+        register_rest_route(
+            'th-store-one/v1',
+            '/deactivate-old-plugins',
+            array(
+        'methods'             => 'POST',
+        'callback'            => array( $this, 'deactivate_old_plugins' ),
+        'permission_callback' => array( $this, 'permission_callback' ),
+    )
+        );
     }
 
     /**
@@ -96,6 +116,9 @@ class TH_StoreOne_Old_Plugin_Importer
             // TH All In One Woo Cart.
             'taiowc'  => 'th-cart',
             'taiowcp' => 'th-cart',
+
+            // TH Variation Swatches (Lite + Pro use the same settings option).
+            'th_variation_swatches' => 'th-variationswatches',
         );
 
         $module = $module_map[$option] ?? '';
@@ -127,6 +150,11 @@ class TH_StoreOne_Old_Plugin_Importer
             $has_active_old_plugin =
                 is_plugin_active('th-all-in-one-woo-cart-pro/th-all-in-one-woo-cart-pro.php') ||
                 is_plugin_active('th-all-in-one-woo-cart/th-all-in-one-woo-cart.php');
+        } elseif ($option === 'th_variation_swatches') {
+
+            $has_active_old_plugin =
+                is_plugin_active('th-variation-swatches-pro/th-variation-swatches-pro.php') ||
+                is_plugin_active('th-variation-swatches/th-variation-swatches.php');
         }
 
         /*
@@ -299,6 +327,154 @@ class TH_StoreOne_Old_Plugin_Importer
         return array_merge(
             $lite_settings,
             $pro_settings
+        );
+    }
+
+    /**
+         * Import Old TH Variation Swatches Settings.
+         *
+         * Lite and Pro use the same WordPress option:
+         *     th_variation_swatches
+         *
+         * Pro extends the same settings array when active, so preserve every
+         * stored key. This keeps Lite + Pro settings without dropping
+         * Pro-specific or future settings.
+         *
+         * @param WP_REST_Request $request Request.
+         *
+         * @return array
+         */
+    public function import_old_variation_swatches_data($request)
+    {
+        $old = get_option('th_variation_swatches', array());
+
+        if (! is_array($old)) {
+            $old = maybe_unserialize($old);
+        }
+
+        if (! is_array($old) || empty($old)) {
+            return array(
+                'success' => false,
+                'message' => 'No valid old Variation Swatches settings found in th_variation_swatches.',
+            );
+        }
+
+        /*
+         * Lite + Pro both store their settings in the same option:
+         * th_variation_swatches.
+         *
+         * Do NOT simply copy the array here. Store One has an explicit
+         * settings schema, so map every known Lite/Pro setting and provide
+         * Store One-compatible defaults for keys that are missing.
+         *
+         * Source:
+         * - Lite settings file.
+         * - Pro settings file.
+         * - Store One Variation Swatches React DEFAULT_SETTINGS.
+         */
+
+        $new_settings = array(
+            // General Settings.
+            'clear_on_reselect'                 => $old['clear_on_reselect'] ?? false,
+            'threshold'                         => $old['threshold'] ?? 30,
+
+            // Filter Attribute Widget.
+            'filter_widget_style'               => $old['filter_widget_style'] ?? 'style-1',
+
+            // Attribute Style.
+            'th-swatches-style'                 => $old['th-swatches-style'] ?? 'thswatche',
+            'style'                             => $old['style'] ?? 'rounded',
+            'attr_title_font_size'              => $old['attr_title_font_size'] ?? 14,
+            'variation_label_separator'         => $old['variation_label_separator'] ?? ':',
+            'attribute_behavior'                => $old['attribute_behavior'] ?? 'blur',
+            'width'                             => $old['width'] ?? 36,
+            'single_font_size'                  => $old['single_font_size'] ?? 14,
+            'attr_brdr_color'                   => $old['attr_brdr_color'] ?? '#EBEBEB',
+            'attr_brdr_size'                    => $old['attr_brdr_size'] ?? 1,
+            'attr_text_color'                   => $old['attr_text_color'] ?? '',
+            'attr_bg_btn_color'                 => $old['attr_bg_btn_color'] ?? '',
+            'default_to_button'                 => $old['default_to_button'] ?? true,
+
+            // Hover & Selected Attribute Style.
+            'attr_brdr_hvr_color'               => $old['attr_brdr_hvr_color'] ?? '#111',
+            'attr_text_hvr_color'               => $old['attr_text_hvr_color'] ?? '#fff',
+            'attr_bg_btn_hvr_color'             => $old['attr_bg_btn_hvr_color'] ?? '#111',
+
+            // Tooltip.
+            'tooltip'                            => $old['tooltip'] ?? true,
+            'tooltip_background_color'          => $old['tooltip_background_color'] ?? '',
+            'tooltip_text_color'                => $old['tooltip_text_color'] ?? '',
+            'tooltip_border_color'              => $old['tooltip_border_color'] ?? '#7100e2',
+
+            // Catalog Page Variations - Lite + Pro.
+            'show_swatches_shop'                => $old['show_swatches_shop'] ?? false,
+            'show_single_swatches_on_shop'      => $old['show_single_swatches_on_shop'] ?? false,
+
+            // Present in the current Store One React schema; preserve it
+            // if an older/custom installation already has the value.
+            'show_single_swatches_on_attr_shop' => $old['show_single_swatches_on_attr_shop'] ?? false,
+
+            'show_swatches_shop_attr'           => $old['show_swatches_shop_attr'] ?? '',
+            'show_swatches_shop_attr_slider'    => $old['show_swatches_shop_attr_slider'] ?? true,
+
+            // These existed in Lite and were disabled/commented in some Pro
+            // versions. Preserve them when present.
+            'show_swatches_shop_attr_more'      => $old['show_swatches_shop_attr_more'] ?? false,
+            'show_swatches_shop_attr_limit'     => $old['show_swatches_shop_attr_limit'] ?? 4,
+            'show_swatches_shop_attr_more_text' => $old['show_swatches_shop_attr_more_text'] ?? 'More',
+            'show_swatches_shop_tooltip'        => $old['show_swatches_shop_tooltip'] ?? false,
+            'show_swatches_shop_attr_link'      => $old['show_swatches_shop_attr_link'] ?? false,
+
+            'show_swatches_shop_clear_link'     => $old['show_swatches_shop_clear_link'] ?? false,
+            'show_swatches_shop_attr_alignment' => $old['show_swatches_shop_attr_alignment'] ?? 'left',
+            'swatches_shop_width'               => $old['swatches_shop_width'] ?? 36,
+            'swatches_shop_height'              => $old['swatches_shop_height'] ?? 36,
+            'swatches_shop_font_size'           => $old['swatches_shop_font_size'] ?? 14,
+
+            // Image Tooltip.
+            'show_tootip_image'                 => $old['show_tootip_image'] ?? false,
+            'show_tootip_image_attr'            => $old['show_tootip_image_attr'] ?? '',
+            'tootip_image_width'                => $old['tootip_image_width'] ?? 120,
+
+            // Highlight Attribute (Lite).
+            'enable_highlight_attr'             => $old['enable_highlight_attr'] ?? false,
+            'highlight_attr'                    => $old['highlight_attr'] ?? '',
+            'highlight_width'                   => $old['highlight_width'] ?? 36,
+            'highlight_height'                  => $old['highlight_height'] ?? 36,
+            'highlight_font_size'               => $old['highlight_font_size'] ?? 16,
+
+            // Stock.
+            'show_stock_available'              => $old['show_stock_available'] ?? false,
+            'stock_display_threshold'           => $old['stock_display_threshold'] ?? 0,
+        );
+
+        /*
+         * Keep only the mapped settings above. This makes the destination
+         * predictable while still covering the complete known Lite + Pro
+         * settings schema.
+         */
+        $all = get_option(
+            'th_store_one_module_set',
+            array()
+        );
+
+        if (! is_array($all)) {
+            $all = array();
+        }
+
+        $all['th-variationswatches'] = $new_settings;
+
+        update_option(
+            'th_store_one_module_set',
+            $all
+        );
+
+        $this->mark_module_imported('th-variationswatches');
+
+        return array(
+            'success'  => true,
+            'settings' => $new_settings,
+            'message'  => 'Old TH Variation Swatches Lite + Pro settings imported successfully!',
         );
     }
 
@@ -548,6 +724,10 @@ class TH_StoreOne_Old_Plugin_Importer
             'wishlist' => array(
                 'th-wishlist-pro/th-wishlist-pro.php',
                 'th-wishlist/th-wishlist.php',
+            ),
+            'variation-swatches' => array(
+                'th-variation-swatches-pro/th-variation-swatches-pro.php',
+                'th-variation-swatches/th-variation-swatches.php',
             ),
         );
 
