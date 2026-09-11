@@ -183,34 +183,7 @@ export const modulesList = [
       plugin: "th-advance-product-search",
     },
   },
-  {
-    id: "th-advanced-cart",
-    label: __("Advanced Woo Cart", "th-store-one"),
-    description: __(
-      "Enhance the shopping cart experience with advanced features like real-time updates, item customization, and improved checkout flow.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.ADVCART,
-    premium: false,
-    source: {
-      type: "th-extension",
-      plugin: "th-all-in-one-woo-cart",
-    },
-  },
-  {
-    id: "th-variation-swatches",
-    label: __("Product Variations", "th-store-one"),
-    description: __(
-      "Display product variations as attractive color, image, button, and label swatches to help customers choose options quickly.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.VARIATIONS,
-    premium: false,
-    source: {
-      type: "th-extension",
-      plugin: "th-variation-swatches",
-    },
-  },
+
   {
     id: "th-product-compare",
     label: __("Product Compare", "th-store-one"),

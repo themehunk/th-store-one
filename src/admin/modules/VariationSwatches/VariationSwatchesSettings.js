@@ -3,6 +3,7 @@ import apiFetch from "@wordpress/api-fetch";
 import { __ } from "@wordpress/i18n";
 import {
   Spinner,
+  Button,
   ToggleControl,
   SelectControl,
   TextControl,
@@ -336,6 +337,113 @@ export default function VariationSwatchesSettings({
     ...attributeOptions,
   ];
 
+  const [importing, setImporting] = useState(false);
+  const [hasOldData, setHasOldData] = useState(false);
+
+  const [deactivating, setDeactivating] = useState(false);
+  const [hasActiveOldVariationPlugin, setHasActiveOldVariationPlugin] =
+    useState(false);
+  useEffect(() => {
+    apiFetch({
+      path: `${th_StoreOneAdmin.restUrl}check-old-option?option=th_variation_swatches`,
+      method: "GET",
+    })
+      .then((res) => {
+        setHasOldData(Boolean(res?.has_data));
+        setHasActiveOldVariationPlugin(Boolean(res?.has_active_old_plugin));
+      })
+      .catch(() => {
+        setHasOldData(false);
+        setHasActiveOldVariationPlugin(false);
+      });
+  }, []);
+  const importOldData = async () => {
+    if (importing) {
+      return;
+    }
+
+    setImporting(true);
+    setSuccess("");
+    setError("");
+
+    try {
+      const res = await apiFetch({
+        path: `${th_StoreOneAdmin.restUrl}module/${MODULE_ID}/import-old`,
+        method: "POST",
+        data: {
+          option_name: "th_variation_swatches",
+        },
+      });
+
+      if (res?.success) {
+        setSettings({
+          ...DEFAULT_SETTINGS,
+          ...(res.settings || {}),
+        });
+
+        setHasOldData(false);
+
+        setSuccess(
+          __(
+            "Old Variation Swatches settings imported successfully!",
+            "th-store-one",
+          ),
+        );
+      } else {
+        setError(res?.message || __("Import failed.", "th-store-one"));
+      }
+    } catch (e) {
+      setError(
+        __("Failed to import old Variation Swatches settings.", "th-store-one"),
+      );
+    } finally {
+      setImporting(false);
+    }
+  };
+  const deactivateOldPlugins = async () => {
+    if (deactivating) {
+      return;
+    }
+
+    setDeactivating(true);
+    setSuccess("");
+    setError("");
+
+    try {
+      const res = await apiFetch({
+        path: `${th_StoreOneAdmin.restUrl}deactivate-old-plugins`,
+        method: "POST",
+        data: {
+          type: "variation-swatches",
+        },
+      });
+
+      if (res?.success) {
+        setHasActiveOldVariationPlugin(false);
+
+        setSuccess(
+          __(
+            "Old Variation Swatches plugins deactivated successfully!",
+            "th-store-one",
+          ),
+        );
+      } else {
+        setError(
+          res?.message ||
+            __("Failed to deactivate old plugins.", "th-store-one"),
+        );
+      }
+    } catch (e) {
+      setError(
+        __(
+          "Failed to deactivate old Variation Swatches plugins.",
+          "th-store-one",
+        ),
+      );
+    } finally {
+      setDeactivating(false);
+    }
+  };
   return (
     <div className="storeone-module-settings s1-no-rule">
       {loading && (
@@ -384,6 +492,74 @@ export default function VariationSwatchesSettings({
                   icon: ICONS.SETTINGS,
                   content: (
                     <>
+                      {hasOldData && (
+                        <div className="th-import-card">
+                          <div className="th-import-card__content">
+                            <h3>Import Existing Variation Swatches Settings</h3>
+
+                            <p>
+                              We found an existing
+                              <strong>
+                                {" "}
+                                TH Variation Swatches Lite / Pro{" "}
+                              </strong>
+                              configuration on your site. Import your current
+                              settings into
+                              <strong> Store One </strong>
+                              to continue using the same variation swatches
+                              configuration.
+                            </p>
+
+                            <Button
+                              variant="primary"
+                              isBusy={importing}
+                              onClick={importOldData}
+                              disabled={importing}
+                            >
+                              {importing
+                                ? "Importing Settings..."
+                                : "Import Settings"}
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+
+                      {hasActiveOldVariationPlugin && (
+                        <div className="th-import-card">
+                          <div className="th-import-card__content">
+                            <h3>
+                              Deactivate Existing Variation Swatches Plugins
+                            </h3>
+
+                            <p>
+                              We found an active
+                              <strong>
+                                {" "}
+                                TH Variation Swatches Lite / Pro{" "}
+                              </strong>
+                              plugin on your site. Deactivate the old variation
+                              swatches plugin to avoid conflicts and continue
+                              using
+                              <strong> Store One </strong>
+                              for your variation swatches configuration.
+                            </p>
+
+                            <Button
+                              variant="secondary"
+                              isBusy={deactivating}
+                              onClick={deactivateOldPlugins}
+                              disabled={deactivating}
+                            >
+                              {deactivating
+                                ? __("Deactivating Plugins...", "th-store-one")
+                                : __(
+                                    "Deactivate Old Variation Swatches Plugins",
+                                    "th-store-one",
+                                  )}
+                            </Button>
+                          </div>
+                        </div>
+                      )}
                       <S1FieldGroup
                         number={1}
                         title={__("Variation", "th-store-one")}
@@ -641,7 +817,7 @@ export default function VariationSwatchesSettings({
                               )}
                             >
                               <UniversalRangeControl
-                                label={__("Width", "th-store-one")}
+                                label={__("", "th-store-one")}
                                 value={String(settings.tootip_image_width)}
                                 onChange={(value) =>
                                   update("tootip_image_width", value)
@@ -697,14 +873,12 @@ export default function VariationSwatchesSettings({
                           />
                         </S1Field>
 
-                        <S1Field
-                          label={__(
-                            "Attribute Title Font Size",
-                            "th-store-one",
-                          )}
-                        >
+                        <S1Field>
                           <UniversalRangeControl
-                            label={__("Font Size", "th-store-one")}
+                            label={__(
+                              "Attribute Title Font Size",
+                              "th-store-one",
+                            )}
                             value={settings.attr_title_font_size}
                             onChange={(value) =>
                               update("attr_title_font_size", value)
@@ -757,7 +931,7 @@ export default function VariationSwatchesSettings({
                           )}
                         >
                           <UniversalRangeControl
-                            label={__("Width", "th-store-one")}
+                            label={__("", "th-store-one")}
                             value={String(settings.width)}
                             onChange={(value) => update("width", value)}
                             units={["px"]}
@@ -774,7 +948,7 @@ export default function VariationSwatchesSettings({
                           )}
                         >
                           <UniversalRangeControl
-                            label={__("Font Size", "th-store-one")}
+                            label={__("", "th-store-one")}
                             value={String(settings.single_font_size)}
                             onChange={(value) =>
                               update("single_font_size", value)
