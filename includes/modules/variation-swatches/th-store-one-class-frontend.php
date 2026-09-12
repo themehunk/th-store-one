@@ -44,11 +44,7 @@ class TH_Store_One_Variation_Swatches_Frontend
     public function __construct($settings = [])
     {
 
-
-
         $this->settings = $settings;
-
-
 
         $this->load_files();
 
@@ -67,7 +63,7 @@ class TH_Store_One_Variation_Swatches_Frontend
 
         $frontend_file = $module_dir . 'class-variation-swatches-frontend.php';
         $backend_file  = $module_dir . 'class-variation-swatches-backend.php';
-        $tooltip_file  = $module_dir . 'class-th-store-one-variation-tooltip.php';
+        // $tooltip_file  = $module_dir . 'class-th-store-one-variation-tooltip.php';
 
         if (file_exists($frontend_file)) {
             require_once $frontend_file;
@@ -76,9 +72,9 @@ class TH_Store_One_Variation_Swatches_Frontend
         if (file_exists($backend_file)) {
             require_once $backend_file;
         }
-        if (file_exists($tooltip_file)) {
-            require_once $tooltip_file;
-        }
+        // if (file_exists($tooltip_file)) {
+        //     require_once $tooltip_file;
+        // }
     }
 
     /**
@@ -110,13 +106,13 @@ class TH_Store_One_Variation_Swatches_Frontend
                     $this->settings
                 );
         }
-        if (
-            class_exists(
-                'TH_Store_One_Variation_Tooltip'
-            )
-        ) {
-            $this->variation_tooltip =
-                new TH_Store_One_Variation_Tooltip();
-        }
+        // if (
+        //     class_exists(
+        //         'TH_Store_One_Variation_Tooltip'
+        //     )
+        // ) {
+        //     $this->variation_tooltip =
+        //         new TH_Store_One_Variation_Tooltip();
+        // }
     }
 }

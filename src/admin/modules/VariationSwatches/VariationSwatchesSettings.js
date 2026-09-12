@@ -601,6 +601,7 @@ export default function VariationSwatchesSettings({
                         </S1Field>
                       </S1FieldGroup>
                       <S1FieldGroup
+                        pro={licenseActive ? false : true}
                         number={2}
                         title={__("Stock", "th-store-one")}
                       >
@@ -770,6 +771,7 @@ export default function VariationSwatchesSettings({
                       </S1FieldGroup>
 
                       <S1FieldGroup
+                        pro={licenseActive ? false : true}
                         number={3}
                         title={__("Image Tooltip", "th-store-one")}
                       >

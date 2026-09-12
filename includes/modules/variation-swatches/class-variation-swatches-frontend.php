@@ -83,22 +83,22 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
             10
         );
 
-        /*
-         * Add extra variation data.
-         */
-        add_filter(
-            'woocommerce_available_variation',
-            array( $this, 'available_variation' ),
-            100,
-            3
-        );
+        // /*
+        //  * Add extra variation data.
+        //  */
+        // add_filter(
+        //     'woocommerce_available_variation',
+        //     array( $this, 'available_variation' ),
+        //     100,
+        //     3
+        // );
 
-        add_filter(
-            'woocommerce_ajax_variation_threshold',
-            [$this, 'variation_threshold'],
-            10,
-            1
-        );
+        // add_filter(
+        //     'woocommerce_ajax_variation_threshold',
+        //     [$this, 'variation_threshold'],
+        //     10,
+        //     1
+        // );
 
         add_action(
             'wp_ajax_th_store_one_catalog_add_to_cart',
@@ -1419,40 +1419,40 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
         return 'pa_' . $attribute;
     }
 
-    /**
-     * Add extra variation data.
-     *
-     * @param array                 $variation Variation.
-     * @param WC_Product            $product Product.
-     * @param WC_Product_Variation  $variation_product Variation.
-     * @return array
-     */
-    public function available_variation(
-        $variation,
-        $product,
-        $variation_product
-    ) {
+    // /**
+    //  * Add extra variation data.
+    //  *
+    //  * @param array                 $variation Variation.
+    //  * @param WC_Product            $product Product.
+    //  * @param WC_Product_Variation  $variation_product Variation.
+    //  * @return array
+    //  */
+    // public function available_variation(
+    //     $variation,
+    //     $product,
+    //     $variation_product
+    // ) {
 
-        $variation['th_store_one'] = array(
-            'id' => $variation_product->get_id(),
+    //     $variation['th_store_one'] = array(
+    //         'id' => $variation_product->get_id(),
 
-            'show_stock_available' => $this->to_bool(
-                $this->get_setting(
-                    'show_stock_available',
-                    false
-                )
-            ),
+    //         'show_stock_available' => $this->to_bool(
+    //             $this->get_setting(
+    //                 'show_stock_available',
+    //                 false
+    //             )
+    //         ),
 
-            'stock_display_threshold' => absint(
-                $this->get_setting(
-                    'stock_display_threshold',
-                    0
-                )
-            ),
-        );
+    //         'stock_display_threshold' => absint(
+    //             $this->get_setting(
+    //                 'stock_display_threshold',
+    //                 0
+    //             )
+    //         ),
+    //     );
 
-        return $variation;
-    }
+    //     return $variation;
+    // }
 
     /**
      * Get setting.
@@ -1501,18 +1501,18 @@ class TH_Store_One_Variation_Swatches_Frontend_Render
         );
     }
 
-    public function variation_threshold($threshold)
-    {
-        $configured_threshold = absint(
-            $this->settings['threshold'] ?? 30
-        );
+    // public function variation_threshold($threshold)
+    // {
+    //     $configured_threshold = absint(
+    //         $this->settings['threshold'] ?? 30
+    //     );
 
-        if ($configured_threshold < 1) {
-            return 1;
-        }
+    //     if ($configured_threshold < 1) {
+    //         return 1;
+    //     }
 
-        return $configured_threshold;
-    }
+    //     return $configured_threshold;
+    // }
     /**
  * Add catalog variation to cart.
  *

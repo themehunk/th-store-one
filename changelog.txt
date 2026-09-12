@@ -1,5 +1,9 @@
 *** Store One — All in One Conversion & Sales Toolkit for WooCommerce Changelog ***
 
+2026-09-11 - version 1.1.12
+* Fixed Wishlist button Icon style.
+* Added New Variation Swatches addon.
+
 2026-09-08 - version 1.1.11
 * Fixed Wishlist button not displaying after category filter and Load More.
 
