@@ -44,11 +44,7 @@ class TH_Store_One_Variation_Swatches_Frontend
     public function __construct($settings = [])
     {
 
-
-
         $this->settings = $settings;
-
-
 
         $this->load_files();
 
