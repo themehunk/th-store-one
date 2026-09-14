@@ -563,7 +563,6 @@ class Th_Store_One_Wishlist_Frontend
     {
 
         global $product;
-
         $default_product_id = (
             isset($product) &&
             $product instanceof WC_Product
@@ -637,15 +636,34 @@ class Th_Store_One_Wishlist_Frontend
         }
 
         /*
-         * IMPORTANT
-         *
-         * Agar shortcode me display_style pass nahi hua
-         * to icon_text default use hoga.
-         *
-         * Backend setting yaha ignore hogi.
-         */
+     * Display style.
+     *
+     * Support both:
+     *
+     * display_style="icon"
+     * icon_style="icon"
+     *
+     * If icon_style is provided, it takes priority.
+     */
+        if (
+            array_key_exists('icon_style', $raw_atts)
+            && '' !== $raw_atts['icon_style']
+        ) {
 
-        if ('' === $atts['display_style']) {
+            $atts['display_style'] = sanitize_key(
+                $raw_atts['icon_style']
+            );
+
+        } elseif (
+            array_key_exists('display_style', $raw_atts)
+            && '' !== $raw_atts['display_style']
+        ) {
+
+            $atts['display_style'] = sanitize_key(
+                $raw_atts['display_style']
+            );
+
+        } else {
 
             $atts['display_style'] = 'icon_text';
 
@@ -758,6 +776,7 @@ class Th_Store_One_Wishlist_Frontend
  */
     private function render_button($product = null, $args = array())
     {
+
 
         if (! $product instanceof WC_Product) {
             global $product;
