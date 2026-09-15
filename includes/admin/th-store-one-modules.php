@@ -70,6 +70,7 @@ class Th_Store_One_Modules
             'th-wishlist' => false,
             'th-cart' => false,
             'th-variationswatches' => false,
+            'th-advancedsearch' => false,
         );
     }
     /**

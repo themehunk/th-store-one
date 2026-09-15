@@ -58,6 +58,17 @@ export const modulesList = [
     featured: true,
   },
   {
+    id: "th-advancedsearch",
+    label: __("Advanced Product Search", "th-store-one"),
+    description: __(
+      "Enhance WooCommerce product search with AJAX live search, smart filters, and advanced search options.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.ADVSEARCH,
+    premium: false,
+  },
+
+  {
     id: "sale-notification",
     label: __("Sale Notification", "th-store-one"),
     description: __(

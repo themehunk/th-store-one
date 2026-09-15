@@ -64,6 +64,7 @@ import Wishlist from "../../modules/Wishlist/WishlistSettings";
 import Cart from "../../modules/Cart/CartSettings";
 
 import VariationSwatches from "../../modules/VariationSwatches/VariationSwatchesSettings";
+import AdvanceSearchSettings from "../../modules/AdvanceSearch/AdvanceSearchSettings";
 /* =========================
  * MODULE COMPONENT MAP
  * ========================= */
@@ -116,6 +117,7 @@ const moduleComponents = {
   "th-wishlist": Wishlist,
   "th-cart": Cart,
   "th-variationswatches": VariationSwatches,
+  "th-advancedsearch": AdvanceSearchSettings,
 };
 
 /* =========================
