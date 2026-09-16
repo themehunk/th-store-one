@@ -43,6 +43,7 @@ export default function MultiWooSearchSelector({
     tag: "wc/v3/products/tags",
     page: "wp/v2/pages",
     user: "wp/v2/users", //added
+    custom_field: null,
     order_status: null,
     product_type: null,
   };
@@ -109,6 +110,11 @@ export default function MultiWooSearchSelector({
       id: t.value,
       name: t.label,
       type: "product_type",
+    }),
+    custom_field: (field) => ({
+      id: field.value,
+      name: field.label,
+      type: "custom_field",
     }),
   };
 
@@ -190,6 +196,17 @@ export default function MultiWooSearchSelector({
   /* -------------------- DEFAULT FETCH -------------------- */
 
   const fetchDefaultItems = async () => {
+    if (searchType === "custom_field") {
+      const formatted = (customOptions || []).map((field) => ({
+        id: field.value,
+        name: field.label,
+        type: "custom_field",
+      }));
+
+      setResults(formatted);
+      return;
+    }
+
     if (searchType === "roles") {
       const formatted = (customOptions || []).map((r) => ({
         id: r.value,
@@ -302,6 +319,22 @@ export default function MultiWooSearchSelector({
     if (debounceRef.current) clearTimeout(debounceRef.current);
 
     debounceRef.current = setTimeout(async () => {
+      if (searchType === "custom_field") {
+        const search = query.toLowerCase().trim();
+
+        const formatted = (customOptions || [])
+          .map((field) => ({
+            id: field.value,
+            name: field.label,
+            type: "custom_field",
+          }))
+          .filter((field) => field.name.toLowerCase().includes(search));
+
+        setResults(formatted);
+        setLoading(false);
+        return;
+      }
+
       if (abortRef.current) abortRef.current.abort();
 
       const controller = new AbortController();
@@ -439,6 +472,21 @@ export default function MultiWooSearchSelector({
 
       const ordered = value
         .map((id) => formatted.find((p) => p.id === id))
+        .filter(Boolean);
+
+      setSelectedItems(ordered);
+      return;
+    }
+
+    if (searchType === "custom_field") {
+      const formatted = (customOptions || []).map((field) => ({
+        id: field.value,
+        name: field.label,
+        type: "custom_field",
+      }));
+
+      const ordered = value
+        .map((id) => formatted.find((field) => field.id === id))
         .filter(Boolean);
 
       setSelectedItems(ordered);

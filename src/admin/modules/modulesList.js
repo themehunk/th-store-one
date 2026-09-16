@@ -181,21 +181,6 @@ export const modulesList = [
   },
 
   {
-    id: "th-advanced-search",
-    label: __("Advanced Product Search", "th-store-one"),
-    description: __(
-      "Enhance WooCommerce product search with AJAX live search, smart filters, and advanced search options.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.ADVSEARCH,
-    premium: false,
-    source: {
-      type: "th-extension",
-      plugin: "th-advance-product-search",
-    },
-  },
-
-  {
     id: "th-product-compare",
     label: __("Product Compare", "th-store-one"),
     description: __(

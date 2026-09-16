@@ -92,7 +92,6 @@ const DEFAULT_SETTINGS = {
   sus_text_clr: "",
 
   /* Search Configure */
-
   tapsp_search_in_category: false,
   tapsp_search_in_tag: false,
   tapsp_search_in_brand: false,
@@ -100,23 +99,57 @@ const DEFAULT_SETTINGS = {
   tapsp_search_in_description: false,
   tapsp_search_in_short_description: false,
   tapsp_search_in_product_sku: false,
-
+  /*******************/
+  // Premiun option
+  /*****************/
+  tapsp_show_category_filter: false,
+  tapsp_show_category_filter_label: "All",
+  tapsp_exclude_category_enabled: false,
+  tapsp_exclude_category: [],
   /* Trending Search */
-
   tapsp_trending_enable: false,
-  tapsp_specific_key_search: "normal",
+  tapsp_specific_key_search: "specific",
   tapsp_trending_search: "Vintage dress, Black dress, Black boots, Red dress",
   tapsp_trending_limit: 3,
-
+  tapsp_trending_label: "Trending Searches",
+  /* No Results Experience */
+  tapsp_no_result_enable_fallback: false,
+  tapsp_no_result_show_popular_products: false,
+  tapsp_no_result_popular_limit: 4,
+  tapsp_no_result_show_categories: false,
+  tapsp_no_result_categories_limit: 5,
+  tapsp_no_result_show_suggested: false,
+  tapsp_no_result_suggested_limit: 5,
+  tapsp_no_result_show_recently_viewed: false,
+  tapsp_no_result_recently_viewed_limit: 4,
+  // ranking
+  tapsp_enable_custom_ranking: true,
+  tapsp_rank_weight_title: 100,
+  tapsp_rank_weight_sku: 80,
+  tapsp_rank_weight_category: 60,
+  tapsp_rank_weight_tags: 50,
+  tapsp_rank_weight_attributes: 50,
+  tapsp_rank_weight_brand: 60,
+  tapsp_rank_weight_popularity: 30,
+  tapsp_rank_weight_rating: 20,
+  tapsp_rank_weight_stock: 10,
+  // scope
+  tapsp_search_in_custom_fld: [],
+  tapsp_search_in_custom_post_type: "",
   /* Boost Search */
-
-  thaps_index_batch_limit: 300,
-
+  tapsp_build_search_index: false,
+  tapsp_index_batch_limit: 100,
   /* Fuzzy Search */
-
-  thaps_enable_fuzzy: false,
-  thaps_fuzzy_level: 50,
-  thaps_synonym_list: "",
+  tapsp_enable_fuzzy: false,
+  tapsp_fuzzy_level: 50,
+  tapsp_synonym_list: "",
+  // style
+  tapsp_product_search_style: "th-normal",
+  tapsp_enable_product_image: true,
+  tapsp_enable_product_price: true,
+  tapsp_enable_product_desc: false,
+  tapsp_enable_product_sku: true,
+  tapsp_enable_cart_btn: false,
 };
 
 export default function AdvanceSearchSettings({
@@ -147,6 +180,22 @@ export default function AdvanceSearchSettings({
       [key]: value,
     }));
   };
+
+  useEffect(() => {
+    const handler = (e) => {
+      const { style } = e.detail;
+
+      if (!style) return;
+
+      update("tapsp_product_search_style", style);
+    };
+
+    window.addEventListener("storeone:changeProductSearchStyle", handler);
+
+    return () => {
+      window.removeEventListener("storeone:changeProductSearchStyle", handler);
+    };
+  }, []);
 
   /* Check Old Data */
   useEffect(() => {
@@ -299,19 +348,6 @@ export default function AdvanceSearchSettings({
     frame.open();
   };
 
-  const [previewType, setPreviewType] = useState("menu-cart");
-  useEffect(() => {
-    const handler = (e) => {
-      setPreviewType(e.detail.preview);
-    };
-
-    window.addEventListener("storeone:changeCartPreview", handler);
-
-    return () => {
-      window.removeEventListener("storeone:changeCartPreview", handler);
-    };
-  }, []);
-
   // deactivate plugin
   const [hasActiveOldSearchPlugin, setHasActiveOldSearchPlugin] =
     useState(false);
@@ -383,10 +419,7 @@ export default function AdvanceSearchSettings({
 
           <div className="store-one-rule-item">
             <TabSwitcher
-              key={previewType}
-              defaultTab={
-                previewType === "side-cart" ? "cartpanel" : "settings"
-              }
+              defaultTab="settings"
               tabs={[
                 {
                   id: "settings",
@@ -1160,6 +1193,843 @@ export default function AdvanceSearchSettings({
                             onChange={(v) => update("sus_text_clr", v)}
                             allowGradient={false}
                           />
+                        </S1Field>
+                      </S1FieldGroup>
+                      <S1FieldGroup
+                        number={1}
+                        title="Product Style"
+                        pro={licenseActive ? false : true}
+                      >
+                        <S1Field
+                          label="Search Style"
+                          description="Choose the visual style used for product search results."
+                        >
+                          <SelectControl
+                            value={
+                              settings.tapsp_product_search_style || "th-normal"
+                            }
+                            options={[
+                              {
+                                label: "Default",
+                                value: "th-normal",
+                              },
+                              {
+                                label: "Traditional",
+                                value: "th-traditional",
+                              },
+                              {
+                                label: "Modern",
+                                value: "th-modern",
+                              },
+                            ]}
+                            onChange={(value) =>
+                              update("tapsp_product_search_style", value)
+                            }
+                          />
+                        </S1Field>
+                        <div className="s1-field-group-row">
+                          <S1Field
+                            label="Enable Product Image"
+                            description="Display the product image in search results."
+                          >
+                            <ToggleControl
+                              checked={settings.tapsp_enable_product_image}
+                              onChange={(value) =>
+                                update("tapsp_enable_product_image", value)
+                              }
+                            />
+                          </S1Field>
+
+                          <S1Field
+                            label="Enable Product Price"
+                            description="Display the product price in search results."
+                          >
+                            <ToggleControl
+                              checked={settings.tapsp_enable_product_price}
+                              onChange={(value) =>
+                                update("tapsp_enable_product_price", value)
+                              }
+                            />
+                          </S1Field>
+                        </div>
+                        <div className="s1-field-group-row">
+                          <S1Field
+                            label="Enable Product Description"
+                            description="Display the product description in search results."
+                          >
+                            <ToggleControl
+                              checked={settings.tapsp_enable_product_desc}
+                              onChange={(value) =>
+                                update("tapsp_enable_product_desc", value)
+                              }
+                            />
+                          </S1Field>
+
+                          <S1Field
+                            label="Enable Product SKU"
+                            description="Display the product SKU in search results."
+                          >
+                            <ToggleControl
+                              checked={settings.tapsp_enable_product_sku}
+                              onChange={(value) =>
+                                update("tapsp_enable_product_sku", value)
+                              }
+                            />
+                          </S1Field>
+                        </div>
+
+                        <S1Field
+                          label="Enable Add To Cart"
+                          description="Display the Add to Cart button in search results."
+                        >
+                          <ToggleControl
+                            checked={settings.tapsp_enable_cart_btn}
+                            onChange={(value) =>
+                              update("tapsp_enable_cart_btn", value)
+                            }
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+                    </>
+                  ),
+                },
+                {
+                  id: "premium",
+                  label: "Pro Setting",
+                  icon: (
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M3 7.5L7.5 11L12 4L16.5 11L21 7.5L19 19H5L3 7.5Z"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M5 19H19"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                      />
+                      <path
+                        d="M7.5 15.5H16.5"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        opacity="0.6"
+                      />
+                    </svg>
+                  ),
+                  content: (
+                    <>
+                      <S1FieldGroup
+                        number={1}
+                        title="Category Filter"
+                        pro={licenseActive ? false : true}
+                      >
+                        <S1Field
+                          label="Show Category Filter"
+                          description="Display a category filter dropdown in the search bar for product searches."
+                        >
+                          <ToggleControl
+                            checked={settings.tapsp_show_category_filter}
+                            onChange={(v) =>
+                              update("tapsp_show_category_filter", v)
+                            }
+                          />
+                        </S1Field>
+
+                        {settings.tapsp_show_category_filter && (
+                          <>
+                            <S1Field
+                              label="Category Filter Label"
+                              description="Set the default text displayed in the category filter dropdown."
+                            >
+                              <TextControl
+                                value={
+                                  settings.tapsp_show_category_filter_label ??
+                                  "All"
+                                }
+                                onChange={(v) =>
+                                  update("tapsp_show_category_filter_label", v)
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field
+                              label="Exclude Categories"
+                              description="Select product categories that should be excluded from the category filter."
+                            >
+                              <MultiWooSearchSelector
+                                type="category"
+                                value={settings.tapsp_exclude_category || []}
+                                onChange={(items) =>
+                                  update("tapsp_exclude_category", items)
+                                }
+                              />
+                            </S1Field>
+                          </>
+                        )}
+                      </S1FieldGroup>
+                      <S1FieldGroup
+                        number={2}
+                        title="No Results Experience"
+                        pro={licenseActive ? false : true}
+                      >
+                        <S1Field
+                          label="Enable Fallback Content"
+                          description="Show helpful fallback content when a search returns no matches."
+                        >
+                          <ToggleControl
+                            checked={settings.tapsp_no_result_enable_fallback}
+                            onChange={(v) =>
+                              update("tapsp_no_result_enable_fallback", v)
+                            }
+                          />
+                        </S1Field>
+
+                        {settings.tapsp_no_result_enable_fallback && (
+                          <>
+                            <S1Field
+                              label="Show Popular Products"
+                              description="Display best-selling products, falling back to featured or recent products."
+                            >
+                              <ToggleControl
+                                checked={
+                                  settings.tapsp_no_result_show_popular_products
+                                }
+                                onChange={(v) =>
+                                  update(
+                                    "tapsp_no_result_show_popular_products",
+                                    v,
+                                  )
+                                }
+                              />
+                            </S1Field>
+                            {settings.tapsp_no_result_show_popular_products && (
+                              <S1Field
+                                label="Popular Products Limit"
+                                description="Set the maximum number of popular products to display."
+                              >
+                                <UniversalRangeControl
+                                  label=""
+                                  value={String(
+                                    settings.tapsp_no_result_popular_limit ?? 4,
+                                  )}
+                                  onChange={(v) =>
+                                    update("tapsp_no_result_popular_limit", v)
+                                  }
+                                  min={1}
+                                  max={20}
+                                />
+                              </S1Field>
+                            )}
+
+                            <S1Field
+                              label="Show Popular Categories"
+                              description="Display popular product categories ordered by product count."
+                            >
+                              <ToggleControl
+                                checked={
+                                  settings.tapsp_no_result_show_categories
+                                }
+                                onChange={(v) =>
+                                  update("tapsp_no_result_show_categories", v)
+                                }
+                              />
+                            </S1Field>
+                            {settings.tapsp_no_result_show_categories && (
+                              <S1Field
+                                label="Popular Categories Limit"
+                                description="Set the maximum number of popular categories to display."
+                              >
+                                <UniversalRangeControl
+                                  label=""
+                                  value={String(
+                                    settings.tapsp_no_result_categories_limit ??
+                                      5,
+                                  )}
+                                  onChange={(v) =>
+                                    update(
+                                      "tapsp_no_result_categories_limit",
+                                      v,
+                                    )
+                                  }
+                                  min={1}
+                                  max={20}
+                                />
+                              </S1Field>
+                            )}
+                            <S1Field
+                              label="Show Suggested Searches"
+                              description="Display trending or most-searched keywords as fallback suggestions."
+                            >
+                              <ToggleControl
+                                checked={
+                                  settings.tapsp_no_result_show_suggested
+                                }
+                                onChange={(v) =>
+                                  update("tapsp_no_result_show_suggested", v)
+                                }
+                              />
+                            </S1Field>
+                            {settings.tapsp_no_result_show_suggested && (
+                              <S1Field
+                                label="Suggested Searches Limit"
+                                description="Set the maximum number of suggested searches to display."
+                              >
+                                <UniversalRangeControl
+                                  label=""
+                                  value={String(
+                                    settings.tapsp_no_result_suggested_limit ??
+                                      5,
+                                  )}
+                                  onChange={(v) =>
+                                    update("tapsp_no_result_suggested_limit", v)
+                                  }
+                                  min={1}
+                                  max={20}
+                                />
+                              </S1Field>
+                            )}
+
+                            <S1Field
+                              label="Show Recently Viewed Products"
+                              description="Display products the visitor viewed earlier in this browser session."
+                            >
+                              <ToggleControl
+                                checked={
+                                  settings.tapsp_no_result_show_recently_viewed
+                                }
+                                onChange={(v) =>
+                                  update(
+                                    "tapsp_no_result_show_recently_viewed",
+                                    v,
+                                  )
+                                }
+                              />
+                            </S1Field>
+                            {settings.tapsp_no_result_show_recently_viewed && (
+                              <S1Field
+                                label="Recently Viewed Limit"
+                                description="Set the maximum number of recently viewed products to display."
+                              >
+                                <UniversalRangeControl
+                                  label=""
+                                  value={String(
+                                    settings.tapsp_no_result_recently_viewed_limit ??
+                                      4,
+                                  )}
+                                  onChange={(v) =>
+                                    update(
+                                      "tapsp_no_result_recently_viewed_limit",
+                                      v,
+                                    )
+                                  }
+                                  min={1}
+                                  max={20}
+                                />
+                              </S1Field>
+                            )}
+                          </>
+                        )}
+                      </S1FieldGroup>
+                      <S1FieldGroup
+                        number={3}
+                        title="Search Scope in Product"
+                        pro={licenseActive ? false : true}
+                      >
+                        <S1Field
+                          label="Search in Custom Field"
+                          description="Select custom fields that should be included when searching products."
+                        >
+                          <MultiWooSearchSelector
+                            searchType="custom_field"
+                            value={settings.tapsp_search_in_custom_fld || []}
+                            customOptions={
+                              th_StoreOneAdmin?.searchable_custom_fields || []
+                            }
+                            onChange={(items) =>
+                              update("tapsp_search_in_custom_fld", items)
+                            }
+                            detailedView={true}
+                          />
+                        </S1Field>
+                        <S1Field
+                          label="Search in Custom Post Type"
+                          description="Include custom post types in search. Enter post type slugs separated by commas."
+                        >
+                          <TextControl
+                            value={
+                              settings.tapsp_search_in_custom_post_type ?? ""
+                            }
+                            onChange={(v) =>
+                              update("tapsp_search_in_custom_post_type", v)
+                            }
+                            placeholder="e.g. book, brand, vendor"
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+                      <S1FieldGroup
+                        number={4}
+                        title="Suggested / Trending Searches"
+                        pro={licenseActive ? false : true}
+                      >
+                        <S1Field
+                          label="Suggested / Trending Enable"
+                          description="Enable suggested or trending searches in the search interface."
+                        >
+                          <ToggleControl
+                            checked={settings.tapsp_trending_enable}
+                            onChange={(value) =>
+                              update("tapsp_trending_enable", value)
+                            }
+                          />
+                        </S1Field>
+
+                        {settings.tapsp_trending_enable && (
+                          <>
+                            <S1Field
+                              label="Searches to Suggest"
+                              description="Choose whether to show specific keywords or popular searches."
+                            >
+                              <SelectControl
+                                value={settings.tapsp_specific_key_search}
+                                options={[
+                                  {
+                                    label: "Specific",
+                                    value: "specific",
+                                  },
+                                  {
+                                    label: "Popular",
+                                    value: "popular",
+                                  },
+                                ]}
+                                onChange={(value) =>
+                                  update("tapsp_specific_key_search", value)
+                                }
+                              />
+                            </S1Field>
+
+                            {settings.tapsp_specific_key_search ===
+                              "specific" && (
+                              <S1Field
+                                label="Search Keywords"
+                                description="Enter keywords separated by commas for suggested searches."
+                              >
+                                <TextControl
+                                  value={settings.tapsp_trending_search || ""}
+                                  onChange={(value) =>
+                                    update("tapsp_trending_search", value)
+                                  }
+                                />
+                              </S1Field>
+                            )}
+
+                            <S1Field
+                              label="Limit"
+                              description="Set the maximum number of suggested or trending searches to display."
+                            >
+                              <UniversalRangeControl
+                                label=""
+                                value={String(
+                                  settings.tapsp_trending_limit ?? 3,
+                                )}
+                                onChange={(value) =>
+                                  update("tapsp_trending_limit", value)
+                                }
+                                min={1}
+                                max={20}
+                              />
+                            </S1Field>
+
+                            <S1Field
+                              label="Trending Label"
+                              description="Set the heading displayed above suggested or trending searches."
+                            >
+                              <TextControl
+                                value={settings.tapsp_trending_label || ""}
+                                onChange={(value) =>
+                                  update("tapsp_trending_label", value)
+                                }
+                              />
+                            </S1Field>
+                          </>
+                        )}
+                      </S1FieldGroup>
+                      <S1FieldGroup
+                        number={5}
+                        title="Relevance Ranking"
+                        pro={licenseActive ? false : true}
+                      >
+                        <S1Field
+                          label="Enable Custom Ranking"
+                          description="Order search results by relevance using the weights below instead of the default order. Rebuild the Boost Search index after enabling this option so popularity, rating and stock data are available for ranking."
+                        >
+                          <ToggleControl
+                            checked={settings.tapsp_enable_custom_ranking}
+                            onChange={(value) =>
+                              update("tapsp_enable_custom_ranking", value)
+                            }
+                          />
+                        </S1Field>
+
+                        {settings.tapsp_enable_custom_ranking && (
+                          <>
+                            <div className="s1-field-group-row">
+                              <S1Field
+                                label="Title Match Weight"
+                                description="Weight applied when the search keyword matches the product title."
+                              >
+                                <UniversalRangeControl
+                                  label=""
+                                  value={String(
+                                    settings.tapsp_rank_weight_title ?? 100,
+                                  )}
+                                  onChange={(value) =>
+                                    update("tapsp_rank_weight_title", value)
+                                  }
+                                  min={0}
+                                  max={100}
+                                />
+                              </S1Field>
+
+                              <S1Field
+                                label="SKU Match Weight"
+                                description="Weight applied when the search keyword matches the product SKU."
+                              >
+                                <UniversalRangeControl
+                                  label=""
+                                  value={String(
+                                    settings.tapsp_rank_weight_sku ?? 80,
+                                  )}
+                                  onChange={(value) =>
+                                    update("tapsp_rank_weight_sku", value)
+                                  }
+                                  min={0}
+                                  max={100}
+                                />
+                              </S1Field>
+                            </div>
+
+                            <div className="s1-field-group-row">
+                              <S1Field
+                                label="Category Match Weight"
+                                description="Weight applied when the search keyword matches a product category."
+                              >
+                                <UniversalRangeControl
+                                  label=""
+                                  value={String(
+                                    settings.tapsp_rank_weight_category ?? 60,
+                                  )}
+                                  onChange={(value) =>
+                                    update("tapsp_rank_weight_category", value)
+                                  }
+                                  min={0}
+                                  max={100}
+                                />
+                              </S1Field>
+
+                              <S1Field
+                                label="Tags Match Weight"
+                                description="Weight applied when the search keyword matches product tags."
+                              >
+                                <UniversalRangeControl
+                                  label=""
+                                  value={String(
+                                    settings.tapsp_rank_weight_tags ?? 50,
+                                  )}
+                                  onChange={(value) =>
+                                    update("tapsp_rank_weight_tags", value)
+                                  }
+                                  min={0}
+                                  max={100}
+                                />
+                              </S1Field>
+                            </div>
+
+                            <div className="s1-field-group-row">
+                              <S1Field
+                                label="Attributes Match Weight"
+                                description="Weight applied when the search keyword matches product attributes."
+                              >
+                                <UniversalRangeControl
+                                  label=""
+                                  value={String(
+                                    settings.tapsp_rank_weight_attributes ?? 50,
+                                  )}
+                                  onChange={(value) =>
+                                    update(
+                                      "tapsp_rank_weight_attributes",
+                                      value,
+                                    )
+                                  }
+                                  min={0}
+                                  max={100}
+                                />
+                              </S1Field>
+
+                              <S1Field
+                                label="Brand Match Weight"
+                                description="Weight applied when the search keyword matches the product brand."
+                              >
+                                <UniversalRangeControl
+                                  label=""
+                                  value={String(
+                                    settings.tapsp_rank_weight_brand ?? 60,
+                                  )}
+                                  onChange={(value) =>
+                                    update("tapsp_rank_weight_brand", value)
+                                  }
+                                  min={0}
+                                  max={100}
+                                />
+                              </S1Field>
+                            </div>
+
+                            <div className="s1-field-group-row">
+                              <S1Field
+                                label="Popularity (Sales) Weight"
+                                description="Boosts products with more total sales."
+                              >
+                                <UniversalRangeControl
+                                  label=""
+                                  value={String(
+                                    settings.tapsp_rank_weight_popularity ?? 30,
+                                  )}
+                                  onChange={(value) =>
+                                    update(
+                                      "tapsp_rank_weight_popularity",
+                                      value,
+                                    )
+                                  }
+                                  min={0}
+                                  max={100}
+                                />
+                              </S1Field>
+
+                              <S1Field
+                                label="Ratings Weight"
+                                description="Boosts products with higher average ratings."
+                              >
+                                <UniversalRangeControl
+                                  label=""
+                                  value={String(
+                                    settings.tapsp_rank_weight_rating ?? 20,
+                                  )}
+                                  onChange={(value) =>
+                                    update("tapsp_rank_weight_rating", value)
+                                  }
+                                  min={0}
+                                  max={100}
+                                />
+                              </S1Field>
+                            </div>
+
+                            <S1Field
+                              label="Stock Status Weight"
+                              description="Boosts in-stock products above backordered or out-of-stock products."
+                            >
+                              <UniversalRangeControl
+                                label=""
+                                value={String(
+                                  settings.tapsp_rank_weight_stock ?? 10,
+                                )}
+                                onChange={(value) =>
+                                  update("tapsp_rank_weight_stock", value)
+                                }
+                                min={0}
+                                max={100}
+                              />
+                            </S1Field>
+                          </>
+                        )}
+                      </S1FieldGroup>
+                    </>
+                  ),
+                },
+
+                {
+                  id: "fuzzy-search",
+                  label: "Fuzzy Search",
+                  icon: (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#6b7280"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-languages h-4 w-4 transition-colors text-indigo-600"
+                      aria-hidden="true"
+                    >
+                      <path d="m5 8 6 6"></path>
+                      <path d="m4 14 6-6 2-3"></path>
+                      <path d="M2 5h12"></path>
+                      <path d="M7 2h1"></path>
+                      <path d="m22 22-5-10-5 10"></path>
+                      <path d="M14 18h6"></path>
+                    </svg>
+                  ),
+                  content: (
+                    <>
+                      <S1FieldGroup
+                        number={1}
+                        title="Fuzzy Search & Synonyms"
+                        pro={licenseActive ? false : true}
+                      >
+                        <S1Field
+                          label="Enable Fuzzy Strings Matching"
+                          description='Help users find results even with typos (e.g., "skrit" → "skirt").'
+                        >
+                          <ToggleControl
+                            checked={settings.tapsp_enable_fuzzy}
+                            onChange={(value) =>
+                              update("tapsp_enable_fuzzy", value)
+                            }
+                          />
+                        </S1Field>
+
+                        {settings.tapsp_enable_fuzzy && (
+                          <>
+                            <S1Field
+                              label="Matching Sensitivity"
+                              description="Recommended: 50%. Higher values (80%+) may return more results but can increase false positives."
+                            >
+                              <UniversalRangeControl
+                                label=""
+                                value={String(settings.tapsp_fuzzy_level ?? 50)}
+                                onChange={(value) =>
+                                  update("tapsp_fuzzy_level", value)
+                                }
+                                min={10}
+                                max={100}
+                                suffix="%"
+                              />
+                            </S1Field>
+
+                            <S1Field
+                              label="Define Synonyms"
+                              description="Use commas (,) to separate synonyms within a group and pipe (|) to separate groups. Example: trousers, pants | denim, jeans | belt, waistband"
+                            >
+                              <TextControl
+                                value={settings.tapsp_synonym_list || ""}
+                                onChange={(value) =>
+                                  update("tapsp_synonym_list", value)
+                                }
+                                placeholder="trousers, pants | denim, jeans | belt, waistband"
+                              />
+                            </S1Field>
+                          </>
+                        )}
+                      </S1FieldGroup>
+                    </>
+                  ),
+                },
+                {
+                  id: "boost-search",
+                  label: "Boost Search",
+                  icon: (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#6b7280"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="lucide lucide-rocket h-4 w-4 text-amber-600"
+                      aria-hidden="true"
+                    >
+                      <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
+                      <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
+                      <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path>
+                      <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
+                    </svg>
+                  ),
+                  content: (
+                    <>
+                      <S1FieldGroup
+                        number={1}
+                        title="Search Optimization"
+                        pro={licenseActive ? false : true}
+                      >
+                        <S1Field
+                          label="Product Index"
+                          description="Manage and rebuild your product search index to keep your product catalog up-to-date and searchable."
+                        >
+                          <div className="s1-index-builder">
+                            <p className="s1-index-description">
+                              {__(
+                                "Build or rebuild the product search index to ensure all your latest products are searchable.",
+                                "th-store-one",
+                              )}
+                            </p>
+                            <S1Field
+                              label="Index Batch Limit"
+                              description="Set the number of products processed in each batch while building the search index."
+                            >
+                              <UniversalRangeControl
+                                label=""
+                                value={String(
+                                  settings.tapsp_index_batch_limit ?? 100,
+                                )}
+                                onChange={(value) =>
+                                  update("tapsp_index_batch_limit", value)
+                                }
+                                min={10}
+                                max={500}
+                              />
+                            </S1Field>
+                            <div className="s1-index-actions">
+                              <button
+                                type="button"
+                                className="components-button is-primary"
+                                disabled={!licenseActive}
+                                onClick={() => {
+                                  if (!licenseActive) return;
+
+                                  // Build / Rebuild index action
+                                }}
+                              >
+                                {__("Build Search Index", "th-store-one")}
+                              </button>
+
+                              <button
+                                type="button"
+                                className="components-button is-secondary"
+                                disabled={!licenseActive}
+                                onClick={() => {
+                                  if (!licenseActive) return;
+
+                                  // Disable index action
+                                }}
+                              >
+                                {__("Disable Index", "th-store-one")}
+                              </button>
+                            </div>
+
+                            {!licenseActive && (
+                              <div className="s1-pro-notice">
+                                {__(
+                                  "Search Index is available in Store One Pro.",
+                                  "th-store-one",
+                                )}
+                              </div>
+                            )}
+                          </div>
                         </S1Field>
                       </S1FieldGroup>
                     </>
