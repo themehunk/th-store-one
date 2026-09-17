@@ -75,7 +75,7 @@ const DEFAULT_SETTINGS = {
   bar_bg_clr: "",
   bar_brdr_clr: "",
   bar_text_clr: "",
-  icon_clr: "",
+  icon_clr: "#fff",
   bar_button_bg_clr: "#000000",
   bar_button_txt_clr: "#FFF",
   bar_button_hvr_clr: "#000000",
@@ -84,7 +84,7 @@ const DEFAULT_SETTINGS = {
   /* Suggestion Box Style */
 
   sus_bg_clr: "",
-  sus_hglt_clr: "",
+  sus_hglt_clr: "#2991f5",
   sus_slect_clr: "",
   sus_brdr_clr: "",
   sus_grphd_clr: "",

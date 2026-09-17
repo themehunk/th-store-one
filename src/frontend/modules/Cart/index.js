@@ -15,6 +15,42 @@ const StoreOneCart = {
     $(document.body).on("wc_fragments_loaded wc_fragments_refreshed", () => {
       this.restoreAISuggestion();
     });
+    /*
+|--------------------------------------------------------------------------
+| WooCommerce Events
+|--------------------------------------------------------------------------
+*/
+
+    $(document.body).on(
+      "added_to_cart",
+      (event, fragments, cart_hash, $button) => {
+        StoreOneCart.clearAISuggestion();
+        if (!storeOneCart.cartFoatVisible) {
+          return;
+        }
+        const btn = $button || StoreOneCart.lastCartButton;
+
+        if (storeOneCart.cartOpen === "fly-image-open") {
+          StoreOneCart.flyImageToCart(btn, () => {
+            StoreOneCart.refreshCart();
+          });
+        } else {
+          StoreOneCart.refreshCart();
+        }
+      },
+    );
+
+    $(document.body).on("removed_from_cart", () => {
+      StoreOneCart.clearAISuggestion();
+      StoreOneCart.refreshCart();
+    });
+
+    $(document.body).on("wc_fragments_refreshed", () => {
+      StoreOneCart.cache();
+
+      StoreOneCart.initShipping();
+      StoreOneCart.initCouponSlider();
+    });
   },
 
   cache() {
@@ -976,38 +1012,5 @@ const StoreOneCart = {
     }
   },
 };
-/*
-|--------------------------------------------------------------------------
-| WooCommerce Events
-|--------------------------------------------------------------------------
-*/
-
-$(document.body).on("added_to_cart", (event, fragments, cart_hash, $button) => {
-  StoreOneCart.clearAISuggestion();
-  if (!storeOneCart.cartFoatVisible) {
-    return;
-  }
-  const btn = $button || StoreOneCart.lastCartButton;
-
-  if (storeOneCart.cartOpen === "fly-image-open") {
-    StoreOneCart.flyImageToCart(btn, () => {
-      StoreOneCart.refreshCart();
-    });
-  } else {
-    StoreOneCart.refreshCart();
-  }
-});
-
-$(document.body).on("removed_from_cart", () => {
-  StoreOneCart.clearAISuggestion();
-  StoreOneCart.refreshCart();
-});
-
-$(document.body).on("wc_fragments_refreshed", () => {
-  StoreOneCart.cache();
-
-  StoreOneCart.initShipping();
-  StoreOneCart.initCouponSlider();
-});
 
 export default StoreOneCart;

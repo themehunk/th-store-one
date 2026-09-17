@@ -59,7 +59,5 @@ class Th_Store_One
         if (class_exists('Th_Store_One_Extension_REST')) {
             new Th_Store_One_Extension_REST();
         }
-
-
     }
 }

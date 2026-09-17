@@ -1,49 +1,82 @@
-.s1-search-preview.th-normal {
+/* =========================================================
+   SEARCH PREVIEW - COMMON
+   ========================================================= */
+
+.s1-search-preview {
   background: #fff;
   border-radius: 14px;
   overflow: hidden;
 }
 
-.s1-search-preview.th-normal .s1-search-header {
+
+/* =========================================================
+   COMMON SEARCH HEADER
+   SAME FOR NORMAL / TRADITIONAL / MODERN
+   ========================================================= */
+
+.s1-search-preview .s1-search-header {
   padding: 10px 12px;
 }
 
-.s1-search-preview.th-normal .s1-search-input {
+.s1-search-preview .s1-search-input {
   height: 52px;
   padding-left: 15px;
+
   border: 1px solid #e7edf3;
   border-radius: 27px;
+
   display: flex;
   align-items: center;
+
   background: #fff;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
-.s1-search-preview.th-normal .s1-search-placeholder {
+.s1-search-preview .s1-search-placeholder {
   flex: 1;
+
   font-size: 17px;
   color: #555;
 }
 
-.s1-search-preview.th-normal .s1-search-button {
+.s1-search-preview .s1-search-button {
   width: 92px;
   height: 44px;
+
   margin-right: 4px;
   padding: 0;
+
   border: 0;
   border-radius: 23px;
+
   background: #000;
   color: #fff;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
+  flex: 0 0 92px;
 }
 
-.s1-search-preview.th-normal .s1-search-button svg {
+.s1-search-preview .s1-search-button svg {
   width: 23px;
   height: 23px;
+
   color: #fff;
   stroke: currentColor;
+}
+
+
+/* =========================================================
+   NORMAL STYLE
+   ========================================================= */
+
+.s1-search-preview.th-normal {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
 }
 
 .s1-search-preview.th-normal .s1-normal-search-results {
@@ -57,9 +90,12 @@
 
 .s1-search-preview.th-normal .s1-search-section h4 {
   margin: 0 0 22px;
+
   color: #98a2b3;
+
   font-size: 11px;
   font-weight: 700;
+
   letter-spacing: 1.4px;
 }
 
@@ -70,10 +106,15 @@
 
 .s1-search-preview.th-normal .s1-trending-item {
   padding: 9px 17px;
+
   border-radius: 22px;
+
   background: #f8f8f8;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, .08);
+
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+
   color: #172033;
+
   font-size: 16px;
   font-weight: 600;
 }
@@ -84,8 +125,10 @@
 
 .s1-search-preview.th-normal .s1-category-result {
   padding: 8px 0;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
+
+  /* border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee; */
+
   font-size: 17px;
 }
 
@@ -95,6 +138,7 @@
 
 .s1-search-preview.th-normal .s1-category-title {
   margin-left: 3px;
+
   color: #172033;
   font-weight: 500;
 }
@@ -106,9 +150,13 @@
 
 .s1-search-preview.th-normal .s1-search-product {
   min-height: 64px;
+
   padding: 11px 0;
+
   gap: 11px;
+
   border-bottom: 1px solid #eee;
+
   display: flex;
   align-items: center;
 }
@@ -116,8 +164,11 @@
 .s1-search-preview.th-normal .s1-search-product-image {
   width: 52px;
   height: 52px;
+
   flex: 0 0 52px;
+
   object-fit: contain;
+
   border: 1px solid #e5e5e5;
   border-radius: 8px;
 }
@@ -131,6 +182,7 @@
   display: flex;
   align-items: baseline;
   flex-wrap: wrap;
+
   line-height: 1.25;
 }
 
@@ -151,33 +203,44 @@
 
 .s1-search-preview.th-normal .s1-search-product-sku {
   margin-left: 5px;
+
   color: #777;
   font-size: 11px;
 }
 
 .s1-search-preview.th-normal .s1-search-product-price {
   padding: 5px 8px;
+
   border: 1px solid #e5e5e5;
   border-radius: 7px;
+
   color: #172033;
+
   font-size: 16px;
   font-weight: 700;
+
   white-space: nowrap;
 }
 
 .s1-search-preview.th-normal .s1-see-all-results {
   width: 100%;
   height: 46px;
+
   margin-top: 12px;
   padding: 0 18px;
+
   border: 0;
   border-radius: 24px;
+
   background: #f7f7f7;
   color: #000;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   gap: 15px;
+
   font-size: 14px;
   font-weight: 600;
 }
@@ -186,3 +249,901 @@
   font-size: 22px;
   line-height: 1;
 }
+
+
+/* =========================================================
+   TRADITIONAL STYLE
+   ========================================================= */
+
+.s1-search-preview.th-traditional {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+
+/* ---------------------------------------------------------
+   Results
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-traditional
+.s1-traditional-search-results {
+  padding: 0 18px 8px;
+}
+
+
+/* ---------------------------------------------------------
+   Section
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-traditional
+.s1-traditional-section {
+  padding: 20px 18px;
+}
+
+.s1-search-preview.th-traditional
+.s1-traditional-section h4 {
+  margin: 0 0 23px;
+
+  color: #98a2b3;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 1.3px;
+}
+
+
+/* ---------------------------------------------------------
+   Trending
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-traditional
+.s1-traditional-trending {
+  border-bottom: 1px solid #eeeeee;
+}
+
+.s1-search-preview.th-traditional
+.s1-traditional-trending-items {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.s1-search-preview.th-traditional
+.s1-traditional-trending-item {
+  min-width: 96px;
+
+  padding: 11px 15px;
+
+  border-radius: 26px;
+
+  background: #f8f8f8;
+
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+
+  color: #172033;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  text-align: center;
+}
+
+
+/* ---------------------------------------------------------
+   Product Section
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-traditional
+.s1-traditional-product-section {
+  padding-top: 25px;
+  padding-bottom: 20px;
+}
+
+
+/* ---------------------------------------------------------
+   Product Grid
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-traditional
+.s1-traditional-products {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr));
+
+  gap: 12px;
+}
+
+
+/* ---------------------------------------------------------
+   Product Card
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-traditional
+.s1-traditional-product {
+  min-width: 0;
+
+  padding: 10px;
+
+  border: 1px solid #eeeeee;
+  border-radius: 18px;
+
+  background: #fff;
+
+  box-sizing: border-box;
+}
+
+
+/* ---------------------------------------------------------
+   Product Image
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-traditional
+.s1-traditional-product-image-wrap {
+  width: 100%;
+  height: auto;
+
+  aspect-ratio: 1 / 1;
+
+  margin: 0;
+
+  border: 1px solid #eeeeee;
+  border-radius: 7px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #fff;
+
+  overflow: hidden;
+}
+
+.s1-search-preview.th-traditional
+.s1-traditional-product-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  display: block;
+}
+
+
+/* ---------------------------------------------------------
+   Product Content
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-traditional
+.s1-traditional-product-content {
+  min-width: 0;
+
+  padding-top: 8px;
+}
+
+
+/* ---------------------------------------------------------
+   Product Title
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-traditional
+.s1-traditional-product-title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+
+  gap: 2px;
+
+  padding-top: 5px;
+
+  border-top: 1px solid #eeeeee;
+
+  line-height: 1.2;
+}
+
+.s1-search-preview.th-traditional
+.s1-traditional-product-title strong {
+  color: #2991f5;
+
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.s1-search-preview.th-traditional
+.s1-traditional-product-title span {
+  color: #172033;
+
+  font-size: 15px;
+  font-weight: 500;
+}
+
+
+/* ---------------------------------------------------------
+   SKU
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-traditional
+.s1-traditional-product-sku {
+  margin-top: 13px;
+
+  color: #777;
+
+  font-size: 11px;
+  line-height: 1.25;
+}
+
+
+/* ---------------------------------------------------------
+   Price
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-traditional
+.s1-traditional-product-price {
+  display: inline-flex;
+  align-items: center;
+
+
+
+  padding: 6px 8px;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+
+  background: #fff;
+
+  color: #172033;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  line-height: 1;
+
+  white-space: nowrap;
+}
+
+
+/* ---------------------------------------------------------
+   See All
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-traditional
+.s1-traditional-see-all-wrap {
+  padding: 15px 24px 10px;
+
+  border-top: 1px solid #eeeeee;
+}
+
+.s1-search-preview.th-traditional
+.s1-traditional-see-all {
+  width: 100%;
+  height: 48px;
+
+  padding: 0 18px;
+
+  border: 0;
+  border-radius: 24px;
+
+  background: #f7f7f7;
+
+  color: #000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 11px;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.s1-search-preview.th-traditional
+.s1-traditional-see-all-arrow {
+  font-size: 22px;
+  line-height: 1;
+}
+
+
+/* =========================================================
+   MODERN STYLE
+   ========================================================= */
+
+.s1-search-preview.th-modern {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+
+/* ---------------------------------------------------------
+   Results
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-modern
+.s1-modern-search-results {
+  padding: 0 16px 7px;
+}
+
+
+/* ---------------------------------------------------------
+   Section
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-modern
+.s1-modern-section {
+  padding: 18px 16px;
+}
+
+.s1-search-preview.th-modern
+.s1-modern-section h4 {
+  margin: 0 0 20px;
+
+  color: #98a2b3;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  letter-spacing: 1.2px;
+}
+
+
+/* ---------------------------------------------------------
+   Trending
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-modern
+.s1-modern-trending {
+  border-bottom: 1px solid #eeeeee;
+}
+
+.s1-search-preview.th-modern
+.s1-modern-trending-items {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.s1-search-preview.th-modern
+.s1-modern-trending-item {
+  min-width: 92px;
+
+  padding: 10px 14px;
+
+  border-radius: 24px;
+
+  background: #f8f8f8;
+
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+
+  color: #172033;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-align: center;
+}
+
+
+/* ---------------------------------------------------------
+   Product Section
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-modern
+.s1-modern-product-section {
+  padding-top: 22px;
+  padding-bottom: 18px;
+}
+
+
+/* ---------------------------------------------------------
+   Product Grid
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-modern
+.s1-modern-products {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+
+  gap: 10px;
+}
+
+
+/* ---------------------------------------------------------
+   Product Card
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-modern
+.s1-modern-product {
+  min-width: 0;
+  min-height: 112px;
+
+  padding: 8px;
+
+  border: 1px solid #eeeeee;
+  border-radius: 16px;
+
+  background: #fff;
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  box-sizing: border-box;
+}
+
+
+/* ---------------------------------------------------------
+   Third Product - Full Width
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-modern
+.s1-modern-product:nth-child(3) {
+  grid-column: 1 / -1;
+}
+
+
+/* ---------------------------------------------------------
+   Product Image
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-modern
+.s1-modern-product-image-wrap {
+  width: 72px;
+  height: 72px;
+
+  flex: 0 0 72px;
+
+  border: 1px solid #eeeeee;
+  border-radius: 7px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #fff;
+
+  overflow: hidden;
+}
+
+.s1-search-preview.th-modern
+.s1-modern-product-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+
+  display: block;
+}
+
+
+/* ---------------------------------------------------------
+   Product Content
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-modern
+.s1-modern-product-content {
+  min-width: 0;
+  flex: 1;
+}
+
+
+/* ---------------------------------------------------------
+   Product Title
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-modern
+.s1-modern-product-title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+
+  gap: 2px;
+
+  padding-top: 4px;
+
+  line-height: 1.15;
+}
+
+.s1-search-preview.th-modern
+.s1-modern-product-title strong {
+  color: #2991f5;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.s1-search-preview.th-modern
+.s1-modern-product-title span {
+  color: #172033;
+
+  font-size: 14px;
+  font-weight: 500;
+}
+
+
+/* ---------------------------------------------------------
+   SKU
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-modern
+.s1-modern-product-sku {
+  margin-top: 7px;
+
+  color: #777;
+
+  font-size: 9px;
+
+  line-height: 1.2;
+}
+
+
+/* ---------------------------------------------------------
+   Price
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-modern
+.s1-modern-product-price {
+  display: inline-flex;
+  align-items: center;
+
+  margin-top: 8px;
+
+  padding: 5px 7px;
+
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+
+  background: #fff;
+
+  color: #172033;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  line-height: 1;
+
+  white-space: nowrap;
+}
+
+
+/* ---------------------------------------------------------
+   See All
+   --------------------------------------------------------- */
+
+.s1-search-preview.th-modern
+.s1-modern-see-all-wrap {
+  padding: 13px 22px 9px;
+
+  border-top: 1px solid #eeeeee;
+}
+
+.s1-search-preview.th-modern
+.s1-modern-see-all {
+  width: 100%;
+  height: 46px;
+
+  padding: 0 16px;
+
+  border: 0;
+  border-radius: 24px;
+
+  background: #f7f7f7;
+
+  color: #000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.s1-search-preview.th-modern
+.s1-modern-see-all-arrow {
+  font-size: 21px;
+  line-height: 1;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  /* Common Search */
+  .s1-search-preview .s1-search-input {
+    height: 50px;
+  }
+
+  .s1-search-preview .s1-search-button {
+    width: 88px;
+    flex-basis: 88px;
+    height: 42px;
+  }
+
+
+  /* Traditional */
+  .s1-search-preview.th-traditional
+  .s1-traditional-search-results {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .s1-search-preview.th-traditional
+  .s1-traditional-section {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .s1-search-preview.th-traditional
+  .s1-traditional-products {
+    gap: 9px;
+  }
+
+  .s1-search-preview.th-traditional
+  .s1-traditional-product {
+    padding: 8px;
+    border-radius: 15px;
+  }
+
+
+  /* Modern */
+  .s1-search-preview.th-modern
+  .s1-modern-search-results {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .s1-search-preview.th-modern
+  .s1-modern-section {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .s1-search-preview.th-modern
+  .s1-modern-product {
+    padding: 7px;
+    gap: 7px;
+  }
+
+  .s1-search-preview.th-modern
+  .s1-modern-product-image-wrap {
+    width: 64px;
+    height: 64px;
+    flex-basis: 64px;
+  }
+
+}
+
+/* =========================================================
+ * LIVE PREVIEW - COMMON SETTINGS
+ * ========================================================= */
+
+.s1-search-preview {
+  color: var(--s1-text) !important;
+}
+
+/* ---------------------------------------------------------
+ * SEARCH BAR
+ * --------------------------------------------------------- */
+
+.s1-search-preview .s1-search-input {
+  background: var(--s1-bar-bg) !important;
+  border-color: var(--s1-bar-border) !important;
+  color: var(--s1-bar-text) !important;
+}
+
+.s1-search-preview .s1-search-placeholder {
+  color: var(--s1-bar-text) !important;
+}
+
+.s1-search-preview .s1-search-button {
+  background: var(--s1-button-bg) !important;
+  color: var(--s1-button-text) !important;
+  border-color: var(--s1-button-bg) !important;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease !important;
+}
+
+.s1-search-preview .s1-search-button:hover {
+  background: var(--s1-button-hover-bg) !important;
+  color: var(--s1-button-hover-text) !important;
+}
+
+/* ---------------------------------------------------------
+ * SUGGESTION BOX
+ * --------------------------------------------------------- */
+
+.s1-search-preview .s1-normal-search-results,
+.s1-search-preview .s1-traditional-search-results,
+.s1-search-preview .s1-modern-search-results {
+  background: var(--s1-suggestion-bg) !important;
+  border-color: var(--s1-suggestion-border) !important;
+}
+
+/* ---------------------------------------------------------
+ * SECTION HEADINGS
+ * --------------------------------------------------------- */
+
+.s1-search-preview .s1-search-section h4,
+.s1-search-preview .s1-traditional-section h4,
+.s1-search-preview .s1-modern-section h4 {
+  color: var(--s1-group-title) !important;
+}
+
+/* ---------------------------------------------------------
+ * TRENDING
+ * --------------------------------------------------------- */
+
+.s1-search-preview .s1-preview-trending-item,
+.s1-search-preview .s1-trending-item,
+.s1-search-preview .s1-traditional-trending-item,
+.s1-search-preview .s1-modern-trending-item {
+  color: var(--s1-title) !important;
+  border-color: var(--s1-suggestion-border) !important;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease !important;
+}
+
+.s1-search-preview .s1-preview-trending-item:hover,
+.s1-search-preview .s1-trending-item:hover,
+.s1-search-preview .s1-traditional-trending-item:hover,
+.s1-search-preview .s1-modern-trending-item:hover {
+  background: var(--s1-highlight) !important;
+  color: var(--s1-title) !important;
+}
+.s1-search-preview.th-normal .s1-search-product-title,.s1-search-preview .s1-category-section .s1-category-name{
+  color: var(--s1-highlight) !important;
+}
+/* ---------------------------------------------------------
+ * CATEGORY
+ * --------------------------------------------------------- */
+
+.s1-search-preview .s1-category-result {
+  border-color: var(--s1-suggestion-border) !important;
+  color: var(--s1-text) !important;
+}
+
+.s1-search-preview .s1-category-name,
+.s1-search-preview .s1-category-title {
+  color: var(--s1-title) !important;
+}
+
+/* ---------------------------------------------------------
+ * PRODUCTS
+ * --------------------------------------------------------- */
+
+.s1-search-preview .s1-preview-product {
+  color: var(--s1-text) !important;
+  border-color: var(--s1-suggestion-border) !important;
+}
+
+.s1-search-preview .s1-preview-product-title strong {
+  color: var(--s1-title) !important;
+}
+
+.s1-search-preview .s1-preview-product-title span {
+  color: var(--s1-text) !important;
+}
+
+.s1-search-preview .s1-preview-product-sku {
+  color: var(--s1-text) !important;
+}
+
+.s1-search-preview .s1-preview-product-desc {
+  color: var(--s1-text) !important;
+}
+
+.s1-search-preview .s1-preview-product-price {
+  color: var(--s1-title) !important;
+}
+
+/* ---------------------------------------------------------
+ * PRODUCT IMAGE
+ * --------------------------------------------------------- */
+
+.s1-search-preview .s1-preview-product-image-wrap {
+  border-color: var(--s1-suggestion-border) !important;
+  background: var(--s1-suggestion-bg) !important;
+}
+
+/* ---------------------------------------------------------
+ * ADD TO CART
+ * --------------------------------------------------------- */
+
+.s1-search-preview .s1-preview-cart-button {
+  background: var(--s1-button-bg) !important;
+  color: var(--s1-button-text) !important;
+  border-color: var(--s1-button-bg) !important;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease !important;
+}
+
+.s1-search-preview .s1-preview-cart-button:hover {
+  background: var(--s1-button-hover-bg) !important;
+  color: var(--s1-button-hover-text) !important;
+  border-color: var(--s1-button-hover-bg) !important;
+}
+
+/* ---------------------------------------------------------
+ * SEE ALL
+ * --------------------------------------------------------- */
+
+.s1-search-preview .s1-preview-see-all {
+  color: var(--s1-title) !important;
+  border-color: var(--s1-suggestion-border) !important;
+}
+
+.s1-search-preview .s1-preview-see-all:hover {
+  background: var(--s1-highlight) !important;
+  color: var(--s1-title) !important;
+}
+
+/* ---------------------------------------------------------
+ * SELECTED STATE
+ * --------------------------------------------------------- */
+
+.s1-search-preview .s1-preview-product:hover {
+  background: var(--s1-highlight) !important;
+}
+
+.s1-search-preview .s1-preview-product.selected {
+  background: var(--s1-selected) !important;
+  border-color: var(--s1-suggestion-border) !important;
+}
+.s1-search-preview .s1-search-button {
+  background: var(--s1-button-bg) !important;
+  color: var(--s1-icon-color) !important;
+  border-color: var(--s1-button-bg) !important;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.s1-search-preview .s1-search-button svg {
+  color: var(--s1-icon-color) !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+.s1-search-preview .s1-search-button:hover {
+  background: var(--s1-button-hover-bg) !important;
+  color: var(--s1-button-hover-text) !important;
+}
+
+.s1-search-preview .s1-search-button:hover svg {
+  color: var(--s1-button-hover-text) !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+
+.s1-modern-product-footer,.s1-traditional-product-footer{
+  display: inline-flex;
+    align-items: center;
+}
+.s1-modern-product-footer .s1-cart-button{
+margin-top: 8px;
+    margin-left:8px;
+}
+
+.s1-traditional-product-footer .s1-cart-button{
+   
+    margin-left:8px;
+}
+.s1-traditional-product-footer{
+margin-top:20px;}
