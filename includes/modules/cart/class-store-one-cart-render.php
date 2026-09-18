@@ -30,6 +30,9 @@ if (! class_exists('Th_Store_One_Cart_Render')) {
         private $mobile_settings = array();
 
 
+        private $render = null;
+
+
         /**
          * Constructor.
          *

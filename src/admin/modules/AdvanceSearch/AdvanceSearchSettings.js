@@ -42,7 +42,7 @@ const DEFAULT_SETTINGS = {
   no_reult_label: "No Result Found",
   more_reult_label: "See All Results ",
   enable_group_heading: true,
-  desc_excpt_length: 120,
+  desc_excpt_length: 90,
   tapsp_enable_voice_search: false,
 
   /* Categories */
@@ -760,63 +760,8 @@ export default function AdvanceSearchSettings({
                           </S1Field>
                         </div>
                       </S1FieldGroup>
-                      <S1FieldGroup number={3} title="Product">
-                        <div className="s1-field-group-row">
-                          <S1Field label="Enable Product Image">
-                            <ToggleControl
-                              checked={settings.enable_product_image}
-                              onChange={(v) =>
-                                update("enable_product_image", v)
-                              }
-                            />
-                          </S1Field>
 
-                          <S1Field label="Enable Product Price">
-                            <ToggleControl
-                              checked={settings.enable_product_price}
-                              onChange={(v) =>
-                                update("enable_product_price", v)
-                              }
-                            />
-                          </S1Field>
-                        </div>
-                        <div className="s1-field-group-row">
-                          <S1Field label="Enable Product Description">
-                            <ToggleControl
-                              checked={settings.enable_product_desc}
-                              onChange={(v) => update("enable_product_desc", v)}
-                            />
-                          </S1Field>
-
-                          <S1Field label="Enable Product SKU">
-                            <ToggleControl
-                              checked={settings.enable_product_sku}
-                              onChange={(v) => update("enable_product_sku", v)}
-                            />
-                          </S1Field>
-                        </div>
-
-                        <ExcludeWooCondition
-                          label="Exclude Products"
-                          searchType="product"
-                          enabled={settings.exclude_products_enabled}
-                          items={settings.exclude_products || []}
-                          onToggle={(v) =>
-                            setSettings({
-                              ...settings,
-                              exclude_products_enabled: v,
-                            })
-                          }
-                          onChangeItems={(items) =>
-                            setSettings({
-                              ...settings,
-                              exclude_products: items,
-                            })
-                          }
-                          detailedView={true}
-                        />
-                      </S1FieldGroup>
-                      <S1FieldGroup number={4} title="Visuals in Product">
+                      <S1FieldGroup number={3} title="Visuals in Product">
                         <div className="s1-field-group-row">
                           <S1Field
                             label="Sale"
@@ -1289,6 +1234,25 @@ export default function AdvanceSearchSettings({
                             }
                           />
                         </S1Field>
+                        <ExcludeWooCondition
+                          label="Exclude Products"
+                          searchType="product"
+                          enabled={settings.exclude_products_enabled}
+                          items={settings.exclude_products || []}
+                          onToggle={(v) =>
+                            setSettings({
+                              ...settings,
+                              exclude_products_enabled: v,
+                            })
+                          }
+                          onChangeItems={(items) =>
+                            setSettings({
+                              ...settings,
+                              exclude_products: items,
+                            })
+                          }
+                          detailedView={true}
+                        />
                       </S1FieldGroup>
                     </>
                   ),

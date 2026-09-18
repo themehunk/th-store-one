@@ -126,6 +126,10 @@ class Th_Store_One_Module_Loader
                 'file'  => 'includes/modules/variation-swatches/th-store-one-class-frontend.php',
                 'class' => 'TH_Store_One_Variation_Swatches_Frontend',
             ],
+            'th-advancedsearch' => [
+                'file'  => 'includes/modules/advance-search/th-store-one-class-frontend.php',
+                'class' => 'TH_Store_One_Advance_Search_Frontend',
+            ],
         ];
 
 
