@@ -96,13 +96,6 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
             wp_send_json_success($results);
         }
 
-        /**
-         * Search WooCommerce products.
-         *
-         * @param string $term Search term.
-         *
-         * @return array
-         */
         private function search_products($term)
         {
 
@@ -127,96 +120,242 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
             );
 
             /*
-             * First collect products matching the main WordPress
-             * title/content search.
+             * ---------------------------------------------------------
+             * Search terms
+             * ---------------------------------------------------------
+             *
+             * Lite starts with the original term.
+             *
+             * Pro can expand this using:
+             * - Synonyms
+             * - Fuzzy matching
+             * - Plural / singular
+             * - Typo correction
+             *
+             * Example:
+             *
+             * trouser
+             * =>
+             * trouser
+             * paint
              */
-            $ids = $this->search_by_wordpress_query(
+            $search_terms = apply_filters(
+                'store_one_advance_search_terms',
+                array( $term ),
                 $term,
-                $limit,
-                $exclude_ids
+                $this->settings
+            );
+
+            if (! is_array($search_terms)) {
+                $search_terms = array( $term );
+            }
+
+            /*
+             * Make sure original term is always present.
+             */
+            $search_terms[] = $term;
+
+            $search_terms = array_values(
+                array_unique(
+                    array_filter(
+                        array_map(
+                            'trim',
+                            $search_terms
+                        )
+                    )
+                )
             );
 
             /*
-             * Add additional matches enabled by Store One settings.
+             * ---------------------------------------------------------
+             * Main WordPress search
+             * ---------------------------------------------------------
+             */
+            $ids = array();
+
+            foreach ($search_terms as $search_term) {
+
+                $ids = array_merge(
+                    $ids,
+                    $this->search_by_wordpress_query(
+                        $search_term,
+                        $limit,
+                        $exclude_ids
+                    )
+                );
+            }
+
+            /*
+             * ---------------------------------------------------------
+             * Additional searches
+             * ---------------------------------------------------------
              */
             $additional_ids = array();
 
-            if ($this->setting_enabled('tapsp_search_in_product_sku')) {
-                $additional_ids = array_merge(
-                    $additional_ids,
-                    $this->search_by_sku($term)
-                );
+            /*
+             * SKU.
+             */
+            if (
+                $this->setting_enabled(
+                    'tapsp_search_in_product_sku'
+                )
+            ) {
+
+                foreach ($search_terms as $search_term) {
+
+                    $additional_ids = array_merge(
+                        $additional_ids,
+                        $this->search_by_sku(
+                            $search_term
+                        )
+                    );
+                }
             }
 
-            if ($this->setting_enabled('tapsp_search_in_category')) {
-                $additional_ids = array_merge(
-                    $additional_ids,
-                    $this->search_by_taxonomy(
-                        $term,
-                        'product_cat'
-                    )
-                );
+            /*
+             * Category.
+             */
+            if (
+                $this->setting_enabled(
+                    'tapsp_search_in_category'
+                )
+            ) {
+
+                foreach ($search_terms as $search_term) {
+
+                    $additional_ids = array_merge(
+                        $additional_ids,
+                        $this->search_by_taxonomy(
+                            $search_term,
+                            'product_cat'
+                        )
+                    );
+                }
             }
 
-            if ($this->setting_enabled('tapsp_search_in_tag')) {
-                $additional_ids = array_merge(
-                    $additional_ids,
-                    $this->search_by_taxonomy(
-                        $term,
-                        'product_tag'
-                    )
-                );
+            /*
+             * Tag.
+             */
+            if (
+                $this->setting_enabled(
+                    'tapsp_search_in_tag'
+                )
+            ) {
+
+                foreach ($search_terms as $search_term) {
+
+                    $additional_ids = array_merge(
+                        $additional_ids,
+                        $this->search_by_taxonomy(
+                            $search_term,
+                            'product_tag'
+                        )
+                    );
+                }
             }
 
-            if ($this->setting_enabled('tapsp_search_in_brand')) {
-                $additional_ids = array_merge(
-                    $additional_ids,
-                    $this->search_by_brand($term)
-                );
+            /*
+             * Brand.
+             */
+            if (
+                $this->setting_enabled(
+                    'tapsp_search_in_brand'
+                )
+            ) {
+
+                foreach ($search_terms as $search_term) {
+
+                    $additional_ids = array_merge(
+                        $additional_ids,
+                        $this->search_by_brand(
+                            $search_term
+                        )
+                    );
+                }
             }
 
-            if ($this->setting_enabled('tapsp_search_in_attributes')) {
-                $additional_ids = array_merge(
-                    $additional_ids,
-                    $this->search_by_attributes($term)
-                );
+            /*
+             * Attributes.
+             */
+            if (
+                $this->setting_enabled(
+                    'tapsp_search_in_attributes'
+                )
+            ) {
+
+                foreach ($search_terms as $search_term) {
+
+                    $additional_ids = array_merge(
+                        $additional_ids,
+                        $this->search_by_attributes(
+                            $search_term
+                        )
+                    );
+                }
             }
 
+            /*
+             * Description.
+             */
             if (
                 $this->setting_enabled(
                     'tapsp_search_in_description'
                 )
             ) {
-                $additional_ids = array_merge(
-                    $additional_ids,
-                    $this->search_by_description(
-                        $term,
-                        false
-                    )
-                );
+
+                foreach ($search_terms as $search_term) {
+
+                    $additional_ids = array_merge(
+                        $additional_ids,
+                        $this->search_by_description(
+                            $search_term,
+                            false
+                        )
+                    );
+                }
             }
 
+            /*
+             * Short description.
+             */
             if (
                 $this->setting_enabled(
                     'tapsp_search_in_short_description'
                 )
             ) {
+
+                foreach ($search_terms as $search_term) {
+
+                    $additional_ids = array_merge(
+                        $additional_ids,
+                        $this->search_by_description(
+                            $search_term,
+                            true
+                        )
+                    );
+                }
+            }
+
+            /*
+             * Custom fields.
+             */
+            foreach ($search_terms as $search_term) {
+
                 $additional_ids = array_merge(
                     $additional_ids,
-                    $this->search_by_description(
-                        $term,
-                        true
+                    $this->search_by_custom_fields(
+                        $search_term
                     )
                 );
             }
 
-            $additional_ids = array_merge(
-                $additional_ids,
-                $this->search_by_custom_fields($term)
-            );
-
             /*
-             * Merge while preserving the primary WordPress search order.
+             * ---------------------------------------------------------
+             * Merge results
+             * ---------------------------------------------------------
+             *
+             * Original search order is preserved because the
+             * first search term is always the original term.
              */
             $ids = array_values(
                 array_unique(
@@ -227,7 +366,13 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
                 )
             );
 
+            /*
+             * ---------------------------------------------------------
+             * Excluded products
+             * ---------------------------------------------------------
+             */
             if (! empty($exclude_ids)) {
+
                 $ids = array_values(
                     array_diff(
                         $ids,
@@ -237,33 +382,40 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
             }
 
             /*
-             * Remove invalid/non-purchasable product posts and
-             * respect WooCommerce catalog visibility.
+             * ---------------------------------------------------------
+             * WooCommerce product validation
+             * ---------------------------------------------------------
              */
-            $ids = $this->filter_product_ids($ids);
-
-            /*
-             * Apply a simple Store One relevance ordering when enabled.
-             * Exact title/SKU/category matches are placed first.
-             */
-            $ids = $this->rank_product_ids(
-                $ids,
-                $term
+            $ids = $this->filter_product_ids(
+                $ids
             );
 
+            /*
+             * Total before limit.
+             */
             $total = count($ids);
 
+            /*
+             * Apply result limit.
+             */
             $ids = array_slice(
                 $ids,
                 0,
                 $limit
             );
 
+            /*
+             * ---------------------------------------------------------
+             * Prepare products
+             * ---------------------------------------------------------
+             */
             $products = array();
 
             foreach ($ids as $product_id) {
 
-                $product = wc_get_product($product_id);
+                $product = wc_get_product(
+                    $product_id
+                );
 
                 if (! $product) {
                     continue;
@@ -276,12 +428,21 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
             }
 
             /*
-             * Categories are returned separately so the frontend can
-             * render a category section without mixing it with products.
+             * ---------------------------------------------------------
+             * Categories
+             * ---------------------------------------------------------
+             *
+             * Keep category suggestions based on the
+             * original search term.
              */
             $categories = array();
 
-            if ($this->setting_enabled('show_category_in')) {
+            if (
+                $this->setting_enabled(
+                    'show_category_in'
+                )
+            ) {
+
                 $categories = $this->search_categories(
                     $term
                 );
@@ -497,6 +658,28 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
             );
         }
 
+        private function get_variation_url($variation)
+        {
+            $parent_id = $variation->get_parent_id();
+
+            if (! $parent_id) {
+                return '';
+            }
+
+            $url = get_permalink($parent_id);
+
+            $attributes = $variation->get_variation_attributes();
+
+            if (! empty($attributes)) {
+                $url = add_query_arg(
+                    $attributes,
+                    $url
+                );
+            }
+
+            return esc_url_raw($url);
+        }
+
         /**
          * Search product attributes.
          *
@@ -506,39 +689,57 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
          */
         private function search_by_attributes($term)
         {
+            $term = trim((string) $term);
 
-            $taxonomies = wc_get_attribute_taxonomies();
-
-            if (empty($taxonomies)) {
+            if ('' === $term) {
                 return array();
             }
 
+            $variation_ids = get_posts(
+                array(
+                    'post_type'      => 'product_variation',
+                    'post_status'    => 'publish',
+                    'posts_per_page' => -1,
+                    'fields'         => 'ids',
+                )
+            );
+
             $result = array();
 
-            foreach ($taxonomies as $attribute) {
+            foreach ($variation_ids as $variation_id) {
 
-                if (empty($attribute->attribute_name)) {
+                $variation = wc_get_product($variation_id);
+
+                if (
+                    ! $variation ||
+                    ! $variation->is_type('variation')
+                ) {
                     continue;
                 }
 
-                $taxonomy = wc_attribute_taxonomy_name(
-                    $attribute->attribute_name
-                );
+                /*
+                 * Same behavior as old Pro.
+                 */
+                $attributes = $variation->get_attributes();
 
-                $result = array_merge(
-                    $result,
-                    $this->search_by_taxonomy(
-                        $term,
-                        $taxonomy
-                    )
-                );
+                foreach ($attributes as $attribute) {
+
+                    if (
+                        false !== stripos(
+                            (string) $attribute,
+                            $term
+                        )
+                    ) {
+                        $result[] = $variation->get_id();
+                        break;
+                    }
+                }
             }
 
             return array_values(
                 array_unique($result)
             );
         }
-
         /**
          * Search long/short product description.
          *
@@ -717,7 +918,14 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
                  */
                 if (
                     $product->is_visible() &&
-                    'product' === get_post_type($id)
+                    in_array(
+                        get_post_type($id),
+                        array(
+                            'product',
+                            'product_variation',
+                        ),
+                        true
+                    )
                 ) {
                     $result[] = $id;
                 }
@@ -728,224 +936,7 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
             );
         }
 
-        /**
-         * Rank product IDs.
-         *
-         * @param array  $ids  Product IDs.
-         * @param string $term Search term.
-         *
-         * @return array
-         */
-        private function rank_product_ids($ids, $term)
-        {
 
-            if (
-                ! $this->setting_enabled(
-                    'tapsp_enable_custom_ranking'
-                )
-            ) {
-                return $ids;
-            }
-
-            $term = strtolower(trim($term));
-
-            $weights = array(
-                'title'      => $this->setting_int(
-                    'tapsp_rank_weight_title',
-                    100
-                ),
-                'sku'        => $this->setting_int(
-                    'tapsp_rank_weight_sku',
-                    80
-                ),
-                'category'   => $this->setting_int(
-                    'tapsp_rank_weight_category',
-                    60
-                ),
-                'tags'       => $this->setting_int(
-                    'tapsp_rank_weight_tags',
-                    50
-                ),
-                'attributes' => $this->setting_int(
-                    'tapsp_rank_weight_attributes',
-                    50
-                ),
-                'brand'      => $this->setting_int(
-                    'tapsp_rank_weight_brand',
-                    60
-                ),
-                'popularity' => $this->setting_int(
-                    'tapsp_rank_weight_popularity',
-                    30
-                ),
-                'rating'     => $this->setting_int(
-                    'tapsp_rank_weight_rating',
-                    20
-                ),
-                'stock'      => $this->setting_int(
-                    'tapsp_rank_weight_stock',
-                    10
-                ),
-            );
-
-            $scores = array();
-
-            foreach ($ids as $id) {
-
-                $product = wc_get_product($id);
-
-                if (! $product) {
-                    continue;
-                }
-
-                $score = 0;
-                $title = strtolower(
-                    $product->get_name()
-                );
-
-                /*
-                 * Title relevance.
-                 */
-                if (false !== strpos($title, $term)) {
-                    $score += $weights['title'];
-
-                    if ($title === $term) {
-                        $score += $weights['title'];
-                    }
-                }
-
-                /*
-                 * SKU relevance.
-                 */
-                $sku = strtolower(
-                    (string) $product->get_sku()
-                );
-
-                if (
-                    '' !== $sku &&
-                    false !== strpos($sku, $term)
-                ) {
-                    $score += $weights['sku'];
-                }
-
-                /*
-                 * Category relevance.
-                 */
-                $categories = get_the_terms(
-                    $id,
-                    'product_cat'
-                );
-
-                if (! is_wp_error($categories)) {
-                    foreach ($categories as $category) {
-
-                        $name = strtolower(
-                            $category->name
-                        );
-
-                        if (
-                            false !== strpos(
-                                $name,
-                                $term
-                            )
-                        ) {
-                            $score += $weights['category'];
-                            break;
-                        }
-                    }
-                }
-
-                /*
-                 * Tag relevance.
-                 */
-                $tags = get_the_terms(
-                    $id,
-                    'product_tag'
-                );
-
-                if (
-                    ! is_wp_error($tags) &&
-                    ! empty($tags) &&
-                    is_array($tags)
-                ) {
-                    foreach ($tags as $tag) {
-
-                        $name = strtolower(
-                            $tag->name
-                        );
-
-                        if (
-                            false !== strpos(
-                                $name,
-                                $term
-                            )
-                        ) {
-                            $score += $weights['tags'];
-                            break;
-                        }
-                    }
-                }
-
-                /*
-                 * Featured.
-                 */
-                if ($product->is_featured()) {
-                    $score += max(
-                        0,
-                        (int) $weights['popularity']
-                    );
-                }
-
-                /*
-                 * Rating.
-                 */
-                $rating = (float) $product->get_average_rating();
-
-                if ($rating > 0) {
-                    $score += $rating *
-                        max(
-                            0,
-                            (int) $weights['rating']
-                        );
-                }
-
-                /*
-                 * Stock.
-                 */
-                if ($product->is_in_stock()) {
-                    $score += max(
-                        0,
-                        (int) $weights['stock']
-                    );
-                }
-
-                $scores[ $id ] = $score;
-            }
-
-            usort(
-                $ids,
-                function ($a, $b) use ($scores) {
-
-                    $a_score = isset($scores[ $a ])
-                        ? $scores[ $a ]
-                        : 0;
-
-                    $b_score = isset($scores[ $b ])
-                        ? $scores[ $b ]
-                        : 0;
-
-                    if ($a_score === $b_score) {
-                        return 0;
-                    }
-
-                    return ($a_score > $b_score)
-                        ? -1
-                        : 1;
-                }
-            );
-
-            return $ids;
-        }
 
         /**
          * Prepare product response.
@@ -968,6 +959,10 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
              * product functionality through the filter below.
              */
 
+            $url = $product->is_type('variation')
+            ? $this->get_variation_url($product)
+            : get_permalink($product->get_id());
+
             $data = array(
                 'id'    => $product->get_id(),
                 'title' => html_entity_decode(
@@ -979,9 +974,7 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
                 ),
                 'image' => $this->get_product_image($product),
                 'price' => $this->get_product_price($product),
-                'url'   => get_permalink(
-                    $product->get_id()
-                ),
+                'url'   =>  $url,
                 'sale'  => $product->is_on_sale(),
             );
 

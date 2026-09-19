@@ -571,13 +571,7 @@
     var title = product.title ? String(product.title) : "";
     var url = product.url ? String(product.url) : "#";
     var image = product.image ? String(product.image) : "";
-    var sku = product.sku ? String(product.sku) : "";
-    var description = product.description ? String(product.description) : "";
     var price = product.price ? String(product.price) : "";
-
-    var isSale = toBoolean(product.sale, false);
-    var isFeatured = toBoolean(product.featured, false);
-    var inStock = toBoolean(product.in_stock, false);
 
     var html = "";
 
@@ -589,7 +583,9 @@
       '">';
 
     /*
+     * ---------------------------------------------------------
      * Product link.
+     * ---------------------------------------------------------
      */
     html +=
       '<a class="store-one-search-product-link" href="' +
@@ -599,7 +595,9 @@
       '">';
 
     /*
-     * Product image.
+     * ---------------------------------------------------------
+     * Product image - Lite.
+     * ---------------------------------------------------------
      */
     html += '<span class="store-one-search-product-media">';
 
@@ -617,100 +615,148 @@
     html += "</span>";
 
     /*
+     * ---------------------------------------------------------
      * Product content.
+     * ---------------------------------------------------------
      */
     html += '<span class="store-one-search-product-content">';
 
     /*
+     * ---------------------------------------------------------
      * Title row.
+     * ---------------------------------------------------------
      */
     html += '<span class="store-one-search-product-title-row">';
 
     /*
-     * Featured badge.
+     * Featured - Pro.
      */
-    if (isFeatured && toBoolean(settings.tapsp_highlight_featured, true)) {
-      html +=
-        '<span class="store-one-search-product-featured">' +
-        '<span class="store-one-search-product-featured-icon" aria-hidden="true">' +
-        "★" +
-        "</span>" +
-        "</span>";
-    }
+    var featuredExtension = {
+      product: product,
+      term: term,
+      settings: settings,
+      html: "",
+    };
 
+    document.dispatchEvent(
+      new CustomEvent("storeOneAdvanceSearchFeatured", {
+        detail: featuredExtension,
+      }),
+    );
+
+    html += featuredExtension.html || "";
+
+    /*
+     * Title - Lite.
+     */
     html +=
       '<span class="store-one-search-product-title">' +
       highlightMatch(title, term) +
       "</span>";
 
     /*
-     * SKU.
+     * SKU - Pro.
      */
-    if (sku && toBoolean(settings.tapsp_enable_product_sku, true)) {
-      html +=
-        '<span class="store-one-search-product-sku">' +
-        "(SKU: " +
-        highlightMatch(sku, term) +
-        ")" +
-        "</span>";
-    }
+    var skuExtension = {
+      product: product,
+      term: term,
+      settings: settings,
+      html: "",
+    };
+
+    document.dispatchEvent(
+      new CustomEvent("storeOneAdvanceSearchSKU", {
+        detail: skuExtension,
+      }),
+    );
+
+    html += skuExtension.html || "";
+
     /*
-     * Sale badge.
+     * Sale - Pro.
      */
-    if (isSale && toBoolean(settings.tapsp_highlight_sale, true)) {
-      html +=
-        '<span class="store-one-search-product-sale">' + "Sale" + "</span>";
-    }
+    var saleExtension = {
+      product: product,
+      term: term,
+      settings: settings,
+      html: "",
+    };
+
+    document.dispatchEvent(
+      new CustomEvent("storeOneAdvanceSearchSale", {
+        detail: saleExtension,
+      }),
+    );
+
+    html += saleExtension.html || "";
 
     html += "</span>";
 
     /*
-     * Product meta badges.
+     * ---------------------------------------------------------
+     * Product meta.
+     * ---------------------------------------------------------
      */
     html += '<span class="store-one-search-product-meta">';
 
-    html += "</span>";
-
     /*
-     * Description.
+     * Description - Pro.
      */
-    if (description && toBoolean(settings.tapsp_enable_product_desc, false)) {
-      html +=
-        '<span class="store-one-search-product-description">' +
-        escapeHTML(description) +
-        "</span>";
-    }
+    var descriptionExtension = {
+      product: product,
+      term: term,
+      settings: settings,
+      html: "",
+    };
+
+    document.dispatchEvent(
+      new CustomEvent("storeOneAdvanceSearchDescription", {
+        detail: descriptionExtension,
+      }),
+    );
+
+    html += descriptionExtension.html || "";
+
+    html += "</span>";
 
     html += "</span>";
 
     html += "</a>";
 
     /*
-     * Price.
+     * ---------------------------------------------------------
+     * Price - Lite.
+     * ---------------------------------------------------------
      */
     if (price && toBoolean(settings.tapsp_enable_product_price, true)) {
       html +=
         '<span class="store-one-search-product-price">' + price + "</span>";
     }
-    /*
-     * Stock availability.
-     */
-    if (toBoolean(settings.tapsp_stock_availability, true)) {
-      if (inStock) {
-        html +=
-          '<span class="store-one-search-product-stock store-one-search-product-stock-in">' +
-          "(In Stock)" +
-          "</span>";
-      } else {
-        html +=
-          '<span class="store-one-search-product-stock store-one-search-product-stock-out">' +
-          "(Out of Stock)" +
-          "</span>";
-      }
-    }
 
     /*
-     * Cart.
+     * ---------------------------------------------------------
+     * Stock - Pro.
+     * ---------------------------------------------------------
+     */
+    var stockExtension = {
+      product: product,
+      term: term,
+      settings: settings,
+      html: "",
+    };
+
+    document.dispatchEvent(
+      new CustomEvent("storeOneAdvanceSearchStock", {
+        detail: stockExtension,
+      }),
+    );
+
+    html += stockExtension.html || "";
+
+    /*
+     * ---------------------------------------------------------
+     * Cart - Lite.
+     * ---------------------------------------------------------
      */
     var cart = product.cart || {};
 
@@ -1278,6 +1324,14 @@
 
     return Object.assign({}, DEFAULTS, settings);
   }
+  /*
+   * Public utilities for Store One Advance Search Pro.
+   */
+  window.storeOneAdvanceSearchUtils = {
+    toBoolean: toBoolean,
+    highlightMatch: highlightMatch,
+    escapeHTML: escapeHTML,
+  };
 
   /**
    * Search URL.
