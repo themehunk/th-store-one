@@ -181,7 +181,19 @@
       debounceTimer = setTimeout(function () {
         search(value, activeInput);
       }, 50);
+
+      return;
     }
+
+    // console.log("Store One Focus:", {
+    //   value: value,
+    //   settings: getSettings(),
+    //   mode: getSettings().tapsp_specific_key_search,
+    //   specific: getSettings().specific_searches,
+    //   popular: getSettings().popular_searches,
+    // });
+
+    renderSuggestedSearches(activeInput);
   }
 
   /**
@@ -271,6 +283,27 @@
    * Result clicks.
    */
   function handleDocumentClick(event) {
+    var suggested = closest(event.target, ".store-one-search-suggested-item");
+
+    if (suggested) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      var keyword = suggested.getAttribute("data-search-keyword");
+
+      if (keyword && activeInput) {
+        activeInput.value = keyword;
+
+        activeInput.dispatchEvent(
+          new Event("input", {
+            bubbles: true,
+          }),
+        );
+      }
+
+      return;
+    }
+
     var cart = closest(event.target, ".store-one-search-product-cart");
 
     if (cart) {
@@ -398,6 +431,135 @@
     };
 
     request.send(body.toString());
+  }
+
+  /**
+   * Render specific / popular search keywords.
+   */
+  function renderSuggestedSearches(input) {
+    if (!dropdown || !input) {
+      return;
+    }
+
+    var settings = getSettings();
+
+    if (!toBoolean(settings.tapsp_trending_enable, true)) {
+      hideDropdown();
+      return;
+    }
+
+    var mode = settings.tapsp_specific_key_search || "specific";
+
+    var searches = [];
+
+    if (mode === "popular") {
+      searches = Array.isArray(settings.popular_searches)
+        ? settings.popular_searches
+        : [];
+    } else {
+      searches = Array.isArray(settings.specific_searches)
+        ? settings.specific_searches
+        : [];
+    }
+
+    if (!searches.length) {
+      hideDropdown();
+      return;
+    }
+
+    activeItems = [];
+    activeIndex = -1;
+
+    dropdown.className = "store-one-advance-search-dropdown";
+
+    var style = getSearchStyle(input);
+
+    if (style) {
+      dropdown.classList.add(style);
+    }
+
+    var label =
+      settings.tapsp_trending_label ||
+      (mode === "popular" ? "Popular Searches" : "Suggested Searches");
+
+    var html = "";
+
+    html += '<div class="store-one-search-results">';
+    html += '<section class="store-one-search-results-section">';
+
+    html +=
+      '<h3 class="store-one-search-section-title">' +
+      escapeHTML(String(label)) +
+      "</h3>";
+
+    html += '<div class="store-one-search-suggested-list">';
+
+    searches.forEach(function (item) {
+      var keyword = "";
+
+      if (typeof item === "string") {
+        keyword = item;
+      } else if (item && item.keyword) {
+        keyword = item.keyword;
+      }
+
+      keyword = String(keyword || "").trim();
+
+      if (!keyword) {
+        return;
+      }
+
+      html +=
+        '<button type="button" class="store-one-search-suggested-item" data-search-keyword="' +
+        escapeAttribute(keyword) +
+        '">' +
+        '<span class="store-one-search-suggested-keyword">' +
+        escapeHTML(keyword) +
+        "</span>";
+
+      if (
+        mode === "popular" &&
+        item &&
+        typeof item === "object" &&
+        item.search_count
+      ) {
+        html +=
+          '<span class="store-one-search-suggested-count">' +
+          escapeHTML(String(item.search_count)) +
+          "</span>";
+      }
+
+      html += "</button>";
+    });
+
+    html += "</div>";
+    html += "</section>";
+    html += "</div>";
+
+    dropdown.innerHTML = html;
+
+    bindSuggestedSearches(input);
+
+    positionDropdown(input);
+    showDropdown();
+  }
+
+  function bindSuggestedSearches(input) {
+    if (!dropdown || !input) {
+      return;
+    }
+
+    var items = dropdown.querySelectorAll(".store-one-search-suggested-item");
+
+    Array.prototype.forEach.call(items, function (item) {
+      item.addEventListener("mouseenter", function () {
+        items.forEach(function (node) {
+          node.classList.remove("store-one-search-active");
+        });
+
+        item.classList.add("store-one-search-active");
+      });
+    });
   }
 
   /**
@@ -1049,6 +1211,7 @@
       ".store-one-search-product-link",
 
       ".store-one-search-see-all",
+      ".store-one-search-suggested-item",
     ];
 
     var nodes = dropdown.querySelectorAll(selectors.join(","));

@@ -341,8 +341,13 @@ if (! class_exists('TH_Store_One_Advance_Search_Frontend')) {
              * Make sure settings are always an array.
              */
             $frontend_settings = is_array($this->settings)
-                ? $this->settings
-                : array();
+    ? $this->settings
+    : array();
+
+            $frontend_settings = apply_filters(
+                'store_one_advance_search_frontend_settings',
+                $frontend_settings
+            );
 
             /*
              * Normalize a few important frontend values.

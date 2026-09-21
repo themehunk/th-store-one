@@ -92,6 +92,12 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
             }
 
             $results = $this->search_products($term);
+            $results = apply_filters(
+                'store_one_advance_search_results',
+                $results,
+                $term,
+                $this->settings
+            );
 
             wp_send_json_success($results);
         }
