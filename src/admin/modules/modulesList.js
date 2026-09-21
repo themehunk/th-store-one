@@ -58,6 +58,17 @@ export const modulesList = [
     featured: true,
   },
   {
+    id: "th-advancedsearch",
+    label: __("Advanced Product Search", "th-store-one"),
+    description: __(
+      "Enhance WooCommerce product search with AJAX live search, smart filters, and advanced search options.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.ADVSEARCH,
+    premium: false,
+  },
+
+  {
     id: "sale-notification",
     label: __("Sale Notification", "th-store-one"),
     description: __(
@@ -167,21 +178,6 @@ export const modulesList = [
     icon: MODULE_ICONS.INTB,
     premium: false,
     featured: false,
-  },
-
-  {
-    id: "th-advanced-search",
-    label: __("Advanced Product Search", "th-store-one"),
-    description: __(
-      "Enhance WooCommerce product search with AJAX live search, smart filters, and advanced search options.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.ADVSEARCH,
-    premium: false,
-    source: {
-      type: "th-extension",
-      plugin: "th-advance-product-search",
-    },
   },
 
   {

@@ -77,6 +77,28 @@ class TH_StoreOne_Old_Plugin_Importer
         'permission_callback' => array( $this, 'permission_callback' ),
     )
         );
+
+
+        // Import Old TH Advance Product Search Data (Lite + Pro).
+        register_rest_route(
+            'th-store-one/v1',
+            '/module/th-advancesearch/import-old',
+            array(
+                'methods'             => 'POST',
+                'callback'            => array( $this, 'import_old_advance_search_data' ),
+                'permission_callback' => array( $this, 'permission_callback' ),
+            )
+        );
+
+        register_rest_route(
+            'th-store-one/v1',
+            '/deactivate-old-plugins',
+            array(
+        'methods'             => 'POST',
+        'callback'            => array( $this, 'deactivate_old_plugins' ),
+        'permission_callback' => array( $this, 'permission_callback' ),
+    )
+        );
     }
 
     /**
@@ -119,6 +141,8 @@ class TH_StoreOne_Old_Plugin_Importer
 
             // TH Variation Swatches (Lite + Pro use the same settings option).
             'th_variation_swatches' => 'th-variationswatches',
+            // TH Advance Product Search (Lite + Pro).
+            'thaps' => 'th-advancesearch',
         );
 
         $module = $module_map[$option] ?? '';
@@ -155,8 +179,12 @@ class TH_StoreOne_Old_Plugin_Importer
             $has_active_old_plugin =
                 is_plugin_active('th-variation-swatches-pro/th-variation-swatches-pro.php') ||
                 is_plugin_active('th-variation-swatches/th-variation-swatches.php');
-        }
+        } elseif ($option === 'thaps') {
 
+            $has_active_old_plugin =
+                is_plugin_active('th-advance-product-search-pro/th-advance-product-search-pro.php') ||
+                is_plugin_active('th-advance-product-search/th-advance-product-search.php');
+        }
         /*
          * Already imported.
          *
@@ -707,6 +735,149 @@ class TH_StoreOne_Old_Plugin_Importer
         );
     }
 
+    /**
+     * Import Old TH Advance Product Search settings (Lite + Pro).
+     *
+     * @param WP_REST_Request $request Request.
+     * @return array
+     */
+    public function import_old_advance_search_data($request)
+    {
+        $old = $this->get_old_search_settings();
+
+        if (empty($old)) {
+            return array(
+                'success' => false,
+                'message' => 'No old TH Advance Product Search settings found.',
+            );
+        }
+
+        $defaults = array(
+            'set_autocomplete_length' => 1,
+            'set_form_width' => 550,
+            'show_submit' => true,
+            'level_submit' => 'Search',
+            'placeholder_text' => 'Search for products...',
+            'show_loader' => false,
+            'tapsp_show_body_overlay' => true,
+            'select_srch_type' => 'product_srch',
+            'result_length' => 5,
+            'no_reult_label' => 'No Result Found',
+            'more_reult_label' => 'See All Results ',
+            'enable_group_heading' => true,
+            'desc_excpt_length' => 120,
+            'tapsp_enable_voice_search' => false,
+            'show_category_in' => false,
+            'enable_cat_image' => true,
+            'enable_product_image' => true,
+            'enable_product_price' => true,
+            'enable_product_desc' => false,
+            'enable_product_sku' => false,
+            'exclude_product_sku' => '',
+            'tapsp_highlight-sale' => true,
+            'tapsp_highlight-featured' => true,
+            'tapsp_stock-availablity' => true,
+            'enable_post_image' => true,
+            'enable_post_desc' => false,
+            'enable_page_image' => true,
+            'enable_page_desc' => false,
+            'bar_bg_clr' => '',
+            'bar_brdr_clr' => '',
+            'bar_text_clr' => '',
+            'icon_clr' => '',
+            'bar_button_bg_clr' => '#000000',
+            'bar_button_txt_clr' => '#FFF',
+            'bar_button_hvr_clr' => '#000000',
+            'bar_button_txt_hvr_clr' => '#FFF',
+            'sus_bg_clr' => '',
+            'sus_hglt_clr' => '',
+            'sus_slect_clr' => '',
+            'sus_brdr_clr' => '',
+            'sus_grphd_clr' => '',
+            'sus_title_clr' => '',
+            'sus_text_clr' => '',
+            'tapsp_search-in-category' => false,
+            'tapsp_search-in-tag' => false,
+            'tapsp_search-in-brand' => false,
+            'tapsp_search-in-attribute' => false,
+            'tapsp_search-in-description' => false,
+            'tapsp_search-in-short-description' => false,
+            'tapsp_search_in_product_sku' => false,
+            'tapsp_search_in_custom_fld' => array(),
+            'tapsp_search_in_custom_post_type' => '',
+            'tapsp_trending_enable' => false,
+            'tapsp_specific_key_search' => 'normal',
+            'tapsp_trending_search' => 'Vintage dress, Black dress, Black boots, Red dress',
+            'tapsp_trending_limit' => 3,
+            'thaps_index_batch_limit' => 300,
+            'thaps_enable_fuzzy' => false,
+            'thaps_fuzzy_level' => 50,
+            'thaps_synonym_list' => '',
+        );
+
+        $new_settings = array_intersect_key(
+            array_merge($defaults, $old),
+            $defaults
+        );
+
+        $all = get_option('th_store_one_module_set', array());
+        $all = is_array($all) ? $all : array();
+        $all['th-advancesearch'] = $new_settings;
+
+        update_option('th_store_one_module_set', $all);
+        $this->mark_module_imported('th-advancesearch');
+
+        return array(
+            'success'  => true,
+            'settings' => $new_settings,
+            'message'  => 'Old TH Advance Product Search Lite + Pro settings imported successfully!',
+        );
+    }
+
+
+    private function get_old_search_settings()
+    {
+        /*
+         * Pro Cart Settings.
+         */
+        $pro_settings = get_option(
+            'th_advance_product_search',
+            array()
+        );
+
+
+        /*
+         * Lite Cart Settings.
+         */
+        $lite_settings = get_option(
+            'th_advance_product_search_pro',
+            array()
+        );
+
+
+        /*
+         * Make sure both values are arrays.
+         */
+        $pro_settings = is_array($pro_settings)
+            ? $pro_settings
+            : array();
+
+        $lite_settings = is_array($lite_settings)
+            ? $lite_settings
+            : array();
+
+
+        /*
+         * Lite is the base.
+         * Pro overrides Lite when the same key exists.
+         */
+        return array_merge(
+            $lite_settings,
+            $pro_settings
+        );
+    }
+
+
     // deactivate plugin
 
     public function deactivate_old_plugins($request)
@@ -719,6 +890,10 @@ class TH_StoreOne_Old_Plugin_Importer
             'cart' => array(
                 'th-all-in-one-woo-cart-pro/th-all-in-one-woo-cart-pro.php',
                 'th-all-in-one-woo-cart/th-all-in-one-woo-cart.php',
+            ),
+             'search' => array(
+                'th-advance-product-search-pro/th-advance-product-search-pro.php',
+                'th-advance-product-search/th-advance-product-search.php',
             ),
 
             'wishlist' => array(

@@ -131,10 +131,11 @@ const AdminMain = () => {
     "pre-order": false,
     "th-advanced-search": false,
     "th-advanced-cart": false,
-    "th-variation-swatches": false,
+    "th-variationswatches": false,
     "shopable-list": false,
     "th-wishlist": false,
     "th-cart": false,
+    "th-advancedsearch": false,
   });
 
   const tabs = [
