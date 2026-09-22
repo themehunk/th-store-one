@@ -91,7 +91,14 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
                 );
             }
 
-            $results = $this->search_products($term);
+            $category = isset($_POST['product_category'])
+    ? sanitize_title(wp_unslash($_POST['product_category']))
+    : '';
+
+            $results = $this->search_products(
+                $term,
+                $category
+            );
             $results = apply_filters(
                 'store_one_advance_search_results',
                 $results,
@@ -102,7 +109,7 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
             wp_send_json_success($results);
         }
 
-        private function search_products($term)
+        private function search_products($term, $category = '')
         {
 
             if (! class_exists('WooCommerce')) {
@@ -371,6 +378,22 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
                     )
                 )
             );
+
+            /*
+ * ---------------------------------------------------------
+ * Category filter
+ * ---------------------------------------------------------
+ */
+            if ('' !== $category) {
+
+                $ids = apply_filters(
+                    'store_one_advance_search_category_filter_ids',
+                    $ids,
+                    $category,
+                    $term,
+                    $this->settings
+                );
+            }
 
             /*
              * ---------------------------------------------------------

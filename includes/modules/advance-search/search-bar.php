@@ -296,7 +296,20 @@ $search_style_attribute = sprintf(
  * =====================================================
  */
 ?>
-
+<?php
+/**
+ * =====================================================
+ * PRO SEARCH CONTROLS
+ * =====================================================
+ *
+ * Category Filter is rendered here by Store One Pro.
+ */
+do_action(
+    'store_one_advance_search_before_input',
+    $settings,
+    $instance
+);
+?>
 			<input
 				type="search"
 				class="store-one-search-input"

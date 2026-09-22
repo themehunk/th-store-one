@@ -360,6 +360,17 @@
       body.append("custom_post_type", customPostType);
     }
 
+    var category = "";
+
+    if (
+      window.storeOneAdvanceSearchCategoryFilter &&
+      window.storeOneAdvanceSearchCategoryFilter.getCategory
+    ) {
+      category = window.storeOneAdvanceSearchCategoryFilter.getCategory(input);
+    }
+
+    body.append("product_category", category);
+
     request = new XMLHttpRequest();
 
     request.open("POST", ajaxUrl, true);
@@ -735,6 +746,9 @@
     var image = product.image ? String(product.image) : "";
     var price = product.price ? String(product.price) : "";
 
+    var style = getSearchStyle(activeInput);
+    var isModern = style === "th-modern";
+
     var html = "";
 
     html +=
@@ -749,6 +763,7 @@
      * Product link.
      * ---------------------------------------------------------
      */
+
     html +=
       '<a class="store-one-search-product-link" href="' +
       escapeAttribute(url) +
@@ -758,9 +773,10 @@
 
     /*
      * ---------------------------------------------------------
-     * Product image - Lite.
+     * Product image.
      * ---------------------------------------------------------
      */
+
     html += '<span class="store-one-search-product-media">';
 
     if (image && toBoolean(settings.tapsp_enable_product_image, true)) {
@@ -781,6 +797,7 @@
      * Product content.
      * ---------------------------------------------------------
      */
+
     html += '<span class="store-one-search-product-content">';
 
     /*
@@ -788,11 +805,13 @@
      * Title row.
      * ---------------------------------------------------------
      */
+
     html += '<span class="store-one-search-product-title-row">';
 
     /*
      * Featured - Pro.
      */
+
     var featuredExtension = {
       product: product,
       term: term,
@@ -809,16 +828,22 @@
     html += featuredExtension.html || "";
 
     /*
-     * Title - Lite.
+     * ---------------------------------------------------------
+     * Title.
+     * ---------------------------------------------------------
      */
+
     html +=
       '<span class="store-one-search-product-title">' +
       highlightMatch(title, term) +
       "</span>";
 
     /*
+     * ---------------------------------------------------------
      * SKU - Pro.
+     * ---------------------------------------------------------
      */
+
     var skuExtension = {
       product: product,
       term: term,
@@ -835,8 +860,11 @@
     html += skuExtension.html || "";
 
     /*
+     * ---------------------------------------------------------
      * Sale - Pro.
+     * ---------------------------------------------------------
      */
+
     var saleExtension = {
       product: product,
       term: term,
@@ -856,14 +884,12 @@
 
     /*
      * ---------------------------------------------------------
-     * Product meta.
+     * Description - Pro.
      * ---------------------------------------------------------
      */
+
     html += '<span class="store-one-search-product-meta">';
 
-    /*
-     * Description - Pro.
-     */
     var descriptionExtension = {
       product: product,
       term: term,
@@ -881,16 +907,48 @@
 
     html += "</span>";
 
+    /*
+     * ---------------------------------------------------------
+     * MODERN ONLY
+     *
+     * Price goes inside content.
+     * ---------------------------------------------------------
+     */
+
+    if (
+      isModern &&
+      price &&
+      toBoolean(settings.tapsp_enable_product_price, true)
+    ) {
+      html +=
+        '<span class="store-one-search-product-price">' + price + "</span>";
+    }
+
+    /*
+     * Close product content.
+     */
+
     html += "</span>";
+
+    /*
+     * Close product link.
+     */
 
     html += "</a>";
 
     /*
      * ---------------------------------------------------------
-     * Price - Lite.
+     * TRADITIONAL / NORMAL
+     *
+     * Price stays outside the link.
      * ---------------------------------------------------------
      */
-    if (price && toBoolean(settings.tapsp_enable_product_price, true)) {
+
+    if (
+      !isModern &&
+      price &&
+      toBoolean(settings.tapsp_enable_product_price, true)
+    ) {
       html +=
         '<span class="store-one-search-product-price">' + price + "</span>";
     }
@@ -898,8 +956,11 @@
     /*
      * ---------------------------------------------------------
      * Stock - Pro.
+     *
+     * Keep outside link for existing styles.
      * ---------------------------------------------------------
      */
+
     var stockExtension = {
       product: product,
       term: term,
@@ -920,6 +981,7 @@
      * Cart - Lite.
      * ---------------------------------------------------------
      */
+
     var cart = product.cart || {};
 
     if (
