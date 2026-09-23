@@ -174,6 +174,12 @@ export default function AdvanceSearchSettings({
 
   const [hasOldData, setHasOldData] = useState(false);
 
+  const [indexing, setIndexing] = useState(false);
+  const [indexProgress, setIndexProgress] = useState(0);
+  const [indexMessage, setIndexMessage] = useState("");
+
+  const [indexBuilt, setIndexBuilt] = useState(false);
+
   const update = (key, value) => {
     setSettings((prev) => ({
       ...prev,
@@ -282,6 +288,117 @@ export default function AdvanceSearchSettings({
   useEffect(() => {
     onRegisterSave?.(() => handleSave);
   }, [settings]);
+
+  const buildSearchIndex = async () => {
+    if (!licenseActive || indexing) {
+      return;
+    }
+
+    setIndexing(true);
+    setIndexProgress(0);
+    setIndexMessage(__("Starting search index...", "th-store-one"));
+    setError("");
+    setSuccess("");
+
+    const batchSize = Math.max(
+      10,
+      Math.min(500, Number(settings.tapsp_index_batch_limit) || 100),
+    );
+
+    let offset = 0;
+
+    try {
+      while (true) {
+        const response = await apiFetch({
+          path: `${th_StoreOneAdmin.restUrl}module/${MODULE_ID}/build-index`,
+          method: "POST",
+          data: {
+            offset,
+            batch_size: batchSize,
+          },
+        });
+
+        console.log("INDEX RESPONSE:", response);
+
+        if (!response?.success) {
+          throw new Error(
+            response?.message || __("Index build failed.", "th-store-one"),
+          );
+        }
+
+        const progress = Number(response.progress || 0);
+
+        setIndexProgress(progress);
+        setIndexMessage(
+          response.message ||
+            `${response.processed || 0} / ${
+              response.total || 0
+            } products indexed`,
+        );
+
+        if (response.completed) {
+          setIndexProgress(100);
+          setIndexBuilt(true);
+
+          setIndexMessage(
+            __("Search index built successfully.", "th-store-one"),
+          );
+
+          setSuccess(__("Search index built successfully!", "th-store-one"));
+
+          break;
+        }
+
+        offset = Number(response.next_offset || 0);
+
+        // Small delay between batches.
+        await new Promise((resolve) => setTimeout(resolve, 250));
+      }
+    } catch (e) {
+      setError(
+        e?.message || __("Failed to build search index.", "th-store-one"),
+      );
+      setIndexMessage("");
+    } finally {
+      setIndexing(false);
+    }
+  };
+
+  const disableSearchIndex = async () => {
+    if (!licenseActive || indexing) {
+      return;
+    }
+
+    setIndexing(true);
+    setError("");
+    setSuccess("");
+
+    try {
+      const response = await apiFetch({
+        path: `${th_StoreOneAdmin.restUrl}module/${MODULE_ID}/disable-index`,
+        method: "POST",
+      });
+
+      if (!response?.success) {
+        throw new Error(
+          response?.message ||
+            __("Failed to disable search index.", "th-store-one"),
+        );
+      }
+
+      setIndexBuilt(false);
+      setIndexProgress(0);
+      setIndexMessage("");
+
+      setSuccess(__("Search index disabled successfully!", "th-store-one"));
+    } catch (e) {
+      setError(
+        e?.message || __("Failed to disable search index.", "th-store-one"),
+      );
+    } finally {
+      setIndexing(false);
+    }
+  };
 
   /* Save */
   const handleSave = () => {
@@ -1770,32 +1887,55 @@ export default function AdvanceSearchSettings({
                               />
                             </S1Field>
                             <div className="s1-index-actions">
-                              <button
-                                type="button"
-                                className="components-button is-primary"
-                                disabled={!licenseActive}
-                                onClick={() => {
-                                  if (!licenseActive) return;
-
-                                  // Build / Rebuild index action
-                                }}
-                              >
-                                {__("Build Search Index", "th-store-one")}
-                              </button>
-
-                              <button
-                                type="button"
-                                className="components-button is-secondary"
-                                disabled={!licenseActive}
-                                onClick={() => {
-                                  if (!licenseActive) return;
-
-                                  // Disable index action
-                                }}
-                              >
-                                {__("Disable Index", "th-store-one")}
-                              </button>
+                              {!indexBuilt ? (
+                                <button
+                                  type="button"
+                                  className="components-button is-primary"
+                                  disabled={!licenseActive || indexing}
+                                  onClick={buildSearchIndex}
+                                >
+                                  {indexing
+                                    ? __("Building Index...", "th-store-one")
+                                    : __("Build Search Index", "th-store-one")}
+                                </button>
+                              ) : (
+                                <button
+                                  type="button"
+                                  className="components-button is-secondary"
+                                  disabled={!licenseActive || indexing}
+                                  onClick={disableSearchIndex}
+                                >
+                                  {indexing
+                                    ? __("Disabling Index...", "th-store-one")
+                                    : __(
+                                        "Disable Search Index",
+                                        "th-store-one",
+                                      )}
+                                </button>
+                              )}
                             </div>
+                            {indexing && (
+                              <div className="s1-index-progress">
+                                <div className="s1-index-progress-header">
+                                  <span>
+                                    {indexMessage ||
+                                      __(
+                                        "Building search index...",
+                                        "th-store-one",
+                                      )}
+                                  </span>
+
+                                  <strong>{indexProgress}%</strong>
+                                </div>
+
+                                <div className="s1-index-progress-bar">
+                                  <div
+                                    className="s1-index-progress-fill"
+                                    style={{ width: `${indexProgress}%` }}
+                                  />
+                                </div>
+                              </div>
+                            )}
 
                             {!licenseActive && (
                               <div className="s1-pro-notice">

@@ -47,6 +47,12 @@
   var debounceTimer = null;
   var positionTimer = null;
 
+  var lastSearchTerm = "";
+  var lastSearchResponse = null;
+
+  var searchCache = {};
+  var SEARCH_CACHE_LIMIT = 20;
+
   /**
    * Default settings.
    */
@@ -160,7 +166,7 @@
 
     debounceTimer = setTimeout(function () {
       search(value, input);
-    }, 250);
+    }, 150);
   }
 
   /**
@@ -334,6 +340,28 @@
       return;
     }
 
+    term = String(term || "").trim();
+
+    if (!term) {
+      hideDropdown();
+      setLoading(false);
+      return;
+    }
+
+    // Check cached result.
+    if (searchCache[term]) {
+      renderResults(searchCache[term], term, input);
+      setLoading(false);
+      return;
+    }
+
+    // Same term ka cached result use karo.
+    if (lastSearchTerm === term && lastSearchResponse) {
+      renderResults(lastSearchResponse, term, input);
+      setLoading(false);
+      return;
+    }
+
     activeInput = input;
     activeWrapper = getWrapper(input);
 
@@ -425,6 +453,9 @@
         hideDropdown();
         return;
       }
+      searchCache[term] = response.data;
+      lastSearchTerm = term;
+      lastSearchResponse = response.data;
 
       renderResults(response.data, term, input);
     };
@@ -442,6 +473,20 @@
     };
 
     request.send(body.toString());
+  }
+
+  function getCachedSearch(term) {
+    return searchCache[term] || null;
+  }
+
+  function setCachedSearch(term, data) {
+    searchCache[term] = data;
+
+    var keys = Object.keys(searchCache);
+
+    if (keys.length > SEARCH_CACHE_LIMIT) {
+      delete searchCache[keys[0]];
+    }
   }
 
   /**
