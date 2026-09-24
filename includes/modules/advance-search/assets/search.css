@@ -726,12 +726,35 @@
 
 	z-index: 999999;
 
-	overflow: hidden;
+	max-height: 400px;
+overflow: hidden;
 
 	text-align: left;
 }
 
+/* Thin scrollbar */
+#store-one-advance-search-dropdown {
+    scrollbar-width: thin;
+    scrollbar-color: #d5d5d5 transparent;
+}
 
+/* Chrome, Edge, Safari */
+#store-one-advance-search-dropdown::-webkit-scrollbar {
+    width: 4px;
+}
+
+#store-one-advance-search-dropdown::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#store-one-advance-search-dropdown::-webkit-scrollbar-thumb {
+    background: #d5d5d5;
+    border-radius: 10px;
+}
+
+#store-one-advance-search-dropdown::-webkit-scrollbar-thumb:hover {
+    background: #bdbdbd;
+}
 /* Open */
 
 #store-one-advance-search-dropdown.is-open {
@@ -745,12 +768,14 @@
 
 #store-one-advance-search-dropdown
 .store-one-search-results {
-	width: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 12px 0;
+    background: var(--s1-suggestion-bg);
 
-	margin: 0;
-	padding: 12px 0;
-
-	background: #fff;
+    max-height: 450px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 
@@ -786,7 +811,11 @@
 	letter-spacing: 0.6px;
 	text-transform: uppercase;
 }
-
+.store-one-search-product-section {
+    max-height: 325px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
 
 /* =========================================================
  * Category
@@ -838,7 +867,8 @@
 	color: #000;
 }
 
-
+#store-one-advance-search-dropdown .store-one-search-category-e{    
+    padding: 0 10px;}
 /* =========================================================
  * Highlight
  * ========================================================= */
@@ -1167,6 +1197,9 @@
 	transition:
 		background-color 0.15s ease,
 		color 0.15s ease;
+		position: sticky;
+bottom: 0;
+z-index: 10;
 }
 
 
@@ -1569,6 +1602,27 @@
     height:14px;
     width:14px;
 }
+body.store-one-search-body-overlay::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 9998;
+}
+
+body.store-one-search-body-overla .store-one-advance-search-form {
+    position: relative;
+    z-index: 9999;
+}
+
+body.store-one-search-body-overla .store-one-advance-search-dropdown {
+    z-index: 10000;
+}
+
+.store-one-search-form {
+    position: relative;
+    z-index: 9999;
+}
 /* =========================================================
  * Mobile Dropdown
  * ========================================================= */
@@ -1681,4 +1735,228 @@
 		margin-left: 5px;
 		margin-right: 5px;
 	}
+}
+/* =========================================================
+ * Store One Advance Search - Live Style Variables
+ * ========================================================= */
+
+/* ---------------------------------------------------------
+ * Search Bar
+ * --------------------------------------------------------- */
+
+.store-one-advance-search .store-one-search-form .store-one-search-field{
+    background: var(--s1-bar-bg);
+    border-color: var(--s1-bar-border);
+}
+
+.store-one-search-input {
+    color: var(--s1-bar-text)!important;
+}
+
+.store-one-search-input::placeholder {
+    color: var(--s1-bar-text)!important;
+}
+
+/* Search icon */
+.store-one-search-icon {
+    color: var(--s1-icon-color)!important;
+}
+
+.store-one-search-icon svg {
+    stroke: var(--s1-icon-color)!important;
+}
+
+
+/* ---------------------------------------------------------
+ * Search Button
+ * --------------------------------------------------------- */
+
+.store-one-search-submit {
+    background-color: var(--s1-button-bg)!important;
+    color: var(--s1-button-text)!important;
+}
+
+.store-one-search-submit:hover {
+    background-color: var(--s1-button-hover-bg)!important;;
+    color: var(--s1-button-hover-text)!important;
+}
+
+.store-one-search-submit svg {
+    color: var(--s1-button-text)!important;
+    stroke: var(--s1-button-text)!important;
+}
+
+.store-one-search-submit:hover svg {
+    color: var(--s1-button-hover-text)!important;
+    stroke: var(--s1-button-hover-text)!important;
+}
+
+
+/* ---------------------------------------------------------
+ * Search Dropdown
+ * --------------------------------------------------------- */
+
+#store-one-advance-search-dropdown {
+    background: var(--s1-suggestion-bg)!important;
+    border-color: var(--s1-suggestion-border)!important;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--s1-suggestion-border) transparent;
+}
+#store-one-advance-search-dropdown .store-one-search-results{
+      background: var(--s1-suggestion-bg)!important;
+}
+
+#store-one-advance-search-dropdown::-webkit-scrollbar {
+    width: 4px;
+}
+
+#store-one-advance-search-dropdown::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#store-one-advance-search-dropdown::-webkit-scrollbar-thumb {
+    background: var(--s1-suggestion-border);
+    border-radius: 10px;
+}
+
+#store-one-advance-search-dropdown::-webkit-scrollbar-thumb:hover {
+    background: var(--s1-text)!important;
+}
+
+
+/* ---------------------------------------------------------
+ * Group Headings
+ * --------------------------------------------------------- */
+
+.store-one-search-group-title {
+    color: var(--s1-group-title)!important;
+}
+
+.store-one-search-category-title {
+    color: var(--s1-group-title)!important;
+}
+
+
+/* ---------------------------------------------------------
+ * Product
+ * --------------------------------------------------------- */
+
+.store-one-search-product {
+    background-color: var(--s1-suggestion-bg)!important;
+}
+
+.store-one-search-product:hover,
+.store-one-search-product.is-selected {
+    background-color: var(--s1-selected)!important;
+}
+
+.store-one-search-product-title {
+    color: var(--s1-title)!important;
+}
+
+.store-one-search-product-description {
+    color: var(--s1-text)!important;
+}
+
+.store-one-search-product-price {
+    color: var(--s1-title)!important;
+}
+
+.store-one-search-product-sku {
+    color: var(--s1-text)!important;
+}
+
+
+/* ---------------------------------------------------------
+ * Category
+ * --------------------------------------------------------- */
+
+.store-one-search-category {
+    color: var(--s1-title)!important;
+}
+
+.store-one-search-category:hover,
+.store-one-search-category.is-selected {
+    background-color: var(--s1-selected)!important;
+}
+
+.store-one-search-category-description {
+    color: var(--s1-text)!important;
+}
+
+
+/* ---------------------------------------------------------
+ * Highlighted Search Text
+ * --------------------------------------------------------- */
+
+.store-one-search-highlight {
+    color: var(--s1-highlight)!important;
+}
+
+#store-one-advance-search-dropdown mark {
+    color: var(--s1-highlight)!important;
+    background: transparent;
+}
+
+
+/* ---------------------------------------------------------
+ * Selected / Hover Item
+ * --------------------------------------------------------- */
+
+.store-one-search-item:hover,
+.store-one-search-item.is-selected {
+    background-color: var(--s1-selected)!important;
+}
+
+
+/* ---------------------------------------------------------
+ * Borders
+ * --------------------------------------------------------- */
+
+.store-one-search-product + .store-one-search-product {
+    border-top-color: var(--s1-suggestion-border)!important;
+}
+
+.store-one-search-category + .store-one-search-category {
+    border-top-color: var(--s1-suggestion-border)!important;
+}
+
+
+/* ---------------------------------------------------------
+ * Empty / No Result Text
+ * --------------------------------------------------------- */
+
+.store-one-search-empty {
+    color: var(--s1-text)!important;
+}
+
+.store-one-search-no-results {
+    color: var(--s1-text)!important;
+}
+
+
+/* ---------------------------------------------------------
+ * Loader
+ * --------------------------------------------------------- */
+
+.store-one-search-loader {
+    color: var(--s1-icon-color)!important;
+}
+
+.store-one-search-loader svg {
+    stroke: var(--s1-icon-color)!important;
+}
+
+
+/* ---------------------------------------------------------
+ * Links
+ * --------------------------------------------------------- */
+
+#store-one-advance-search-dropdown a {
+    color: var(--s1-title)!important;
+}
+
+#store-one-advance-search-dropdown a:hover {
+    color: var(--s1-highlight)!important;
 }

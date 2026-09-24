@@ -83,7 +83,7 @@ const DEFAULT_SETTINGS = {
 
   /* Suggestion Box Style */
 
-  sus_bg_clr: "",
+  sus_bg_clr: "#fff",
   sus_hglt_clr: "#2991f5",
   sus_slect_clr: "",
   sus_brdr_clr: "",
