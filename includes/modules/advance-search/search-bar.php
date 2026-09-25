@@ -205,6 +205,68 @@ $search_style_attribute = sprintf(
     $form_width
 );
 
+/*
+ * ---------------------------------------------------------
+ * CSS Variable
+ * ---------------------------------------------------------
+ */
+
+$search_style_attribute = sprintf(
+    '--store-one-search-width: %dpx;',
+    $form_width
+);
+
+$bar_bg_clr = isset($settings['bar_bg_clr']) && $settings['bar_bg_clr'] !== ''
+    ? $settings['bar_bg_clr']
+    : '#ffffff';
+
+$bar_brdr_clr = isset($settings['bar_brdr_clr']) && $settings['bar_brdr_clr'] !== ''
+    ? $settings['bar_brdr_clr']
+    : '#e7edf3';
+
+$bar_text_clr = isset($settings['bar_text_clr']) && $settings['bar_text_clr'] !== ''
+    ? $settings['bar_text_clr']
+    : '#172033';
+
+$icon_clr = isset($settings['icon_clr']) && $settings['icon_clr'] !== ''
+    ? $settings['icon_clr']
+    : '#fff';
+
+$bar_button_bg_clr = isset($settings['bar_button_bg_clr']) && $settings['bar_button_bg_clr'] !== ''
+    ? $settings['bar_button_bg_clr']
+    : '#172033';
+
+$bar_button_txt_clr = isset($settings['bar_button_txt_clr']) && $settings['bar_button_txt_clr'] !== ''
+    ? $settings['bar_button_txt_clr']
+    : '#ffffff';
+
+$bar_button_hvr_clr = isset($settings['bar_button_hvr_clr']) && $settings['bar_button_hvr_clr'] !== ''
+    ? $settings['bar_button_hvr_clr']
+    : $bar_button_bg_clr;
+
+$bar_button_txt_hvr_clr = isset($settings['bar_button_txt_hvr_clr']) && $settings['bar_button_txt_hvr_clr'] !== ''
+    ? $settings['bar_button_txt_hvr_clr']
+    : $bar_button_txt_clr;
+
+$search_style2_attribute = sprintf(
+    '--s1-bar-bg: %s;
+    --s1-bar-border: %s;
+    --s1-bar-text: %s;
+    --s1-icon-color: %s;
+    --s1-button-bg: %s;
+    --s1-button-text: %s;
+    --s1-button-hover-bg: %s;
+    --s1-button-hover-text: %s;',
+    $bar_bg_clr,
+    $bar_brdr_clr,
+    $bar_text_clr,
+    $icon_clr,
+    $bar_button_bg_clr,
+    $bar_button_txt_clr,
+    $bar_button_hvr_clr,
+    $bar_button_txt_hvr_clr
+);
+
 ?>
 
 <div
@@ -216,7 +278,7 @@ $search_style_attribute = sprintf(
 	data-search-id="<?php echo esc_attr($search_id); ?>"
 	data-autocomplete-length="<?php echo esc_attr($autocomplete_length); ?>"
 	data-show-loader="<?php echo $show_loader ? '1' : '0'; ?>"
-	style="<?php echo esc_attr($search_style_attribute); ?>"
+	style="<?php echo esc_attr($search_style_attribute . ' ' . $search_style2_attribute); ?>"
 >
 
 	<form
@@ -296,7 +358,20 @@ $search_style_attribute = sprintf(
  * =====================================================
  */
 ?>
-
+<?php
+/**
+ * =====================================================
+ * PRO SEARCH CONTROLS
+ * =====================================================
+ *
+ * Category Filter is rendered here by Store One Pro.
+ */
+do_action(
+    'store_one_advance_search_before_input',
+    $settings,
+    $instance
+);
+?>
 			<input
 				type="search"
 				class="store-one-search-input"

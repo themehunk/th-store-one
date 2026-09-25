@@ -149,6 +149,8 @@ class Th_Store_One_Admin
                 'adminUrl' => admin_url(),
                 'proInstalled' => $pro_installed,
         'proActive'    => $pro_active,
+        'searchable_custom_fields' =>
+    $this->get_searchable_custom_fields(),
             )
         );
 
@@ -175,6 +177,121 @@ class Th_Store_One_Admin
             TH_STORE_ONE_PLUGIN_URL . $css_path,
             array(),
             $css_ver
+        );
+    }
+    /**
+ * Get searchable WooCommerce product custom fields.
+ *
+ * @return array
+ */
+    public function get_searchable_custom_fields()
+    {
+
+        global $wpdb;
+
+        $custom_fields = array();
+
+        $excluded_meta_keys = array(
+            '_sku',
+            '_wp_old_date',
+            '_tax_status',
+            '_stock_status',
+            '_product_version',
+            '_smooth_slider_style',
+            'auctioninc_calc_method',
+            'auctioninc_pack_method',
+            '_thumbnail_id',
+            '_product_image_gallery',
+            'pdf_download',
+            'slide_template',
+            'cad_iframe',
+            'downloads',
+            'edrawings_file',
+            '3d_pdf_download',
+            '3d_pdf_render',
+            '_original_id',
+        );
+
+        /**
+         * Allow plugins to add excluded meta keys.
+         */
+        $excluded_meta_keys = apply_filters(
+            'store_one_excluded_meta_keys',
+            $excluded_meta_keys
+        );
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+        $meta_keys = $wpdb->get_col(
+            $wpdb->prepare(
+                "SELECT DISTINCT meta_key
+            FROM {$wpdb->postmeta} AS pm
+            INNER JOIN {$wpdb->posts} AS p
+                ON p.ID = pm.post_id
+            WHERE p.post_type = %s
+            AND pm.meta_value NOT LIKE %s
+            AND pm.meta_value NOT LIKE %s
+            AND pm.meta_value NOT LIKE %s
+            AND pm.meta_value NOT LIKE %s
+            AND pm.meta_value NOT REGEXP %s
+            AND pm.meta_value NOT IN (
+                '1',
+                '0',
+                '-1',
+                'no',
+                'yes',
+                '[]',
+                ''
+            )",
+                'product',
+                'field_%',
+                'a:%',
+                '%\%\%%',
+                '_oembed_%',
+                '^1[0-9]{9}'
+            )
+        );
+
+        if (! empty($meta_keys)) {
+
+            foreach ($meta_keys as $meta_key) {
+
+                if (
+                    ! in_array(
+                        $meta_key,
+                        $excluded_meta_keys,
+                        true
+                    )
+                ) {
+
+                    /*
+                     * Agar aapke old plugin mein
+                     * tapsp_keyIsValid() ka equivalent hai
+                     * to yahan use kar sakte hain.
+                     */
+                    if (
+                        method_exists(
+                            $this,
+                            'store_one_key_is_valid'
+                        )
+                        &&
+                        ! $this->store_one_key_is_valid($meta_key)
+                    ) {
+                        continue;
+                    }
+
+                    $custom_fields[] = array(
+                        'label' => $meta_key,
+                        'value' => $meta_key,
+                    );
+                }
+            }
+        }
+
+        $custom_fields = array_reverse($custom_fields);
+
+        return apply_filters(
+            'store_one_searchable_custom_fields',
+            $custom_fields
         );
     }
 }

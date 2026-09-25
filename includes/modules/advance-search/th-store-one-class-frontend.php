@@ -341,8 +341,13 @@ if (! class_exists('TH_Store_One_Advance_Search_Frontend')) {
              * Make sure settings are always an array.
              */
             $frontend_settings = is_array($this->settings)
-                ? $this->settings
-                : array();
+    ? $this->settings
+    : array();
+
+            $frontend_settings = apply_filters(
+                'store_one_advance_search_frontend_settings',
+                $frontend_settings
+            );
 
             /*
              * Normalize a few important frontend values.
@@ -502,22 +507,74 @@ if (! class_exists('TH_Store_One_Advance_Search_Frontend')) {
          */
         public function render_autocomplete_container()
         {
-
             /*
              * Do not output anything if no search shortcode was rendered.
              */
             if ($this->search_instances <= 0) {
                 return;
             }
+
+            $settings = is_array($this->settings)
+                ? $this->settings
+                : array();
+
+            /*
+             * Dropdown style defaults.
+             */
+            $sus_bg_clr = ! empty($settings['sus_bg_clr'])
+                ? $settings['sus_bg_clr']
+                : '#ffffff';
+
+            $sus_hglt_clr = ! empty($settings['sus_hglt_clr'])
+                ? $settings['sus_hglt_clr']
+                : '#2991f5';
+
+            $sus_slect_clr = ! empty($settings['sus_slect_clr'])
+                ? $settings['sus_slect_clr']
+                : '#eef2f7';
+
+            $sus_brdr_clr = ! empty($settings['sus_brdr_clr'])
+                ? $settings['sus_brdr_clr']
+                : '#e7edf3';
+
+            $sus_grphd_clr = ! empty($settings['sus_grphd_clr'])
+                ? $settings['sus_grphd_clr']
+                : '#172033';
+
+            $sus_title_clr = ! empty($settings['sus_title_clr'])
+                ? $settings['sus_title_clr']
+                : '#172033';
+
+            $sus_text_clr = ! empty($settings['sus_text_clr'])
+                ? $settings['sus_text_clr']
+                : '#687386';
+
+            $dropdown_style = sprintf(
+                '--s1-suggestion-bg:%s;
+         --s1-highlight:%s;
+         --s1-selected:%s;
+         --s1-suggestion-border:%s;
+         --s1-group-title:%s;
+         --s1-title:%s;
+         --s1-text:%s;',
+                esc_attr($sus_bg_clr),
+                esc_attr($sus_hglt_clr),
+                esc_attr($sus_slect_clr),
+                esc_attr($sus_brdr_clr),
+                esc_attr($sus_grphd_clr),
+                esc_attr($sus_title_clr),
+                esc_attr($sus_text_clr)
+            );
             ?>
 
-			<div
-				id="store-one-advance-search-dropdown"
-				class="store-one-advance-search-dropdown"
-				aria-hidden="true"
-			></div>
+    <div
+        id="store-one-advance-search-dropdown"
+        class="store-one-advance-search-dropdown"
+        aria-hidden="true"
+        style="<?php echo esc_attr($dropdown_style); ?>"
+    ></div>
 
-			<?php
+    <?php
         }
     }
 }
