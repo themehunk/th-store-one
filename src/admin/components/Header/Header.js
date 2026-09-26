@@ -1,11 +1,8 @@
 import { __ } from "@wordpress/i18n";
-const Header = ({
-  currentPage,
-  setCurrentPage,
-  setActiveModule,
-  proActive,
-  licenseActive,
-}) => {
+const Header = ({ currentPage, setCurrentPage, setActiveModule }) => {
+  const proActive = Boolean(th_StoreOneAdmin?.proActive);
+  const licenseActive = Boolean(th_StoreOneAdmin?.licenseActive);
+
   return (
     <header className="s1-header">
       <div className="s1-header-wrap">

@@ -12,6 +12,7 @@ import { Spinner, Button } from "@wordpress/components";
 import "@th-storeone/store/productVideoStore";
 import "./admin.scss";
 import { modulesList } from "./modules/modulesList";
+import ModuleGridSkeleton from "@th-storeone-modulegrid/ModuleGridSkeleton";
 
 const ADMIN_VIEW_STORAGE_KEY = "th_store_one_admin_view";
 const VALID_PAGES = ["dashboard", "settings", "ourplugins", "license"];
@@ -584,10 +585,11 @@ const AdminMain = () => {
         {currentPage === "dashboard" && (
           <>
             {!activeModule && modulesLoading && (
-              <div className="s1-loader s1-loader--content">
-                <Spinner />
-                {__("Loading modules…", "th-store-one")}
-              </div>
+              // <div className="s1-loader s1-loader--content">
+              //   <Spinner />
+              //   {__("Loading modules…", "th-store-one")}
+              // </div>
+              <ModuleGridSkeleton />
             )}
             {!activeModule && !modulesLoading && (
               <ModuleGrid
