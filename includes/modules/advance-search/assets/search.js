@@ -649,6 +649,7 @@
     activeIndex = -1;
 
     dropdown.className = "store-one-advance-search-dropdown";
+    var searchType = data.search_type || "product_srch";
 
     var style = getSearchStyle(input);
 
@@ -665,7 +666,7 @@
     }
 
     if (products.length) {
-      html += renderProductSection(products, term);
+      html += renderProductSection(products, term, searchType);
     }
 
     if (!categories.length && !products.length) {
@@ -761,10 +762,18 @@
   /**
    * Product section.
    */
-  function renderProductSection(products, term) {
+  function renderProductSection(products, term, searchType) {
     var settings = getSettings();
 
     var headingEnabled = toBoolean(settings.enable_group_heading, true);
+
+    var heading = "Products";
+
+    if (searchType === "post_srch") {
+      heading = "Posts";
+    } else if (searchType === "page_srch") {
+      heading = "Pages";
+    }
 
     var html = "";
 
@@ -774,7 +783,7 @@
     if (headingEnabled) {
       html +=
         '<h3 class="store-one-search-section-title">' +
-        escapeHTML("Products") +
+        escapeHTML(heading) +
         "</h3>";
     }
 
@@ -785,7 +794,6 @@
     });
 
     html += "</div>";
-
     html += "</section>";
 
     return html;
@@ -802,6 +810,9 @@
     var url = product.url ? String(product.url) : "#";
     var image = product.image ? String(product.image) : "";
     var price = product.price ? String(product.price) : "";
+
+    var searchType = settings.select_srch_type || "product_srch";
+    var isProduct = searchType === "product_srch";
 
     var style = getSearchStyle(activeInput);
     var isModern = style === "th-modern";
@@ -834,20 +845,16 @@
      * ---------------------------------------------------------
      */
 
-    html += '<span class="store-one-search-product-media">';
-
     if (image && toBoolean(settings.tapsp_enable_product_image, true)) {
       html +=
+        '<span class="store-one-search-product-media">' +
         '<img class="store-one-search-product-image" src="' +
         escapeAttribute(image) +
         '" alt="' +
         escapeAttribute(title) +
-        '">';
-    } else {
-      html += renderImagePlaceholder();
+        '">' +
+        "</span>";
     }
-
-    html += "</span>";
 
     /*
      * ---------------------------------------------------------
@@ -869,20 +876,22 @@
      * Featured - Pro.
      */
 
-    var featuredExtension = {
-      product: product,
-      term: term,
-      settings: settings,
-      html: "",
-    };
+    if (isProduct) {
+      var featuredExtension = {
+        product: product,
+        term: term,
+        settings: settings,
+        html: "",
+      };
 
-    document.dispatchEvent(
-      new CustomEvent("storeOneAdvanceSearchFeatured", {
-        detail: featuredExtension,
-      }),
-    );
+      document.dispatchEvent(
+        new CustomEvent("storeOneAdvanceSearchFeatured", {
+          detail: featuredExtension,
+        }),
+      );
 
-    html += featuredExtension.html || "";
+      html += featuredExtension.html || "";
+    }
 
     /*
      * ---------------------------------------------------------
@@ -901,20 +910,22 @@
      * ---------------------------------------------------------
      */
 
-    var skuExtension = {
-      product: product,
-      term: term,
-      settings: settings,
-      html: "",
-    };
+    if (isProduct) {
+      var skuExtension = {
+        product: product,
+        term: term,
+        settings: settings,
+        html: "",
+      };
 
-    document.dispatchEvent(
-      new CustomEvent("storeOneAdvanceSearchSKU", {
-        detail: skuExtension,
-      }),
-    );
+      document.dispatchEvent(
+        new CustomEvent("storeOneAdvanceSearchSKU", {
+          detail: skuExtension,
+        }),
+      );
 
-    html += skuExtension.html || "";
+      html += skuExtension.html || "";
+    }
 
     /*
      * ---------------------------------------------------------
@@ -922,20 +933,22 @@
      * ---------------------------------------------------------
      */
 
-    var saleExtension = {
-      product: product,
-      term: term,
-      settings: settings,
-      html: "",
-    };
+    if (isProduct) {
+      var saleExtension = {
+        product: product,
+        term: term,
+        settings: settings,
+        html: "",
+      };
 
-    document.dispatchEvent(
-      new CustomEvent("storeOneAdvanceSearchSale", {
-        detail: saleExtension,
-      }),
-    );
+      document.dispatchEvent(
+        new CustomEvent("storeOneAdvanceSearchSale", {
+          detail: saleExtension,
+        }),
+      );
 
-    html += saleExtension.html || "";
+      html += saleExtension.html || "";
+    }
 
     html += "</span>";
 
@@ -973,6 +986,7 @@
      */
 
     if (
+      isProduct &&
       isModern &&
       price &&
       toBoolean(settings.tapsp_enable_product_price, true)
@@ -1018,20 +1032,22 @@
      * ---------------------------------------------------------
      */
 
-    var stockExtension = {
-      product: product,
-      term: term,
-      settings: settings,
-      html: "",
-    };
+    if (isProduct) {
+      var stockExtension = {
+        product: product,
+        term: term,
+        settings: settings,
+        html: "",
+      };
 
-    document.dispatchEvent(
-      new CustomEvent("storeOneAdvanceSearchStock", {
-        detail: stockExtension,
-      }),
-    );
+      document.dispatchEvent(
+        new CustomEvent("storeOneAdvanceSearchStock", {
+          detail: stockExtension,
+        }),
+      );
 
-    html += stockExtension.html || "";
+      html += stockExtension.html || "";
+    }
 
     /*
      * ---------------------------------------------------------
@@ -1042,6 +1058,7 @@
     var cart = product.cart || {};
 
     if (
+      isProduct &&
       cart &&
       toBoolean(cart.enabled, false) &&
       toBoolean(settings.tapsp_enable_cart_btn, false)

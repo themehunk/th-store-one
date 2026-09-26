@@ -124,6 +124,20 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
                 );
             }
 
+            $search_type = isset($this->settings['select_srch_type'])
+    ? $this->settings['select_srch_type']
+    : 'product_srch';
+
+            $post_type_map = array(
+                'product_srch' => 'product',
+                'post_srch'    => 'post',
+                'page_srch'    => 'page',
+            );
+
+            $post_type = isset($post_type_map[$search_type])
+                ? $post_type_map[$search_type]
+                : 'product';
+
             $limit = isset($this->settings['result_length'])
                 ? absint($this->settings['result_length'])
                 : 5;
@@ -206,14 +220,16 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
                         $search_ids = $this->search_by_wordpress_query(
                             $search_term,
                             $limit,
-                            $exclude_ids
+                            $exclude_ids,
+                            $post_type
                         );
                     }
                 } else {
                     $search_ids = $this->search_by_wordpress_query(
                         $search_term,
                         $limit,
-                        $exclude_ids
+                        $exclude_ids,
+                        $post_type
                     );
                 }
 
@@ -439,9 +455,19 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
              * WooCommerce product validation
              * ---------------------------------------------------------
              */
-            $ids = $this->filter_product_ids(
-                $ids
-            );
+            if ('product_srch' === $search_type) {
+                $ids = $this->filter_product_ids($ids);
+            } else {
+                $ids = array_values(
+                    array_filter(
+                        array_map('absint', $ids),
+                        function ($id) use ($post_type) {
+                            return 'publish' === get_post_status($id)
+                                && $post_type === get_post_type($id);
+                        }
+                    )
+                );
+            }
 
             /*
              * Total before limit.
@@ -464,20 +490,138 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
              */
             $products = array();
 
-            foreach ($ids as $product_id) {
+            foreach ($ids as $result_id) {
 
-                $product = wc_get_product(
-                    $product_id
-                );
+                if ('product' === $post_type) {
 
-                if (! $product) {
-                    continue;
+                    $product = wc_get_product($result_id);
+
+                    if (! $product) {
+                        continue;
+                    }
+
+                    $products[] = $this->prepare_product(
+                        $product,
+                        $term
+                    );
+
+                } else {
+
+                    $post = get_post($result_id);
+
+                    if (! $post) {
+                        continue;
+                    }
+
+                    $post_image       = '';
+                    $post_description = '';
+
+                    /*
+                     * ---------------------------------------------------------
+                     * Post settings
+                     * ---------------------------------------------------------
+                     */
+                    if ('post' === $post_type) {
+
+                        if ($this->setting_enabled('enable_post_image')) {
+
+                            $image_id = get_post_thumbnail_id($post->ID);
+
+                            if ($image_id) {
+                                $post_image = wp_get_attachment_image_url(
+                                    $image_id,
+                                    'thumbnail'
+                                );
+
+                                $post_image = $post_image
+                                    ? esc_url_raw($post_image)
+                                    : '';
+                            }
+                        }
+
+                        if ($this->setting_enabled('enable_post_desc')) {
+
+                            $post_description = wp_strip_all_tags(
+                                $post->post_excerpt
+                            );
+
+                            if ('' === trim($post_description)) {
+                                $post_description = wp_strip_all_tags(
+                                    $post->post_content
+                                );
+                            }
+
+                            $post_description = wp_html_excerpt(
+                                $post_description,
+                                isset($this->settings['desc_excpt_length'])
+                                    ? absint($this->settings['desc_excpt_length'])
+                                    : 120,
+                                '…'
+                            );
+                        }
+                    }
+
+                    /*
+                     * ---------------------------------------------------------
+                     * Page settings
+                     * ---------------------------------------------------------
+                     */
+                    if ('page' === $post_type) {
+
+                        if ($this->setting_enabled('enable_page_image')) {
+
+                            $image_id = get_post_thumbnail_id($post->ID);
+
+                            if ($image_id) {
+                                $post_image = wp_get_attachment_image_url(
+                                    $image_id,
+                                    'thumbnail'
+                                );
+
+                                $post_image = $post_image
+                                    ? esc_url_raw($post_image)
+                                    : '';
+                            }
+                        }
+
+                        if ($this->setting_enabled('enable_page_desc')) {
+
+                            $post_description = wp_strip_all_tags(
+                                $post->post_excerpt
+                            );
+
+                            if ('' === trim($post_description)) {
+                                $post_description = wp_strip_all_tags(
+                                    $post->post_content
+                                );
+                            }
+
+                            $post_description = wp_html_excerpt(
+                                $post_description,
+                                isset($this->settings['desc_excpt_length'])
+                                    ? absint($this->settings['desc_excpt_length'])
+                                    : 120,
+                                '…'
+                            );
+                        }
+                    }
+
+                    $products[] = array(
+                        'id'          => $post->ID,
+                        'title'       => html_entity_decode(
+                            wp_strip_all_tags($post->post_title),
+                            ENT_QUOTES,
+                            get_bloginfo('charset')
+                        ),
+                        'image'       => $post_image,
+                        'description' => $post_description,
+                        'price'       => '',
+                        'url'         => esc_url_raw(
+                            get_permalink($post->ID)
+                        ),
+                        'sale'        => false,
+                    );
                 }
-
-                $products[] = $this->prepare_product(
-                    $product,
-                    $term
-                );
             }
 
             /*
@@ -496,8 +640,9 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
                 )
             ) {
 
-                $categories = $this->search_categories(
-                    $term
+                $categories = $this->search_categories_by_type(
+                    $term,
+                    $post_type
                 );
             }
 
@@ -520,10 +665,21 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
         private function search_by_wordpress_query(
             $term,
             $limit,
-            $exclude_ids
+            $exclude_ids,
+            $post_type
         ) {
 
-            $post_types = array( 'product' );
+            $allowed_post_types = array(
+            'product',
+            'post',
+            'page',
+    );
+
+            if (! in_array($post_type, $allowed_post_types, true)) {
+                $post_type = 'product';
+            }
+
+
 
             $args = array(
                 'post_type'              => $post_types,
@@ -544,15 +700,21 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
             /*
              * Product visibility.
              */
-            $args['tax_query'] = array(
-                'relation' => 'AND',
-                array(
-                    'taxonomy' => 'product_visibility',
-                    'field'    => 'name',
-                    'terms'    => array( 'exclude-from-search' ),
-                    'operator' => 'NOT IN',
-                ),
-            );
+            /*
+     * WooCommerce product visibility
+     * should only apply to products.
+     */
+            if ('product' === $post_type) {
+                $args['tax_query'] = array(
+                    'relation' => 'AND',
+                    array(
+                        'taxonomy' => 'product_visibility',
+                        'field'    => 'name',
+                        'terms'    => array( 'exclude-from-search' ),
+                        'operator' => 'NOT IN',
+                    ),
+                );
+            }
 
             $query = new WP_Query($args);
 
@@ -1246,6 +1408,89 @@ if (! class_exists('TH_Store_One_Product_Search_API')) {
                     'url'   => get_term_link(
                         $term_object
                     ),
+                    'image' => $image,
+                );
+            }
+
+            return $categories;
+        }
+
+        private function search_categories_by_type($term, $post_type)
+        {
+            $limit = isset($this->settings['result_length'])
+                ? absint($this->settings['result_length'])
+                : 5;
+
+            $limit = max(1, min(20, $limit));
+
+            /*
+             * Taxonomy according to search type.
+             */
+            $taxonomy = '';
+
+            if ('product' === $post_type) {
+                $taxonomy = 'product_cat';
+            } elseif ('post' === $post_type) {
+                $taxonomy = 'category';
+            }
+
+            /*
+             * Pages do not have a default category.
+             */
+            if ('' === $taxonomy || ! taxonomy_exists($taxonomy)) {
+                return array();
+            }
+
+            $terms = get_terms(
+                array(
+                    'taxonomy'   => $taxonomy,
+                    'hide_empty' => true,
+                    'search'     => $term,
+                    'number'     => $limit,
+                )
+            );
+
+            if (is_wp_error($terms) || empty($terms)) {
+                return array();
+            }
+
+            $categories = array();
+
+            foreach ($terms as $term_object) {
+
+                $term_url = get_term_link($term_object);
+
+                if (is_wp_error($term_url)) {
+                    $term_url = '';
+                }
+
+                $image = '';
+
+                /*
+                 * Product category image.
+                 */
+                if ('product' === $post_type) {
+
+                    $image_id = get_term_meta(
+                        $term_object->term_id,
+                        'thumbnail_id',
+                        true
+                    );
+
+                    if ($image_id) {
+                        $image = wp_get_attachment_image_url(
+                            $image_id,
+                            'woocommerce_thumbnail'
+                        );
+
+                        $image = $image ? esc_url_raw($image) : '';
+                    }
+                }
+
+                $categories[] = array(
+                    'id'    => $term_object->term_id,
+                    'title' => $term_object->name,
+                    'url'   => esc_url_raw($term_url),
                     'image' => $image,
                 );
             }
