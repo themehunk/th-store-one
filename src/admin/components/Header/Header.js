@@ -84,7 +84,7 @@ const Header = ({
             <span>{__("Settings", "th-store-one")}</span>
           </button>
 
-          <button
+          {/* <button
             className={`s1-nav__btn ${
               currentPage === "ourplugins" ? "is-active" : ""
             }`}
@@ -108,7 +108,7 @@ const Header = ({
             </svg>
 
             <span>{__("Available Plugins", "th-store-one")}</span>
-          </button>
+          </button> */}
 
           {proActive && (
             <button

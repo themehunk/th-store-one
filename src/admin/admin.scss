@@ -4895,3 +4895,144 @@ display: flex;
   font-size: 12px;
   line-height: 1.4;
 }
+
+.s1-addon-filter-wrap .s1-modules__stats {
+  display: flex;
+  gap: 8px;
+  margin-top: 15px;
+}
+
+.s1-addon-filter-wrap .s1-modules__stat {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+}
+
+.s1-addon-filter-wrap .s1-modules__stat--total {
+  color: #2271b1;
+  background: #e5f1ff;
+  border: 1px solid #9ecbff;
+}
+
+.s1-addon-filter-wrap .s1-modules__stat--active {
+  color: #008a5a;
+  background: #e6fff5;
+  border: 1px solid #70e0b5;
+}
+
+.s1-addon-filter-wrap .s1-modules__stat--inactive {
+  color: #e34b63;
+  background: #fff0f3;
+  border: 1px solid #ff9bad;
+}
+
+.s1-modules .s1-addon-filter-wrap .s1-addon-search {
+  position: relative;
+  width: 195px;
+  height: 40px;
+}
+
+.s1-modules .s1-addon-filter-wrap .s1-addon-search input {
+  width: 100%;
+  height: 40px;
+  padding: 0 58px 0 12px;
+  box-sizing: border-box;
+
+  border: 1px solid #9ca3af;
+  border-radius: 20px;
+  background: #fff;
+
+  font-size: 12px;
+  outline: none;
+}
+.s1-modules .s1-addon-filter-wrap .s1-addon-search input:focus {
+    border-color:#ff515236;
+    outline: none;
+    box-shadow: none;
+}
+
+.s1-modules .s1-addon-filter-wrap .s1-addon-search__icon {
+  position: absolute;
+  right: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 20px;
+  height: 20px;
+
+  color:#ff4d4d;
+  pointer-events: none;
+}
+
+.s1-modules .s1-addon-filter-wrap .s1-addon-search__icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Clear X */
+.s1-modules .s1-addon-filter-wrap .s1-addon-search__clear {
+  position: absolute;
+  right: 34px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 18px;
+  height: 18px;
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+
+  color: #8c8f94;
+  font-size: 17px;
+  line-height: 18px;
+
+  cursor: pointer;
+}
+
+.s1-modules .s1-addon-filter-wrap .s1-addon-search__clear:hover {
+  color: #1e1e1e;
+}
+.s1-modules .s1-addon-filter-wrap .s1-addon-search input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+
+.s1-modules .s1-addon-filter-wrap .s1-addon-search input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.s1-no-results {
+  width: 100%;
+  padding:20px 0;
+  text-align: left;
+}
+
+.s1-no-results p {
+  margin: 0;
+  color: #8c8f94;
+  font-size: 15px;
+  font-weight:600;
+}
+
+.s1-top-section .s1-tabs{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+.s1-addon-filter-wrap{
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 20px 0;
+}

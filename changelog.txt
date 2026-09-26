@@ -1,5 +1,8 @@
 *** Store One — All in One Conversion & Sales Toolkit for WooCommerce Changelog ***
 
+2026-09-26 - version 1.1.14
+* Search addon added in Dashboard setting and Showing Number of addon active or deactive.
+
 2026-09-25 - version 1.1.13
 * Fixed Cart Addon js issue.
 * search addon added.
