@@ -67,6 +67,16 @@ export const modulesList = [
     icon: MODULE_ICONS.ADVSEARCH,
     premium: false,
   },
+  {
+    id: "th-productcompare",
+    label: __("Product Compare", "th-store-one"),
+    description: __(
+      "Allow customers to compare multiple products side by side and make informed purchasing decisions.",
+      "th-store-one",
+    ),
+    icon: MODULE_ICONS.COMPARE,
+    premium: false,
+  },
 
   {
     id: "sale-notification",
@@ -178,21 +188,6 @@ export const modulesList = [
     icon: MODULE_ICONS.INTB,
     premium: false,
     featured: false,
-  },
-
-  {
-    id: "th-product-compare",
-    label: __("Product Compare", "th-store-one"),
-    description: __(
-      "Allow customers to compare multiple products side by side and make informed purchasing decisions.",
-      "th-store-one",
-    ),
-    icon: MODULE_ICONS.COMPARE,
-    premium: false,
-    source: {
-      type: "th-extension",
-      plugin: "th-product-compare",
-    },
   },
 
   {

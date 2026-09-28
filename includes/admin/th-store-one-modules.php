@@ -71,6 +71,7 @@ class Th_Store_One_Modules
             'th-cart' => false,
             'th-variationswatches' => false,
             'th-advancedsearch' => false,
+            'th-productcompare' => false,
         );
     }
     /**

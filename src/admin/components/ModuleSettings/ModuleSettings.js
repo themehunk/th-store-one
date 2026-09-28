@@ -65,6 +65,7 @@ import Cart from "../../modules/Cart/CartSettings";
 
 import VariationSwatches from "../../modules/VariationSwatches/VariationSwatchesSettings";
 import AdvanceSearchSettings from "../../modules/AdvanceSearch/AdvanceSearchSettings";
+import ProductCompareSettings from "../../modules/ProductCompare/ProductCompareSettings";
 /* =========================
  * MODULE COMPONENT MAP
  * ========================= */
@@ -118,6 +119,7 @@ const moduleComponents = {
   "th-cart": Cart,
   "th-variationswatches": VariationSwatches,
   "th-advancedsearch": AdvanceSearchSettings,
+  "th-productcompare": ProductCompareSettings,
 };
 
 /* =========================
