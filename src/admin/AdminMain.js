@@ -13,6 +13,7 @@ import "@th-storeone/store/productVideoStore";
 import "./admin.scss";
 import { modulesList } from "./modules/modulesList";
 import ModuleGridSkeleton from "@th-storeone-modulegrid/ModuleGridSkeleton";
+import ModulePreparingSkeleton from "@th-storeone-modulegrid/ModulePreparingSkeleton";
 
 const ADMIN_VIEW_STORAGE_KEY = "th_store_one_admin_view";
 const VALID_PAGES = ["dashboard", "settings", "ourplugins", "license"];
@@ -595,7 +596,6 @@ const AdminMain = () => {
               <ModuleGrid
                 modulesList={modulesList}
                 modulesState={modulesState}
-                tabs={tabs}
                 setActiveModule={setActiveModule}
                 licenseActive={licenseActive}
               />
@@ -610,12 +610,7 @@ const AdminMain = () => {
                   ← {__("Go Back", "th-store-one")}
                 </Button>
                 <div className="s1-module-stage">
-                  {modulePreparing && (
-                    <div className="s1-loader s1-loader--content">
-                      <Spinner />
-                      {__("Loading module settings…", "th-store-one")}
-                    </div>
-                  )}
+                  {modulePreparing && <ModulePreparingSkeleton />}
                   <div
                     className={`s1-settings-layout ${
                       modulePreparing ? "is-preparing" : ""
