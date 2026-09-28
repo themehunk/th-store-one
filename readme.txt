@@ -4,7 +4,7 @@ Author URI: : https://www.themehunk.com/
 Tags: woocommerce addons, sales notification, sticky add to cart, trust badges
 Requires at least: 5.9.0
 Tested up to: 7.1
-Stable tag: 1.1.13
+Stable tag: 1.1.14
 Requires PHP: 7.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html

@@ -1,11 +1,8 @@
 import { __ } from "@wordpress/i18n";
-const Header = ({
-  currentPage,
-  setCurrentPage,
-  setActiveModule,
-  proActive,
-  licenseActive,
-}) => {
+const Header = ({ currentPage, setCurrentPage, setActiveModule }) => {
+  const proActive = Boolean(th_StoreOneAdmin?.proActive);
+  const licenseActive = Boolean(th_StoreOneAdmin?.licenseActive);
+
   return (
     <header className="s1-header">
       <div className="s1-header-wrap">
@@ -84,7 +81,7 @@ const Header = ({
             <span>{__("Settings", "th-store-one")}</span>
           </button>
 
-          <button
+          {/* <button
             className={`s1-nav__btn ${
               currentPage === "ourplugins" ? "is-active" : ""
             }`}
@@ -108,7 +105,7 @@ const Header = ({
             </svg>
 
             <span>{__("Available Plugins", "th-store-one")}</span>
-          </button>
+          </button> */}
 
           {proActive && (
             <button

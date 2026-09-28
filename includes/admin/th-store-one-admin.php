@@ -130,6 +130,12 @@ class Th_Store_One_Admin
     ? is_plugin_active('store-one-pro/store-one-pro.php')
     : false;
 
+        $license_active = false;
+
+        if ($pro_active && class_exists('StoreOnePro_License')) {
+            $license_active = StoreOnePro_License::is_active();
+        }
+
         wp_localize_script(
             'th-store-one-admin',
             'th_StoreOneAdmin',
@@ -149,6 +155,7 @@ class Th_Store_One_Admin
                 'adminUrl' => admin_url(),
                 'proInstalled' => $pro_installed,
         'proActive'    => $pro_active,
+        'licenseActive' => $license_active,
         'searchable_custom_fields' =>
     $this->get_searchable_custom_fields(),
             )
