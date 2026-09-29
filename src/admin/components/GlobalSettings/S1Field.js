@@ -36,6 +36,30 @@ export const S1FieldGroup = ({
               <span className="s1-field-group-number">{number}</span>
             )}
             <h4 className="s1-field-group-title">{title}</h4>
+            {pro && (
+              <span className="s1-field-group-pro-desc">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M9.6 9a2.5 2.5 0 0 1 4.8 1c0 1.7-2.4 2-2.4 3.5" />
+                  <path d="M12 17h.01" />
+                </svg>
+
+                <span className="s1-field-group-pro-tooltip">
+                  These settings are available in Store One Pro. Upgrade to Pro
+                  to enable these settings.
+                </span>
+              </span>
+            )}
             {pro && <span className="s1-field-group-pro-badge">PRO</span>}
           </div>
           <div className="s1-field-group-short-description-wrapper">

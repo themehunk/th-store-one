@@ -5651,3 +5651,149 @@ display: flex;
     height: 180px;
   }
 }
+
+.s1-field-group-pro-desc {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: help;
+    color: #777;
+    margin-left: 8px;
+}
+
+.s1-field-group-pro-desc svg {
+    display: block;
+}
+
+.s1-field-group-pro-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 260px;
+    padding: 9px 12px;
+    background: #1e1e1e;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 5px;
+    text-align: left;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    z-index: 999;
+}
+
+.s1-field-group-pro-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #1e1e1e transparent transparent transparent;
+}
+
+.s1-field-group-pro-desc:hover .s1-field-group-pro-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+.s1-custom-hook-code {
+    margin-top: 14px;
+    width: 100%;
+}
+
+.s1-custom-hook-code pre {
+    position: relative;
+    margin: 0;
+    padding: 18px 20px;
+    background: #f8fafc;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    font-weight: 400;
+
+    overflow-x: auto;
+    white-space: pre;
+
+    box-sizing: border-box;
+}
+
+.s1-custom-hook-code code {
+    display: block;
+    margin: 0;
+    padding: 0;
+background: transparent;
+    color: #334155;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+/* Scrollbar */
+.s1-custom-hook-code pre::-webkit-scrollbar {
+    height: 6px;
+}
+
+.s1-custom-hook-code pre::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.s1-custom-hook-code pre::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+
+.s1-custom-hook-code pre::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+.s1-comparison-fields-sortable {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.s1-comparison-field-item {
+  display: flex;
+  align-items: center;
+  min-height: 35px;
+  padding: 8px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #fff;
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  &:hover {
+    border-color: #d0d5db;
+  }
+}
+
+.s1-comparison-field-drag {
+  margin-right: 12px;
+  color: #8c8f94;
+  font-size: 18px;
+  line-height: 1;
+  cursor: grab;
+}
+
+.s1-comparison-field-label {
+  flex: 1;
+  text-transform: capitalize;
+}
+
+.s1-comparison-field-item {
+  .components-base-control {
+    margin-bottom: 0;
+  }
+}

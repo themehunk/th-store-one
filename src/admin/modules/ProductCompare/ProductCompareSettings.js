@@ -9,12 +9,19 @@ import {
   TextControl,
   Button,
 } from "@wordpress/components";
+import ExcludeWooCondition from "@th-storeone-global/ExcludeWooCondition";
 
 import { S1Field, S1FieldGroup } from "@th-storeone-global/S1Field";
 import TabSwitcher from "@th-storeone-global/TabSwitcher";
 import ResetModuleButton from "@th-storeone-global/ResetModuleButton";
+import THBackgroundControl from "@th-storeone-control/color";
+import UniversalRangeControl from "@th-storeone-global/UniversalRangeControl";
+import ComparisonFieldsSortable from "@th-storeone-global/ComparisonFieldsSortable";
+
+import MultiWooSearchSelector from "@th-storeone-global/MultiWooSearchSelector";
 
 import { ICONS } from "@th-storeone-global/icons";
+import { CopyIcon } from "@radix-ui/react-icons";
 
 const MODULE_ID = "th-productcompare";
 
@@ -30,6 +37,62 @@ const DEFAULT_SETTINGS = {
   "compare-at-shop-hook": "after",
   "close-popup-on-addtocart": "0",
   "compare-visibility": "both",
+
+  // Single Product
+  "field-auto-single-page": true,
+  "automatic-page-limit": 6,
+  "auto-single-page-by": "cat",
+  exclude_products_enabled: false,
+  exclude_products: [],
+
+  "compare-atleast-text": "{Selected} {Products}",
+  "footer-bar-bg-color": "",
+  "footer-content-color": "",
+  "footer-bar-btn-color": "",
+  "footer-bar-btn-bg-color": "",
+
+  "compare-heading-text": "Compare",
+  "compare-count-text": "{count} {Text to be shown.}",
+  "compare-popup-animation": "1",
+  "compare-popup-position": "bottom",
+
+  "global-background": "",
+  "heading-style": "",
+  "heading-style-bg": "",
+
+  "table-content-color": "",
+  "product-img-bg-color": "",
+  "dummy-border-color": "",
+  "rating-color": "",
+  "remove-btn-color": "",
+
+  "img-remove-icon-color": "",
+  "img-remove-btn-size": 18,
+
+  "add-to-cart": "",
+  "close-btn-style": "",
+
+  "field-show-by-category": true,
+  "field-highlight-btn": false,
+  "field-dynamic-attribute": false,
+  "field-repeat-price": false,
+  "field-repeat-add-to-cart": false,
+
+  "product-image-width": 168,
+  "product-image-height": 168,
+
+  comparetableattributes: {
+    image: { active: 1, label: "Image" },
+    title: { active: 1, label: "Title" },
+    rating: { active: 1, label: "Rating" },
+    price: { active: 1, label: "Price" },
+    "add-to-cart": { active: 1, label: "Add To Cart" },
+    description: { active: 1, label: "Description" },
+    availability: { active: 1, label: "Availability" },
+    SKU: { active: 1, label: "SKU" },
+  },
+
+  shortcode_products: [],
 };
 
 export default function ProductCompareSettings({
@@ -54,6 +117,16 @@ export default function ProductCompareSettings({
     useState(false);
 
   const [deactivating, setDeactivating] = useState(false);
+
+  const getProductId = (product) => {
+    if (!product) return "";
+
+    if (typeof product === "number" || typeof product === "string") {
+      return product;
+    }
+
+    return product.id || product.product_id || product.value || "";
+  };
 
   /**
    * Update setting
@@ -366,7 +439,7 @@ export default function ProductCompareSettings({
                         </div>
                       )}
 
-                      <S1FieldGroup>
+                      <S1FieldGroup number={1} title="Basic">
                         <div className="s1-field-group-row">
                           <S1Field
                             label={__("Compare Button Type", "th-store-one")}
@@ -492,25 +565,6 @@ export default function ProductCompareSettings({
                             }
                           />
                         </S1Field>
-
-                        <S1Field
-                          label={__("Comparison Limit Tooltip", "th-store-one")}
-                          description={__(
-                            "Tooltip text shown when the comparison limit is reached. Use {limit} to display the maximum number.",
-                            "th-store-one",
-                          )}
-                        >
-                          <TextControl
-                            value={settings["compare-limit-tooltip"]}
-                            placeholder={__(
-                              "You can add up to {limit} products to compare.",
-                              "th-store-one",
-                            )}
-                            onChange={(value) =>
-                              update("compare-limit-tooltip", value)
-                            }
-                          />
-                        </S1Field>
                       </S1FieldGroup>
 
                       <S1FieldGroup>
@@ -528,76 +582,6 @@ export default function ProductCompareSettings({
                             disabled
                           />
                         </S1Field>
-                        <S1Field
-                          label={__("Button Placement", "th-store-one")}
-                          description={__(
-                            "Position relative to the Add to Cart button.",
-                            "th-store-one",
-                          )}
-                        >
-                          <SelectControl
-                            value={settings["compare-at-shop-hook"]}
-                            options={[
-                              {
-                                label: __("Before Cart", "th-store-one"),
-                                value: "before",
-                              },
-                              {
-                                label: __("After Cart", "th-store-one"),
-                                value: "after",
-                              },
-                              {
-                                label: __("On Image Left", "th-store-one"),
-                                value: "onimageleft",
-                              },
-                              {
-                                label: __("On Image Right", "th-store-one"),
-                                value: "onimageright",
-                              },
-                              {
-                                label: __("On Cart", "th-store-one"),
-                                value: "oncart",
-                              },
-                            ]}
-                            onChange={(value) =>
-                              update("compare-at-shop-hook", value)
-                            }
-                          />
-                        </S1Field>
-                        <S1Field
-                          label={__("Visibility", "th-store-one")}
-                          description={__(
-                            "Where should the compare button appear?",
-                            "th-store-one",
-                          )}
-                        >
-                          <SelectControl
-                            value={settings["compare-visibility"]}
-                            options={[
-                              {
-                                label: __("Both", "th-store-one"),
-                                value: "both",
-                              },
-                              {
-                                label: __(
-                                  "Product Single Page",
-                                  "th-store-one",
-                                ),
-                                value: "product-single-page",
-                              },
-                              {
-                                label: __(
-                                  "Shop and Archive Pages",
-                                  "th-store-one",
-                                ),
-                                value: "shop-archive",
-                              },
-                            ]}
-                            onChange={(value) =>
-                              update("compare-visibility", value)
-                            }
-                          />
-                        </S1Field>
                       </S1FieldGroup>
                     </>
                   ),
@@ -608,10 +592,107 @@ export default function ProductCompareSettings({
                  */
                 {
                   id: "display",
-                  label: __("Advanced", "th-store-one"),
+                  label: __("Single Product", "th-store-one"),
                   icon: ICONS.DISPLAY,
+                  content: (
+                    <>
+                      <S1FieldGroup number={1} title="Product Page">
+                        <S1Field
+                          label="Automated Comparison Table"
+                          description="Enable the comparison table automatically on single product pages."
+                        >
+                          <ToggleControl
+                            checked={settings["field-auto-single-page"]}
+                            onChange={(value) =>
+                              update("field-auto-single-page", value)
+                            }
+                          />
+                        </S1Field>
 
-                  content: <></>,
+                        <S1Field
+                          label={__("Product Compare By", "th-store-one")}
+                          description={__(
+                            "Select the filter to compare the products by.",
+                            "th-store-one",
+                          )}
+                        >
+                          <SelectControl
+                            value={settings["auto-single-page-by"]}
+                            options={[
+                              {
+                                label: __("Category", "th-store-one"),
+                                value: "cat",
+                              },
+                              {
+                                label: __("Tag", "th-store-one"),
+                                value: "tag",
+                              },
+                              {
+                                label: __("Related Product", "th-store-one"),
+                                value: "related",
+                              },
+                            ]}
+                            onChange={(value) =>
+                              update("auto-single-page-by", value)
+                            }
+                          />
+                        </S1Field>
+
+                        <S1Field
+                          label={__("Number Of Product", "th-store-one")}
+                          description={__(
+                            "Maximum products allowed on a single product comparison page.",
+                            "th-store-one",
+                          )}
+                        >
+                          <TextControl
+                            type="number"
+                            min={1}
+                            value={settings["automatic-page-limit"]}
+                            onChange={(value) =>
+                              update("automatic-page-limit", value)
+                            }
+                          />
+                        </S1Field>
+
+                        <ExcludeWooCondition
+                          label="Exclude Products"
+                          searchType="product"
+                          enabled={settings.exclude_products_enabled}
+                          items={settings.exclude_products || []}
+                          onToggle={(v) =>
+                            setSettings({
+                              ...settings,
+                              exclude_products_enabled: v,
+                            })
+                          }
+                          onChangeItems={(items) =>
+                            setSettings({
+                              ...settings,
+                              exclude_products: items,
+                            })
+                          }
+                          detailedView={true}
+                        />
+                        <S1Field
+                          label={__("Manual Comparison Table", "th-store-one")}
+                          description={__(
+                            "Add the Comparison Table manually for individual products.",
+                            "th-store-one",
+                          )}
+                        >
+                          <a
+                            href="https://themehunk.com/docs/th-product-compare-pro/#single-page"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="s1-docs-link"
+                          >
+                            {__("View Documentation", "th-store-one")}
+                          </a>
+                        </S1Field>
+                      </S1FieldGroup>
+                    </>
+                  ),
                 },
 
                 /**
@@ -619,7 +700,7 @@ export default function ProductCompareSettings({
                  */
                 {
                   id: "panel",
-                  label: __("Configure", "th-store-one"),
+                  label: __("Custom Hook", "th-store-one"),
                   icon: (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -654,7 +735,54 @@ export default function ProductCompareSettings({
                     </svg>
                   ),
 
-                  content: <S1FieldGroup></S1FieldGroup>,
+                  content: (
+                    <S1FieldGroup
+                      number={5}
+                      title={__("Custom Field Hook", "th-store-one")}
+                    >
+                      <S1Field
+                        label={__("Custom Field Hook Filter", "th-store-one")}
+                        description={
+                          <>
+                            {__(
+                              "Add custom fields to the Product Compare field map.",
+                              "th-store-one",
+                            )}
+                            <br />
+                            {__("Filter:", "th-store-one")}{" "}
+                            <code>store-one-product-compare-field</code>
+                            <br />
+                            {__("Expected shape:", "th-store-one")}
+                          </>
+                        }
+                      >
+                        <div className="s1-custom-hook-code">
+                          <pre>
+                            <code>{`function my_callback() {
+    return array(
+        'key1' => array(
+            'title'     => 'Title 1',
+            'field_key' => 'key1',
+        ),
+        'key2' => array(
+            'title'     => 'Title 2',
+            'field_key' => 'key2',
+        ),
+    );
+}
+add_filter( 'store-one-product-compare-field', 'my_callback' );
+
+return array(
+    'key1' => array( // WordPress post meta key (custom field key).
+        'title'     => 'Label',   // Shown in the compare table header/UI.
+        'field_key' => 'meta_key' // Post meta key to fetch from the product.
+    ),
+);`}</code>
+                          </pre>
+                        </div>
+                      </S1Field>
+                    </S1FieldGroup>
+                  ),
                 },
 
                 /**
@@ -664,8 +792,395 @@ export default function ProductCompareSettings({
                   id: "style",
                   label: __("Style", "th-store-one"),
                   icon: ICONS.DESIGN,
+                  content: (
+                    <>
+                      <S1FieldGroup
+                        number={1}
+                        title={__("Compare Bar", "th-store-one")}
+                      >
+                        <S1Field
+                          label={__("Compare Bar Text", "th-store-one")}
+                          description={
+                            <>
+                              {__("Use format:", "th-store-one")}{" "}
+                              <code>{"{selected} {products}"}</code>
+                            </>
+                          }
+                        >
+                          <TextControl
+                            value={settings["compare-atleast-text"]}
+                            placeholder={__("Compare", "th-store-one")}
+                            onChange={(value) =>
+                              update("compare-atleast-text", value)
+                            }
+                          />
+                        </S1Field>
+                        <div className="s1-field-group-row">
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Background Color", "th-store-one")}
+                              value={settings["footer-bar-bg-color"]}
+                              onChange={(v) => update("footer-bar-bg-color", v)}
+                              allowGradient={false}
+                            />
+                          </S1Field>
 
-                  content: <></>,
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Content Color", "th-store-one")}
+                              value={settings["footer-content-color"]}
+                              onChange={(v) =>
+                                update("footer-content-color", v)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+                        </div>
+
+                        <div className="s1-field-group-row">
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Button Color", "th-store-one")}
+                              value={settings["footer-bar-btn-color"]}
+                              onChange={(v) =>
+                                update("footer-bar-btn-color", v)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__(
+                                "Button Background Color",
+                                "th-store-one",
+                              )}
+                              value={settings["footer-bar-btn-bg-color"]}
+                              onChange={(v) =>
+                                update("footer-bar-btn-bg-color", v)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+                        </div>
+                      </S1FieldGroup>
+                      {/* Popup */}
+                      <S1FieldGroup
+                        number={1}
+                        title={__("Popup", "th-store-one")}
+                      >
+                        <S1Field
+                          label={__("Popup Heading Text", "th-store-one")}
+                        >
+                          <TextControl
+                            value={settings["compare-heading-text"]}
+                            onChange={(value) =>
+                              update("compare-heading-text", value)
+                            }
+                          />
+                        </S1Field>
+
+                        <S1Field
+                          label={__("Popup Count Text", "th-store-one")}
+                          description={
+                            <>
+                              {__(
+                                "Use format. You can change count position:",
+                                "th-store-one",
+                              )}{" "}
+                              <code>{"{count} {Text to be shown.}"}</code>
+                            </>
+                          }
+                        >
+                          <TextControl
+                            value={settings["compare-count-text"]}
+                            onChange={(value) =>
+                              update("compare-count-text", value)
+                            }
+                          />
+                        </S1Field>
+
+                        <div className="s1-field-group-row">
+                          <S1Field
+                            label={__("Popup Animation", "th-store-one")}
+                          >
+                            <SelectControl
+                              value={settings["compare-popup-animation"]}
+                              options={[
+                                {
+                                  label: __("Top Slide", "th-store-one"),
+                                  value: "1",
+                                },
+                                {
+                                  label: __("Left Slide", "th-store-one"),
+                                  value: "2",
+                                },
+                                {
+                                  label: __("Right Slide", "th-store-one"),
+                                  value: "3",
+                                },
+                                {
+                                  label: __("ZoomIn", "th-store-one"),
+                                  value: "4",
+                                },
+                              ]}
+                              onChange={(value) =>
+                                update("compare-popup-animation", value)
+                              }
+                            />
+                          </S1Field>
+
+                          <S1Field label={__("Popup Position", "th-store-one")}>
+                            <SelectControl
+                              value={settings["compare-popup-position"]}
+                              options={[
+                                {
+                                  label: __("Bottom", "th-store-one"),
+                                  value: "bottom",
+                                },
+                                {
+                                  label: __("Left", "th-store-one"),
+                                  value: "left",
+                                },
+                                {
+                                  label: __("Right", "th-store-one"),
+                                  value: "right",
+                                },
+                                {
+                                  label: __("Top", "th-store-one"),
+                                  value: "top",
+                                },
+                              ]}
+                              onChange={(value) =>
+                                update("compare-popup-position", value)
+                              }
+                            />
+                          </S1Field>
+                        </div>
+                      </S1FieldGroup>
+
+                      {/* Global Colors */}
+                      <S1FieldGroup
+                        number={2}
+                        title={__("Global Colors", "th-store-one")}
+                      >
+                        <S1Field>
+                          <THBackgroundControl
+                            label={__(
+                              "Global Background Color",
+                              "th-store-one",
+                            )}
+                            value={settings["global-background"]}
+                            onChange={(value) =>
+                              update("global-background", value)
+                            }
+                            allowGradient={false}
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+
+                      {/* Header */}
+                      <S1FieldGroup
+                        number={3}
+                        title={__("Header", "th-store-one")}
+                      >
+                        <div className="s1-field-group-row">
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Color", "th-store-one")}
+                              value={settings["heading-style"]}
+                              onChange={(value) =>
+                                update("heading-style", value)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Background Color", "th-store-one")}
+                              value={settings["heading-style-bg"]}
+                              onChange={(value) =>
+                                update("heading-style-bg", value)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+                        </div>
+                      </S1FieldGroup>
+
+                      {/* Table */}
+                      <S1FieldGroup
+                        number={4}
+                        title={__("Table", "th-store-one")}
+                      >
+                        <S1Field>
+                          <THBackgroundControl
+                            label={__("Table Content Color", "th-store-one")}
+                            value={settings["table-content-color"]}
+                            onChange={(value) =>
+                              update("table-content-color", value)
+                            }
+                            allowGradient={false}
+                          />
+                        </S1Field>
+
+                        <div className="s1-field-group-row">
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__(
+                                "Table Background Color",
+                                "th-store-one",
+                              )}
+                              value={settings["product-img-bg-color"]}
+                              onChange={(value) =>
+                                update("product-img-bg-color", value)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Border Color", "th-store-one")}
+                              value={settings["dummy-border-color"]}
+                              onChange={(value) =>
+                                update("dummy-border-color", value)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+                        </div>
+
+                        <div className="s1-field-group-row">
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Rating Color", "th-store-one")}
+                              value={settings["rating-color"]}
+                              onChange={(value) =>
+                                update("rating-color", value)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__(
+                                "Remove Button Text Color",
+                                "th-store-one",
+                              )}
+                              value={settings["remove-btn-color"]}
+                              onChange={(value) =>
+                                update("remove-btn-color", value)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+                        </div>
+                      </S1FieldGroup>
+
+                      {/* Image Remove Icon */}
+                      <S1FieldGroup
+                        number={5}
+                        title={__("Image Remove Icon", "th-store-one")}
+                      >
+                        <div className="s1-field-group-row">
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Icon Color", "th-store-one")}
+                              value={settings["img-remove-icon-color"]}
+                              onChange={(value) =>
+                                update("img-remove-icon-color", value)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Background Color", "th-store-one")}
+                              value={settings["img-remove-icon-color"]}
+                              onChange={(value) =>
+                                update("img-remove-icon-color", value)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+                        </div>
+
+                        <S1Field label={__("Button Size (px)", "th-store-one")}>
+                          <UniversalRangeControl
+                            label=""
+                            value={String(
+                              settings["img-remove-btn-size"] ?? 18,
+                            )}
+                            onChange={(value) =>
+                              update("img-remove-btn-size", value)
+                            }
+                            min={16}
+                            max={48}
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+
+                      {/* Add To Cart */}
+                      <S1FieldGroup
+                        number={6}
+                        title={__("Add To Cart", "th-store-one")}
+                      >
+                        <div className="s1-field-group-row">
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Color", "th-store-one")}
+                              value={settings["add-to-cart"]}
+                              onChange={(value) => update("add-to-cart", value)}
+                              allowGradient={false}
+                            />
+                          </S1Field>
+
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Background Color", "th-store-one")}
+                              value={settings["add-to-cart"]}
+                              onChange={(value) => update("add-to-cart", value)}
+                              allowGradient={false}
+                            />
+                          </S1Field>
+                        </div>
+                      </S1FieldGroup>
+
+                      {/* Close Button */}
+                      <S1FieldGroup
+                        number={7}
+                        title={__("Close Button", "th-store-one")}
+                      >
+                        <div className="s1-field-group-row">
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Color", "th-store-one")}
+                              value={settings["close-btn-style"]}
+                              onChange={(value) =>
+                                update("close-btn-style", value)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Background Color", "th-store-one")}
+                              value={settings["close-btn-style"]}
+                              onChange={(value) =>
+                                update("close-btn-style", value)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+                        </div>
+                      </S1FieldGroup>
+                    </>
+                  ),
                 },
 
                 /**
@@ -706,7 +1221,355 @@ export default function ProductCompareSettings({
                     </svg>
                   ),
 
-                  content: <></>,
+                  content: (
+                    <>
+                      <S1FieldGroup
+                        number={1}
+                        title="Basic"
+                        pro={licenseActive ? false : true}
+                      >
+                        <S1Field
+                          label={__("Comparison Limit Tooltip", "th-store-one")}
+                          description={__(
+                            "Tooltip text shown when the comparison limit is reached. Use {limit} to display the maximum number.",
+                            "th-store-one",
+                          )}
+                        >
+                          <TextControl
+                            value={settings["compare-limit-tooltip"]}
+                            placeholder={__(
+                              "You can add up to {limit} products to compare.",
+                              "th-store-one",
+                            )}
+                            onChange={(value) =>
+                              update("compare-limit-tooltip", value)
+                            }
+                          />
+                        </S1Field>
+                        <S1Field
+                          label={__("Visibility", "th-store-one")}
+                          description={__(
+                            "Where should the compare button appear?",
+                            "th-store-one",
+                          )}
+                        >
+                          <SelectControl
+                            value={settings["compare-visibility"]}
+                            options={[
+                              {
+                                label: __("Both", "th-store-one"),
+                                value: "both",
+                              },
+                              {
+                                label: __(
+                                  "Product Single Page",
+                                  "th-store-one",
+                                ),
+                                value: "product-single-page",
+                              },
+                              {
+                                label: __(
+                                  "Shop and Archive Pages",
+                                  "th-store-one",
+                                ),
+                                value: "shop-archive",
+                              },
+                            ]}
+                            onChange={(value) =>
+                              update("compare-visibility", value)
+                            }
+                          />
+                        </S1Field>
+                        <S1Field
+                          label={__("Button Placement", "th-store-one")}
+                          description={__(
+                            "Position relative to the Add to Cart button.",
+                            "th-store-one",
+                          )}
+                        >
+                          <SelectControl
+                            value={settings["compare-at-shop-hook"]}
+                            options={[
+                              {
+                                label: __("Before Cart", "th-store-one"),
+                                value: "before",
+                              },
+                              {
+                                label: __("After Cart", "th-store-one"),
+                                value: "after",
+                              },
+                              {
+                                label: __("On Image Left", "th-store-one"),
+                                value: "onimageleft",
+                              },
+                              {
+                                label: __("On Image Right", "th-store-one"),
+                                value: "onimageright",
+                              },
+                              {
+                                label: __("On Cart", "th-store-one"),
+                                value: "oncart",
+                              },
+                            ]}
+                            onChange={(value) =>
+                              update("compare-at-shop-hook", value)
+                            }
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+                      <S1FieldGroup
+                        number={2}
+                        pro={licenseActive ? false : true}
+                        title={__("Advanced Settings", "th-store-one")}
+                      >
+                        {/* Compare Same Category Product */}
+                        <div className="s1-field-group-row">
+                          <S1Field
+                            label={__(
+                              "Compare Same Category Product",
+                              "th-store-one",
+                            )}
+                            description={__(
+                              "Enable Category Tab in the Comparison Table.",
+                              "th-store-one",
+                            )}
+                          >
+                            <ToggleControl
+                              __nextHasNoMarginBottom
+                              checked={!!settings["field-show-by-category"]}
+                              onChange={(value) =>
+                                update("field-show-by-category", value)
+                              }
+                            />
+                          </S1Field>
+
+                          {/* Similarities & Differences */}
+                          <S1Field
+                            label={__(
+                              "Similarities & Differences",
+                              "th-store-one",
+                            )}
+                            description={__(
+                              "Enable to show differences.",
+                              "th-store-one",
+                            )}
+                          >
+                            <ToggleControl
+                              __nextHasNoMarginBottom
+                              checked={!!settings["field-highlight-btn"]}
+                              onChange={(value) =>
+                                update("field-highlight-btn", value)
+                              }
+                            />
+                          </S1Field>
+                        </div>
+
+                        {/* Fields */}
+                        <S1Field
+                          label={__(
+                            "Fields to Show in Comparison Table",
+                            "th-store-one",
+                          )}
+                          description={__(
+                            "Enable fields and drag to reorder them.",
+                            "th-store-one",
+                          )}
+                        >
+                          <ComparisonFieldsSortable
+                            value={settings.comparetableattributes || {}}
+                            onChange={(value) =>
+                              update("comparetableattributes", value)
+                            }
+                          />
+                        </S1Field>
+
+                        {/* Dynamic Attributes */}
+                        <div className="s1-field-group-row">
+                          <S1Field
+                            label={__("Dynamic Attributes", "th-store-one")}
+                            description={__(
+                              "Enable to show all custom product attributes automatically.",
+                              "th-store-one",
+                            )}
+                          >
+                            <ToggleControl
+                              __nextHasNoMarginBottom
+                              checked={!!settings["field-dynamic-attribute"]}
+                              onChange={(value) =>
+                                update("field-dynamic-attribute", value)
+                              }
+                            />
+                          </S1Field>
+
+                          {/* Repeat Fields */}
+                          <S1Field
+                            label={__("Repeat Price Field", "th-store-one")}
+                            description={__(
+                              'Repeat the "Price" field at the end of the table.',
+                              "th-store-one",
+                            )}
+                          >
+                            <ToggleControl
+                              __nextHasNoMarginBottom
+                              checked={!!settings["field-repeat-price"]}
+                              onChange={(value) =>
+                                update("field-repeat-price", value)
+                              }
+                            />
+                          </S1Field>
+                        </div>
+                        <S1Field
+                          label={__("Repeat Add to Cart Field", "th-store-one")}
+                          description={__(
+                            'Repeat the "Add to cart" field at the end of the table.',
+                            "th-store-one",
+                          )}
+                        >
+                          <ToggleControl
+                            __nextHasNoMarginBottom
+                            checked={!!settings["field-repeat-add-to-cart"]}
+                            onChange={(value) =>
+                              update("field-repeat-add-to-cart", value)
+                            }
+                          />
+                        </S1Field>
+
+                        {/* Product Image Size */}
+                        <S1Field
+                          label={__("Product Image Size", "th-store-one")}
+                          description={__(
+                            "Dimensions of product images in the comparison table.",
+                            "th-store-one",
+                          )}
+                        >
+                          <UniversalRangeControl
+                            label={__("Width (px)", "th-store-one")}
+                            value={String(
+                              settings["product-image-width"] ?? 168,
+                            )}
+                            onChange={(value) =>
+                              update("product-image-width", value)
+                            }
+                            min={50}
+                            max={500}
+                          />
+
+                          <UniversalRangeControl
+                            label={__("Height (px)", "th-store-one")}
+                            value={String(
+                              settings["product-image-height"] ?? 168,
+                            )}
+                            onChange={(value) =>
+                              update("product-image-height", value)
+                            }
+                            min={50}
+                            max={500}
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+                      <S1FieldGroup
+                        number={3}
+                        pro={licenseActive ? false : true}
+                        title={__("Generate Shortcode", "th-store-one")}
+                      >
+                        <S1Field
+                          label={__("Choose Products", "th-store-one")}
+                          description={__(
+                            "Use the generated shortcode to display the selected product or product comparison list anywhere on your website.",
+                            "th-store-one",
+                          )}
+                        >
+                          <MultiWooSearchSelector
+                            searchType="product"
+                            label={__("Select Products", "th-store-one")}
+                            value={settings.shortcode_products || []}
+                            onChange={(items) =>
+                              update("shortcode_products", items)
+                            }
+                            detailedView={true}
+                          />
+                        </S1Field>
+
+                        <S1Field
+                          label={__("Copy Shortcode", "th-store-one")}
+                          description={
+                            <>
+                              {__(
+                                "Use the generated shortcode to display the selected product or product comparison list anywhere on your website.",
+                                "th-store-one",
+                              )}
+                              <br />
+                              <span className="s1-shortcode-note">
+                                {__(
+                                  "* Replace the Product ID(s) with the specific Product ID or IDs you want to compare.",
+                                  "th-store-one",
+                                )}
+                              </span>
+                            </>
+                          }
+                        >
+                          <div className="s1-shortcode-wrapper">
+                            <textarea
+                              readOnly
+                              value={(() => {
+                                const products =
+                                  settings.shortcode_products || [];
+
+                                const ids = products
+                                  .map(getProductId)
+                                  .filter(Boolean);
+
+                                if (ids.length === 1) {
+                                  return `[store_one_compare pid="${ids[0]}"]`;
+                                }
+
+                                if (ids.length > 1) {
+                                  return `[store_one_compare_product_list pid="${ids.join(
+                                    ",",
+                                  )}"]`;
+                                }
+
+                                return `[store_one_compare pid=""]`;
+                              })()}
+                              className="s1-shortcode-textarea"
+                            />
+
+                            <button
+                              type="button"
+                              className="s1-shortcode-copy"
+                              onClick={() => {
+                                const products =
+                                  settings.shortcode_products || [];
+
+                                const ids = products
+                                  .map(getProductId)
+                                  .filter(Boolean);
+
+                                let shortcode = "";
+
+                                if (ids.length === 1) {
+                                  shortcode = `[store_one_compare pid="${ids[0]}"]`;
+                                } else if (ids.length > 1) {
+                                  shortcode = `[store_one_compare_product_list pid="${ids.join(
+                                    ",",
+                                  )}"]`;
+                                }
+
+                                if (shortcode) {
+                                  navigator.clipboard.writeText(shortcode);
+                                }
+                              }}
+                              title={__("Copy Shortcode", "th-store-one")}
+                            >
+                              <span className="s1-copy-icon">
+                                <CopyIcon />
+                              </span>
+                            </button>
+                          </div>
+                        </S1Field>
+                      </S1FieldGroup>
+                    </>
+                  ),
                 },
               ]}
             />
