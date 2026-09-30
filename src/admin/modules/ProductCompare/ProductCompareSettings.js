@@ -93,6 +93,39 @@ const DEFAULT_SETTINGS = {
   },
 
   shortcode_products: [],
+
+  "mobile-style-enable": false,
+
+  "tablestyle-in-mobile": "mobile-flex",
+  "field-mobile-remove-icon": true,
+
+  "mobile-table-bg-color": "",
+  "mobile-content-color": "",
+  "mobile-heading-color": "",
+  "mobile-border-color": "",
+  "mobile-accent-color": "",
+  // Mobile Add To Cart
+  "mobile-add-to-cart-color": "",
+  "mobile-add-to-cart-bg-color": "",
+
+  "mobile-rating-color": "",
+
+  // Compare Icon
+  "footer-bar": true,
+  "field-menu-icon": true,
+  "icon-float-position": "bottom-right",
+
+  "compare-menu-tab": false,
+  "compare-menu-tab-position": "left",
+  "compare-menu-tab-text": "Compare",
+
+  "field-menu-icon-in-menu": false,
+
+  // Icon Style
+  "floating-icon-color": "",
+  "floating-icon-bg-color": "",
+  "floating-icon-badge-color": "",
+  "floating-icon-badge-bg-color": "",
 };
 
 export default function ProductCompareSettings({
@@ -1567,6 +1600,400 @@ return array(
                             </button>
                           </div>
                         </S1Field>
+                      </S1FieldGroup>
+                    </>
+                  ),
+                },
+
+                {
+                  id: "mobilestyle",
+                  label: __("Mobile Style", "th-store-one"),
+                  icon: (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <rect
+                        width="14"
+                        height="20"
+                        x="5"
+                        y="2"
+                        rx="2"
+                        ry="2"
+                      ></rect>
+                      <path d="M12 18h.01"></path>
+                    </svg>
+                  ),
+
+                  content: (
+                    <>
+                      <S1FieldGroup
+                        number={1}
+                        pro={licenseActive ? false : true}
+                        title={__("Mobile Style", "th-store-one")}
+                      >
+                        <S1Field
+                          label={__("Enable Mobile Style", "th-store-one")}
+                          description={__(
+                            "Enable a separate style and layout for mobile devices.",
+                            "th-store-one",
+                          )}
+                        >
+                          <ToggleControl
+                            __nextHasNoMarginBottom
+                            checked={!!settings["mobile-style-enable"]}
+                            onChange={(value) =>
+                              update("mobile-style-enable", value)
+                            }
+                          />
+                        </S1Field>
+                        {/* Remove Icon */}
+                        <S1Field
+                          label={__("Product Remove Icon", "th-store-one")}
+                          description={__(
+                            "Show the remove product icon on mobile devices.",
+                            "th-store-one",
+                          )}
+                        >
+                          <ToggleControl
+                            __nextHasNoMarginBottom
+                            checked={!!settings["field-mobile-remove-icon"]}
+                            onChange={(value) =>
+                              update("field-mobile-remove-icon", value)
+                            }
+                          />
+                        </S1Field>
+                        {/* Mobile Colors */}
+                        <div className="s1-field-group-row">
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Background Color", "th-store-one")}
+                              value={settings["mobile-table-bg-color"]}
+                              onChange={(value) =>
+                                update("mobile-table-bg-color", value)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Content Color", "th-store-one")}
+                              value={settings["mobile-content-color"]}
+                              onChange={(value) =>
+                                update("mobile-content-color", value)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+                        </div>
+
+                        <div className="s1-field-group-row">
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Heading Color", "th-store-one")}
+                              value={settings["mobile-heading-color"]}
+                              onChange={(value) =>
+                                update("mobile-heading-color", value)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Border Color", "th-store-one")}
+                              value={settings["mobile-border-color"]}
+                              onChange={(value) =>
+                                update("mobile-border-color", value)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+                        </div>
+
+                        <S1Field>
+                          <THBackgroundControl
+                            label={__("Accent Bar Color", "th-store-one")}
+                            value={settings["mobile-accent-color"]}
+                            onChange={(value) =>
+                              update("mobile-accent-color", value)
+                            }
+                            allowGradient={false}
+                          />
+                        </S1Field>
+
+                        {/* Add To Cart */}
+                        <div className="s1-field-group-row">
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Add To Cart Color", "th-store-one")}
+                              value={settings["mobile-add-to-cart-color"]}
+                              onChange={(value) =>
+                                update("mobile-add-to-cart-color", value)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__(
+                                "Add To Cart Background Color",
+                                "th-store-one",
+                              )}
+                              value={settings["mobile-add-to-cart-bg-color"]}
+                              onChange={(value) =>
+                                update("mobile-add-to-cart-bg-color", value)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+                        </div>
+
+                        {/* Rating */}
+                        <S1Field>
+                          <THBackgroundControl
+                            label={__("Rating Color", "th-store-one")}
+                            value={settings["mobile-rating-color"]}
+                            onChange={(value) =>
+                              update("mobile-rating-color", value)
+                            }
+                            allowGradient={false}
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+                    </>
+                  ),
+                },
+
+                {
+                  id: "compareicon",
+                  label: __("Compare Icon", "th-store-one"),
+                  icon: (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"></path>
+                      <path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"></path>
+                      <path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"></path>
+                    </svg>
+                  ),
+
+                  content: (
+                    <>
+                      <S1FieldGroup
+                        number={1}
+                        title={__("Compare Icon", "th-store-one")}
+                      >
+                        <div className="s1-field-group-row">
+                          <S1Field
+                            label={__("Compare Footer Bar", "th-store-one")}
+                            description={__(
+                              "Show selected-products bar at the bottom of the screen.",
+                              "th-store-one",
+                            )}
+                          >
+                            <ToggleControl
+                              __nextHasNoMarginBottom
+                              checked={!!settings["footer-bar"]}
+                              onChange={(value) => update("footer-bar", value)}
+                            />
+                          </S1Field>
+
+                          <S1Field
+                            label={__("Compare Floating Icon", "th-store-one")}
+                            description={__(
+                              "Show the floating compare icon at a screen corner.",
+                              "th-store-one",
+                            )}
+                          >
+                            <ToggleControl
+                              __nextHasNoMarginBottom
+                              checked={!!settings["field-menu-icon"]}
+                              onChange={(value) =>
+                                update("field-menu-icon", value)
+                              }
+                            />
+                          </S1Field>
+                        </div>
+
+                        {settings["field-menu-icon"] && (
+                          <S1Field
+                            label={__("Floating Icon Position", "th-store-one")}
+                            description={__(
+                              "Choose which corner the floating icon appears in.",
+                              "th-store-one",
+                            )}
+                          >
+                            <SelectControl
+                              value={settings["icon-float-position"]}
+                              options={[
+                                {
+                                  label: __("Bottom Right", "th-store-one"),
+                                  value: "bottom-right",
+                                },
+                                {
+                                  label: __("Bottom Left", "th-store-one"),
+                                  value: "bottom-left",
+                                },
+                              ]}
+                              onChange={(value) =>
+                                update("icon-float-position", value)
+                              }
+                            />
+                          </S1Field>
+                        )}
+
+                        <S1Field
+                          label={__("Compare Menu Sidebar Tab", "th-store-one")}
+                          description={__(
+                            "Show a fixed sidebar tab button to open the compare popup.",
+                            "th-store-one",
+                          )}
+                        >
+                          <ToggleControl
+                            __nextHasNoMarginBottom
+                            checked={!!settings["compare-menu-tab"]}
+                            onChange={(value) =>
+                              update("compare-menu-tab", value)
+                            }
+                          />
+                        </S1Field>
+
+                        {settings["compare-menu-tab"] && (
+                          <div className="s1-field-group-row">
+                            <S1Field
+                              label={__("Sidebar Tab Position", "th-store-one")}
+                              description={__(
+                                "Which side of the screen the tab should appear on.",
+                                "th-store-one",
+                              )}
+                            >
+                              <SelectControl
+                                value={settings["compare-menu-tab-position"]}
+                                options={[
+                                  {
+                                    label: __("Left", "th-store-one"),
+                                    value: "left",
+                                  },
+                                  {
+                                    label: __("Right", "th-store-one"),
+                                    value: "right",
+                                  },
+                                ]}
+                                onChange={(value) =>
+                                  update("compare-menu-tab-position", value)
+                                }
+                              />
+                            </S1Field>
+
+                            <S1Field
+                              label={__("Sidebar Tab Label", "th-store-one")}
+                              description={__(
+                                "Text displayed on the sidebar tab.",
+                                "th-store-one",
+                              )}
+                            >
+                              <TextControl
+                                value={settings["compare-menu-tab-text"]}
+                                placeholder={__("Compare", "th-store-one")}
+                                onChange={(value) =>
+                                  update("compare-menu-tab-text", value)
+                                }
+                              />
+                            </S1Field>
+                          </div>
+                        )}
+
+                        <S1Field
+                          label={__(
+                            "Show Compare Icon in Menu",
+                            "th-store-one",
+                          )}
+                          description={__(
+                            "Append the compare icon to the primary navigation menu.",
+                            "th-store-one",
+                          )}
+                        >
+                          <ToggleControl
+                            __nextHasNoMarginBottom
+                            checked={!!settings["field-menu-icon-in-menu"]}
+                            onChange={(value) =>
+                              update("field-menu-icon-in-menu", value)
+                            }
+                          />
+                        </S1Field>
+                      </S1FieldGroup>
+                      <S1FieldGroup
+                        number={2}
+                        title={__("Icon Color", "th-store-one")}
+                      >
+                        <div className="s1-field-group-row">
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Icon Color", "th-store-one")}
+                              value={settings["floating-icon-color"]}
+                              onChange={(value) =>
+                                update("floating-icon-color", value)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__(
+                                "Icon Background Color",
+                                "th-store-one",
+                              )}
+                              value={settings["floating-icon-bg-color"]}
+                              onChange={(value) =>
+                                update("floating-icon-bg-color", value)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+                        </div>
+
+                        <div className="s1-field-group-row">
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Badge Color", "th-store-one")}
+                              value={settings["floating-icon-badge-color"]}
+                              onChange={(value) =>
+                                update("floating-icon-badge-color", value)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+
+                          <S1Field>
+                            <THBackgroundControl
+                              label={__("Badge Background", "th-store-one")}
+                              value={settings["floating-icon-badge-bg-color"]}
+                              onChange={(value) =>
+                                update("floating-icon-badge-bg-color", value)
+                              }
+                              allowGradient={false}
+                            />
+                          </S1Field>
+                        </div>
                       </S1FieldGroup>
                     </>
                   ),

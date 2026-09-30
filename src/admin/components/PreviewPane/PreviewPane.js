@@ -22,6 +22,7 @@ import PreviewWishlist from "../../modules/Wishlist/livepreview/PreviewWishlist"
 import PreviewCart from "../../modules/Cart/livepreview/PreviewCart";
 import PreviewVariationSwatches from "../../modules/VariationSwatches/livepreview/PreviewVariationSwatches";
 import PreviewAdvanceSearch from "../../modules/AdvanceSearch/livepreview/PreviewAdvanceSearch";
+import PreviewProductCompare from "../../modules/ProductCompare/livepreview/PreviewProductCompare";
 import { useSelect } from "@wordpress/data";
 
 import { STORE_NAME } from "@th-storeone/store/productVideoStore";
@@ -158,6 +159,12 @@ const PreviewPane = ({ currentModule, settings }) => {
               )}
               {currentModule?.id === "th-advancedsearch" && activeRule && (
                 <PreviewAdvanceSearch
+                  key={currentModule.id}
+                  settings={activeRule}
+                />
+              )}
+              {currentModule?.id === "th-productcompare" && activeRule && (
+                <PreviewProductCompare
                   key={currentModule.id}
                   settings={activeRule}
                 />

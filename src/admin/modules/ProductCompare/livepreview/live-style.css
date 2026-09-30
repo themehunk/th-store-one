@@ -1,0 +1,173 @@
+/* Compare Preview */
+.s1-compare-preview {
+    width: 100%;
+    padding: 25px 15px;
+    box-sizing: border-box;
+}
+
+/* Compare Bar */
+.s1-compare-bar-preview {
+    width: 100%;
+    max-width: 900px;
+    height: 105px;
+
+    margin: 0 auto;
+    padding: 18px 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    box-sizing: border-box;
+
+    background: var(--s1-compare-bar-bg, #242529);
+    color: var(--s1-compare-content, #fff);
+
+    border: 1px solid #3f4045;
+    border-radius: 24px;
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+
+/* Left */
+.s1-compare-bar-left {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+
+/* Selected Products */
+.s1-compare-selected-text {
+    width: 125px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    font-size: 20px;
+    line-height: 1.15;
+}
+
+.s1-compare-selected-text span:first-child {
+    color: #fff;
+}
+
+.s1-compare-selected-text span:last-child {
+    color: #a3a3a7;
+}
+
+
+/* Products */
+.s1-compare-products {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+
+/* Product image */
+.s1-compare-product-image {
+    width: 64px;
+    height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #c6c7ca;
+    border-radius: 5px;
+
+    color: #f5f5f5;
+    font-size: 24px;
+}
+
+
+/* Add product */
+.s1-compare-add-product {
+    width: 55px;
+    height: 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #77787c;
+
+    border: 2px dashed #aeb0b5;
+    border-radius: 7px;
+
+    color: #cfd3dd;
+    font-size: 30px;
+}
+
+
+/* Count */
+.s1-compare-count {
+    color: #a4a4a9;
+    font-size: 20px;
+    white-space: nowrap;
+}
+
+
+/* Right */
+.s1-compare-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+
+/* Trash */
+.s1-compare-remove {
+    width: 28px;
+    height: 35px;
+
+    padding: 0;
+    margin: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    background: transparent;
+
+    color: #999ca5;
+}
+
+.s1-compare-remove svg {
+    width: 22px;
+    height: 22px;
+}
+
+
+/* Compare Button */
+.s1-compare-button {
+    min-width: 180px;
+    height: 58px;
+
+    padding: 0 24px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    border: 0;
+    border-radius: 18px;
+
+    background: var(--s1-compare-button-bg, #fff);
+    color: var(--s1-compare-button-color, #171717);
+
+    font-size: 19px;
+    font-weight: 500;
+
+    box-sizing: border-box;
+}
+
+.s1-compare-button svg {
+    width: 20px;
+    height: 20px;
+}
