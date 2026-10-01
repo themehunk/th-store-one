@@ -1,0 +1,1704 @@
+/* Compare Preview */
+.s1-compare-preview {
+    width: 100%;
+    padding: 25px 15px;
+    box-sizing: border-box;
+}
+
+/* =========================================================
+   COMPARE BAR
+========================================================= */
+
+.s1-compare-bar-preview {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+
+    margin: 0 auto;
+    padding: 15px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    box-sizing: border-box;
+
+    background: var(--s1-compare-bar-bg, #242529);
+    color: var(--s1-compare-content, #fff);
+
+    border: 1px solid #3a3b40;
+    border-radius: 18px;
+
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.14),
+        inset 0 1px 0 rgba(255, 255, 255, 0.025);
+}
+
+
+/* =========================================================
+   LEFT SECTION
+========================================================= */
+
+.s1-compare-bar-left {
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 18px;
+}
+
+
+/* =========================================================
+   SELECTED PRODUCTS TEXT
+========================================================= */
+
+.s1-compare-selected-text {
+    width: 108px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 3px;
+
+    flex: 0 0 auto;
+
+    font-size: 16px;
+    line-height: 1.15;
+}
+
+.s1-compare-selected-text span:first-child {
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.s1-compare-selected-text span:last-child {
+    color: #9699a2;
+    font-size: 11px;
+    font-weight: 400;
+}
+
+
+/* =========================================================
+   PRODUCTS
+========================================================= */
+
+.s1-compare-products {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+}
+
+
+/* =========================================================
+   PRODUCT IMAGE
+========================================================= */
+
+.s1-compare-product-image {
+    width: 44px;
+    height: 44px;
+
+    flex: 0 0 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            #d0d1d4,
+            #bdbfc3
+        );
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 7px;
+
+    color: #f5f5f5;
+    font-size: 21px;
+
+    box-shadow:
+        0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================================
+   ADD PRODUCT
+========================================================= */
+
+.s1-compare-add-product {
+    width: 44px;
+    height: 44px;
+
+    flex: 0 0 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    background: #6f7074;
+
+    border: 1.5px dashed #a5a7ad;
+    border-radius: 7px;
+
+    color: #d7d9df;
+    font-size: 26px;
+    font-weight: 300;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.s1-compare-add-product:hover {
+    background: #797a7f;
+    border-color: #c0c2c8;
+}
+
+
+/* =========================================================
+   COUNT
+========================================================= */
+
+.s1-compare-count {
+    margin-left: 2px;
+
+    color: #999ca5;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   RIGHT SECTION
+========================================================= */
+
+.s1-compare-bar-right {
+    flex: 0 0 auto;
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+}
+
+
+/* =========================================================
+   REMOVE / TRASH
+========================================================= */
+
+.s1-compare-remove {
+    width: 34px;
+    height: 38px;
+
+    flex: 0 0 34px;
+
+    margin: 0;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 7px;
+
+    background: transparent;
+
+    color: #8e919a;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.s1-compare-remove:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+}
+
+.s1-compare-remove svg {
+    width: 19px;
+    height: 19px;
+
+    display: block;
+}
+
+
+/* =========================================================
+   COMPARE BUTTON
+========================================================= */
+
+.s1-compare-button {
+    min-width: 150px;
+    height: 44px;
+
+    padding: 0 19px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    box-sizing: border-box;
+
+    border: 0;
+    border-radius: 12px;
+
+    background: var(
+        --s1-compare-button-bg,
+        #ffffff
+    );
+
+    color: var(
+        --s1-compare-button-color,
+        #171717
+    );
+
+    font-size: 14px;
+    font-weight: 600;
+
+    line-height: 1;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.12);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.s1-compare-button:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 6px 14px rgba(0, 0, 0, 0.17);
+}
+
+.s1-compare-button:active {
+    transform: translateY(0);
+}
+
+.s1-compare-button svg {
+    width: 18px;
+    height: 18px;
+
+    flex: 0 0 18px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .s1-compare-bar-preview {
+        min-height: 78px;
+
+        padding: 10px 12px;
+
+        gap: 10px;
+
+        border-radius: 14px;
+    }
+
+    .s1-compare-bar-left {
+        gap: 10px;
+    }
+
+    .s1-compare-selected-text {
+        width: 75px;
+        gap: 2px;
+    }
+
+    .s1-compare-selected-text span:first-child {
+        font-size: 11px;
+    }
+
+    .s1-compare-selected-text span:last-child {
+        font-size: 7px;
+    }
+
+    .s1-compare-products {
+        gap: 5px;
+    }
+
+    .s1-compare-product-image {
+        width: 39px;
+        height: 39px;
+        flex-basis: 39px;
+
+        border-radius: 5px;
+        font-size: 15px;
+    }
+
+    .s1-compare-add-product {
+        width: 36px;
+        height: 36px;
+        flex-basis: 36px;
+
+        border-radius: 5px;
+
+        font-size: 20px;
+    }
+
+    .s1-compare-count {
+        font-size: 9px;
+    }
+
+    .s1-compare-bar-right {
+        gap: 6px;
+    }
+
+    .s1-compare-remove {
+        width: 27px;
+        height: 32px;
+        flex-basis: 27px;
+    }
+
+    .s1-compare-remove svg {
+        width: 16px;
+        height: 16px;
+    }
+
+    .s1-compare-button {
+        min-width: 95px;
+        height: 36px;
+
+        padding: 0 10px;
+
+        gap: 5px;
+
+        border-radius: 9px;
+
+        font-size: 9px;
+    }
+
+    .s1-compare-button svg {
+        width: 14px;
+        height: 14px;
+        flex-basis: 14px;
+    }
+}
+
+/* compare table */
+
+/* =========================================================
+   COMPARE TABLE PREVIEW
+========================================================= */
+
+.s1-compare-table-preview {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 14px;
+  overflow: hidden;
+
+  border: 1px solid #e5e9f1;
+  border-radius: 14px;
+  background: #ffffff;
+
+  box-shadow:
+    0 8px 25px rgba(30, 40, 70, 0.05),
+    0 2px 6px rgba(30, 40, 70, 0.025);
+}
+
+
+/* =========================================================
+   COMPARE HEADER
+========================================================= */
+
+.s1-compare-table-header {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 4px 4px 12px;
+
+  border-bottom: 1px solid #edf0f5;
+}
+
+.s1-compare-table-header-content {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 18px;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.s1-compare-table-title {
+  min-width: 0;
+
+  display: flex;
+  align-items: baseline;
+
+  gap: 9px;
+}
+
+.s1-compare-table-title h3 {
+  margin: 0;
+
+  color: #182238;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  line-height: 1.2;
+
+  white-space: nowrap;
+}
+
+.s1-compare-table-title p {
+  max-width: 270px;
+  min-width: 0;
+
+  margin: 0;
+
+  color: #8791a4;
+
+  font-size: 8px;
+  font-weight: 400;
+
+  line-height: 1.4;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   RIGHT SIDE CONTROLS
+========================================================= */
+
+.s1-compare-table-controls {
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+}
+
+
+/* =========================================================
+   TOTAL / CATEGORY
+========================================================= */
+
+.s1-compare-table-meta {
+  min-height: 27px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  padding: 0 8px;
+
+  border: 1px solid #e7eaf1;
+  border-radius: 6px;
+
+  background: #fafbfc;
+
+  white-space: nowrap;
+}
+
+.s1-compare-meta-label {
+  color: #8993a6;
+
+  font-size: 7px;
+  font-weight: 500;
+}
+
+.s1-compare-table-meta strong {
+  color: #29334a;
+
+  font-size: 8px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   FILTER BUTTONS
+========================================================= */
+
+.s1-compare-filter-btn {
+  min-height: 27px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 4px;
+
+  padding: 0 8px;
+
+  border: 1px solid #e5e8ef;
+  border-radius: 6px;
+
+  background: #ffffff;
+
+  color: #536078;
+
+  font-size: 7px;
+  font-weight: 500;
+
+  line-height: 1;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.s1-compare-filter-btn:hover {
+  border-color: #d8dcef;
+
+  background: #f7f7ff;
+
+  color: #4f46d8;
+}
+
+.s1-compare-filter-icon {
+  width: 13px;
+  height: 13px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 4px;
+
+  background: #f1f2f6;
+
+  color: #68738a;
+
+  font-size: 9px;
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   TOGGLE
+========================================================= */
+
+.s1-compare-table-toggle-wrap {
+  min-height: 27px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  padding-left: 4px;
+
+  color: #536078;
+
+  font-size: 7px;
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+.s1-compare-table-toggle {
+  position: relative;
+
+  width: 28px;
+  height: 16px;
+
+  flex: 0 0 28px;
+
+  display: block;
+
+  border-radius: 20px;
+
+  background: linear-gradient(
+    135deg,
+    #5144e8,
+    #6b58f4
+  );
+
+  box-shadow:
+    0 3px 7px rgba(81, 68, 232, 0.18);
+}
+
+.s1-compare-table-toggle span {
+  position: absolute;
+
+  top: 3px;
+  right: 3px;
+
+  width: 10px;
+  height: 10px;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.s1-compare-filter-btn {
+  min-height: 27px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  padding: 0 8px;
+
+  border: 1px solid #e5e8ef;
+  border-radius: 6px;
+
+  background: #ffffff;
+
+  color: #536078;
+
+  font-size: 7px;
+  font-weight: 500;
+  line-height: 1;
+
+  white-space: nowrap;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.s1-compare-filter-btn:hover {
+  border-color: #d9d5ff;
+  background: #faf9ff;
+  color: #5144e8;
+}
+
+
+/* Toggle */
+
+.s1-compare-filter-toggle {
+  position: relative;
+
+  width: 25px;
+  height: 14px;
+
+  flex: 0 0 25px;
+
+  display: block;
+
+  border-radius: 20px;
+
+  background: linear-gradient(
+    135deg,
+    #5144e8,
+    #6b58f4
+  );
+
+  box-shadow:
+    0 2px 5px rgba(81, 68, 232, 0.18);
+}
+
+.s1-compare-filter-toggle span {
+  position: absolute;
+
+  top: 2px;
+  right: 2px;
+
+  width: 10px;
+  height: 10px;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+
+/* Title + Description */
+
+.s1-compare-table-title {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+}
+
+.s1-compare-table-header-content h3 {
+  margin: 0;
+
+  color: #182238;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.2;
+
+  white-space: nowrap;
+}
+
+.s1-compare-table-header-content p {
+  max-width: 390px;
+  min-width: 0;
+
+  margin: 0;
+
+  color: #7b879d;
+  font-size: 9px;
+  font-weight: 400;
+  line-height: 1.4;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   TOGGLE
+========================================================= */
+
+.s1-compare-table-toggle-wrap {
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  color: #39445c;
+  font-size: 9px;
+  font-weight: 500;
+
+  white-space: nowrap;
+}
+
+.s1-compare-table-toggle {
+  position: relative;
+
+  width: 32px;
+  height: 18px;
+
+  flex: 0 0 32px;
+
+  display: block;
+
+  border-radius: 30px;
+
+  background: linear-gradient(
+    135deg,
+    #5548e8 0%,
+    #6c58f5 100%
+  );
+
+  box-shadow:
+    0 3px 8px rgba(88, 70, 235, 0.18);
+}
+
+.s1-compare-table-toggle span {
+  position: absolute;
+
+  top: 3px;
+  right: 3px;
+
+  width: 12px;
+  height: 12px;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 1px 4px rgba(0, 0, 0, 0.16);
+}
+
+
+/* =========================================================
+   PRODUCTS WRAPPER
+========================================================= */
+
+/*
+ * Your JSX currently contains:
+ *
+ * .s1-compare-products-preview
+ *     .s1-compare-products-preview
+ *
+ * This makes the inner wrapper transparent to the layout.
+ */
+
+.s1-compare-products-preview {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.s1-compare-table-preview > .s1-compare-products-preview {
+  padding-top: 13px;
+
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+
+/* Nested wrapper */
+
+.s1-compare-products-preview
+.s1-compare-products-preview {
+  display: contents;
+}
+
+
+/* =========================================================
+   PRODUCT CARD
+========================================================= */
+
+.s1-compare-preview-card {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+
+  padding: 10px;
+
+  overflow: hidden;
+
+  border: 1px solid #e3e7ef;
+  border-radius: 11px;
+
+  background: #ffffff;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.s1-compare-preview-card:hover {
+  border-color: #d8dcef;
+
+  box-shadow:
+    0 8px 22px rgba(38, 48, 80, 0.07);
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   CARD TOP
+========================================================= */
+
+.s1-compare-card-top {
+  width: 100%;
+  height: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 8px;
+}
+
+
+/* =========================================================
+   BADGES
+========================================================= */
+
+.s1-compare-badge {
+  max-width: 90px;
+
+  display: inline-flex;
+  align-items: center;
+
+  padding: 4px 7px;
+
+  border-radius: 5px;
+
+  color: #ffffff;
+
+  font-size: 7px;
+  font-weight: 600;
+  line-height: 1;
+
+  white-space: nowrap;
+}
+
+.s1-compare-badge.pink {
+  background: #ff4770;
+}
+
+.s1-compare-badge.blue {
+  background: #5c55e8;
+}
+
+.s1-compare-badge.green {
+  background: #39b968;
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+========================================================= */
+
+.s1-compare-close {
+  width: 21px;
+  height: 21px;
+
+  flex: 0 0 21px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #f4f6f9;
+
+  color: #68738a;
+
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.s1-compare-close:hover {
+  background: #eceff5;
+  color: #20283a;
+}
+
+
+/* =========================================================
+   PRODUCT IMAGE
+========================================================= */
+
+.s1-compare-table-preview .s1-compare-product-image {
+  position: relative;
+
+  width: 100%;
+  height: 88px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 10px;
+
+  overflow: hidden;
+
+  border-radius: 8px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f6f7fa 0%,
+      #edf0f5 100%
+    );
+}
+
+
+
+.s1-compare-product-image-shape {
+  position: relative;
+  z-index: 1;
+
+  width: 66%;
+  height: 48%;
+
+  border-radius:
+    48% 52% 45% 35%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #d6dbe5,
+      #c4cad7
+    );
+
+  transform: rotate(-7deg);
+
+  opacity: 0.85;
+
+  box-shadow:
+    15px 7px 0 rgba(190, 197, 210, 0.45);
+}
+
+
+/* =========================================================
+   PRODUCT TITLE SKELETON
+========================================================= */
+
+.s1-compare-title-skeleton {
+  width: 76%;
+  height: 8px;
+
+  margin-bottom: 5px;
+
+  border-radius: 5px;
+
+  background: linear-gradient(
+    90deg,
+    #dce1ea,
+    #e8ebf1,
+    #dce1ea
+  );
+}
+
+.s1-compare-title-skeleton.small {
+  width: 47%;
+}
+
+
+/* =========================================================
+   RATING
+========================================================= */
+
+.s1-compare-rating {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  margin-top: 9px;
+
+  white-space: nowrap;
+}
+
+.s1-compare-rating .s1-stars {
+  color: #ffad0a;
+
+  font-size: 10px;
+  line-height: 1;
+
+  letter-spacing: -1px;
+}
+
+.s1-compare-rating > span:last-child {
+  color: #8a94a7;
+
+  font-size: 8px;
+  font-weight: 400;
+
+  line-height: 1;
+}
+
+
+/* =========================================================
+   PRICE
+========================================================= */
+
+.s1-compare-price {
+  width: 100%;
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  margin-top: 9px;
+
+  white-space: nowrap;
+}
+
+.s1-compare-price strong {
+  color: #171d2c;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  line-height: 1;
+}
+
+.s1-compare-price del {
+  color: #98a0b1;
+
+  font-size: 8px;
+
+  line-height: 1;
+}
+
+.s1-compare-price span {
+  margin-left: auto;
+
+  padding: 4px 6px;
+
+  border-radius: 5px;
+
+  background: #fff0f3;
+
+  color: #ed4168;
+
+  font-size: 6px;
+  font-weight: 700;
+
+  line-height: 1;
+}
+
+
+/* =========================================================
+   ADD TO CART
+========================================================= */
+
+.s1-compare-cart-btn {
+  width: 100%;
+  height: 29px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 10px;
+  padding: 0;
+
+  border: 0;
+  border-radius: 6px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #5144e8,
+      #6656f3
+    );
+
+  color: #ffffff;
+
+  font-size: 8px;
+  font-weight: 600;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 10px rgba(82, 69, 232, 0.15);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.s1-compare-cart-btn:hover {
+  box-shadow:
+    0 6px 14px rgba(82, 69, 232, 0.22);
+
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   PRODUCT DETAILS
+========================================================= */
+
+.s1-compare-card-details {
+  width: 100%;
+
+  margin-top: 12px;
+
+  border-top: 1px solid #edf0f4;
+}
+
+
+/* Individual detail */
+
+.s1-compare-detail-row {
+  min-height: 29px;
+
+  box-sizing: border-box;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 6px 4px;
+
+  border-bottom: 1px solid #edf0f4;
+
+  color: #4b566d;
+
+  font-size: 7px;
+  font-weight: 400;
+
+  line-height: 1.35;
+
+  text-align: center;
+}
+
+.s1-compare-detail-row span {
+  display: block;
+
+  max-width: 100%;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+/* Last normal row */
+
+.s1-compare-detail-row:last-child {
+  border-bottom: 0;
+}
+
+
+/* =========================================================
+   COLORS
+========================================================= */
+
+.s1-compare-detail-row.s1-compare-colors {
+  min-height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+}
+
+.s1-compare-colors span {
+  width: 12px;
+  height: 12px;
+
+  flex: 0 0 12px;
+
+  display: block;
+
+  border: 1px solid #dce1e9;
+
+  border-radius: 50%;
+
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.s1-compare-colors span:nth-child(1) {
+  background: #171717;
+}
+
+.s1-compare-colors span:nth-child(2) {
+  background: #ffffff;
+}
+
+.s1-compare-colors span:nth-child(3) {
+  background: #e84b58;
+}
+
+.s1-compare-colors span:nth-child(4) {
+  background: #4267d5;
+}
+
+
+/* =========================================================
+   FEATURES
+========================================================= */
+
+.s1-compare-detail-features {
+  padding: 7px 4px;
+
+  border-bottom: 1px solid #edf0f4;
+}
+
+.s1-compare-detail-features div {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  margin: 4px 0;
+
+  color: #536078;
+
+  font-size: 6.5px;
+  font-weight: 400;
+
+  line-height: 1.35;
+  justify-content: center;
+}
+
+.s1-compare-detail-features div:first-child {
+  margin-top: 0;
+}
+
+.s1-compare-detail-features div:last-child {
+  margin-bottom: 0;
+}
+
+.s1-compare-detail-features div::first-letter {
+  color: #45b96b;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .s1-compare-table-preview {
+    padding: 9px;
+    border-radius: 11px;
+  }
+
+  /* Header */
+
+  .s1-compare-table-header {
+    padding: 2px 2px 10px;
+  }
+
+  .s1-compare-table-header-content {
+    gap: 8px;
+  }
+
+  .s1-compare-table-title {
+    gap: 6px;
+  }
+
+  .s1-compare-table-header-content h3 {
+    font-size: 13px;
+  }
+
+  .s1-compare-table-header-content p {
+    max-width: 150px;
+    font-size: 6.5px;
+  }
+
+  /* Toggle */
+
+  .s1-compare-table-toggle-wrap {
+    gap: 4px;
+    font-size: 6.5px;
+  }
+
+  .s1-compare-table-toggle {
+    width: 27px;
+    height: 15px;
+    flex-basis: 27px;
+  }
+
+  .s1-compare-table-toggle span {
+    width: 9px;
+    height: 9px;
+
+    top: 3px;
+    right: 3px;
+  }
+
+  /* Products */
+
+  .s1-compare-table-preview > .s1-compare-products-preview {
+    padding-top: 9px;
+    gap: 7px;
+  }
+
+  /* Cards */
+
+  .s1-compare-preview-card {
+    padding: 7px;
+    border-radius: 8px;
+  }
+
+  .s1-compare-card-top {
+    height: 18px;
+    margin-bottom: 5px;
+  }
+
+  .s1-compare-badge {
+    max-width: 60px;
+
+    padding: 3px 5px;
+
+    font-size: 5.5px;
+  }
+
+  .s1-compare-close {
+    width: 17px;
+    height: 17px;
+
+    flex-basis: 17px;
+
+    font-size: 12px;
+  }
+
+  /* Image */
+
+  .s1-compare-product-image {
+    height: 62px;
+    margin-bottom: 7px;
+  }
+
+  /* Title */
+
+  .s1-compare-title-skeleton {
+    height: 6px;
+    margin-bottom: 4px;
+  }
+
+  /* Rating */
+
+  .s1-compare-rating {
+    margin-top: 6px;
+    gap: 3px;
+  }
+
+  .s1-compare-rating .s1-stars {
+    font-size: 7px;
+  }
+
+  .s1-compare-rating > span:last-child {
+    font-size: 5.5px;
+  }
+
+  /* Price */
+
+  .s1-compare-price {
+    margin-top: 6px;
+    gap: 4px;
+  }
+
+  .s1-compare-price strong {
+    font-size: 9px;
+  }
+
+  .s1-compare-price del {
+    display: none;
+  }
+
+  .s1-compare-price span {
+    padding: 3px 4px;
+    font-size: 4.5px;
+  }
+
+  /* Cart */
+
+  .s1-compare-cart-btn {
+    height: 24px;
+    margin-top: 7px;
+
+    border-radius: 5px;
+
+    font-size: 6px;
+  }
+
+  /* Details */
+
+  .s1-compare-card-details {
+    margin-top: 9px;
+  }
+
+  .s1-compare-detail-row {
+    min-height: 24px;
+
+    padding: 4px 2px;
+
+    font-size: 5.5px;
+  }
+
+  .s1-compare-detail-row.s1-compare-colors {
+    min-height: 28px;
+    gap: 3px;
+  }
+
+  .s1-compare-colors span {
+    width: 9px;
+    height: 9px;
+    flex-basis: 9px;
+  }
+
+  .s1-compare-detail-features {
+    padding: 5px 2px;
+  }
+
+  .s1-compare-detail-features div {
+    gap: 3px;
+
+    margin: 3px 0;
+
+    font-size: 5px;
+  }
+}
+
+/* =========================================================
+   FLOATING COMPARE BUTTON
+========================================================= */
+
+.s1-floating-compare {
+    position: absolute;
+
+    right: 20px;
+    bottom: 100px;
+    z-index: 99999;
+}
+
+
+.s1-floating-compare-btn {
+    position: relative;
+
+    width: 66px;
+    height: 66px;
+
+    padding: 0;
+    margin: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+    border-radius: 50%;
+
+    background: #111827;
+
+    color: #ffffff;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 20px rgba(15, 23, 42, 0.22),
+        0 2px 6px rgba(15, 23, 42, 0.12);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
+}
+
+
+/* Icon */
+
+.s1-floating-compare-btn svg {
+    width: 28px;
+    height: 28px;
+
+    display: block;
+
+    stroke: currentColor;
+    stroke-width: 2;
+
+    transition: transform 0.2s ease;
+}
+
+
+/* Hover */
+
+.s1-floating-compare-btn:hover {
+    background: #172033;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 26px rgba(15, 23, 42, 0.28),
+        0 3px 8px rgba(15, 23, 42, 0.14);
+}
+
+.s1-floating-compare-btn:hover svg {
+    transform: scale(1.05);
+}
+
+
+/* =========================================================
+   COUNT BADGE
+========================================================= */
+
+.s1-floating-compare-count {
+    position: absolute;
+
+    top: -4px;
+    right: -3px;
+
+    min-width: 25px;
+    height: 25px;
+
+    padding: 0 5px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+
+    border: 1px solid #ffffff;
+    border-radius: 50%;
+
+    background: #f0444f;
+
+    color: #ffffff;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    line-height: 1;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .s1-floating-compare {
+        right: 14px;
+        bottom: 14px;
+    }
+
+    .s1-floating-compare-btn {
+        width: 58px;
+        height: 58px;
+    }
+
+    .s1-floating-compare-btn svg {
+        width: 25px;
+        height: 25px;
+    }
+
+    .s1-floating-compare-count {
+        top: -3px;
+        right: -3px;
+
+        min-width: 21px;
+        height: 21px;
+
+        border-width: 2px;
+
+        font-size: 9px;
+    }
+}

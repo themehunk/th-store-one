@@ -10,9 +10,8 @@ const ModuleGridSkeleton = () => {
         </div>
 
         <div className="s1-module-grid-skeleton__right">
-          <div className="s1-skeleton s1-skeleton--search"></div>
-
           <div className="s1-module-grid-skeleton__counts">
+            <div className="s1-skeleton s1-skeleton--search"></div>
             <div className="s1-skeleton s1-skeleton--count"></div>
             <div className="s1-skeleton s1-skeleton--count"></div>
             <div className="s1-skeleton s1-skeleton--count"></div>

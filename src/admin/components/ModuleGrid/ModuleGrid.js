@@ -1,17 +1,14 @@
 import { useState } from "@wordpress/element";
 import ModuleCard from "../ModuleCard/ModuleCard";
 import { __ } from "@wordpress/i18n";
+
 const ModuleGrid = ({
   modulesList,
   modulesState,
-  tabs,
   setActiveModule,
   licenseActive,
 }) => {
-  const [activeTab, setActiveTab] = useState(tabs[0].name);
-
-  const currentTab = tabs.find((tab) => tab.name === activeTab);
-
+  const [activeFilter, setActiveFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
 
   const totalBlocks = modulesList.length;
@@ -21,19 +18,32 @@ const ModuleGrid = ({
   const inactiveBlocks = totalBlocks - activeBlocks;
 
   const filteredModules = modulesList
-    .filter((m) => currentTab.modules.includes(m.id))
-    .filter((m) => m.label.toLowerCase().includes(searchTerm.toLowerCase()));
+    .filter((mod) => {
+      if (activeFilter === "active") {
+        return !!modulesState[mod.id];
+      }
+
+      if (activeFilter === "inactive") {
+        return !modulesState[mod.id];
+      }
+
+      return true;
+    })
+    .filter((mod) =>
+      mod.label.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
 
   return (
     <div className="s1-modules">
       <div className="s1-content-area">
-        {/* Header + Tab List Wrapper */}
+        {/* Header + Search + Filters */}
         <div className="s1-top-section">
           <div className="s1-modules__header">
             <h2>
               {__("Grow Faster with", "th-store-one")}{" "}
               <span>{__("Store One", "th-store-one")}</span>
             </h2>
+
             <p>
               {__(
                 "Activate premium quality WooCommerce Addons to create a faster, smarter, and more engaging shopping experience",
@@ -44,6 +54,7 @@ const ModuleGrid = ({
 
           <div className="s1-tabs">
             <div className="s1-addon-filter-wrap">
+              {/* Search */}
               <div className="s1-addon-search">
                 <input
                   type="search"
@@ -81,37 +92,44 @@ const ModuleGrid = ({
                   </svg>
                 </span>
               </div>
+
+              {/* Total / Active / Inactive Filters */}
               <div className="s1-modules__stats">
-                <span className="s1-modules__stat s1-modules__stat--total">
-                  {__("Total Blocks", "th-store-one")} {totalBlocks}
-                </span>
-
-                <span className="s1-modules__stat s1-modules__stat--active">
-                  {__("Active", "th-store-one")} {activeBlocks}
-                </span>
-
-                <span className="s1-modules__stat s1-modules__stat--inactive">
-                  {__("Inactive", "th-store-one")} {inactiveBlocks}
-                </span>
-              </div>
-            </div>
-            <div className="s1-tabs-list components-tab-panel__tabs">
-              {tabs.map((tab) => (
                 <button
-                  key={tab.name}
-                  className={`s1-tab-btn components-tab-panel__tabs-item ${
-                    activeTab === tab.name ? "is-active" : ""
+                  type="button"
+                  className={`s1-modules__stat s1-modules__stat--total ${
+                    activeFilter === "all" ? "is-active" : ""
                   }`}
-                  onClick={() => setActiveTab(tab.name)}
+                  onClick={() => setActiveFilter("all")}
                 >
-                  {tab.title}
+                  {__("Total Blocks", "th-store-one")} {totalBlocks}
                 </button>
-              ))}
+
+                <button
+                  type="button"
+                  className={`s1-modules__stat s1-modules__stat--active ${
+                    activeFilter === "active" ? "is-active" : ""
+                  }`}
+                  onClick={() => setActiveFilter("active")}
+                >
+                  {__("Active", "th-store-one")} {activeBlocks}
+                </button>
+
+                <button
+                  type="button"
+                  className={`s1-modules__stat s1-modules__stat--inactive ${
+                    activeFilter === "inactive" ? "is-active" : ""
+                  }`}
+                  onClick={() => setActiveFilter("inactive")}
+                >
+                  {__("Inactive", "th-store-one")} {inactiveBlocks}
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Tab Content */}
+        {/* Module Grid */}
         <div className="s1-modules__grid">
           {filteredModules.length > 0 ? (
             filteredModules.map((mod) => (
