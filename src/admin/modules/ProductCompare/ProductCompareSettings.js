@@ -543,33 +543,6 @@ export default function ProductCompareSettings({
                               }
                             />
                           </S1Field>
-
-                          {settings["compare-appear-type"] === "popup" && (
-                            <S1Field
-                              label={__("Pricing Table Effect", "th-store-one")}
-                              description={__(
-                                "Select how you want to display the pricing table.",
-                                "th-store-one",
-                              )}
-                            >
-                              <SelectControl
-                                value={settings["popup-appear-type"]}
-                                options={[
-                                  {
-                                    label: __("Slide Bar", "th-store-one"),
-                                    value: "bar",
-                                  },
-                                  {
-                                    label: __("Popup", "th-store-one"),
-                                    value: "without-bar",
-                                  },
-                                ]}
-                                onChange={(value) =>
-                                  update("popup-appear-type", value)
-                                }
-                              />
-                            </S1Field>
-                          )}
                         </div>
                         <S1Field
                           label={__(
@@ -1994,6 +1967,78 @@ return array(
                             />
                           </S1Field>
                         </div>
+                        <S1Field
+                          label={__("Place Compare Icon", "th-store-one")}
+                        >
+                          <p className="s1-shortcode-description">
+                            {__(
+                              "Use this shortcode to place the compare icon anywhere on your site, including pages, widgets, Gutenberg blocks, or Elementor text areas.",
+                              "th-store-one",
+                            )}
+                          </p>
+
+                          <div className="s1-shortcode-wrapper">
+                            <textarea
+                              readOnly
+                              value="[store_one_compare_icon]"
+                              className="s1-shortcode-textarea"
+                            />
+
+                            <button
+                              type="button"
+                              className="s1-shortcode-copy"
+                              onClick={() => {
+                                navigator.clipboard.writeText(
+                                  "[store_one_compare_icon]",
+                                );
+                              }}
+                              title={__("Copy Shortcode", "th-store-one")}
+                            >
+                              <CopyIcon />
+                            </button>
+                          </div>
+                        </S1Field>
+                        <S1Field
+                          label={__(
+                            "Place Icon in Theme PHP Files",
+                            "th-store-one",
+                          )}
+                        >
+                          <p className="s1-shortcode-description">
+                            {__(
+                              "Add the compare icon directly inside any theme template file, such as header.php or a child theme.",
+                              "th-store-one",
+                            )}
+                          </p>
+
+                          <div className="s1-shortcode-wrapper">
+                            <textarea
+                              readOnly
+                              value="<?php store_one_compare_menu_icon(); ?>"
+                              className="s1-shortcode-textarea"
+                            />
+
+                            <button
+                              type="button"
+                              className="s1-shortcode-copy"
+                              onClick={() => {
+                                navigator.clipboard.writeText(
+                                  "<?php store_one_compare_menu_icon(); ?>",
+                                );
+                              }}
+                              title={__("Copy PHP Code", "th-store-one")}
+                            >
+                              <CopyIcon />
+                            </button>
+                          </div>
+
+                          <span className="s1-shortcode-note">
+                            {__(
+                              "* To capture as a string: $icon = store_one_menu_icon( false );",
+                              "th-store-one",
+                            )}
+                          </span>
+                        </S1Field>
                       </S1FieldGroup>
                     </>
                   ),
