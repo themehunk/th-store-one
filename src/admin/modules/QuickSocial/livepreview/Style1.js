@@ -109,7 +109,6 @@ const Style1 = ({ settings = {} }) => {
 
   const renderIcon = (item, index) => {
     const data = getActiveData(item);
-    const type = data?.icontype || "icon";
     const iconKey = data?.selected_icon?.toUpperCase();
     if (!iconKey) return null;
 
@@ -136,16 +135,16 @@ const Style1 = ({ settings = {} }) => {
         data-tooltip={tooltip}
       >
         <div className="s1-quick-social__icon" style={iconStyle}>
-          {type === "custom_svg" && data?.custom_svg && (
+          {/* Same order as the frontend: custom SVG, uploaded image, platform icon. */}
+          {data?.custom_svg ? (
             <span dangerouslySetInnerHTML={{ __html: data.custom_svg }} />
-          )}
-          {type === "image" && data?.image_url && (
+          ) : data?.image_url ? (
             <img src={data.image_url} alt={tooltip} />
+          ) : rule?.original_enabled ? (
+            ORIGINAL_ICONS[iconKey] || ICONS[iconKey]
+          ) : (
+            ICONS[iconKey]
           )}
-          {type === "icon" &&
-  (rule?.original_enabled
-    ? ORIGINAL_ICONS[iconKey] || ICONS[iconKey]
-    : ICONS[iconKey])}
         </div>
       </div>
     );
