@@ -137,9 +137,10 @@ const StoreOneShopableList = {
             }
           : false,
         breakpoints: {
-          0: { slidesPerView: 1.2 },
-          640: { slidesPerView: Math.min(slides, 2) },
-          1024: { slidesPerView: slides },
+          // Mobile max 2, tablet max 3 - same as the grid columns.
+          0: { slidesPerView: Math.min(slides, 2) },
+          769: { slidesPerView: Math.min(slides, 3) },
+          1025: { slidesPerView: slides },
         },
         on: {
           init(swiper) {

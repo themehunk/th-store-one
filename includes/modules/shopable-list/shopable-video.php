@@ -324,7 +324,8 @@ endforeach;
     --s1-card-border-radius:<?php echo esc_attr($rule['prd_cart_border_radius'] ?? '10px'); ?>;
     --s1-progress-color: <?php echo esc_attr($rule['bar_color'] ?? '#22c55e'); ?>;
     --desktop-columns: <?php echo esc_attr($columns); ?>;
-        --mobile-columns:1;
+        --mobile-columns:<?php echo esc_attr(min($columns, 2)); ?>;
+        --tablet-columns:<?php echo esc_attr(min($columns, 3)); ?>;
         display:grid;
         grid-template-columns:
         repeat(var(--desktop-columns),minmax(0,1fr));

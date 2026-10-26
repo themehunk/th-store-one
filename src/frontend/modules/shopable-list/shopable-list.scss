@@ -2203,3 +2203,79 @@ font-size: 11px;
 .th-shopable-card:hover .th-video-mute-toggle{
     opacity:1;
 }
+
+/* ==========================================================================
+   MOBILE GRID (2 COLUMNS) - compact product bar so title & price fit
+   ========================================================================== */
+
+@media (max-width: 768px) {
+
+    .th-shopable-grid .th-shopable-product-bar,
+    .th-shopable-slider .th-shopable-product-bar{
+        left:8px;
+        right:8px;
+        gap:6px;
+    }
+
+    .th-shopable-grid .th-shopable-product-bar .swiper-slide,
+    .th-shopable-slider .th-shopable-product-bar .swiper-slide{
+        padding:8px;
+        gap:6px;
+    }
+
+    .th-shopable-grid .th-shopable-product-left,
+    .th-shopable-slider .th-shopable-product-left{
+        gap:6px;
+    }
+
+    .th-shopable-grid .th-shopable-product-left img,
+    .th-shopable-slider .th-shopable-product-left img{
+        width:28px;
+        height:28px;
+        min-width:28px;
+        border-radius:6px;
+    }
+
+    .th-shopable-grid .th-shopable-product-content .title,
+    .th-shopable-slider .th-shopable-product-content .title{
+        font-size:12px;
+        line-height:1.3;
+    }
+
+    .th-shopable-grid .th-shopable-product-content .price,
+    .th-shopable-slider .th-shopable-product-content .price{
+        font-size:11px;
+    }
+
+    .th-shopable-grid .th-shopable-btn,
+    .th-shopable-slider .th-shopable-btn{
+        width:30px!important;
+        min-width:30px!important;
+        height:30px!important;
+    }
+
+    .th-shopable-grid .th-shopable-btn svg,
+    .th-shopable-slider .th-shopable-btn svg{
+        width:14px;
+        height:14px;
+    }
+
+    .th-shopable-grid .th-shopable-play,
+    .th-shopable-slider .th-shopable-play{
+        width:48px;
+        height:48px;
+    }
+}
+
+/* ================= TABLET VIEW (3 COLUMNS) ================= */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+
+    .th-shopable-grid{
+        grid-template-columns:
+        repeat(
+            var(--tablet-columns, var(--desktop-columns)),
+            minmax(0,1fr)
+        ) !important;
+    }
+}
