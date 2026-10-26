@@ -602,6 +602,7 @@ export default function VariationSwatchesSettings({
                       </S1FieldGroup>
                       <S1FieldGroup
                         pro={licenseActive ? false : true}
+                        locked={!licenseActive}
                         number={2}
                         title={__("Stock", "th-store-one")}
                       >
@@ -621,7 +622,7 @@ export default function VariationSwatchesSettings({
                             />
                           </S1Field>
 
-                          {settings.show_stock_available && (
+                          {(settings.show_stock_available || !licenseActive) && (
                             <S1Field
                               label={__("Stock Threshold", "th-store-one")}
                               description={__(
@@ -772,6 +773,7 @@ export default function VariationSwatchesSettings({
 
                       <S1FieldGroup
                         pro={licenseActive ? false : true}
+                        locked={!licenseActive}
                         number={3}
                         title={__("Image Tooltip", "th-store-one")}
                       >
@@ -790,7 +792,7 @@ export default function VariationSwatchesSettings({
                           />
                         </S1Field>
 
-                        {settings.show_tootip_image && (
+                        {(settings.show_tootip_image || !licenseActive) && (
                           <>
                             <S1Field
                               label={__(

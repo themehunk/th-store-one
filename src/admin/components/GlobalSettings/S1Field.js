@@ -26,6 +26,7 @@ export const S1FieldGroup = ({
   number = false,
   shortdescription,
   pro,
+  locked = false,
 }) => {
   return (
     <div className="s1-field-group">
@@ -70,7 +71,40 @@ export const S1FieldGroup = ({
         </div>
       </div>
       {description && <p className="s1-field-group-desc">{description}</p>}
-      <div className="s1-field-group-body">{children}</div>
+      {locked ? (
+        /* Pro option without license: visible, but every control disabled. */
+        <div className="s1-field-group-body is-pro-locked" aria-disabled="true">
+          <fieldset disabled className="s1-pro-lock-fieldset">
+            {children}
+          </fieldset>
+          <div className="s1-pro-lock-overlay">
+            <a
+              className="s1-pro-lock-label"
+              href="https://themehunk.com/storeone/?utm_campaign=free_plugin&utm_source=dashboard&utm_medium=upgrade_button"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <rect x="4" y="11" width="16" height="10" rx="2" />
+                <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+              </svg>
+              Unlock with Pro
+            </a>
+          </div>
+        </div>
+      ) : (
+        <div className="s1-field-group-body">{children}</div>
+      )}
     </div>
   );
 };
