@@ -4836,7 +4836,8 @@ display: flex;
   align-self: flex-start;
 }
 
-.s1-field-group-heading .s1-field-group-pro-badge {
+.s1-field-group-heading .s1-field-group-pro-badge,
+.s1-pro-lock .s1-pro-lock-badge {
     display: inline-flex;
     align-items: center;
     gap: 4px;
@@ -5724,8 +5725,13 @@ display: flex;
 }
 
 /* Pro group without license: fields visible but locked */
-.s1-field-group-body.is-pro-locked {
+.s1-pro-lock {
     position: relative;
+}
+
+.s1-pro-lock-badge {
+    display: inline-block;
+    margin-bottom: 8px;
 }
 
 .s1-pro-lock-fieldset {

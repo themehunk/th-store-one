@@ -6,6 +6,7 @@ import { __ } from "@wordpress/i18n";
 
 const PreviewShopable = ({ settings = {} }) => {
   const style = settings?.list_style || "style1";
+  const licenseActive = Boolean(window.th_StoreOneAdmin?.licenseActive);
 
   //Tab click → Design SelectControl change
   const changeStyle = (value) => {
@@ -36,10 +37,19 @@ const PreviewShopable = ({ settings = {} }) => {
         </button>
 
         <button
-          className={`s1-style-tab ${style === "style2" ? "active" : ""}`}
+          className={`s1-style-tab ${style === "style2" ? "active" : ""}${
+            licenseActive ? "" : " is-pro-locked"
+          }`}
+          disabled={!licenseActive}
+          title={
+            licenseActive
+              ? undefined
+              : __("Available in Store One Pro", "th-store-one")
+          }
           onClick={() => changeStyle("style2")}
         >
           <span> {__("Modern", "th-store-one")}</span>
+          {!licenseActive && <span className="s1-style-tab-pro">PRO</span>}
         </button>
 
         {/* <button

@@ -24,7 +24,7 @@ import {
   ChevronDownIcon,
   ChevronUpIcon,
 } from "@radix-ui/react-icons";
-import { S1Field, S1FieldGroup } from "@th-storeone-global/S1Field";
+import { S1Field, S1FieldGroup, S1ProLock } from "@th-storeone-global/S1Field";
 import { ICONS } from "@th-storeone-global/icons";
 import ResetModuleButton from "@th-storeone-global/ResetModuleButton";
 import PlacementPriorityControl from "@th-storeone-global/PlacementPriorityControl";
@@ -324,6 +324,9 @@ export default function ShopableListRules({
       const { style } = e.detail;
       if (!style) return;
 
+      // Style 2 is a Pro feature.
+      if (style !== "style1" && !licenseActive) return;
+
       const index = rules.findIndex((r) => r.open);
       if (index === -1) return;
 
@@ -337,7 +340,7 @@ export default function ShopableListRules({
     window.addEventListener("storeone:changeListStyle", handler);
     return () =>
       window.removeEventListener("storeone:changeListStyle", handler);
-  }, [rules]);
+  }, [rules, licenseActive]);
 
   const openVideoLibrary = (callback) => {
     const media = window.wp.media({
@@ -682,6 +685,8 @@ export default function ShopableListRules({
                             </div>
                           </S1FieldGroup>
                           <S1FieldGroup
+                            pro={!licenseActive}
+                            locked={!licenseActive}
                             number={3}
                             shortdescription="Playback and popup behavior"
                             title={__("Content", "th-store-one")}
@@ -876,6 +881,7 @@ export default function ShopableListRules({
                               "th-store-one",
                             )}
                           >
+                            <S1ProLock locked={!licenseActive} badge>
                             <SliderControl
                               value={rule.slider || {}}
                               onChange={(v) => updateField(index, "slider", v)}
@@ -909,6 +915,7 @@ export default function ShopableListRules({
                                 }
                               />
                             </S1Field>
+                            </S1ProLock>
                             {!rule.slider.enabled && (
                               <>
                                 <UniversalRangeControl
@@ -1014,6 +1021,8 @@ export default function ShopableListRules({
                             </S1FieldGroup>
                           )}
                           <S1FieldGroup
+                            pro={!licenseActive}
+                            locked={!licenseActive}
                             title="Shoppable Card"
                             number={2}
                             shortdescription="Customize the appearance"
@@ -1033,11 +1042,18 @@ export default function ShopableListRules({
                           <UniversalBorderControl
                             title="Video Border"
                             number={3}
+                            pro={!licenseActive}
+                            locked={!licenseActive}
                             value={rule.border}
                             onChange={(v) => updateField(index, "border", v)}
                           />
 
-                          <S1FieldGroup number={4} title="Product Info Color">
+                          <S1FieldGroup
+                            pro={!licenseActive}
+                            locked={!licenseActive}
+                            number={4}
+                            title="Product Info Color"
+                          >
                             <div class="s1-field-group-row">
                               <S1Field>
                                 <THBackgroundControl
@@ -1103,7 +1119,12 @@ export default function ShopableListRules({
                               }
                             />
                           </S1FieldGroup>
-                          <S1FieldGroup number={5} title="Progress Bar Color">
+                          <S1FieldGroup
+                            pro={!licenseActive}
+                            locked={!licenseActive}
+                            number={5}
+                            title="Progress Bar Color"
+                          >
                             <S1Field>
                               <THBackgroundControl
                                 label="Bar Fill"
@@ -1114,7 +1135,12 @@ export default function ShopableListRules({
                               />
                             </S1Field>
                           </S1FieldGroup>
-                          <S1FieldGroup number={6} title="Video Icon Color">
+                          <S1FieldGroup
+                            pro={!licenseActive}
+                            locked={!licenseActive}
+                            number={6}
+                            title="Video Icon Color"
+                          >
                             <div class="s1-field-group-row">
                               <S1Field>
                                 <THBackgroundControl

@@ -71,40 +71,50 @@ export const S1FieldGroup = ({
         </div>
       </div>
       {description && <p className="s1-field-group-desc">{description}</p>}
-      {locked ? (
-        /* Pro option without license: visible, but every control disabled. */
-        <div className="s1-field-group-body is-pro-locked" aria-disabled="true">
-          <fieldset disabled className="s1-pro-lock-fieldset">
-            {children}
-          </fieldset>
-          <div className="s1-pro-lock-overlay">
-            <a
-              className="s1-pro-lock-label"
-              href="https://themehunk.com/storeone/?utm_campaign=free_plugin&utm_source=dashboard&utm_medium=upgrade_button"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <rect x="4" y="11" width="16" height="10" rx="2" />
-                <path d="M8 11V7a4 4 0 0 1 8 0v4" />
-              </svg>
-              Unlock with Pro
-            </a>
-          </div>
-        </div>
-      ) : (
-        <div className="s1-field-group-body">{children}</div>
-      )}
+      <div className="s1-field-group-body">
+        {locked ? <S1ProLock>{children}</S1ProLock> : children}
+      </div>
+    </div>
+  );
+};
+
+/* ---------------------------------
+ * Pro lock: children stay visible but every control is disabled.
+ * Wrap a whole group (S1FieldGroup locked) or only some fields.
+ * --------------------------------- */
+export const S1ProLock = ({ locked = true, badge = false, children }) => {
+  if (!locked) return children;
+
+  return (
+    <div className="s1-pro-lock" aria-disabled="true">
+      {badge && <span className="s1-field-group-pro-badge s1-pro-lock-badge">PRO</span>}
+      <fieldset disabled className="s1-pro-lock-fieldset">
+        {children}
+      </fieldset>
+      <div className="s1-pro-lock-overlay">
+        <a
+          className="s1-pro-lock-label"
+          href="https://themehunk.com/storeone/?utm_campaign=free_plugin&utm_source=dashboard&utm_medium=upgrade_button"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <rect x="4" y="11" width="16" height="10" rx="2" />
+            <path d="M8 11V7a4 4 0 0 1 8 0v4" />
+          </svg>
+          Unlock with Pro
+        </a>
+      </div>
     </div>
   );
 };
