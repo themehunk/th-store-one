@@ -26,6 +26,8 @@ class Th_Store_One_Shopable_List
 
         add_action('wp_ajax_th_shopable_get_product', [$this, 'ajax_get_product']);
         add_action('wp_ajax_nopriv_th_shopable_get_product', [$this, 'ajax_get_product']);
+        add_action('wp_ajax_th_shopable_get_products', [$this, 'ajax_get_products']);
+        add_action('wp_ajax_nopriv_th_shopable_get_products', [$this, 'ajax_get_products']);
 
 
     }
@@ -983,10 +985,47 @@ endforeach;
             wp_send_json_error(['message' => 'Product ID missing']);
         }
 
+        $payload = $this->get_product_payload($product_id);
+
+        if (!$payload) {
+            wp_send_json_error(['message' => 'Product not found']);
+        }
+
+        wp_send_json_success($payload);
+    }
+
+    /**
+     * Returns the popup HTML of several products in one request, so the
+     * frontend can prefetch every product of a shoppable list at once.
+     */
+    public function ajax_get_products()
+    {
+        if (!check_ajax_referer('th_shopable_nonce', 'nonce', false)) {
+            wp_send_json_error(['message' => 'Security check failed']);
+        }
+
+        $ids = array_map('intval', (array) wp_unslash($_POST['product_ids'] ?? []));
+        $ids = array_slice(array_unique(array_filter($ids)), 0, 50);
+
+        $products = [];
+
+        foreach ($ids as $id) {
+            $payload = $this->get_product_payload($id);
+
+            if ($payload) {
+                $products[$id] = $payload;
+            }
+        }
+
+        wp_send_json_success(['products' => (object) $products]);
+    }
+
+    private function get_product_payload($product_id)
+    {
         $product = wc_get_product($product_id);
 
         if (!$product || !$product->is_visible()) {
-            wp_send_json_error(['message' => 'Product not found']);
+            return false;
         }
 
         global $post;
@@ -1108,10 +1147,10 @@ $has_featured = has_post_thumbnail($product_id);
             $html = ob_get_clean();
         wp_reset_postdata();
 
-        wp_send_json_success([
+        return [
             'html'         => $html,
             'product_id'   => $product_id,
             'product_type' => $product->get_type()
-        ]);
+        ];
     }
 }

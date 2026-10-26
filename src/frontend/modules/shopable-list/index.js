@@ -9,11 +9,81 @@ const StoreOneShopableList = {
     let currentProductIndex = 0;
     let videoSwiper;
 
+    /* ===================================================
+       PRODUCT CACHE - one batch request, reused by every popup view
+     =================================================== */
+    const productCache = new Map();
+    let detailRequestId = 0;
+
+    function requestProducts(ids) {
+      const missing = [...new Set(ids.map(Number))].filter(
+        (id) => id && !productCache.has(id),
+      );
+      if (!missing.length) return;
+
+      const batch = jQuery.ajax({
+        url: thShopable.ajaxurl,
+        type: "POST",
+        dataType: "json",
+        data: {
+          action: "th_shopable_get_products",
+          nonce: thShopable.nonce,
+          product_ids: missing,
+        },
+      });
+
+      missing.forEach((id) => {
+        productCache.set(
+          id,
+          batch.then(
+            (res) => {
+              const data = res && res.success && res.data.products[id];
+              if (!data) productCache.delete(id);
+              return data ? { success: true, data } : { success: false };
+            },
+            () => {
+              // Drop failed entries so the next click retries.
+              productCache.delete(id);
+              return { success: false };
+            },
+          ),
+        );
+      });
+    }
+
+    function getProduct(id) {
+      requestProducts([id]);
+      return productCache.get(Number(id));
+    }
+
+    function prefetchAllProducts() {
+      const ids = [];
+      document.querySelectorAll(".th-shopable-card").forEach((cardEl) => {
+        try {
+          JSON.parse(cardEl.dataset.items || "[]").forEach((item) =>
+            ids.push(item.product_id),
+          );
+        } catch (e) {}
+      });
+      requestProducts(ids);
+    }
+
+    // Warm the cache as soon as the visitor shows intent, before the click.
+    document.querySelectorAll(".th-shopable-list-wrap").forEach((wrap) => {
+      ["pointerenter", "touchstart", "focusin"].forEach((type) =>
+        wrap.addEventListener(type, prefetchAllProducts, {
+          once: true,
+          passive: true,
+        }),
+      );
+    });
+
     function openPopup(card) {
       if (!popup) {
         console.warn("Popup element (#th-shopable-popup) not found in DOM.");
         return;
       }
+      prefetchAllProducts();
       buildPopup(card);
       popup.style.display = "flex";
       document.body.style.overflow = "hidden";
@@ -791,6 +861,7 @@ const StoreOneShopableList = {
     }
 
     function loadContentForCurrentVideo() {
+      detailRequestId++;
       jQuery("#th-shopable-popup .th-side-panel").removeClass(
         "drawer-expanded is-multilist-mode single-product-mode view-details-mode global-mini-layout",
       );
@@ -907,6 +978,7 @@ const StoreOneShopableList = {
       const $sidePanel = jQuery("#th-shopable-popup .th-side-panel");
 
       if (!content) return;
+      detailRequestId++;
       content.style.opacity = "0";
       $sidePanel.addClass("drawer-expanded").removeClass("global-mini-layout");
 
@@ -987,16 +1059,12 @@ const StoreOneShopableList = {
       </div>
     `;
 
-      jQuery.ajax({
-        url: thShopable.ajaxurl,
-        type: "POST",
-        dataType: "json",
-        data: {
-          action: "th_shopable_get_product",
-          nonce: thShopable.nonce,
-          product_id: item.product_id,
-        },
-        success: function (response) {
+      const requestId = ++detailRequestId;
+
+      getProduct(item.product_id).then(function (response) {
+          // A newer view replaced this one while the product was loading.
+          if (requestId !== detailRequestId) return;
+
           if (!response.success) {
             content.innerHTML = "<p>Product not found</p>";
             return;
@@ -1236,7 +1304,6 @@ const StoreOneShopableList = {
             });
 
           content.style.opacity = "1";
-        },
       });
     }
 
