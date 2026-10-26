@@ -51,6 +51,16 @@ class TH_Store_One_Variation_Swatches_Backend
             array($this, 'product_attributes_types')
         );
 
+        /*
+         * Product edit: value selector for the custom attribute types.
+         */
+        add_action(
+            'woocommerce_product_option_terms',
+            array($this, 'product_option_terms'),
+            10,
+            3
+        );
+
 
         add_action('init', array($this, 'register_taxonomy_meta'), 10);
         add_action('init', array($this, 'register_taxonomy_term_hooks'), 11);
@@ -123,6 +133,62 @@ class TH_Store_One_Variation_Swatches_Backend
         $types['button'] = __('Button', 'th-store-one');
 
         return $types;
+    }
+
+    /**
+     * Render the "Value(s)" selector for color / image / button attributes.
+     *
+     * WooCommerce only renders it for "select" attributes. On a normal product
+     * edit load our types are hidden (see product_attributes_types()), so
+     * WooCommerce falls back to "select" itself. Rows loaded by AJAX ("Add
+     * global", "Save attributes") have no current screen, keep our type and
+     * would show no values without this.
+     *
+     * @param object|null          $attribute_taxonomy Attribute taxonomy object.
+     * @param int                  $i                  Attribute index.
+     * @param WC_Product_Attribute $attribute          Attribute object.
+     * @return void
+     */
+    public function product_option_terms($attribute_taxonomy, $i, $attribute)
+    {
+        if (
+            ! $attribute_taxonomy ||
+            ! in_array($attribute_taxonomy->attribute_type, array('color', 'image', 'button'), true)
+        ) {
+            return;
+        }
+
+        $orderby = ! empty($attribute_taxonomy->attribute_orderby)
+            ? $attribute_taxonomy->attribute_orderby
+            : 'name';
+
+        /** This filter is documented in WooCommerce html-product-attribute-inner.php */
+        $term_limit = absint(apply_filters('woocommerce_admin_terms_metabox_datalimit', 50));
+        ?>
+        <select multiple="multiple"
+                data-minimum_input_length="0"
+                data-limit="<?php echo esc_attr($term_limit); ?>" data-return_id="id"
+                data-placeholder="<?php esc_attr_e('Select values', 'woocommerce'); ?>"
+                data-orderby="<?php echo esc_attr($orderby); ?>"
+                class="multiselect attribute_values wc-taxonomy-term-search"
+                name="attribute_values[<?php echo esc_attr($i); ?>][]"
+                data-taxonomy="<?php echo esc_attr($attribute->get_taxonomy()); ?>"
+                data-is-visual-attribute="no">
+            <?php
+            foreach ((array) $attribute->get_terms() as $term) {
+                printf(
+                    '<option value="%1$s" selected="selected">%2$s</option>',
+                    esc_attr($term->term_id),
+                    /** This filter is documented in WooCommerce html-product-attribute-inner.php */
+                    esc_html(apply_filters('woocommerce_product_attribute_term_name', $term->name, $term))
+                );
+            }
+            ?>
+        </select>
+        <button class="button plus select_all_attributes"><?php esc_html_e('Select all', 'woocommerce'); ?></button>
+        <button class="button minus select_no_attributes"><?php esc_html_e('Select none', 'woocommerce'); ?></button>
+        <button class="button fr plus add_new_attribute" data-is-visual-attribute="no"><?php esc_html_e('Create value', 'woocommerce'); ?></button>
+        <?php
     }
 
     /**
