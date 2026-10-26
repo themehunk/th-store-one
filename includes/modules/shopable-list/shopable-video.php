@@ -962,7 +962,7 @@ endforeach;
 
     --s1-play-color:
     <?php echo esc_attr($rule['vicon_color'] ?? '#fff'); ?>;
-    --s1-progress-color: <?php echo esc_attr($rule['bar_color'] ?? '#22c55e'); ?>;>">
+    --s1-progress-color: <?php echo esc_attr($rule['bar_color'] ?? '#22c55e'); ?>;">
                 <div id="popup-content" class="th-product-content"></div>
             </div>
         </div>
